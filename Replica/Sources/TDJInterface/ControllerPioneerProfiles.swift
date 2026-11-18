@@ -94,7 +94,7 @@ extension ControllerMIDIConnection {
         var profile: [ControllerBinding] = []
         for (channel, deck) in [(UInt8(0), "A"), (UInt8(1), "B")] {
             let play: ControllerAction = deck == "A" ? .playA : .playB
-            let cue: ControllerAction = deck == "A" ? .cueReturnA : .cueReturnB
+            let cue: ControllerAction = deck == "A" ? .cuePreviewA : .cuePreviewB
             let headphoneCue: ControllerAction = deck == "A" ? .cueA : .cueB
             let sync: ControllerAction = deck == "A" ? .syncA : .syncB
             profile += [

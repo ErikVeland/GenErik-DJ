@@ -23,9 +23,19 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     let recoveryState = RecoveryState()
     public var frozen: Set<DeckID> = []
     @ObservationIgnored var controllerJogTouched: Set<DeckID> = []
+    @ObservationIgnored var controllerJogTouchCommandDeck: DeckID?
+    @ObservationIgnored var controllerCueContacts: [DeckID: ControllerCueContact] = [:]
+    @ObservationIgnored var controllerPausedJogs: [DeckID: (generation: UInt64, resolution: Double, frame: Double)] = [:]
+    @ObservationIgnored var controllerCountJogs: [DeckID: ControllerCountJogMotion] = [:]
+    @ObservationIgnored var controllerCountJogTasks: [DeckID: Task<Void, Never>] = [:]
+    @ObservationIgnored var controllerCountJogTokens: [DeckID: UUID] = [:]
+    @ObservationIgnored var controllerLoopStarts: [DeckID: (generation: UInt64, frame: Double)] = [:]
+    @ObservationIgnored var controllerLoopDivisions: [DeckID: ControllerLoopDivision] = [:]
     @ObservationIgnored var controllerJogBendOffsets: [DeckID: Double] = [:]
     @ObservationIgnored var controllerJogBendTasks: [DeckID: Task<Void, Never>] = [:]
     @ObservationIgnored var controllerJogBendTokens: [DeckID: UUID] = [:]
+    @ObservationIgnored var controllerPitchBendButtons: [DeckID: ControllerPitchBendButtons] = [:]
+    @ObservationIgnored var controllerPitchBendCommandDeck: DeckID?
     public var filterLocked: Set<DeckID> = []
     public var superSlicerFamilies: [DeckID: SuperSlicerFamily] = [:]
     @ObservationIgnored private var storedLibrary: LibrarySnapshot
@@ -1914,6 +1924,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
             ), lighting: lightOptions(for: "Z1"))
     }
     public func pressPlay(deck: DeckID, vinylStop: Bool? = nil, source: PlaybackInputSource = .touch) {
+        controllerPausedJogs[deck] = nil
         cancelCloudSyncForPlayback()
         if source == .controller, storeAccess.controllerLimitReached {
             status = "The free controller limit has been reached. Use touch or choose a Controller Support purchase."
@@ -2031,10 +2042,13 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     }
     public func toggleSync(deck: DeckID) {
         guard let snapshot = playbackSnapshot else { return }
-        let state = snapshot[deck]
+        setSync(!snapshot[deck].synced, deck: deck)
+    }
+    public func setSync(_ enabled: Bool, deck: DeckID) {
+        guard playbackSnapshot != nil else { return }
         do {
-            let enabled = !state.synced
             try playback.setSync(enabled, deck: deck)
+            controllerPausedJogs[deck] = nil
             switch deck {
             case .a: mixerPreferences.syncA = enabled
             case .b: mixerPreferences.syncB = enabled

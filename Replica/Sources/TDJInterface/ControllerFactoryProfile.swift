@@ -1,4 +1,5 @@
 import Foundation
+import TDJCore
 
 struct ControllerFactoryProfile: RawRepresentable, Hashable, CaseIterable, Codable, Sendable {
     let rawValue: String
@@ -9,7 +10,7 @@ struct ControllerFactoryProfile: RawRepresentable, Hashable, CaseIterable, Codab
     static let rev1 = Self(unchecked: "DDJ-REV1")
     static let rev5 = Self(unchecked: "DDJ-REV5")
     static let ddj1000 = Self(unchecked: "DDJ-1000")
-    private static let existing: [Self] = [.flx4, .flx2, .ddj400, .flx10, .rev1, .rev5, .ddj1000]
+    private static let existing: [Self] = [.flx4, .flx2, .ddj400, .rev1, .rev5]
     private static let data = Dictionary(
         uniqueKeysWithValues: ControllerProfileCatalogue.shared.profiles.map { ($0.id, $0) })
     static let allCases: [Self] = existing + ControllerProfileCatalogue.shared.profiles.map { Self(unchecked: $0.id) }
@@ -48,6 +49,10 @@ struct ControllerFactoryProfile: RawRepresentable, Hashable, CaseIterable, Codab
 
     var definition: ControllerProfileData? { Self.data[rawValue] }
     var selectsAutomatically: Bool { definition?.autoSelect ?? true }
+    var isPlayer: Bool { definition?.role == "player" }
+    var hasAutomaticSplitOutput: Bool {
+        self == .flx4 || self == .ddj400 || definition?.audioOutput == .masterAndHeadphones
+    }
 
     /**
      * Exact names retain model boundaries. Shared aliases remain ambiguous.
@@ -59,33 +64,42 @@ struct ControllerFactoryProfile: RawRepresentable, Hashable, CaseIterable, Codab
         guard matches.count == 1, let profile = matches.first,
             !automaticOnly || profile.selectsAutomatically
         else { return nil }
+        let excluded = Set((profile.definition?.excludedAliases ?? []).map(normalise))
+        guard !names.contains(where: { excluded.contains(normalise($0)) }) else { return nil }
         return profile
     }
-    private static func normalise(_ name: String) -> String {
-        name.lowercased().filter { $0.isLetter || $0.isNumber }
+    static func normalise(_ name: String) -> String {
+        name.lowercased().filter { $0.isLetter || $0.isNumber || $0 == "+" }
     }
 
-    @MainActor func bindings(source: Int32) -> [ControllerBinding] {
+    @MainActor func bindings(source: Int32, playerDeck: DeckID? = nil) -> [ControllerBinding] {
         switch self {
         case .flx4: return ControllerMIDIConnection.ddjFLX4Bindings(source: source)
         case .flx2: return ControllerMIDIConnection.ddjFLX2Bindings(source: source)
         case .ddj400: return ControllerMIDIConnection.ddj400Bindings(source: source)
-        case .flx10: return ControllerMIDIConnection.ddjFLX10Bindings(source: source)
         case .rev1: return ControllerMIDIConnection.ddjREV1Bindings(source: source)
         case .rev5: return ControllerMIDIConnection.ddjREV5Bindings(source: source)
-        case .ddj1000: return ControllerMIDIConnection.ddj1000Bindings(source: source)
-        default: return definition?.inputs.map { $0.binding(source: source) } ?? []
+        default:
+            return definition?.inputs.map { input in
+                var binding = input.binding(source: source)
+                if isPlayer, let playerDeck, binding.targetDeck != nil {
+                    binding.targetDeck = playerDeck
+                    binding.action = binding.action.assigned(to: playerDeck)
+                }
+                return binding
+            } ?? []
         }
     }
-    @MainActor func feedback(destination: Int32) -> [ControllerFeedbackBinding] {
+    @MainActor func feedback(destination: Int32, playerDeck: DeckID? = nil) -> [ControllerFeedbackBinding] {
         switch self {
         case .flx4, .ddj400: return ControllerMIDIConnection.ddjFLX4FeedbackBindings(destination: destination)
         case .flx2: return ControllerMIDIConnection.ddjFLX2FeedbackBindings(destination: destination)
-        case .flx10: return ControllerMIDIConnection.ddjFLX10FeedbackBindings(destination: destination)
         case .rev1: return ControllerMIDIConnection.ddjREV1FeedbackBindings(destination: destination)
         case .rev5: return ControllerMIDIConnection.ddjREV5FeedbackBindings(destination: destination)
-        case .ddj1000: return ControllerMIDIConnection.ddj1000FeedbackBindings(destination: destination)
-        default: return definition?.outputs.map { $0.binding(destination: destination) } ?? []
+        default:
+            return definition?.outputs.map {
+                $0.binding(destination: destination).assigned(to: isPlayer ? playerDeck : nil)
+            } ?? []
         }
     }
 }
@@ -95,6 +109,7 @@ struct ControllerFactoryEndpoint: Equatable, Sendable {
     let device: UInt32
     let names: [String]
     var reference: UInt32? = nil
+    var portNames: [String] = []
 }
 
 struct ControllerFactorySession: Equatable, Sendable {
@@ -104,6 +119,7 @@ struct ControllerFactorySession: Equatable, Sendable {
     let destination: Int32?
     let sourceReference: UInt32?
     let destinationReference: UInt32?
+    var playerDeck: DeckID? = nil
 
     /**
      * Pairs one input and output on the same physical device. Ambiguous ports remain unpaired.
@@ -115,11 +131,23 @@ struct ControllerFactorySession: Equatable, Sendable {
         guard Set(sources.map(\.id)).count == sources.count else { return [] }
         let devices = Dictionary(grouping: sources.filter { $0.device != 0 }, by: \.device)
         return devices.keys.sorted().prefix(16).compactMap { device in
-            guard let inputs = devices[device], inputs.count == 1, let input = inputs.first,
-                let profile = ControllerFactoryProfile.matching(input.names, automaticOnly: true),
-                !disabled.contains(profile)
-            else { return nil }
-            let outputs = destinations.filter { $0.device == device }
+            guard let inputs = devices[device] else { return nil }
+            let candidates = inputs.compactMap { input -> (ControllerFactoryEndpoint, ControllerFactoryProfile)? in
+                guard let profile = ControllerFactoryProfile.matching(input.names, automaticOnly: true),
+                    !disabled.contains(profile)
+                else { return nil }
+                if let aliases = profile.definition?.portAliases {
+                    guard matchesPort(input, aliases: aliases) else { return nil }
+                } else if inputs.count != 1 {
+                    return nil
+                }
+                return (input, profile)
+            }
+            guard candidates.count == 1, let (input, profile) = candidates.first else { return nil }
+            let outputs = destinations.filter { endpoint in
+                guard endpoint.device == device else { return false }
+                return profile.definition?.portAliases.map { matchesPort(endpoint, aliases: $0) } ?? true
+            }
             let destination = outputs.count == 1 ? outputs.first : nil
             guard profile.definition?.startup.isEmpty != false || destination != nil else { return nil }
             if let destination,
@@ -131,5 +159,10 @@ struct ControllerFactorySession: Equatable, Sendable {
                 device: device, profile: profile, source: input.id, destination: destination?.id,
                 sourceReference: input.reference, destinationReference: destination?.reference)
         }
+    }
+
+    private static func matchesPort(_ endpoint: ControllerFactoryEndpoint, aliases: [String]) -> Bool {
+        let names = Set(endpoint.portNames.map(ControllerFactoryProfile.normalise))
+        return aliases.contains { names.contains(ControllerFactoryProfile.normalise($0)) }
     }
 }

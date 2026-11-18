@@ -1,3 +1,4 @@
+import TDJCore
 import Testing
 
 @testable import TDJInterface
@@ -106,44 +107,27 @@ import Testing
     #expect(hotcueB.map(\.number) == (0..<8).map { UInt8($0) })
 }
 
-@Test @MainActor func ddjFLX10InputProfileUsesPublishedTwoDeckChannelsAndEncodings() throws {
+@Test @MainActor func ddjFLX10InputProfileUsesPublishedFourDeckChannelsAndEncodings() throws {
     let bindings = ControllerMIDIConnection.ddjFLX10Bindings(source: 44)
-    #expect(bindings.count == 76)
+    #expect(bindings.count == 145)
     #expect(bindings.allSatisfy { $0.source == 44 && $0.group == 0 })
-
-    func first(_ action: ControllerAction) throws -> ControllerBinding {
-        try #require(bindings.first { $0.action == action })
+    for (channel, deck) in DeckID.allCases.enumerated() {
+        let scoped = bindings.filter { $0.targetDeck == deck }
+        let tempo = try #require(scoped.first { [.tempoA, .tempoB].contains($0.action) && !$0.isShifted })
+        #expect(tempo.channel == channel && tempo.number == 0 && tempo.mode == .paired14Bit)
+        #expect(scoped.contains { [.tempoA, .tempoB].contains($0.action) && $0.number == 5 && $0.isShifted })
+        #expect(scoped.contains { [.loopInOrHalveA, .loopInOrHalveB].contains($0.action) && $0.number == 16 })
+        #expect(scoped.contains { [.loopOutOrDoubleA, .loopOutOrDoubleB].contains($0.action) && $0.number == 17 })
+        #expect(scoped.contains { [.toggleFixedLoopA, .toggleFixedLoopB].contains($0.action) && $0.argument == 4 })
+        let pads = scoped.filter { $0.action.hotcueSlot != nil }
+        #expect(pads.map(\.channel) == Array(repeating: UInt8(7 + channel * 2), count: 8))
+        #expect(pads.map(\.number) == (0..<8).map { UInt8($0) })
+        #expect(scoped.contains { [.jogA, .jogB].contains($0.action) && $0.number == 34 && $0.mode == .binaryOffset })
+        #expect(!scoped.contains { $0.kind == .control && [31, 38, 41].contains($0.number) })
     }
-    let playA = try first(.playA)
-    let playB = try first(.playB)
-    let cueReturnA = try first(.cueReturnA)
-    let cueA = try first(.cueA)
-    let syncA = try first(.syncA)
-    let loopA = try first(.loopA)
-    let tempoA = try first(.tempoA)
-    let crossfader = try first(.crossfader)
-    #expect(playA.channel == 0 && playA.number == 11)
-    #expect(playB.channel == 1 && playB.number == 11)
-    #expect(cueReturnA.number == 12)
-    #expect(cueA.number == 84)
-    #expect(syncA.number == 88)
-    #expect(loopA.number == 20)
-    #expect(bindings.filter { $0.action == .loopDownA }.map(\.number) == [16, 76])
-    #expect(bindings.filter { $0.action == .loopUpA }.map(\.number) == [17, 77])
-    #expect(bindings.filter { $0.action == .jumpBackA }.map(\.number) == [94, 97])
-    #expect(bindings.filter { $0.action == .jumpForwardA }.map(\.number) == [95, 98])
-    #expect(tempoA.encoding == .paired14Bit && tempoA.number == 0)
-    #expect(bindings.contains { $0.action == .tempoA && $0.number == 5 && $0.isShifted })
-    #expect(crossfader.channel == 6 && crossfader.number == 31)
-    #expect(bindings.filter { $0.action == .shift }.map(\.channel) == [0, 1])
-    #expect(bindings.filter { $0.action == .jogA }.map(\.number) == [34, 35])
-    #expect(bindings.filter { $0.action == .jogA }.allSatisfy { $0.encoding == .binaryOffset })
-    #expect(
-        bindings.filter { $0.action.hotcueSlot != nil && $0.action.deck == .a }.map { "\($0.channel):\($0.number)" }
-            == (0..<8).map { "7:\($0)" })
-    #expect(
-        bindings.filter { $0.action.hotcueSlot != nil && $0.action.deck == .b }.map { "\($0.channel):\($0.number)" }
-            == (0..<8).map { "9:\($0)" })
+    #expect(bindings.filter { $0.action == .shift }.map(\.channel) == [0, 1, 2, 3])
+    #expect(bindings.filter { $0.action == .shift }.map(\.shiftInput) == [0, 1, 0, 1])
+    #expect(bindings.contains { $0.action == .crossfader && $0.channel == 6 && $0.number == 31 })
 }
 
 @Test @MainActor func ddjREV5InputProfileUsesPublishedTwoDeckChannelsAndEncodings() throws {
@@ -156,7 +140,7 @@ import Testing
     }
     let playA = try first(.playA)
     let playB = try first(.playB)
-    let cueReturnA = try first(.cueReturnA)
+    let cuePreviewA = try first(.cuePreviewA)
     let cueA = try first(.cueA)
     let syncA = try first(.syncA)
     let loopA = try first(.loopA)
@@ -165,7 +149,7 @@ import Testing
     let shift = try first(.shift)
     #expect(playA.channel == 0 && playA.number == 11)
     #expect(playB.channel == 1 && playB.number == 11)
-    #expect(cueReturnA.number == 27)
+    #expect(cuePreviewA.number == 27)
     #expect(cueA.number == 7)
     #expect(syncA.number == 9)
     #expect(loopA.number == 4)
@@ -207,9 +191,9 @@ import Testing
     #expect(hotcueB.map(\.number) == (0..<8).map { UInt8($0) })
 }
 
-@Test @MainActor func ddjFLX10FeedbackProfileUsesPublishedTwoDeckStatusAndHotCueMessages() {
+@Test @MainActor func ddjFLX10FeedbackProfileUsesPublishedFourDeckStatusAndHotCueMessages() {
     let bindings = ControllerMIDIConnection.ddjFLX10FeedbackBindings(destination: 53)
-    #expect(bindings.count == 22)
+    #expect(bindings.count == 44)
     #expect(
         bindings.allSatisfy {
             $0.destination == 53 && $0.kind == .note && $0.offValue == 0 && $0.onValue == 127
@@ -220,8 +204,8 @@ import Testing
     #expect(bindings.first { $0.action == .syncB }?.channel == 1)
     #expect(bindings.first { $0.action == .syncB }?.number == 88)
     #expect(bindings.first { $0.action == .cueA }?.number == 84)
-    let hotcueA = bindings.filter { $0.action.hotcueSlot != nil && $0.action.deck == .a }
-    let hotcueB = bindings.filter { $0.action.hotcueSlot != nil && $0.action.deck == .b }
+    let hotcueA = bindings.filter { $0.action.hotcueSlot != nil && $0.targetDeck == .a }
+    let hotcueB = bindings.filter { $0.action.hotcueSlot != nil && $0.targetDeck == .b }
     #expect(hotcueA.map(\.channel) == Array(repeating: 7, count: 8))
     #expect(hotcueB.map(\.channel) == Array(repeating: 9, count: 8))
     #expect(hotcueA.map(\.number) == (0..<8).map { UInt8($0) })

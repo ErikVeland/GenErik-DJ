@@ -53,12 +53,27 @@ def options(control):
     return {child.tag.lower() for child in parent} if parent is not None else set()
 
 
-def control_record(control):
+def control_record(control, reviewed_handlers=None):
     group, key = control.findtext("group", ""), control.findtext("key", "")
     opts = options(control)
+    fact = None
     if "script-binding" in opts:
-        return None, "script-behaviour"
-    action, reason = operation(group, key)
+        fact = (reviewed_handlers or {}).get(key)
+        if not fact:
+            return None, "script-behaviour"
+        opts = opts - {"script-binding"}
+    if fact:
+        deck = re.fullmatch(r"\[Channel([1-4])\]", group)
+        if fact[0] in LIBRARY_KEYS.values():
+            if group not in {"[Library]", "[Playlist]"}:
+                return None, "unsupported-script-target"
+            action, reason = fact[0], None
+        elif deck:
+            action, reason = fact[0] + ("A" if int(deck[1]) % 2 else "B"), None
+        else:
+            return None, "unsupported-script-target"
+    else:
+        action, reason = operation(group, key)
     if action is None:
         return None, reason
     unknown = opts - SAFE_OPTIONS - RELATIVE_OPTIONS.keys()
@@ -76,7 +91,7 @@ def control_record(control):
         return None, "invalid-address"
     if "fourteen-bit-lsb" in opts:
         return None, "paired-low-byte"
-    encoding = next((value for option, value in RELATIVE_OPTIONS.items() if option in opts), "absolute")
+    encoding = fact[1] if fact else next((value for option, value in RELATIVE_OPTIONS.items() if option in opts), "absolute")
     if "fourteen-bit-msb" in opts:
         encoding = "paired14Bit"
         if kind != "control" or address >= 32:
@@ -85,15 +100,25 @@ def control_record(control):
         return None, "unspecified-relative-encoding"
     if "button" in opts or "switch" in opts:
         return None, "nonstandard-button-semantics"
+    if kind == "note" and "invert" not in opts and action in {"cueReturnA", "cueReturnB"}:
+        action = action.replace("cueReturn", "cuePreview")
     record = {"action": action, "kind": kind, "channel": status & 15, "number": address,
-              "encoding": encoding, "inverted": "invert" in opts}
+              "encoding": encoding, "inverted": ("invert" not in opts) if action in {"tempoA", "tempoB"} else "invert" in opts}
+    if fact and len(fact) > 2:
+        record["argument"] = fact[2]
     target = re.search(r"\[Channel([1-4])\]", group)
     if target:
         record["targetDeck"] = "abcd"[int(target[1]) - 1]
+    if fact and len(fact) > 3:
+        deck = fact[3].get(status & 15)
+        if deck not in {"a", "b", "c", "d"}:
+            return None, "unsupported-script-target"
+        record["targetDeck"] = deck
+        record["action"] = fact[0] + ("A" if deck in {"a", "c"} else "B")
     return record, None
 
 
-def convert_xml(path):
+def convert_xml(path, reviewed_handlers=None):
     root = ET.parse(path).getroot()
     controls = root.findall(".//control")
     inputs, unresolved, input_records = [], [], []
@@ -102,7 +127,7 @@ def convert_xml(path):
                  for control in controls if "fourteen-bit-lsb" in options(control)
                  or control.findtext("key", "").endswith(".inputLSB")}
     for control in controls:
-        binding, reason = control_record(control)
+        binding, reason = control_record(control, reviewed_handlers)
         if binding and binding["encoding"] == "paired14Bit":
             status = 0xB0 | binding["channel"]
             pair_key = control.findtext("key", "").replace(".inputLSB", "").replace(".inputMSB", "")

@@ -152,6 +152,33 @@ private func expectStartSettlesWithoutOvershoot(_ core: SampleTransport) {
     #expect(core.snapshot()?.masterBeat == beat)
 }
 
+@Test func queuedStartAllowsOnlyNeutralPerformanceRateRestoration() throws {
+    let (core, a, b) = try pair()
+    try core.perform(.rate, deck: .b, generation: b, value: 1.04)
+    core.processControlsWhileIdle()
+    try core.play(deck: .a, generation: a)
+    _ = core.renderOffline(frames: 36000)
+    try core.play(deck: .b, generation: b)
+    core.processControlsWhileIdle()
+    let queued = try #require(core.snapshot()?.b)
+    #expect(queued.phase == .queued && queued.performanceRate == 1.04)
+    _ = core.acknowledgements()
+    try core.perform(.rate, deck: .b, generation: b, value: 0.96)
+    core.processControlsWhileIdle()
+    #expect(core.acknowledgements().map(\.error) == [.unresolved])
+    #expect(core.snapshot()?.b.performanceRate == 1.04)
+    try core.perform(.rate, deck: .b, generation: b, value: 1)
+    core.processControlsWhileIdle()
+    let restored = try #require(core.snapshot()?.b)
+    #expect(core.acknowledgements().allSatisfy { $0.error == nil })
+    #expect(restored.phase == .queued && restored.targetBeat == queued.targetBeat)
+    #expect(restored.synced && restored.performanceRate == 1)
+    _ = core.renderOffline(frames: 60001)
+    let started = try #require(core.snapshot())
+    #expect(started.b.phase == .playing && started.b.performanceRate == 1 && started.b.synced)
+    #expect(abs(try #require(started.syncPhaseError(.b))) < 0.001)
+}
+
 @Test func stalePlayCannotStartAReplacementTrackAndRetiredAssetsRelease() throws {
     let core = try SampleTransport()
     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48000)
