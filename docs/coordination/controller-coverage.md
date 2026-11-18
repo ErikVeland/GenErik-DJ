@@ -3963,3 +3963,18 @@ All157 importer checks,14 focused native checks and iPad framework compilation p
 The first real-WAV fixture sent deck-B controls before its asynchronous load completed. The corrected fixture waits for that load, as existing fixtures do. Failed logs remain in `TestBuilds/r324/`.
 Earlier203 recipes retain identical data. The compiled resource matches the source byte for byte. The catalogue reaches204 data recipes and170 automatic-core physical models. The automatic-core remainder is142; full theoretical support remains open for312 models. The repository check retains twelve historical broken links.
 No sampler, recording, physical hold duration, Bluetooth pairing, complete feedback/lifecycle, signed app/install or physical/A10X acceptance is claimed.
+
+## R325 Independent MIDI Fighter default cores
+
+Assumption: Classic factory Default mode and Twister's documented normal mixer layer qualify separate named-port input cores. The Classic script's actual initialiser maps rows C/A/B/D, four cues each. Its header/manual still describe an older two-deck layout, so executable facts take priority. The factory PDF independently confirms the physical note map and three distinct hardware modes.
+
+- [x] Confirm failing importer fixtures and pin the Classic manufacturer map plus separate source hashes.
+- [x] Add16 Classic default pad inputs and a fixed normal A/B Twister mixer. Preserve Twister's CC switch kind, six independent Shift guards and shifted headphone level. Do not invent transport or inherit Classic pad/LED/preset facts into Twister.
+- [x] Verify every Classic pad/target and release form, C/D opt-in, Twister values/Shift/isolation, native WAV control, catalogue bounds and iPad framework compilation. Compare earlier recipes.
+
+Classic Four Banks Internal/External, configurable channels, full LED behaviour and menu programming remain open. Twister software C/D assignment, EQ kill/reset variants, FX/stems/sequencer, full rings/colours/meters and complete lifecycle remain open. No firmware or persistent preset is written. Physical/A10X acceptance remains open.
+
+Classic adds16 default pad inputs. Twister adds29 fixed normal mixer/global inputs. All159 importer checks,8 native checks and iPad framework compilation pass. Native checks cover every Classic pad and both release forms, C/D opt-in, all16 Twister knobs, independent CC Shift ownership and two real-WAV control flows with Sync retained.
+The first Classic WAV fixture expected an empty cue after the normal loader had set it. The corrected fixture explicitly clears that cue before testing set/recall. Failed and passing logs remain in `TestBuilds/r325/`.
+Earlier204 recipes retain identical data. The compiled resource matches the source byte for byte. The catalogue reaches206 data recipes and172 automatic-core physical models;140 lack automatic core. Full theoretical support remains open for312 models. The repository check retains twelve historical broken links.
+No complete modes/output/lifecycle, persistent preset write, signed app/install or physical/A10X acceptance is claimed. Continue through the remaining documented sources.

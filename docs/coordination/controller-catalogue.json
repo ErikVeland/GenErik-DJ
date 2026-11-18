@@ -11685,48 +11685,68 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJTechTools%20MIDI%20Fighter.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJTechTools%20MIDI%20Fighter.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJTechTools%20MIDI%20Fighter.midi.xml"
       ],
       "definitions": [
-        "DJTechTools MIDI Fighter.midi.xml"
+        "DJTechTools MIDI Fighter.midi.xml",
+        "reviewed:midifighter-classic"
       ],
-      "implementation": "adapter-needed",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "DJ TechTools MIDI Fighter",
+      "automaticControls": true,
+      "controlActions": [
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d"
+      ],
+      "inputBindingCount": 16,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Classic factory Default mode, MIDI channel3. Four-bank modes and configurable channels remain unqualified. Fixed C/A/B/D rows; C/D require app opt-in."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "adapter-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "A controller-specific protocol adapter is required."
+        "Classic factory Default/channel3 only. Four Banks Internal/External, expansion switches, configurable channels, menu/preset programming, full LED output/lifecycle and physical/A10X acceptance remain open. No modern MIDI Fighter protocol or audio route is inferred."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -11799,48 +11819,76 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ%20TechTools%20MIDI%20Fighter%20Twister.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ%20TechTools%20MIDI%20Fighter%20Twister.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ%20TechTools%20MIDI%20Fighter%20Twister.midi.xml"
       ],
       "definitions": [
-        "DJ TechTools MIDI Fighter Twister.midi.xml"
+        "DJ TechTools MIDI Fighter Twister.midi.xml",
+        "reviewed:midifighter-twister"
       ],
-      "implementation": "adapter-needed",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "DJ TechTools MIDI Fighter Twister",
+      "automaticControls": true,
+      "controlActions": [
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "filterToggleA:a",
+        "filterToggleB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "levelA:a",
+        "levelB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "shift",
+        "tempoA:a",
+        "tempoB:b",
+        "tempoResetA:a",
+        "tempoResetB:b"
+      ],
+      "inputBindingCount": 29,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Twister normal first mixer layer and source absolute CC configuration. Fixed native A/B mixer targets. Other hardware/preset configurations remain unqualified."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "adapter-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "A controller-specific protocol adapter is required."
+        "Fixed normal A/B mixer only. Source software C/D toggles, EQ gain/reset/kill variants, balance, FX/stem/sequencer banks, full encoder rings/colours/meters, feedback/lifecycle and persistent preset/firmware configuration remain unimplemented. Native range calibration and physical/A10X acceptance remain open. No Classic/Spectra/3D/64 protocol or audio route is inferred."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -320740,6 +320788,74 @@
         },
         {
           "reason": "Logical bindings follow the SMK-25 II vendor decoder. Channel9 sampler input, recording, Bluetooth pairing/duplicate routes, hardware pad colours, output/reset and full lifecycle remain unimplemented. Firmware-immediate pad releases cannot establish physical hold duration. MIDI pitch/knob calibration and physical USB/A10X acceptance remain open. Original SMK-25 requires independent qualification."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:midifighter-classic",
+      "name": "DJ TechTools MIDI Fighter",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJTechTools%20MIDI%20Fighter.midi.xml",
+        "sha256": "2f92f9c317337ef0866da8323e42a3be878fdb0847ecdeebe06ccae7ab8d6120",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJTechTools-MIDIFighter-scripts.js",
+            "sha256": "38836ff9410778a216efe63fd05240e534782f39ed94df7d9214b2ea5ccd3748"
+          },
+          {
+            "url": "https://djtechtools.com/mf_documentation/Midi%20Fighter%20Classic%20MIDI%20Map.pdf",
+            "sha256": "fcc7c09264936aca8f276505ea6cf4110cb8fced17a0c3773f145d30ad2c3bc7",
+            "pages": [
+              1,
+              2,
+              3
+            ]
+          }
+        ],
+        "review": "Classic factory PDF confirms Default, Four Banks Internal and Four Banks External are distinct maps. Default ships with16 notes. The pinned XML supplies wire channel2 and Note36..51. The actual script initialiser, not its older two-deck header/manual, maps top-to-bottom rows C/A/B/D with four cues each:48..51,44..47,40..43,36..39. Native C/D retain app opt-in. Both release forms rearm notes without starting a cue. No extra transport, sampler, LED or preset operation is invented. Four-bank modes, configurable MIDI channels and complete light/lifecycle behaviour remain unqualified. Input initialisation has no required hardware handshake in the reviewed source. Named ports only. Full modes/output/lifecycle, calibration and physical/A10X acceptance remain open. No downloaded script executes in the app."
+      },
+      "implementedInputCount": 16,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Classic factory Default/channel3 only. Four Banks Internal/External, expansion switches, configurable channels, menu/preset programming, full LED output/lifecycle and physical/A10X acceptance remain open. No modern MIDI Fighter protocol or audio route is inferred."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:midifighter-twister",
+      "name": "DJ TechTools MIDI Fighter Twister",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ%20TechTools%20MIDI%20Fighter%20Twister.midi.xml",
+        "sha256": "fb875ed8e2518d3ae773c1e4a20a471190fa461c33a40a0364cd8c51ff904ca7",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ%20TechTools-MIDI%20Fighter%20Twister-scripts.js",
+            "sha256": "4bfb41f2ea7380a8f6eaf7ca894578df7c301081f500fd07961ae9d620e92336"
+          },
+          {
+            "url": "https://manual.mixxx.org/2.5/en/hardware/controllers/dj_techtools_midi_fighter_twister"
+          }
+        ],
+        "review": "Twister has a separate normal mixer contract. Left A controls are gain0/high1/mid5/low9/level8/filter13/tempo4; right B controls3/2/6/10/11/14/7, all channel0 CC. Source components use normal0..127 parameters. Native pitch reverses Mixxx rate normalisation. Channel1 CC4/7 reset tempo,8/11 toggle PFL,13/14 toggle filter. These source actions do not change under Shift and remain independent. Channel3 CC10/13/16/19/22/25 are six separately owned Shift buttons. Global CC12 crossfader and15 master are normal-only; shifted15 controls headphone level. Normal fixed A/B targets replace source software C/D toggles. FX/stem bank addresses remain inactive. No Classic pad addresses, LED values, persistent preset or firmware command is inherited. Input initialisation has no required hardware handshake in the reviewed source. Named ports only. Full modes/output/lifecycle, calibration and physical/A10X acceptance remain open. No downloaded script executes in the app."
+      },
+      "implementedInputCount": 29,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Fixed normal A/B mixer only. Source software C/D toggles, EQ gain/reset/kill variants, balance, FX/stem/sequencer banks, full encoder rings/colours/meters, feedback/lifecycle and persistent preset/firmware configuration remain unimplemented. Native range calibration and physical/A10X acceptance remain open. No Classic/Spectra/3D/64 protocol or audio route is inferred."
         }
       ]
     },

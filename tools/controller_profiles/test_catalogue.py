@@ -998,6 +998,39 @@ class GeneratedCatalogueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
 
+    def test_midi_fighter_classic_uses_actual_four_row_initialiser_without_sibling_aliases(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"] == "DJ TechTools MIDI Fighter"),None)
+        self.assertIsNotNone(item,"Classic needs its own default pad recipe")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),16)
+        self.assertEqual({r["channel"] for r in item["inputs"]},{2})
+        self.assertEqual({r["number"] for r in item["inputs"]},set(range(36,52)))
+        self.assertEqual([r["targetDeck"] for r in item["inputs"]],list("ccccaaaabbbbdddd"))
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        from midi_fighter import CLASSIC_MAP_SHA
+        path=ROOT/"TestBuilds/r325/upstream/MIDI-Fighter-Classic-map.pdf"
+        if path.exists(): self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),CLASSIC_MAP_SHA)
+
+    def test_midi_fighter_twister_keeps_fixed_mixer_and_independent_cc_shift_guards(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"] == "DJ TechTools MIDI Fighter Twister"),None)
+        self.assertIsNotNone(item,"Twister needs its own normal mixer recipe")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),29)
+        shifts=[r for r in item["inputs"] if r["action"] == "shift"]
+        self.assertEqual({r["number"] for r in shifts},{10,13,16,19,22,25})
+        self.assertTrue(all(r["kind"] == "control" and r["channel"] == 3 for r in shifts))
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertFalse(any(r["action"].startswith(("play","load","cuePreview","jog","hotcue")) for r in item["inputs"]))
+        self.assertNotIn("audioOutput",item)
+        from midi_fighter import FIGHTER_SOURCES
+        for name,sources in FIGHTER_SOURCES.items():
+            for filename,digest in sources:
+                path=ROOT/"TestBuilds/r169/upstream/res/controllers"/filename
+                if path.exists(): self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),digest)
+
     def test_smk25ii_declares_its_own_vendor_input_and_logical_ab_core(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"] == "M-Vave SMK-25 II"),None)

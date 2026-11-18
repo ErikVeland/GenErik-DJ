@@ -1519,3 +1519,39 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.b.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueMIDIFighterClassicNativeCueSetAndRecallKeepAudioAndSync() async throws {
+    try await withControllerCuePlayback("Midi Fighter Classic") { model, input in
+        model.cue(slot: 0, deck: .a, delete: true)
+        #expect(model.controllerValue(.hotcue1A) == 0)
+        cuePreviewPacket([0x92, 44, 125, 0x82, 44, 125], to: input)
+        #expect(model.controllerValue(.hotcue1A) == 1)
+        model.pressPlay(deck: .a, vinylStop: false)
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        cuePreviewPacket([0x92, 44, 127, 44, 0], to: input)
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+    }
+}
+
+@Test @MainActor func controllerCatalogueMIDIFighterTwisterNativeMixerAndPFLKeepAudioAndSync() async throws {
+    try await withControllerCuePlayback("Midi Fighter Twister") { model, input in
+        model.pressPlay(deck: .a, vinylStop: false)
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        let first = try #require(model.playbackSnapshot?.a.sourceFrame)
+        cuePreviewPacket([0xB0, 8, 127, 1, 64, 0xB1, 8, 127], to: input)
+        #expect(model.playbackSnapshot?.a.mixer.volume == 1 && model.playbackSnapshot?.a.mixer.high == 128.0 / 127)
+        #expect(model.playbackSnapshot?.a.mixer.cue == true)
+        cuePreviewPacket([0xB1, 8, 0, 8, 127, 0xB0, 8, 0], to: input)
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.mixer.volume == 0 && model.playbackSnapshot?.a.mixer.cue == false)
+        #expect((model.playbackSnapshot?.a.sourceFrame ?? 0) > first)
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+    }
+}

@@ -716,3 +716,10 @@ The decoder accepts complete7-byte vendor messages and the source's standard str
 Channel9 sampler notes cannot trigger deck cues. A bank change releases owned contacts and resets only deck pickup.
 Factory inputs already use the byte port. Ordinary controllers retain their existing decoder. Frame limits apply before action dispatch.
 Firmware-immediate pad releases do not establish physical hold duration. Samplers, recording, Bluetooth, output/lifecycle and physical acceptance remain open.
+
+### Independent MIDI Fighter default cores (R325)
+
+`midi_fighter.py` keeps Classic Default pads separate from the Twister normal mixer.
+Classic uses the actual source initialiser's C/A/B/D rows. Its manufacturer map independently confirms the default notes.
+Twister retains CC switch kinds, six independent Shift guards and shifted headphone level. Fixed A/B targets replace software-selected deck banks.
+Other hardware modes, full output/lifecycle and physical acceptance remain open. No firmware or persistent preset is written.
