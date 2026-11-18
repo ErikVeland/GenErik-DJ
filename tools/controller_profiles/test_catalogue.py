@@ -986,6 +986,23 @@ class GeneratedCatalogueTests(unittest.TestCase):
             if path.exists():
                 self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
 
+    def test_rmp4_has_independent_player_channels_and_no_guessed_output(self):
+        runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item = next((r for r in runtime["profiles"] if r["id"] == "Reloop RMP-4"), None)
+        self.assertIsNotNone(item, "RMP-4 needs a separate player recipe")
+        self.assertEqual(item["role"], "player")
+        self.assertTrue(item["autoSelect"])
+        self.assertIn("RMP-4", item["aliases"])
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput", item)
+        self.assertEqual({r["channel"] for r in item["inputs"]},{0,1,2,3})
+        self.assertEqual([r["argument"] for r in item["inputs"] if r["action"] == "toggleFixedLoopA"],[.125,.25,.5,1,2,4,8]*4)
+        self.assertEqual(sum(r["action"].startswith("hotcue") and not r.get("releaseOnly") for r in item["inputs"]),32)
+        from rmp4 import RMP4_SCRIPT_SHA
+        path = ROOT / "TestBuilds/r301/upstream/controllers/Reloop__RMP4.js"
+        if path.exists():
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),RMP4_SCRIPT_SHA)
+
     def test_g2v_has_independent_core_and_source_pad_modes(self):
         runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item = next((r for r in runtime["profiles"] if r["id"] == "Gemini G2V"), None)

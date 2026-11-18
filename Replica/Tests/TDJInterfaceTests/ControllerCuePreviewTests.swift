@@ -1292,3 +1292,29 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueRMP4NativeShiftReleasesAndSevenLoopsKeepAudioAndSync() async throws {
+    try await withControllerCuePlayback("RMP-4") { model, input in
+        cuePreviewPacket([0x90,75,127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x83,107,127,0x90,91,127,0xB0,1,65], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x83,123,127,0x90,0,127,0x80,0,0], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        for (slot, beats) in [0.125,0.25,0.5,1,2,4,8].enumerated() {
+            let pad = UInt8(slot+79)
+            cuePreviewPacket([0x90,pad,127,0x80,pad,0], to: input)
+            let state = try #require(model.playbackSnapshot?.a)
+            let grid = try #require(model.timing(.a))
+            #expect(state.loopEnabled)
+            #expect(abs(state.loopEnd-state.loopStart-grid.span(beats: beats, from: state.loopStart)) <= 1)
+            #expect(state.synced)
+            let samples = model.playback.core.renderOffline(frames: 512)
+            #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
+            model.refreshPlayback()
+        }
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}

@@ -3752,3 +3752,19 @@ All140 importer checks,21 focused native checks and iPad framework compilation p
 All189 earlier runtime recipes remain unchanged. Compiled resource bytes match the source. Evidence and failed fixture logs remain in `TestBuilds/r311/`.
 The catalogue now has314 records/307 physical models and190 data recipes. Automatic core coverage reaches162 physical models; the benchmark remains71/122.
 The repository check retains twelve historical broken links. Full modes/output/lifecycle, audio routing, calibration and direct iPad attachment remain open. No signed app, install or physical/A10X acceptance is claimed.
+
+## R312 Independent RMP-4 player core
+
+Assumption: the RMP-4-specific public PCDJ mapping qualifies four selectable MIDI channels. Native player assignment replaces the source channel-to-deck association. Default MIDI mode is required. RMP-3, RMP-2.5 and other Reloop players must remain separate.
+
+- [x] Confirm the new importer fixture fails without a recipe.
+- [x] Add normal transport, held Cue/bend/contact, source jog, pitch, cues/loops and browsing. Add release-only Shift addresses. Emit no output before wire-channel ownership is qualified.
+- [x] Verify two independent players, channel/Shift isolation, native real-WAV controls and saved Sync. Run importer checks and compile the iPad framework. Compare all earlier recipes and resource bytes.
+
+Source base: `a74ff18`. Full modes/display/output/lifecycle, audio routing, calibration and physical acceptance remain open.
+
+The new player recipe adds188 bindings across four selectable MIDI channels. Independent endpoints receive separate native deck assignments. Shifted positive actions and unsupported pad pages stay inactive.
+All141 importer checks,11 focused native checks and iPad framework compilation pass. Real-WAV checks verify Shift/channel releases, seven exact loop lengths, finite audio and saved Sync.
+All190 earlier runtime recipes stay unchanged. Compiled resource bytes match the source. Failed fixture compilation and final source-bound evidence remain in `TestBuilds/r312/`.
+The catalogue now has315 records/308 physical models and191 data recipes. Automatic core coverage reaches163 physical models; the benchmark stays71/122.
+The repository check retains twelve historical broken links. Full modes/display/output/lifecycle, audio routing, calibration and physical acceptance remain open. No signed app or install is claimed.

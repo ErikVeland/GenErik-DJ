@@ -27840,6 +27840,107 @@
       }
     },
     {
+      "id": "relooprmp4",
+      "name": "Reloop RMP-4",
+      "manufacturer": "Reloop",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg"
+      ],
+      "definitions": [
+        "reviewed:reloop-rmp-4"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Reloop RMP-4",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "cueA:a",
+        "cuePreviewA:a",
+        "filterKnobA:a",
+        "hotcue1A:a",
+        "hotcue2A:a",
+        "hotcue3A:a",
+        "hotcue4A:a",
+        "hotcue5A:a",
+        "hotcue6A:a",
+        "hotcue7A:a",
+        "hotcue8A:a",
+        "jogA:a",
+        "jogTouchA:a",
+        "keylockA:a",
+        "loadA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendUpA:a",
+        "playA:a",
+        "reloopA:a",
+        "syncA:a",
+        "tempoA:a",
+        "toggleFixedLoopA:a"
+      ],
+      "inputBindingCount": 188,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "USB-MIDI mode with default addresses, channels1..4. Native player assignment is separate."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Wire-channel output ownership, display/meters/lights, full lifecycle, Vinyl toggle, native jog calibration, finer pitch resolution, Hot Loop/Sampler/Roll, cue deletion, combined loop/edit and search/FX modes remain open. No automatic audio route is inferred. Default MIDI mode is required. Direct iPad attachment and physical acceptance remain unverified.",
+        "Wire-channel output ownership, display/meters/lights, full lifecycle, Vinyl toggle, native jog calibration, finer pitch resolution, Hot Loop/Sampler/Roll, cue deletion, combined loop/edit and search/FX modes remain open. No automatic audio route is inferred. Default MIDI mode is required. Direct iPad attachment and physical acceptance remain unverified."
+      ],
+      "playerSupport": {
+        "requiredHardwareMode": "USB-MIDI mode with default addresses, channels1..4. Native player assignment is separate.",
+        "midiInputImplemented": true,
+        "recognisedNames": [
+          "Reloop RMP-4",
+          "RMP-4",
+          "Reloop RMP4",
+          "RMP4"
+        ],
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
       "id": "relooprmx90dvs",
       "name": "Reloop RMX-90 DVS",
       "manufacturer": "Reloop",
@@ -319308,6 +319409,35 @@
       ]
     },
     {
+      "id": "reviewed:reloop-rmp-4",
+      "name": "Reloop RMP-4",
+      "transport": "midi",
+      "source": {
+        "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+        "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+        "archiveMember": "Applications/DEX4.app/Contents/Resources/controllers/Reloop__RMP4.js",
+        "memberSha256": "e8dc654b7d2659428d882cc6f498c58f984034ba57bf8dda66e138c36e441c29",
+        "relatedSources": [
+          {
+            "url": "https://pcdj.com/dj-controllers-reloop-rmp4-map/"
+          },
+          {
+            "url": "https://www.reloop.com/reloop-rmp-4"
+          }
+        ],
+        "review": "RMP-4-specific source input/output identity is RMP-4. Channels0..3 are independently assignable native players instead of source hard-coded deck indices. Normal Play76, held Cue75, Sync72, Keylock73, PFL104, direct Load90, contact91 and bends88/89 are reviewed. Source normal jogCC1 is raw-minus64 with a1024 software denominator; it does not establish measured physical resolution. Native fixed touch replaces source software Vinyl toggle70. Standard non-inverted pitch-bend uses native linear MIDI normalisation; the source reads MSB only, so finer hardware resolution is not claimed. Normal cue notes0..7 and explicit shifted clear32..39 provide eight cues and release-only cleanup. Fixed-loop notes79..85 select1/8,1/4,1/2,1,2,4,8 beats. Normal In64/Out65 use native boundaries and Reloop66 remains separate; source combined/edit variants are open. BrowseCC3/4 is raw-minus64; Info78 and shifted Enter122 toggle selection. Shift+SearchCC7 supplies filter. Source states buttons add32 with Shift; release-only aliases for Cue/Play/contact/bends clear held normal actions without performing shifted actions. Hardware pad-mode buttons124..127 stay inactive; Hot Loop/Sampler/Roll pages are not mapped to Hot Cue. Source output/lifecycle depends on active wire-channel ownership; no lamp or display output is emitted. MIDI mode/default addresses are required. RMP-3 and other players are not aliases. Full modes, display, output/lifecycle, audio routing, native jog calibration and physical acceptance remain open. No downloaded code runs in the app."
+      },
+      "implementedInputCount": 188,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Wire-channel output ownership, display/meters/lights, full lifecycle, Vinyl toggle, native jog calibration, finer pitch resolution, Hot Loop/Sampler/Roll, cue deletion, combined loop/edit and search/FX modes remain open. No automatic audio route is inferred. Default MIDI mode is required. Direct iPad attachment and physical acceptance remain unverified."
+        }
+      ]
+    },
+    {
       "id": "manufacturer:pioneerddjrev7",
       "name": "Pioneer DDJ-REV7",
       "transport": "midi",
@@ -319362,7 +319492,7 @@
     "theoreticalSupport": {
       "complete": false,
       "implementedModels": 0,
-      "targetModels": 307,
+      "targetModels": 308,
       "requiresPhysicalTestForEveryModel": false
     },
     "reason": "Documented implementation gaps block theoretical completion. Physical tests are separate evidence, not a per-model completion requirement."
