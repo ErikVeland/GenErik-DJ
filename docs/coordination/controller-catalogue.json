@@ -25293,46 +25293,97 @@
       "role": "dvs-only",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://community.algoriddim.com/uploads/short-url/f1nlupY4MmdavUHDCL24CsgTphF.djayMidiMa"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:rane-seventy"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Rane SEVENTY",
+      "automaticControls": false,
+      "controlActions": [
+        "browse",
+        "browseGroups",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "loopUpA:a",
+        "loopUpB:b",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 27,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual subset. Enable input separately and select the connected USB A/B source. Missing class/setup and external mixer audio remain open."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Manual subset requires separate input enabling and the connected USB A/B source. Missing RaneSeventy code leaves modifier/shared-pad dispatch and cold-start lifecycle unqualified. Standard-owner yellow Transport sub-mode actions are not inherited by the A-Trak profile. Main Cue, other pads, external line-volume/mixer ownership, external deck/FX audio, feedback, complete theoretical support and physical acceptance remain open.",
+        "The RaneSeventy class is absent. Modifier/shared-pad translation, cold-start setup, hardware mixer ownership and external deck/FX audio routing remain unqualified. Independent manual subsets do not establish automatic selection or complete theoretical support.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
+      ],
+      "sourceAudits": [
+        {
+          "source": {
+            "url": "https://community.algoriddim.com/uploads/short-url/f1nlupY4MmdavUHDCL24CsgTphF.djayMidiMa",
+            "sha256": "9dce98328dc0e80de99f6a21dafc5d5793db2c100aa30ad9255a55d9351d7748"
+          },
+          "discussion": "https://community.algoriddim.com/t/rane-seventy-mapping-ideas-and-problems/33289",
+          "format": "Apple property list",
+          "mappingVersion": 8,
+          "inputRows": 621,
+          "headingRows": 1,
+          "nonEmptyOutputRows": 323,
+          "declaredCustomClass": "RaneSeventy",
+          "automaticSupportAdded": false,
+          "gaps": [
+            "The RaneSeventy class is absent. Modifier/shared-pad translation, cold-start setup, hardware mixer ownership and external deck/FX audio routing remain unqualified. Independent manual subsets do not establish automatic selection or complete theoretical support."
+          ]
+        }
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -25348,46 +25399,91 @@
       "role": "dvs-only",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://drive.google.com/file/d/1iwbUvILPV4mcrKTN--qtOQNNYEEo8Sni/view"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:rane-seventy-a-trak"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Rane SEVENTY A-Trak Edition",
+      "automaticControls": false,
+      "controlActions": [
+        "browse",
+        "browseGroups",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "loopUpA:a",
+        "loopUpB:b",
+        "openGroup",
+        "reloopA:a",
+        "reloopB:b",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 19,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual subset. Enable input separately and select the connected USB A/B source. Missing class/setup and external mixer audio remain open."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Manual subset requires separate input enabling and the connected USB A/B source. Missing RaneSeventy code leaves modifier/shared-pad dispatch and cold-start lifecycle unqualified. Standard-owner yellow Transport sub-mode actions are not inherited by the A-Trak profile. Main Cue, other pads, external line-volume/mixer ownership, external deck/FX audio, feedback, complete theoretical support and physical acceptance remain open.",
+        "The RaneSeventy class is absent. Modifier/shared-pad translation, cold-start setup, hardware mixer ownership and external deck/FX audio routing remain unqualified. Independent manual subsets do not establish automatic selection or complete theoretical support.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
+      ],
+      "sourceAudits": [
+        {
+          "source": {
+            "url": "https://drive.google.com/file/d/1iwbUvILPV4mcrKTN--qtOQNNYEEo8Sni/view",
+            "sha256": "9deebda7d70995c5d21ed5a41c8fc83053fbe044faf6b55d516fd05e0096bc74"
+          },
+          "discussion": "https://community.algoriddim.com/t/rane-seventy-a-trak-signature-edition-midi-mapping/17493",
+          "format": "Apple property list",
+          "mappingVersion": 6,
+          "inputRows": 488,
+          "headingRows": 0,
+          "nonEmptyOutputRows": 298,
+          "declaredCustomClass": "RaneSeventy",
+          "automaticSupportAdded": false,
+          "gaps": [
+            "The RaneSeventy class is absent. Modifier/shared-pad translation, cold-start setup, hardware mixer ownership and external deck/FX audio routing remain unqualified. Independent manual subsets do not establish automatic selection or complete theoretical support."
+          ]
+        }
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -319844,6 +319940,60 @@
         },
         {
           "reason": "Manual subset requires an exposed normal MIDI port and separate input/feedback enabling. Automatic selection, DisplayLink/UPDD screen/touch drivers, normal-mode lifecycle, shared pads, loop modes, native jog calibration, finer pitch resolution and audio routing remain open. No shifted contact address is inferred. Direct iPad attachment and physical acceptance remain unverified."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:rane-seventy",
+      "name": "Rane SEVENTY",
+      "transport": "midi",
+      "source": {
+        "url": "https://community.algoriddim.com/uploads/short-url/f1nlupY4MmdavUHDCL24CsgTphF.djayMidiMa",
+        "sha256": "9dce98328dc0e80de99f6a21dafc5d5793db2c100aa30ad9255a55d9351d7748",
+        "relatedSources": [
+          {
+            "url": "https://community.algoriddim.com/t/rane-seventy-mapping-ideas-and-problems/33289"
+          }
+        ],
+        "review": "The standard owner export is version8/djay Pro5.2.6 with621 rows, one heading and323 non-empty output dictionaries. The A-Trak author export is version6/djay4.0.10 with488 rows and298 non-empty output dictionaries. Both declare USB1CC5:0020/0021, endpoint names Rane Seventy MIDI/Seventy A-Trak MIDI and absent RaneSeventy custom code. Each profile uses its own pinned export. Common unconditional controls are Load2/3 on channel15, Sync2 on channels0/1, loop-channel4/5 On64/Reloop65/Half52/Double53/In54/Out55 and global15 flipped rotary64 BrowseCC0/GroupsCC1 with BackNote7. Standard owner alone adds yellow Transport-sub-mode Play103/Sync101/held bends96/97 on channels4/5. This custom layout requires that hardware sub-mode; it is not factory normal transport. Numbered cuePositionOrJumpConsideringPlayState1 is not assumed to mean held main Cue. Shared-pad/modifier translation, external line-volume/hardware mixer ownership and external deck/FX audio remain unqualified. Conditional placeholder outputs and custom pad colours do not establish complete feedback. No class, downloaded map, setup, output or audio-route packet runs in the app. Automatic selection stays off. Normal Cue/transport, full modes, lifecycle, routing and physical acceptance remain open."
+      },
+      "implementedInputCount": 27,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual subset requires separate input enabling and the connected USB A/B source. Missing RaneSeventy code leaves modifier/shared-pad dispatch and cold-start lifecycle unqualified. Standard-owner yellow Transport sub-mode actions are not inherited by the A-Trak profile. Main Cue, other pads, external line-volume/mixer ownership, external deck/FX audio, feedback, complete theoretical support and physical acceptance remain open."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:rane-seventy-a-trak",
+      "name": "Rane SEVENTY A-Trak Edition",
+      "transport": "midi",
+      "source": {
+        "url": "https://drive.google.com/file/d/1iwbUvILPV4mcrKTN--qtOQNNYEEo8Sni/view",
+        "sha256": "9deebda7d70995c5d21ed5a41c8fc83053fbe044faf6b55d516fd05e0096bc74",
+        "relatedSources": [
+          {
+            "url": "https://community.algoriddim.com/t/rane-seventy-a-trak-signature-edition-midi-mapping/17493"
+          }
+        ],
+        "review": "The standard owner export is version8/djay Pro5.2.6 with621 rows, one heading and323 non-empty output dictionaries. The A-Trak author export is version6/djay4.0.10 with488 rows and298 non-empty output dictionaries. Both declare USB1CC5:0020/0021, endpoint names Rane Seventy MIDI/Seventy A-Trak MIDI and absent RaneSeventy custom code. Each profile uses its own pinned export. Common unconditional controls are Load2/3 on channel15, Sync2 on channels0/1, loop-channel4/5 On64/Reloop65/Half52/Double53/In54/Out55 and global15 flipped rotary64 BrowseCC0/GroupsCC1 with BackNote7. Standard owner alone adds yellow Transport-sub-mode Play103/Sync101/held bends96/97 on channels4/5. This custom layout requires that hardware sub-mode; it is not factory normal transport. Numbered cuePositionOrJumpConsideringPlayState1 is not assumed to mean held main Cue. Shared-pad/modifier translation, external line-volume/hardware mixer ownership and external deck/FX audio remain unqualified. Conditional placeholder outputs and custom pad colours do not establish complete feedback. No class, downloaded map, setup, output or audio-route packet runs in the app. Automatic selection stays off. Normal Cue/transport, full modes, lifecycle, routing and physical acceptance remain open."
+      },
+      "implementedInputCount": 19,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual subset requires separate input enabling and the connected USB A/B source. Missing RaneSeventy code leaves modifier/shared-pad dispatch and cold-start lifecycle unqualified. Standard-owner yellow Transport sub-mode actions are not inherited by the A-Trak profile. Main Cue, other pads, external line-volume/mixer ownership, external deck/FX audio, feedback, complete theoretical support and physical acceptance remain open."
         }
       ]
     },

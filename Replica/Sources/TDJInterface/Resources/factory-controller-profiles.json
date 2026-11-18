@@ -135208,6 +135208,466 @@
       ]
     },
     {
+      "id": "Rane SEVENTY",
+      "aliases": [
+        "Rane SEVENTY",
+        "SEVENTY",
+        "Rane Seventy MIDI"
+      ],
+      "definition": "reviewed:rane-seventy",
+      "inputs": [
+        {
+          "action": "loadA",
+          "kind": "note",
+          "channel": 15,
+          "number": 2,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "syncA",
+          "kind": "note",
+          "channel": 0,
+          "number": 2,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "loopA",
+          "kind": "note",
+          "channel": 4,
+          "number": 64,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "reloopA",
+          "kind": "note",
+          "channel": 4,
+          "number": 65,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "loopDownA",
+          "kind": "note",
+          "channel": 4,
+          "number": 52,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "loopUpA",
+          "kind": "note",
+          "channel": 4,
+          "number": 53,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "loopInA",
+          "kind": "note",
+          "channel": 4,
+          "number": 54,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "loopOutA",
+          "kind": "note",
+          "channel": 4,
+          "number": 55,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "playA",
+          "kind": "note",
+          "channel": 4,
+          "number": 103,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "syncA",
+          "kind": "note",
+          "channel": 4,
+          "number": 101,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "pitchBendDownA",
+          "kind": "note",
+          "channel": 4,
+          "number": 96,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "pitchBendUpA",
+          "kind": "note",
+          "channel": 4,
+          "number": 97,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "loadB",
+          "kind": "note",
+          "channel": 15,
+          "number": 3,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "syncB",
+          "kind": "note",
+          "channel": 1,
+          "number": 2,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "loopB",
+          "kind": "note",
+          "channel": 5,
+          "number": 64,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "reloopB",
+          "kind": "note",
+          "channel": 5,
+          "number": 65,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "loopDownB",
+          "kind": "note",
+          "channel": 5,
+          "number": 52,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "loopUpB",
+          "kind": "note",
+          "channel": 5,
+          "number": 53,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "loopInB",
+          "kind": "note",
+          "channel": 5,
+          "number": 54,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "loopOutB",
+          "kind": "note",
+          "channel": 5,
+          "number": 55,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "playB",
+          "kind": "note",
+          "channel": 5,
+          "number": 103,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "syncB",
+          "kind": "note",
+          "channel": 5,
+          "number": 101,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "pitchBendDownB",
+          "kind": "note",
+          "channel": 5,
+          "number": 96,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "pitchBendUpB",
+          "kind": "note",
+          "channel": 5,
+          "number": 97,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "browse",
+          "kind": "control",
+          "channel": 15,
+          "number": 0,
+          "encoding": "binaryOffset",
+          "inverted": true
+        },
+        {
+          "action": "browseGroups",
+          "kind": "control",
+          "channel": 15,
+          "number": 1,
+          "encoding": "binaryOffset",
+          "inverted": true
+        },
+        {
+          "action": "openGroup",
+          "kind": "note",
+          "channel": 15,
+          "number": 7,
+          "encoding": "absolute",
+          "inverted": false
+        }
+      ],
+      "outputs": [],
+      "startup": [],
+      "shutdown": [],
+      "autoSelect": false,
+      "scope": "Manual Load, Sync, loop controls and flipped browsing. Owner yellow Transport sub-mode adds Play/Sync/held bends. Shared pads, Cue, feedback, setup and audio routing remain open.",
+      "source": "https://community.algoriddim.com/uploads/short-url/f1nlupY4MmdavUHDCL24CsgTphF.djayMidiMa",
+      "excludedAliases": [
+        "RANE SEVENTY-TWO",
+        "RANE SEVENTY-TWO MKII",
+        "Rane SEVENTY A-Trak Edition"
+      ],
+      "hardwareMode": "Manual subset. Enable input separately and select the connected USB A/B source. Missing class/setup and external mixer audio remain open.",
+      "gaps": [
+        "Manual subset requires separate input enabling and the connected USB A/B source. Missing RaneSeventy code leaves modifier/shared-pad dispatch and cold-start lifecycle unqualified. Standard-owner yellow Transport sub-mode actions are not inherited by the A-Trak profile. Main Cue, other pads, external line-volume/mixer ownership, external deck/FX audio, feedback, complete theoretical support and physical acceptance remain open."
+      ]
+    },
+    {
+      "id": "Rane SEVENTY A-Trak Edition",
+      "aliases": [
+        "Rane SEVENTY A-Trak Edition",
+        "SEVENTY A-Trak Edition",
+        "Seventy A-Trak MIDI"
+      ],
+      "definition": "reviewed:rane-seventy-a-trak",
+      "inputs": [
+        {
+          "action": "loadA",
+          "kind": "note",
+          "channel": 15,
+          "number": 2,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "syncA",
+          "kind": "note",
+          "channel": 0,
+          "number": 2,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "loopA",
+          "kind": "note",
+          "channel": 4,
+          "number": 64,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "reloopA",
+          "kind": "note",
+          "channel": 4,
+          "number": 65,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "loopDownA",
+          "kind": "note",
+          "channel": 4,
+          "number": 52,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "loopUpA",
+          "kind": "note",
+          "channel": 4,
+          "number": 53,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "loopInA",
+          "kind": "note",
+          "channel": 4,
+          "number": 54,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "loopOutA",
+          "kind": "note",
+          "channel": 4,
+          "number": 55,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "loadB",
+          "kind": "note",
+          "channel": 15,
+          "number": 3,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "syncB",
+          "kind": "note",
+          "channel": 1,
+          "number": 2,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "loopB",
+          "kind": "note",
+          "channel": 5,
+          "number": 64,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "reloopB",
+          "kind": "note",
+          "channel": 5,
+          "number": 65,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "loopDownB",
+          "kind": "note",
+          "channel": 5,
+          "number": 52,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "loopUpB",
+          "kind": "note",
+          "channel": 5,
+          "number": 53,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "loopInB",
+          "kind": "note",
+          "channel": 5,
+          "number": 54,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "loopOutB",
+          "kind": "note",
+          "channel": 5,
+          "number": 55,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "browse",
+          "kind": "control",
+          "channel": 15,
+          "number": 0,
+          "encoding": "binaryOffset",
+          "inverted": true
+        },
+        {
+          "action": "browseGroups",
+          "kind": "control",
+          "channel": 15,
+          "number": 1,
+          "encoding": "binaryOffset",
+          "inverted": true
+        },
+        {
+          "action": "openGroup",
+          "kind": "note",
+          "channel": 15,
+          "number": 7,
+          "encoding": "absolute",
+          "inverted": false
+        }
+      ],
+      "outputs": [],
+      "startup": [],
+      "shutdown": [],
+      "autoSelect": false,
+      "scope": "Manual Load, Sync, loop controls and flipped browsing. Shared pads, transport, feedback, setup and audio routing remain open.",
+      "source": "https://drive.google.com/file/d/1iwbUvILPV4mcrKTN--qtOQNNYEEo8Sni/view",
+      "excludedAliases": [
+        "RANE SEVENTY-TWO",
+        "RANE SEVENTY-TWO MKII",
+        "Rane SEVENTY"
+      ],
+      "hardwareMode": "Manual subset. Enable input separately and select the connected USB A/B source. Missing class/setup and external mixer audio remain open.",
+      "gaps": [
+        "Manual subset requires separate input enabling and the connected USB A/B source. Missing RaneSeventy code leaves modifier/shared-pad dispatch and cold-start lifecycle unqualified. Standard-owner yellow Transport sub-mode actions are not inherited by the A-Trak profile. Main Cue, other pads, external line-volume/mixer ownership, external deck/FX audio, feedback, complete theoretical support and physical acceptance remain open."
+      ]
+    },
+    {
       "id": "Reloop Beatmix 2/4 MK2",
       "aliases": [
         "Reloop Beatmix 2/4 MK2",

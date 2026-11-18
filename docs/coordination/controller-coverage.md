@@ -3816,3 +3816,19 @@ All144 importer checks,10 focused native checks and iPad framework compilation p
 All193 earlier runtime recipes remain unchanged. Compiled resource bytes match the source. Source-bound evidence remains in `TestBuilds/r315/`. The catalogue header now distinguishes the base inventory date from later profile reviews.
 The catalogue now has318 records/311 physical models and194 data recipes. Automatic core coverage stays165 physical models and71/122 benchmark models.
 The repository check retains twelve historical broken links. Screen/driver/normal-mode setup, shared pads, loop modes, full lifecycle, audio routing, calibration and physical acceptance remain open. No signed app or install is claimed.
+
+## R316 Separate RANE SEVENTY source subsets
+
+Assumption: the standard-model owner export and the older A-Trak author export qualify unconditional MIDI controls. Both declare RaneSeventy custom code, which is absent. Shared pads and external-mixer audio remain unqualified. The standard owner's yellow Transport sub-mode is a custom source layout, not a factory normal transport claim.
+
+- [x] Confirm the importer fixture fails without the two independent manual profiles. Pin both exports and row counts.
+- [x] Add common Load, Sync, loop and flipped browser controls. Add standard-owner Transport-sub-mode Play/Sync/bends only to the standard profile. Emit no setup/output/audio-route packet and infer no Cue preview from a numbered cue action.
+- [x] Verify distinct identities, both decks, safe rejection of other modes, relative browser counts, held bend release and real-WAV Play/loops/Sync. Run importer checks and compile the iPad framework. Compare previous recipes and resource bytes.
+
+Source base: `a448abe`. Shared-pad/modifier setup, normal Cue/transport, external-mixer/FX audio, feedback, lifecycle and physical acceptance remain open.
+
+The standard profile adds27 manual inputs. The separate A-Trak profile adds19. Both retain their own pinned export and missing-class audit. The standard owner customises the yellow Transport sub-mode; the A-Trak profile does not inherit that layout.
+All145 importer checks,8 focused native checks and iPad framework compilation pass. Real-WAV checks verify standard-owner Play, held bend release, looping, finite audio and saved Sync.
+All194 earlier runtime recipes remain unchanged. Compiled resource bytes match the source. Evidence remains in `TestBuilds/r316/`. The catalogue stays318 records/311 physical models and reaches196 data recipes.
+Both existing benchmark records now have manual subsets. Automatic core coverage stays165 physical models and71/122 benchmark models.
+The repository check retains twelve historical broken links. Missing RaneSeventy code, shared modes, ordinary Cue/transport, external-mixer/FX audio, feedback/lifecycle and physical acceptance keep automatic selection off. No signed app or install is claimed.

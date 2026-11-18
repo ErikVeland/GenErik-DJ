@@ -1376,3 +1376,17 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueSeventyOwnerTransportAndLoopsKeepAudioAndSync() async throws {
+    try await withControllerCuePlayback("Rane Seventy MIDI",manual:true) { model,input in
+        cuePreviewPacket([0x94,103,127,0x84,103,0,0x94,97,127],to:input)
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        let samples = model.playback.core.renderOffline(frames:2048)
+        cuePreviewPacket([0x84,97,127,0x94,64,127,0x84,64,0],to:input)
+        model.refreshPlayback()
+        #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
+        let state = try #require(model.playbackSnapshot?.a)
+        #expect(state.phase.active && state.synced && state.loopEnabled)
+        #expect(state.loopEnd > state.loopStart)
+    }
+}

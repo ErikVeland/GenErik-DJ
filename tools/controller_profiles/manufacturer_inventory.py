@@ -1,4 +1,5 @@
 """Manufacturer sources and model records for the controller catalogue."""
+from rane_seventy import SEVENTY_AUDITS
 from mixtour_pro import MIXTOUR_PRO_AUDIT
 from hercules_t7 import T7_PROTOCOL_SOURCES
 from buddy import BUDDY_AUDIT
@@ -72,6 +73,8 @@ SOURCE_AUDITS["Rane ONE MKII"] = {
     "gaps": ["Algoriddim staff shared this template4June2026. It declares USB1CC5:0026 and the absent RaneOneMK2 class. Its667 input-list rows include11 headings and no ordinary turntable1/2.playPause mapping. Normal Play input, platter/motor reports, startup and lifecycle are not established by this export.",
              "Two explicit output rows are Play-button lamp states on notes0/channels0/1 with values4/12; they do not establish Play input or a motor protocol. Native external deck/sampler/FX audio routing and hardware/software mixer ownership remain unimplemented.",
              "Original ONE, FOUR and SYSTEM ONE are not aliases. No motor command, transport address or automatic profile is inferred from another model. Complete theoretical support and physical acceptance remain open."]}
+
+SOURCE_AUDITS.update(SEVENTY_AUDITS)
 
 MODELS = [
     ('Hercules DJControl Inpulse T7', 'https://community.algoriddim.com/t/hercules-inpulse-t7-support/20172/186'),

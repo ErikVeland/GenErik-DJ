@@ -986,6 +986,29 @@ class GeneratedCatalogueTests(unittest.TestCase):
             if path.exists():
                 self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
 
+    def test_seventy_exports_provide_separate_manual_subsets_with_explicit_mode_limits(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        by_id={r["id"]:r for r in runtime["profiles"]}
+        for name,count in [("Rane SEVENTY",27),("Rane SEVENTY A-Trak Edition",19)]:
+            self.assertTrue(name in by_id,"Each SEVENTY model needs a distinct reviewed subset")
+            item=by_id[name]
+            self.assertFalse(item["autoSelect"])
+            self.assertEqual(len(item["inputs"]),count)
+            self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+            self.assertNotIn("audioOutput",item)
+            self.assertNotIn("inputModes",item)
+            self.assertFalse(any(r["action"].startswith(("cuePreview","hotcue","level","crossfader")) for r in item["inputs"]))
+        from rane_seventy import SEVENTY_SOURCES, SEVENTY_AUDITS
+        for name,filename,url,digest in SEVENTY_SOURCES:
+            path=ROOT/"TestBuilds/r316/upstream"/filename
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),digest)
+                source=plistlib.loads(path.read_bytes())
+                self.assertEqual(source["customClassName"],"RaneSeventy")
+                self.assertEqual(len(source["controls"]),SEVENTY_AUDITS[name]["inputRows"])
+        self.assertEqual(SEVENTY_AUDITS["Rane SEVENTY"]["inputRows"],621)
+        self.assertEqual(SEVENTY_AUDITS["Rane SEVENTY A-Trak Edition"]["inputRows"],488)
+
     def test_reloop_touch_manual_core_does_not_enable_screen_drivers_or_shared_pad_modes(self):
         runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item = next((r for r in runtime["profiles"] if r["id"] == "Reloop TOUCH"), None)
