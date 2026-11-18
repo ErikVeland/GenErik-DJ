@@ -3383,3 +3383,36 @@ Factory coverage reaches 140 profiles for 148 physical models, plus six other na
 The repository check retains twelve historical broken links. Inline review followed the serial-work rule; no reviewer agent was started.
 Source base: `d32470e`. Evidence: `TestBuilds/r293/`.
 No signed app, install, controller hardware test or A10X acceptance forms part of this increment.
+
+## R294 T7 public protocol and manual core
+
+Assumption: reuse normal MIDI wire facts from the public T7 beta at revision `1ec59320c4ccf5681d5a989d9b7d0447da48aa69`.
+The author reports hardware checks on Windows. Mac, Linux, current reconnect/lifecycle changes and main speaker output retain stated limits.
+The earlier public djay mapping independently agrees on normal Play, Cue, Sync, volume, gain and EQ addresses.
+
+Implementation plan and checks:
+
+- [x] Add failing native fixtures for separate manual identity, held Cue/bend releases, exact CC pairs, source pad pages and source encoder directions.
+- [x] Pin all four source files. Add `hercules_t7.py` for ordinary transport/mixer/loop/cue controls and update the earlier source audit.
+- [x] Keep platter position CC9 and pitch-bend timestamps unmapped. Emit no motor command, speed command or unqualified setup.
+- [x] Run importer checks, focused native playback/protocol checks and iPad framework compilation. Compare the bundle and all previous recipes.
+
+Ruling: automatic selection stays off until a native motor/velocity handover exists.
+The public protocol documents 7-bit wrapping platter positions, 14-bit timestamps at 2.4 MHz, motor Note127 and paired motor-speed CC8/40.
+Those output speed bytes also identify incoming tempo-fader bytes. Direction and endpoint ownership must remain explicit.
+A generic pitch-bend tempo mapping or count-only jog would be incorrect. No platter timestamp can enter native tempo control.
+Crossfader curve/disable ownership, FX, stems, full pad feedback, full lifecycle and audio routing remain open.
+
+The manual recipe has 153 inputs and 24 steady button outputs. It emits no setup, platter or motor command.
+Normal and shifted tempo/level pairs stay explicit. Pitch-bend timestamps and platter-position reports cannot change native tempo or jog state.
+The first fixture assumed that ordinary paired CC required two fresh bytes. It now checks the existing cached-pair contract and deck isolation.
+The failed log and expected pre-implementation failures remain in `TestBuilds/r294/`.
+Native loop sizing retains the app's 1/32-to32-beat bounds. The source encoder's larger range remains open.
+Manual MIDI input and feedback require separate loading and enabling. No automatic lifecycle runs for this recipe.
+
+All 17 focused Swift checks, 125 importer checks and native iPad framework compilation pass.
+The compiled resource matches the source. All 175 earlier recipes remain unchanged.
+The catalogue now has 176 data recipes. Automatic coverage remains 148 factory physical models plus six other native models; the benchmark stays 65/122.
+The repository check retains twelve historical broken links. Inline review followed the serial-work rule; no reviewer agent was started.
+Source base: `c8196d3`. Sources and evidence: `TestBuilds/r294/`.
+No signed app, install, controller hardware test or A10X acceptance forms part of this increment.

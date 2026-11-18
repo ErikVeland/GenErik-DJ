@@ -1084,3 +1084,22 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueT7NativeManualCueBendAndFixedLoopKeepSync() async throws {
+    try await withControllerCuePlayback("DJControl Inpulse T7", manual: true) { model, input in
+        cuePreviewPacket([0x91, 6, 127, 0x84, 6, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        cuePreviewPacket([0x91, 7, 127, 83, 127], to: input)
+        #expect((model.playbackSnapshot?.a.performanceRate ?? 1) > 1)
+        cuePreviewPacket([0x84, 83, 127], to: input)
+        #expect(model.playbackSnapshot?.a.performanceRate == 1)
+        cuePreviewPacket([0x96, 20, 127], to: input)
+        #expect(model.performance.loopBeats(for: .a) == 4)
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        let samples = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}

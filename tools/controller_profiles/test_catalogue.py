@@ -861,6 +861,23 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_t7_manual_generation_excludes_motor_outputs_and_platter_timestamps(self):
+        runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item = next((r for r in runtime["profiles"] if r["id"] == "Hercules DJControl Inpulse T7"), None)
+        self.assertIsNotNone(item, "T7 needs its own reviewed manual subset")
+        self.assertFalse(item["autoSelect"])
+        self.assertNotIn("audioOutput", item)
+        self.assertFalse(item["startup"])
+        self.assertFalse(any(r["kind"] == "pitch" or r["action"].startswith(("jog", "wheelJog")) for r in item["inputs"]))
+        self.assertTrue(all(r["kind"] == "note" and r["number"] != 127 for r in item["outputs"]))
+        self.assertEqual([(r["channel"], r["number"], r["lowNumber"]) for r in item["inputs"] if r["action"] in {"tempoA", "tempoB"}],
+                         [(1, 8, 40), (4, 8, 40), (2, 8, 40), (5, 8, 40)])
+        from hercules_t7 import T7_SOURCES
+        for name, digest in T7_SOURCES:
+            path = ROOT / "TestBuilds/r294/upstream" / Path(name).name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_tweaker_generation_keeps_fixed_ab_and_programmed_absolute_eq(self):
         runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item = next(row for row in runtime["profiles"] if row["id"] == "Electrix Tweaker")
