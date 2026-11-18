@@ -917,6 +917,26 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for bad in [products+products,products[:100],products+'<li data-hardware-target="midinote ios">Unknown: Screen</li>',products.replace('mac ios','mac unknown',1)]:
             with self.assertRaises(ValueError):read_djay(bad)
 
+    def test_dj4set_manual_driver_port_keeps_four_deck_note_channels_and_shared_cc_channel(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Hercules DJ 4Set"),None)
+        self.assertIsNotNone(item,"Add the public four-deck virtual MIDI contract without claiming native USB support")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),82)
+        self.assertEqual(len(item["outputs"]),16)
+        self.assertFalse(item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        self.assertEqual([(r["channel"],r["number"]) for r in item["inputs"] if r["action"] in {"cuePreviewA","cuePreviewB"}],[(0,13),(0,45),(1,13),(1,45)])
+        jogs=[r for r in item["inputs"] if r["action"] in {"jogA","jogB"}]
+        self.assertEqual([r["number"] for r in jogs],[1,36,9,37,17,38,25,39])
+        self.assertTrue(all(r["channel"]==0 and r["argument"]==250 for r in jogs))
+        tempos=[r for r in item["inputs"] if r["action"] in {"tempoA","tempoB"}]
+        self.assertEqual([r["number"] for r in tempos],[5,13,21,29])
+        self.assertTrue(all(r["encoding"]=="absolute" and r["channel"]==0 for r in tempos))
+        from dj4set import DJ4SET_REFERENCES
+        cached=ROOT/"TestBuilds/r372/upstream/dj4set-manual.pdf"
+        if cached.exists():self.assertEqual(hashlib.sha256(cached.read_bytes()).hexdigest(),DJ4SET_REFERENCES[item["id"]]["sha256"])
+
     def test_air_plus_corroborated_mapping_resolves_knob_polarity_and_both_jog_streams(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next(r for r in runtime["profiles"] if r["id"]=="Hercules DJControl AIR+")

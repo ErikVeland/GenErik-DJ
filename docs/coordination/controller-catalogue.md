@@ -10,7 +10,7 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 350 total catalogue records. 343 name physical models. The remainder identify software endpoints or protocol families.
-- 254 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 255 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 179 factory profiles select core controls automatically for 187 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - 150 physical models still lack automatic core controls.
@@ -227,8 +227,8 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 77 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 51 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 78 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 50 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -479,7 +479,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Gemini CDMP-7000 R | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Gemini%20CDMP-7000%20R%20audio.midi.xml) |
 | Gemini FirstMix | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Gemini%20FirstMix.midi.xml) |
 | Gemini G2V | primary | automatic-core-profile | [Reference](https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg) |
-| Hercules DJ 4Set | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware) |
+| Hercules DJ 4Set | primary | partial-midi-profile | [Reference](https://ts.hercules.com/download/sound/manuals/4Set/01_Eng_DJ4Set.pdf) |
 | Hercules DJ Console 4-Mx | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Console%204-Mx.midi.xml) |
 | Hercules DJ Console MK1 | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Console%20Mk1.hid.xml) |
 | Hercules DJ Console MK2 HID | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Console%20Mk2.hid.xml) |

@@ -728,6 +728,28 @@
         "Retain factory raw64 reverse boundary over the independent mapping off-by-one.",
         "Use only protocol facts. No proprietary executable source copied or bundled. Distribution review and physical calibration remain open."
       ]
+    },
+    {
+      "request": "R373",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://ts.hercules.com/download/sound/manuals/4Set/01_Eng_DJ4Set.pdf",
+          "sha256": "38fc31cec1597c245693389bc87fcb3c2770b7cceda6cf844f5b9518022d672e",
+          "review": "All eight appendix pages31-38 visually reviewed. Manual text confirms default channels1/2, four-deck mode and7-bit pitch. Note banks A/B on first channel, C/D on second; all CC sets on first. Separate virtual driver MIDI contract."
+        },
+        {
+          "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+          "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+          "member": "Applications/DEX4.app/Contents/Resources/controllers/Hercules__DJ4set.js",
+          "memberSHA256": "b5316177a990f043630cacac171da920d708e26f0a74c57cda3b0c2bcd6bde7d",
+          "review": "Read-only comparison. Corroborates250-position normal/scratch handlers, note-channel banks and normal EQ/master/blend/crossfader polarity. No installer or downloaded code run."
+        }
+      ],
+      "limits": [
+        "82 manual inputs and16 separately selected steady lamps. Desktop-driver/external-bridge MIDI required. Direct iPad USB/audio access remains unqualified.",
+        "No automatic audio, settings/query/reset/driver command, inferred sibling protocol or bundled executable source. Full pages/lifecycle/calibration and physical/A10X acceptance remain open."
+      ]
     }
   ]
 }

@@ -22159,12 +22159,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://ts.hercules.com/download/sound/manuals/4Set/01_Eng_DJ4Set.pdf",
         "https://www.algoriddim.com/hardware"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:herculesdj4set"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Hercules DJ 4Set",
+      "automaticControls": false,
       "comparisonSupport": {
         "djay": {
           "sourceName": "Hercules DJ 4Set",
@@ -22176,40 +22181,104 @@
           "source": "https://www.algoriddim.com/hardware"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browseNext",
+        "browsePrevious",
+        "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "jogA:a",
+        "jogA:c",
+        "jogB:b",
+        "jogB:d",
+        "jogTouchA:a",
+        "jogTouchA:c",
+        "jogTouchB:b",
+        "jogTouchB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor",
+        "pitchBendDownA:a",
+        "pitchBendDownA:c",
+        "pitchBendDownB:b",
+        "pitchBendDownB:d",
+        "pitchBendUpA:a",
+        "pitchBendUpA:c",
+        "pitchBendUpB:b",
+        "pitchBendUpB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "shift",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d",
+        "tempoA:a",
+        "tempoA:c",
+        "tempoB:b",
+        "tempoB:d"
+      ],
+      "inputBindingCount": 82,
+      "feedbackBindingCount": 16,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual exposed desktop-driver or external-bridge MIDI port. Default channels1/2, four-deck mode and7-bit pitch. C/D require app opt-in. Native iPad USB/audio access remains unqualified."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Desktop driver/bridge and native iPad USB/audio access remain open. Default channels1/2, four-deck mode and7-bit pitch only. Eight-bit pitch alternate, K/Shifted-K pages, loops/FX, modifiers/search, library focus, microphone/recording, full feedback/lifecycle/hardware audio ownership/calibration and physical/A10X acceptance remain open. Feedback requires separate manual selection. No query, Shift/deck/jog/sensitivity/curve setting, driver installation or sibling wire protocol is inferred.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -332512,6 +332581,49 @@
         },
         {
           "reason": "Default channel1/14-bit only. Native fixed scratch retains the independent765-count scale. EQ/gain uses corroborated normal polarity over the conflicting manufacturer CW/CCW wording; physical taper/range needs calibration. Pitch raw0 positive is the native choice. HP Cue/Mix, filter/gain reassignment, Vinyl switching, Air/proximity, FX/loop/sample/pressure pages, microphone/recording/Magic, full mode/output/lifecycle and physical/A10X acceptance remain open. Status-only bank recovery remains unqualified. Update_All_Controls CC127, settings, firmware and driver commands stay unused."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:herculesdj4set",
+      "name": "Hercules DJ 4Set",
+      "transport": "midi",
+      "source": {
+        "url": "https://ts.hercules.com/download/sound/manuals/4Set/01_Eng_DJ4Set.pdf",
+        "sha256": "38fc31cec1597c245693389bc87fcb3c2770b7cceda6cf844f5b9518022d672e",
+        "pages": [
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38
+        ],
+        "relatedSources": [
+          {
+            "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+            "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+            "member": "Applications/DEX4.app/Contents/Resources/controllers/Hercules__DJ4set.js",
+            "memberSHA256": "b5316177a990f043630cacac171da920d708e26f0a74c57cda3b0c2bcd6bde7d"
+          },
+          {
+            "url": "https://support.hercules.com/en/product/dj4set-en/"
+          }
+        ],
+        "review": "All eight official MIDI appendix pages31-38 visually reviewed. Manual defaults are channels1/2, four-deck mode and7-bit pitch; VirtualDJ changes the latter while running. Buttons A/B use channel1 and C/D channel2, while all four mixer/jog/pitch CC sets stay on the first channel. Independent 4Set-specific DEX handlers corroborate these addresses,250 positions per revolution and ordinary raw EQ/master/blend/crossfader polarity over the table's inconsistent CW/CCW wording. Do not copy DEX raw64-forward jog boundary; the factory64-reverse boundary governs. Native manual core supports transport/PFL/Load, owned bends and full-value jog contact,250-count normal/contact-only scratch streams,7-bit pitch/level/EQ and shared mixer/browser. Physical and reported Shift guard side-local A/C or B/D contacts across note-channel banks. Deck-state reports retire both directions without changing app deck capacity. C/D require app opt-in. Native USB access is not established: use an exposed desktop-driver or external-bridge MIDI port. No automatic selection/audio routing, driver installation, state query, Shift/deck/jog-lock/sensitivity/curve setting or sibling protocol is inferred. K pages/loops/FX, mode/seek/library-focus behaviour, microphone/recording,8-bit pitch alternate, complete lamp/lifecycle/audio ownership and physical/A10X acceptance remain open. Sixteen explicit steady Play/Cue/Sync/PFL lamp recipes are available through separate manual feedback selection. Downloaded DEX code is not copied, run or bundled."
+      },
+      "implementedInputCount": 82,
+      "implementedOutputCount": 16,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Desktop driver/bridge and native iPad USB/audio access remain open. Default channels1/2, four-deck mode and7-bit pitch only. Eight-bit pitch alternate, K/Shifted-K pages, loops/FX, modifiers/search, library focus, microphone/recording, full feedback/lifecycle/hardware audio ownership/calibration and physical/A10X acceptance remain open. Feedback requires separate manual selection. No query, Shift/deck/jog/sensitivity/curve setting, driver installation or sibling wire protocol is inferred."
         }
       ]
     }

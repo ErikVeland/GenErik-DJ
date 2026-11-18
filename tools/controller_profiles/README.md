@@ -961,3 +961,8 @@ The dedicated scratch stream requires contact. Four Hot Cues per side retain vel
 Physical and reported Shift inputs use source-local OR guards with independent side scopes.
 Sixteen owned lamps clear individually. Update_All_Controls stays unused. Independent AIR+-specific DEX facts resolve normal EQ/gain polarity over the conflicting table wording.
 Physical polarity/taper/jog acceptance remains open.
+
+4Set uses its own manual virtual-MIDI contract: A/B notes on channel1, C/D notes on channel2, all CC on channel1.
+Default7-bit pitch stays separate from the documented alternate low-bit format. Both jog streams use250 counts.
+Sixteen steady lamp recipes require separate manual feedback selection. Driver/bridge, native iPad USB/audio and full modes remain open.
+No deck, Shift, jog-lock/sensitivity, curve or update-all-controls command is sent.

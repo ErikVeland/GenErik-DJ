@@ -4788,3 +4788,21 @@ Both normal CC102/103 and scratch CC104/105 use765 positions per revolution in t
 Validation:206 Python checks and nine focused native tests passed, including the154-profile held-Cue corpus. New real-WAV checks verify exact765-count movement and grid restoration for both normal and dedicated scratch streams. Existing release, ownership, mode, pickup, feedback and saved-Sync checks passed. The iPad framework compiled and its resource matches the source. The other253 recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r372/validation.json`.
 
 Counts remain254 recipes and193 automatic-core physical models, with150 without automatic core controls. Full theoretical support, source-reuse review, physical calibration and A10X acceptance remain open. No downloaded executable source is copied, run or bundled.
+
+## R373 Independent 4Set virtual MIDI contract
+
+Assumption: implement the published virtual MIDI port behind an explicit desktop-driver/external-bridge boundary. Direct iPad USB access remains unqualified.
+
+- [x] Review all eight manufacturer appendix pages and default settings. Compare the model-specific independent mapping.
+- [x] Add82 manual inputs and16 separately selected steady lamp recipes. Preserve four-deck opt-in and channel boundaries.
+- [x] Verify held Cue/bend ownership, both bank directions, Shift handover, exact jog movement, finite audio and saved Sync.
+
+The [manufacturer manual](https://ts.hercules.com/download/sound/manuals/4Set/01_Eng_DJ4Set.pdf) defines default channels1/2, four-deck mode and7-bit pitch. Its appendix explicitly describes a virtual MIDI port. A/B notes use the first channel. C/D notes use the second. All four mixer, pitch and jog CC sets stay on the first channel. The profile keeps these differences. It does not infer direct iPad USB or audio support.
+
+The model-specific member in the previously preserved [public DEX installer](https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg) independently corroborates250-position jogs and normal mixer polarity. Native retains the manufacturer's signed64 reverse boundary. Normal motion is touch-aware. Dedicated scratch motion requires owned contact. Pitch uses only the documented default7-bit MSB. Alternate low-bit resolution remains open. No downloaded executable source is copied, run or bundled.
+
+Physical/reported Shift inputs retain side identity across A/C or B/D note-channel handover. Deck-state reports retire contacts in both directions. Momentary deck-button releases preserve new contacts. Source ownership protects another controller's holds. K/Shifted-K pages, loops/FX, modifiers/search, library focus, microphone/recording, full light/lifecycle/audio ownership and physical/A10X acceptance remain open. No driver installation, state query, Shift/deck/jog-lock/sensitivity/curve setting or sibling protocol is inferred.
+
+Validation:207 Python checks and eight focused native tests passed, including the154-profile held-Cue corpus. The real-WAV fixture verifies exact250-count normal scratch, Cue/bend release, bank cleanup, finite audio and saved Sync. The iPad framework compiled and its resource matches the source. All254 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r373/validation.json`.
+
+The catalogue has255 data recipes. Automatic core coverage remains193 of343 physical models, with150 without automatic core controls. Full theoretical support and physical/A10X acceptance remain open.
