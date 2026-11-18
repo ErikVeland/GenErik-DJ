@@ -16585,192 +16585,6 @@
       }
     },
     {
-      "id": "pioneerdjm750mk2",
-      "name": "Pioneer DJ DJM-750MK2",
-      "manufacturer": "Pioneer",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://virtualdj.com/products/hardware.html?model=DJM750MK2"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "virtualDJ": {
-          "sourceName": "Pioneer DJ DJM-750MK2",
-          "category": "Clubmixers",
-          "source": "https://virtualdj.com/products/hardware.html?model=DJM750MK2"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
-      "id": "pioneerdjm850",
-      "name": "Pioneer DJ DJM-850",
-      "manufacturer": "Pioneer",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://virtualdj.com/products/hardware.html?model=DJM850"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "virtualDJ": {
-          "sourceName": "Pioneer DJ DJM-850",
-          "category": "Clubmixers",
-          "source": "https://virtualdj.com/products/hardware.html?model=DJM850"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
-      "id": "pioneerdjm900nxs",
-      "name": "Pioneer DJ DJM-900NXS",
-      "manufacturer": "Pioneer",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://virtualdj.com/products/hardware.html?model=DJM900NXS"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "virtualDJ": {
-          "sourceName": "Pioneer DJ DJM-900NXS",
-          "category": "Clubmixers",
-          "source": "https://virtualdj.com/products/hardware.html?model=DJM900NXS"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
       "id": "pioneerdjm900srt",
       "name": "Pioneer DJ DJM-900SRT",
       "manufacturer": "Pioneer",
@@ -17865,6 +17679,306 @@
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
         "Manual MIDI channel1/TOGGLE only; no factory defaults inferred. Physical taper/calibration, hardware/software audio ownership, external deck routing, master Cue, EQ/curve/reverse switches, FX/time/send-return, AUX/microphone/clock, complete output/lifecycle and physical/A10X acceptance remain open. No output, stored-setting write, sibling protocol or audio route is inferred.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "pioneerdjm750mk2",
+      "name": "Pioneer DJM-750MK2",
+      "manufacturer": "Pioneer",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://www.proacousticsusa.com/media/wysiwyg/PDFs/DJM-750MK2_addendum_MIDI_Message_EN.pdf",
+        "https://virtualdj.com/products/hardware.html?model=DJM750MK2"
+      ],
+      "definitions": [
+        "reviewed:djm-750mk2-independent-four-strip-mixer"
+      ],
+      "implementation": "partial-midi-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer DJM-750MK2",
+      "automaticControls": false,
+      "comparisonSupport": {
+        "virtualDJ": {
+          "sourceName": "Pioneer DJ DJM-750MK2",
+          "category": "Clubmixers",
+          "source": "https://virtualdj.com/products/hardware.html?model=DJM750MK2"
+        }
+      },
+      "controlActions": [
+        "crossfader",
+        "cueMix",
+        "cueStateA:a",
+        "cueStateA:c",
+        "cueStateB:b",
+        "cueStateB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor"
+      ],
+      "inputBindingCount": 32,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual MIDI channel1 and Toggle Cue-button mode. Physical CH1-4 map native A-D. C/D require app opt-in. Configure app audio separately and avoid duplicate hardware/software processing."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "partial",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Hardware processing and external deck audio are separate from this optional app mixer. Curve/assignment, FX/microphone, master/Link/FX Cue, fader-start/mode controls, full lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. Native Color knobs control the software filter.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "pioneerdjm850",
+      "name": "Pioneer DJM-850",
+      "manufacturer": "Pioneer",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://www.appliancesonline.com.au/public/manuals/Pioneer-DJM850-4Ch-High-End-Digital-Mixer-User-Manual.pdf",
+        "https://virtualdj.com/products/hardware.html?model=DJM850"
+      ],
+      "definitions": [
+        "reviewed:djm-850-independent-four-strip-mixer"
+      ],
+      "implementation": "partial-midi-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer DJM-850",
+      "automaticControls": false,
+      "comparisonSupport": {
+        "virtualDJ": {
+          "sourceName": "Pioneer DJ DJM-850",
+          "category": "Clubmixers",
+          "source": "https://virtualdj.com/products/hardware.html?model=DJM850"
+        }
+      },
+      "controlActions": [
+        "crossfader",
+        "cueMix",
+        "cueStateA:a",
+        "cueStateA:c",
+        "cueStateB:b",
+        "cueStateB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor"
+      ],
+      "inputBindingCount": 32,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual MIDI channel1 and Toggle Cue-button mode. Physical CH1-4 map native A-D. C/D require app opt-in. Configure app audio separately and avoid duplicate hardware/software processing."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "partial",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Hardware processing and external deck audio are separate from this optional app mixer. Curve/assignment, FX/microphone, master/Link/FX Cue, fader-start/mode controls, full lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. Native Color knobs control the software filter.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "pioneerdjm900nxs",
+      "name": "Pioneer DJM-900NXS",
+      "manufacturer": "Pioneer",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://progresionaudiovisual.com/sites/default/files/2024-05/DJM-900nexus_OperatingInstructions070511.pdf",
+        "https://virtualdj.com/products/hardware.html?model=DJM900NXS"
+      ],
+      "definitions": [
+        "reviewed:djm-900nxs-independent-four-strip-mixer"
+      ],
+      "implementation": "partial-midi-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer DJM-900NXS",
+      "automaticControls": false,
+      "comparisonSupport": {
+        "virtualDJ": {
+          "sourceName": "Pioneer DJ DJM-900NXS",
+          "category": "Clubmixers",
+          "source": "https://virtualdj.com/products/hardware.html?model=DJM900NXS"
+        }
+      },
+      "controlActions": [
+        "crossfader",
+        "cueMix",
+        "cueStateA:a",
+        "cueStateA:c",
+        "cueStateB:b",
+        "cueStateB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor"
+      ],
+      "inputBindingCount": 32,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual MIDI channel1 and Toggle Cue-button mode. Physical CH1-4 map native A-D. C/D require app opt-in. Configure app audio separately and avoid duplicate hardware/software processing."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "partial",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Hardware processing and external deck audio are separate from this optional app mixer. Curve/assignment, FX/microphone, master/Link/FX Cue, fader-start/mode controls, full lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. Native Color knobs control the software filter.",
         "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
@@ -352434,6 +352548,90 @@
         },
         {
           "reason": "Compatibility is explicitly documented by the primary software mapping project, not independently verified against a manufacturer MKII wire table. Analogue gain/DC7 supply, direct audio thru, optional digital fader and jog-sensor sensitivity remain hardware-specific. Complete modes/feedback/lifecycle, audio routing/calibration and physical/iPad/A10X acceptance remain open."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:djm-900nxs-independent-four-strip-mixer",
+      "name": "Pioneer DJM-900NXS",
+      "transport": "midi",
+      "source": {
+        "url": "https://progresionaudiovisual.com/sites/default/files/2024-05/DJM-900nexus_OperatingInstructions070511.pdf",
+        "cacheName": "djm900nxs-manual.pdf",
+        "sha256": "c512d1285b8fcff62d066ca6f64a8dad6fcb51484f54206305e652d1a47244cd",
+        "pages": [
+          21,
+          22,
+          23
+        ],
+        "review": "Independent manufacturer operating manual pages21/22 were visually reviewed. Its hexadecimal chart qualifies four gain/three-band EQ/Color/fader strips, direct Cue CC46-49hex and four global mixer values. Page23 states default MIDI channel1 and Toggle. No NXS2/SRT inheritance or unlisted source-selector wire is inferred. Link Cue, MIDI LFO, X-Pad, fader start, FX/mic, curve/assignment, full lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 32,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Hardware processing and external deck audio are separate from this optional app mixer. Curve/assignment, FX/microphone, master/Link/FX Cue, fader-start/mode controls, full lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. Native Color knobs control the software filter."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:djm-850-independent-four-strip-mixer",
+      "name": "Pioneer DJM-850",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.appliancesonline.com.au/public/manuals/Pioneer-DJM850-4Ch-High-End-Digital-Mixer-User-Manual.pdf",
+        "cacheName": "djm850-manual.pdf",
+        "sha256": "c4ae8dd35829cf90757a53c288d8552963ce5d468a47f7ba57a4087a3022bbe0",
+        "pages": [
+          22,
+          23,
+          24
+        ],
+        "review": "Independent manufacturer manual pages22/23 were visually reviewed. Its decimal chart qualifies the same32 selected native mixer fields, independently of the900NXS hexadecimal chart. The cover explicitly includes850-K/S/W. Page24 states default MIDI channel1 and Toggle. BEAT switches, hardware effects, mic, fader-start notes, curve/assignment, full lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. No sibling source-selector message is inherited."
+      },
+      "implementedInputCount": 32,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Hardware processing and external deck audio are separate from this optional app mixer. Curve/assignment, FX/microphone, master/Link/FX Cue, fader-start/mode controls, full lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. Native Color knobs control the software filter."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:djm-750mk2-independent-four-strip-mixer",
+      "name": "Pioneer DJM-750MK2",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.proacousticsusa.com/media/wysiwyg/PDFs/DJM-750MK2_addendum_MIDI_Message_EN.pdf",
+        "cacheName": "djm750mk2-midi.pdf",
+        "sha256": "c3cb2018984ea93e6e676644c0d5a63ce45a8ffabf9ddc229abb390aa35ce784",
+        "pages": [
+          1,
+          2,
+          3
+        ],
+        "review": "All three pages of the independent Version1.00 manufacturer addendum were visually reviewed. They qualify the32 selected native mixer fields and sixteen source-selector notes, including Return AUX on every strip. A new on127 source report resets only its strip pickup. Native requires MIDI channel1 and Toggle Cue state. The addendum does not establish the factory utility defaults. No original750,250MK2,900NXS2 or other sibling mode is inferred. Send/Return, FX/mic, curve/assignment, full lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 32,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Hardware processing and external deck audio are separate from this optional app mixer. Curve/assignment, FX/microphone, master/Link/FX Cue, fader-start/mode controls, full lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. Native Color knobs control the software filter."
         }
       ]
     }

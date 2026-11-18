@@ -5120,3 +5120,22 @@ Further public-source findings:
 - The checked public Rane/ELITE owner discussions contain no downloadable mapping export. Current Serato download UI reports an error. The legacy ITCH download redirects to sign-in. Current djay desktop downloads lead to app stores. No account or access restriction was bypassed.
 
 The next implementation priority is the newly exposed Pioneer mixer/player gap, using each model's own usable public table. Other models follow where independent public wire facts are available. Inventory coverage does not change runtime support.
+
+## R393 independent legacy DJM four-strip mixers
+
+Assumption: reuse only the32 mixer fields independently confirmed in each model's manufacturer table. Physical CH1–4 target native A–D by an explicit app layout. Keep hardware processing and external deck audio separate.
+
+- [x] Pin and visually review the900NXS,850 and750MK2 charts. Keep hexadecimal and decimal notation separate during transcription.
+- [x] Add three manual32-input profiles with direct Cue states. Only750MK2 receives its documented source-selector pickup resets.
+- [x] Verify every input, C/D opt-in, Cue idempotence, source isolation, pickup and real-WAV Sync.
+- [x] Run source/native checks, compile the iPad framework and preserve all earlier recipes.
+
+Independent manufacturer documents qualify the same32 selected controls in all three models. The900NXS manual uses hexadecimal addresses. The850 manual prints decimal CC numbers. The750MK2 Version1.00 addendum uses hexadecimal addresses. Table pages900NXS21/22,85022/23 and all three750MK2 pages were visually reviewed and byte-hashed. The900NXS/850 settings tables specify default MIDI1/Toggle. The750MK2 addendum does not establish factory utility defaults, so its manual profile states MIDI1/Toggle as a required mode without a default claim.
+
+Each physical strip has gain, high/mid/low EQ, Color-to-native-filter, line fader and independent Cue state. Physical CH1–4 target native A–D by an explicit app layout. C/D need app opt-in. Crossfader, master, monitor and cue blend complete each32-input profile. The750MK2 alone has sixteen documented source-selector notes, including Return AUX. Their on127 reports reset pickup only for the affected strip. No selector address is invented for the900NXS or850.
+
+These manual app mixer controls keep hardware processing and external deck audio separate. No hardware setting, query, lamp or automatic audio route is sent. Curve/assignment, advanced Color/Beat FX, master/Link/FX Cue, mic, fader starts, complete modes/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. The900NXS profile does not claim NXS2/SRT compatibility. The750MK2 profile does not claim original750 compatibility. The850 manual explicitly covers its K/S/W colour variants.
+
+Validation:240 Python checks and eight native tests passed, including the158-profile automatic held-Cue corpus. Parameterised native fixtures cover every absolute input on each model, C/D availability, direct Cue idempotence, source isolation, per-strip pickup reset, inactive wires and sibling boundaries. Real-WAV fixtures for all three models retain finite, synced app-started playback. The iPad framework compiled and its bundled resource matches the source. All276 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r393/validation.json`.
+
+The catalogue has279 recipes for552 physical models. Automatic core coverage remains197, with355 without automatic core. First-protocol gaps fall from238 to235. Full theoretical support and physical/iPad/A10X acceptance remain open.

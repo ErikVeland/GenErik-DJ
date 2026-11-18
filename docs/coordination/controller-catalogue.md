@@ -11,7 +11,7 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 559 total catalogue records. 552 name physical models. The remainder identify software endpoints or protocol families.
-- 276 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 279 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 183 factory profiles select core controls automatically for 191 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - 355 physical models still lack automatic core controls.
@@ -228,8 +228,8 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 95 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 238 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 98 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 235 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -417,14 +417,14 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Pioneer DJ DJM-2000NXS | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=pidjm2knxs) |
 | Pioneer DJ DJM-250MK2 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DJM250M2) |
 | Pioneer DJ DJM-750 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DJM750) |
-| Pioneer DJ DJM-750MK2 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DJM750MK2) |
-| Pioneer DJ DJM-850 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DJM850) |
-| Pioneer DJ DJM-900NXS | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DJM900NXS) |
 | Pioneer DJ DJM-900SRT | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DJM900SRT) |
 | Pioneer DJ DJM-T1 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DJMT1) |
 | Pioneer DJ DJM-TOUR1 | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware/djmtour1) |
 | Pioneer DJ MEP-7000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MEP7000) |
 | Pioneer DJM-450 | accessory | partial-midi-profile | [Reference](https://www.recordcase.de/media/pdf/84/26/2c/Pioneer-DJM-450-Addendum-EN.pdf) |
+| Pioneer DJM-750MK2 | accessory | partial-midi-profile | [Reference](https://www.proacousticsusa.com/media/wysiwyg/PDFs/DJM-750MK2_addendum_MIDI_Message_EN.pdf) |
+| Pioneer DJM-850 | accessory | partial-midi-profile | [Reference](https://www.appliancesonline.com.au/public/manuals/Pioneer-DJM850-4Ch-High-End-Digital-Mixer-User-Manual.pdf) |
+| Pioneer DJM-900NXS | accessory | partial-midi-profile | [Reference](https://progresionaudiovisual.com/sites/default/files/2024-05/DJM-900nexus_OperatingInstructions070511.pdf) |
 | Pioneer DJM-900NXS2 | accessory | partial-midi-profile | [Reference](https://impact-even.com/wp-content/uploads/2022/03/pioneer_djm900nexus2_midimessages.pdf) |
 | Pioneer DJM-S3 | accessory | partial-midi-profile | [Reference](https://dwn.alza.cz/manual/61365) |
 | Pioneer DJM-S9 | accessory | partial-midi-profile | [Reference](https://downloads.support.alphatheta.com/midi-mapping/dj-mixers/DJM-S9/DJM-S9_List_of_MIDI_Message_E.pdf) |

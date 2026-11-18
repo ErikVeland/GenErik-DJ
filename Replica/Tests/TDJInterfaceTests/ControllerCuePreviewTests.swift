@@ -2614,3 +2614,17 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test(arguments: ["Pioneer DJM-900NXS", "Pioneer DJM-850", "Pioneer DJM-750MK2"]) @MainActor
+func controllerCatalogueLegacyDJMDirectCueKeepsAppStartedRealAudioSynced(_ name: String) async throws {
+    try await withControllerCuePlayback(name, manual: true) { model, input in
+        input.onTargetAction?(.init(.playA, deck: .a), 1)
+        cuePreviewPacket([0xB0, 70, 127, 70, 127, 70, 0, 17, 127], to: input)
+        if name.hasSuffix("750MK2") { cuePreviewPacket([0x90, 53, 127, 53, 0], to: input) }
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

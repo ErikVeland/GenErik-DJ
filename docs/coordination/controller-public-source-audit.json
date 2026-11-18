@@ -1244,6 +1244,47 @@
         "Current catalogue includes487 VirtualDJ,204 djay and pinned Serato/Mixxx rows. Wider manufacturer audit remains open.",
         "No downloaded program, installer, mapping action or firmware runs. No account or restricted download access is bypassed."
       ]
+    },
+    {
+      "request": "R393",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://progresionaudiovisual.com/sites/default/files/2024-05/DJM-900nexus_OperatingInstructions070511.pdf",
+          "sha256": "c512d1285b8fcff62d066ca6f64a8dad6fcb51484f54206305e652d1a47244cd",
+          "pages": [
+            21,
+            22,
+            23
+          ],
+          "finding": "Manufacturer hexadecimal table pages21/22 visually reviewed.32 native mixer inputs qualified. Settings table states default MIDI1/Toggle."
+        },
+        {
+          "url": "https://www.appliancesonline.com.au/public/manuals/Pioneer-DJM850-4Ch-High-End-Digital-Mixer-User-Manual.pdf",
+          "sha256": "c4ae8dd35829cf90757a53c288d8552963ce5d468a47f7ba57a4087a3022bbe0",
+          "pages": [
+            22,
+            23,
+            24
+          ],
+          "finding": "Independent manufacturer decimal table pages22/23 visually reviewed.32 selected mixer fields agree independently. Settings table states default MIDI1/Toggle. K/S/W variants explicitly share this manual."
+        },
+        {
+          "url": "https://www.proacousticsusa.com/media/wysiwyg/PDFs/DJM-750MK2_addendum_MIDI_Message_EN.pdf",
+          "sha256": "c3cb2018984ea93e6e676644c0d5a63ce45a8ffabf9ddc229abb390aa35ce784",
+          "pages": [
+            1,
+            2,
+            3
+          ],
+          "finding": "All three manufacturer addendum pages visually reviewed.32 selected mixer fields and sixteen source-selector notes qualified, including Return AUX. Factory utility defaults are not established by this addendum."
+        }
+      ],
+      "limits": [
+        "Manual software mixer layouts only. No automatic selection, hardware write/output, external deck audio route or complete mode/lifecycle/calibration claim.",
+        "No cross-model protocol inference. The same32 fields are independently verified in each cited document.",
+        "250MK2 addendum cached text is readable, but its linked PDF download returns403. No source bytes, screenshot or profile implementation is claimed for it."
+      ]
     }
   ]
 }
