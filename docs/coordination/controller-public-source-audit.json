@@ -96,7 +96,7 @@
           "model": "Seventy-Two MKII",
           "downloads": [
             {
-              "description": "Seventy-Two Control Panel – macOS v1.1.2",
+              "description": "Seventy-Two Control Panel \u2013 macOS v1.1.2",
               "type": "Editor",
               "url": "https://cdn.inmusicbrands.com/rane/seventy-two/MacRaneSeventy-Two_1.1.2.dmg"
             },
@@ -126,7 +126,7 @@
           "model": "Seventy-Two",
           "downloads": [
             {
-              "description": "Seventy-Two Control Panel – macOS v1.1.2",
+              "description": "Seventy-Two Control Panel \u2013 macOS v1.1.2",
               "type": "Editor",
               "url": "https://cdn.inmusicbrands.com/rane/seventy-two/MacRaneSeventy-Two_1.1.2.dmg"
             },
@@ -156,12 +156,12 @@
           "model": "Seventy",
           "downloads": [
             {
-              "description": "SEVENTY Firmware Update – macOS v1.1.0.127 (Latest Version)",
+              "description": "SEVENTY Firmware Update \u2013 macOS v1.1.0.127 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/seventy/Rane%20Seventy%20Firmware%20Updater%20For%20Firmware%201.1.0.127%20%28Updater%201.0.1%29.dmg"
             },
             {
-              "description": "SEVENTY Firmware Update – Windows v1.1.0.127 (Latest Version)",
+              "description": "SEVENTY Firmware Update \u2013 Windows v1.1.0.127 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/seventy/Install%20Rane%20Seventy%20Firmware%20Updater%20For%20Firmware%201.1.0.127%20%28Updater%201.0.0%29.exe"
             },
@@ -211,7 +211,7 @@
               "url": "https://cdn.inmusicbrands.com/rane/four/Install%20Rane%20FOUR%201.0.10.exe"
             },
             {
-              "description": "FOUR Firmware Update – macOS 1.8.0.18 (Latest Version)",
+              "description": "FOUR Firmware Update \u2013 macOS 1.8.0.18 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/Software/RD/RANE%20FOUR%20Firmware%20Updater%20For%20Firmware%201.8.0.18.dmg"
             },
@@ -226,7 +226,7 @@
               "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20FOUR%20Firmware%20-%20Release%20Note%20History%20v1.8.0.18.pdf"
             },
             {
-              "description": "FOUR Firmware Update – macOS v1.7.0.8",
+              "description": "FOUR Firmware Update \u2013 macOS v1.7.0.8",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/four/RANE%20FOUR%20Firmware%20Updater%20For%20Firmware%201.7.0.8%20%28Updater%201.1.6%29.dmg"
             },
@@ -306,12 +306,12 @@
               "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%201.0.2.exe"
             },
             {
-              "description": "PERFORMER Firmware Update – macOS v1.3.0.13 (Latest Version)",
+              "description": "PERFORMER Firmware Update \u2013 macOS v1.3.0.13 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.3.0.13.dmg"
             },
             {
-              "description": "PERFORMER Firmware Update – Windows v1.3.0.13 (Latest Version)",
+              "description": "PERFORMER Firmware Update \u2013 Windows v1.3.0.13 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/Software/RD/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.3.0.13.exe"
             },
@@ -321,12 +321,12 @@
               "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20PERFORMER%20Firmware%20-%20Release%20Note%20History%20v1.3.0.13.pdf"
             },
             {
-              "description": "PERFORMER Firmware Update – macOS v1.2.0.10",
+              "description": "PERFORMER Firmware Update \u2013 macOS v1.2.0.10",
               "type": "Driver",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.2.0.10%20%28Updater%201.0.5%29.dmg"
             },
             {
-              "description": "PERFORMER Firmware Update – Windows v1.2.0.10",
+              "description": "PERFORMER Firmware Update \u2013 Windows v1.2.0.10",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.2.0.10%20%28Updater%201.0.4%29.exe"
             },
@@ -336,12 +336,12 @@
               "url": "https://cdn.inmusicbrands.com/rane/performer/Release%20Notes%20-%20Rane%20PERFORMER%20Firmware%20v1.2.0.10.pdf"
             },
             {
-              "description": "PERFORMER Firmware Update – macOS v1.1.0.13",
+              "description": "PERFORMER Firmware Update \u2013 macOS v1.1.0.13",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.1.0.13%20%28Updater%201.0.3%29.dmg"
             },
             {
-              "description": "PERFORMER Firmware Update – Windows v1.1.0.13",
+              "description": "PERFORMER Firmware Update \u2013 Windows v1.1.0.13",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.1.0.13%20%28Updater%201.0.3%29.exe"
             },
@@ -356,12 +356,12 @@
           "model": "Rane One MKII",
           "downloads": [
             {
-              "description": " ONE MKII Firmware Update – macOS v1.2.0.2 (Latest Version)",
+              "description": " ONE MKII Firmware Update \u2013 macOS v1.2.0.2 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/one-mkii/FW1202/Rane%20ONE%20MKII%20Firmware%20Updater%20For%20Firmware%201.2.0.2%20%28Updater%201.0.2%29%201.dmg"
             },
             {
-              "description": " ONE MKII Firmware Update – Windows v1.2.0.2 (Latest Version) ",
+              "description": " ONE MKII Firmware Update \u2013 Windows v1.2.0.2 (Latest Version) ",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/one-mkii/FW1202/Install%20Rane%20ONE%20MKII%20Firmware%20Updater%20For%20Firmware%201.2.0.2%20%28Updater%201.0.2%29.exe"
             },
@@ -749,6 +749,27 @@
       "limits": [
         "82 manual inputs and16 separately selected steady lamps. Desktop-driver/external-bridge MIDI required. Direct iPad USB/audio access remains unqualified.",
         "No automatic audio, settings/query/reset/driver command, inferred sibling protocol or bundled executable source. Full pages/lifecycle/calibration and physical/A10X acceptance remain open."
+      ]
+    },
+    {
+      "request": "R374",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+          "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+          "member": "Applications/DEX4.app/Contents/Resources/controllers/Numark__NS6.js",
+          "memberSHA256": "c6c3b21dcbdafd73e6802d43619af04466abd742a5a3259effc7e3ed063d6d42",
+          "review": "Read-only original NS6 handlers. Deck channels1-4, shared global0, cyclic CC0/32 and32 steady CC outputs. No installer or source code executed."
+        },
+        {
+          "url": "https://www.numark.com/product/ns6",
+          "review": "Manufacturer specifies3600 positions per revolution, legacy desktop MIDI driver and PC source selection. No direct iPad USB/audio claim."
+        }
+      ],
+      "limits": [
+        "99 manual inputs and32 separately selected lamp recipes. Desktop-driver/bridge MIDI and separate app audio required. No NS6II inheritance.",
+        "No TEST-labelled platter mode, layer-setting write, driver installation or automatic audio. Full features/lifecycle/calibration and physical/A10X acceptance remain open."
       ]
     }
   ]

@@ -917,6 +917,23 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for bad in [products+products,products[:100],products+'<li data-hardware-target="midinote ios">Unknown: Screen</li>',products.replace('mac ios','mac unknown',1)]:
             with self.assertRaises(ValueError):read_djay(bad)
 
+    def test_original_ns6_reuses_cyclic_decoder_without_inheriting_ns6ii_wires_or_driver_claims(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Numark NS6"),None)
+        self.assertIsNotNone(item,"Add original NS6 public protocol facts with the existing cyclic counter decoder")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),99)
+        self.assertEqual(len(item["outputs"]),32)
+        self.assertFalse(item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        jogs=[r for r in item["inputs"] if r["action"] in {"jogA","jogB"}]
+        self.assertEqual([r["channel"] for r in jogs],[1,2,3,4])
+        self.assertTrue(all(r["encoding"]=="cyclic14BitJog" and r["number"]==0 and r["lowNumber"]==32 and r["argument"]==3600 for r in jogs))
+        self.assertFalse(any("NS6II" in a for a in item["aliases"]))
+        from original_ns6 import NS6_REFERENCES
+        cached=ROOT/"TestBuilds/r301/upstream/controllers/Numark__NS6.js"
+        if cached.exists():self.assertEqual(hashlib.sha256(cached.read_bytes()).hexdigest(),NS6_REFERENCES[item["id"]]["memberSHA256"])
+
     def test_dj4set_manual_driver_port_keeps_four_deck_note_channels_and_shared_cc_channel(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="Hercules DJ 4Set"),None)

@@ -966,3 +966,8 @@ Physical polarity/taper/jog acceptance remains open.
 Default7-bit pitch stays separate from the documented alternate low-bit format. Both jog streams use250 counts.
 Sixteen steady lamp recipes require separate manual feedback selection. Driver/bridge, native iPad USB/audio and full modes remain open.
 No deck, Shift, jog-lock/sensitivity, curve or update-all-controls command is sent.
+
+Original NS6 uses99 manual inputs and32 CC lamp recipes from its own public mapping.
+Existing cyclic14BitJog decoding retains explicit CC0/32 pairs,16384 wrap and3600 positions per revolution.
+Deck channels2-5 stay separate from shared channel1 mixer/browse controls. Side reports retire counters and holds.
+Use the exposed desktop-driver/bridge MIDI port and separate app audio. No NS6II inheritance or TEST platter setup runs.

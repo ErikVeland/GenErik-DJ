@@ -4806,3 +4806,18 @@ Physical/reported Shift inputs retain side identity across A/C or B/D note-chann
 Validation:207 Python checks and eight focused native tests passed, including the154-profile held-Cue corpus. The real-WAV fixture verifies exact250-count normal scratch, Cue/bend release, bank cleanup, finite audio and saved Sync. The iPad framework compiled and its resource matches the source. All254 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r373/validation.json`.
 
 The catalogue has255 data recipes. Automatic core coverage remains193 of343 physical models, with150 without automatic core controls. Full theoretical support and physical/A10X acceptance remain open.
+
+
+## R374 original NS6 cyclic jog and manual core
+
+Assumption: reuse the existing cyclic decoder only for the independently reviewed original NS6 wire format.
+
+The pinned [public DEX member](https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg) supplies99 manual inputs and32 steady CC lamp recipes. The [manufacturer](https://www.numark.com/product/ns6) independently specifies3600 positions per revolution and a desktop MIDI driver. No NS6II wire map is inherited.
+
+Deck channels2-5 retain their transport, five Hot Cues and fresh CC0/32 counter pairs. The first pair primes position. The existing decoder wraps at16384. Shared channel1 carries distinct mixer MSBs and browsing. Tempo retains the explicitly qualified inverted7-bit MSB. Shared physical Shift identities guard each side independently. Layer reports retire side contacts, pickup and counters without guessing report values or writing device settings.
+
+Use an exposed desktop-driver/bridge MIDI port, PC sources and separate app audio. Physical strip order is C/A/B/D. C/D require app opt-in. Direct iPad USB/audio, Strip Search, loops/sampler, FX, reverse/Slip, range switching, full output/lifecycle and physical calibration remain open. No TEST-labelled platter mode, driver, screen/platter animation or startup/shutdown command is imported.
+
+Validation:208 Python checks and eight focused native tests passed, including the154-profile held-Cue corpus. Real-WAV fixtures verified3600-count scratch movement, Cue release, bank cleanup, finite audio and saved Sync. The iPad framework compiled and its resource matches the source. All255 earlier recipes remain identical. An initial native run rejected a missing explicit low-byte address. The failed log is retained. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r374/validation.json`.
+
+The catalogue has256 data recipes. Automatic core coverage remains193 of343 physical models, with150 without automatic core controls. Full theoretical support and physical/A10X acceptance remain open.

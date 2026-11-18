@@ -31453,12 +31453,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
         "https://www.algoriddim.com/hardware/ns6"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:original-ns6-public-core"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Numark NS6",
+      "automaticControls": false,
       "comparisonSupport": {
         "djay": {
           "sourceName": "Numark NS6",
@@ -31470,40 +31475,133 @@
           "source": "https://www.algoriddim.com/hardware/ns6"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "browsePreviousGroup",
+        "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "jogA:a",
+        "jogA:c",
+        "jogB:b",
+        "jogB:d",
+        "jogTouchA:a",
+        "jogTouchA:c",
+        "jogTouchB:b",
+        "jogTouchB:d",
+        "keylockA:a",
+        "keylockA:c",
+        "keylockB:b",
+        "keylockB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownA:c",
+        "pitchBendDownB:b",
+        "pitchBendDownB:d",
+        "pitchBendUpA:a",
+        "pitchBendUpA:c",
+        "pitchBendUpB:b",
+        "pitchBendUpB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "shift",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d",
+        "tempoA:a",
+        "tempoA:c",
+        "tempoB:b",
+        "tempoB:d"
+      ],
+      "inputBindingCount": 99,
+      "feedbackBindingCount": 32,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual exposed desktop-driver/bridge MIDI port. Select PC sources and use separate app audio. Deck channels2-5 on the wire (zero-based1-4); shared global/mixer channel1 (zero-based0). Physical strip order C/A/B/D. C/D require app opt-in."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Desktop driver/bridge, direct iPad USB/audio and hardware/software source ownership remain unqualified. Manual core only; tempo/mixer use qualified seven-bit MSBs. Strip Search, loops/sampler pages, FX, reverse/Slip, tempo ranges, full output/lifecycle/calibration and physical/A10X acceptance remain open. Separate manual feedback selection. No TEST-labelled platter mode, device-layer/setting write, driver install, startup/shutdown or audio-route command is sent.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -332624,6 +332722,35 @@
         },
         {
           "reason": "Desktop driver/bridge and native iPad USB/audio access remain open. Default channels1/2, four-deck mode and7-bit pitch only. Eight-bit pitch alternate, K/Shifted-K pages, loops/FX, modifiers/search, library focus, microphone/recording, full feedback/lifecycle/hardware audio ownership/calibration and physical/A10X acceptance remain open. Feedback requires separate manual selection. No query, Shift/deck/jog/sensitivity/curve setting, driver installation or sibling wire protocol is inferred."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:original-ns6-public-core",
+      "name": "Numark NS6",
+      "transport": "midi",
+      "source": {
+        "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+        "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+        "member": "Applications/DEX4.app/Contents/Resources/controllers/Numark__NS6.js",
+        "memberSHA256": "c6c3b21dcbdafd73e6802d43619af04466abd742a5a3259effc7e3ed063d6d42",
+        "relatedSources": [
+          {
+            "url": "https://www.numark.com/product/ns6"
+          }
+        ],
+        "review": "Read-only review of the pinned original NS6-specific DEX member. Native reuses its own existing cyclic14BitJog decoder for deck-channel1-4 CC0/32 counter pairs, priming the first fresh pair and wrapping16384. The manufacturer independently specifies3600 positions per revolution and a desktop MIDI driver. No NS6II wire map is inherited. Manual fixed touch scratch uses Note44, with normal Play17, held Cue16, Sync15, Keylock27, bends24/25, five Hot Cues19-23 and side-specific Load14/12. Physical Shift18 shares A/C or B/D identity but guards sides independently, replacing the source's left-only delete guard bug. Shared channel0 mixer retains the explicit per-deck MSB addresses and C/A/B/D physical strip order; master67, monitor66, blend18/crossfader7 and strict1/127 browse68 stay separate. Tempo1 uses only the source-qualified inverted seven-bit MSB; a14-bit low-byte pairing is not inferred from the product's general resolution claim. Control reports80/81 retire side contacts/pickup/counters for any value, without guessing their value-to-deck semantics or writing a deck choice. Thirty-two steady Play/Cue/Keylock/Hot Cue outputs use the source's distinct CC addresses. Source setup contains a TEST-labelled platter mode and unrelated output writes/sleeps; none are imported. Strip Search, loops/sampler pages, FX, reverse/Slip, range switching, full lifecycle/audio ownership/calibration and physical/A10X acceptance remain open. Use an exposed desktop-driver/bridge MIDI port and separate app audio, with PC sources. No driver installation, device mode write, screen/platter animation, startup/shutdown or audio route is inferred. No downloaded executable source is copied, run or bundled."
+      },
+      "implementedInputCount": 99,
+      "implementedOutputCount": 32,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Desktop driver/bridge, direct iPad USB/audio and hardware/software source ownership remain unqualified. Manual core only; tempo/mixer use qualified seven-bit MSBs. Strip Search, loops/sampler pages, FX, reverse/Slip, tempo ranges, full output/lifecycle/calibration and physical/A10X acceptance remain open. Separate manual feedback selection. No TEST-labelled platter mode, device-layer/setting write, driver install, startup/shutdown or audio-route command is sent."
         }
       ]
     }

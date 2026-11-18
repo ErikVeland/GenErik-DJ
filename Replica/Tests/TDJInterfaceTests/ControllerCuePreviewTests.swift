@@ -2313,3 +2313,25 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueOriginalNS6CyclicScratchUses3600CountsAndRestoresSync() async throws {
+    try await withControllerCuePlayback("Numark NS6",manual:true) { model,input in
+        cuePreviewPacket([0x91,16,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x81,16,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        cuePreviewPacket([0x91,44,127,0xB1,0,0,32,0],to:input)
+        cuePreviewPacket([0xB1,0,0,32,2],to:input)
+        try await Task.sleep(for:.milliseconds(80))
+        _ = model.playback.core.renderOffline(frames:4096)
+        model.refreshPlayback()
+        let sampleRate = try #require(model.track(.a)?.analysis.sampleRate)
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1)-sampleRate*1.8*2/3600)<=1)
+        cuePreviewPacket([0xB0,80,1,0x91,17,127,17,0,25,127,0x81,25,127],to:input)
+        let audio = model.playback.core.renderOffline(frames:4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}
