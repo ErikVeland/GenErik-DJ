@@ -1030,3 +1030,28 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueBeatpad2NativeTouchShiftCleanupAndFourBeatLoopKeepSync() async throws {
+    try await withControllerCuePlayback("Beatpad 2") { model, input in
+        cuePreviewPacket([0x90, 99, 127, 0xB0, 99, 66], to: input)
+        try await Task.sleep(for: .milliseconds(80))
+        let samples = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        let sampleRate = try #require(model.track(.a)?.analysis.sampleRate)
+        #expect(
+            abs(
+                (model.playbackSnapshot?.a.sourceFrame ?? -1) - sampleRate * 1.8 * 2
+                    / ControllerCountJogMotion.defaultResolution) <= 1)
+        #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
+        cuePreviewPacket([0x90, 28, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(!model.controllerJogTouched.contains(.a))
+        cuePreviewPacket([0x90, 28, 0, 94, 127, 0x80, 94, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        model.setLoopSize(8, deck: .a)
+        cuePreviewPacket([0x92, 8, 127], to: input)
+        #expect(model.performance.loopBeats(for: .a) == 4)
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}

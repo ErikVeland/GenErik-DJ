@@ -861,6 +861,24 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_beatpad2_generation_keeps_pad_wire_channels_and_factory_pitch(self):
+        runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item = next((row for row in runtime["profiles"] if row["id"] == "Reloop Beatpad 2"), None)
+        self.assertIsNotNone(item, "Beatpad 2 needs its own recipe")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual([(r["channel"], r["number"], r["encoding"]) for r in item["inputs"] if r["action"] in {"jogA", "jogB"}],
+                         [(0, 99, "binaryOffset"), (1, 99, "binaryOffset")])
+        self.assertEqual([(r["channel"], r["kind"], r["encoding"]) for r in item["inputs"] if r["action"] in {"tempoA", "tempoB"}],
+                         [(0, "pitch", "centredPitch"), (1, "pitch", "centredPitch")])
+        self.assertEqual({r["channel"] for r in item["inputs"] if r["action"].startswith("hotcue")}, {2, 3})
+        self.assertLessEqual(len(item["startup"]) + len(item["shutdown"]), 64)
+        self.assertNotIn("audioOutput", item)
+        from beatpad2 import BEATPAD2_SOURCES
+        for name, digest in BEATPAD2_SOURCES:
+            path = ROOT / "TestBuilds/r289/manufacturer" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_mixtour_generation_keeps_transport_cues_and_pro_identity_separate(self):
         runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item = next((row for row in runtime["profiles"] if row["id"] == "Reloop Mixtour"), None)
@@ -1762,7 +1780,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for name, source in MANUFACTURER_MODELS:
             model = next(item for item in catalogue["models"] if item["id"] == canonical(name))
             self.assertIn(source, model["sources"])
-            self.assertEqual(model["zeroConfig"]["automaticControls"], name in {"Reloop Mixtour"})
+            self.assertEqual(model["zeroConfig"]["automaticControls"], name in {"Reloop Mixtour", "Reloop Beatpad 2"})
             self.assertFalse(model["theoreticalSupport"]["complete"])
         model_ids = {model["id"] for model in catalogue["models"]}
         for row in catalogue["benchmarkRows"]:

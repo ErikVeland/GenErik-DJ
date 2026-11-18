@@ -3264,3 +3264,36 @@ Inline review retained the repository's serial-work rule; no reviewer agent was 
 The repository check retains twelve historical broken links.
 Factory coverage reaches 138 profiles for 146 physical models, plus six other native models. The benchmark remains 65/122.
 Source base: `90b8822`. No signed app, install, hardware test or A10X acceptance forms part of this increment.
+
+## R290 separate Beatpad 2 core
+
+Assumption: Beatpad 2 uses the factory MIDI configuration and firmware 0.17 or later, as specified by Reloop's published mapping.
+It keeps a separate identity from the original Beatpad. Its factory chart defines separate EQ and pad-page messages.
+The companion factory Traktor mapping supplies the omitted normal transport, full pitch, contact and relative encoder definitions.
+No vendor script, binary or Traktor settings run in the app.
+
+Implementation plan and checks:
+
+- [x] Verify expected failures for automatic separate-model detection and normal transport, touch/jog, pitch, EQ and cue pages.
+- [x] Add `beatpad2.py` and register its hashed chart/mapping sources. Keep the two deck, two pad and global wire channels explicit.
+- [x] Use known Shift reports to release contacts and rearm pickup/debounce. Guard the published fader-start Play-address collision.
+- [x] Retain only reviewed loop actions and steady feedback. Keep other velocity, aftertouch, sampler and FX pages inactive.
+- [x] Run importer checks, focused native fixtures, real-file playback and iPad framework compilation; verify the bundled resource and unchanged prior recipes.
+
+The native default jog resolution remains subject to calibration. Audio order, complete EQ-mode reset ownership, other pad functions, shifted transport alternatives, lifecycle and physical acceptance remain open.
+
+The recipe has 93 inputs and 26 steady outputs. It sends no unverified startup packet and clears only its owned outputs on shutdown.
+Active deck definitions specify centre-64 jogs. The active mixer definition specifies centre-64 browse; stale copies in other TSI device records do not override these facts.
+Shift presses and explicit Note Off releases clean contacts and input state. Independent Shift identities retain a shared held layer.
+A Note On zero release clears that Shift input normally; input state is already rearmed by its press.
+
+All 17 focused Swift checks, 121 importer checks and native iPad framework compilation pass.
+The compiled resource matches the source. All 173 earlier recipes remain unchanged.
+The first native run rejected the recipe because note-bank rules require an explicit positive trigger value.
+That failed log and the expected pre-implementation failures remain in `TestBuilds/r290/`.
+The review also removed an assumption about the order of independent contact releases.
+Inline review retained the repository's serial-work rule; no reviewer agent was started.
+The repository check retains twelve historical broken links.
+Factory coverage reaches 139 profiles for 147 physical models, plus six other native models. The benchmark remains 65/122.
+Source base: `dc10926`. Sources were retrieved in `TestBuilds/r289/manufacturer/`; validation is in `TestBuilds/r290/`.
+No signed app, install, controller hardware test or A10X acceptance forms part of this increment.
