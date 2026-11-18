@@ -386,6 +386,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private var decoders: [Int32: ControllerMIDIDecoder] = [:]
     @ObservationIgnored private var smk25Decoders: [Int32: ControllerSMK25Decoder] = [:]
     @ObservationIgnored private var cdj101Decoders: [Int32: ControllerCDJ101Decoder] = [:]
+    @ObservationIgnored private var manualInputProtocols: [Int32: ControllerProfileData.InputProtocol] = [:]
     @ObservationIgnored private var bridgeDecoders: [Int32: ControllerBridgeDecoder] = [:]
     @ObservationIgnored private var bridgeConnected = false
     @ObservationIgnored private var pendingFeedback: [UInt8]?
@@ -425,6 +426,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private var savedPlayerDecks: [Int32: DeckID] = [:]
     private static let storageKey = "controllers.midiBindings.v1"
     private static let activeInputsStorageKey = "controllers.midiActiveInputs.v1"
+    private static let inputProtocolsStorageKey = "controllers.midiInputProtocols.v1"
     private static let feedbackStorageKey = "controllers.midiFeedback.v1"
 
     init(
@@ -461,6 +463,12 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             let saved = try? JSONDecoder().decode([ControllerBinding].self, from: data), saved.count <= 256
         {
             bindings = saved
+        }
+        if let data = preferences.data(forKey: Self.inputProtocolsStorageKey), data.count <= 4096,
+            let saved = try? JSONDecoder().decode([Int32: ControllerProfileData.InputProtocol].self, from: data),
+            saved.count <= 64
+        {
+            manualInputProtocols = saved.filter { source, _ in bindings.contains { $0.source == source } }
         }
         if let data = preferences.data(forKey: Self.activeInputsStorageKey),
             let saved = try? JSONDecoder().decode([Int32].self, from: data), saved.count <= 64
@@ -867,6 +875,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     func applyFactoryProfile(_ profile: ControllerFactoryProfile) {
         guard !originalZ1Bridge, let selected else { return }
         releaseMomentaryActions(source: selected)
+        setManualInputProtocol(profile.definition?.inputProtocol, source: selected)
         bindings.removeAll { $0.source == selected }
         bindings.append(contentsOf: profile.bindings(source: selected, playerDeck: playerDeck(source: selected)))
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
@@ -969,8 +978,30 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         let data = try? JSONEncoder().encode(activeInputIDs.sorted())
         preferences.set(data, forKey: Self.activeInputsStorageKey)
     }
+    private func inputProtocol(for source: Int32) -> ControllerProfileData.InputProtocol? {
+        if let session = factorySessions.first(where: { $0.source == source }) {
+            return session.profile.definition?.inputProtocol
+        }
+        return manualInputProtocols[source]
+    }
+
+    /**
+     * Resets manual protocol state and reconnects only when the required input port changes.
+     */
+    private func setManualInputProtocol(_ input: ControllerProfileData.InputProtocol?, source: Int32) {
+        let wasConnected = connectedEndpoints[source] != nil
+        manualInputProtocols[source] = input
+        decoders[source] = nil
+        smk25Decoders[source] = nil
+        cdj101Decoders[source] = nil
+        if wasConnected, connectedPorts[source] != inputPort(for: source) {
+            disconnectInput(source)
+            connectInput(source)
+        }
+    }
+
     private func inputPort(for id: Int32) -> MIDIPortRef {
-        if factoryBindings[id] != nil || (originalZ1Bridge && id == selected) { return port }
+        if factoryBindings[id] != nil || inputProtocol(for: id) != nil || (originalZ1Bridge && id == selected) { return port }
         return protocolPort != 0 ? protocolPort : port
     }
     @discardableResult private func connectInput(_ id: Int32) -> Bool {
@@ -1417,12 +1448,14 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     }
     func clearBindings() {
         guard let selected else { return }
+        releaseMomentaryActions(source: selected)
         if let session = factorySessions.first(where: { $0.source == selected }) {
             customFactoryInputs[factoryInputKey(session)] = nil
             preferences.set(try? JSONEncoder().encode(customFactoryInputs), forKey: "controllers.factory.customInputs")
             setFactoryDisabled(true, profile: session.profile, source: selected)
             reconcileFactoryProfiles()
         }
+        setManualInputProtocol(nil, source: selected)
         bindings.removeAll { $0.source == selected }
         values.removeAll()
         valueStates.removeAll()
@@ -1441,6 +1474,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         }
         releaseMomentaryActions(source: selected)
         let profile = Self.ddjFLX4Bindings(source: selected)
+        setManualInputProtocol(nil, source: selected)
         bindings.removeAll { $0.source == selected }
         bindings.append(contentsOf: profile)
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
@@ -1462,6 +1496,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         }
         releaseMomentaryActions(source: selected)
         let profile = Self.ddjFLX10Bindings(source: selected)
+        setManualInputProtocol(nil, source: selected)
         bindings.removeAll { $0.source == selected }
         bindings.append(contentsOf: profile)
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
@@ -1482,6 +1517,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         }
         releaseMomentaryActions(source: selected)
         let profile = Self.ddj1000Bindings(source: selected)
+        setManualInputProtocol(nil, source: selected)
         bindings.removeAll { $0.source == selected }
         bindings.append(contentsOf: profile)
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
@@ -1508,6 +1544,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         }
         releaseMomentaryActions(source: selected)
         let profile = Self.ddjREV1Bindings(source: selected)
+        setManualInputProtocol(nil, source: selected)
         bindings.removeAll { $0.source == selected }
         bindings.append(contentsOf: profile)
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
@@ -1529,6 +1566,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         }
         releaseMomentaryActions(source: selected)
         let profile = Self.ddjREV5Bindings(source: selected)
+        setManualInputProtocol(nil, source: selected)
         bindings.removeAll { $0.source == selected }
         bindings.append(contentsOf: profile)
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
@@ -1692,6 +1730,10 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         bindingCount = bindings.count
         takeoverStates.removeAll()
         if let data = try? JSONEncoder().encode(bindings) { preferences.set(data, forKey: Self.storageKey) }
+        manualInputProtocols = manualInputProtocols.filter { source, _ in bindings.contains { $0.source == source } }
+        if let data = try? JSONEncoder().encode(manualInputProtocols) {
+            preferences.set(data, forKey: Self.inputProtocolsStorageKey)
+        }
         rememberFactoryOverrides()
     }
     private func releaseMomentaryActions(source: Int32? = nil, resetJogs: Bool = true, decks: Set<DeckID>? = nil) {
@@ -1751,7 +1793,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             status = "Controller input overload. Reconnect to continue."
             return nil
         }
-        if factorySessions.first(where: { $0.source == source })?.profile.definition?.inputProtocol == .smk25II {
+        if inputProtocol(for: source) == .smk25II {
             var decoder = smk25Decoders[source, default: .init()]
             let events = decoder.append(bytes)
             smk25Decoders[source] = decoder
@@ -1772,7 +1814,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             return events.count
         }
         let messages: [ControllerMIDIMessage]
-        if factorySessions.first(where: { $0.source == source })?.profile.definition?.inputProtocol == .cdj101 {
+        if inputProtocol(for: source) == .cdj101 {
             var decoder = cdj101Decoders[source, default: .init()]
             messages = decoder.append(bytes, timestamp: timestamp)
             cdj101Decoders[source] = decoder
@@ -1821,7 +1863,9 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 guard let count = receiveBytes(bytes, source: sourceID, limit: 256 - processed, timestamp: frame.timestamp) else { return }
                 processed += count
                 continue
-            case .messages(let input): messages = input
+            case .messages(let input):
+                guard inputProtocol(for: sourceID) == nil else { continue }
+                messages = input
             }
             processed += messages.count
             guard processed <= 256 else {

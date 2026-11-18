@@ -1620,3 +1620,27 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueManualProtocolNativeVendorCuePlayKeepAudioAndSync() async throws {
+    try await withControllerCuePlayback("SMK-25 II") { model, input in
+        input.sources = [
+            .init(
+                id: 10, reference: 100, name: "Unmapped MIDI",
+                identity: .init(id: 10, device: 1, names: ["Unmapped MIDI"]))
+        ]
+        input.destinations = []
+        input.reconcileFactoryProfiles()
+        input.select(10)
+        input.applyFactoryProfile(try #require(ControllerFactoryProfile.matching(["SMK-25 II"])))
+        input.receiveBytes([0xF0, 0x35, 0x59, 0x10, 93, 127, 0xF7], source: 10)
+        input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0xF0, 0x35, 0x59, 0x10, 94, 127, 0xF7, 0xF0, 0x35, 0x59, 0x10, 93, 0, 0xF7], source: 10)
+        input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.touchActive == false && model.playbackSnapshot?.a.phase.active == true)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}

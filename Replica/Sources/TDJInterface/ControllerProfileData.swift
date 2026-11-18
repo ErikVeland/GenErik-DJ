@@ -2,7 +2,7 @@ import Foundation
 import TDJCore
 
 struct ControllerProfileData: Decodable, Sendable {
-    enum InputProtocol: String, Decodable, Sendable {
+    enum InputProtocol: String, Codable, Sendable {
         case smk25II, cdj101
     }
     enum AudioOutput: String, Decodable, Sendable {

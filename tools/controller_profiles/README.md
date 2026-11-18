@@ -751,3 +751,10 @@ The callback records arrival time before queuing input. A delayed main-thread dr
 Input state resets on disconnect. Output expansion passes the existing frame limit before dispatch.
 Native player assignment separates software decks from wire channels1/2. Source143 ticks at45 RPM becomes193.05 effective native ticks.
 Full spinback/Shift/outer-wheel behaviour, output ownership, complete lifecycle and physical acceptance remain open.
+
+### Manual vendor input protocols (R329)
+
+Manual application retains the closed `inputProtocol` tag against that source ID, alongside its saved bindings.
+SMK-25 II and CDJ-101 use the byte input port on unnamed endpoints. Known factory identities retain their own wire protocol.
+A profile change resets fragments, bank/click state and held contacts. Ordinary and legacy profile replacements clear the manual tag.
+Restoration checks metadata size, source count and binding ownership. Hardware startup/output remains separate from manual input conversion.

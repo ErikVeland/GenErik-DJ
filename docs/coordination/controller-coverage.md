@@ -4025,3 +4025,19 @@ All163 importer checks,22 native checks and iPad framework compilation pass. Nat
 Swift first rejected a compact test endpoint expression. Explicit endpoint fixtures resolve that compiler limit. A later fixture counted the existing neutral wheel-stop events as input dispatch. It now excludes those required cleanup events. Failed logs remain in `TestBuilds/r328/`.
 Earlier209 recipes retain identical data. The compiled resource matches the source byte for byte. The catalogue reaches210 data recipes and176 automatic-core physical models. The automatic-core remainder is136. Full theoretical support remains open for312 models. The repository check retains twelve historical broken links.
 Exact outer-wheel/spinback/Shift alternatives, output-channel ownership, complete feedback/lifecycle/calibration, signed app/install and physical/A10X acceptance remain open. Continue through the remaining source-backed controllers.
+
+## R329 Manual factory protocol retention
+
+Assumption: a manually applied vendor profile must retain its input decoder on an unnamed MIDI endpoint. Profile selection authorises input conversion. It does not qualify or send hardware startup/output packets.
+
+- [x] Reproduce missing SMK-25 II and CDJ-101 manual decoding on generic ports.
+- [x] Persist a bounded, closed protocol tag per manual source. Route those sources through the byte port. Reset fragments, click/bank state and held contacts when the protocol changes. Retain factory identity precedence.
+- [x] Clear the tag when ordinary or legacy profiles replace it, or bindings are cleared. Restore only valid bounded metadata after restart.
+- [x] Verify manual vendor input, restart, replacement, cleanup, source isolation and unchanged automatic adapters. Run importer checks and compile the iPad framework. Preserve the catalogue byte for byte.
+
+This change covers input protocol metadata only. Manual startup/output, factory-only pad-mode metadata, physical USB/MIDI-port acceptance and A10X performance remain open.
+
+Manual SMK-25 II and CDJ-101 profiles now retain a closed protocol tag beside their saved source bindings. They use the byte input port, reset protocol state on replacement and preserve source-owned contacts. Ordinary and legacy replacements clear the tag. Automatic factory identities retain protocol precedence. Converted MIDI2 frames cannot bypass an active byte-protocol adapter.
+All163 importer checks,30 native checks and iPad framework compilation pass. Native checks include manual vendor input, timed Load, restart without stale bank state, six ordinary/legacy replacements, clear/reset, independent source ownership, invalid/oversized/unowned preferences, factory precedence and a manual real-WAV Cue/Play flow with Sync retained. Automatic adapter regressions and145 held-Cue profiles pass.
+All210 runtime recipes, catalogue JSON and generated report stay byte for byte unchanged. The compiled resource matches the source. Automatic core remains176 physical models with136 remaining. Full theoretical support remains open for312 models. The repository check retains twelve historical broken links.
+Manual hardware startup/output, factory-only pad-mode metadata, signed app/install and physical/A10X acceptance remain open. Continue through the remaining source-backed controllers.
