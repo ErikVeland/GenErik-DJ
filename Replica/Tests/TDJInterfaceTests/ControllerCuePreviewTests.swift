@@ -1962,3 +1962,24 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCataloguePrimeAIONativeCuePlayMixerAndLoopKeepAudioAndSync() async throws {
+    for name in ["Denon DJ PRIME GO", "Denon DJ PRIME 2"] {
+        try await withControllerCuePlayback(name, manual: name.hasSuffix("2")) { model, input in
+            cuePreviewPacket([0x92, 9, 127], to: input)
+            #expect(model.playbackSnapshot?.a.touchActive == true)
+            cuePreviewPacket([0x82, 9, 127, 0x92, 10, 127, 10, 0], to: input)
+            #expect(model.playbackSnapshot?.a.touchActive == false)
+            cuePreviewPacket([0xB0, 3, 64, 4, 64, 6, 64, 8, 64, 14, 127, 0xBF, 12, 64], to: input)
+            if name.hasSuffix("GO") {
+                model.setLoopSize(4, deck: .a)
+                cuePreviewPacket([0x92, 39, 127, 39, 0], to: input)
+                #expect(model.playbackSnapshot?.a.loopEnabled == true)
+            }
+            let audio = model.playback.core.renderOffline(frames: 4096)
+            model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        }
+    }
+}

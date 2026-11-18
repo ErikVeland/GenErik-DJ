@@ -13672,46 +13672,88 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services"
+        "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services",
+        "https://raw.githubusercontent.com/ghuntley/denon-prime4/dfb7c339a2f6c29909d4bd24abadf858ae7c6b9e/engineos/usr/Engine/AssignmentFiles/PresetAssignmentFiles/JC16/JC16_Controller_Assignments.qml"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:prime-aio-jc16"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Denon DJ PRIME 2",
+      "automaticControls": false,
+      "controlActions": [
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "loopSizeA:a",
+        "loopSizeB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 49,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Original PRIME 2 Computer-mode raw USB MIDI core. Select manually with a separate software audio path. Pads, jogs, displays and automatic audio routing remain unavailable."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Original PRIME 2 only. Manual firmware-defined subset; host setup and audio ownership remain unqualified. Pads/Bank/mode selectors, dual Color FX, jog/touch/calibration, displays, full output/setup/lifecycle/audio and physical/A10X acceptance remain open. No sibling protocol or persistent setting is inferred.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -14003,46 +14045,86 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services"
+        "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services",
+        "https://raw.githubusercontent.com/ghuntley/denon-prime4/dfb7c339a2f6c29909d4bd24abadf858ae7c6b9e/engineos/usr/Engine/AssignmentFiles/PresetAssignmentFiles/JP11/JP11_Controller_Assignments.qml"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:prime-aio-jp11"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Denon DJ PRIME GO",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopSizeA:a",
+        "loopSizeB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b"
+      ],
+      "inputBindingCount": 43,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Original PRIME GO Computer-mode raw USB MIDI core. Fixed A/B controls select automatically. Pads, jogs, displays and automatic audio routing remain unavailable."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Original PRIME GO only. Automatic core input after Computer-mode selection, not full zero-config. Pads/Bank/mode selectors, dual Color FX, jog/touch/calibration, displays, full output/setup/lifecycle/audio and physical/A10X acceptance remain open. No sibling protocol or persistent setting is inferred."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -322890,6 +322972,72 @@
         },
         {
           "reason": "Manual original ONE only. RaneOne class/setup, motor/platter, held main Cue, exact pitch, ambiguous Sync3/loop-out55, custom pads/stems/mic mappings, mixer/audio ownership, full output/lifecycle and physical/A10X acceptance remain open. No motor, persistent setting or output command is sent. ONE MKII is not an alias."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:prime-aio-jp11",
+      "name": "Denon DJ PRIME GO",
+      "transport": "midi",
+      "source": {
+        "url": "https://raw.githubusercontent.com/ghuntley/denon-prime4/dfb7c339a2f6c29909d4bd24abadf858ae7c6b9e/engineos/usr/Engine/AssignmentFiles/PresetAssignmentFiles/JP11/JP11_Controller_Assignments.qml",
+        "sha256": "f504676a2fe5db4b606c7c76e5a6a003b6322f735d52edda612ee3e0e3ec751b",
+        "revision": "dfb7c339a2f6c29909d4bd24abadf858ae7c6b9e",
+        "relatedSources": [
+          {
+            "url": "https://community.algoriddim.com/uploads/short-url/rAIfzO9LTEQ9yieTC9G0gXh03N3.djayMidiMa",
+            "sha256": "31fcd153a66777006aad2d7763112e13cb1fa1d131ec1724f24be6e9345c7254"
+          },
+          {
+            "url": "https://community.algoriddim.com/uploads/short-url/43E6f5rpFAlDsjHKSg5MuaWUmvp.djayMidiMa",
+            "sha256": "17472eba26eb0eb2ce1ca05c804d1748ceb580d55dd5dd4ce7defa6655ec6d3a"
+          },
+          {
+            "url": "https://community.algoriddim.com/t/add-support-for-denon-prime-go/16241?page=3"
+          },
+          {
+            "url": "https://virtualdj.com/manuals/hardware/denon/primego/setup.html"
+          },
+          {
+            "url": "https://virtualdj.com/manuals/hardware/denon/primego/layout/mixer.html"
+          }
+        ],
+        "review": "Independent JP11 factory assignment explicitly names this model, global channel15, deck channels2/3 and mixer channels0/1. Normal Play10/Cue9/Sync8/bends29/30 and loop-sizeCC32 are distinct from mixer PFL Note13 and gain/high/mid/low/level CC3/4/6/8/14. Global cue-mix12/monitor13/crossfader14 are separate CC. Two public owner exports agree on fixed Play/Cue/Load/normal mixer/browse addresses and contain no customClassName. Later export also corroborates PFL, bends, Sync and loop39. Factory PlayCue component independently identifies held main Cue9; the numbered owner cue key alone is not that proof. Factory SpeedSlider explicitly pairsCC31/75 and inverts it. Import one paired input per deck instead of the later export's erroneous two independent speed assignments; owner comments report bouncing tempo. Browser is flipped standard rotary CC5 as in both owner exports. Shared Shift is global Note8. Hot Cue/Loop/Roll/Bank pads, hardware dual Color FX and jog touch/counter sensitivity remain unqualified and inactive. Automatic core input applies only to the exact original GO Computer-mode source. Output, screen SDK, full lifecycle/audio and physical/A10X acceptance remain open. No downloaded code, reset, motor, setup or output packet executes. No GO+, PRIME4 or SC-player alias is added."
+      },
+      "implementedInputCount": 43,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Original PRIME GO only. Automatic core input after Computer-mode selection, not full zero-config. Pads/Bank/mode selectors, dual Color FX, jog/touch/calibration, displays, full output/setup/lifecycle/audio and physical/A10X acceptance remain open. No sibling protocol or persistent setting is inferred."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:prime-aio-jc16",
+      "name": "Denon DJ PRIME 2",
+      "transport": "midi",
+      "source": {
+        "url": "https://raw.githubusercontent.com/ghuntley/denon-prime4/dfb7c339a2f6c29909d4bd24abadf858ae7c6b9e/engineos/usr/Engine/AssignmentFiles/PresetAssignmentFiles/JC16/JC16_Controller_Assignments.qml",
+        "sha256": "332f4d329cbdba26117684179d2efc2c125854959e921fb23cf2748c70396468",
+        "revision": "dfb7c339a2f6c29909d4bd24abadf858ae7c6b9e",
+        "relatedSources": [],
+        "review": "Independent JC16 factory assignment explicitly names this model, global channel15, deck channels2/3 and mixer channels0/1. Normal Play10/Cue9/Sync8/bends29/30 and loop-sizeCC32 are distinct from mixer PFL Note13 and gain/high/mid/low/level CC3/4/6/8/14. Global cue-mix12/monitor13/crossfader14 are separate CC. JC16 independently declares per-side Shift28, Keylock34, manual LoopIn37/Out38 and paired speed31/75. No original GO Shift/pitch polarity, four-pad Bank behaviour, four-deck Prime4 routing or different wheel sensitivity is inherited. Both physical Shift buttons keep independent held identities. Fixed mixer inputs mirror the app through separate audio; hardware/software ownership is unqualified. Tempo, browse direction, pads, jog/touch and held auto-loop trigger remain inactive. Manual selection stays explicit because this is a firmware assignment rather than a complete host implementation. No downloaded code, reset, motor, setup or output packet executes. No GO+, PRIME4 or SC-player alias is added."
+      },
+      "implementedInputCount": 49,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Original PRIME 2 only. Manual firmware-defined subset; host setup and audio ownership remain unqualified. Pads/Bank/mode selectors, dual Color FX, jog/touch/calibration, displays, full output/setup/lifecycle/audio and physical/A10X acceptance remain open. No sibling protocol or persistent setting is inferred."
         }
       ]
     },

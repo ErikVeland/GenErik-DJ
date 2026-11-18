@@ -1000,6 +1000,31 @@ class GeneratedCatalogueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
 
+    def test_prime_go_and_prime2_use_independent_assignments_and_no_pad_jog_or_sibling_inference(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        for name,automatic,count in [("Denon DJ PRIME GO",True,43),("Denon DJ PRIME 2",False,49)]:
+            item=next((r for r in runtime["profiles"] if r["id"]==name),None)
+            self.assertIsNotNone(item,name+" needs its independent fixed input core")
+            self.assertEqual(item["autoSelect"],automatic)
+            self.assertEqual(len(item["inputs"]),count)
+            self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+            self.assertNotIn("audioOutput",item)
+            self.assertNotIn("inputProtocol",item)
+            self.assertFalse(any(i["action"].startswith(("hotcue","jog","filter")) for i in item["inputs"]))
+            tempo=[i for i in item["inputs"] if i["action"].startswith("tempo")]
+            if automatic:
+                self.assertEqual(len(tempo),2)
+                self.assertTrue(all(i["encoding"]=="paired14Bit" and i["number"]==31 and i["lowNumber"]==75 and i["inverted"] for i in tempo))
+            else:self.assertFalse(tempo)
+        from prime_all_in_one import PRIME_AIO_SOURCES,GO_OWNER_ROWS
+        for folder,filename,digest in PRIME_AIO_SOURCES:
+            self.assertEqual(hashlib.sha256((ROOT/folder/filename).read_bytes()).hexdigest(),digest)
+        for filename in ["PRIME-GO-JiPenade.djayMidiMapping","PrimeGo-djGeronimo2.1.djayMidiMapping"]:
+            source=plistlib.loads((ROOT/"TestBuilds/r348/upstream"/filename).read_bytes())
+            self.assertNotIn("customClassName",source)
+            rows={(r.get("keyPath"),r["midiChannel"],r["midiData"],r["midiMessageType"]) for r in source["controls"] if not r.get("condition") and not r.get("modifier")}
+            for row in GO_OWNER_ROWS:self.assertIn(row,rows)
+
     def test_original_rane_one_uses_separate_owner_rows_without_inheriting_mk2_sync_off(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="Rane ONE"),None)
@@ -2819,7 +2844,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for name, source in MANUFACTURER_MODELS:
             model = next(item for item in catalogue["models"] if item["id"] == canonical(name))
             self.assertIn(source, model["sources"])
-            self.assertEqual(model["zeroConfig"]["automaticControls"], name in {"Reloop Mixtour", "Reloop Beatpad 2", "Numark Stealth Control"})
+            self.assertEqual(model["zeroConfig"]["automaticControls"], name in {"Reloop Mixtour", "Reloop Beatpad 2", "Numark Stealth Control", "Denon DJ PRIME GO"})
             self.assertFalse(model["theoreticalSupport"]["complete"])
         model_ids = {model["id"] for model in catalogue["models"]}
         for row in catalogue["benchmarkRows"]:
