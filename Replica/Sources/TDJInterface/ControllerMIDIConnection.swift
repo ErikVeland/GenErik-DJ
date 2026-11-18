@@ -2032,7 +2032,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             }
             return events.count
         }
-        if inputProtocol(for: source) == .sc5000M {
+        if inputProtocol(for: source) == .sc5000M || inputProtocol(for: source) == .denonPrimePlayer {
             var decoder = sc5000MDecoders[source, default: .init()]
             let events = decoder.append(bytes)
             sc5000MDecoders[source] = decoder

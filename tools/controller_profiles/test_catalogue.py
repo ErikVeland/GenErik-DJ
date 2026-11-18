@@ -998,6 +998,31 @@ class GeneratedCatalogueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
 
+    def test_prime_players_have_independent_factory_assignments_and_no_jog_motor_or_auto_loop_inference(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        for name in ["Denon DJ SC6000 PRIME","Denon DJ SC6000M PRIME","Denon DJ SC5000 PRIME"]:
+            item=next((r for r in runtime["profiles"] if r["id"]==name),None)
+            self.assertIsNotNone(item,name+" needs independent normal transport evidence")
+            self.assertFalse(item["autoSelect"])
+            self.assertEqual(item["inputProtocol"],"denonPrimePlayer")
+            self.assertEqual(len(item["inputs"]),79)
+            self.assertFalse(item["startup"] or item["shutdown"] or item["outputs"])
+            self.assertFalse(any(i["action"].startswith(("jog","tempo","toggleFixedLoop")) for i in item["inputs"]))
+        from prime_players import PRIME_MODELS
+        import re
+        for name,hardware,digest in PRIME_MODELS:
+            source=ROOT/"TestBuilds/r341/upstream"/(hardware+"-assignments.qml")
+            self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(),digest)
+            text=source.read_text()
+            for component,fields in [("GlobalAssignmentConfig",{"midiChannel":0}),("Layer",{"note":11}),
+                    ("PlayCue",{"playNote":1,"cueNote":2}),("BeatJump",{"prevNote":3,"nextNote":4}),
+                    ("ManualLoop",{"inNote":8,"outNote":9}),("AutoLoop",{"pushNote":10,"turnCC":3}),
+                    ("BrowseEncoder",{"pushNote":18,"turnCC":6}),("Sync",{"syncNote":20}),
+                    ("KeyLock",{"note":22}),("PitchBend",{"minusNote":24,"plusNote":25}),
+                    ("Shift",{"note":26}),("ActionPads",{"firstPadNote":32})]:
+                block=re.search(r"\b"+component+r"\s*\{([^}]+)\}",text).group(1)
+                for key,value in fields.items(): self.assertRegex(block,r"\b"+key+r"\s*:\s*"+str(value)+r"\b")
+
     def test_sc5000m_uses_independent_captured_manual_protocol_without_motor_or_sibling_inference(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="Denon DJ SC5000M PRIME"),None)

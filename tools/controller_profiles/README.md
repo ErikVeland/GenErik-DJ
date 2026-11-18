@@ -851,3 +851,10 @@ The manual111-binding core supports normal transport/loops/browser, Hot Cue1–8
 Motor/platter counters, pitch bend and absent Note40 touch never become jog or tempo input. No motor or screen command is sent.
 The closed manual protocol tag persists with bindings. Deck, mode, fragments and held state reset on replacement/reconnect.
 Motor/hand inference, platter/pitch calibration, screen/touch bulk protocol, complete output/lifecycle/audio and physical acceptance remain open.
+
+### Separate Prime player normal contracts (R341)
+
+`prime_players.py` pins separate JP13/JP14/JP07 factory assignment files for SC6000, SC6000M and SC5000.
+Each manual79-input profile uses a separate `denonPrimePlayer` tag with the bounded common transport decoder. SC5000M's stored tag and111-input recipe stay unchanged.
+Tests check each factory component/address independently. Model-specific jog sensitivity, motor/touch, pitch LED direction and parameter addresses are excluded.
+Firmware assignments establish normal addresses, not a complete host SDK. Cold-start Computer-mode setup, other pad modes, output/displays/audio and physical acceptance remain open.

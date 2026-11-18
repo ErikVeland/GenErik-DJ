@@ -1837,3 +1837,21 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCataloguePrimePlayersNativeCuePlayKeepAudioAndSync() async throws {
+    for name in ["Denon DJ SC6000 PRIME", "Denon DJ SC6000M PRIME", "Denon DJ SC5000 PRIME"] {
+        try await withControllerCuePlayback(name, manual: true) { model, input in
+            input.receiveBytes([0x90, 2, 127], source: 10)
+            #expect(model.playbackSnapshot?.a.touchActive == true)
+            input.receiveBytes([0x90, 11, 127, 11, 0, 0x80, 2, 127], source: 10)
+            #expect(model.playbackSnapshot?.a.touchActive == false)
+            input.receiveBytes([0x90, 11, 127, 11, 0, 1, 127, 1, 0], source: 10)
+            input.flushPendingActions()
+            let audio = model.playback.core.renderOffline(frames: 4096)
+            model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+            #expect(model.playbackSnapshot?.a.touchActive == false)
+        }
+    }
+}

@@ -14057,46 +14057,96 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services"
+        "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services",
+        "https://raw.githubusercontent.com/ghuntley/denon-prime4/dfb7c339a2f6c29909d4bd24abadf858ae7c6b9e/engineos/usr/Engine/AssignmentFiles/PresetAssignmentFiles/JP07/JP07_Controller_Assignments.qml"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:prime-player-jp07"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Denon DJ SC5000 PRIME",
+      "automaticControls": false,
+      "controlActions": [
+        "browse",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "hotcue5A:a",
+        "hotcue5B:b",
+        "hotcue6A:a",
+        "hotcue6B:b",
+        "hotcue7A:a",
+        "hotcue7B:b",
+        "hotcue8A:a",
+        "hotcue8B:b",
+        "jumpBackA:a",
+        "jumpBackB:b",
+        "jumpForwardA:a",
+        "jumpForwardB:b",
+        "keylockA:a",
+        "keylockB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutOrExitA:a",
+        "loopOutOrExitB:b",
+        "loopSizeA:a",
+        "loopSizeB:b",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 79,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual raw SC5000 PRIME Computer-mode input. Native LAYER selects A/B, starting A. Hot Cue1–8 only; other pad modes are inactive. Model-specific jog/touch/motor/pitch/display and complete USB lifecycle remain unqualified. Separate audio required."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Manual raw Computer-mode only. Independent factory assignments establish normal addresses, not a complete host SDK. Other pad modes/Shift alternatives, track-skip loading, parameter buttons, model-specific jog/touch/sensitivity, motor, pitch polarity/range, screens, dynamic lamps, complete setup/output/lifecycle/audio and physical/A10X acceptance remain open. No factory reset, motor or lifecycle packet is sent. Native LAYER selects A/B only.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -14219,46 +14269,96 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services"
+        "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services",
+        "https://raw.githubusercontent.com/ghuntley/denon-prime4/dfb7c339a2f6c29909d4bd24abadf858ae7c6b9e/engineos/usr/Engine/AssignmentFiles/PresetAssignmentFiles/JP13/JP13_Controller_Assignments.qml"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:prime-player-jp13"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Denon DJ SC6000 PRIME",
+      "automaticControls": false,
+      "controlActions": [
+        "browse",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "hotcue5A:a",
+        "hotcue5B:b",
+        "hotcue6A:a",
+        "hotcue6B:b",
+        "hotcue7A:a",
+        "hotcue7B:b",
+        "hotcue8A:a",
+        "hotcue8B:b",
+        "jumpBackA:a",
+        "jumpBackB:b",
+        "jumpForwardA:a",
+        "jumpForwardB:b",
+        "keylockA:a",
+        "keylockB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutOrExitA:a",
+        "loopOutOrExitB:b",
+        "loopSizeA:a",
+        "loopSizeB:b",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 79,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual raw SC6000 PRIME Computer-mode input. Native LAYER selects A/B, starting A. Hot Cue1–8 only; other pad modes are inactive. Model-specific jog/touch/motor/pitch/display and complete USB lifecycle remain unqualified. Separate audio required."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Manual raw Computer-mode only. Independent factory assignments establish normal addresses, not a complete host SDK. Other pad modes/Shift alternatives, track-skip loading, parameter buttons, model-specific jog/touch/sensitivity, motor, pitch polarity/range, screens, dynamic lamps, complete setup/output/lifecycle/audio and physical/A10X acceptance remain open. No factory reset, motor or lifecycle packet is sent. Native LAYER selects A/B only.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -14274,46 +14374,96 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services"
+        "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services",
+        "https://raw.githubusercontent.com/ghuntley/denon-prime4/dfb7c339a2f6c29909d4bd24abadf858ae7c6b9e/engineos/usr/Engine/AssignmentFiles/PresetAssignmentFiles/JP14/JP14_Controller_Assignments.qml"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:prime-player-jp14"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Denon DJ SC6000M PRIME",
+      "automaticControls": false,
+      "controlActions": [
+        "browse",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "hotcue5A:a",
+        "hotcue5B:b",
+        "hotcue6A:a",
+        "hotcue6B:b",
+        "hotcue7A:a",
+        "hotcue7B:b",
+        "hotcue8A:a",
+        "hotcue8B:b",
+        "jumpBackA:a",
+        "jumpBackB:b",
+        "jumpForwardA:a",
+        "jumpForwardB:b",
+        "keylockA:a",
+        "keylockB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutOrExitA:a",
+        "loopOutOrExitB:b",
+        "loopSizeA:a",
+        "loopSizeB:b",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 79,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual raw SC6000M PRIME Computer-mode input. Native LAYER selects A/B, starting A. Hot Cue1–8 only; other pad modes are inactive. Model-specific jog/touch/motor/pitch/display and complete USB lifecycle remain unqualified. Separate audio required."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Manual raw Computer-mode only. Independent factory assignments establish normal addresses, not a complete host SDK. Other pad modes/Shift alternatives, track-skip loading, parameter buttons, model-specific jog/touch/sensitivity, motor, pitch polarity/range, screens, dynamic lamps, complete setup/output/lifecycle/audio and physical/A10X acceptance remain open. No factory reset, motor or lifecycle packet is sent. Native LAYER selects A/B only.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -322120,6 +322270,90 @@
         },
         {
           "reason": "Manual raw Computer-mode only. Motor/platter hand inference, measured native gearing, pitch slider polarity/range, screen/touch bulk protocol, hardware track-skip loading, Roll/Slicer/Shift alternatives, dynamic per-deck lamp shadowing, complete setup/output/lifecycle/audio and physical/A10X acceptance remain open. No motor output, factory reset or sibling protocol is sent or inferred. Native LAYER selects A/B only."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:prime-player-jp13",
+      "name": "Denon DJ SC6000 PRIME",
+      "transport": "midi",
+      "source": {
+        "url": "https://raw.githubusercontent.com/ghuntley/denon-prime4/dfb7c339a2f6c29909d4bd24abadf858ae7c6b9e/engineos/usr/Engine/AssignmentFiles/PresetAssignmentFiles/JP13/JP13_Controller_Assignments.qml",
+        "sha256": "b0582096e4b51118a831ef08fd6679c17089298d7ed4261f5c4c29f43e0c3d44",
+        "revision": "dfb7c339a2f6c29909d4bd24abadf858ae7c6b9e",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/wiki/Reverse-Engineering#denon-engine-dj-hardware"
+          }
+        ],
+        "review": "Independently pinned model-specific factory assignment declares channel0, LAYER11, Play1/Cue2, jump3/4, loops8/9/10, Load18/browseCC6, Sync20, Keylock22, held bend24/25, Shift26, Hot Cue mode27/raw pads32..39 and loop-sizeCC3. Reuse only this common normal input contract with the captured Prime player's bounded two-deck decoder. Native LAYER selects A/B and Hot Cue1..8; other pad modes stay inactive. Track-skip5/6 is not library browsing. Parameter buttons52/53 differ from the public LC6000 table's68/69 and remain inactive. Non-motorised assignments declare JogWheel CC17/49 and sensitivity1638.7; motorised assignments declare Motorized CC54 and no touch. Pitch LED orientation also differs between motorised and non-motorised assignments. None of those model-specific controls, calibration values or output meanings is inherited. These firmware assignments corroborate normal wire addresses; they are not a complete host SDK or proof of Computer-mode setup/USB lifecycle. Manual raw Computer-mode selection, transport-only scope and separate audio remain explicit. Jog/touch, motor, pitch, screen, full output/lifecycle/audio and physical/A10X acceptance remain open. No reset, motor, setup, light or screen packet is sent."
+      },
+      "implementedInputCount": 79,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual raw Computer-mode only. Independent factory assignments establish normal addresses, not a complete host SDK. Other pad modes/Shift alternatives, track-skip loading, parameter buttons, model-specific jog/touch/sensitivity, motor, pitch polarity/range, screens, dynamic lamps, complete setup/output/lifecycle/audio and physical/A10X acceptance remain open. No factory reset, motor or lifecycle packet is sent. Native LAYER selects A/B only."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:prime-player-jp14",
+      "name": "Denon DJ SC6000M PRIME",
+      "transport": "midi",
+      "source": {
+        "url": "https://raw.githubusercontent.com/ghuntley/denon-prime4/dfb7c339a2f6c29909d4bd24abadf858ae7c6b9e/engineos/usr/Engine/AssignmentFiles/PresetAssignmentFiles/JP14/JP14_Controller_Assignments.qml",
+        "sha256": "8563b6734d799637efe7a6c0c9ec45c78077ff54f0bc9bf376bb6df1c5d5db49",
+        "revision": "dfb7c339a2f6c29909d4bd24abadf858ae7c6b9e",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/wiki/Reverse-Engineering#denon-engine-dj-hardware"
+          }
+        ],
+        "review": "Independently pinned model-specific factory assignment declares channel0, LAYER11, Play1/Cue2, jump3/4, loops8/9/10, Load18/browseCC6, Sync20, Keylock22, held bend24/25, Shift26, Hot Cue mode27/raw pads32..39 and loop-sizeCC3. Reuse only this common normal input contract with the captured Prime player's bounded two-deck decoder. Native LAYER selects A/B and Hot Cue1..8; other pad modes stay inactive. Track-skip5/6 is not library browsing. Parameter buttons52/53 differ from the public LC6000 table's68/69 and remain inactive. Non-motorised assignments declare JogWheel CC17/49 and sensitivity1638.7; motorised assignments declare Motorized CC54 and no touch. Pitch LED orientation also differs between motorised and non-motorised assignments. None of those model-specific controls, calibration values or output meanings is inherited. These firmware assignments corroborate normal wire addresses; they are not a complete host SDK or proof of Computer-mode setup/USB lifecycle. Manual raw Computer-mode selection, transport-only scope and separate audio remain explicit. Jog/touch, motor, pitch, screen, full output/lifecycle/audio and physical/A10X acceptance remain open. No reset, motor, setup, light or screen packet is sent."
+      },
+      "implementedInputCount": 79,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual raw Computer-mode only. Independent factory assignments establish normal addresses, not a complete host SDK. Other pad modes/Shift alternatives, track-skip loading, parameter buttons, model-specific jog/touch/sensitivity, motor, pitch polarity/range, screens, dynamic lamps, complete setup/output/lifecycle/audio and physical/A10X acceptance remain open. No factory reset, motor or lifecycle packet is sent. Native LAYER selects A/B only."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:prime-player-jp07",
+      "name": "Denon DJ SC5000 PRIME",
+      "transport": "midi",
+      "source": {
+        "url": "https://raw.githubusercontent.com/ghuntley/denon-prime4/dfb7c339a2f6c29909d4bd24abadf858ae7c6b9e/engineos/usr/Engine/AssignmentFiles/PresetAssignmentFiles/JP07/JP07_Controller_Assignments.qml",
+        "sha256": "1d8d978bcc2150125ae0f89912746064e0c8c9731767c88ad6abb3cdde61b7f4",
+        "revision": "dfb7c339a2f6c29909d4bd24abadf858ae7c6b9e",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/wiki/Reverse-Engineering#denon-engine-dj-hardware"
+          }
+        ],
+        "review": "Independently pinned model-specific factory assignment declares channel0, LAYER11, Play1/Cue2, jump3/4, loops8/9/10, Load18/browseCC6, Sync20, Keylock22, held bend24/25, Shift26, Hot Cue mode27/raw pads32..39 and loop-sizeCC3. Reuse only this common normal input contract with the captured Prime player's bounded two-deck decoder. Native LAYER selects A/B and Hot Cue1..8; other pad modes stay inactive. Track-skip5/6 is not library browsing. Parameter buttons52/53 differ from the public LC6000 table's68/69 and remain inactive. Non-motorised assignments declare JogWheel CC17/49 and sensitivity1638.7; motorised assignments declare Motorized CC54 and no touch. Pitch LED orientation also differs between motorised and non-motorised assignments. None of those model-specific controls, calibration values or output meanings is inherited. These firmware assignments corroborate normal wire addresses; they are not a complete host SDK or proof of Computer-mode setup/USB lifecycle. Manual raw Computer-mode selection, transport-only scope and separate audio remain explicit. Jog/touch, motor, pitch, screen, full output/lifecycle/audio and physical/A10X acceptance remain open. No reset, motor, setup, light or screen packet is sent."
+      },
+      "implementedInputCount": 79,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual raw Computer-mode only. Independent factory assignments establish normal addresses, not a complete host SDK. Other pad modes/Shift alternatives, track-skip loading, parameter buttons, model-specific jog/touch/sensitivity, motor, pitch polarity/range, screens, dynamic lamps, complete setup/output/lifecycle/audio and physical/A10X acceptance remain open. No factory reset, motor or lifecycle packet is sent. Native LAYER selects A/B only."
         }
       ]
     },

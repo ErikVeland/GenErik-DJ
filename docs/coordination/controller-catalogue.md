@@ -9,7 +9,7 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 319 total catalogue records. 312 name physical models. The remainder identify software endpoints or protocol families.
-- 221 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 224 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 167 factory profiles select core controls automatically for 175 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - 131 physical models still lack automatic core controls.
@@ -226,8 +226,8 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 56 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 53 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 59 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 50 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -448,10 +448,10 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Denon DJ PRIME 2 | primary | protocol-needed | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
 | Denon DJ PRIME GO | primary | protocol-needed | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
 | Denon DJ PRIME GO+ | primary | protocol-needed | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
-| Denon DJ SC5000 PRIME | primary | protocol-needed | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
+| Denon DJ SC5000 PRIME | primary | partial-midi-profile | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
 | Denon DJ SC5000M PRIME | primary | partial-midi-profile | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
-| Denon DJ SC6000 PRIME | primary | protocol-needed | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
-| Denon DJ SC6000M PRIME | primary | protocol-needed | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
+| Denon DJ SC6000 PRIME | primary | partial-midi-profile | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
+| Denon DJ SC6000M PRIME | primary | partial-midi-profile | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
 | Denon DN SC2000 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon%20DN%20SC2000.midi.xml) |
 | Denon HS5500 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon%20DN%20HS5500.midi.xml) |
 | Denon MC3000 | primary | partial-midi-profile | [Reference](https://cdn.inmusicbrands.com/denondj/legacy/mc3000/MC3000EM_ENG_IM_v00.pdf) |
