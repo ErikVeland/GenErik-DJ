@@ -4,7 +4,9 @@ import Testing
 
 @testable import TDJInterface
 
-private let legacyDJMNames = ["DJM-900NXS", "DJM-850", "DJM-750MK2", "DJM-900SRT", "DJM-750", "DJM-250MK2"]
+private let legacyDJMNames = [
+    "DJM-900NXS", "DJM-850", "DJM-750MK2", "DJM-900SRT", "DJM-750", "DJM-250MK2", "DJM-2000", "DJM-2000NXS",
+]
 
 @MainActor private func withLegacyDJMMixer(
     _ name: String, decks: [DeckID] = DeckID.allCases,
@@ -206,5 +208,28 @@ func controllerCatalogueLegacyDJMSRTAnd250SelectorsResetTheirOwnPhysicalStrip(_ 
         for selector: UInt8 in [51, 52, 53, 67] { legacyDJMPacket([0x90, selector, 127, selector, 0], input) }
         legacyDJMPacket([0xB0, 17, 127], input)
         #expect(values == [1])
+    }
+}
+
+@Test(arguments: ["DJM-2000", "DJM-2000NXS"]) @MainActor
+func controllerCatalogueLegacyDJM2000TouchscreenZonesCannotDriveTheSelectedMixer(_ name: String) throws {
+    try withLegacyDJMMixer(name) { input in
+        input.currentTargetValue = { _ in 0.5 }
+        var actions: [ControllerAction] = []
+        input.onAction = { action, _ in if !action.isJog { actions.append(action) } }
+        for number: UInt8 in [
+            1, 2, 3, 4, 5, 17, 70, 6, 7, 8, 9, 10, 18, 71, 12, 14, 15, 21, 22, 19, 72, 80, 81, 92, 82, 83, 20, 73, 11,
+            24, 26, 27,
+        ] {
+            legacyDJMPacket([0xB1, number, 64, number, 127, number, 0], input)
+            legacyDJMPacket([0x91, number, 127, number, 0], input)
+        }
+        for number: UInt8 in [56, 76, 77, 116, 117, 118, 119, 28, 60, 49, 110, 111, 112, 113, 114, 115] {
+            legacyDJMPacket([0xB0, number, 64, number, 127, number, 0], input)
+        }
+        for number: UInt8 in [73, 74, 75, 76, 81, 82, 83, 84, 85, 89, 90, 91] {
+            legacyDJMPacket([0x90, number, 127, number, 0], input)
+        }
+        #expect(actions.isEmpty)
     }
 }

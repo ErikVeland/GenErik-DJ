@@ -1089,3 +1089,6 @@ R393 adds `legacy_djm_mixers.py` with independent900NXS,850 and750MK2 manufactur
 
 
 R394 adds independent900SRT32-input, original75028-input and250MK218-input manual mixers in `more_legacy_djm_mixers.py`. A small shared field builder retains each caller's explicitly reviewed strip layout and Color presence. SRT uses C/A/B/D. Original750 has no strip Color or inherited MK2 selector.250MK2 table evidence remains cached text without table bytes/screenshots; its own operating manual is pinned.243 source checks, ten native tests and iPad framework compilation pass. Earlier279 recipes remain identical.
+
+
+R395 adds separate original2000 and2000NXS manufacturer facts in `djm2000_mixers.py`. Each manual profile has32 Zone1 mixer inputs, with required Zone1 MIDI1/Toggle and editable touchscreen Zone2 MIDI2. No source report or touchscreen action is inferred.246 source checks,11 native tests and iPad framework compilation pass. Earlier282 recipes remain identical.

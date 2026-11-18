@@ -5157,3 +5157,22 @@ The250MK2 Version1.00 table was independently reviewed as cached extracted text.
 Validation:243 Python checks and ten native tests passed, including the158-profile automatic held-Cue corpus. Independent fixtures check every mapped input, SRT deck ownership, C/D availability, direct Cue reports, source isolation, per-strip pickup, inactive original750 Color wires and absent MK2 selectors. Real-WAV fixtures retain finite, synced app-started playback on all three new models. The iPad framework compiled and the bundled resource matches the source. All279 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r394/validation.json`.
 
 The catalogue has282 recipes for552 physical models. Automatic core remains197, with355 without automatic core. First-protocol gaps fall from235 to232. Full modes/audio/lifecycle/calibration, physical/iPad/A10X acceptance and full theoretical support remain open.
+
+
+## R395 independent DJM2000 and2000NXS mixers
+
+Assumption: each model's own manufacturer chart qualifies a manual32-input app mixer. Physical CH1–4 map to native A–D. Zone1 must use MIDI1/Toggle. Touchscreen Zone2 and hardware processing remain separate.
+
+- [x] Pin and visually review both model charts.
+- [x] Add independent mixer inputs without inherited source reports or touchscreen actions.
+- [x] Verify all inputs, C/D availability, Cue states, pickup, inactive controls and real-WAV Sync.
+- [x] Run source/native checks, compile the iPad framework and preserve earlier recipes.
+
+
+The original2000 manual pages19/20 and independent2000NXS manual pages20/21 were visually reviewed and byte-hashed. Each hexadecimal chart qualifies the same32 selected native mixer fields. Settings pages25 and27 document separate MIDI channels for Zone1 and editable touchscreen Zone2. These manual profiles require Zone1 MIDI1/Toggle and Zone2 MIDI2. No factory-default claim is made. Physical CH1–4 target native A–D, with C/D behind app opt-in. Filter knobs control the native software filter.
+
+Touchscreen Frequency Mix/Sidechain Remix, editable TypeA–D, Sync Master, hardware FX/mic, curve/assignment, full modes/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. There are no invented source-selector reports, hardware writes or automatic external deck routes.
+
+Validation:246 Python checks and11 native tests passed, including the158-profile automatic held-Cue corpus. Parameterised fixtures check every input, pickup, Cue states, source/deck isolation, C/D availability and inactive touchscreen packets. All32 mixer addresses on the separate Zone2 channel stay inactive. Real-WAV fixtures retain finite, synced app-started audio. The iPad framework compiled and its bundled resource matches the source. All282 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r395/validation.json`.
+
+The catalogue has284 recipes for552 physical models. Automatic core remains197, with355 without automatic core. First-protocol gaps fall from232 to230. Full theoretical support and physical acceptance remain open.

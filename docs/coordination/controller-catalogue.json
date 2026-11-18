@@ -16337,130 +16337,6 @@
       }
     },
     {
-      "id": "pioneerdjm2000",
-      "name": "Pioneer DJ DJM-2000",
-      "manufacturer": "Pioneer",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://virtualdj.com/products/hardware.html?model=PIDJM2K"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "virtualDJ": {
-          "sourceName": "Pioneer DJ DJM-2000",
-          "category": "Clubmixers",
-          "source": "https://virtualdj.com/products/hardware.html?model=PIDJM2K"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
-      "id": "pioneerdjm2000nxs",
-      "name": "Pioneer DJ DJM-2000NXS",
-      "manufacturer": "Pioneer",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://virtualdj.com/products/hardware.html?model=pidjm2knxs"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "virtualDJ": {
-          "sourceName": "Pioneer DJ DJM-2000NXS",
-          "category": "Clubmixers",
-          "source": "https://virtualdj.com/products/hardware.html?model=pidjm2knxs"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
       "id": "pioneerdjma9",
       "name": "Pioneer DJ DJM-A9",
       "manufacturer": "Pioneer",
@@ -17398,6 +17274,206 @@
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
         "While-held5-8 rows have conflicting channel/status columns and stay inactive. Other pad modes, deletion, pitch/brake/needle/deck/application controls, feedback colour/off semantics, display, motor/platter/DVS/audio, full lifecycle and physical/A10X acceptance remain open. No output or mode/setting write is inferred."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "pioneerdjm2000",
+      "name": "Pioneer DJM-2000",
+      "manufacturer": "Pioneer",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://static.bhphoto.com/lit_files/88476.pdf",
+        "https://virtualdj.com/products/hardware.html?model=PIDJM2K"
+      ],
+      "definitions": [
+        "reviewed:djm-2000-independent-zone1-mixer"
+      ],
+      "implementation": "partial-midi-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer DJM-2000",
+      "automaticControls": false,
+      "comparisonSupport": {
+        "virtualDJ": {
+          "sourceName": "Pioneer DJ DJM-2000",
+          "category": "Clubmixers",
+          "source": "https://virtualdj.com/products/hardware.html?model=PIDJM2K"
+        }
+      },
+      "controlActions": [
+        "crossfader",
+        "cueMix",
+        "cueStateA:a",
+        "cueStateA:c",
+        "cueStateB:b",
+        "cueStateB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor"
+      ],
+      "inputBindingCount": 32,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual Zone1 MIDI channel1 and Toggle Cue-button mode. Set editable touchscreen Zone2 to MIDI channel2. Enable MIDI ON/OFF. Physical CH1-4 target native A-D. C/D require app opt-in. Configure audio separately and avoid duplicate hardware/software processing."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "partial",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Zone2 editable touchscreen messages must use the separate channel2. Zone1 Frequency Mix/Sidechain Remix and touchscreen controls, Sync Master, hardware FX/mic, curve/assignment, external deck audio, full modes/lifecycle/calibration and physical/iPad/A10X acceptance remain open. Native Filter knobs control the software filter.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "pioneerdjm2000nxs",
+      "name": "Pioneer DJM-2000NXS",
+      "manufacturer": "Pioneer",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://www.dimmer.fr/wp-content/uploads/2022/01/Pioneer-DJM-2000-Nexus-Manual-DE-EN-FR.pdf",
+        "https://virtualdj.com/products/hardware.html?model=pidjm2knxs"
+      ],
+      "definitions": [
+        "reviewed:djm-2000nxs-independent-zone1-mixer"
+      ],
+      "implementation": "partial-midi-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer DJM-2000NXS",
+      "automaticControls": false,
+      "comparisonSupport": {
+        "virtualDJ": {
+          "sourceName": "Pioneer DJ DJM-2000NXS",
+          "category": "Clubmixers",
+          "source": "https://virtualdj.com/products/hardware.html?model=pidjm2knxs"
+        }
+      },
+      "controlActions": [
+        "crossfader",
+        "cueMix",
+        "cueStateA:a",
+        "cueStateA:c",
+        "cueStateB:b",
+        "cueStateB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor"
+      ],
+      "inputBindingCount": 32,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual Zone1 MIDI channel1 and Toggle Cue-button mode. Set editable touchscreen Zone2 to MIDI channel2. Enable MIDI ON/OFF. Physical CH1-4 target native A-D. C/D require app opt-in. Configure audio separately and avoid duplicate hardware/software processing."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "partial",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Zone2 editable touchscreen messages must use the separate channel2. Zone1 Frequency Mix/Sidechain Remix and touchscreen controls, Sync Master, hardware FX/mic, curve/assignment, external deck audio, full modes/lifecycle/calibration and physical/iPad/A10X acceptance remain open. Native Filter knobs control the software filter.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -352829,6 +352905,62 @@
         },
         {
           "reason": "Manufacturer Version1.00 table was reviewed as cached extracted text. Direct table PDF bytes and screenshots were unavailable. No table byte hash or visual table claim is made."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:djm-2000-independent-zone1-mixer",
+      "name": "Pioneer DJM-2000",
+      "transport": "midi",
+      "source": {
+        "url": "https://static.bhphoto.com/lit_files/88476.pdf",
+        "cacheName": "djm2000-manual.pdf",
+        "sha256": "f617eb68e798b0376bf65cfa995b52811a56abfd3f79608a993db68ba5268c12",
+        "pages": [
+          19,
+          20,
+          25
+        ],
+        "review": "Manufacturer hexadecimal control-panel chart pages19/20 were visually reviewed. They independently qualify32 selected mixer inputs, including direct Cue CC46-49hex. Page25 specifies separate Zone1/Zone2 MIDI channels and Toggle/Trigger settings. Require Zone1 channel1/Toggle and Zone2 channel2 to separate editable touchscreen MIDI. No factory-default, NXS compatibility or undocumented source report is inferred. Touchscreen Frequency Mix/Sidechain Remix, editable TypeA-D, hardware FX/mic, full lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 32,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Zone2 editable touchscreen messages must use the separate channel2. Zone1 Frequency Mix/Sidechain Remix and touchscreen controls, Sync Master, hardware FX/mic, curve/assignment, external deck audio, full modes/lifecycle/calibration and physical/iPad/A10X acceptance remain open. Native Filter knobs control the software filter."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:djm-2000nxs-independent-zone1-mixer",
+      "name": "Pioneer DJM-2000NXS",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.dimmer.fr/wp-content/uploads/2022/01/Pioneer-DJM-2000-Nexus-Manual-DE-EN-FR.pdf",
+        "cacheName": "djm2000nxs-manual.pdf",
+        "sha256": "b796ebc63db572fd56096b0e7aa3ad2ad0c26b45b8ded9ee76c498775c39e548",
+        "pages": [
+          20,
+          21,
+          27
+        ],
+        "review": "Independent manufacturer hexadecimal control-panel chart pages20/21 were visually reviewed. It separately qualifies32 selected mixer inputs. Page27 documents Zone1/Zone2 channel and Toggle/Trigger settings. Require Zone1 channel1/Toggle and Zone2 channel2; do not infer factory defaults. The cover explicitly names2000NXS and2000nexus. Touchscreen Sync Master/MIDI, Frequency Mix/Sidechain Remix, editable TypeA-D, hardware FX/mic, full lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. No TOUR1 or original2000 mode is inherited."
+      },
+      "implementedInputCount": 32,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Zone2 editable touchscreen messages must use the separate channel2. Zone1 Frequency Mix/Sidechain Remix and touchscreen controls, Sync Master, hardware FX/mic, curve/assignment, external deck audio, full modes/lifecycle/calibration and physical/iPad/A10X acceptance remain open. Native Filter knobs control the software filter."
         }
       ]
     }

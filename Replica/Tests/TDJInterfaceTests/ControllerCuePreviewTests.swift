@@ -2615,7 +2615,7 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
     }
 }
 
-@Test(arguments: ["Pioneer DJM-900NXS", "Pioneer DJM-850", "Pioneer DJM-750MK2", "Pioneer DJM-900SRT", "Pioneer DJM-750", "Pioneer DJM-250MK2"]) @MainActor
+@Test(arguments: ["Pioneer DJM-900NXS", "Pioneer DJM-850", "Pioneer DJM-750MK2", "Pioneer DJM-900SRT", "Pioneer DJM-750", "Pioneer DJM-250MK2", "Pioneer DJM-2000", "Pioneer DJM-2000NXS"]) @MainActor
 func controllerCatalogueLegacyDJMDirectCueKeepsAppStartedRealAudioSynced(_ name: String) async throws {
     try await withControllerCuePlayback(name, manual: true) { model, input in
         input.onTargetAction?(.init(.playA, deck: .a), 1)
