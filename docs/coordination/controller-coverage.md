@@ -3659,3 +3659,17 @@ Two older catalogue assertions still expected protocol-needed status; they now r
 All185 earlier recipes remain unchanged; the compiled resource matches the source. The repository check retains twelve historical broken links.
 The catalogue has186 data recipes and161 automatic core physical models; benchmark coverage stays71/122. Full theoretical feature parity remains unimplemented.
 Source base: `bbefb6b`. No signed app, install or physical/A10X acceptance is claimed.
+
+## R306 DJM-S11 manual MIDI mixer
+
+Assumption: only the factory table's unambiguous MIDI mirror controls enter a manual recipe. Twelve A/B paired controls and four global paired controls need no custom decoder. Hardware mixing and separate deck outputs remain outside native routing, so automatic selection stays off. The browser rows conflict between channel7 and status notation Bn/9n; no wire channel is guessed. Shared pads, touchscreen modes and fader-start gestures remain excluded.
+
+- [x] Add failing generation and native fixtures for manual identity, exact pairs, channel isolation and inactive source modes.
+- [x] Add16 paired controls with no light, startup or automatic audio-route claim.
+- [x] Run importer/native checks and iPad framework compilation; compare earlier recipes and resource bytes.
+
+The manual recipe provides16 explicit paired mixer inputs and no output/lifecycle packets. It is a MIDI mirror for a separate software audio path; external mixer audio and bypass remain unavailable.
+All4 focused native checks,135 importer checks and iPad framework compilation pass. All186 earlier recipes remain unchanged; bundled bytes match the source.
+Expected failures, factory PDF/hash, reviewed page2 and validation evidence remain in `TestBuilds/r306/`. A repeated Poppler render was stopped after the required page was inspected; its log is retained.
+The repository check retains twelve historical broken links. The catalogue has187 data recipes; automatic core coverage stays161 physical models and71/122 benchmark models.
+Full theoretical feature parity remains unimplemented. Source base: `efd725f`. No signed app, install or physical/A10X acceptance is claimed.

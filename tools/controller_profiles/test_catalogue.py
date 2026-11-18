@@ -861,6 +861,21 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_djm_s11_manual_mixer_keeps_factory_pairs_and_ambiguous_browsers_inactive(self):
+        runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item = next((r for r in runtime["profiles"] if r["id"] == "Pioneer DJM-S11"), None)
+        self.assertIsNotNone(item, "S11 needs its independently sourced manual mixer recipe")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]), 16)
+        self.assertTrue(all(i["kind"] == "control" and i["encoding"] == "paired14Bit" and i["lowNumber"] == i["number"]+32 for i in item["inputs"]))
+        self.assertEqual({i["channel"] for i in item["inputs"]}, {0,1,6})
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput", item)
+        from djm_s11 import S11_SHA
+        path = ROOT / "TestBuilds/r306/upstream/DJM-S11-MIDI.pdf"
+        if path.exists():
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), S11_SHA)
+
     def test_stealth_keeps_factory_addresses_and_independent_wire_encoding_evidence(self):
         runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item = next((r for r in runtime["profiles"] if r["id"] == "Numark Stealth Control"), None)
