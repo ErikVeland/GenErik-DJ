@@ -21,6 +21,7 @@ def report(catalogue, runtime):
              "## Boundary and counts", "",
              f"- {len(catalogue['benchmarkRows'])} published Serato iOS rows, expanded to {sum(model['benchmark'] for model in models)} distinct model records.",
              f"- {len(catalogue.get('djayRows', []))} pinned djay hardware rows, with per-platform limitations kept as competitor evidence.",
+             f"- {len(catalogue.get('virtualDJRows', []))} pinned VirtualDJ products, including two passive timecode media outside the digital-device count. Product listings remain competitor evidence.",
              f"- All {len(source_definitions)} Mixxx definitions at `{catalogue['upstreamRevision']}`, including alternative MIDI, HID and bulk mappings.",
              "- All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.",
         "- Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.",

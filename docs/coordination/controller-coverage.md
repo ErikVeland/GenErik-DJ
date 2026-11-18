@@ -5094,3 +5094,29 @@ The manual separates analogue gain with the DC7 supply, optional digital crossfa
 Validation:234 Python checks and12 native tests passed. The158-profile held-Cue corpus includes MKII. Fixtures cover separate identity, both Cue release forms, duplicate suppression, disconnect/reconnect cleanup, independent cyclic counter wrap and pitch endpoints by target deck. Existing composed-modifier/pickup/feedback checks remain passing. The real-WAV touch/stop/Sync fixture now runs for both models. Earlier failed runs retain fixture diagnostics for a stale corpus count, the separate automatic binding store and unordered cross-deck event delivery. No production codec change was needed. The iPad framework compiled and the bundled resource matches the source. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r391/validation.json`.
 
 The catalogue has276 recipes. Automatic core coverage reaches197 of342 physical models, with145 without automatic core. Twenty-eight records still need a first protocol implementation. Full theoretical support, signed-app delivery and physical/iPad/A10X acceptance remain open.
+
+## R392 complete pinned VirtualDJ hardware inventory
+
+Assumption: catalogue coverage must include the public VirtualDJ list as well as the pinned Serato, djay and Mixxx lists. A competitor product entry establishes inventory scope. It does not establish our implementation or physical acceptance.
+
+- [x] Pin all487 public entries and their product URLs/categories. Resolve known naming variants without fuzzy model merges.
+- [x] Retain two passive timecode media as source evidence outside the digital-device model count.
+- [x] Add missing device records with explicit unimplemented status. Preserve every runtime recipe and existing support claim.
+- [x] Test source hash, parsing bounds, duplicates, complete row coverage and support-claim separation.
+- [x] Record the latest public package, manual, integration-key and unavailable-download findings.
+
+The [public VirtualDJ hardware list](https://virtualdj.com/products/hardware.html?view=all) has487 distinct product URLs across eight categories. The snapshot retains source names, category and product URL. A small explicit name table resolves existing NI/Hercules/Denon/Reloop and other product spellings. There is no fuzzy model merge. VVT-101 resolves to VTT-101 using the source's VTT101 product ID. SX1 remains separate from the original Next Beat. The generic original Digital Jockey row remains separate from Digital Jockey2. Two passive timecode media remain source rows outside the digital-device count. The18 sound-card/interface entries retain audio/DVS requirements rather than invented MIDI mappings.
+
+This adds210 device records, including ten previously absent Pioneer products. The earlier28 first-protocol gaps covered only the previous pinned source set. They did not cover the wider market. The catalogue now has559 records for552 physical models. Automatic core coverage remains197, with355 without automatic core and238 without a first protocol implementation. Every previous model keeps its implementation, selected profile, role, input/output counts and zero-config claims. All276 runtime recipes remain byte-identical. Full theoretical support remains0 of552. The manufacturer audit and physical acceptance remain open.
+
+Validation:237 Python checks passed. New checks cover all487 source rows, unique product URLs, source bytes, parser bounds, missing names/categories, duplicate URLs, passive-media exclusion, separate DVS requirements and unimplemented status for newly found controllers. An initial generator run used an undefined root constant. The corrected path and complete re-run pass. Failed and passing logs remain in `TestBuilds/r392/validation.json`. The repository checker retains12 historical missing-file links. No native app source or runtime resource changed, so no additional Swift build or device operation was needed.
+
+Further public-source findings:
+
+- The official VirtualDJ package was downloaded and expanded without installation or execution. Its controller artwork archive contains588 PNG files and one skin ZIP. Its other controller data file is not readable XML or a standard ZIP. No binary controller extraction, decompilation, artwork reuse, activation or account was attempted.
+- Native Instruments' current Traktor Ready index lists a Twelve MKII mapping. The published Traktor4 archive link returns404. The one checked legacy Traktor2 location also returns404. No mapping bytes were recovered.
+- The actual VFX-1 owner manual from the parts archive has14 scanned pages. All pages were reviewed as a contact sheet. It describes hardware/software effects but has no MIDI address chart. It is separate from the earlier two-page brochure and service schematic.
+- The current public Phase integration issue identifies an encrypted per-software wake-up/key requirement. The presence of a public experimental decoder does not provide that authorisation or direct iPad HID support.
+- The checked public Rane/ELITE owner discussions contain no downloadable mapping export. Current Serato download UI reports an error. The legacy ITCH download redirects to sign-in. Current djay desktop downloads lead to app stores. No account or access restriction was bypassed.
+
+The next implementation priority is the newly exposed Pioneer mixer/player gap, using each model's own usable public table. Other models follow where independent public wire facts are available. Inventory coverage does not change runtime support.

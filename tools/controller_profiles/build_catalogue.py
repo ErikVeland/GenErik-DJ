@@ -9,6 +9,7 @@ from pathlib import Path
 from convert import convert_xml
 from curated import curated_profiles, REFERENCES
 from sources import canonical, manufacturer, read_serato, read_djay, split_models
+from virtualdj_inventory import read_virtualdj
 from reviewed import REVIEWED
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY, CDJ_GAPS
@@ -251,6 +252,13 @@ def build(cache, serato_html, djay_html=None):
     if djay_html is not None:
         if hashlib.sha256(djay_html.read_bytes()).hexdigest() != djay["sha256"] or read_djay(djay_html.read_text()) != djay["rows"]:
             raise ValueError("The djay inventory differs from the reviewed lock file.")
+    virtualdj = locked["virtualdj"]
+    if not 400 <= virtualdj["rowCount"] <= 1024 or virtualdj["rowCount"] != len(virtualdj["rows"]) or len({row["url"] for row in virtualdj["rows"]}) != virtualdj["rowCount"]:
+        raise ValueError("The locked VirtualDJ inventory is incomplete or contains duplicate product URLs.")
+    virtualdj_html = Path(__file__).resolve().parents[2] / "TestBuilds/r392/upstream/virtualdj-hardware.html"
+    if virtualdj_html.exists():
+        if hashlib.sha256(virtualdj_html.read_bytes()).hexdigest() != virtualdj["sha256"] or read_virtualdj(virtualdj_html.read_text()) != virtualdj["rows"]:
+            raise ValueError("The cached VirtualDJ inventory does not match the pinned source.")
     models, definitions, profiles = {}, [], []
 
     def add_model(name, source, role="primary", benchmark_row=False):
@@ -370,6 +378,12 @@ def build(cache, serato_html, djay_html=None):
         model = add_model(entry["name"], entry["url"])
         model["comparisonSupport"] = {"djay": {"sourceName": entry["sourceName"], "platforms": entry["platforms"],
                                                "limitations": entry["limitations"], "source": entry["url"]}}
+    for entry in virtualdj["rows"]:
+        if entry["role"] == "dvs-medium":
+            continue
+        model = add_model(entry["name"], entry["url"], entry["role"])
+        model.setdefault("comparisonSupport", {})["virtualDJ"] = {
+            "sourceName": entry["sourceName"], "category": entry["category"], "source": entry["url"]}
     for model in models.values():
         candidates = [profile for profile in profiles if profile["definition"] in model["definitions"]]
         profile = next((item for item in candidates if item["id"] == model.get("profile")), None)
@@ -422,7 +436,10 @@ def build(cache, serato_html, djay_html=None):
             if model["id"] == canonical(name):
                 model["gaps"].append(pending["gap"])
         if model["implementation"] == "protocol-needed":
-            model["gaps"].append("No implemented protocol is present in the pinned references. Manufacturer protocol work is required.")
+            if model.get("comparisonSupport", {}).get("virtualDJ", {}).get("category") == "Sound cards":
+                model["gaps"].append("Audio interface or DVS kit. Native audio input/DVS routing and OS compatibility require review. A MIDI controller mapping is not implied.")
+            else:
+                model["gaps"].append("No implemented protocol is present in the pinned references. Manufacturer protocol work is required.")
         elif model["implementation"] == "adapter-needed":
             model["gaps"].append("A controller-specific protocol adapter is required.")
         elif model["implementation"] == "partial-midi-profile":
@@ -447,10 +464,12 @@ def build(cache, serato_html, djay_html=None):
                  "benchmarkSource": {"url": locked["benchmark"]["url"],
                                      "sha256": locked["benchmark"]["sha256"], "rowCount": len(benchmark)},
                  "djaySource": {key: value for key, value in djay.items() if key != "rows"}, "djayRows": djay["rows"],
+                 "virtualDJSource": {key: value for key, value in virtualdj.items() if key != "rows"}, "virtualDJRows": virtualdj["rows"],
                  "benchmarkRows": benchmark, "manufacturerInventoryReviewed": INVENTORY_REVIEWED, "models": ordered, "definitions": definitions,
-                 "releaseGate": {"catalogueCompletionScope": "Pinned software sources and the listed manufacturer additions. The market audit remains open.",
+                 "releaseGate": {"catalogueCompletionScope": "Pinned Serato, djay, VirtualDJ and Mixxx sources and listed manufacturer additions. Passive timecode media are source evidence, not digital devices. The wider manufacturer audit remains open.",
                                  "manufacturerAuditComplete": False, "catalogueComplete": all(all(canonical(name) in models for name in split_models(row["name"])) for row in benchmark)
                      and all(canonical(row["name"]) in models for row in djay["rows"])
+                     and all(canonical(row["name"]) in models for row in virtualdj["rows"] if row["role"] != "dvs-medium")
                      and {item["id"] for item in definitions if item["id"].endswith(".xml")}
                      == {Path(item["path"]).name for item in locked["mixxx"]["files"] if item["path"].endswith(".xml")}, "hardwareParityAccepted": False,
                                  "sourceReuseReviewAccepted": False,

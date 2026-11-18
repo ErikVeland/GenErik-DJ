@@ -1209,6 +1209,41 @@
         "No downloaded executable/controller script runs. Reuse covers explicitly documented VCI300MKII MIDI only.",
         "Next Beat SX1 partial map does not establish original/LX1 identity or a complete host implementation."
       ]
+    },
+    {
+      "request": "R392",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://virtualdj.com/products/hardware.html?view=all",
+          "sha256": "1ce489bb5b31b849f26d67cf7aadaea9b11c8ae25b4aec240c07a18fb0ac9d27",
+          "finding": "All487 product entries pinned. Explicit identity resolution adds210 records. Two passive timecode media excluded from digital-device model count.18 audio/DVS entries do not imply MIDI controls.552 physical models now tracked. Runtime remains byte-identical."
+        },
+        {
+          "url": "https://virtualdj.com/download/mac",
+          "sha256": "3c7eeb996ee6806f53f77c25de420a3f4ccbe5fecf379e006bb3d743ea177979",
+          "version": "8.5.9307",
+          "finding": "Official public package expanded without installation or execution. controllers2.dat is an unencrypted ZIP with588 PNG images and one skin ZIP. controllers.dat is not readable XML or a standard ZIP. No binary definition extraction or decompilation attempted."
+        },
+        {
+          "url": "https://www.vestax.parts/file/ve-vfx-1-manual-pdf/",
+          "sha256": "5e3435c4de9ad51619b0b9b450c7a67c3f4fe584d2dc0ee2771b544e3b58ab2c",
+          "finding": "Actual14-page scanned owner guide visually reviewed as a contact sheet. Hardware/software effects descriptions do not provide MIDI addresses. Separate from earlier brochure and service schematic."
+        },
+        {
+          "url": "https://support.native-instruments.com/support/solutions/articles/69000879390-third-party-traktor-ready-controllers-with-enhanced-traktor-integration",
+          "finding": "Primary source lists Twelve MK2. Published Traktor_Pro_4_Controller_Mappings/Rane/Rane_-_Rane_Twelve_MK2.zip returns404. One checked legacy Pro2 location also404. No TSI bytes recovered."
+        },
+        {
+          "url": "https://github.com/mixxxdj/mixxx/issues/12886",
+          "finding": "Public Phase integration work reports an encrypted wake-up message and per-software key requirement. Public experimental decoder does not provide an integration key or direct iPad HID support."
+        }
+      ],
+      "limits": [
+        "Inventory is competitor evidence only. None of the210 new records receives an invented runtime profile or automatic claim.",
+        "Current catalogue includes487 VirtualDJ,204 djay and pinned Serato/Mixxx rows. Wider manufacturer audit remains open.",
+        "No downloaded program, installer, mapping action or firmware runs. No account or restricted download access is bypassed."
+      ]
     }
   ]
 }

@@ -152,5 +152,8 @@ def manufacturer(name):
               "Hercules", "Numark", "Denon", "Reloop", "Vestax", "Behringer", "Novation", "Stanton",
               "Akai", "Arturia", "Korg", "Roland", "Gemini", "FaderFox", "Electrix", "MixVibes",
               "Tascam", "Intech", "Icon", "Ion", "EKS", "Yaeltex", "MidiTech", "Kontrol DJ",
-              "Casio", "Philips", "Phase SAS", "The Next Beat"]
+              "Casio", "Philips", "Phase SAS", "The Next Beat", "Akiyama", "Audiophony", "BeyondMusic",
+              "JB Systems", "Citronic", "DAP", "SKP", "Vistron", "Omnitronic", "Yahorng", "iDance",
+              "Zomo", "Hanpin", "Synq", "Vieta DJ", "Vonyx", "Voxoa", "Welljoint", "Midiplus",
+              "PCDJ", "ESI"]
     return next((brand for brand in brands if name.lower().startswith(brand.lower())), "Other")
