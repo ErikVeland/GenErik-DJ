@@ -2,6 +2,8 @@ import Foundation
 import Observation
 import TDJCore
 
+enum PlaybackInputSource: Equatable { case touch, controller }
+
 @MainActor @Observable public final class ReplicaModel {
     let controllerInput = ControllerMIDIConnection()
     let effectDisplay = EffectControlDisplay()
@@ -21,9 +23,19 @@ import TDJCore
     let recoveryState = RecoveryState()
     public var frozen: Set<DeckID> = []
     @ObservationIgnored var controllerJogTouched: Set<DeckID> = []
+    @ObservationIgnored var controllerJogTouchCommandDeck: DeckID?
+    @ObservationIgnored var controllerCueContacts: [DeckID: ControllerCueContact] = [:]
+    @ObservationIgnored var controllerPausedJogs: [DeckID: (generation: UInt64, resolution: Double, frame: Double)] = [:]
+    @ObservationIgnored var controllerCountJogs: [DeckID: ControllerCountJogMotion] = [:]
+    @ObservationIgnored var controllerCountJogTasks: [DeckID: Task<Void, Never>] = [:]
+    @ObservationIgnored var controllerCountJogTokens: [DeckID: UUID] = [:]
+    @ObservationIgnored var controllerLoopStarts: [DeckID: (generation: UInt64, frame: Double)] = [:]
+    @ObservationIgnored var controllerLoopDivisions: [DeckID: ControllerLoopDivision] = [:]
     @ObservationIgnored var controllerJogBendOffsets: [DeckID: Double] = [:]
     @ObservationIgnored var controllerJogBendTasks: [DeckID: Task<Void, Never>] = [:]
     @ObservationIgnored var controllerJogBendTokens: [DeckID: UUID] = [:]
+    @ObservationIgnored var controllerPitchBendButtons: [DeckID: ControllerPitchBendButtons] = [:]
+    @ObservationIgnored var controllerPitchBendCommandDeck: DeckID?
     public var filterLocked: Set<DeckID> = []
     public var superSlicerFamilies: [DeckID: SuperSlicerFamily] = [:]
     @ObservationIgnored private var storedLibrary: LibrarySnapshot
@@ -152,6 +164,7 @@ import TDJCore
     public var recordings: [URL] = []
     public private(set) var recordingTracklists: [URL: URL] = [:]
     @ObservationIgnored private let recordingListReader = BackgroundFileWork(label: "org.generikdj.recording-list")
+    @ObservationIgnored private var recordingLimitTask: Task<Void, Never>?
     public private(set) var recordingsRefreshing = false
     @ObservationIgnored private var recordingListWork: Task<Void, Never>?
     @ObservationIgnored private var recordingListPending = false
@@ -190,11 +203,38 @@ import TDJCore
     public func toggleRecording() async {
         cancelCloudSyncForPlayback()
         if playback.isRecording {
+            recordingLimitTask?.cancel()
+            recordingLimitTask = nil
             refreshPlayback()
             await playback.finishRecording()
         } else {
+            guard storeAccess.isUnlocked(.recording) else {
+                status = "Recording is available during the 14-day preview or with a Recording purchase."
+                return
+            }
+            guard !storeAccess.recordingLimitReached else {
+                status = "The free recording limit has been reached for this performance. End the performance or choose a Recording purchase."
+                return
+            }
             do { try await playback.startRecording(directory: recordingsDirectory, location: recordingLocation) } catch
             { status = error.localizedDescription }
+            if playback.isRecording {
+                storeAccess.beginRecording()
+                recordingLimitTask?.cancel()
+                recordingLimitTask = Task { [weak self] in
+                    try? await Task.sleep(for: .seconds(storeAccess.recordingRemaining))
+                    guard let self, !Task.isCancelled, playback.isRecording else { return }
+                    if storeAccess.previewIsActive, !storeAccess.hasPurchase(for: .recording) {
+                        let previewRemaining = max(0, storeAccess.previewEndsAt.timeIntervalSinceNow)
+                        try? await Task.sleep(for: .seconds(previewRemaining))
+                    }
+                    guard !Task.isCancelled, playback.isRecording,
+                        storeAccess.recordingLimitReached
+                    else { return }
+                    status = "The free recording limit has been reached. Playback continues."
+                    await toggleRecording()
+                }
+            }
         }
         refreshPlayback()
         refreshRecordings()
@@ -505,11 +545,12 @@ import TDJCore
         #endif
     }
     public func receiveZ1(_ report: Z1InputReport) {
+        guard acceptControllerInput() else { return }
         z1Mode = report.mode
         for action in z1Mapper.consume(report) {
             switch action {
             case .mixer(let parameter, let value, let deck): setMixer(parameter, value: value, deck: deck)
-            case .play(let deck): pressPlay(deck: deck)
+            case .play(let deck): pressPlay(deck: deck, source: .controller)
             case .cue(let deck): setMixer(.cue, value: playbackSnapshot?[deck].mixer.cue == true ? 0 : 1, deck: deck)
             case .filter(let deck):
                 setMixer(.filterEnabled, value: playbackSnapshot?[deck].mixer.filterEnabled == true ? 0 : 1, deck: deck)
@@ -536,6 +577,7 @@ import TDJCore
     let liveStems = LiveStemExperiment()
     public let calibration: SuggestionCalibration?
     public let store: WorkspaceStore
+    public let storeAccess: StoreAccess
     let service: LibraryService
     private let sessionID = UUID()
     private var tapTempos: [DeckID: TapTempo] = [:]
@@ -626,6 +668,7 @@ import TDJCore
     private var waveformZoom: [DeckID: (loadID: UUID, seconds: Double)] = [:]
     private var playbackMonitor: Task<Void, Never>?
     private var pendingLoadPlay: [DeckID: UUID] = [:]
+    private var pendingControllerPlay: Set<DeckID> = []
     public var playWhenReady: Set<DeckID> { Set(pendingLoadPlay.keys) }
     private var nativeWaveformTasks: [DeckID: Task<Void, Never>] = [:]
     private var nativeWaveformTokens: [DeckID: UUID] = [:]
@@ -644,6 +687,7 @@ import TDJCore
             musicLibraryProvider
             ?? LocalMusicLibrary(diagnosticsURL: root.appendingPathComponent("music-library-access.log"))
         store = try WorkspaceStore(root: root)
+        storeAccess = StoreAccess(root: root)
         let initialLibrary = try store.load(includeWaveforms: false)
         storedLibrary = initialLibrary
         calibration = initialLibrary.calibration
@@ -667,6 +711,7 @@ import TDJCore
             ?? []
         // Startup happens before playback; runtime refreshes use the background reader.
         recordings = SetRecorder.savedRecordings(in: self.recordingsDirectory)
+        storeAccess.start()
     }
     public func track(_ deck: DeckID) -> Track? {
         libraryObservation.access(self, keyPath: \.library)
@@ -1107,7 +1152,10 @@ import TDJCore
             onFailure?(error)
             return nil
         }
-        if nativeLoadOwner == nil { pendingLoadPlay.removeValue(forKey: deck) }
+        if nativeLoadOwner == nil {
+            pendingLoadPlay.removeValue(forKey: deck)
+            pendingControllerPlay.remove(deck)
+        }
         cancelNativeMusicAnalysis()
         deckAnalysisTasks[deck]?.cancel()
         nativeWaveformTasks[deck]?.cancel()
@@ -1226,7 +1274,8 @@ import TDJCore
                 preparingPlayback.remove(deck)
                 if pendingLoadPlay[deck] == (nativeLoadOwner ?? token) {
                     pendingLoadPlay[deck] = nil
-                    pressPlay(deck: deck, vinylStop: false)
+                    let source: PlaybackInputSource = pendingControllerPlay.remove(deck) == nil ? .touch : .controller
+                    pressPlay(deck: deck, vinylStop: false, source: source)
                 }
                 warmCuePositions(deck: deck)
                 prepareWaveform(preparedSourceTrack)
@@ -1241,7 +1290,10 @@ import TDJCore
             } catch {
                 onFailure?(error)
                 if loadTokens[deck] == token {
-                    if pendingLoadPlay[deck] == (nativeLoadOwner ?? token) { pendingLoadPlay[deck] = nil }
+                    if pendingLoadPlay[deck] == (nativeLoadOwner ?? token) {
+                        pendingLoadPlay[deck] = nil
+                        pendingControllerPlay.remove(deck)
+                    }
                     let obsoleteNativeLoad = nativeLoadOwner.map { nativeMusic.loadOwners[deck] != $0 } ?? false
                     let handledNativeFailure =
                         nativeLoadOwner != nil
@@ -1323,6 +1375,7 @@ import TDJCore
 
     func cancelDeckLoadIntent(deck: DeckID) {
         pendingLoadPlay.removeValue(forKey: deck)
+        pendingControllerPlay.remove(deck)
         deckAnalysisTasks[deck]?.cancel()
         nativeWaveformTasks[deck]?.cancel()
     }
@@ -1688,6 +1741,7 @@ import TDJCore
                     committedPreparations[deck] = nil
                     committedTrackIDs[deck] = nil
                     pendingLoadPlay.removeValue(forKey: deck)
+                    pendingControllerPlay.remove(deck)
                     trackLoadFailures[deck] = nil
                     loaded[deck] = nil
                     if lastLoadedDeck == deck { lastLoadedDeck = DeckID.allCases.first { loaded[$0] != nil } }
@@ -1825,6 +1879,8 @@ import TDJCore
         isRecording = playback.isRecording
         recordingFinishing = playback.recordingFinishing
         if wasRecording && !isRecording && !recordingFinishing {
+            recordingLimitTask?.cancel()
+            recordingLimitTask = nil
             refreshRecordings()
             if let error = playback.recordingError { status = error }
         }
@@ -1867,11 +1923,25 @@ import TDJCore
                 playback.core.asset(generation: snapshot.b.generation)?.frames
             ), lighting: lightOptions(for: "Z1"))
     }
-    public func pressPlay(deck: DeckID, vinylStop: Bool? = nil) {
+    public func pressPlay(deck: DeckID, vinylStop: Bool? = nil, source: PlaybackInputSource = .touch) {
+        controllerPausedJogs[deck] = nil
         cancelCloudSyncForPlayback()
+        if source == .controller, storeAccess.controllerLimitReached {
+            status = "The free controller limit has been reached. Use touch or choose a Controller Support purchase."
+            return
+        }
         if preparingTrack.contains(deck) {
+            guard mayStartPlayback(source: source) else { return }
             guard let owner = nativeMusic.loadOwners[deck] ?? loadTokens[deck] else { return }
-            pendingLoadPlay[deck] = pendingLoadPlay[deck] == owner ? nil : owner
+            if pendingLoadPlay[deck] == owner {
+                pendingLoadPlay[deck] = nil
+                pendingControllerPlay.remove(deck)
+            } else {
+                storeAccess.beginPerformance(controllerInput: source == .controller)
+                pendingLoadPlay[deck] = owner
+                if source == .controller { pendingControllerPlay.insert(deck) }
+                else { pendingControllerPlay.remove(deck) }
+            }
             return
         }
         if let failure = trackLoadFailures[deck], playback.core.snapshot()?[deck].phase.active != true {
@@ -1886,6 +1956,11 @@ import TDJCore
             let vinylStop = vinylStop ?? UserDefaults.standard.bool(forKey: DeckToolSettings.vinylStop)
             let state = playback.core.snapshot()?[deck]
             let wasActive = state?.phase.active == true
+            if !wasActive {
+                guard mayStartPlayback(source: source) else { return }
+            } else if source == .controller {
+                storeAccess.beginControllerUse()
+            }
             if vinylStop && state?.braking == true {
                 try playback.brake(.resume, deck: deck)
             } else if vinylStop && state?.phase == .playing {
@@ -1893,10 +1968,39 @@ import TDJCore
             } else {
                 try playback.play(deck)
             }
+            if !wasActive { storeAccess.beginPerformance(controllerInput: source == .controller) }
             if !wasActive { recoveryState.attempted[deck] = nil }
             previewing.remove(deck)
             refreshPlayback()
         } catch { status = error.localizedDescription }
+    }
+    private func mayStartPlayback(source: PlaybackInputSource) -> Bool {
+        if source == .controller, storeAccess.controllerLimitReached {
+            status = "The free controller limit has been reached. Use touch or choose a Controller Support purchase."
+            return false
+        }
+        if storeAccess.performanceLimitReached {
+            status = "The free Open Format limit has been reached. End the performance or choose an Open Format purchase."
+            return false
+        }
+        return true
+    }
+    public func endPerformance() {
+        guard let snapshot = playback.core.snapshot(), DeckID.allCases.allSatisfy({ snapshot[$0].phase.active == false }),
+            !playback.isRecording,
+            !playback.recordingFinishing
+        else {
+            status = "Stop all decks and finish recording before ending the performance."
+            return
+        }
+        storeAccess.endPerformance()
+        status = "Performance ended. The time limits have reset."
+        refreshPlayback()
+    }
+    public var canEndPerformance: Bool {
+        storeAccess.hasActivePerformance
+            && playback.core.snapshot().map { snapshot in DeckID.allCases.allSatisfy({ snapshot[$0].phase.active == false }) } == true
+            && !playback.isRecording && !playback.recordingFinishing
     }
     public func setMixer(_ parameter: MixerParameter, value: Double, deck: DeckID = .a) {
         if submitMixer(parameter, value: value, deck: deck) { refreshPlayback() }
@@ -1938,10 +2042,13 @@ import TDJCore
     }
     public func toggleSync(deck: DeckID) {
         guard let snapshot = playbackSnapshot else { return }
-        let state = snapshot[deck]
+        setSync(!snapshot[deck].synced, deck: deck)
+    }
+    public func setSync(_ enabled: Bool, deck: DeckID) {
+        guard playbackSnapshot != nil else { return }
         do {
-            let enabled = !state.synced
             try playback.setSync(enabled, deck: deck)
+            controllerPausedJogs[deck] = nil
             switch deck {
             case .a: mixerPreferences.syncA = enabled
             case .b: mixerPreferences.syncB = enabled
@@ -1970,6 +2077,7 @@ import TDJCore
     }
     public func stopAudio() {
         pendingLoadPlay.removeAll()
+        pendingControllerPlay.removeAll()
         cancelPendingNativeMusicLoads()
         persistMixerPreferences()
         refreshPlayback()

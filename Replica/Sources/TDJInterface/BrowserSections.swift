@@ -237,6 +237,7 @@ struct SettingsBrowser: View {
     @State private var showingDetail = false
     @AppStorage(FourDeckTrial.preferenceKey) private var fourDecks = false
     @AppStorage(LiveStemTrial.preferenceKey) private var liveStems = false
+    @AppStorage(StoreAccess.customDJNameKey) private var customDJName = ""
 
     var body: some View {
         GeometryReader { geometry in
@@ -342,6 +343,9 @@ struct SettingsBrowser: View {
         case .controllers:
             SettingsGroup("Devices & controls") { ControllerSettingsView(model: model) }
         case .about:
+            SettingsPageLink("Unlock features", detail: "Controller support, recording and Open Format") {
+                SettingsDetailPage("Feature access") { StoreAccessSettings(model: model) }
+            }
             SettingsGroup("Learn the controls") {
                 Button("Open gesture guide") { model.helpVisible = true }
                 Text("Share saved sets from Recordings using the share button.").font(.caption).foregroundStyle(
@@ -362,8 +366,10 @@ struct SettingsBrowser: View {
                     }
                 }
             }
-            SettingsGroup("GenErik DJ") {
-                GenErikBrandLockup()
+            SettingsGroup(
+                model.storeAccess.personalisationIsUnlocked && !customDJName.isEmpty ? customDJName : "GenErik DJ"
+            ) {
+                GenErikBrandLockup(model: model)
                 Text(
                     "Version \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "—") (\(Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "—"))"
                 )

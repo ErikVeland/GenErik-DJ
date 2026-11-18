@@ -19,6 +19,7 @@
         }
 
         private func applyS2MK1Event(_ event: S4MK2Event) {
+            guard acceptControllerInput() else { return }
             switch event {
             case .pad(let deck, let slot, let held, let shifted) where s2MK1Controls.samples.contains(deck):
                 if held { pressS2Sample(slot: S2MK3Controls.sampleSlot(deck: deck, pad: slot), shifted: shifted) }

@@ -2059,7 +2059,7 @@ static int apply(tdj_engine *e, tdj_command c) {
         transition_request(e, c.deck, 0);
         return TDJ_OK;
     }
-    if (d->state == TDJ_QUEUED)
+    if (d->state == TDJ_QUEUED && !(c.kind == TDJ_RATE && c.value == 1))
         return TDJ_UNRESOLVED;
     // Performance policies are explicit development choices pending paired TDJ1 captures.
     if (c.kind == TDJ_JUMP) {

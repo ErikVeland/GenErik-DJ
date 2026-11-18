@@ -83,6 +83,7 @@
         func applyNativeMK2Event(
             _ event: S4MK2Event, stateKey: ReferenceWritableKeyPath<ReplicaModel, S4MK2Performance> = \.s4Performance
         ) {
+            guard acceptControllerInput() else { return }
             switch event {
             case .action(let action, let deck, let value):
                 if value > 0, action.isJog || action == .jogTouchA || action == .jogTouchB {
@@ -103,7 +104,7 @@
                 if self[keyPath: stateKey].cueContacts[deck] != nil {
                     finishS4Cue(deck, continuePlaying: true, stateKey: stateKey)
                 } else {
-                    pressPlay(deck: deck, vinylStop: false)
+                    pressPlay(deck: deck, vinylStop: false, source: .controller)
                 }
             case .pot(let action, let deck, let value):
                 applyS4Pot(action, deck: deck, value: value, stateKey: stateKey)
@@ -175,7 +176,7 @@
                         self[keyPath: stateKey].loopRecall[deck] = (state.generation, state.loopStart, state.loopEnd)
                         perform(.loop, deck: deck, enabled: false)
                     } else if let loop = self[keyPath: stateKey].loopRecall[deck], loop.generation == state.generation {
-                        if stop && state.phase.active { pressPlay(deck: deck, vinylStop: false) }
+                        if stop && state.phase.active { pressPlay(deck: deck, vinylStop: false, source: .controller) }
                         setLoop(
                             start: loop.start, end: loop.end, deck: deck,
                             quantized: self[keyPath: stateKey].quantize && !stop)

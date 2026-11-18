@@ -22,6 +22,7 @@
         }
 
         private func applyS2MK2Event(_ event: S4MK2Event) {
+            guard acceptControllerInput() else { return }
             switch event {
             case .native(.mic):
                 toggleS2MK2Mic()

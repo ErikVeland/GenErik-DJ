@@ -11,6 +11,8 @@ targets:
     platform: macOS
     sources:
       - ../Sources/TDJPreview
+      - path: ../iPad/AppIcon.icon
+        buildPhase: resources
     dependencies:
       - package: GenErikDJ
         product: TDJInterface
@@ -23,6 +25,7 @@ targets:
         CODE_SIGN_STYLE: Automatic
         CODE_SIGN_IDENTITY: Apple Development
         GENERATE_INFOPLIST_FILE: YES
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         INFOPLIST_KEY_NSAppleMusicUsageDescription: Analyse local Music tracks and share preparation through your private iCloud storage.
         SWIFT_VERSION: '6.0'
         MARKETING_VERSION: '0.1.0'

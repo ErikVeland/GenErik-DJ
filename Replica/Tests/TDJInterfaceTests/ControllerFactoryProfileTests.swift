@@ -11,7 +11,8 @@ private func endpoint(_ id: Int32, device: UInt32 = 1, name: String = "DDJ-FLX4"
 @Test func controllerFactoryMatchingPreservesModelBoundaries() {
     #expect(ControllerFactoryProfile.matching(["Pioneer DJ DDJ-FLX4"]) == .flx4)
     #expect(ControllerFactoryProfile.matching(["AlphaTheta DDJ-FLX2"]) == .flx2)
-    #expect(ControllerFactoryProfile.matching(["DDJ-1000SRT"]) == nil)
+    #expect(ControllerFactoryProfile.matching(["DDJ-1000SRT"])?.rawValue == "Pioneer DDJ-1000SRT")
+    #expect(ControllerFactoryProfile.matching(["DDJ-1000SRT"]) != .ddj1000)
     #expect(ControllerFactoryProfile.matching(["DDJ-FLX4 simulator"]) == nil)
     #expect(ControllerFactoryProfile.matching(["DDJ-FLX4", "DDJ-FLX2"]) == nil)
 }

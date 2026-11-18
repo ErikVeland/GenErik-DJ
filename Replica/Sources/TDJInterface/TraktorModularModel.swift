@@ -28,6 +28,7 @@
         }
 
         private func applyZ1MK2(_ event: Z1MK2Controls.Event) {
+            guard acceptControllerInput() else { return }
             switch event {
             case .layer:
                 z1MK2Takeover.removeAll()
@@ -79,6 +80,7 @@
         }
 
         private func applyX1MK3(_ event: X1MK3Controls.Event) {
+            guard acceptControllerInput() else { return }
             switch event {
             case .action(let action, let deck):
                 let event: S4MK2Event =

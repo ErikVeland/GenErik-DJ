@@ -13,6 +13,7 @@
 		4F1D410FBB683DA5970BB914 /* MacKeyCandidateAudit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1039C0636F18EB4D031CD07E /* MacKeyCandidateAudit.swift */; };
 		724CE0AEF7AC08E7BC3138A4 /* MacLibraryAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153428DDC767749EE4929864 /* MacLibraryAnalysis.swift */; };
 		811182345D54D689236950F0 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 62983906438CAD5806D3E2FB /* AppIcon.icon */; };
+		811182345D54D689236950F1 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 62983906438CAD5806D3E2FB /* AppIcon.icon */; };
 		84C2F7BDB5CF17D71EBA448B /* TDJCore in Frameworks */ = {isa = PBXBuildFile; productRef = 6199CD81D1AF7211FF013C87 /* TDJCore */; };
 		AD632797EEB874A6510A1F16 /* TDJInterface in Frameworks */ = {isa = PBXBuildFile; productRef = 5BFB659196E7734D5A8538E9 /* TDJInterface */; };
 		B737004C9EBCE1D1AEA71F5A /* TDJInterface in Frameworks */ = {isa = PBXBuildFile; productRef = AB6D8DA99367FE561C2F2067 /* TDJInterface */; };
@@ -125,6 +126,7 @@
 			buildConfigurationList = 236CB100AE704E01578938EE /* Build configuration list for PBXNativeTarget "GenErikDJMac" */;
 			buildPhases = (
 				C683F1776696DE6CBAD2A5F4 /* Sources */,
+				97AD1851C5FE304C7924E7B5 /* Resources */,
 				FD99AF01881661534233C876 /* Frameworks */,
 			);
 			buildRules = (
@@ -204,6 +206,14 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		97AD1851C5FE304C7924E7B5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				811182345D54D689236950F1 /* AppIcon.icon in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		97AD1851C5FE304C7924E7B4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;

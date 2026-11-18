@@ -18,7 +18,7 @@ Created the macOS platform. Created Internal Testers with automatic distribution
 - External group: `4f9ffe8e-a572-4257-8b9b-b238b0dbcbe9`.
 - Internal group: `1d53909c-8e33-489b-ac41-2906dcdfa690`.
 
-Uploaded the 3840 × 1646 GenErik header to the iOS product-page draft. Apple displayed one header asset. The original generated artwork and upload export are retained in `Replica/Branding/AppStore/`. Both archives carry the current Icon Composer artwork. Apple must process the uploaded builds before their icons and testing status can be confirmed.
+Uploaded the 3840 × 1646 GenErik header to the iOS product-page draft. Apple displayed one header asset. R174 removed the rejected artwork from the project. The uploaded header still needs replacement in App Store Connect. Both archives carry the current Icon Composer artwork. Apple must process the uploaded builds before their icons and testing status can be confirmed.
 
 Beta description and feedback email are saved. The beta review contact needs Erik's phone number. The privacy-policy URL is also requested. External beta review, tester availability and physical acceptance remain open. No public App Store release was submitted.
 

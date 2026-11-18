@@ -137,7 +137,7 @@
             recallStored: Bool = false
         ) {
             endS4SliceMode(deck, stateKey: stateKey)
-            guard !preparingTrack.contains(deck), !editing.contains(deck), !arrangementPlaybackActive,
+            guard !preparingTrack.contains(deck), !editing.contains(deck),
                 let state = playback.core.snapshot()?[deck], !state.loopRolling, !state.braking,
                 playback.generations[deck] == state.generation,
                 let asset = playback.core.asset(generation: state.generation), asset.frames > 0

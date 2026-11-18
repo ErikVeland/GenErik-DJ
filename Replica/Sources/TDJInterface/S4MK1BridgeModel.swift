@@ -20,6 +20,7 @@
         }
 
         private func applyS4MK1Event(_ event: S4MK2Event) {
+            guard acceptControllerInput() else { return }
             switch event {
             case .pad(let deck, let slot, let held, let shifted):
                 guard held, s4MK1Performance.cueContacts[deck] == nil else { return }

@@ -401,6 +401,7 @@
         }
 
         private func applyFactoryControl(_ event: TraktorFactoryControls.Event, session: TraktorFactorySession) {
+            guard acceptControllerInput() else { return }
             let stateKey = \ReplicaModel.[factory: session.model]
             let deck = session.deck(event.target)
             let unit = session.fxUnit(event.target)
@@ -434,7 +435,7 @@
                     if self[keyPath: stateKey].cueContacts[deck] != nil {
                         finishS4Cue(deck, continuePlaying: true, stateKey: stateKey)
                     } else {
-                        pressPlay(deck: deck, vinylStop: false)
+                        pressPlay(deck: deck, vinylStop: false, source: .controller)
                     }
                 }
             case .sync where down: apply(.action(.syncA, deck, 1))

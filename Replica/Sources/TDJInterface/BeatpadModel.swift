@@ -50,6 +50,7 @@
         }
 
         private func applyBeatpadEvent(_ event: BeatpadEvent) {
+            guard acceptControllerInput() else { return }
             switch event {
             case .shared(.cue(let deck, held: true)):
                 pressS4Cue(deck, stateKey: \.beatpadPerformance, recallStored: true)
@@ -69,7 +70,9 @@
             case .seek(let deck, let beats):
                 beatJump(beats: beats, deck: deck)
             case .brake(let deck):
-                if playbackSnapshot?[deck].phase.active == true { pressPlay(deck: deck, vinylStop: true) }
+                if playbackSnapshot?[deck].phase.active == true {
+                    pressPlay(deck: deck, vinylStop: true, source: .controller)
+                }
             case .reverse(let deck, let held):
                 if held { resetControllerWheelJog(deck, restoreRate: false) }
                 perform(.rate, deck: deck, value: held ? -1 : 1)
@@ -109,7 +112,7 @@
             case .faderStart(let deck, let value):
                 applyController(deck == .a ? .levelA : .levelB, value: value, targetDeck: deck)
                 if value > 0, playbackSnapshot?[deck].phase.active != true {
-                    pressPlay(deck: deck, vinylStop: false)
+                    pressPlay(deck: deck, vinylStop: false, source: .controller)
                 } else if value == 0, playbackSnapshot?[deck].phase.active == true {
                     applyNativeTraktorEvent(.park(deck, atCue: true), isS3: false)
                 }

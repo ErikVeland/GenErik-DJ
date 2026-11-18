@@ -257,6 +257,18 @@ private struct RetainedFilterGrid: View, Equatable {
             }
 
             Divider()
+            if model.storeAccess.hasActivePerformance {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(model.storeAccess.isUnlocked(.openFormat)
+                        ? "Open Format · Unlocked"
+                        : "Open Format · \(remainingPerformanceTime)")
+                        .font(.caption.monospacedDigit())
+                    Button("End Performance") { model.endPerformance() }
+                        .disabled(!model.canEndPerformance)
+                    detail("Stop all decks and finish recording to reset the per-performance limits.")
+                }
+                Divider()
+            }
             level("Headphone Level", .monitor, model.playbackSnapshot?.monitorGain ?? 0.5)
             VStack(alignment: .leading, spacing: 2) {
                 Text("Headphones Mix").fontWeight(.semibold)
@@ -279,10 +291,17 @@ private struct RetainedFilterGrid: View, Equatable {
                 Button(model.z1Enabled ? "Disconnect Z1" : "Connect original Z1") { model.toggleZ1() }
                 detail(model.z1Status)
             #endif
+            SettingsPageLink("Feature access", detail: "View purchase options and restore purchases") {
+                SettingsDetailPage("Feature access") { StoreAccessSettings(model: model) }
+            }
         }
     }
 
     private var cueBlend: Double { model.playbackSnapshot?.cueBlend ?? 0 }
+    private var remainingPerformanceTime: String {
+        let seconds = Int(ceil(model.storeAccess.performanceRemaining))
+        return String(format: "%d:%02d remaining", seconds / 60, seconds % 60)
+    }
 
     private func detail(_ title: String) -> some View {
         Text(title).font(.caption).foregroundStyle(PerformancePalette.secondaryText)
