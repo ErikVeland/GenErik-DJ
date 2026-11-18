@@ -858,3 +858,11 @@ Motor/hand inference, platter/pitch calibration, screen/touch bulk protocol, com
 Each manual79-input profile uses a separate `denonPrimePlayer` tag with the bounded common transport decoder. SC5000M's stored tag and111-input recipe stay unchanged.
 Tests check each factory component/address independently. Model-specific jog sensitivity, motor/touch, pitch LED direction and parameter addresses are excluded.
 Firmware assignments establish normal addresses, not a complete host SDK. Cold-start Computer-mode setup, other pad modes, output/displays/audio and physical acceptance remain open.
+
+### RANE ONE MKII corroborated manual subset (R342)
+
+`rane_one_mk2.py` pins an independent owner archive and compares26 unconditional rows with the earlier staff export.
+The45-binding manual subset retains Load, Sync/explicit off, keylock, bends, normal loops and source-valued browsing.
+Global Shift guards normal controls. Shifted releases rearm known actions. The dedicated Sync-off message remains explicit and layer-independent.
+Absent normal Play/main Cue/motor handling, pitch pairing, external mixer audio and conditional custom-class dispatch stay inactive.
+The public exports do not include the RaneOneMK2 class. Complete output/lifecycle/audio and physical acceptance remain open. No source code or mapping executes in the app.

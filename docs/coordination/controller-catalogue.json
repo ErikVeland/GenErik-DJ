@@ -26424,49 +26424,81 @@
       "benchmark": true,
       "sources": [
         "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://raw.githubusercontent.com/Reign-712/Rane-MKII-djay/59a2b6a81451edb71b0a3c8947d09c9472c3c4d1/Rane-MKII-djay-Midi-Map.zip",
         "https://drive.google.com/file/d/1yBQ4jeM7oBpswsmKOf5WhgFYFqGWDQxc/view"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:rane-one-mkii-corroborated"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Rane ONE MKII",
+      "automaticControls": false,
+      "controlActions": [
+        "browse",
+        "keylockA:a",
+        "keylockB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutOrDoubleA:a",
+        "loopOutOrDoubleB:b",
+        "loopUpA:a",
+        "loopUpB:b",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b",
+        "syncDisableA:a",
+        "syncDisableB:b"
+      ],
+      "inputBindingCount": 45,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual unconditional ONE MKII MIDI subset through the connected USB source. Native Play/main Cue, motor/platter, paired pitch and custom-class lifecycle remain unimplemented. Separate external mixer audio required."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Manual unconditional controls only. RaneOneMK2 class, normal Play, held main Cue, motor/platter, complete pitch pairing/polarity/range, hardware/software mixer ownership and separate deck audio, conditional pads/stems/FX, full output/lifecycle and physical/A10X acceptance remain open. Source custom assignments are not factory compatibility for other RANE models. No motor, setup or output command is sent.",
         "Algoriddim staff shared this template4June2026. It declares USB1CC5:0026 and the absent RaneOneMK2 class. Its667 input-list rows include11 headings and no ordinary turntable1/2.playPause mapping. Normal Play input, platter/motor reports, startup and lifecycle are not established by this export.",
         "Two explicit output rows are Play-button lamp states on notes0/channels0/1 with values4/12; they do not establish Play input or a motor protocol. Native external deck/sampler/FX audio routing and hardware/software mixer ownership remain unimplemented.",
         "Original ONE, FOUR and SYSTEM ONE are not aliases. No motor command, transport address or automatic profile is inferred from another model. Complete theoretical support and physical acceptance remain open.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "sourceAudits": [
         {
@@ -322354,6 +322386,40 @@
         },
         {
           "reason": "Manual raw Computer-mode only. Independent factory assignments establish normal addresses, not a complete host SDK. Other pad modes/Shift alternatives, track-skip loading, parameter buttons, model-specific jog/touch/sensitivity, motor, pitch polarity/range, screens, dynamic lamps, complete setup/output/lifecycle/audio and physical/A10X acceptance remain open. No factory reset, motor or lifecycle packet is sent. Native LAYER selects A/B only."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:rane-one-mkii-corroborated",
+      "name": "Rane ONE MKII",
+      "transport": "midi",
+      "source": {
+        "url": "https://raw.githubusercontent.com/Reign-712/Rane-MKII-djay/59a2b6a81451edb71b0a3c8947d09c9472c3c4d1/Rane-MKII-djay-Midi-Map.zip",
+        "sha256": "360b582fbcb9963318d61f4b1d6d62a75900ef03c6b24b518e0c764dbcc8f0c6",
+        "revision": "59a2b6a81451edb71b0a3c8947d09c9472c3c4d1",
+        "archiveMember": "Rane-MKII-djay/RANE One MK2 Edit 1.djayMidiMapping",
+        "memberSha256": "64de686e2100a2718bcbcda4f3fbd87290ee35be00e17d6008ee1c80b778e6b8",
+        "relatedSources": [
+          {
+            "url": "https://raw.githubusercontent.com/Reign-712/Rane-MKII-djay/59a2b6a81451edb71b0a3c8947d09c9472c3c4d1/README.md",
+            "sha256": "65b7489accd82b6281aa65d4300266696ff299b90d9e900adb647e57a81e2742"
+          },
+          {
+            "url": "https://drive.google.com/file/d/1yBQ4jeM7oBpswsmKOf5WhgFYFqGWDQxc/view"
+          }
+        ],
+        "review": "Independent public owner export version1/606 rows and earlier staff version3/667 rows agree exactly on26 selected unconditional deck control rows. Both depend on absent RaneOneMK2 class and omit normal Play. Native manual subset uses Load6/Sync2/explicit Sync-off3/Keylock13/held bend12 and11 on channels0/1, loops63/65/52/53/54/55 on4/5 and flipped rotary64 BrowseCC0 on0/1. Loop Out retains out-or-double. The explicit Sync-off row has buttonMode off and remains layer-independent; no ordinary Sync press is inferred to mean off. Shared Shift comes from the explicit Shift heading's Note50/channel15. Normal controls are guarded and shifted release aliases rearm their known actions. Numbered cuePositionOrJumpConsideringPlayState1 is not assumed to establish held main Cue. No missing normal Play, motor/platter timestamps/counters, CC9/LSB pitch pair, external mixer level/EQ, conditional pads/stems/FX or complete output/lifecycle/audio route is inferred. Downloaded map/class code does not execute in the app. Automatic selection stays off. Original ONE, FOUR, PERFORMER and SYSTEM ONE stay separate. Physical/A10X acceptance remains open."
+      },
+      "implementedInputCount": 45,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual unconditional controls only. RaneOneMK2 class, normal Play, held main Cue, motor/platter, complete pitch pairing/polarity/range, hardware/software mixer ownership and separate deck audio, conditional pads/stems/FX, full output/lifecycle and physical/A10X acceptance remain open. Source custom assignments are not factory compatibility for other RANE models. No motor, setup or output command is sent."
         }
       ]
     },

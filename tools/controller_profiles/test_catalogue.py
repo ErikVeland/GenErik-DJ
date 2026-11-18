@@ -889,7 +889,9 @@ class GeneratedCatalogueTests(unittest.TestCase):
         self.assertFalse(model["zeroConfig"]["automaticControls"] or model["theoreticalSupport"]["complete"])
         self.assertIn(audit,model["sourceAudits"])
         runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
-        self.assertFalse(any(r["id"] == "Rane ONE MKII" for r in runtime["profiles"]))
+        subset=next(r for r in runtime["profiles"] if r["id"] == "Rane ONE MKII")
+        self.assertFalse(subset["autoSelect"] or subset["startup"] or subset["shutdown"] or subset["outputs"])
+        self.assertFalse(any(i["action"].startswith(("play","cue","jog","tempo","level")) for i in subset["inputs"]))
         path = ROOT / "TestBuilds/r308/upstream/RANE-One-MK2.djayMidiMapping.xml"
         if path.exists():
             self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), audit["source"]["sha256"])
@@ -997,6 +999,23 @@ class GeneratedCatalogueTests(unittest.TestCase):
         self.assertLess(len(encode_runtime(value)),len(json.dumps(value,indent=2)))
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
+
+    def test_rane_one_mk2_imports_only_independently_agreed_rows_and_keeps_missing_class_open(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Rane ONE MKII"),None)
+        self.assertIsNotNone(item,"RANE ONE MKII needs its corroborated unconditional subset")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),45)
+        self.assertFalse(item["startup"] or item["shutdown"] or item["outputs"])
+        self.assertFalse(any(i["action"].startswith(("play","cue","jog","tempo","level","gain","hotcue")) for i in item["inputs"]))
+        from rane_one_mk2 import ONE2_SHA,ONE2_ROWS
+        owner=ROOT/"TestBuilds/r342/upstream/rane-mk2.djayMidiMapping"
+        self.assertEqual(hashlib.sha256(owner.read_bytes()).hexdigest(),ONE2_SHA)
+        keys=["keyPath","midiChannel","midiData","midiMessageType","buttonMode","flipped"]
+        for path in [owner,ROOT/"TestBuilds/r308/upstream/RANE-One-MK2.djayMidiMapping.xml"]:
+            rows=plistlib.loads(path.read_bytes())["controls"]
+            selected={tuple(str(r.get(k)) for k in keys) for r in rows if not r.get("condition") and not r.get("modifier")}
+            for row in ONE2_ROWS: self.assertIn(tuple(str(row.get(k)) for k in keys),selected)
 
     def test_prime_players_have_independent_factory_assignments_and_no_jog_motor_or_auto_loop_inference(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
