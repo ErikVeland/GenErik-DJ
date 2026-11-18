@@ -430,3 +430,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R290 | In progress | Implement separate Beatpad 2 factory-source core | Added separate normal transport, native touch/jog, full pitch, mixer/filter, eight cues, source loop page, Shift cleanup and bounded steady feedback. Seventeen focused Swift checks, 121 importer checks and iPad framework compilation pass. Full modes/reset, routing and physical acceptance remain open. [Scope](controller-coverage.md#r290-separate-beatpad-2-core). |
 
 | R291 | Published; release checks open | Build and deploy the official GenErik DJ website | Ten public pages live on Glasscode at https://dj.generik.au with valid HTTPS. Erik confirmed iPad, iPhone, iPhone Duo and Mac support. Static checks, canonical redirects and public routes pass. Fresh captures, final privacy reconciliation and full device/browser accessibility checks remain open. [Scope and verification](website-r291.md). |
+
+| R292 | In progress | Link GenErik DJ and PACtrack with GlassCode Academy | Add both projects to the About catalogue and reciprocal credits. Website-only changes. Publication and link checks pending. |
