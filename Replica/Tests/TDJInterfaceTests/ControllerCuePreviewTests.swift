@@ -1704,3 +1704,21 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueSpectraNativeCuesKeepAudioAndSyncAcrossBankChanges() async throws {
+    try await withControllerCuePlayback("Midi Fighter Spectra") { model, input in
+        model.cue(slot: 0, deck: .a, delete: true)
+        #expect(model.controllerValue(.hotcue1A) == 0)
+        input.receiveBytes([0x92, 60, 127, 0x82, 60, 127], source: 10)
+        input.flushPendingActions()
+        #expect(model.controllerValue(.hotcue1A) == 1)
+        model.pressPlay(deck: .a, vinylStop: false)
+        input.receiveBytes([0x93, 0, 127, 0x92, 37, 127, 37, 0, 0x93, 1, 127, 0x92, 60, 127, 0x82, 60, 127], source: 10)
+        input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

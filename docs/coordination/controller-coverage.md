@@ -4094,3 +4094,19 @@ All166 importer checks,23 native checks and iPad framework compilation pass. Nat
 The first native run caught a rejected direction-step field. Its existing validation guard now admits gain/EQ only for the reviewed Kontrol One protocol and knob addresses. Ordinary profiles, other actions, foreign addresses and oversized steps remain rejected. Failed logs remain in `TestBuilds/r332/`.
 Earlier212 recipes retain identical data. The compiled resource matches the source byte for byte. The catalogue reaches213 data recipes and178 automatic-core physical records. The automatic-core remainder is134. Full theoretical support remains open for312 physical records. The repository check retains twelve historical broken links.
 Complete source modes/loop editing/kills, dynamic output ownership, lifecycle/calibration, signed app/install and physical/A10X acceptance remain open. Continue through the remaining source-backed controllers.
+
+## R333 MIDI Fighter Spectra bank-aware core
+
+Assumption: use the independent Spectra XML/script and manufacturer guide for default channel/bank facts. Normal Note Off always releases; it cannot activate a cue. Keep Classic, Twister and Spectra identities separate. No persistent preset is written.
+
+- [x] Pin default notes, hardware bank notifications and transient bank-selection output. Confirm failing importer/native fixtures.
+- [x] Add bounded source-local deck selection and bank boundaries. Keep fixed C/A/B/D filter switches separate from selected-deck cues. Release owned contacts on bank/deck changes and reset decoder state on reconnect.
+- [x] Add eight native cues for each selectable deck and four filter switches. Select the hotcue bank through the reviewed transient startup packet. Fail closed when paired startup cannot complete.
+- [x] Verify all pads/selectors, releases/foreign channels, source/reconnect/overload boundaries and real-WAV cues/Sync. Run importer/native checks and compile the iPad framework. Compare earlier recipes.
+
+EQ kills, intro/outro, samplers/stems, RGB/ground animations, dynamic selected-deck feedback, complete lifecycle and physical/A10X acceptance remain open.
+
+The independent Spectra recipe adds36 logical inputs: eight selected-deck cues across A/B/C/D and four fixed C/A/B/D filter switches. Its transient startup selects the hotcue bank through one paired output. Failed startup keeps input inactive. Hardware bank and positive deck-selection boundaries release owned contacts before further cue dispatch. Normal Note Off always releases, regardless of release velocity. Raw logical channels cannot inject cues.
+All167 importer checks,28 native checks and iPad framework compilation pass. Native checks cover all eight cue addresses and both selector rows, all128 Note Off velocities, default channel isolation, fixed filter order, C/D opt-in, source/reconnect/overload state, learned Cue cleanup, paired startup failure and real-WAV cue set/recall with Sync retained. Earlier manual protocol and Kontrol One checks also pass. The first compile caught test closures with an omitted second parameter; corrected fixtures and failed logs are preserved.
+Earlier213 recipes retain identical data. The compiled resource matches the source byte for byte. The catalogue reaches214 data recipes and179 automatic-core physical records. The automatic-core remainder is133. Full theoretical support remains open for312 physical records. The repository check retains twelve historical broken links.
+Custom firmware/channel/side-button settings, EQ kills, markers, samplers/stems, RGB/ground animations, dynamic selected-deck feedback, complete lifecycle, signed app/install and physical/A10X acceptance remain open. Continue through the remaining source-backed controllers.

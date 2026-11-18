@@ -11971,48 +11971,88 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ%20TechTools%20MIDI%20Fighter%20Spectra.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ%20TechTools%20MIDI%20Fighter%20Spectra.midi.xml",
+        "https://s3.amazonaws.com/MF_Support_Docs/Midi%20Fighter%20Spectra%20User%20Guide.pdf"
       ],
       "definitions": [
-        "DJ TechTools MIDI Fighter Spectra.midi.xml"
+        "DJ TechTools MIDI Fighter Spectra.midi.xml",
+        "reviewed:midifighter-spectra"
       ],
-      "implementation": "adapter-needed",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "DJ TechTools MIDI Fighter Spectra",
+      "automaticControls": true,
+      "controlActions": [
+        "filterToggleA:a",
+        "filterToggleA:c",
+        "filterToggleB:b",
+        "filterToggleB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d"
+      ],
+      "inputBindingCount": 36,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Normal Spectra firmware and default base channel. Transient startup selects hotcue bank. Side buttons retain hardware bank selection. Selected deck startsA; C/D requires app opt-in."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "adapter-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "A controller-specific protocol adapter is required."
+        "Normal firmware/default base channel only. Custom side-button/channel configurations, EQ kills, intro/outro markers, samplers/stems, selected-deck cue/filter RGB and ground/beat/track-end animations, complete feedback/lifecycle and physical/A10X acceptance remain open. Manual input conversion does not send factory startup. No persistent preset or audio interface is inferred."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -321562,6 +321602,41 @@
         },
         {
           "reason": "Fixed native base only. Software-only bank/Shift latches, kills, source custom resume/slip, cue-loop/move/edit gestures, exact logarithmic knob response, source scratch tuning, dynamic active-channel output ownership, complete feedback/lifecycle/calibration and physical/A10X acceptance remain open. Native Sync, fixed-loop toggles and direct loop controls deliberately replace source custom/timed behaviour. No audio interface is inferred."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:midifighter-spectra",
+      "name": "DJ TechTools MIDI Fighter Spectra",
+      "transport": "midi",
+      "source": {
+        "url": "https://s3.amazonaws.com/MF_Support_Docs/Midi%20Fighter%20Spectra%20User%20Guide.pdf",
+        "sha256": "61d2caa678947120cdb933741de7c14aace319797a388dfb7d95a3b1fea4b4da",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ%20TechTools%20MIDI%20Fighter%20Spectra.midi.xml",
+            "sha256": "2ae64044c60cc85c3b5c11cacd90f2ff4d018ac8859fdb1a15d9f40eb411fc26"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ%20TechTools-MIDI%20Fighter%20Spectra-scripts.js",
+            "sha256": "e727b3e2c7a4c5c9b845e69a1576f7e1ccd78e1d0c3df7ef812d027d6d73dcce"
+          },
+          {
+            "url": "https://manual.mixxx.org/2.5/en/hardware/controllers/dj_techtools_midi_fighter_spectra"
+          }
+        ],
+        "review": "Manufacturer default arcade channel3 is wire2; every physical press is Note On and release Note Off. Native release never becomes activation regardless of release velocity. The pinned XML/script separately qualifies cue notes60..63/56..59, selectors52..55 and84..87 and C/A/B/D filter switches36..39. Source-local selection startsA, changes only on positive selector input and releases owned contacts/pickup before further cue dispatch. Logical cue notes64..71 use selected channels0..3; fixed filters use logical channel4, preventing raw logical injection. Guide page11 and script init agree on transient bank selection channel4 Note1 velocity127 for hotcues, despite conflicting octave prose elsewhere. Hardware bank notifications channel4 Notes0..3 release owned contacts; stale releases cannot clear a different current bank. Default momentary CC duplicates are ignored. Only the reviewed default base channel and normal firmware are qualified. Startup requires one paired output and fails closed on failure. No persistent preset, firmware, EQ kill, marker, sampler/stem, colour palette, animation or selected-deck output is inferred. Full modes/feedback/lifecycle and physical/A10X acceptance remain open."
+      },
+      "implementedInputCount": 36,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Normal firmware/default base channel only. Custom side-button/channel configurations, EQ kills, intro/outro markers, samplers/stems, selected-deck cue/filter RGB and ground/beat/track-end animations, complete feedback/lifecycle and physical/A10X acceptance remain open. Manual input conversion does not send factory startup. No persistent preset or audio interface is inferred."
         }
       ]
     },

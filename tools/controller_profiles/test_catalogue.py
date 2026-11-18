@@ -998,6 +998,27 @@ class GeneratedCatalogueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
 
+    def test_spectra_has_independent_selected_cues_and_fixed_filter_switches(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"] == "DJ TechTools MIDI Fighter Spectra"),None)
+        self.assertIsNotNone(item,"Spectra needs its own bank/deck decoder")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual(item["inputProtocol"],"midiFighterSpectra")
+        self.assertEqual(len(item["inputs"]),36)
+        self.assertEqual(item["startup"],[[0x93,1,127]])
+        self.assertFalse(item["outputs"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        cues=[r for r in item["inputs"] if r["action"].startswith("hotcue")]
+        filters=[r for r in item["inputs"] if r["action"].startswith("filterToggle")]
+        self.assertEqual(len(cues),32)
+        self.assertEqual({r["channel"] for r in cues},{0,1,2,3})
+        self.assertEqual([(r["number"],r["targetDeck"]) for r in filters],[(36,"c"),(37,"a"),(38,"b"),(39,"d")])
+        self.assertTrue(all(r["channel"]==4 for r in filters))
+        from spectra import SPECTRA_SOURCES
+        for filename,digest in SPECTRA_SOURCES:
+            path=ROOT/"TestBuilds/r169/upstream/res/controllers"/filename
+            if path.exists(): self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),digest)
+
     def test_kontrol_one_has_independent_guarded_channel_aware_core(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"] == "DJ-Tech Kontrol One"),None)

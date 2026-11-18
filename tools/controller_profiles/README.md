@@ -789,3 +789,12 @@ The actual scratch arrays select150 ticks and45 RPM. The unused header scratch v
 Labelled Sync, native normalised knob steps and direct loop controls replace source custom/timed software behaviours.
 The direction-step guard admits gain/EQ only at reviewed Kontrol One knob addresses. Other profiles retain the existing limit.
 Complete banks/Shift latches, kills, source loop editing, dynamic output ownership and physical acceptance remain open.
+
+### MIDI Fighter Spectra default banks (R333)
+
+`spectra.py` pins the manufacturer guide and independent XML/script. Startup selects the hotcue bank with channel4 Note1 velocity127.
+`ControllerSpectraDecoder` keeps selected-deck cues separate from fixed C/A/B/D filter switches. Bank/deck boundaries release owned contacts and reset cue input state.
+Only positive selectors change the deck. Stale bank releases cannot clear another current bank. Normal Note Off always releases.
+Logical cue channels cannot be injected by raw input. Duplicate momentary CCs and unimplemented marker/sampler/stem addresses stay inactive.
+Automatic startup requires one paired output and fails closed. No persistent preset is written.
+Custom settings, EQ kills, full RGB/ground feedback, lifecycle and physical acceptance remain open.
