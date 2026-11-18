@@ -18719,48 +18719,95 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MVave-SMK-25-II.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MVave-SMK-25-II.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MVave-SMK-25-II.midi.xml"
       ],
       "definitions": [
-        "MVave-SMK-25-II.midi.xml"
+        "MVave-SMK-25-II.midi.xml",
+        "reviewed:smk25-ii"
       ],
-      "implementation": "adapter-needed",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "M-Vave SMK-25 II",
+      "automaticControls": true,
+      "controlActions": [
+        "crossfader",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "hotcue5A:a",
+        "hotcue5B:b",
+        "hotcue6A:a",
+        "hotcue6B:b",
+        "hotcue7A:a",
+        "hotcue7B:b",
+        "hotcue8A:a",
+        "hotcue8B:b",
+        "jumpBackA:a",
+        "jumpBackB:b",
+        "jumpForwardA:a",
+        "jumpForwardB:b",
+        "levelA:a",
+        "levelB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "tempoA:a",
+        "tempoB:b"
+      ],
+      "inputBindingCount": 43,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Named SMK-25 II USB-MIDI endpoint. Native adapter decodes deck-layer SysEx and ordinary strips. Initial software target A; released deck selectors choose A/B. Bluetooth pairing remains unqualified."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "adapter-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "A controller-specific protocol adapter is required."
+        "Logical bindings follow the SMK-25 II vendor decoder. Channel9 sampler input, recording, Bluetooth pairing/duplicate routes, hardware pad colours, output/reset and full lifecycle remain unimplemented. Firmware-immediate pad releases cannot establish physical hold duration. MIDI pitch/knob calibration and physical USB/A10X acceptance remain open. Original SMK-25 requires independent qualification."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -320662,6 +320709,37 @@
         },
         {
           "reason": "Fixed default C/A/B/D mixer only. Shared transport/deck selection, full software layers, Slip/Quantize, recording, feedback/lifecycle and native calibration remain open. Only distinguishable default hardware layer1 is qualified. Other layers, effect selection, joystick mouse and iControls Pro remain separate. No unqualified output/reset/audio packet executes. Physical USB and A10X acceptance remain open."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:smk25-ii",
+      "name": "M-Vave SMK-25 II",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MVave-SMK-25-II.midi.xml",
+        "sha256": "d5e0f9762e78ca33c654cd889595cc4a5ab0268c42b43c13cbdff1dd2c07c0f5",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MVave-SMK-25-II-scripts.js",
+            "sha256": "17a9805035cc7e92321a9c386d000329401a66eecab6ab74a32d1bd79f9f4d13"
+          },
+          {
+            "url": "https://manual.mixxx.org/2.5/en/hardware/controllers/mvave_smk-25-ii"
+          }
+        ],
+        "review": "Pinned source sends deck controls inside F0 35 59 command data value F7, not ordinary Note messages. Native inputProtocol smk25II consumes exactly7 bytes, rejects invalid headers/commands/status bytes, retains fragments per source and preserves mixed strip/SysEx order. Command10 contains Note0..7 Hot Cues, Play94, main Cue93, backward91, forward92, Reloop76 and unimplemented Record95. Released selectors46/47 choose fixed A/B software targets; selection releases source-owned contacts and resets only deck pickup. Commands60..67 map gain30, high31, mid32, low33, filter34, crossfader35, monitor36 and master37. The source's unused data byte remains seven-bit validated. Ordinary channel0 PitchBend and CC1 supply tempo and level; CC30..37 follow the same routing. Channel9 sampler notes and unrelated standard MIDI notes are not converted. Listed profile inputs are logical messages after this adapter, not claimed wire Note addresses. Factory inputs already use the MIDI1 byte port. Initial software deck is A as in the source. The script reports immediate firmware releases for some pads; native code cannot infer physical hold duration. Source pitch direction follows existing Mixxx normalisation. No downloaded code runs. Samplers, recording, Bluetooth pairing, duplicate routes, hardware lamps/colours, full lifecycle, calibration and physical/A10X acceptance remain open. Original SMK-25 is not an alias."
+      },
+      "implementedInputCount": 43,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Logical bindings follow the SMK-25 II vendor decoder. Channel9 sampler input, recording, Bluetooth pairing/duplicate routes, hardware pad colours, output/reset and full lifecycle remain unimplemented. Firmware-immediate pad releases cannot establish physical hold duration. MIDI pitch/knob calibration and physical USB/A10X acceptance remain open. Original SMK-25 requires independent qualification."
         }
       ]
     },

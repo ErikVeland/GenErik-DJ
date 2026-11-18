@@ -2,6 +2,9 @@ import Foundation
 import TDJCore
 
 struct ControllerProfileData: Decodable, Sendable {
+    enum InputProtocol: String, Decodable, Sendable {
+        case smk25II
+    }
     enum AudioOutput: String, Decodable, Sendable {
         case masterAndHeadphones
     }
@@ -107,6 +110,7 @@ struct ControllerProfileData: Decodable, Sendable {
     let bankChanges: [BankChange]?
     let audioOutput: AudioOutput?
     let portAliases: [String]?
+    let inputProtocol: InputProtocol?
 
     var isValid: Bool {
         (role == nil || role == "player" || role == "accessory") && !id.isEmpty && id.count <= 128 && !aliases.isEmpty

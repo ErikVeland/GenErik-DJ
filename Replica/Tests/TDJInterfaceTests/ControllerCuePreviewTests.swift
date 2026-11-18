@@ -1498,3 +1498,24 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         }
     }
 }
+
+@Test @MainActor func controllerCatalogueSMK25NativeSysexCueBankReleaseAndPlayKeepAudioAndSync() async throws {
+    try await withControllerCuePlayback("SMK-25 II") { model, input in
+        let track = try #require(model.library.tracks.first)
+        model.load(trackID: track.id, deck: .b)
+        await model.flushWrites()
+        input.receiveBytes([0xF0, 0x35, 0x59, 0x10, 93, 127, 0xF7], source: 10)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0xF0, 0x35, 0x59, 0x10, 47, 0, 0xF7], source: 10)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        input.receiveBytes([0xF0, 0x35, 0x59, 0x10, 93, 127, 0xF7], source: 10)
+        #expect(model.playbackSnapshot?.b.touchActive == true)
+        input.receiveBytes([0xF0, 0x35, 0x59, 0x10, 93, 0, 0xF7, 0xF0, 0x35, 0x59, 0x10, 94, 127, 0xF7], source: 10)
+        input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.b.touchActive == false && model.playbackSnapshot?.b.phase.active == true)
+        #expect(model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.b.synced == true)
+    }
+}

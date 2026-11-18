@@ -384,6 +384,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private var connectedPorts: [Int32: MIDIPortRef] = [:]
     @ObservationIgnored private var sourceIDsByEndpoint: [UInt32: Int32] = [:]
     @ObservationIgnored private var decoders: [Int32: ControllerMIDIDecoder] = [:]
+    @ObservationIgnored private var smk25Decoders: [Int32: ControllerSMK25Decoder] = [:]
     @ObservationIgnored private var bridgeDecoders: [Int32: ControllerBridgeDecoder] = [:]
     @ObservationIgnored private var bridgeConnected = false
     @ObservationIgnored private var pendingFeedback: [UInt8]?
@@ -573,6 +574,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         connectedPorts.removeAll()
         sourceIDsByEndpoint.removeAll()
         decoders.removeAll()
+        smk25Decoders.removeAll()
         bridgeDecoders.removeAll()
         shiftLayers.removeAll()
         channelShiftLayers.removeAll()
@@ -984,6 +986,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         connectedPorts[id] = inputPort
         sourceIDsByEndpoint[source.reference] = id
         decoders[id] = .init()
+        smk25Decoders[id] = nil
         bridgeDecoders[id] = .init()
         updatePollingInterval()
         return true
@@ -997,6 +1000,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             sourceIDsByEndpoint[endpoint] = nil
         }
         decoders[id] = nil
+        smk25Decoders[id] = nil
         bridgeDecoders[id] = nil
         shiftLayers[id] = nil
         channelShiftLayers[id] = nil
@@ -1729,6 +1733,49 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     private func factoryInputKey(_ session: ControllerFactorySession) -> String {
         session.profile.rawValue + (session.profile.isPlayer ? "#\(session.source)" : "")
     }
+
+    /**
+     * Applies a bounded byte frame through the active factory protocol or the ordinary MIDI decoder.
+     */
+    @discardableResult func receiveBytes(_ bytes: [UInt8], source: Int32, limit: Int = 256) -> Int? {
+        guard isInputActive(source) else { return 0 }
+        guard bytes.count <= 4096, (0...256).contains(limit) else {
+            stop()
+            status = "Controller input overload. Reconnect to continue."
+            return nil
+        }
+        if factorySessions.first(where: { $0.source == source })?.profile.definition?.inputProtocol == .smk25II {
+            var decoder = smk25Decoders[source, default: .init()]
+            let events = decoder.append(bytes)
+            smk25Decoders[source] = decoder
+            guard events.count <= limit else {
+                stop()
+                status = "Controller input overload. Reconnect to continue."
+                return nil
+            }
+            for event in events {
+                switch event {
+                case .message(let message): receive(message, source: source)
+                case .deckChanged:
+                    flushPendingActions()
+                    releaseMomentaryActions(source: source, decks: Set(DeckID.primary))
+                    resetInputValueStates(inputBindings(source: source).filter { $0.targetDeck != nil })
+                }
+            }
+            return events.count
+        }
+        var decoder = decoders[source, default: .init()]
+        let messages = decoder.append(bytes)
+        decoders[source] = decoder
+        guard messages.count <= limit else {
+            stop()
+            status = "Controller input overload. Reconnect to continue."
+            return nil
+        }
+        for message in messages { receive(message, source: source) }
+        return messages.count
+    }
+
     private func drain() {
         let (frames, overflow, refresh) = inbox.take()
         if overflow {
@@ -1757,9 +1804,9 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             let messages: [ControllerMIDIMessage]
             switch frame.payload {
             case .bytes(let bytes):
-                var decoder = decoders[sourceID, default: .init()]
-                messages = decoder.append(bytes)
-                decoders[sourceID] = decoder
+                guard let count = receiveBytes(bytes, source: sourceID, limit: 256 - processed) else { return }
+                processed += count
+                continue
             case .messages(let input): messages = input
             }
             processed += messages.count

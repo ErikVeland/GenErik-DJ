@@ -708,3 +708,11 @@ SMC-Mixer encoders use the literal raw65 decrement rule. iControls encoders reta
 The native decoders reject foreign message kinds and values. Only the reviewed continuous mixer actions can use them.
 Shared transport and software modes remain inactive. No unqualified lamp, reset or audio packet is emitted.
 The generated report states the automatic-core and complete-theoretical remainders separately.
+
+### SMK-25 II vendor input (R324)
+
+`smk25ii.py` declares `inputProtocol: smk25II`. Its bindings describe logical messages after `ControllerSMK25Decoder` conversion.
+The decoder accepts complete7-byte vendor messages and the source's standard strips. It retains fragments and A/B selection per source.
+Channel9 sampler notes cannot trigger deck cues. A bank change releases owned contacts and resets only deck pickup.
+Factory inputs already use the byte port. Ordinary controllers retain their existing decoder. Frame limits apply before action dispatch.
+Firmware-immediate pad releases do not establish physical hold duration. Samplers, recording, Bluetooth, output/lifecycle and physical acceptance remain open.

@@ -3946,3 +3946,20 @@ SMC-Mixer adds25 fixed inputs. iControls adds26 separate layer1 inputs. Their bo
 All156 importer checks,9 native checks and iPad framework compilation pass. Native checks include256 encoder cases, malformed messages, schema restrictions, C/D opt-in, all eight faders and two real-WAV mixer/PFL/gain flows with Sync retained.
 The initial native fixture skipped soft takeover for absolute global controls. The corrected fixture crosses the current value first. Failed and passing logs remain in `TestBuilds/r323/`. Earlier201 recipes retain identical data. The compiled resource matches the source byte for byte. The repository check retains twelve historical broken links.
 The catalogue now has203 data recipes and169 automatic-core physical models. The automatic-core remainder is143. Full theoretical completion remains open for312 physical models. The final checklist item remains open for continued execution.
+
+## R324 SMK-25 II source-local SysEx input
+
+Assumption: the independent pinned XML/script and upstream manual qualify the SMK-25 II USB input contract. Factory inputs already use the legacy byte port, so this change does not alter MIDI2 port selection. Add one explicit vendor protocol tag. Keep ordinary controllers on their existing decoder.
+
+- [x] Confirm failing native decoder and importer fixtures.
+- [x] Decode only complete7-byte F0/35/59 messages. Retain fragment state per source. Translate published buttons and knobs, normal strip messages and fixed A/B selection. Release owned contacts and reset pickup on a bank change. Ignore channel9 sampler notes.
+- [x] Add43 logical native bindings after protocol conversion, with no guessed output or sibling alias. Verify normal data, malformed/truncated/oversized input, mixed order, both decks, reconnect reset and real-WAV Cue/Play/Sync.
+- [x] Run importer checks and compile the iPad framework. Compare every earlier recipe and preserve logs.
+
+The source declares immediate firmware releases for some pad presses. Native code must not invent physical hold duration. Sampler playback, recording, Bluetooth pairing, hardware lights, complete lifecycle, native calibration and physical/A10X acceptance remain open.
+
+The source-local adapter adds43 logical inputs after actual vendor decoding. Bank changes flush earlier input, release only source-owned A/B contacts and reset deck pickup. Ordinary MIDI controls retain their existing decoder and fragment state.
+All157 importer checks,14 focused native checks and iPad framework compilation pass. Native checks include fragmented/mixed SysEx, malformed/oversized messages, sampler isolation, two-source ownership, bank/reconnect reset, overload without partial dispatch, ordinary-controller byte input and a real-WAV A/B Cue/Play flow with Sync retained. The generic held-Cue fixture now covers142 automatic profiles.
+The first real-WAV fixture sent deck-B controls before its asynchronous load completed. The corrected fixture waits for that load, as existing fixtures do. Failed logs remain in `TestBuilds/r324/`.
+Earlier203 recipes retain identical data. The compiled resource matches the source byte for byte. The catalogue reaches204 data recipes and170 automatic-core physical models. The automatic-core remainder is142; full theoretical support remains open for312 models. The repository check retains twelve historical broken links.
+No sampler, recording, physical hold duration, Bluetooth pairing, complete feedback/lifecycle, signed app/install or physical/A10X acceptance is claimed.

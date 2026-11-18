@@ -998,6 +998,22 @@ class GeneratedCatalogueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
 
+    def test_smk25ii_declares_its_own_vendor_input_and_logical_ab_core(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"] == "M-Vave SMK-25 II"),None)
+        self.assertIsNotNone(item,"SMK-25 II needs a real SysEx adapter, not ordinary Note aliases")
+        self.assertEqual(item["inputProtocol"],"smk25II")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),43)
+        self.assertEqual({r["targetDeck"] for r in item["inputs"] if "targetDeck" in r},{"a","b"})
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        self.assertFalse(any(r["action"].startswith(("sync","cueState","jog","load")) for r in item["inputs"]))
+        from smk25ii import SMK25_SOURCES
+        for filename,digest in SMK25_SOURCES:
+            path=ROOT/"TestBuilds/r169/upstream/res/controllers"/filename
+            if path.exists(): self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),digest)
+
     def test_smc_mixer_has_independent_fixed_strip_and_literal_encoder_facts(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"] == "M-Vave SMC-Mixer"),None)
