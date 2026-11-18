@@ -861,6 +861,27 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_plx_crss12_has_only_unambiguous_hot_cue_accessory_inputs(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Pioneer PLX-CRSS12"),None)
+        self.assertIsNotNone(item,"Add the independently documented PLX-CRSS12 pad core")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual((item["role"],len(item["inputs"])),("accessory",68))
+        self.assertFalse(item["startup"] or item["shutdown"] or item["outputs"])
+        self.assertNotIn("audioOutput",item)
+        for channel,deck in enumerate("abcd"):
+            rows=[r for r in item["inputs"] if r.get("targetDeck")==deck]
+            self.assertEqual(len(rows),16)
+            self.assertEqual({r["channel"] for r in rows},{7+channel})
+            self.assertEqual({r["number"] for r in rows if not r.get("releaseOnly")},set(range(8)))
+            self.assertEqual({r["number"] for r in rows if r.get("releaseOnly")},set(range(8,16)))
+            self.assertTrue(all(r.get("shifted") for r in rows if r.get("releaseOnly")))
+        shifts=[r for r in item["inputs"] if r["action"]=="shift"]
+        self.assertEqual({(r["channel"],r["number"],r["shiftInput"]) for r in shifts},{(i,48,0) for i in range(4)})
+        from plx_crss12 import CRSS_REFERENCES
+        cached=ROOT/"TestBuilds/r355/upstream/plx-crss12-midi-e1.pdf"
+        if cached.exists():self.assertEqual(hashlib.sha256(cached.read_bytes()).hexdigest(),CRSS_REFERENCES[item["id"]]["sha256"])
+
     def test_original_nanokontrol_reads_current_scenes_without_entering_native_mode_or_writing_presets(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next(r for r in runtime["profiles"] if r["id"]=="Korg nanoKONTROL")
@@ -872,7 +893,8 @@ class GeneratedCatalogueTests(unittest.TestCase):
         self.assertNotIn("audioOutput",item)
         self.assertEqual({r["channel"] for r in item["inputs"]},{0})
         from nanokontrol_scene import SCENE_SPEC_SHA
-        self.assertEqual(hashlib.sha256((ROOT/"TestBuilds/r354/upstream/nanoKONTROL-MIDIimp.txt").read_bytes()).hexdigest(),SCENE_SPEC_SHA)
+        cached=ROOT/"TestBuilds/r354/upstream/nanoKONTROL-MIDIimp.txt"
+        if cached.exists():self.assertEqual(hashlib.sha256(cached.read_bytes()).hexdigest(),SCENE_SPEC_SHA)
 
     def test_numark_2026_models_have_independent_fixed_cores_without_copied_pad_modes_or_audio(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())

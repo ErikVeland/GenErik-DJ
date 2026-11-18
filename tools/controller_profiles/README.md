@@ -903,3 +903,12 @@ SP-404MKII uses the ordinary DJ-mode chart in the current manufacturer manual, i
 Euphonia uses its independent E10 table on the current AlphaTheta support host. All four strips use wire channel0 with non-uniform CC numbers, including CH4 Mid5C/Low52. PFL notes0A–0D are latched state, not momentary software toggles. Keep direct state, ordinary mixer pickup and C/D opt-in separate. The table describes input to the computer and does not establish feedback. Manual app mixer control requires separate audio with hardware/software ownership unresolved. Source selectors, isolator/send/FX, display/settings, automatic audio and all outputs remain inactive.
 
 MixTrack Go and Party Mix III use separate pinned2026 public mappings. Shared fixed fields must agree within each model's XML and handlers. Go alone wires Sync/PFL/jog/touch with an approximate242-count jog estimate. Party Mix III adds independently wired EQ, while its copied/unwired Sync/PFL/jog, right mode constant, volume28 and shared pads stay inactive. Identity/status startup requests are transient. Do not copy the source's delayed lamp routine, software modes or paused scrub multipliers. Both use exact shifted release aliases and inverted paired tempo. Native linear14-bit normalisation does not claim the source's exact8192-centre curve. Bluetooth MIDI disables controller audio, so no split-output route is automatic. Full lifecycle/audio and physical acceptance remain open.
+
+
+## Original nanoKONTROL and PLX-CRSS12 accessories
+
+`nanokontrol_scene.py` defines the original nanoKONTROL's32 read-only scene-aware mixer bindings. The separate model04 decoder queries current assignments without changing saved scenes. Existing saved raw mappings remain active until explicit replacement. This model never uses nanoKONTROL2 native mode.
+
+`plx_crss12.py` defines68 automatic PLX-CRSS12 MIDI accessory bindings from the E1 manufacturer table. PAD MODE1 supplies eight Hot Cues per hardware-selected deck. Shift aliases only rearm normal cues. The extra while-held5–8 rows have conflicting channel/status columns and stay inactive. Turntable transport, pitch, motor/platter, display, feedback colours, DVS/audio and full lifecycle remain open. No output or setting write is inferred.
+
+The [public-source audit](../../docs/coordination/controller-public-source-audit.json) records scoped Rane/Denon SDK and protocol searches. An unavailable protocol remains a gap.

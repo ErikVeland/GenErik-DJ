@@ -8985,46 +8985,84 @@
       "role": "accessory",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://downloads.support.alphatheta.com/software_info/turntables/PLX-CRSS12/PLX-CRSS12_MIDI_Message_List_E1.pdf"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:pioneerplxcrss12"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Pioneer PLX-CRSS12",
+      "automaticControls": true,
+      "controlActions": [
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "shift"
+      ],
+      "inputBindingCount": 68,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Automatic MIDI hot-cue accessory. Press HOT CUE for PAD MODE1;5-8 selects cues5-8. Hardware DECK1-4 selects A-D. C/D require app opt-in. Motor, DVS and audio stay separate."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "While-held5-8 rows have conflicting channel/status columns and stay inactive. Other pad modes, deletion, pitch/brake/needle/deck/application controls, feedback colour/off semantics, display, motor/platter/DVS/audio, full lifecycle and physical/A10X acceptance remain open. No output or mode/setting write is inferred."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -323603,6 +323641,35 @@
         },
         {
           "reason": "Read-only fixed physical mixer layout, not the upstream downloadable custom scene. Paired output and valid requested scene are required. Ninth strip, transport/MMC, ramped buttons, extra switches, disabled/duplicate assignments, full layers/output, response timeout/recovery and physical/A10X acceptance remain open. No native mode, scene change/write, reset, firmware or audio route is sent."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneerplxcrss12",
+      "name": "Pioneer PLX-CRSS12",
+      "transport": "midi",
+      "source": {
+        "url": "https://downloads.support.alphatheta.com/software_info/turntables/PLX-CRSS12/PLX-CRSS12_MIDI_Message_List_E1.pdf",
+        "sha256": "138f464d22a24159e93482047bd4bb8ee18c9a9922e087e74b4f43a154810477",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "review": "Manufacturer E1 table independently specifies PAD MODE1 hot cues: pad channels8-11 map to A-D, notes0-3 for physical pads1-4 with5-8 off and4-7 with5-8 on. Shift aliases8-15 only rearm the normal cue edge. Physical Shift is note48 on deck channels1-4; use one source-local physical identity so a deck change cannot strand Shift. HOT CUE selects PAD MODE1. Other pad modes stay inactive. While-held5-8 rows contradict their decimal channel8-11 with status9n instead of9p and remain inactive on both candidate channels. MIDI output specifies colour numbers but does not independently qualify palette/off semantics, so no feedback is inferred. Start/Stop and Motor Off still own physical turntable actions, not app transport. Pitch, brake, needle/deck/application controls, DVS, motor/platter/display protocols, audio routing and full lifecycle remain open. This is an automatic MIDI hot-cue accessory core, not complete turntable support. Hardware deck selection chooses the target and C/D require app opt-in. No mode change, stored setting, reset, firmware, motor or audio command is sent. Physical/A10X acceptance remains open."
+      },
+      "implementedInputCount": 68,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "While-held5-8 rows have conflicting channel/status columns and stay inactive. Other pad modes, deletion, pitch/brake/needle/deck/application controls, feedback colour/off semantics, display, motor/platter/DVS/audio, full lifecycle and physical/A10X acceptance remain open. No output or mode/setting write is inferred."
         }
       ]
     },

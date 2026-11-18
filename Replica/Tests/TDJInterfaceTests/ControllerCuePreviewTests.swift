@@ -2092,3 +2092,19 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueCRSSNativeCueRecallKeepsAudioAndSyncWithoutMotorCommands() async throws {
+    try await withControllerCuePlayback("PLX-CRSS12") { model, input in
+        #expect(model.playbackSnapshot?.a.synced == true)
+        cuePreviewPacket([0x97, 0, 127, 0, 0], to: input)
+        model.refreshPlayback()
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        cuePreviewPacket([0x90, 48, 127, 0x97, 8, 127, 8, 0, 0x90, 48, 0], to: input)
+        cuePreviewPacket([0x90, 0, 127, 0, 0, 1, 127, 1, 0, 0xB0, 16, 127, 48, 127], to: input)
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

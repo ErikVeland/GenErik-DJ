@@ -1,0 +1,481 @@
+{
+  "request": "R355",
+  "reviewDate": "2026-11-19",
+  "sources": [
+    {
+      "url": "https://www.rane.com/downloads/",
+      "indexURL": "https://www.rane.com/page-data/sq/d/3542786296.json",
+      "finding": "The checked public product index lists drivers, firmware and user guides. No SDK or MIDI wire-specification download is listed. This is a scoped finding, not proof that private or other documents do not exist.",
+      "products": [
+        {
+          "model": "Rane System One",
+          "downloads": [
+            {
+              "description": "SYSTEM ONE User Guide (Engine DJ 5.3)",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/engine/53/SYSTEM%20ONE%20-%20User%20Guide%20-%20v5.3.0.pdf"
+            },
+            {
+              "description": "Engine DJ OS Updates ",
+              "type": "Firmware Update",
+              "url": "https://enginedj.com/downloads"
+            },
+            {
+              "description": "Engine DJ Desktop Software ",
+              "type": "Music Preparation Software",
+              "url": "https://enginedj.com/downloads"
+            },
+            {
+              "description": "Download Latest Version",
+              "type": "Serato DJ Pro",
+              "url": "https://serato.com/dj/pro/downloads"
+            },
+            {
+              "description": "SYSTEM ONE DRIVER - WINDOWS V1.0.9",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/systemone/Install Rane SYSTEM ONE 1.0.9.exe"
+            }
+          ]
+        },
+        {
+          "model": "MP2015",
+          "downloads": [
+            {
+              "description": "Control Panel for Mac macOS 10.9.5 - 11.4 (Big Sur) v2.5.0.56",
+              "type": "Driver",
+              "url": "http://cdn.inmusicbrands.com/rane/RaneControlPanel_2.5.0.56.zip"
+            },
+            {
+              "description": "Control Panel for Mac macOS 10.7.5 - 10.9 v2.4.0",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/mp2015/RaneControlPanel240.zip"
+            },
+            {
+              "description": "Control Panel for Windows (including the ASIO/MIDI driver) v2.4.0",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/mp2015/RaneControlPanelSetup240.zip"
+            },
+            {
+              "description": "MP2015 Mixer Manual",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/rane/mp2015/mp2015_manual.pdf"
+            },
+            {
+              "description": "MP2015 Mixer White Paper",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/rane/mp2015/mp2015_white_paper.pdf"
+            },
+            {
+              "description": "MP2015 Mixer Data Sheet",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/rane/mp2015/mp2015_data.pdf"
+            }
+          ]
+        },
+        {
+          "model": "Seventy A-Trak",
+          "downloads": [
+            {
+              "description": "SEVENTY A-TRAK Control Panel/Driver - macOS v1.0.5",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy-atrak/Rane Seventy A-Trak Device Settings 1.0.5.dmg"
+            },
+            {
+              "description": "SEVENTY A-TRAK Control Panel/Driver - Windows v1.0.4",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy-atrak/Install Rane Seventy A-Trak 1.0.4.exe"
+            },
+            {
+              "description": "SEVENTY A-TRAK User Guide v1.1",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy-atrak/Seventy%20A-Trak%20Edition%20-%20User%20Guide%20-%20v1.1.pdf"
+            }
+          ]
+        },
+        {
+          "model": "Seventy-Two MKII",
+          "downloads": [
+            {
+              "description": "Seventy-Two Control Panel \u2013 macOS v1.1.2",
+              "type": "Editor",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy-two/MacRaneSeventy-Two_1.1.2.dmg"
+            },
+            {
+              "description": "Seventy-Two MKII Firmware Update - macOS v1.6",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy-twoMKII/Rane%20Seventy-Two%20Firmware%20Updater_For%20Firmware%201.6.0.dmg"
+            },
+            {
+              "description": "Seventy-Two MKII Firmware Update - Windows v1.6",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy-twoMKII/Win%20-%20Rane%20Seventy-Two%20Firmware%201.6.0.47.exe"
+            },
+            {
+              "description": "Seventy-Two MKII Windows Driver v1.0.8",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/Install_Rane_Seventy-Two_1.0.8.exe"
+            },
+            {
+              "description": "Seventy-Two MKII User Guide v1.4",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy-twoMKII/Seventy-Two_MKII-UserGuide-v1.4.pdf"
+            }
+          ]
+        },
+        {
+          "model": "Seventy-Two",
+          "downloads": [
+            {
+              "description": "Seventy-Two Control Panel \u2013 macOS v1.1.2",
+              "type": "Editor",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy-two/MacRaneSeventy-Two_1.1.2.dmg"
+            },
+            {
+              "description": "Seventy-Two Firmware Update - macOS v1.6",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy-twoMKII/Rane%20Seventy-Two%20Firmware%20Updater_For%20Firmware%201.6.0.dmg"
+            },
+            {
+              "description": "Seventy-Two Firmware Update - Windows v1.6",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy-twoMKII/Win%20-%20Rane%20Seventy-Two%20Firmware%201.6.0.47.exe"
+            },
+            {
+              "description": "Seventy-Two Windows Driver v1.0.8",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/Install_Rane_Seventy-Two_1.0.8.exe"
+            },
+            {
+              "description": "Seventy-Two User Guide v1.4",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy-twoMKII/Seventy-Two_MKII-UserGuide-v1.4.pdf"
+            }
+          ]
+        },
+        {
+          "model": "Seventy",
+          "downloads": [
+            {
+              "description": "SEVENTY Firmware Update \u2013 macOS v1.1.0.127 (Latest Version)",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy/Rane%20Seventy%20Firmware%20Updater%20For%20Firmware%201.1.0.127%20%28Updater%201.0.1%29.dmg"
+            },
+            {
+              "description": "SEVENTY Firmware Update \u2013 Windows v1.1.0.127 (Latest Version)",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy/Install%20Rane%20Seventy%20Firmware%20Updater%20For%20Firmware%201.1.0.127%20%28Updater%201.0.0%29.exe"
+            },
+            {
+              "description": "Seventy Control Panel/Driver - macOS v1.0.5",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy/Rane Seventy Device Settings 1.0.5.dmg"
+            },
+            {
+              "description": "Seventy Control Panel/Driver - Windows v1.0.6",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy/Install_Rane_Seventy_1.0.6.exe"
+            },
+            {
+              "description": "Seventy User Guide v1.3",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy/Seventy_User_Guide_v1-3_zyx.pdf"
+            }
+          ]
+        },
+        {
+          "model": "Twelve MKII",
+          "downloads": [
+            {
+              "description": "Twelve MKII User Guide v1.1",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/rane/twelveMKII/Twelve_MKII-UserGuide-v1.1.pdf"
+            }
+          ]
+        },
+        {
+          "model": "Twelve",
+          "downloads": [
+            {
+              "description": "Twelve User Guide v1.2",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/rane/twelve/Twelve-UserGuide-v1.2.pdf"
+            }
+          ]
+        },
+        {
+          "model": "Rane Four",
+          "downloads": [
+            {
+              "description": "FOUR Drivers - Windows v1.0.10",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/four/Install%20Rane%20FOUR%201.0.10.exe"
+            },
+            {
+              "description": "FOUR Firmware Update \u2013 macOS 1.8.0.18 (Latest Version)",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/Software/RD/RANE%20FOUR%20Firmware%20Updater%20For%20Firmware%201.8.0.18.dmg"
+            },
+            {
+              "description": "FOUR Firmware Update - Windows 1.8.0.18 (Latest Version)",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/Software/RD/Install%20RANE%20FOUR%20Firmware%20Updater%20For%20Firmware%201.8.0.18.exe"
+            },
+            {
+              "description": "FOUR Firmware Release Notes 1.8.0.18 (Latest Version)",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20FOUR%20Firmware%20-%20Release%20Note%20History%20v1.8.0.18.pdf"
+            },
+            {
+              "description": "FOUR Firmware Update \u2013 macOS v1.7.0.8",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/four/RANE%20FOUR%20Firmware%20Updater%20For%20Firmware%201.7.0.8%20%28Updater%201.1.6%29.dmg"
+            },
+            {
+              "description": "FOUR Firmware Update - Windows v1.7.0.8",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/four/Install%20RANE%20FOUR%20Firmware%20Updater%20For%20Firmware%201.7.0.8%20%28Updater%201.1.6%29.exe"
+            },
+            {
+              "description": "FOUR Firmware Release Notes v1.7.0.8",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/four/RANE%20FOUR%20Firmware%20_%201.7.0.8_Release%20Notes.pdf"
+            },
+            {
+              "description": "FOUR Drivers - macOS v1.0.3",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/four/RANE%20FOUR%20DRIVERS/RANE%20FOUR%201.0.3.dmg"
+            },
+            {
+              "description": "FOUR Firmware Update - macOS v1.6.0.2",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/four/RANE%20FOUR%20Firmware%20Updater%20-%20v1.6.0.2.dmg"
+            },
+            {
+              "description": "FOUR Firmware Update - Windows v1.6.0.2",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/four/RANE%20FOUR%20Firmware%20Updater%20-%20v1.6.0.2.exe"
+            },
+            {
+              "description": "FOUR Firmware Release Notes v1.6.0.2",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/four/Release%20Notes%20-%20RANE%20FOUR%20Firmware%20v1.6.0.2.pdf"
+            },
+            {
+              "description": "FOUR Firmware Update - macOS v1.5.0.2",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/four/RANE%20FOUR%20Firmware%20Updater%20-%20v1.5.0.2.dmg"
+            },
+            {
+              "description": "FOUR Firmware Update - Windows v1.5.0.2",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/four/RANE%20FOUR%20Firmware%20Updater%20-%20v1.5.0.2.exe"
+            },
+            {
+              "description": "FOUR Firmware Release Notes v1.5.0.2",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/four/Release%20Notes%20-%20RANE%20FOUR%20Firmware%20v1.5.0.2.pdf"
+            },
+            {
+              "description": "FOUR - User Guide v1.3",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/Software/RD/FOUR%20-%20User%20Guide%20-%20v1.3.pdf"
+            }
+          ]
+        },
+        {
+          "model": "Rane Performer",
+          "downloads": [
+            {
+              "description": "PERFORMER Drivers - macOS v1.0.1",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/performer/Rane%20PERFORMER%201.0.1.dmg"
+            },
+            {
+              "description": "PERFORMER Drivers - Windows v1.0.7",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%201.0.7.exe"
+            },
+            {
+              "description": "PERFORMER Drivers - Windows v1.0.6",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%201.0.6.exe"
+            },
+            {
+              "description": "PERFORMER Drivers - Windows v1.0.2",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%201.0.2.exe"
+            },
+            {
+              "description": "PERFORMER Firmware Update \u2013 macOS v1.3.0.13 (Latest Version)",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.3.0.13.dmg"
+            },
+            {
+              "description": "PERFORMER Firmware Update \u2013 Windows v1.3.0.13 (Latest Version)",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/Software/RD/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.3.0.13.exe"
+            },
+            {
+              "description": "PERFORMER Firmware Release Notes v1.3.0.13",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20PERFORMER%20Firmware%20-%20Release%20Note%20History%20v1.3.0.13.pdf"
+            },
+            {
+              "description": "PERFORMER Firmware Update \u2013 macOS v1.2.0.10",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/performer/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.2.0.10%20%28Updater%201.0.5%29.dmg"
+            },
+            {
+              "description": "PERFORMER Firmware Update \u2013 Windows v1.2.0.10",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.2.0.10%20%28Updater%201.0.4%29.exe"
+            },
+            {
+              "description": "PERFORMER Firmware Release Notes v1.2.0.10",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/performer/Release%20Notes%20-%20Rane%20PERFORMER%20Firmware%20v1.2.0.10.pdf"
+            },
+            {
+              "description": "PERFORMER Firmware Update \u2013 macOS v1.1.0.13",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/performer/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.1.0.13%20%28Updater%201.0.3%29.dmg"
+            },
+            {
+              "description": "PERFORMER Firmware Update \u2013 Windows v1.1.0.13",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.1.0.13%20%28Updater%201.0.3%29.exe"
+            },
+            {
+              "description": "PERFORMER User Guide v1.5",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/Software/RD/PERFORMER%20-%20User%20Guide%20-%20v1.5.pdf"
+            }
+          ]
+        },
+        {
+          "model": "Rane One MKII",
+          "downloads": [
+            {
+              "description": " ONE MKII Firmware Update \u2013 macOS v1.2.0.2 (Latest Version)",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/one-mkii/FW1202/Rane%20ONE%20MKII%20Firmware%20Updater%20For%20Firmware%201.2.0.2%20%28Updater%201.0.2%29%201.dmg"
+            },
+            {
+              "description": " ONE MKII Firmware Update \u2013 Windows v1.2.0.2 (Latest Version) ",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/one-mkii/FW1202/Install%20Rane%20ONE%20MKII%20Firmware%20Updater%20For%20Firmware%201.2.0.2%20%28Updater%201.0.2%29.exe"
+            },
+            {
+              "description": "RANE ONE MKII Firmware Release Notes v1.2.0.2",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/one-mkii/FW1202/RANE%20ONE%20MKII%20Firmware%20_%201.2.0.2%20Release%20Notes.pdf"
+            },
+            {
+              "description": "RANE ONE MKII User Guide",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/rane/one-mkii/ONE%20MKII%20-%20User%20Guide%20-%20v1.1.pdf"
+            },
+            {
+              "description": "RANE ONE MKII Drivers - macOS v1.0.2 ",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/one-mkii/Rane%20ONE%20MKII%201.0.2.dmg"
+            },
+            {
+              "description": "RANE ONE MKII Drivers - Windows v1.0.4",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/one-mkii/Install%20Rane%20ONE%20MKII%201.0.4.exe"
+            }
+          ]
+        },
+        {
+          "model": "Rane One",
+          "downloads": [
+            {
+              "description": "ONE User Guide v1.5",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/rane/one/RANE-ONE-User-Guide-v1_5.pdf"
+            },
+            {
+              "description": "Control Panel for macOS v1.0.1",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/one/Rane%20ONE%201.0.1.dmg"
+            },
+            {
+              "description": "Control Panel for Windows v1.0.1",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/one/Install%20Rane%20ONE%201.0.1.exe"
+            }
+          ]
+        },
+        {
+          "model": "SL4",
+          "downloads": [
+            {
+              "description": "SL 4 CoreAudio Driver for macOS 10.11.4 - 10.14 v2.0.1f1",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/sl4/SL4-2.0.1f1.zip"
+            },
+            {
+              "description": "SL4 CoreAudio Driver for macOS 10.7.5 - 10.10.5 v1.0.3f1",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/sl4/SL4-1.0.3f1.zip"
+            },
+            {
+              "description": "SL4 ASIO Driver for Win 7-SP1 - Win 10 1.0.3f2",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/legacy-product-downloads/RaneAsioSl4Ver1.0.3f2.zip"
+            },
+            {
+              "description": "SL4 Owners Manual for Serato DJ",
+              "type": "User Manual",
+              "url": "https://www.ranecommercial.com/legacy/pdf/sl4_manual_dj.pdf"
+            },
+            {
+              "description": "SL4 Data Sheet",
+              "type": "User Manual",
+              "url": "https://www.ranecommercial.com/legacy/pdf/sl4_data.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://www.denondj.com/downloads",
+      "finding": "The current public download page links LC6000 and several legacy MIDI specifications. It lists X1800/X1850 guides and firmware, without a separate X1800/X1850 MIDI wire table. Existing independent profiles retain their own sources."
+    }
+  ],
+  "checkedGuides": [
+    {
+      "model": "Rane PERFORMER",
+      "version": "1.5",
+      "file": "performer-guide-v1.5.pdf",
+      "finding": "MIDI/audio operating instructions and internal hardware FX appendix. No MIDI address, handshake, motor or display wire table found."
+    },
+    {
+      "model": "Rane SEVENTY-TWO MKII",
+      "version": "1.4",
+      "file": "seventy-two-mk2-guide-v1.4.pdf",
+      "finding": "MIDI remapping instructions and specifications appendix. No MIDI address, handshake or display wire table found. The index also links this file from original SEVENTY-TWO, which does not qualify shared wire protocols."
+    },
+    {
+      "model": "Rane TWELVE MKII",
+      "version": "1.1",
+      "file": "twelve-mk2-guide-v1.1.pdf",
+      "finding": "USB MIDI/DVS operating instructions and specifications appendix. No MIDI address or motor/platter wire table found."
+    }
+  ],
+  "cachedFileSHA256": {
+    "rane-downloads-page-data.json": "06299547b4f96c91988279f447e6ac3ecf1c2ced42717c99fb2653387ee44a61",
+    "rane-query-2568188990.json": "2d89cb3acf8640986d99caae0360c9055995c3cd3728312ccec1bc3215c36915",
+    "rane-query-3542786296.json": "7f996b145a508b420bae3318dc455558c02b53d4d994179dea3c420e731e3e9c",
+    "rane-downloads-component.js": "f03c23ecde1d29d7b4f54078482976109839e470414161502c67edcea511aae1",
+    "performer-guide-v1.5.pdf": "13b9c3ff4dffe95d0fd0460a28af40d8d2115f91cbc513b784e7e8b8651cf97f",
+    "seventy-two-mk2-guide-v1.4.pdf": "83f6edbb759424e7d742abe5db0bf51b17674b40044d1097768b40e21c8ef4d4",
+    "twelve-mk2-guide-v1.1.pdf": "6ad794ab8fcc99d6ce5d7b3399a9ac4eb90b1989c11aaeac7f1a4390d7af438e",
+    "denon-downloads.html": "4a367b19976fe0c34935ff5564adf5ba6d4409534b537881780827bf5107f664"
+  },
+  "limits": [
+    "Read-only public sources. No account request, message, firmware updater, driver installation or proprietary definition extraction.",
+    "No SDK or private-access assumption. Public-source investigation and overall controller support remain incomplete."
+  ]
+}
