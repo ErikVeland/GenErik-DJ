@@ -3,7 +3,7 @@ import Foundation
 public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
     case absolute, touchGate, fullVelocityGate, paired14Bit, paired14BitRelative, twosComplement, binaryOffset,
         signedBit
-    case ndx500Jog, ndx500Browse, g2vBrowse, smcMixerEncoder, iconVelocity
+    case ndx500Jog, ndx500Browse, g2vBrowse, smcMixerEncoder, iconVelocity, p1NanoEncoder
     case numarkPlatinumJog, denonJog, zeroForward, mc7000Jog, dj2go2Jog, signedStep, noteStep, rot64Fast
     case binaryStep, binaryDirection, centreDetent, centredPitch, mixstreamJog, cyclic14BitJog, vci300Tempo,
         vci100MK2Tempo, lc6000Jog, readyTempo, compactTempo, airTempo, fineTempo512
@@ -13,7 +13,7 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
             .twosComplement, .binaryOffset, .signedBit, .paired14BitRelative, .numarkPlatinumJog, .denonJog,
             .zeroForward, .mc7000Jog, .dj2go2Jog, .signedStep, .binaryStep, .binaryDirection, .mixstreamJog,
             .cyclic14BitJog, .lc6000Jog, .compactTempo, .fineTempo512, .noteStep, .rot64Fast, .ndx500Jog, .ndx500Browse, .g2vBrowse,
-            .smcMixerEncoder, .iconVelocity,
+            .smcMixerEncoder, .iconVelocity, .p1NanoEncoder,
         ]
         .contains(self)
     }
@@ -27,7 +27,7 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
             && self != .lc6000Jog && self != .readyTempo && self != .compactTempo && self != .airTempo
             && self != .fineTempo512 && self != .noteStep && self != .rot64Fast
             && self != .ndx500Jog && self != .ndx500Browse && self != .g2vBrowse
-            && self != .smcMixerEncoder && self != .iconVelocity
+            && self != .smcMixerEncoder && self != .iconVelocity && self != .p1NanoEncoder
     }
     public var isContactGate: Bool { self == .touchGate || self == .fullVelocityGate }
     public var title: String {
@@ -65,6 +65,7 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
         case .g2vBrowse: "G2V browser"
         case .smcMixerEncoder: "SMC-Mixer encoder"
         case .iconVelocity: "iControls counted encoder"
+        case .p1NanoEncoder: "P1-Nano counted encoder"
         case .signedBit: "Encoder: 1 / 65"
         case .cdjPlatterSpeed: "CDJ platter speed"
         case .cdjRingSpeed: "CDJ wheel-side speed"
@@ -93,6 +94,13 @@ public struct ControllerMIDIValueState: Sendable {
     )
         -> ControllerMIDIValue?
     {
+        if encoding == .p1NanoEncoder {
+            guard message.kind == .control, message.number == number, message.maximum == 127,
+                (0...127).contains(message.value)
+            else { return nil }
+            let counts = message.value < 64 ? message.value : 64 - message.value
+            return .relative(Double(counts) * 1.27)
+        }
         if encoding == .smcMixerEncoder || encoding == .iconVelocity {
             guard message.kind == .control, message.number == number, message.maximum == 127,
                 (0...127).contains(message.value)

@@ -806,3 +806,12 @@ Manual profiles provide both cue banks, Sync, native loop push and fixed A/B Loa
 Sampler, fader-start, mixer/PFL and unspecified relative encoders remain inactive. Fader-start Note0 must never become Play.
 The documented non-Serato hardware mixer route needs separate deck outputs. This route is not implemented, so automatic selection stays off.
 No output, lifecycle or PRIMO/QUATTRO compatibility is inferred. Physical USB/driver/audio acceptance remains open.
+
+### P1-Nano MIDI1 manual input (R335)
+
+`p1nano.py` follows the independent XML/script groups for A/B/C/D, with the source's documented DAW1 Bitwig configuration.
+`ControllerP1NanoDecoder` retains selected transport, latched Flip, full14-bit faders and independent knob parameter selection.
+The `p1NanoEncoder` codec preserves source counts in0.01 normalised units. Neutral0/64 does not adjust a value. The codec is bounded and unavailable to MIDI learning.
+Profile validation admits it only for reviewed P1-Nano gain/EQ/filter addresses. Raw logical channels, master-fader guesses and custom touchscreen traffic remain inactive.
+Deck/control changes release owned contacts and reset pickup/debounce. Reconnect resets decoder modes; the manual protocol tag remains bounded and persistent.
+Source captions differ from executable lane groups. Motor/display output, complete lifecycle and physical acceptance remain open. Automatic selection stays off.

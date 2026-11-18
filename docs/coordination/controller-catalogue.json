@@ -18089,48 +18089,101 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Icon-P1Nano.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Icon-P1Nano.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Icon-P1Nano.midi.xml"
       ],
       "definitions": [
-        "Icon-P1Nano.midi.xml"
+        "Icon-P1Nano.midi.xml",
+        "reviewed:p1-nano-midi1"
       ],
-      "implementation": "adapter-needed",
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Icon P1-Nano MIDI 1",
+      "automaticControls": false,
+      "controlActions": [
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "jumpBackA:a",
+        "jumpBackA:c",
+        "jumpBackB:b",
+        "jumpBackB:d",
+        "jumpForwardA:a",
+        "jumpForwardA:c",
+        "jumpForwardB:b",
+        "jumpForwardB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "tempoA:a",
+        "tempoA:c",
+        "tempoB:b",
+        "tempoB:d"
+      ],
+      "inputBindingCount": 48,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual P1-Nano MIDI1 input with default DAW1 Bitwig configuration. Native lanes follow executable A/B/C/D source groups. C/D requires app opt-in. Motor/display output remains inactive."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "adapter-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "A controller-specific protocol adapter is required."
+        "Manual MIDI1/default DAW1 input only. Source descriptions differ from executable lane groups; native A/B/C/D contract needs physical confirmation. Motor/position feedback, display/ring/meters, master-fader midpoint, knob resets, custom touchscreen controls, recording/navigation/keyboard modes, endpoint/USB qualification, complete lifecycle/calibration and physical/A10X acceptance remain open. No generic MCU or P1-M/P1-X compatibility is inferred.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -321755,6 +321808,37 @@
         },
         {
           "reason": "Manual performance inputs only. Non-Serato operation requires external hardware mixing with separate deck audio outputs, which the app does not provide. Input/output USB/driver qualification, cold routing discovery, hardware mixer/PFL ownership, relative loop/browser values, sampler/FX/fader-start semantics, lighting, complete lifecycle and physical/A10X acceptance remain open. Fader-start Note0 is not a Play command. No PRIMO or QUATTRO protocol is inferred."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:p1-nano-midi1",
+      "name": "Icon P1-Nano MIDI 1",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Icon-P1Nano.midi.xml",
+        "sha256": "ecbfe0e4fa6086b541de170efff0e9ddb6497a98f4a82e251a8d4a317d9005d0",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Icon-P1Nano-scripts.js",
+            "sha256": "d4ef3188fbd5f057b08d91aaf668864a345802fe0fd44bb38958e9e0cd12e4c6"
+          },
+          {
+            "url": "https://manual.mixxx.org/2.5/en/hardware/controllers/icon_p1_nano"
+          }
+        ],
+        "review": "Pinned XML/script input dispatch uses selected transport on wire0 Notes94 Play,93 held Cue,91/92 jumps and86 loop; positive Notes24..27 select executable Channel1..4 ownership. XML descriptions/manual tables label some lanes C/A/B/D, unlike actual XML groups and script arrays; native core follows executable A/B/C/D groups explicitly. Default DAW1 Bitwig configuration needs no proprietary remap according to upstream manual. Flip Note50 latches software mode; repeated positive packets cannot toggle twice without release. Normal raw pitch channels0..3 provide full14-bit volume, flipped logical channels4..7 provide centred inverted tempo. Four CC16..19 encoders retain independent gain/high/mid/low/filter assignments. In Flip, raw<64 selects next parameter and other values previous; this includes source zero-value selector behaviour. Otherwise raw<64 adds raw/100 normalised units; raw>=64 subtracts(raw-64)/100. A separate bounded counted codec preserves acceleration and neutral0/64. Knob resets, master-fader midpoint, navigation/focus modes, recording, custom touchscreen notes, motor/display/MCU output and full lifecycle remain inactive. MIDI1 selection stays manual until endpoint, motor/display and USB behaviour are qualified. No P1-M/P1-X or generic MCU alias is inferred. Physical/A10X acceptance remains open."
+      },
+      "implementedInputCount": 48,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual MIDI1/default DAW1 input only. Source descriptions differ from executable lane groups; native A/B/C/D contract needs physical confirmation. Motor/position feedback, display/ring/meters, master-fader midpoint, knob resets, custom touchscreen controls, recording/navigation/keyboard modes, endpoint/USB qualification, complete lifecycle/calibration and physical/A10X acceptance remain open. No generic MCU or P1-M/P1-X compatibility is inferred."
         }
       ]
     },

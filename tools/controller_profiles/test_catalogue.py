@@ -998,6 +998,22 @@ class GeneratedCatalogueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
 
+    def test_p1_nano_has_manual_stateful_input_without_unqualified_motor_output(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Icon P1-Nano MIDI 1"),None)
+        self.assertIsNotNone(item,"P1-Nano needs independent selected-deck and Flip decoding")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(item["inputProtocol"],"p1Nano")
+        self.assertEqual(len(item["inputs"]),48)
+        self.assertEqual(sum(r["encoding"]=="p1NanoEncoder" for r in item["inputs"]),20)
+        self.assertEqual(sum(r["kind"]=="pitch" for r in item["inputs"]),8)
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        from p1nano import P1_SOURCES
+        for filename,digest in P1_SOURCES:
+            path=ROOT/"TestBuilds/r169/upstream/res/controllers"/filename
+            if path.exists(): self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),digest)
+
     def test_duo_and_mkii_have_explicit_manufacturer_shared_manual_cue_cores(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         for name in ["Mixars DUO","Mixars DUO MKII"]:

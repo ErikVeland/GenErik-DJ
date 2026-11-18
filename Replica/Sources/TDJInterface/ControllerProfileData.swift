@@ -3,7 +3,7 @@ import TDJCore
 
 struct ControllerProfileData: Decodable, Sendable {
     enum InputProtocol: String, Codable, Sendable {
-        case smk25II, cdj101, ddjSR2, keyLabMKI, kontrolOne, midiFighterSpectra
+        case smk25II, cdj101, ddjSR2, keyLabMKI, kontrolOne, midiFighterSpectra, p1Nano
     }
     enum AudioOutput: String, Decodable, Sendable {
         case masterAndHeadphones
@@ -149,6 +149,9 @@ struct ControllerProfileData: Decodable, Sendable {
                         || ($0.kind == .control && [.gainA, .gainB, .master, .monitor, .cueMix].contains($0.action)))
                     && ($0.encoding != .iconVelocity
                         || ($0.kind == .control && [.gainA, .gainB, .filterKnobA, .filterKnobB].contains($0.action)))
+                    && ($0.encoding != .p1NanoEncoder
+                        || (inputProtocol == .p1Nano && $0.kind == .control && (16...20).contains($0.number)
+                            && [.gainA, .gainB, .highA, .highB, .midA, .midB, .lowA, .lowB, .filterKnobA, .filterKnobB].contains($0.action)))
                     && ($0.encoding != .noteStep || ($0.kind == .note && $0.action.isJog))
                     && ($0.encoding != .rot64Fast || ($0.kind == .control && [.master, .monitor].contains($0.action)))
                     && ($0.encoding != .readyTempo || [.tempoA, .tempoB].contains($0.action))
