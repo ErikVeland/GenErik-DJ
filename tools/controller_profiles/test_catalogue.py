@@ -861,6 +861,17 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_primo_table_conflicts_stay_explicit_without_a_speculative_recipe(self):
+        from manufacturer_inventory import SOURCE_AUDITS
+        audit = SOURCE_AUDITS["Mixars PRIMO"]
+        self.assertFalse(audit["automaticSupportAdded"])
+        self.assertEqual(audit["reviewedPages"], [45, 46, 47])
+        runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        self.assertFalse(any(r["id"] == "Mixars PRIMO" for r in runtime["profiles"]))
+        path = ROOT / "TestBuilds/r296/manufacturer/primo-manual.pdf"
+        if path.exists():
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), audit["source"]["sha256"])
+
     def test_buddy_manual_subset_rejects_conflicting_addresses_and_custom_modes(self):
         runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item = next((r for r in runtime["profiles"] if r["id"] == "Reloop Buddy"), None)

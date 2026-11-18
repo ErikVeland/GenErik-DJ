@@ -42,6 +42,15 @@ SOURCE_AUDITS["Hercules DJControl Inpulse T7"]["gaps"] = [
     "The djay XML omits its custom app class. An independently pinned public beta now documents the platter clock and motor commands. Native motor/velocity handover remains unimplemented; ordinary MIDI controls have a separate manual recipe."
 ]
 
+SOURCE_AUDITS["Mixars PRIMO"] = {
+    "source": {"url": "https://mixars.com/wp-content/uploads/2022/11/primo-manual-en-fr-d-it-es.pdf",
+               "sha256": "9006025f242280f2f339991eb3004c4ef961b39c8466c915273a9586f3f3471c"},
+    "relatedSources": [{"url": "https://mixars.com/support-download/"}],
+    "format": "Manufacturer PDF", "reviewedPages": [45, 46, 47], "automaticSupportAdded": False,
+    "gaps": ["The printed channel key N assigns transport and pad modes overlapping Note1 (Cue/Hot Cue), Note7 (Vinyl/Roll) and Note11 (bend/Sampler). PFL omits its channel key. Do not silently replace N with P.",
+             "Shared global Load4/5 requires deck-bank state. SelectorCC34/Note8 values are unspecified. Relative jog/browser formats, pad mode ownership, button light values and lifecycle remain unqualified.",
+             "Firmware1.12 adds14-bit pitch, but the old table lists onlyCC9 without low-byte order. Later firmware1.16 does not supply a revised protocol chart. External mixer/audio ownership also requires review."]}
+
 MODELS = [
     ('Hercules DJControl Inpulse T7', 'https://community.algoriddim.com/t/hercules-inpulse-t7-support/20172/186'),
     ('Reloop Mixon 8 Pro', 'https://community.algoriddim.com/t/reloop-mixon-8-ultimate-stems-mapping/20579'),

@@ -3442,3 +3442,16 @@ Both logs and expected importer failures remain in `TestBuilds/r295/`. The repos
 Inline review followed the serial-work rule; no reviewer agent was started.
 Source base: `0a5c395`. Primary source: [author upload](https://community.algoriddim.com/t/midi-mapping-for-reloop-buddy/15528).
 No signed app, install, controller hardware test or A10X acceptance forms part of this increment.
+
+## R296 PRIMO manufacturer table boundary
+
+The [manufacturer manual](https://mixars.com/wp-content/uploads/2022/11/primo-manual-en-fr-d-it-es.pdf) contains MIDI tables on PDF pages45–47.
+Visual review confirms overlapping channel-N transport/pad assignments and a missing PFL channel key. These are printed table issues, not extraction errors.
+The [firmware history](https://mixars.com/support-download/) adds14-bit pitch in1.12 without a revised byte-order table.
+The source audit records these conflicts and the unknown Load-bank selector values. No runtime recipe or channel correction is invented.
+The available third-party Traktor download requires sign-in. Its discussion does not resolve these wire facts.
+The catalogue keeps PRIMO open until an independent mapping or capture resolves them.
+
+All 127 importer checks pass. All 177 runtime recipes remain unchanged.
+The repository check retains twelve historical broken links. No native code or runtime resource changed.
+Source base: `83753a1`. Hashes, rendered tables and validation remain in `TestBuilds/r296/`.
