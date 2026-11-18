@@ -19132,54 +19132,62 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg%20nanoKONTROL%202.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg%20nanoKONTROL%202.midi.xml",
+        "https://cdn.korg.com/us/support/download/files/aeb2862daf0cb7db826d8c62f51ec28d.txt"
       ],
       "definitions": [
-        "Korg nanoKONTROL 2.midi.xml"
+        "Korg nanoKONTROL 2.midi.xml",
+        "reviewed:nanokontrol2-native-fixed-mixer"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Korg nanoKONTROL2",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cueMix",
         "levelA:a",
         "levelA:c",
         "levelB:b",
-        "levelB:d"
+        "levelB:d",
+        "shift"
       ],
-      "inputBindingCount": 4,
-      "feedbackBindingCount": 0,
+      "inputBindingCount": 12,
+      "feedbackBindingCount": 4,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Automatic native KORG mode through a paired output after model/channel acknowledgement. Fixed native A/B/C/D volume/PFL and headphone blend. C/D requires app opt-in. Saved scene data stays unchanged."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 47,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Fixed native mixer only. Latched NSMR/selected-deck layers, mute/slip/transport, sampler channels, selected EQ/key/FX controls, full lighting, response timeout/recovery and complete lifecycle remain open. Native-mode exit restores normal operation without writing scenes. USB and physical/A10X acceptance remain open. No audio interface is inferred."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -322420,6 +322428,41 @@
         },
         {
           "reason": "Manual unconditional controls only. RaneOneMK2 class, normal Play, held main Cue, motor/platter, complete pitch pairing/polarity/range, hardware/software mixer ownership and separate deck audio, conditional pads/stems/FX, full output/lifecycle and physical/A10X acceptance remain open. Source custom assignments are not factory compatibility for other RANE models. No motor, setup or output command is sent."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:nanokontrol2-native-fixed-mixer",
+      "name": "Korg nanoKONTROL2",
+      "transport": "midi",
+      "source": {
+        "url": "https://cdn.korg.com/us/support/download/files/aeb2862daf0cb7db826d8c62f51ec28d.txt",
+        "sha256": "87d1d5cbd25bdfce29b77a4b7ce1ebb1e53683a5cd22ab41913df8fb1a54d250",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg%20nanoKONTROL%202.midi.xml",
+            "sha256": "a19c7e408bc1f1045988c9e4c0ef55fc9d7eab3fd0ff1d12ed6e41bb092c5422"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg-nanoKONTROL-2-scripts.js",
+            "sha256": "285927c6c799aab43b9ee2f5e01939c8c98c9f463b1edbf883f0065c0a093de9"
+          },
+          {
+            "url": "https://www.korg.com/us/support/download/manual/0/159/2710/"
+          }
+        ],
+        "review": "Korg revision1.00 defines Search Device F0/42/50/00/echo/F7 and a15-byte model reply carrying global channel, echo and family13/01/member00/00. The configured global channel addresses an11-byte native-mode request. Only a matching Command40/00/03 reply enables controls. Native mode fixes input/output to channel16 regardless of saved scenes; no scene-data dump/write, factory reset or persistent programming is sent. Exit uses the discovered global channel and native Out request. The reviewed upstream default N layout independently supplies dedicated A/B/C/D volume CC0..3, PFL buttons64..67 and headphone blend knob18. Native CC buttons become logical notes, preserving their first press and release. Marker60/61/62 are held guards; faders remain independent. This is a fixed native mixer, not the upstream latched NSMR/selected-deck software layout. Other buttons/sliders/knobs and DAW/custom traffic are inactive. Four PFL lamps use native BF64..67 with127/on and0/off, after acknowledgement only. Missing/malformed/foreign replies or paired send failure cannot enable input or ordinary output. No original nanoKONTROL/nanoPAD/Studio sibling protocol or audio interface is inferred. Full software layers, timeout/recovery/lifecycle and physical/A10X acceptance remain open."
+      },
+      "implementedInputCount": 12,
+      "implementedOutputCount": 4,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Fixed native mixer only. Latched NSMR/selected-deck layers, mute/slip/transport, sampler channels, selected EQ/key/FX controls, full lighting, response timeout/recovery and complete lifecycle remain open. Native-mode exit restores normal operation without writing scenes. USB and physical/A10X acceptance remain open. No audio interface is inferred."
         }
       ]
     },

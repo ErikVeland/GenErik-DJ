@@ -1875,3 +1875,21 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueNanoKontrol2NativeMixerKeepsAudioAndSyncAfterAcknowledgedSetup() async throws {
+    try await withControllerCuePlayback("Korg nanoKONTROL2", prepareInput: { input in
+        input.receiveBytes([0xF0, 0x42, 0x50, 1, 6, 0x2D, 0x13, 1, 0, 0, 0, 0, 1, 0, 0xF7], source: 10)
+        input.receiveBytes([0xF0, 0x42, 0x46, 0, 1, 0x13, 0, 0x40, 0, 3, 0xF7], source: 10)
+    }) { model, input in
+        model.pressPlay(deck: .a, vinylStop: false)
+        input.receiveBytes([0xBF, 0, 127, 18, 64, 64, 127, 64, 0], source: 10)
+        input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(model.playbackSnapshot?.a.mixer.cue == true)
+        #expect(abs((model.playbackSnapshot?.cueBlend ?? 0) - 64.0 / 127) < 0.001)
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

@@ -389,6 +389,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private var cdj101Decoders: [Int32: ControllerCDJ101Decoder] = [:]
     @ObservationIgnored private var sr2Decoders: [Int32: ControllerSR2Decoder] = [:]
     @ObservationIgnored private var kontrolOneDecoders: [Int32: ControllerKontrolOneDecoder] = [:]
+    @ObservationIgnored private var nanoKontrol2Decoders: [Int32: ControllerNanoKontrol2Decoder] = [:]
+    @ObservationIgnored private var nativeFactoryInputs: Set<Int32> = []
     @ObservationIgnored private var sc5000MDecoders: [Int32: ControllerSC5000MDecoder] = [:]
     @ObservationIgnored private var spectraDecoders: [Int32: ControllerSpectraDecoder] = [:]
     @ObservationIgnored private var p1NanoDecoders: [Int32: ControllerP1NanoDecoder] = [:]
@@ -609,6 +611,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         sr2Decoders.removeAll()
         keyLabDecoders.removeAll()
         p1NanoDecoders.removeAll()
+        nanoKontrol2Decoders.removeAll()
         sc5000MDecoders.removeAll()
         spectraDecoders.removeAll()
         kontrolOneDecoders.removeAll()
@@ -701,7 +704,9 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 reconnectInputs()
             }
         }
-        for id in sourceIDs where isInputActive(id) { connectInput(id) }
+        for id in sourceIDs where isInputActive(id)
+            || factorySessions.contains(where: { $0.source == id && $0.profile.definition?.requiresPairedSetup == true })
+        { connectInput(id) }
         if let feedbackSelected, !destinations.contains(where: { $0.id == feedbackSelected }) {
             self.feedbackSelected = nil
             sentFeedback = []
@@ -732,14 +737,21 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             else { return nil }
             return source.id
         })
+        nativeFactoryInputs = Set(sources.compactMap { source in
+            guard let identity = source.identity,
+                ControllerFactoryProfile.matching(identity.names, automaticOnly: true)?.definition?.inputProtocol == .nanoKontrol2Native
+            else { return nil }
+            return source.id
+        })
         let timedDevices = Set(sources.compactMap { source -> UInt32? in
-            guard timedFactoryInputs.contains(source.id), let device = source.identity?.device, device != 0 else { return nil }
+            guard timedFactoryInputs.contains(source.id) || nativeFactoryInputs.contains(source.id),
+                let device = source.identity?.device, device != 0 else { return nil }
             return device
         })
         timedFactoryOutputs = Set(destinations.compactMap { destination in
             guard let identity = destination.identity else { return nil }
             return timedDevices.contains(identity.device)
-                || ControllerFactoryProfile.matching(identity.names, automaticOnly: true)?.definition?.hasDelayedStartup == true
+                || ControllerFactoryProfile.matching(identity.names, automaticOnly: true)?.definition?.requiresPairedSetup == true
                 ? destination.id : nil
         })
         let discovered = ControllerFactorySession.discover(
@@ -867,6 +879,14 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
      * Sends bounded mode messages only to the paired physical output.
      */
     @discardableResult private func sendFactorySetup(_ session: ControllerFactorySession, starting: Bool) -> Bool {
+        if session.profile.definition?.inputProtocol == .nanoKontrol2Native {
+            if starting {
+                nanoKontrol2Decoders[session.source] = .init()
+                status = "Waiting for controller setup."
+            } else if let message = nanoKontrol2Decoders[session.source]?.exitRequest {
+                return sendFactoryMessage(message, session: session, starting: false)
+            }
+        }
         let messages = starting ? session.profile.definition?.startup : session.profile.definition?.shutdown
         guard let messages, !messages.isEmpty else { return true }
         for message in messages {
@@ -948,6 +968,9 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     }
 
     private func failFactorySetup(_ session: ControllerFactorySession) {
+        if session.profile.definition?.inputProtocol == .nanoKontrol2Native {
+            _ = sendFactorySetup(session, starting: false)
+        }
         disconnectInput(session.source)
         factoryBindings[session.source] = nil
         factoryPadModes[session.source] = nil
@@ -1000,6 +1023,9 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     func factoryOutputIsReady(_ id: Int32) -> Bool {
         guard timedFactoryOutputs.contains(id) else { return true }
         guard let session = factorySessions.first(where: { $0.destination == id }) else { return false }
+        if session.profile.definition?.inputProtocol == .nanoKontrol2Native {
+            return nanoKontrol2Decoders[session.source]?.isReady == true
+        }
         return factoryInputReadyTimes[session.source] != nil
     }
 
@@ -1011,7 +1037,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
 
     func applyFactoryProfile(_ profile: ControllerFactoryProfile) {
         guard !originalZ1Bridge, let selected else { return }
-        guard profile.definition?.hasDelayedStartup != true
+        guard profile.definition?.requiresPairedSetup != true
             || factorySessions.contains(where: { $0.source == selected && $0.profile == profile })
         else {
             status = "Controller setup needs a paired MIDI input and output."
@@ -1030,6 +1056,11 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         shiftLayers[selected] = nil
         channelShiftLayers[selected] = nil
         persist()
+        if profile.definition?.inputProtocol == .nanoKontrol2Native,
+            let session = factorySessions.first(where: { $0.source == selected && $0.profile == profile }) {
+            if !sendFactorySetup(session, starting: true) { failFactorySetup(session) }
+            return
+        }
         status = "Loaded the \(profile.rawValue) factory profile."
     }
 
@@ -1099,7 +1130,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         }
     }
     func isInputActive(_ id: Int32) -> Bool {
-        guard !timedFactoryInputs.contains(id) || factoryInputReadyTimes[id] != nil else { return false }
+        guard !timedFactoryInputs.contains(id) || factoryInputReadyTimes[id] != nil,
+            !nativeFactoryInputs.contains(id) || nanoKontrol2Decoders[id]?.isReady == true else { return false }
         return activeInputIDs.contains(id) || factoryBindings[id] != nil
     }
     private func setFactoryDisabled(_ disabled: Bool, profile: ControllerFactoryProfile, source: Int32) {
@@ -1128,6 +1160,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         if let session = factorySessions.first(where: { $0.source == source }) {
             return session.profile.definition?.inputProtocol
         }
+        if nativeFactoryInputs.contains(source) { return .nanoKontrol2Native }
         return manualInputProtocols[source]
     }
 
@@ -1143,6 +1176,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         sr2Decoders[source] = nil
         keyLabDecoders[source] = nil
         p1NanoDecoders[source] = nil
+        nanoKontrol2Decoders[source] = nil
         sc5000MDecoders[source] = nil
         spectraDecoders[source] = nil
         kontrolOneDecoders[source] = nil
@@ -1158,7 +1192,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     }
     @discardableResult private func connectInput(_ id: Int32, startingFactorySetup: Bool = true) -> Bool {
         if connectedEndpoints[id] != nil { return true }
-        let timedSession = factorySessions.first { $0.source == id && $0.profile.definition?.hasDelayedStartup == true }
+        let timedSession = factorySessions.first { $0.source == id && $0.profile.definition?.requiresPairedSetup == true }
         guard enabled, isInputActive(id) || timedSession != nil,
             let source = sources.first(where: { $0.id == id })
         else { return false }
@@ -1178,12 +1212,14 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         sr2Decoders[id] = nil
         keyLabDecoders[id] = nil
         p1NanoDecoders[id] = nil
+        nanoKontrol2Decoders[id] = nil
         sc5000MDecoders[id] = nil
         spectraDecoders[id] = nil
         kontrolOneDecoders[id] = nil
         bridgeDecoders[id] = .init()
         updatePollingInterval()
-        if startingFactorySetup, let timedSession, factoryInputReadyTimes[id] == nil {
+        if startingFactorySetup, let timedSession, factoryInputReadyTimes[id] == nil,
+            nanoKontrol2Decoders[id]?.isReady != true {
             return beginFactorySetup(timedSession)
         }
         return true
@@ -1204,6 +1240,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         sr2Decoders[id] = nil
         keyLabDecoders[id] = nil
         p1NanoDecoders[id] = nil
+        nanoKontrol2Decoders[id] = nil
         sc5000MDecoders[id] = nil
         spectraDecoders[id] = nil
         kontrolOneDecoders[id] = nil
@@ -1221,7 +1258,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     private func reconnectInputs() {
         for id in Array(connectedEndpoints.keys) { disconnectInput(id) }
         for source in sources where isInputActive(source.id)
-            || factorySessions.contains(where: { $0.source == source.id && $0.profile.definition?.hasDelayedStartup == true })
+            || factorySessions.contains(where: { $0.source == source.id && $0.profile.definition?.requiresPairedSetup == true })
         { connectInput(source.id) }
     }
     func setBridgeMode(_ enabled: Bool) {
@@ -1962,7 +1999,9 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @discardableResult func receiveBytes(
         _ bytes: [UInt8], source: Int32, limit: Int = 256, timestamp: UInt64 = DispatchTime.now().uptimeNanoseconds
     ) -> Int? {
-        guard isInputActive(source) else { return 0 }
+        let nativeSetup = inputProtocol(for: source) == .nanoKontrol2Native
+            && factorySessions.contains { $0.source == source && $0.profile.definition?.inputProtocol == .nanoKontrol2Native }
+        guard isInputActive(source) || nativeSetup else { return 0 }
         if let ready = factoryInputReadyTimes[source], timestamp < ready { return 0 }
         guard bytes.count <= 4096, (0...256).contains(limit) else {
             stop()
@@ -2028,6 +2067,37 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                     flushPendingActions()
                     releaseMomentaryActions(source: source)
                     resetInputValueStates(inputBindings(source: source))
+                }
+            }
+            return events.count
+        }
+        if inputProtocol(for: source) == .nanoKontrol2Native {
+            var decoder = nanoKontrol2Decoders[source, default: .init()]
+            let events = decoder.append(bytes)
+            nanoKontrol2Decoders[source] = decoder
+            guard events.count <= limit else {
+                stop()
+                status = "Controller input overload. Reconnect to continue."
+                return nil
+            }
+            for event in events {
+                switch event {
+                case .request(let message):
+                    guard let session = factorySessions.first(where: { $0.source == source }),
+                        sendFactoryMessage(message, session: session, starting: true) else {
+                        if let session = factorySessions.first(where: { $0.source == source }) { failFactorySetup(session) }
+                        return nil
+                    }
+                case .modeChanged(let ready):
+                    releaseMomentaryActions(source: source, resetJogs: false)
+                    shiftLayers[source] = nil
+                    channelShiftLayers[source] = nil
+                    resetInputValueStates(inputBindings(source: source))
+                    status = ready ? "Controller ready." : "Controller left its MIDI mode. Reconnect to continue."
+                    if let destination = factorySessions.first(where: { $0.source == source })?.destination {
+                        sentFactoryValues[destination] = nil
+                    }
+                case .message(let message): receive(message, source: source)
                 }
             }
             return events.count

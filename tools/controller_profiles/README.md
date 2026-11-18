@@ -866,3 +866,12 @@ The45-binding manual subset retains Load, Sync/explicit off, keylock, bends, nor
 Global Shift guards normal controls. Shifted releases rearm known actions. The dedicated Sync-off message remains explicit and layer-independent.
 Absent normal Play/main Cue/motor handling, pitch pairing, external mixer audio and conditional custom-class dispatch stay inactive.
 The public exports do not include the RaneOneMK2 class. Complete output/lifecycle/audio and physical acceptance remain open. No source code or mapping executes in the app.
+
+### nanoKONTROL2 transient native mode (R343)
+
+`nanokontrol2.py` pins Korg's published protocol and the independent upstream functional addresses.
+Search validates the model/echo and discovers its global channel. A matching native acknowledgement enables fixed channel16 input and four PFL lamps.
+The12-input native mixer keeps dedicated volumes independent of held Marker modifiers. PFL buttons become logical notes, so their first presses work.
+Setup requests use only the paired physical output. Failure and shutdown send native exit when the channel is known. No scene write, reset or persistent programming is sent.
+Known native inputs and ordinary feedback stay blocked before confirmation or after failure/exit. Unpaired manual setup is rejected. Clearing learned mappings exits mode and requires fresh setup.
+Source refresh reconnects paired setup sessions even while readiness gates input. Full software layers, reply timeout/recovery, lifecycle and physical acceptance remain open.

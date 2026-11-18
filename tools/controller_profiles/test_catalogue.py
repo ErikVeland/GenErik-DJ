@@ -1000,6 +1000,21 @@ class GeneratedCatalogueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
 
+    def test_nanokontrol2_uses_documented_transient_native_mode_without_writing_scenes(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next(r for r in runtime["profiles"] if r["id"]=="Korg nanoKONTROL2")
+        self.assertTrue(item["autoSelect"],"nanoKONTROL2 needs acknowledged native mode rather than a custom scene")
+        self.assertEqual(item["inputProtocol"],"nanoKontrol2Native")
+        self.assertEqual(item["startup"],[[0xF0,0x42,0x50,0,0x2D,0xF7]])
+        self.assertEqual(len(item["inputs"]),12)
+        self.assertEqual(len(item["outputs"]),4)
+        self.assertFalse(item["shutdown"])
+        self.assertFalse(any(i["action"].startswith(("play","jog","tempo","hotcue")) for i in item["inputs"]))
+        from nanokontrol2 import NANO2_SPEC_SHA,NANO2_SOURCES
+        self.assertEqual(hashlib.sha256((ROOT/"TestBuilds/r343/upstream/nanoKONTROL2-MIDIimp.txt").read_bytes()).hexdigest(),NANO2_SPEC_SHA)
+        for filename,digest in NANO2_SOURCES:
+            self.assertEqual(hashlib.sha256((ROOT/"TestBuilds/r169/upstream/res/controllers"/filename).read_bytes()).hexdigest(),digest)
+
     def test_rane_one_mk2_imports_only_independently_agreed_rows_and_keeps_missing_class_open(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="Rane ONE MKII"),None)
