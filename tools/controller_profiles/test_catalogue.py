@@ -1000,6 +1000,35 @@ class GeneratedCatalogueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
 
+    def test_sc_live_and_mixstream_go_keep_independent_fixed_manual_contracts(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        for name,count in [("Denon DJ SC Live 2",52),("Denon DJ SC Live 4",28),("Numark Mixstream Pro Go",36)]:
+            item=next((r for r in runtime["profiles"] if r["id"]==name),None)
+            self.assertIsNotNone(item,name+" needs its independent fixed manual contract")
+            self.assertFalse(item["autoSelect"])
+            self.assertEqual(len(item["inputs"]),count)
+            self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+            self.assertNotIn("audioOutput",item)
+            self.assertFalse(any(i["action"].startswith(("jog","hotcue","filter")) for i in item["inputs"]))
+            if name.endswith("4"):
+                self.assertFalse(any(i["action"].startswith(("play","cuePreview","sync","tempo","load","shift","loop","pitch")) for i in item["inputs"]))
+                self.assertEqual({i["targetDeck"] for i in item["inputs"] if "targetDeck" in i},set("abcd"))
+            elif name.startswith("Numark"):
+                self.assertFalse(any(i["action"].startswith(("tempo","loop","keylock")) for i in item["inputs"]))
+        from fixed_engine_consoles import ENGINE_FIXED_MODELS
+        for name,hardware,digest in ENGINE_FIXED_MODELS:
+            path=ROOT/"TestBuilds/r349/upstream"/(hardware+"-assignments.qml")
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),digest)
+            text=path.read_text()
+            for field,value in [("pflNote",13),("trimCC",3),("trebleCC",4),("midCC",6),("bassCC",8),("faderCC",14)]:
+                self.assertRegex(text,field+r":\s*"+str(value)+r"\b")
+            if hardware in {"JP20","JP21"}:
+                for field,value in [("cueMixCC",18),("cueGainCC",19),("masterCC",20)]:
+                    self.assertRegex(text,field+r":\s*"+str(value)+r"\b")
+            else:
+                for field,value in [("cueMixCC",9),("cueGainCC",10),("masterCC",15)]:
+                    self.assertRegex(text,field+r":\s*"+str(value)+r"\b")
+
     def test_prime_go_and_prime2_use_independent_assignments_and_no_pad_jog_or_sibling_inference(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         for name,automatic,count in [("Denon DJ PRIME GO",True,43),("Denon DJ PRIME 2",False,49)]:

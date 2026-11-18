@@ -14195,46 +14195,91 @@
       "role": "primary",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://raw.githubusercontent.com/ghuntley/denon-prime4/dfb7c339a2f6c29909d4bd24abadf858ae7c6b9e/engineos/usr/Engine/AssignmentFiles/PresetAssignmentFiles/JP20/JP20_Controller_Assignments.qml"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:engine-fixed-jp20"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Denon DJ SC Live 2",
+      "automaticControls": false,
+      "controlActions": [
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "loopSizeA:a",
+        "loopSizeB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b"
+      ],
+      "inputBindingCount": 52,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual original SC Live 2 raw Computer-mode input with separate app mixer audio. Fixed A/B controls only. Pads, jogs, displays, automatic audio routing and complete host lifecycle remain unqualified."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Manual SC Live 2 only with separate app mixer audio. Pads, modes/FX, jog/touch/calibration, screens, complete host setup/output/lifecycle/audio and physical/A10X acceptance remain open. No sibling model, persistent setting or firmware-update command is inferred.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -14250,46 +14295,80 @@
       "role": "primary",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://raw.githubusercontent.com/ghuntley/denon-prime4/dfb7c339a2f6c29909d4bd24abadf858ae7c6b9e/engineos/usr/Engine/AssignmentFiles/PresetAssignmentFiles/JP21/JP21_Controller_Assignments.qml"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:engine-fixed-jp21"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Denon DJ SC Live 4",
+      "automaticControls": false,
+      "controlActions": [
+        "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cueMix",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor"
+      ],
+      "inputBindingCount": 28,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual original SC Live 4 raw Computer-mode input with separate app mixer audio. Fixed four-strip mixer only; C/D require app opt-in. Deck Layer/transport/Load remain inactive. Pads, jogs, displays, automatic audio routing and complete host lifecycle remain unqualified."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Manual SC Live 4 only with separate app mixer audio. Deck Layer31, cold target and shared Load ownership stay unqualified; no deck control is active. Pads, modes/FX, jog/touch/calibration, screens, complete host setup/output/lifecycle/audio and physical/A10X acceptance remain open. No sibling model, persistent setting or firmware-update command is inferred.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -22744,46 +22823,81 @@
       "role": "primary",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://raw.githubusercontent.com/ghuntley/denon-prime4/dfb7c339a2f6c29909d4bd24abadf858ae7c6b9e/engineos/usr/Engine/AssignmentFiles/PresetAssignmentFiles/NH10/NH10_Controller_Assignments.qml"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:engine-fixed-nh10"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Numark Mixstream Pro Go",
+      "automaticControls": false,
+      "controlActions": [
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 36,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual original Mixstream Pro Go raw Computer-mode input with separate app mixer audio. Fixed A/B controls only. Pads, jogs, displays, automatic audio routing and complete host lifecycle remain unqualified."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Manual Mixstream Pro Go only with separate app mixer audio. Tempo polarity remains unqualified. Pads, modes/FX, jog/touch/calibration, screens, complete host setup/output/lifecycle/audio and physical/A10X acceptance remain open. No sibling model, persistent setting or firmware-update command is inferred.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -323038,6 +323152,99 @@
         },
         {
           "reason": "Original PRIME 2 only. Manual firmware-defined subset; host setup and audio ownership remain unqualified. Pads/Bank/mode selectors, dual Color FX, jog/touch/calibration, displays, full output/setup/lifecycle/audio and physical/A10X acceptance remain open. No sibling protocol or persistent setting is inferred."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:engine-fixed-jp20",
+      "name": "Denon DJ SC Live 2",
+      "transport": "midi",
+      "source": {
+        "url": "https://raw.githubusercontent.com/ghuntley/denon-prime4/dfb7c339a2f6c29909d4bd24abadf858ae7c6b9e/engineos/usr/Engine/AssignmentFiles/PresetAssignmentFiles/JP20/JP20_Controller_Assignments.qml",
+        "sha256": "f40fad7cad69da02a3dee2c04c39d8010495d56d8151d493180df9b1190cfd53",
+        "revision": "dfb7c339a2f6c29909d4bd24abadf858ae7c6b9e",
+        "relatedSources": [
+          {
+            "url": "https://deathcamel58.github.io/denon-reverse-engineering/firmware.html"
+          },
+          {
+            "url": "https://deathcamel58.github.io/denon-reverse-engineering/engine-midi-devices.html"
+          }
+        ],
+        "review": "Independent JP20 assignment and the public firmware researcher's hardware-ID table identify this model. Fixed mixer channels use gain/high/mid/low/level CC3/4/6/8/14 and PFL Note13, with explicit channel0/1. JP20 names SCX-2 and separately declares physical deck channels2/3, normal Play10/Cue9/Sync8/Keylock34/bends29/30/manual LoopIn37/Out38/loop-sizeCC32, per-side Shift28 and global Load1/2. Its explicit SpeedSlider pair31/75 has invert true. Global crossfader14, cue-mix18/headphone19/master20 differ from Prime2 and original GO. Jogs useCC17/49, not Prime2's55/77. Reuse only the independently agreed fixed transport/mixer fields. Firmware assignments are protocol references, not a complete host SDK. Manual raw Computer-mode selection and separate app mixer audio remain required. No reset, motor, setup, output or stored-setting packet is sent. Full pads/FX, jog/touch/calibration, screens, host lifecycle/audio and physical/A10X acceptance remain open."
+      },
+      "implementedInputCount": 52,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual SC Live 2 only with separate app mixer audio. Pads, modes/FX, jog/touch/calibration, screens, complete host setup/output/lifecycle/audio and physical/A10X acceptance remain open. No sibling model, persistent setting or firmware-update command is inferred."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:engine-fixed-jp21",
+      "name": "Denon DJ SC Live 4",
+      "transport": "midi",
+      "source": {
+        "url": "https://raw.githubusercontent.com/ghuntley/denon-prime4/dfb7c339a2f6c29909d4bd24abadf858ae7c6b9e/engineos/usr/Engine/AssignmentFiles/PresetAssignmentFiles/JP21/JP21_Controller_Assignments.qml",
+        "sha256": "86a3a1a6f8731b8126c4442355f3519cee2a0cf7d50a8aad4ea3d2e496fb3f5d",
+        "revision": "dfb7c339a2f6c29909d4bd24abadf858ae7c6b9e",
+        "relatedSources": [
+          {
+            "url": "https://deathcamel58.github.io/denon-reverse-engineering/firmware.html"
+          },
+          {
+            "url": "https://deathcamel58.github.io/denon-reverse-engineering/engine-midi-devices.html"
+          }
+        ],
+        "review": "Independent JP21 assignment and the public firmware researcher's hardware-ID table identify this model. Fixed mixer channels use gain/high/mid/low/level CC3/4/6/8/14 and PFL Note13, with explicit channel0/1/2/3. JP21 names SCX-4 and declares deck channels4/5, Layer31 and four mixer channels. Host layer routing, initial selected deck and shared Load ownership are unqualified, so the profile exposes only the fixed four-strip mixer and global crossfader14/cue-mix18/headphone19/master20. No Prime4 four-button selector or decoder is inherited. Firmware assignments are protocol references, not a complete host SDK. Manual raw Computer-mode selection and separate app mixer audio remain required. No reset, motor, setup, output or stored-setting packet is sent. Full pads/FX, jog/touch/calibration, screens, host lifecycle/audio and physical/A10X acceptance remain open."
+      },
+      "implementedInputCount": 28,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual SC Live 4 only with separate app mixer audio. Deck Layer31, cold target and shared Load ownership stay unqualified; no deck control is active. Pads, modes/FX, jog/touch/calibration, screens, complete host setup/output/lifecycle/audio and physical/A10X acceptance remain open. No sibling model, persistent setting or firmware-update command is inferred."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:engine-fixed-nh10",
+      "name": "Numark Mixstream Pro Go",
+      "transport": "midi",
+      "source": {
+        "url": "https://raw.githubusercontent.com/ghuntley/denon-prime4/dfb7c339a2f6c29909d4bd24abadf858ae7c6b9e/engineos/usr/Engine/AssignmentFiles/PresetAssignmentFiles/NH10/NH10_Controller_Assignments.qml",
+        "sha256": "a9061eddd0d8f599fcf883832af4dc5fc99302ac9766019aae9e8fa895edafb8",
+        "revision": "dfb7c339a2f6c29909d4bd24abadf858ae7c6b9e",
+        "relatedSources": [
+          {
+            "url": "https://deathcamel58.github.io/denon-reverse-engineering/firmware.html"
+          },
+          {
+            "url": "https://deathcamel58.github.io/denon-reverse-engineering/engine-midi-devices.html"
+          }
+        ],
+        "review": "Independent NH10 assignment and the public firmware researcher's hardware-ID table identify this model. Fixed mixer channels use gain/high/mid/low/level CC3/4/6/8/14 and PFL Note13, with explicit channel0/1. NH10 is independently identified as Mixstream Pro Go. Its objectName still says MIXSTREAM PRO, which alone is not model identity proof. Fixed deck channels2/3 declare Play10/Cue9/Sync8/bends29/30 and Shift28; global Load1/2 and crossfader14/cue-mix9/headphone10/master15 stay separate from SC Live. Tempo polarity is not explicit in NH10 and stays inactive. No original Pro jog codec/calibration, pad modes or light values are inherited. NH09's two-band MIXSTREAM is not Pro+; actual Pro+ is NH08S. Firmware assignments are protocol references, not a complete host SDK. Manual raw Computer-mode selection and separate app mixer audio remain required. No reset, motor, setup, output or stored-setting packet is sent. Full pads/FX, jog/touch/calibration, screens, host lifecycle/audio and physical/A10X acceptance remain open."
+      },
+      "implementedInputCount": 36,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual Mixstream Pro Go only with separate app mixer audio. Tempo polarity remains unqualified. Pads, modes/FX, jog/touch/calibration, screens, complete host setup/output/lifecycle/audio and physical/A10X acceptance remain open. No sibling model, persistent setting or firmware-update command is inferred."
         }
       ]
     },

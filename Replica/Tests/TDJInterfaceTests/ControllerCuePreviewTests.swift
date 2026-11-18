@@ -1983,3 +1983,22 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         }
     }
 }
+
+@Test @MainActor func controllerCatalogueEngineFixedNativeMixerAndTransportKeepAudioAndSync() async throws {
+    for name in ["Denon DJ SC Live 2", "Denon DJ SC Live 4", "Numark Mixstream Pro Go"] {
+        try await withControllerCuePlayback(name, manual: true) { model, input in
+            if name.hasSuffix("4") { model.pressPlay(deck: .a, vinylStop: false) }
+            else {
+                cuePreviewPacket([0x92, 9, 127], to: input)
+                #expect(model.playbackSnapshot?.a.touchActive == true)
+                cuePreviewPacket([0x82, 9, 127, 0x92, 10, 127, 10, 0], to: input)
+            }
+            cuePreviewPacket([0xB0, 3, 64, 4, 64, 6, 64, 8, 64, 14, 127, 0x90, 13, 127, 13, 0], to: input)
+            let audio = model.playback.core.renderOffline(frames: 4096)
+            model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+            #expect(model.playbackSnapshot?.a.touchActive == false)
+        }
+    }
+}
