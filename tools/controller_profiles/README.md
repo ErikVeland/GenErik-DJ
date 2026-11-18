@@ -954,3 +954,8 @@ Use explicit channel1/TOGGLE and separate app audio. No factory defaults or sibl
 The current manufacturer article explicitly shares the FLX6 E1 table with FLX6-GT.
 GT reuses the existing core through a distinct automatic profile. Hardware utility mode remains user-selected.
 The exact current PDF hash matches the earlier review. No clone, generic alias or mode-setting command is added.
+
+AIR+ uses its own manufacturer packet table, default channel1/14-bit setup and master1/2-headphones3/4 route.
+Normal and contact-gated scratch streams retain signed counts. Four Hot Cues per side retain velocity edges.
+Physical and reported Shift inputs use source-local OR guards with independent side scopes.
+Sixteen owned lamps clear individually. Update_All_Controls stays unused. Physical polarity/taper/jog calibration remains open.

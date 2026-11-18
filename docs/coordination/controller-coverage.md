@@ -4750,3 +4750,23 @@ The manufacturer requires the utility setting for software other than rekordbox/
 Validation:204 Python checks and ten focused native tests passed. GT now runs through the existing Pioneer system tests. The automatic held-Cue corpus covers153 profiles. The iPad framework compiled and its resource matches the source. All252 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r370/validation.json`.
 
 The catalogue has253 data recipes. Automatic core coverage is192 of343 physical models, with151 without automatic core controls. Full theoretical support and physical/A10X acceptance remain open.
+
+## R371 Independent Hercules AIR+ automatic core
+
+Assumption: use the manufacturer's default channel1/14-bit configuration and keep optional hardware pages outside the core.
+
+- [x] Review all eight specification pages and the default settings on page1 of the manufacturer Traktor guide.
+- [x] Add47 automatic inputs,16 owned lamps, individual shutdown clears and the documented split audio layout.
+- [x] Verify release forms, velocity edges, signed/contact-gated jogs, Shift/mode ownership, pickup and real-WAV playback.
+
+The [official MIDI specification](https://ts.hercules.com/download/sound/manuals/DJ_Air%2B/DJAIR%2B_Spec_MIDI.pdf) supplies independent AIR+ packets. The [manufacturer mapping archive](https://ts.hercules.com/download/sound/TDJS/current/TP2_DJ_AirPlus.zip) includes the guide that marks MIDI channel1,14-bit and headphones3/4 as defaults. The [Mixxx developer wiki](https://github.com/mixxxdj/mixxx/wiki/Hercules-Djcontrol-Air-Plus) confirms class-compliant USB MIDI/audio. This is separate from the original AIR recipe.
+
+A/B Play, held Cue, Sync, PFL and Load retain their own wires. Four velocity Hot Cues per side trigger once for each press. Full-value contact gates Scratch CC104/105. Normal ring CC102/103 stays separate. Both streams retain signed magnitude, including64 as reverse64. Native1024-count sensitivity remains uncalibrated.
+
+Physical and reported Shift inputs use independent identities and source-local OR guards. Each side has its own scope. Shared browsing uses their source-wide OR. Shift and mode changes retire owned contacts. Mode releases preserve new contacts. Mixer, crossfader and pitch use explicit14-bit pairs. EQ/gain follows the table's literal raw0=CW/raw127=CCW polarity. Pitch raw0 positive at the native8% range is an explicit app choice. Physical direction/taper/range still needs calibration.
+
+Sixteen qualified Play/Cue/Sync/PFL/Hot Cue lamps use127/0 and clear individually on shutdown. Startup sends no query or reset. Update_All_Controls CC127 remains unused. FX/loop/sample/pressure pages, filter/gain reassignment, HP Cue/Mix, Vinyl switching, Air/proximity, microphone/recording/Magic, status-only bank recovery and full lifecycle remain open. No downloaded TSI code, firmware, driver or stored-setting command runs in the app.
+
+Validation:205 Python checks and eight focused native tests passed, including the154-profile held-Cue corpus. Real-WAV fixtures verified Cue release, scratch cleanup, finite audio and saved Sync. The iPad framework compiled and its resource matches the source. All253 earlier recipes remain identical. An initial source check required adding the newly documented audio route to its explicit allowlist. A test-only API-name correction followed the first native compile. Both failed logs are retained. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r371/validation.json`.
+
+The catalogue has254 data recipes. Automatic core coverage is193 of343 physical models, with150 without automatic core controls. Full theoretical support, physical USB/audio acceptance and A10X performance remain open.

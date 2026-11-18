@@ -917,6 +917,27 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for bad in [products+products,products[:100],products+'<li data-hardware-target="midinote ios">Unknown: Screen</li>',products.replace('mac ios','mac unknown',1)]:
             with self.assertRaises(ValueError):read_djay(bad)
 
+    def test_air_plus_uses_its_own_default_fourteen_bit_and_distinct_scratch_streams(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Hercules DJControl AIR+"),None)
+        self.assertIsNotNone(item,"Add AIR+ from its own public specification, not original AIR aliases")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),47)
+        self.assertEqual(len(item["outputs"]),16)
+        self.assertEqual(item["audioOutput"],"masterAndHeadphones")
+        self.assertFalse(item["startup"])
+        self.assertEqual(len(item["shutdown"]),16)
+        self.assertFalse(any(p[0]==0xB0 and p[1]==127 for p in item["shutdown"]))
+        self.assertEqual([(r["number"],r["requiresTouch"]) for r in item["inputs"] if r["action"] in {"jogA","jogB"}],[(104,True),(105,True)])
+        self.assertEqual([r["number"] for r in item["inputs"] if r["action"] in {"wheelJogA","wheelJogB"}],[102,103])
+        self.assertEqual([r["number"] for r in item["inputs"] if r["action"] in {"cuePreviewA","cuePreviewB"}],[18,45])
+        self.assertEqual({r["channel"] for r in item["inputs"]},{0})
+        self.assertEqual([r["number"] for r in item["inputs"] if r["action"] in {"tempoA","tempoB"}],[4,10])
+        self.assertTrue(all(r["encoding"]=="paired14Bit" for r in item["inputs"] if r["action"] in {"tempoA","tempoB"}))
+        from air_plus import AIR_PLUS_REFERENCES
+        cached=ROOT/"TestBuilds/r371/upstream/air-plus-midi.pdf"
+        if cached.exists():self.assertEqual(hashlib.sha256(cached.read_bytes()).hexdigest(),AIR_PLUS_REFERENCES[item["id"]]["sha256"])
+
     def test_flx6_gt_reuses_only_the_explicit_manufacturer_shared_midi_contract(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         by={r["id"]:r for r in runtime["profiles"]}
@@ -3167,7 +3188,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
             self.assertEqual(model["audioRouting"], "Automatic master 1–2 / headphones 3–4")
             self.assertTrue(model["theoreticalSupport"]["criteria"]["audioRoutingImplemented"])
             self.assertFalse(model["theoreticalSupport"]["complete"])
-            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct", "Behringer BCD3000", "Hercules DJ Control AIR", "Behringer CMD STUDIO 4a", "Stanton DJC.4", "Hercules P32 DJ", "Korg KAOSS DJ", "Reloop Digital Jockey 2 Interface Edition", "Numark Mixtrack Quad", "MixVibes U-Mix Control Pro", "Reloop Mixtour", "Reloop Beatpad 2", "Behringer CMD STUDIO 2a"})
+            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct", "Behringer BCD3000", "Hercules DJ Control AIR", "Hercules DJControl AIR+", "Behringer CMD STUDIO 4a", "Stanton DJC.4", "Hercules P32 DJ", "Korg KAOSS DJ", "Reloop Digital Jockey 2 Interface Edition", "Numark Mixtrack Quad", "MixVibes U-Mix Control Pro", "Reloop Mixtour", "Reloop Beatpad 2", "Behringer CMD STUDIO 2a"})
 
     def test_scratch_requires_explicit_pulses_and_mode_guarded_shared_pads(self):
         result = scratch_profiles()[0]

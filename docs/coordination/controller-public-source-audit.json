@@ -684,6 +684,33 @@
         "Automatic core after the user selects the required hardware mode. No mode negotiation or stored-setting write.",
         "Merge FX/Jog Cutter, full modes/feedback/lifecycle/audio and physical/A10X acceptance remain open. No clone or generic alias."
       ]
+    },
+    {
+      "request": "R371",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://ts.hercules.com/download/sound/manuals/DJ_Air%2B/DJAIR%2B_Spec_MIDI.pdf",
+          "sha256": "bc214fc30440d5aa8ed40ea2e788ce1141c04cf657a2a9c3064b171032f8d4a5",
+          "review": "All eight pages visually reviewed. Distinct transport/Hot Cue/contact/signed jog packets, explicit14-bit low bytes, literal EQ/gain polarity,16 owned binary outputs and split audio layout."
+        },
+        {
+          "url": "https://ts.hercules.com/download/sound/TDJS/current/TP2_DJ_AirPlus.zip",
+          "sha256": "d6128274aae24bbe7cd6df6fafd0d371c61726cbbe52ab29e4e1231161f20dac",
+          "member": "AIR+-TP2_Config_MAC_v268.pdf",
+          "memberSHA256": "4f5284aff77697e6484a1e43a22043a5dfb6a6a0938fbd00a35ed0379bae99cf",
+          "review": "Page1 visually reviewed. MIDI channel1,14-bit and headphones3/4 are marked defaults. Other guide text reviewed for physical controls. Downloaded TSI files not executed or bundled."
+        },
+        {
+          "url": "https://github.com/mixxxdj/mixxx/wiki/Hercules-Djcontrol-Air-Plus",
+          "review": "Developer wiki confirms class-compliant USB MIDI/audio and master1/2, headphones3/4."
+        }
+      ],
+      "limits": [
+        "Default core47 inputs/16 owned lamps. Generic jog sensitivity and physical EQ/pitch taper/range remain uncalibrated.",
+        "FX/loops/sample/pressure, filter reassignment, HP Cue/Mix, Vinyl/Air, full lifecycle/audio device acceptance and A10X performance remain open.",
+        "No Update_All_Controls query/reset, setting, firmware or driver command. Status-only bank recovery remains open."
+      ]
     }
   ]
 }

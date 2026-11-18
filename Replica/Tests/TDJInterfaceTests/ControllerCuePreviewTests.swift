@@ -2253,3 +2253,22 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.phase.active == false && model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueAIRPlusNativeCueAndModeCleanupKeepAudioAndSavedSync() async throws {
+    try await withControllerCuePlayback("DJControl AIR+") { model,input in
+        cuePreviewPacket([0x90,18,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80,18,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        cuePreviewPacket([0x90,17,127,17,0,27,127,0xB0,104,1],to:input)
+        cuePreviewPacket([0x90,20,127,84,127,20,0,84,0],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        input.currentTargetValue = { model.controllerValue($0.action,targetDeck:$0.deck) }
+        cuePreviewPacket([0xB0,5,64,37,0,6,64,38,0,7,64,39,0,102,1,0x90,64,127,64,0],to:input)
+        let audio = model.playback.core.renderOffline(frames:4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}
