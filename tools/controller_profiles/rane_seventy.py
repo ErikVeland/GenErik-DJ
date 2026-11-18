@@ -37,6 +37,8 @@ def seventy_profiles():
         result["autoSelect"] = False
         result["definition"] = "reviewed:rane-seventy-a-trak" if index else "reviewed:rane-seventy"
         result["aliases"].append("Seventy A-Trak MIDI" if index else "Rane Seventy MIDI")
+        if index:
+            result["aliases"].append("RANE SEVENTY A-TRAK SIGNATURE EDITION")
         result["excludedAliases"] = ["RANE SEVENTY-TWO","RANE SEVENTY-TWO MKII",SEVENTY_SOURCES[1-index][0]]
         result["hardwareMode"] = "Manual subset. Enable input separately and select the connected USB A/B source. Missing class/setup and external mixer audio remain open."
         result["scope"] = "Manual Load, Sync, loop controls and flipped browsing. " + (

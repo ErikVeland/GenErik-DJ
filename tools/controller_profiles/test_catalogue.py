@@ -917,6 +917,21 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for bad in [products+products,products[:100],products+'<li data-hardware-target="midinote ios">Unknown: Screen</li>',products.replace('mac ios','mac unknown',1)]:
             with self.assertRaises(ValueError):read_djay(bad)
 
+    def test_rane_atrak_inventory_names_share_one_physical_model_and_keep_standard_models_separate(self):
+        short="Rane SEVENTY A-Trak Edition"
+        full="RANE SEVENTY A-TRAK SIGNATURE EDITION"
+        self.assertEqual(canonical(short),canonical(full))
+        for other in ["Rane SEVENTY","Rane SEVENTY-TWO","Rane SEVENTY-TWO MKII"]:
+            self.assertNotEqual(canonical(full),canonical(other))
+        catalogue=json.loads((ROOT/"docs/coordination/controller-catalogue.json").read_text())
+        rows=[r for r in catalogue["models"] if "seventyatrak" in r["id"]]
+        self.assertEqual(len(rows),1)
+        self.assertTrue(rows[0]["benchmark"])
+        self.assertEqual(rows[0]["comparisonSupport"]["djay"]["sourceName"],full)
+        self.assertEqual(rows[0]["profile"],short)
+        self.assertFalse(rows[0]["zeroConfig"]["automaticControls"])
+        self.assertFalse(rows[0]["theoreticalSupport"]["complete"])
+
     def test_xwdj1_uses_its_own_manufacturer_shift_jog_and_audio_contract(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="Casio XW-DJ1"),None)

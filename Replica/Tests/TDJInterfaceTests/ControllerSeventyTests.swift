@@ -4,6 +4,16 @@ import Testing
 
 @testable import TDJInterface
 
+@Test @MainActor func controllerCatalogueSeventyATrakSignatureNameRetainsTheSameManualProfile() throws {
+    let profile = try #require(ControllerFactoryProfile.matching(["Rane SEVENTY A-Trak Edition"]))
+    #expect(ControllerFactoryProfile.matching(["RANE SEVENTY A-TRAK SIGNATURE EDITION"]) == profile)
+    #expect(ControllerFactoryProfile.matching(["Seventy A-Trak MIDI"]) == profile)
+    #expect(!profile.selectsAutomatically && profile.bindings(source: 10).count == 19)
+    for name in ["Rane SEVENTY", "Rane SEVENTY-TWO", "Rane SEVENTY-TWO MKII"] {
+        #expect(ControllerFactoryProfile.matching([name]) != profile)
+    }
+}
+
 @MainActor private func withSeventy(_ name: String, _ body: (ControllerMIDIConnection) throws -> Void) throws {
     let suite = "seventy-\(UUID().uuidString)"
     let preferences = UserDefaults(suiteName: suite)!

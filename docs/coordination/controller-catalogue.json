@@ -34416,73 +34416,6 @@
       }
     },
     {
-      "id": "raneseventyatraksignatureedition",
-      "name": "RANE SEVENTY A-TRAK SIGNATURE EDITION",
-      "manufacturer": "RANE",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://www.algoriddim.com/hardware/seventyatraksignatureedition"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "djay": {
-          "sourceName": "RANE SEVENTY A-TRAK SIGNATURE EDITION",
-          "platforms": [
-            "mac",
-            "ios",
-            "win"
-          ],
-          "limitations": [],
-          "source": "https://www.algoriddim.com/hardware/seventyatraksignatureedition"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
       "id": "ranefour",
       "name": "Rane FOUR",
       "manufacturer": "RANE",
@@ -35157,7 +35090,8 @@
       "benchmark": true,
       "sources": [
         "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
-        "https://drive.google.com/file/d/1iwbUvILPV4mcrKTN--qtOQNNYEEo8Sni/view"
+        "https://drive.google.com/file/d/1iwbUvILPV4mcrKTN--qtOQNNYEEo8Sni/view",
+        "https://www.algoriddim.com/hardware/seventyatraksignatureedition"
       ],
       "definitions": [
         "reviewed:rane-seventy-a-trak"
@@ -35167,6 +35101,18 @@
       "releaseReady": false,
       "profile": "Rane SEVENTY A-Trak Edition",
       "automaticControls": false,
+      "comparisonSupport": {
+        "djay": {
+          "sourceName": "RANE SEVENTY A-TRAK SIGNATURE EDITION",
+          "platforms": [
+            "mac",
+            "ios",
+            "win"
+          ],
+          "limitations": [],
+          "source": "https://www.algoriddim.com/hardware/seventyatraksignatureedition"
+        }
+      },
       "controlActions": [
         "browse",
         "browseGroups",
@@ -333352,7 +333298,7 @@
     "theoreticalSupport": {
       "complete": false,
       "implementedModels": 0,
-      "targetModels": 343,
+      "targetModels": 342,
       "requiresPhysicalTestForEveryModel": false
     },
     "reason": "Documented implementation gaps block theoretical completion. Physical tests are separate evidence, not a per-model completion requirement."

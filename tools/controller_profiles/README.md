@@ -1013,3 +1013,7 @@ Both documented crossfader buses are accepted. Normal transport, three cues, loo
 Shift-Play loads, Shift-Sync uses native keylock, outer Shift-loop buttons set boundaries and shifted jogs browse.
 Native SET stores Cue. CUP release-play, hot-cue deletion, three-slot FX and fast search remain open.
 The manufacturer qualifies master1/2 and headphones3/4 on its exposed wired route. Physical iPad USB/Lightning/audio acceptance remains open.
+
+Canonical inventory names treat Rane SEVENTY A-Trak Edition and SEVENTY A-TRAK SIGNATURE EDITION as one physical model.
+The Serato benchmark identity, djay source name/platforms and existing manual profile remain on that record.
+Standard SEVENTY and both SEVENTY-TWO generations remain separate. This name reconciliation does not add automatic support.

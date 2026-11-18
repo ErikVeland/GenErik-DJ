@@ -590,3 +590,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R379 | Implemented; hardware/protocol gaps open | Add the recovered VCM-100 manufacturer MIDI contract | Added72 manual inputs with independent hold identities for two MIDI channel choices.216 Python/40 native checks passed. iPad framework compiled. [Scope](controller-coverage.md#r379-recovered-vcm-100-manufacturer-contract). |
 
 | R380 | Implemented; hardware/protocol gaps open | Add the independent XW-DJ1 manufacturer MIDI contract | Added41 automatic inputs/14 steady lamps and documented split audio.217 Python/eight native checks passed, including exact300-count WAV movement and156 held-Cue profiles. iPad framework compiled. [Scope](controller-coverage.md#r380-independent-xw-dj1-manufacturer-core). |
+
+| R381 | Implemented; existing manual limits retained | Reconcile the two Rane SEVENTY A-Trak inventory names | One physical model now retains Serato and djay provenance and the same19-input manual subset.218 Python/eight native checks passed. iPad framework compiled. [Scope](controller-coverage.md#r381-rane-a-trak-inventory-identity). |

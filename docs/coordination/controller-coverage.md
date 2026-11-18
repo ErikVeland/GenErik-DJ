@@ -4923,3 +4923,16 @@ No downloaded TSI, executable mapping, driver, mode write, reset or query runs. 
 Validation:217 Python checks and eight focused native tests passed, including156 automatic held-Cue profiles. Real-WAV fixtures verified exact300-count movement, Cue release, Shift cleanup, finite audio and saved Sync. The iPad framework compiled and its resource matches the source. All262 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r380/validation.json`.
 
 The catalogue has263 data recipes. Automatic core coverage is195 of343 physical models, with148 without automatic core controls. Full theoretical support and physical/A10X acceptance remain open.
+
+
+## R381 Rane A-Trak inventory identity
+
+Assumption: the Serato name SEVENTY A-Trak Edition and djay name SEVENTY A-TRAK SIGNATURE EDITION identify one physical model.
+
+The [mapping author's original discussion](https://community.algoriddim.com/t/rane-seventy-a-trak-signature-edition-midi-mapping/17493) uses both names for the same export. The source inventories now share one canonical record. That record retains its Serato benchmark role, djay platform evidence, both source links and existing manual profile. Standard SEVENTY, SEVENTY-TWO and SEVENTY-TWO MKII remain separate. The complete Signature Edition name selects the same manual profile.
+
+No MIDI address, automatic selection, audio route, feature or acceptance claim changes. The existing19-input subset and absent RaneSeventy custom class remain explicit. This corrects an inflated physical count. It does not add hardware support.
+
+Validation:218 Python checks and eight focused native tests passed, including the existing real-WAV Seventy checks. The iPad framework compiled. All263 runtime recipes retain identical control/output/lifecycle data. Only the A-Trak name alias changes. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r381/validation.json`.
+
+The catalogue has349 records for342 physical models and263 data recipes. Automatic core coverage remains195 models, with147 without automatic core controls. Forty-one records still need a first protocol implementation. Complete theoretical support and physical/A10X acceptance remain open.

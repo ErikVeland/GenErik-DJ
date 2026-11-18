@@ -126,6 +126,8 @@ def canonical(name):
     value = value.replace("hile mod", "")
     value = value.replace("traktor kontrol", "traktor").replace("ni traktor", "traktor")
     result = re.sub(r"[^a-z0-9]", "", value)
+    if result == "raneseventyatraksignatureedition":
+        return "raneseventyatrakedition"
     return "traktorx1mk1" if result == "traktorx1" else result
 
 

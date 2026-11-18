@@ -922,6 +922,20 @@
         "41 automatic native inputs/14 steady lamps. Native SET stores Cue instead of source CUP release-play. Normal loop and Shift behaviour retain the stated native scope.",
         "No XW-J1/Spin2 inheritance or generic Casio alias. Complete FX, hot-cue deletion, fast search, modes/lifecycle and physical iPad USB/Lightning/audio/calibration/A10X acceptance remain open."
       ]
+    },
+    {
+      "request": "R381",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://community.algoriddim.com/t/rane-seventy-a-trak-signature-edition-midi-mapping/17493",
+          "review": "The mapping author and support discussion use SEVENTY A-Trak Edition and SEVENTY A-Trak Signature Edition for the same model/export. Existing pinned export and both inventory source names are retained under one canonical physical record."
+        }
+      ],
+      "limits": [
+        "Only duplicate inventory identity and a manual selection alias change. No sibling protocol, MIDI/address/control, automatic selection or audio change.",
+        "342 physical models,195 automatic core models and147 without automatic core. Full theoretical and physical acceptance remain open."
+      ]
     }
   ]
 }
