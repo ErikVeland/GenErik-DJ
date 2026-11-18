@@ -4906,3 +4906,20 @@ Validation:216 Python checks and40 focused native tests passed, including155 aut
 The preserved VFX-1 and VCI-300MKII service notes were also reviewed. Their schematics and parts do not qualify MIDI wire addresses. Neither model inherits a sibling protocol.
 
 The catalogue has262 data recipes. Automatic core coverage remains194 of343 physical models, with149 without automatic core controls. Full theoretical support and physical/A10X acceptance remain open.
+
+
+## R380 independent XW-DJ1 manufacturer core
+
+Assumption: use the XW-DJ1's own chart and setup guide. Do not inherit the distinct XW-J1/Spin2 protocol.
+
+The [English manufacturer tutorial](https://www.casio.com/content/dam/casio/global/support/manuals/electronic-musical-instruments/pdf/008-en/w/Web_XWDJ1-E-2A_EN.pdf), printed16/PDF18, resolves shared Shift to channel1 Note46. It explicitly specifies300-position, raw-minus64 jogs on shared channel3 CC16/17. Separate deck channels1/2 carry Play42, Cue44, SET43, Sync45, three cues41/40/39, loops35/36/37, contact59 and filter19. Both physical fader orientations qualify CC16 on channels1/2.
+
+The automatic native core has41 inputs and14 steady lamps. Normal transport, held Cue, three cues, loop/size, contact-aware scratch, filters and global sound retain these wires. Shared Shift transitions retire holds and jog state. The [manufacturer Traktor guide](https://support.casio.com/storage/common/support/download_files/en/008/manuals/XW-DJ1_TRAKTOR_setting_manual_en.pdf), PDF pages3/5, qualifies Shift-Play Load, Shift-Sync fixed key, outer Shift-loop boundaries and shifted-jog browsing. Native uses keylock, loop In/Out and track browsing. SET stores Cue rather than implementing CUP release-play.
+
+The setup guide also qualifies XW-DJ1 endpoint names, CoreAudio without the Windows driver, master1/2 and headphones3/4. The app can select that split route when the documented wired interface is exposed. Generic Casio MIDI In/Out names remain excluded. Physical iPad USB/Lightning enumeration, power, output channels, taper/calibration and sustained A10X acceptance remain open.
+
+No downloaded TSI, executable mapping, driver, mode write, reset or query runs. Hot-cue deletion, three-slot FX, fast search, exact factory Shift semantics, direction indicators and complete lifecycle remain open. Shared Shift cannot identify simultaneous physical modifiers separately. Hardware deck/direction changes need physical acceptance.
+
+Validation:217 Python checks and eight focused native tests passed, including156 automatic held-Cue profiles. Real-WAV fixtures verified exact300-count movement, Cue release, Shift cleanup, finite audio and saved Sync. The iPad framework compiled and its resource matches the source. All262 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r380/validation.json`.
+
+The catalogue has263 data recipes. Automatic core coverage is195 of343 physical models, with148 without automatic core controls. Full theoretical support and physical/A10X acceptance remain open.

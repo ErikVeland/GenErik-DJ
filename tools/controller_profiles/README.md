@@ -1006,3 +1006,10 @@ The generic Vestax PC-CONTROLLER identity cannot safely identify this model. Sel
 Optional `holdInput` identities0-127 keep independent momentary controls separate within each source, MIDI group and action target.
 VCM-100 assigns one identity per channel choice. Unspecified identities retain existing cross-channel aliases and Shift releases.
 Only momentary actions can use this field. It does not create a MIDI channel, wire address or automatic identity match.
+
+XW-DJ1 uses its own manufacturer41-input automatic core and14 steady lamps. It does not inherit XW-J1 or Spin2.
+Shared channel1 Note46 is Shift. Channel3 CC16/17 jogs explicitly use raw-minus64 and300 positions per revolution.
+Both documented crossfader buses are accepted. Normal transport, three cues, loop/size, contact, filter and sound controls retain their wires.
+Shift-Play loads, Shift-Sync uses native keylock, outer Shift-loop buttons set boundaries and shifted jogs browse.
+Native SET stores Cue. CUP release-play, hot-cue deletion, three-slot FX and fast search remain open.
+The manufacturer qualifies master1/2 and headphones3/4 on its exposed wired route. Physical iPad USB/Lightning/audio acceptance remains open.

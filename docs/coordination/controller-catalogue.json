@@ -17215,12 +17215,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://www.casio.com/content/dam/casio/global/support/manuals/electronic-musical-instruments/pdf/008-en/w/Web_XWDJ1-E-2A_EN.pdf",
         "https://www.algoriddim.com/hardware"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:xwdj1-manufacturer-midi"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Casio XW-DJ1",
+      "automaticControls": true,
       "comparisonSupport": {
         "djay": {
           "sourceName": "Casio XW-DJ1",
@@ -17233,40 +17238,78 @@
           "source": "https://www.algoriddim.com/hardware"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "cueSetA:a",
+        "cueSetB:b",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "keylockA:a",
+        "keylockB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "loopUpA:a",
+        "loopUpB:b",
+        "master",
+        "monitor",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 41,
+      "feedbackBindingCount": 14,
+      "connection": "USB MIDI",
+      "audioRouting": "Automatic master 1–2 / headphones 3–4",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manufacturer XW-DJ1 MIDI layout with shared Shift and A/B platter selection. Both physical fader orientations are accepted. Split output uses master1/2 and headphones3/4 when this wired four-channel route is exposed."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": true,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Native SET differs from CUP release-play. Shifted hot-cue deletion, fast search, separate three-slot FX, exact factory Shift semantics, direction indicators and remaining lifecycle stay open. Shared Shift cannot distinguish simultaneous physical modifiers. Hardware direction/deck selection and physical taper/calibration need acceptance. iPad USB/Lightning enumeration, power, multichannel output and sustained A10X performance remain unverified. No XW-J1 inheritance, generic Casio alias, query, mode, reset, driver or downloaded mapping code."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -333268,6 +333311,34 @@
         },
         {
           "reason": "Generic Vestax PC-CONTROLLER endpoint cannot identify this model safely. Manual model selection required. Mode-A centre notes, conflicting trim-B centre value, balance, F1-F4 search, CUP/Preview and output remain inactive. Native CuePause/Fine buttons use held Cue/bend behaviour. Native tempo direction and physical taper/calibration remain unverified. Device-specific iPad USB/audio, complete lifecycle/feedback and physical/A10X acceptance remain open. No mode/power, driver, setup/output or automatic audio command."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:xwdj1-manufacturer-midi",
+      "name": "Casio XW-DJ1",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.casio.com/content/dam/casio/global/support/manuals/electronic-musical-instruments/pdf/008-en/w/Web_XWDJ1-E-2A_EN.pdf",
+        "sha256": "aed8a4d8f404b65fe61a1945f162fe022af32763fa64d2c9800b25677ebe0fa8",
+        "relatedSources": [
+          {
+            "url": "https://support.casio.com/storage/common/support/download_files/en/008/manuals/XW-DJ1_TRAKTOR_setting_manual_en.pdf",
+            "sha256": "f10a308a891ff1d5b9b534fb37842c49b01b0537ef2086e34e2b4ed911c08375"
+          }
+        ],
+        "review": "English manufacturer tutorial printed page16 visually reviewed. Unlike XW-J1, XW-DJ1 uses shared Shift channel1 Note46, deck Play42/Cue44/SET43/Sync45, three cues41/40/39, loop35/36/37, contact59 and filter19 on deck channels1/2. The chart explicitly gives shared channel3 CC16/17 raw-minus64 jogs and300 positions per revolution. RIGHT/LEFT SCRATCH select the physical fader orientation and also act as Shift. Both crossfader CC16 channels are qualified. Manufacturer Traktor setup PDF pages3/5 visually reviewed: XW-DJ1 MIDI identity, CoreAudio without the Windows driver, master1/2 and headphones3/4. Its documented shifted Play loads, Sync fixes key, outer loop buttons set In/Out and shifted jog browses. Native SET stores Cue rather than implementing source CUP release-play. Native held Cue, fixed touch scratch, loop sizing, keylock and Shift-Load are explicit app semantics. Native steady14 lamp recipes use chart on127/off0. No hot-cue deletion, three separate effect slots, fast search, mode write, device reset, driver, TSI code or generic Casio MIDI alias is inferred. Direction changes retire both deck holds. Full modes/lifecycle, calibration and physical iPad USB/Lightning/audio/A10X acceptance remain open."
+      },
+      "implementedInputCount": 41,
+      "implementedOutputCount": 14,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and input audio routing remain unimplemented."
+        },
+        {
+          "reason": "Native SET differs from CUP release-play. Shifted hot-cue deletion, fast search, separate three-slot FX, exact factory Shift semantics, direction indicators and remaining lifecycle stay open. Shared Shift cannot distinguish simultaneous physical modifiers. Hardware direction/deck selection and physical taper/calibration need acceptance. iPad USB/Lightning enumeration, power, multichannel output and sustained A10X performance remain unverified. No XW-J1 inheritance, generic Casio alias, query, mode, reset, driver or downloaded mapping code."
         }
       ]
     }

@@ -917,6 +917,21 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for bad in [products+products,products[:100],products+'<li data-hardware-target="midinote ios">Unknown: Screen</li>',products.replace('mac ios','mac unknown',1)]:
             with self.assertRaises(ValueError):read_djay(bad)
 
+    def test_xwdj1_uses_its_own_manufacturer_shift_jog_and_audio_contract(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Casio XW-DJ1"),None)
+        self.assertIsNotNone(item,"Use the XW-DJ1 manufacturer chart independently of XW-J1")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),41)
+        self.assertEqual(len(item["outputs"]),14)
+        self.assertFalse(item["startup"] or item["shutdown"])
+        self.assertEqual(item["audioOutput"],"masterAndHeadphones")
+        self.assertEqual([(r["channel"],r["number"]) for r in item["inputs"] if r["action"]=="shift"],[(0,46)])
+        jogs=[r for r in item["inputs"] if r["action"] in {"jogA","jogB"}]
+        self.assertEqual([(r["channel"],r["number"],r["argument"],r["encoding"]) for r in jogs],[(2,16,300,"binaryOffset"),(2,17,300,"binaryOffset")])
+        self.assertEqual([(r["channel"],r["number"]) for r in item["inputs"] if r["action"]=="crossfader"],[(0,16),(1,16)])
+        self.assertNotIn("XW-J1",item["aliases"])
+
     def test_vcm100_keeps_program_decks_separate_from_both_midi_channel_choices(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="Vestax VCM-100"),None)
@@ -3310,7 +3325,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
             self.assertEqual(model["audioRouting"], "Automatic master 1–2 / headphones 3–4")
             self.assertTrue(model["theoreticalSupport"]["criteria"]["audioRoutingImplemented"])
             self.assertFalse(model["theoreticalSupport"]["complete"])
-            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct", "Behringer BCD3000", "Hercules DJ Control AIR", "Hercules DJControl AIR+", "Behringer CMD STUDIO 4a", "Stanton DJC.4", "Hercules P32 DJ", "Korg KAOSS DJ", "Reloop Digital Jockey 2 Interface Edition", "Numark Mixtrack Quad", "MixVibes U-Mix Control Pro", "Reloop Mixtour", "Reloop Beatpad 2", "Behringer CMD STUDIO 2a"})
+            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct", "Behringer BCD3000", "Hercules DJ Control AIR", "Hercules DJControl AIR+", "Behringer CMD STUDIO 4a", "Stanton DJC.4", "Hercules P32 DJ", "Korg KAOSS DJ", "Reloop Digital Jockey 2 Interface Edition", "Numark Mixtrack Quad", "MixVibes U-Mix Control Pro", "Reloop Mixtour", "Reloop Beatpad 2", "Behringer CMD STUDIO 2a", "Casio XW-DJ1"})
 
     def test_scratch_requires_explicit_pulses_and_mode_guarded_shared_pads(self):
         result = scratch_profiles()[0]

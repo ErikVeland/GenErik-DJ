@@ -902,6 +902,26 @@
         "72 manual VCM-100 inputs across two documented MIDI channel choices. No generic endpoint alias, centre note, balance, search, CUP/Preview, output, mode write, driver or audio command.",
         "Native CuePause/Fine use held Cue/bend semantics. Tempo direction, hardware taper, iPad USB/audio, complete lifecycle and physical/A10X acceptance remain open."
       ]
+    },
+    {
+      "request": "R380",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://www.casio.com/content/dam/casio/global/support/manuals/electronic-musical-instruments/pdf/008-en/w/Web_XWDJ1-E-2A_EN.pdf",
+          "sha256": "aed8a4d8f404b65fe61a1945f162fe022af32763fa64d2c9800b25677ebe0fa8",
+          "review": "Manufacturer English tutorial printed16/PDF18 visually reviewed. Shared Shift is Note46 on channel1. XW-DJ1 has distinct transport/cue wires and manufacturer300-position raw-minus64 jogs on channel3. Both fader orientations have their own CC16 buses. Outputs specify on127/off0."
+        },
+        {
+          "url": "https://support.casio.com/storage/common/support/download_files/en/008/manuals/XW-DJ1_TRAKTOR_setting_manual_en.pdf",
+          "sha256": "f10a308a891ff1d5b9b534fb37842c49b01b0537ef2086e34e2b4ed911c08375",
+          "review": "Manufacturer setup PDF pages3/5 visually reviewed. Qualifies XW-DJ1 MIDI and CoreAudio names, no Mac driver, master1/2 and headphones3/4. Documents shifted Load, fixed key, loop In/Out and jog browser. No TSI downloaded or executed."
+        }
+      ],
+      "limits": [
+        "41 automatic native inputs/14 steady lamps. Native SET stores Cue instead of source CUP release-play. Normal loop and Shift behaviour retain the stated native scope.",
+        "No XW-J1/Spin2 inheritance or generic Casio alias. Complete FX, hot-cue deletion, fast search, modes/lifecycle and physical iPad USB/Lightning/audio/calibration/A10X acceptance remain open."
+      ]
     }
   ]
 }
