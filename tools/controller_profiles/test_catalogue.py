@@ -861,6 +861,22 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_mixon8_manual_subset_excludes_custom_class_jog_pitch_and_shared_modes(self):
+        runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item = next((r for r in runtime["profiles"] if r["id"] == "Reloop Mixon 8 Pro"), None)
+        self.assertIsNotNone(item, "Mixon8 needs its own reviewed manual subset")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]), 83)
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput", item)
+        self.assertNotIn("inputModes", item)
+        self.assertFalse(any(i["kind"] == "pitch" or i["action"].startswith(("jog", "hotcue", "level", "high", "mid", "low", "crossfader")) for i in item["inputs"]))
+        self.assertEqual({i["targetDeck"] for i in item["inputs"] if "targetDeck" in i}, set("abcd"))
+        from mixon8 import MIXON8_SHA
+        path = ROOT / "TestBuilds/r304/upstream/Mixon8Pro.djayMidiMapping"
+        if path.exists():
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), MIXON8_SHA)
+
     def test_mixdeck_models_keep_distinct_protocol_and_hardware_mixer_contracts(self):
         runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         by_id = {r["id"]:r for r in runtime["profiles"]}

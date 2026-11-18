@@ -3628,3 +3628,18 @@ All7 focused native checks,132 importer checks and iPad framework compilation pa
 All182 earlier recipes remain unchanged; the compiled resource matches the source. Expected failures, source hashes and review extracts remain in `TestBuilds/r303/`.
 The repository check retains twelve historical broken links. The catalogue now has184 data recipes and160 automatic core physical models, including71/122 benchmark models.
 Full theoretical feature parity remains unimplemented. Source base: `c78cf46`. No signed app, install or physical/A10X acceptance is claimed.
+
+## R304 Mixon 8 Pro reviewed manual core
+
+Assumption: use only unconditional normal controls from the owner-shared898-row map. Its reported saved-loop/sampler alias bug affects shared modes, which remain excluded. The missing `ReloopMixon8` class leaves setup, jog/pitch translation, modes, screen/lamp output and lifecycle unqualified. Automatic selection stays off.
+
+- [x] Add failing catalogue/native fixtures for manual identity, normal transport, bank-release ownership and inactive shared controls.
+- [x] Pin the source and add83 manual inputs with no inferred output or lifecycle packets.
+- [x] Run importer, native packet/playback and iPad framework checks; compare earlier recipes and bundled bytes.
+
+The manual recipe has83 inputs for four opt-in deck targets. No downloaded class runs. No shared pad, modified level/EQ assignment, jog/pitch, light value or lifecycle packet is guessed.
+The earlier firmware-incompatible map remains in the source audit; the separate version4 map now provides independently reviewed unconditional controls.
+All6 focused native checks,133 importer checks and iPad framework compilation pass. The real-WAV check confirms cross-bank Cue release and saved Sync.
+All184 earlier recipes remain unchanged; the compiled resource matches the source. Expected failures and source-bound results remain in `TestBuilds/r304/`.
+The repository check retains twelve historical broken links. The catalogue has185 data recipes. Automatic core coverage stays160 physical models and71/122 benchmark models.
+Full theoretical feature parity remains unimplemented. Source base: `646228e`. No signed app, install or physical/A10X acceptance is claimed.

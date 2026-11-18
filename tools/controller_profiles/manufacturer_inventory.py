@@ -2,6 +2,7 @@
 from mixtour_pro import MIXTOUR_PRO_AUDIT
 from hercules_t7 import T7_PROTOCOL_SOURCES
 from buddy import BUDDY_AUDIT
+from mixon8 import MIXON8_SOURCE, MIXON8_SHA, MIXON8_DISCUSSION
 
 REVIEWED = "2026-11-17"
 DENON_ENGINE = "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services"
@@ -37,6 +38,13 @@ SOURCE_AUDITS = {'Hercules DJControl Inpulse T7': {'source': {'url': 'https://dr
 
 SOURCE_AUDITS["Reloop Mixtour Pro"] = MIXTOUR_PRO_AUDIT
 SOURCE_AUDITS["Reloop Buddy"] = BUDDY_AUDIT
+SOURCE_AUDITS["Reloop Mixon 8 Pro"]["relatedSources"] = [{
+    "url": MIXON8_SOURCE, "sha256": MIXON8_SHA, "discussion": MIXON8_DISCUSSION,
+    "mappingVersion": 4, "inputRows": 898, "declaredCustomClass": "ReloopMixon8",
+}]
+SOURCE_AUDITS["Reloop Mixon 8 Pro"]["gaps"].append(
+    "A separate version4 owner map now supplies a reviewed83-input manual subset. Its reported shared-pad alias issue does not enter that recipe. Jog/pitch, EQ/level modes, feedback and custom-class lifecycle remain unqualified; automatic selection stays off.")
+
 SOURCE_AUDITS["Hercules DJControl Inpulse T7"]["relatedSources"] = T7_PROTOCOL_SOURCES
 SOURCE_AUDITS["Hercules DJControl Inpulse T7"]["gaps"] = [
     "The djay XML omits its custom app class. An independently pinned public beta now documents the platter clock and motor commands. Native motor/velocity handover remains unimplemented; ordinary MIDI controls have a separate manual recipe."
