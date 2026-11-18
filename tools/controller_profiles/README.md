@@ -982,3 +982,8 @@ Spin2 and XW-J1 have distinct30-input manual layouts from one explicitly shared,
 Transport, PFL, Hot Cues2/3, loop/size, touch jogs, browsing, Shift-Load and channel5 crossfader retain qualified wires.
 The375-count scale is the author's estimate and remains provisional. Fixed native touch scratch replaces the software toggle.
 Conflicting mixer/EQ/pitch rows, undefined Hot Cue1 and output/lifecycle lists stay inactive. No downloaded code runs.
+
+PRIMO uses63 unambiguous manual inputs from its own manufacturer appendix.
+N transport/mixer channels1-4, P loop channels5-8 and G channel16 stay separate.
+Earlier Cue/mode, bend/mode, PFL/pad, relative-format and pitch low-byte gaps remain inactive.
+FILTER texture selection and separate app audio are explicit. No button-light values, banked Load or encoder formats are guessed.

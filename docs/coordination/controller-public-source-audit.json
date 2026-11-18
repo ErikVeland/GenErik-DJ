@@ -819,6 +819,40 @@
         "No direct USB/audio or full mode/lifecycle claim. Separate app audio and exposed MIDI port required. Physical/A10X and source reuse/distribution review remain open.",
         "Public SDK searches continue without user-supplied files. Rane Twelve FAQ confirms generic MIDI, but no wire/motor contract was recovered. Checked Seventy-Two DJTT mapping requires sign-in. Neither is treated as an implemented profile."
       ]
+    },
+    {
+      "request": "R377",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://mixars.com/wp-content/uploads/2022/11/primo-manual-en-fr-d-it-es.pdf",
+          "sha256": "9006025f242280f2f339991eb3004c4ef961b39c8466c915273a9586f3f3471c",
+          "review": "Fresh download matches the earlier hash. All three MIDI appendix pages44-46 visually reviewed.63 unambiguous manual inputs retain N/P/G buses. Earlier Cue/mode, bend/mode, PFL/pad, unknown relative format and pitch low-byte limits remain inactive."
+        },
+        {
+          "url": "https://mixars.com/support-download/",
+          "review": "Firmware1.12 added14-bit pitch. No revised low-byte chart or executed firmware is used."
+        },
+        {
+          "url": "https://www.reloop.com/media/catalog/product/pdf/2/4/5/245272_Reloop_IM.pdf",
+          "sha256": "5bd775ba05aeba459d28c9f193967ef22b0f6b9438b0b6986fca95f764ce3172",
+          "review": "Current28-page manufacturer RMX-95 manual confirms MIDI on/off and EQ CONTROL off for MIDI-only EQ. It does not supply an address table in extracted text. No RMX-90 inheritance or automatic software mixer/audio ownership is inferred."
+        },
+        {
+          "url": "https://www.reloop.com/media/custom/upload/Reloop-RMX-95_Adapter_Guide.pdf",
+          "sha256": "312235f06c7a19f601bd74df22458766de1b299b5b662147df2544df2de91667",
+          "review": "Public iOS adapter diagram preserved. It does not establish our software audio routing."
+        },
+        {
+          "url": "https://www.reloop.com/media/catalog/product/pdf/2/3/8/238128_Reloop_IM.pdf",
+          "sha256": "663726c17c3b1f1edc3675ba7de75d9d44a649d07ab25d51ab4a31d1fa4d0ad2",
+          "review": "Public ELITE manual preserved. Its hex table configures USB output sources, not a complete control map. No setup write or profile is inferred."
+        }
+      ],
+      "limits": [
+        "63 PRIMO manual inputs, no output, query or automatic audio. FILTER texture selection and separate app audio required.",
+        "Cue/pad/PFL collisions, unknown jog/browser formats and banked Load remain inactive. Physical/A10X and full theoretical support remain open."
+      ]
     }
   ]
 }

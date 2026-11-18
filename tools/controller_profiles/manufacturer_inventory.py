@@ -66,6 +66,8 @@ SOURCE_AUDITS["Mixars PRIMO"] = {
     "gaps": ["The printed channel key N assigns transport and pad modes overlapping Note1 (Cue/Hot Cue), Note7 (Vinyl/Roll) and Note11 (bend/Sampler). PFL omits its channel key. Do not silently replace N with P.",
              "Shared global Load4/5 requires deck-bank state. SelectorCC34/Note8 values are unspecified. Relative jog/browser formats, pad mode ownership, button light values and lifecycle remain unqualified.",
              "Firmware1.12 adds14-bit pitch, but the old table lists onlyCC9 without low-byte order. Later firmware1.16 does not supply a revised protocol chart. External mixer/audio ownership also requires review."]}
+SOURCE_AUDITS["Mixars PRIMO"]["gaps"].append(
+    "R377 adds a separate63-input manual subset. All earlier note collisions, missing relative formats, banked Load and pitch low-byte gaps remain inactive. No automatic support or full protocol completion is claimed.")
 
 
 SOURCE_AUDITS["Rane ONE MKII"] = {

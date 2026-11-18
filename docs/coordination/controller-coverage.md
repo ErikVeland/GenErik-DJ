@@ -4851,3 +4851,22 @@ Use an exposed MIDI port and separate app audio. Device-specific USB/audio, comp
 Validation:210 Python checks and eight focused native tests passed, including both profiles and the154-profile held-Cue corpus. Real-WAV fixtures verified both provisional-scale scratch paths, Cue release, modifier cleanup, finite audio and saved Sync. The iPad framework compiled and its resource matches the source. All257 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r376/validation.json`.
 
 The catalogue has259 data recipes. Automatic core coverage remains193 of343 physical models, with150 without automatic core controls. Full theoretical support and physical/A10X acceptance remain open.
+
+
+## R377 unambiguous PRIMO manufacturer inputs
+
+Assumption: conflicting appendix rows must remain inactive while independent addresses can support a manual native layout.
+
+A fresh [manufacturer manual](https://mixars.com/wp-content/uploads/2022/11/primo-manual-en-fr-d-it-es.pdf) matches the earlier hash. Its three MIDI appendix pages supply63 unambiguous manual inputs. N channels1-4 carry A-D transport/mixer controls. P channels5-8 carry loops. G channel16 carries Shift, global sound and library group actions.
+
+Play, Sync, Keylock, held bend-up, coarse tempo, gain/EQ/filter/level, loop/size and global sound retain their documented buses. The library description distinguishes normal next-level press from shifted previous-level press. Source-selector CC34/50 reports retire side bends and pickup for any value, without guessing state values.
+
+Cue/Hot Cue mode, Vinyl/Roll mode and bend-down/Sampler mode share printed N note addresses. PFL has an unqualified channel key and shares its number with Pad8. All these rows remain inactive. Pads, relative jog/contact/browser, banked Load, shifted overlaps and undefined LED velocities also remain inactive. The app does not silently replace the printed N key with P. Firmware1.12 adds14-bit pitch, but the old chart qualifies only CC9. Native uses that coarse MSB and an explicit inverted direction pending calibration.
+
+Select FILTER for Sound Texture FX and use separate app audio. Hardware/software source ownership, complete modes/lifecycle and physical calibration remain open. No source query, setting, firmware, driver, output or audio-route command is sent. The earlier no-recipe test now checks that the manual recipe still excludes every conflicting N note. Its first failed result remains preserved.
+
+Validation:211 Python checks and eight focused native tests passed, including the154-profile held-Cue corpus. A real-WAV fixture verified held-bend cleanup, finite audio and saved Sync after a source report. The iPad framework compiled and its resource matches the source. All259 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r377/validation.json`.
+
+Current official RMX-95 and ELITE manuals were also preserved. RMX-95 confirms its MIDI/EQ ownership menu but provides no recovered control-address table. ELITE's hex table configures USB output sources. Neither table qualifies an automatic native mixer mapping.
+
+The catalogue has260 data recipes. Automatic core coverage remains193 of343 physical models, with150 without automatic core controls. Full theoretical support and physical/A10X acceptance remain open.

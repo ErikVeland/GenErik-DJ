@@ -2379,3 +2379,16 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         }
     }
 }
+
+@Test @MainActor func controllerCataloguePrimoSourceReportRestoresSyncAfterHeldBendInRealAudio() async throws {
+    try await withControllerCuePlayback("Mixars PRIMO",manual:true) { model,input in
+        cuePreviewPacket([0x90,0,127,0,0,12,127],to:input)
+        let before = model.playback.core.renderOffline(frames:4096)
+        #expect(before.left.allSatisfy(\.isFinite) && before.right.allSatisfy(\.isFinite))
+        cuePreviewPacket([0xB0,34,0],to:input)
+        _ = model.playback.core.renderOffline(frames:4096)
+        model.refreshPlayback()
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

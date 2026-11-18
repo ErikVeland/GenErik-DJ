@@ -917,6 +917,18 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for bad in [products+products,products[:100],products+'<li data-hardware-target="midinote ios">Unknown: Screen</li>',products.replace('mac ios','mac unknown',1)]:
             with self.assertRaises(ValueError):read_djay(bad)
 
+    def test_primo_factory_table_conflicts_stay_inactive_without_relative_value_guesses(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Mixars PRIMO"),None)
+        self.assertIsNotNone(item,"Add only unambiguous PRIMO factory input facts")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),63)
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        self.assertFalse(any(r["action"] in {"cuePreviewA","cuePreviewB","cueA","cueB","pitchBendDownA","pitchBendDownB","jogA","jogB","jogTouchA","jogTouchB","browse","loadA","loadB"} or r["action"].startswith("hotcue") for r in item["inputs"]))
+        self.assertEqual([(r["channel"],r["number"]) for r in item["inputs"] if r["action"] in {"loopA","loopB"}],[(4,50),(5,50),(6,50),(7,50)])
+        self.assertEqual([(r["channel"],r["number"]) for r in item["inputs"] if r["action"]=="shift"],[(15,0)])
+
     def test_spin2_and_xwj1_reuse_only_the_authors_explicit_shared_facts(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         by={r["id"]:r for r in runtime["profiles"]}
@@ -2319,13 +2331,15 @@ class GeneratedCatalogueTests(unittest.TestCase):
             if path.exists():
                 self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
 
-    def test_primo_table_conflicts_stay_explicit_without_a_speculative_recipe(self):
+    def test_primo_table_conflicts_stay_inactive_in_the_manual_recipe(self):
         from manufacturer_inventory import SOURCE_AUDITS
         audit = SOURCE_AUDITS["Mixars PRIMO"]
         self.assertFalse(audit["automaticSupportAdded"])
         self.assertEqual(audit["reviewedPages"], [45, 46, 47])
         runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
-        self.assertFalse(any(r["id"] == "Mixars PRIMO" for r in runtime["profiles"]))
+        item = next(r for r in runtime["profiles"] if r["id"] == "Mixars PRIMO")
+        self.assertFalse(item["autoSelect"])
+        self.assertFalse(any(r["kind"] == "note" and r["channel"] in range(4) and r["number"] in {1,7,11,27} for r in item["inputs"]))
         path = ROOT / "TestBuilds/r296/manufacturer/primo-manual.pdf"
         if path.exists():
             self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), audit["source"]["sha256"])
