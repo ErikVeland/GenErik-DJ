@@ -117584,6 +117584,473 @@
       ]
     },
     {
+      "id": "Pioneer DJM-S5",
+      "aliases": [
+        "Pioneer DJM-S5",
+        "DJM-S5",
+        "Pioneer DJ DJM-S5"
+      ],
+      "definition": "manufacturer:pioneerms5",
+      "inputs": [
+        {
+          "action": "gainA",
+          "kind": "control",
+          "channel": 0,
+          "number": 4,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "targetDeck": "a",
+          "lowNumber": 36
+        },
+        {
+          "action": "highA",
+          "kind": "control",
+          "channel": 0,
+          "number": 7,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "targetDeck": "a",
+          "lowNumber": 39
+        },
+        {
+          "action": "midA",
+          "kind": "control",
+          "channel": 0,
+          "number": 11,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "targetDeck": "a",
+          "lowNumber": 43
+        },
+        {
+          "action": "lowA",
+          "kind": "control",
+          "channel": 0,
+          "number": 15,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "targetDeck": "a",
+          "lowNumber": 47
+        },
+        {
+          "action": "filterKnobA",
+          "kind": "control",
+          "channel": 0,
+          "number": 1,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "targetDeck": "a",
+          "lowNumber": 33
+        },
+        {
+          "action": "levelA",
+          "kind": "control",
+          "channel": 0,
+          "number": 19,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "targetDeck": "a",
+          "lowNumber": 51
+        },
+        {
+          "action": "gainB",
+          "kind": "control",
+          "channel": 1,
+          "number": 4,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "targetDeck": "b",
+          "lowNumber": 36
+        },
+        {
+          "action": "highB",
+          "kind": "control",
+          "channel": 1,
+          "number": 7,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "targetDeck": "b",
+          "lowNumber": 39
+        },
+        {
+          "action": "midB",
+          "kind": "control",
+          "channel": 1,
+          "number": 11,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "targetDeck": "b",
+          "lowNumber": 43
+        },
+        {
+          "action": "lowB",
+          "kind": "control",
+          "channel": 1,
+          "number": 15,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "targetDeck": "b",
+          "lowNumber": 47
+        },
+        {
+          "action": "filterKnobB",
+          "kind": "control",
+          "channel": 1,
+          "number": 1,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "targetDeck": "b",
+          "lowNumber": 33
+        },
+        {
+          "action": "levelB",
+          "kind": "control",
+          "channel": 1,
+          "number": 19,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "targetDeck": "b",
+          "lowNumber": 51
+        },
+        {
+          "action": "master",
+          "kind": "control",
+          "channel": 6,
+          "number": 8,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "lowNumber": 40
+        },
+        {
+          "action": "monitor",
+          "kind": "control",
+          "channel": 6,
+          "number": 13,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "lowNumber": 45
+        },
+        {
+          "action": "cueMix",
+          "kind": "control",
+          "channel": 6,
+          "number": 12,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "lowNumber": 44
+        },
+        {
+          "action": "crossfader",
+          "kind": "control",
+          "channel": 6,
+          "number": 31,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "lowNumber": 63
+        },
+        {
+          "action": "loadA",
+          "kind": "note",
+          "channel": 0,
+          "number": 70,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "loadA",
+          "kind": "note",
+          "channel": 0,
+          "number": 71,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "loadB",
+          "kind": "note",
+          "channel": 1,
+          "number": 70,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "loadB",
+          "kind": "note",
+          "channel": 1,
+          "number": 71,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "releaseOnly": true
+        },
+        {
+          "action": "browse",
+          "kind": "control",
+          "channel": 6,
+          "number": 64,
+          "encoding": "twosComplement",
+          "inverted": false
+        },
+        {
+          "action": "openGroup",
+          "kind": "note",
+          "channel": 6,
+          "number": 65,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "openGroup",
+          "kind": "note",
+          "channel": 6,
+          "number": 66,
+          "encoding": "absolute",
+          "inverted": false,
+          "releaseOnly": true
+        }
+      ],
+      "outputs": [],
+      "startup": [],
+      "shutdown": [],
+      "autoSelect": false,
+      "scope": "Manual paired A/B mixer and normal Load. Source-confirmed signed browsing and Open Group. External audio, shared pads/modes, lights, lifecycle and physical acceptance remain open.",
+      "source": "https://downloads.support.alphatheta.com/software_info/dj-mixers/DJM-S5/DJM-S5_MIDI_Message_v100_E.pdf",
+      "hardwareMode": "Manual MIDI mirror for a separate software audio path. Enable input separately; external hardware mixer routing and bypass remain unavailable.",
+      "excludedAliases": [
+        "DJM-S11",
+        "DJM-S9",
+        "DJM-A9",
+        "DJM-S7"
+      ],
+      "gaps": [
+        "Manual MIDI mirror only; use with a separate software audio path. External deck routing and hardware/software mixer bypass remain unavailable. Automatic selection stays off. Shared pads, FX/microphone, fader-starts, PFL cue-fader ownership, lights, full lifecycle and physical acceptance remain open. Shifted and FX-modified browsing remains inactive."
+      ]
+    },
+    {
+      "id": "Pioneer DJM-S7",
+      "aliases": [
+        "Pioneer DJM-S7",
+        "DJM-S7",
+        "Pioneer DJ DJM-S7"
+      ],
+      "definition": "manufacturer:pioneerms7",
+      "inputs": [
+        {
+          "action": "gainA",
+          "kind": "control",
+          "channel": 0,
+          "number": 4,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "targetDeck": "a",
+          "lowNumber": 36
+        },
+        {
+          "action": "highA",
+          "kind": "control",
+          "channel": 0,
+          "number": 7,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "targetDeck": "a",
+          "lowNumber": 39
+        },
+        {
+          "action": "midA",
+          "kind": "control",
+          "channel": 0,
+          "number": 11,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "targetDeck": "a",
+          "lowNumber": 43
+        },
+        {
+          "action": "lowA",
+          "kind": "control",
+          "channel": 0,
+          "number": 15,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "targetDeck": "a",
+          "lowNumber": 47
+        },
+        {
+          "action": "filterKnobA",
+          "kind": "control",
+          "channel": 0,
+          "number": 1,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "targetDeck": "a",
+          "lowNumber": 33
+        },
+        {
+          "action": "levelA",
+          "kind": "control",
+          "channel": 0,
+          "number": 19,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "targetDeck": "a",
+          "lowNumber": 51
+        },
+        {
+          "action": "gainB",
+          "kind": "control",
+          "channel": 1,
+          "number": 4,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "targetDeck": "b",
+          "lowNumber": 36
+        },
+        {
+          "action": "highB",
+          "kind": "control",
+          "channel": 1,
+          "number": 7,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "targetDeck": "b",
+          "lowNumber": 39
+        },
+        {
+          "action": "midB",
+          "kind": "control",
+          "channel": 1,
+          "number": 11,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "targetDeck": "b",
+          "lowNumber": 43
+        },
+        {
+          "action": "lowB",
+          "kind": "control",
+          "channel": 1,
+          "number": 15,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "targetDeck": "b",
+          "lowNumber": 47
+        },
+        {
+          "action": "filterKnobB",
+          "kind": "control",
+          "channel": 1,
+          "number": 1,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "targetDeck": "b",
+          "lowNumber": 33
+        },
+        {
+          "action": "levelB",
+          "kind": "control",
+          "channel": 1,
+          "number": 19,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "targetDeck": "b",
+          "lowNumber": 51
+        },
+        {
+          "action": "master",
+          "kind": "control",
+          "channel": 6,
+          "number": 8,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "lowNumber": 40
+        },
+        {
+          "action": "monitor",
+          "kind": "control",
+          "channel": 6,
+          "number": 13,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "lowNumber": 45
+        },
+        {
+          "action": "cueMix",
+          "kind": "control",
+          "channel": 6,
+          "number": 12,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "lowNumber": 44
+        },
+        {
+          "action": "crossfader",
+          "kind": "control",
+          "channel": 6,
+          "number": 31,
+          "encoding": "paired14Bit",
+          "inverted": false,
+          "lowNumber": 63
+        },
+        {
+          "action": "loadA",
+          "kind": "note",
+          "channel": 0,
+          "number": 70,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "loadA",
+          "kind": "note",
+          "channel": 0,
+          "number": 71,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "loadB",
+          "kind": "note",
+          "channel": 1,
+          "number": 70,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "loadB",
+          "kind": "note",
+          "channel": 1,
+          "number": 71,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "releaseOnly": true
+        }
+      ],
+      "outputs": [],
+      "startup": [],
+      "shutdown": [],
+      "autoSelect": false,
+      "scope": "Manual paired A/B mixer and normal Load. Browser channel ambiguity remains unresolved. External audio, shared pads/modes, lights, lifecycle and physical acceptance remain open.",
+      "source": "https://downloads.support.alphatheta.com/software_info/dj-mixers/DJM-S7/DJM-S7_MIDI_Message_v100_E.pdf",
+      "hardwareMode": "Manual MIDI mirror for a separate software audio path. Enable input separately; external hardware mixer routing and bypass remain unavailable.",
+      "excludedAliases": [
+        "DJM-S11",
+        "DJM-S9",
+        "DJM-A9",
+        "DJM-S5"
+      ],
+      "gaps": [
+        "Manual MIDI mirror only; use with a separate software audio path. External deck routing and hardware/software mixer bypass remain unavailable. Automatic selection stays off. Shared pads, FX/microphone, fader-starts, PFL cue-fader ownership, lights, full lifecycle and physical acceptance remain open. S7 browser channel/status notation conflicts; no browser binding is inferred."
+      ]
+    },
+    {
       "id": "Pioneer OPUS-QUAD",
       "aliases": [
         "Pioneer OPUS-QUAD",

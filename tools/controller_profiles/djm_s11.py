@@ -1,5 +1,6 @@
 """DJM-S11 manual MIDI mirror controls from its factory message table."""
-from curated import add, profile
+from curated import profile
+from pioneer_manual_mixers import add_paired_mixer_inputs
 
 S11_SOURCE = "https://downloads.support.alphatheta.com/midi-mapping/dj-mixers/DJM-S11/DJM-S11_MIDI_Message_v100_E.pdf"
 S11_SHA = "e0b2b8eefd96b71756119639e3e3a8871aff7a7e319c7de141d2ba6ca63ab8f6"
@@ -15,12 +16,6 @@ def s11_profiles():
     result["hardwareMode"] = "Manual MIDI mirror for a separate software audio path. Enable input separately; hardware mixer bypass and external deck routing remain unavailable."
     result["scope"] = "Manual A/B paired14-bit gain/EQ/filter/levels plus global master, headphones, cue mix and crossfader. Hardware audio routing, browser dispatch, shared pads/screens and physical acceptance remain open."
     result["excludedAliases"] = ["DJM-S9", "DJM-S7", "DJM-S5", "DJM-A9"]
-    for channel, deck in enumerate("ab"):
-        for action, number in [("gain",4),("high",7),("mid",11),("low",15),("filterKnob",1),("level",19)]:
-            add(result, action, channel, number, "control", "paired14Bit", deck)
-            result["inputs"][-1]["lowNumber"] = number + 32
-    for action, number in [("master",8),("monitor",13),("cueMix",12),("crossfader",31)]:
-        add(result, action, 6, number, "control", "paired14Bit")
-        result["inputs"][-1]["lowNumber"] = number + 32
+    add_paired_mixer_inputs(result)
     result["gaps"] = ["This manual MIDI mirror does not implement external hardware mixing, separate deck outputs or software mixer bypass. Use with a separate software audio path. Automatic selection stays off. Ambiguous browser/status rows, shared pad/touchscreen modes, fader-start triggers, headphone cue-fader ownership, microphone/hardware FX, lights, complete lifecycle, audio routing and physical acceptance remain open."]
     return [result]

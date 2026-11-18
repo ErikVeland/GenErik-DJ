@@ -8883,6 +8883,164 @@
       }
     },
     {
+      "id": "pioneerms5",
+      "name": "Pioneer DJM-S5",
+      "manufacturer": "Pioneer",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://downloads.support.alphatheta.com/software_info/dj-mixers/DJM-S5/DJM-S5_MIDI_Message_v100_E.pdf"
+      ],
+      "definitions": [
+        "manufacturer:pioneerms5"
+      ],
+      "implementation": "partial-midi-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer DJM-S5",
+      "automaticControls": false,
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueMix",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "openGroup"
+      ],
+      "inputBindingCount": 23,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual MIDI mirror for a separate software audio path. Enable input separately; external hardware mixer routing and bypass remain unavailable."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "partial",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Manual MIDI mirror only; use with a separate software audio path. External deck routing and hardware/software mixer bypass remain unavailable. Automatic selection stays off. Shared pads, FX/microphone, fader-starts, PFL cue-fader ownership, lights, full lifecycle and physical acceptance remain open. Shifted and FX-modified browsing remains inactive.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "pioneerms7",
+      "name": "Pioneer DJM-S7",
+      "manufacturer": "Pioneer",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://downloads.support.alphatheta.com/software_info/dj-mixers/DJM-S7/DJM-S7_MIDI_Message_v100_E.pdf"
+      ],
+      "definitions": [
+        "manufacturer:pioneerms7"
+      ],
+      "implementation": "partial-midi-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer DJM-S7",
+      "automaticControls": false,
+      "controlActions": [
+        "crossfader",
+        "cueMix",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "monitor"
+      ],
+      "inputBindingCount": 20,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual MIDI mirror for a separate software audio path. Enable input separately; external hardware mixer routing and bypass remain unavailable."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "partial",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Manual MIDI mirror only; use with a separate software audio path. External deck routing and hardware/software mixer bypass remain unavailable. Automatic selection stays off. Shared pads, FX/microphone, fader-starts, PFL cue-fader ownership, lights, full lifecycle and physical acceptance remain open. S7 browser channel/status notation conflicts; no browser binding is inferred.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
       "id": "pioneerxdjaero",
       "name": "Pioneer XDJ-AERO",
       "manufacturer": "Pioneer",
@@ -319068,6 +319226,57 @@
       ]
     },
     {
+      "id": "manufacturer:pioneerms7",
+      "name": "Pioneer DJM-S7",
+      "transport": "midi",
+      "source": {
+        "url": "https://downloads.support.alphatheta.com/software_info/dj-mixers/DJM-S7/DJM-S7_MIDI_Message_v100_E.pdf",
+        "sha256": "f345cf74d993288f7a2a6552a9d9af8c4d2bb03bac6440981281530cd85cd028",
+        "pages": [
+          2,
+          5
+        ],
+        "review": "Independent factory table review confirms the same16 paired MIDI mirror controls as S11: A/B trim4/36, high7/39, mid11/43, low15/47, filter1/33 and level19/51 on channels0/1; global6 master8/40, headphone13/45, cue-mix12/44 and crossfader31/63. Both normal Load70 addresses and shifted71 releases are explicit on channels0/1. Native shared builder expresses these verified facts without aliasing models. Positive shifted Load remains inactive and releases rearm normal Load. S7 browser rows print channel7 but Bn/9n status; browser channels and modifier-dependent FX dispatch remain unqualified. No browser address is guessed. These are manual MIDI mirrors for a separate software audio path. Hardware mixing, external deck audio routing/bypass, PFL cue-fader semantics, shared pads, fader-start gestures, hardware FX/microphone controls, complete output/lifecycle and physical acceptance remain open. No lamp/setup packet or automatic selection is inferred."
+      },
+      "implementedInputCount": 20,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual MIDI mirror only; use with a separate software audio path. External deck routing and hardware/software mixer bypass remain unavailable. Automatic selection stays off. Shared pads, FX/microphone, fader-starts, PFL cue-fader ownership, lights, full lifecycle and physical acceptance remain open. S7 browser channel/status notation conflicts; no browser binding is inferred."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneerms5",
+      "name": "Pioneer DJM-S5",
+      "transport": "midi",
+      "source": {
+        "url": "https://downloads.support.alphatheta.com/software_info/dj-mixers/DJM-S5/DJM-S5_MIDI_Message_v100_E.pdf",
+        "sha256": "dbef5bbafbc3cc433171927b4293bb779373fcd70b5e31ba810206908df55dc0",
+        "pages": [
+          2
+        ],
+        "review": "Independent factory table review confirms the same16 paired MIDI mirror controls as S11: A/B trim4/36, high7/39, mid11/43, low15/47, filter1/33 and level19/51 on channels0/1; global6 master8/40, headphone13/45, cue-mix12/44 and crossfader31/63. Both normal Load70 addresses and shifted71 releases are explicit on channels0/1. Native shared builder expresses these verified facts without aliasing models. Positive shifted Load remains inactive and releases rearm normal Load. S5 independently specifies global channel6/statusB6 browserCC64, signed counts1..30 clockwise and127..98 counterclockwise. Browse press65 enters native Open Group; shifted66 is release-only. Shifted rotationCC100 and FX-modified rotations80..85 remain inactive. These are manual MIDI mirrors for a separate software audio path. Hardware mixing, external deck audio routing/bypass, PFL cue-fader semantics, shared pads, fader-start gestures, hardware FX/microphone controls, complete output/lifecycle and physical acceptance remain open. No lamp/setup packet or automatic selection is inferred."
+      },
+      "implementedInputCount": 23,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual MIDI mirror only; use with a separate software audio path. External deck routing and hardware/software mixer bypass remain unavailable. Automatic selection stays off. Shared pads, FX/microphone, fader-starts, PFL cue-fader ownership, lights, full lifecycle and physical acceptance remain open. Shifted and FX-modified browsing remains inactive."
+        }
+      ]
+    },
+    {
       "id": "manufacturer:pioneerddjrev7",
       "name": "Pioneer DDJ-REV7",
       "transport": "midi",
@@ -319122,7 +319331,7 @@
     "theoreticalSupport": {
       "complete": false,
       "implementedModels": 0,
-      "targetModels": 307,
+      "targetModels": 309,
       "requiresPhysicalTestForEveryModel": false
     },
     "reason": "Documented implementation gaps block theoretical completion. Physical tests are separate evidence, not a per-model completion requirement."

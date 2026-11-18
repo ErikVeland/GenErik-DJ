@@ -3673,3 +3673,18 @@ All4 focused native checks,135 importer checks and iPad framework compilation pa
 Expected failures, factory PDF/hash, reviewed page2 and validation evidence remain in `TestBuilds/r306/`. A repeated Poppler render was stopped after the required page was inspected; its log is retained.
 The repository check retains twelve historical broken links. The catalogue has187 data recipes; automatic core coverage stays161 physical models and71/122 benchmark models.
 Full theoretical feature parity remains unimplemented. Source base: `efd725f`. No signed app, install or physical/A10X acceptance is claimed.
+
+## R307 DJM-S7 and S5 manual MIDI subsets
+
+Assumption: each factory table independently confirms the16 paired mixer inputs. A shared builder can express that verified contract while preserving the S11 recipe exactly. Both S7/S5 provide normal Load70 and shifted release71 on deck channels0/1. Only S5's browser row supplies consistent channel6/statusB6 and signed counts. Manual selection prevents an automatic external-audio claim.
+
+- [x] Add failing generation and native fixtures for distinct identities, counts, exact pairs, normal/shifted Load and browser separation.
+- [x] Add20 S7 inputs and23 S5 inputs with no guessed outputs, modes or lifecycle.
+- [x] Verify native dispatch and unchanged S11/other recipes, run importer/iPad framework checks and compare bundle bytes.
+
+The S7 manual recipe has20 inputs; S5 has23. Both use independently confirmed16 paired controls and normal Load with shifted release aliases.
+Only S5 adds its unambiguous signed browser and normal Browse press. S7's conflicting browser notation remains unresolved. No shared pad, fader-start, light or lifecycle packet is guessed.
+All8 focused native checks,136 importer checks and iPad framework compilation pass. All187 earlier recipes, including S11, remain unchanged; bundled bytes match the source.
+Expected failures, both factory PDF hashes, inspected table images and source-bound evidence remain in `TestBuilds/r307/`.
+The repository check retains twelve historical broken links. The catalogue has189 data recipes; automatic core coverage stays161 physical models and71/122 benchmark models.
+Full theoretical feature parity remains unimplemented. Source base: `e0c74c0`. No signed app, install or physical/A10X acceptance is claimed.

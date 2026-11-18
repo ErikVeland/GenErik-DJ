@@ -861,6 +861,25 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_djm_s7_s5_keep_independent_manual_profiles_and_browser_qualification(self):
+        runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        by_id = {r["id"]:r for r in runtime["profiles"]}
+        for name,count in [("Pioneer DJM-S7",20),("Pioneer DJM-S5",23)]:
+            self.assertIn(name, by_id, "Each mixer needs its own factory-sourced subset")
+            item = by_id[name]
+            self.assertFalse(item["autoSelect"])
+            self.assertEqual(len(item["inputs"]), count)
+            self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+            self.assertNotIn("audioOutput", item)
+            self.assertEqual(len([r for r in item["inputs"] if r["encoding"] == "paired14Bit"]), 16)
+        self.assertFalse(any(r["action"] == "browse" for r in by_id["Pioneer DJM-S7"]["inputs"]))
+        self.assertEqual([(r["channel"],r["number"],r["encoding"]) for r in by_id["Pioneer DJM-S5"]["inputs"] if r["action"] == "browse"], [(6,64,"twosComplement")])
+        from pioneer_manual_mixers import MIXER_SOURCES
+        for filename,digest in MIXER_SOURCES:
+            path = ROOT / "TestBuilds/r307/upstream" / filename
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_djm_s11_manual_mixer_keeps_factory_pairs_and_ambiguous_browsers_inactive(self):
         runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item = next((r for r in runtime["profiles"] if r["id"] == "Pioneer DJM-S11"), None)
