@@ -17,10 +17,21 @@ LEGACY_DJM_REFERENCES = {
 }
 
 
-def legacy_djm_mixer_profiles():
-    results = []
+def add_reviewed_djm_inputs(result, decks='abcd', include_color=True):
+    """Add only the strip fields independently qualified by the caller's table."""
     strips = [[1, 2, 3, 4, 5, 17], [6, 7, 8, 9, 10, 18],
               [12, 14, 15, 21, 22, 19], [80, 81, 92, 82, 83, 20]]
+    for index, (deck, numbers) in enumerate(zip(decks, strips)):
+        for action, number in zip(['gain', 'high', 'mid', 'low', 'filterKnob', 'level'], numbers):
+            if include_color or action != 'filterKnob':
+                add(result, action, 0, number, 'control', deck=deck)
+        add(result, 'cueState', 0, 70 + index, 'control', deck=deck)
+    for action, number in [('crossfader', 11), ('master', 24), ('monitor', 26), ('cueMix', 27)]:
+        add(result, action, 0, number, 'control')
+
+
+def legacy_djm_mixer_profiles():
+    results = []
     for name, ref in LEGACY_DJM_REFERENCES.items():
         short = name.removeprefix('Pioneer ')
         result = profile(name, ref['url'])
@@ -34,12 +45,7 @@ def legacy_djm_mixer_profiles():
             result['aliases'] += ['DJM-900nexus', 'Pioneer DJM-900nexus']
         elif short == 'DJM-850':
             result['aliases'] += ['DJM-850-K', 'DJM-850-S', 'DJM-850-W']
-        for index, (deck, numbers) in enumerate(zip('abcd', strips)):
-            for action, number in zip(['gain', 'high', 'mid', 'low', 'filterKnob', 'level'], numbers):
-                add(result, action, 0, number, 'control', deck=deck)
-            add(result, 'cueState', 0, 70 + index, 'control', deck=deck)
-        for action, number in [('crossfader', 11), ('master', 24), ('monitor', 26), ('cueMix', 27)]:
-            add(result, action, 0, number, 'control')
+        add_reviewed_djm_inputs(result)
         if short == 'DJM-750MK2':
             result['bankChanges'] = [{'channel': 0, 'number': n, 'onValue': 127, 'decks': [deck]}
                                      for deck, numbers in [('a', [51, 52, 53, 67]), ('b', [55, 56, 57, 69]),

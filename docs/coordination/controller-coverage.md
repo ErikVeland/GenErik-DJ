@@ -5139,3 +5139,21 @@ These manual app mixer controls keep hardware processing and external deck audio
 Validation:240 Python checks and eight native tests passed, including the158-profile automatic held-Cue corpus. Parameterised native fixtures cover every absolute input on each model, C/D availability, direct Cue idempotence, source isolation, per-strip pickup reset, inactive wires and sibling boundaries. Real-WAV fixtures for all three models retain finite, synced app-started playback. The iPad framework compiled and its bundled resource matches the source. All276 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r393/validation.json`.
 
 The catalogue has279 recipes for552 physical models. Automatic core coverage remains197, with355 without automatic core. First-protocol gaps fall from238 to235. Full theoretical support and physical/iPad/A10X acceptance remain open.
+
+## R394 independent SRT original750 and250MK2 mixers
+
+Assumption: retain900SRT's documented USB deck order C/A/B/D. Original750 uses physical CH1–4 as native A–D and has no per-strip Color control. The250MK2 uses physical CH1/2 as A/B. All profiles remain manual app mixers with separate audio.
+
+- [x] Pin and visually review available manufacturer manuals. Label250MK2 cached table facts separately from source bytes.
+- [x] Add32 SRT,28 original750 and18 separate250MK2 inputs. Keep each source-selector contract independent.
+- [x] Verify all mixer fields, source/deck isolation, direct Cue states, pickup, unsupported controls and real-WAV Sync.
+- [x] Run source/native checks, compile the iPad framework and compare all earlier recipes.
+
+
+The independent900SRT decimal chart on pages22/23 assigns USB decks3/1/2/4 to physical CH1–4. The32-input profile therefore targets C/A/B/D, with C/D behind app opt-in. Its sixteen source-selector notes reset only the affected strip pickup. The original750 chart on pages19/20 qualifies28 inputs. Its global Boost Color FX control is not four strip filters, so no filter or MK2 selector is inherited.
+
+The250MK2 Version1.00 table was independently reviewed as cached extracted text. Its18 inputs cover two gain/EQ/Color/fader/Cue strips and four global controls. Six source-selector reports reset their own strip pickup. Direct table PDF bytes and screenshots remain unavailable. The separate manufacturer operating manual was downloaded, byte-hashed and page19 visually reviewed. It confirms default MIDI1/TOGGLE. No table byte hash or visual table claim is made. Exact sources and hashes are in the catalogue and public-source audit.
+
+Validation:243 Python checks and ten native tests passed, including the158-profile automatic held-Cue corpus. Independent fixtures check every mapped input, SRT deck ownership, C/D availability, direct Cue reports, source isolation, per-strip pickup, inactive original750 Color wires and absent MK2 selectors. Real-WAV fixtures retain finite, synced app-started playback on all three new models. The iPad framework compiled and the bundled resource matches the source. All279 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r394/validation.json`.
+
+The catalogue has282 recipes for552 physical models. Automatic core remains197, with355 without automatic core. First-protocol gaps fall from235 to232. Full modes/audio/lifecycle/calibration, physical/iPad/A10X acceptance and full theoretical support remain open.

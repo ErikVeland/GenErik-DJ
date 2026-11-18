@@ -26,7 +26,7 @@ class VirtualDJInventoryTests(unittest.TestCase):
             evidence = by[canonical(row['name'])]['comparisonSupport']['virtualDJ']
             self.assertEqual(evidence['sourceName'], row['sourceName'])
             self.assertEqual(evidence['category'], row['category'])
-        for name in ['Pioneer DJ DJM-250MK2', 'Roland DJ-808', 'Novation TWITCH', 'Numark NS7 III']:
+        for name in ['Pioneer DJ DJM-2000', 'Roland DJ-808', 'Novation TWITCH', 'Numark NS7 III']:
             model = by[canonical(name)]
             self.assertEqual(model['implementation'], 'protocol-needed')
             self.assertFalse(model['zeroConfig']['automaticControls'] or model['theoreticalSupport']['complete'])

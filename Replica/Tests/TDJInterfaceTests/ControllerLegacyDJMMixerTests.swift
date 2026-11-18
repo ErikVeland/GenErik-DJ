@@ -4,7 +4,7 @@ import Testing
 
 @testable import TDJInterface
 
-private let legacyDJMNames = ["DJM-900NXS", "DJM-850", "DJM-750MK2"]
+private let legacyDJMNames = ["DJM-900NXS", "DJM-850", "DJM-750MK2", "DJM-900SRT", "DJM-750", "DJM-250MK2"]
 
 @MainActor private func withLegacyDJMMixer(
     _ name: String, decks: [DeckID] = DeckID.allCases,
@@ -28,7 +28,7 @@ private let legacyDJMNames = ["DJM-900NXS", "DJM-850", "DJM-750MK2"]
     #expect(!input.isInputActive(10))
     input.select(10)
     input.applyFactoryProfile(try #require(ControllerFactoryProfile.matching([name])))
-    #expect(input.bindingCount == 32)
+    #expect(input.bindingCount == (name == "DJM-750" ? 28 : name == "DJM-250MK2" ? 18 : 32))
     try body(input)
 }
 
@@ -47,10 +47,13 @@ func controllerCatalogueLegacyDJMEveryAbsoluteStripAndGlobalRetainsPickupAndDeck
             input.currentTargetValue = { _ in 0.5 }
             var events: [(ControllerActionTarget, Double)] = []
             input.onTargetAction = { target, value in if !target.action.isJog { events.append((target, value)) } }
-            for (deck, numbers) in zip(DeckID.allCases, strips) {
+            let targets: [DeckID] =
+                name == "DJM-900SRT" ? [.c, .a, .b, .d] : name == "DJM-250MK2" ? [.a, .b] : DeckID.allCases
+            for (deck, numbers) in zip(targets, strips) {
                 for (number, action) in zip(
                     numbers, [ControllerAction.gainA, .highA, .midA, .lowA, .filterKnobA, .levelA])
                 {
+                    if name == "DJM-750" && action == .filterKnobA { continue }
                     events.removeAll()
                     legacyDJMPacket([0xB0, number, 0], input)
                     #expect(events.isEmpty)
@@ -82,7 +85,9 @@ func controllerCatalogueLegacyDJMCueToggleReportsSetStateIndependentlyOnAllFourS
             input.currentTargetValue = { _ in 0.5 }
             var events: [(ControllerActionTarget, Double)] = []
             input.onTargetAction = { target, value in if !target.action.isJog { events.append((target, value)) } }
-            for (index, deck) in DeckID.allCases.enumerated() {
+            let targets: [DeckID] =
+                name == "DJM-900SRT" ? [.c, .a, .b, .d] : name == "DJM-250MK2" ? [.a, .b] : DeckID.allCases
+            for (index, deck) in targets.enumerated() {
                 events.removeAll()
                 for value: UInt8 in [0, 127, 127, 0, 0, 127] {
                     legacyDJMPacket([0xB0, UInt8(70 + index), value], input)
@@ -141,6 +146,10 @@ func controllerCatalogueLegacyDJMUnmappedModesClockAndHardwareControlsStayInacti
         ] {
             legacyDJMPacket([0x90, number, 127, number, 0], input)
         }
+        if name == "DJM-750" {
+            for number: UInt8 in [5, 10, 22, 83] { legacyDJMPacket([0xB0, number, 64, number, 127], input) }
+        }
+        if name == "DJM-250MK2" { legacyDJMPacket([0xB0, 19, 64, 20, 64, 72, 127, 73, 127], input) }
         legacyDJMPacket([0xB1, 17, 64, 70, 127, 0xF8, 0xFA, 0xFC], input)
         #expect(actions.isEmpty)
     }
@@ -148,7 +157,54 @@ func controllerCatalogueLegacyDJMUnmappedModesClockAndHardwareControlsStayInacti
     #expect(!profile.selectsAutomatically && profile.definition?.role == "accessory")
     #expect(profile.definition?.audioOutput == nil && profile.definition?.outputs.isEmpty == true)
     #expect(profile.definition?.startup.isEmpty == true && profile.definition?.shutdown.isEmpty == true)
-    for sibling in ["DJM-900NXS2", "DJM-900SRT", "DJM-750", "DJM-250MK2", "DJM-TOUR1"] {
+    for sibling in ["DJM-900NXS2", "DJM-900SRT", "DJM-750", "DJM-250MK2", "DJM-TOUR1"] where sibling != name {
         #expect(ControllerFactoryProfile.matching([sibling]) != profile)
+    }
+}
+
+@Test(arguments: ["DJM-900SRT", "DJM-250MK2"]) @MainActor
+func controllerCatalogueLegacyDJMSRTAnd250SelectorsResetTheirOwnPhysicalStrip(_ name: String) throws {
+    let targets: [DeckID] = name == "DJM-900SRT" ? [.c, .a, .b, .d] : [.a, .b]
+    let selectors: [[UInt8]] =
+        name == "DJM-900SRT"
+        ? [[50, 51, 52, 53], [54, 55, 56, 57], [58, 59, 60, 61], [62, 63, 64, 65]] : [[51, 52, 53], [55, 56, 57]]
+    for (index, numbers) in selectors.enumerated() {
+        for selector in numbers {
+            try withLegacyDJMMixer(name) { input in
+                input.currentTargetValue = { _ in 0.5 }
+                var events: [(ControllerActionTarget, Double)] = []
+                input.onTargetAction = { target, value in
+                    if [.levelA, .levelB].contains(target.action) { events.append((target, value)) }
+                }
+                for n in targets.indices { legacyDJMPacket([0xB0, UInt8(17 + n), 64], input) }
+                for n in targets.indices { legacyDJMPacket([0xB0, UInt8(17 + n), 127], input) }
+                events.removeAll()
+                legacyDJMPacket([0x90, selector, 0], input)
+                for n in targets.indices { legacyDJMPacket([0xB0, UInt8(17 + n), 127], input) }
+                #expect(events.count == targets.count)
+                events.removeAll()
+                legacyDJMPacket([0x90, selector, 127, selector, 0], input)
+                for n in targets.indices { legacyDJMPacket([0xB0, UInt8(17 + n), 127], input) }
+                #expect(events.count == targets.count - 1)
+                #expect(events.allSatisfy { $0.0.deck != targets[index] })
+                legacyDJMPacket([0xB0, UInt8(17 + index), 64], input)
+                legacyDJMPacket([0xB0, UInt8(17 + index), 0], input)
+                #expect(events.last?.0.deck == targets[index] && events.last?.1 == 0)
+            }
+        }
+    }
+}
+
+@Test @MainActor func controllerCatalogueLegacyDJMOriginal750DoesNotInheritMK2SourceReset() throws {
+    try withLegacyDJMMixer("DJM-750") { input in
+        input.currentTargetValue = { _ in 0.5 }
+        var values: [Double] = []
+        input.onAction = { action, value in if action == .levelA { values.append(value) } }
+        legacyDJMPacket([0xB0, 17, 64], input)
+        legacyDJMPacket([0xB0, 17, 127], input)
+        values.removeAll()
+        for selector: UInt8 in [51, 52, 53, 67] { legacyDJMPacket([0x90, selector, 127, selector, 0], input) }
+        legacyDJMPacket([0xB0, 17, 127], input)
+        #expect(values == [1])
     }
 }
