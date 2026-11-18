@@ -1031,3 +1031,9 @@ The manufacturer states that motorisation cannot be disabled. No stationary-plat
 Play, main Cue, tempo, platter/wheel, RPM/motor modes, startup/shutdown, output and automatic audio stay inactive.
 No motor packet, downloaded mapping action or hardware write runs. Use app touch transport and separate audio.
 The manual subset does not establish a complete T10 integration. Full modes/lifecycle and physical acceptance remain open.
+
+Xone:96 uses nine manual inputs on default MIDI channel16: four linefaders, direct main Cue states and the crossfader.
+Physical CH1-4 map A-D. C/D require the existing four-deck option. Source-selector reports rearm only their deck's pickup.
+MIDI output to Cue/filter changes real hardware state, so feedback and hardware writes remain disabled.
+Analogue gain/four-band EQ/filter/headphone controls, auxiliary Cue/PHONES2 and external deck routing remain outside this subset.
+The manufacturer confirms class-compliant iPadOS/iOS USB. Configure app audio separately. Physical acceptance remains open.

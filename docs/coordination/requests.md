@@ -596,3 +596,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R382 | Implemented; hardware/protocol gaps open | Add Inpulse 200 MK3 from its independent public factory mapping | Added65 automatic inputs/18 lamps and documented split audio.219 Python/eight native checks passed, including exact512-count WAV movement and157 held-Cue profiles. iPad framework compiled. [Scope](controller-coverage.md#r382-inpulse-200-mk3-public-factory-facts). |
 
 | R383 | Implemented; coupled motor protocol remains open | Add independently qualified T10 supplemental controls | Added85 manual mixer/pad/loop/library inputs without motor or hardware writes.220 Python/eight native checks passed. iPad framework compiled. [Scope](controller-coverage.md#r383-t10-supplemental-controls-and-motor-boundary). |
+
+| R384 | Implemented; analogue/audio ownership open | Add Xone:96 manual MIDI faders and independent Cue states | Added9 manual inputs and source-specific pickup reset.221 Python/eight native checks passed. iPad framework compiled. Hardware Cue/filter writes stay disabled. [Scope](controller-coverage.md#r384-xone96-manual-faders-and-cue-state). |

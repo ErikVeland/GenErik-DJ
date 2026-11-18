@@ -917,6 +917,20 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for bad in [products+products,products[:100],products+'<li data-hardware-target="midinote ios">Unknown: Screen</li>',products.replace('mac ios','mac unknown',1)]:
             with self.assertRaises(ValueError):read_djay(bad)
 
+    def test_xone96_uses_default_channel16_and_keeps_hardware_owned_controls_inactive(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Allen & Heath Xone:96"),None)
+        self.assertIsNotNone(item,"Use the current manufacturer Xone:96 MIDI table")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),9)
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        self.assertTrue(all(r["channel"]==15 for r in item["inputs"]))
+        self.assertEqual([(r["number"],r["targetDeck"]) for r in item["inputs"] if r["kind"]=="control" and r["action"]!="crossfader"],list(enumerate("abcd")))
+        self.assertEqual([(r["number"],r["targetDeck"]) for r in item["inputs"] if r["action"] in {"cueStateA","cueStateB"}],list(enumerate("abcd")))
+        self.assertEqual(len(item["bankChanges"]),16)
+        self.assertEqual({r["action"] for r in item["inputs"]},{"levelA","levelB","cueStateA","cueStateB","crossfader"})
+
     def test_t10_factory_subset_keeps_motor_transport_and_startup_inactive(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="Hercules DJControl T10"),None)

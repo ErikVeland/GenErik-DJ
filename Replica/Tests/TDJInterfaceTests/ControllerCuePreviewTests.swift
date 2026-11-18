@@ -2483,3 +2483,18 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueXone96ManualFaderAndCueStateKeepAudioFiniteAndSynced() async throws {
+    try await withControllerCuePlayback("Allen & Heath Xone:96",manual:true) { model,input in
+        input.onTargetAction?(.init(.playA,deck:.a),1)
+        cuePreviewPacket([0xBF,0,100,5,64,0x9F,0,127,0,127],to:input)
+        #expect(model.controllerValue(.cueA) == 1)
+        cuePreviewPacket([0x8F,0,127],to:input)
+        #expect(model.controllerValue(.cueA) == 0)
+        let audio = model.playback.core.renderOffline(frames:4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

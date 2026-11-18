@@ -4970,3 +4970,18 @@ Play, main Cue, tempo, all platter/wheel packets, RPM/motor modes and source sta
 Validation:220 Python checks and eight focused native tests passed, including the157-profile held-Cue corpus. Every native input wire exists in the pinned T10 document. Native tests reject motor/transport dispatch and all hardware writes. A real-WAV fixture verified finite, synced audio started through the app action path. The iPad framework compiled and its resource matches the source. All264 earlier recipes remain identical. The first native fixture mistook neutral stop-cleanup jogs for active platter input. That failed result remains preserved. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r383/validation.json`.
 
 The catalogue has265 data recipes. Automatic core coverage remains196 of342 physical models, with146 without automatic core controls. Thirty-nine records need a first protocol implementation. Full motor support, complete theoretical support and physical/iPad/A10X acceptance remain open.
+
+
+## R384 Xone:96 manual faders and Cue state
+
+Assumption: use the current manufacturer implementation table and keep analogue mixer ownership separate from optional app controls.
+
+The [manufacturer MIDI table](https://support.allen-heath.com/hc/en-gb/articles/43084536824849-Xone-96-MIDI-Implementation) qualifies default channel16, CH1-4 faders CC0-3, crossfader CC5 and main Cue Notes0-3. Note states are0/127. CC values span0-127. The native manual profile has nine inputs. Physical CH1-4 map A-D. C/D retain the existing four-deck opt-in. Repeated Cue state reports set the app state without toggling it. Source-select reports19-34 rearm only the corresponding deck fader pickup.
+
+The [user guide](https://support.allen-heath.com/hc/en-gb/articles/43053562464017-Xone-96-User-Guide) confirms hardware Cue ownership. MIDI output to Cue/filter changes actual mixer state. The app sends no feedback, setup or routing command. Auxiliary Cue/PHONES2, VCF/MUTE and source-state actions stay inactive. Analogue gain, four-band EQ, filter and headphone controls are not duplicated as MIDI knobs.
+
+The [manufacturer resource page](https://www.allen-heath.com/hardware/xone-series/xone96/resources/) confirms class-compliant macOS/iPadOS/iOS USB. Native external mixer deck routing, full control support and physical/A10X acceptance remain open. Select the MIDI subset deliberately and configure app audio separately. Saved alternate MIDI channels need separate mappings. The native fetch returned403, so the current primary HTML tables were reviewed through the web reader. Independent transcribed facts remain labelled as such.
+
+Validation:221 Python checks and eight focused native tests passed, including the157-profile held-Cue corpus. Tests verified four-deck gating, direct Cue states, source-specific pickup and absence of hardware writes. A real-WAV fixture verified idempotent Cue, finite audio and saved Sync. The iPad framework compiled and its resource matches the source. All265 earlier recipes remain identical. A corrected fixture compile failure remains preserved. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r384/validation.json`.
+
+The catalogue has266 data recipes. Automatic core coverage remains196 of342 physical models, with146 without automatic core controls. Thirty-eight records need a first protocol implementation. Complete theoretical and physical/iPad acceptance remain open.

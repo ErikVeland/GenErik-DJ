@@ -15351,12 +15351,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://support.allen-heath.com/hc/en-gb/articles/43084536824849-Xone-96-MIDI-Implementation",
         "https://www.algoriddim.com/hardware/xone96"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:xone96-manufacturer-midi"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Allen & Heath Xone:96",
+      "automaticControls": false,
       "comparisonSupport": {
         "djay": {
           "sourceName": "Allen & Heath Xone:96",
@@ -15369,40 +15374,50 @@
           "source": "https://www.algoriddim.com/hardware/xone96"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "crossfader",
+        "cueStateA:a",
+        "cueStateA:c",
+        "cueStateB:b",
+        "cueStateB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d"
+      ],
+      "inputBindingCount": 9,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual MIDI layout on default channel16. Enable MIDI for the connected USB host. Physical CH1-4 map A-D. C/D require the app's four-deck option. Use separately configured app audio."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "The hardware faders and Cue switches also affect analogue audio. Select this MIDI subset deliberately and configure app audio separately. Native does not set hardware Cue/filter states. Auxiliary channels/PHONES2, source-state actions, VCF/MUTE, complete lifecycle, external mixer deck outputs and physical/iPad/A10X acceptance remain open. Analogue gain/four-band EQ/filter/headphone controls are not MIDI knobs and are not duplicated. Alternate saved MIDI channels need separate mappings.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -333459,6 +333474,36 @@
         },
         {
           "reason": "Manufacturer states that platter motorisation cannot be disabled. The complete motor/platter and coupled transport lifecycle contract remains unqualified. No stationary mode is invented. Manual supplemental controls do not establish a complete T10 controller. Use app touch transport and separate audio. Source fixed4 loop press uses native current-size toggle. Shifted sampler volume, FX/stem/roll/slicer/pitch-play modes, complete feedback, USB ownership, calibration and physical/iPad/A10X acceptance remain open."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:xone96-manufacturer-midi",
+      "name": "Allen & Heath Xone:96",
+      "transport": "midi",
+      "source": {
+        "url": "https://support.allen-heath.com/hc/en-gb/articles/43084536824849-Xone-96-MIDI-Implementation",
+        "reviewDate": "2026-11-19",
+        "relatedSources": [
+          {
+            "url": "https://support.allen-heath.com/hc/en-gb/articles/43053562464017-Xone-96-User-Guide"
+          },
+          {
+            "url": "https://www.allen-heath.com/hardware/xone-series/xone96/resources/"
+          }
+        ],
+        "review": "Current manufacturer HTML MIDI implementation and user guide reviewed. Default channel16 sends CH1-4 faders as CC0-3, crossfaderCC5 and CH1-4 Cue states as Notes0-3. Manufacturer specifies NoteOff00/NoteOn7F and CC00-7F. Native9-input manual layout assigns CH1-4 to A-D with existing four-deck opt-in. Cue uses direct state, not a toggle on every report. Source-selector notes19-34 retire the respective deck pickup on new127 reports. Alternate configured MIDI channels require a separate mapping. Auxiliary Cue channels, PHONES2, VCF/MUTE/source-state actions, analogue gain/four-band EQ/filter/headphone controls remain outside this subset. MIDI input to Cue/filter controls changes actual hardware state, so no native lamp/setting packet is sent. Manufacturer confirms class-compliant macOS/iPadOS/iOS USB, but external mixer deck routing and actual iPad acceptance remain open. Manual selection and separate app audio avoid automatic ownership of the analogue mixer. No Xone92/PX5/23C/24C protocol is inherited."
+      },
+      "implementedInputCount": 9,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "The hardware faders and Cue switches also affect analogue audio. Select this MIDI subset deliberately and configure app audio separately. Native does not set hardware Cue/filter states. Auxiliary channels/PHONES2, source-state actions, VCF/MUTE, complete lifecycle, external mixer deck outputs and physical/iPad/A10X acceptance remain open. Analogue gain/four-band EQ/filter/headphone controls are not MIDI knobs and are not duplicated. Alternate saved MIDI channels need separate mappings."
         }
       ]
     }

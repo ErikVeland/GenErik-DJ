@@ -988,6 +988,28 @@
         "Manual supplemental mixer/pads/loops/library only. Native current-size loop press differs from source fixed4.",
         "Play, main Cue, tempo, all platters/wheels, RPM/motor modes, startup, output, settings and automatic audio remain inactive. Complete motor protocol and physical/iPad acceptance remain open."
       ]
+    },
+    {
+      "request": "R384",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://support.allen-heath.com/hc/en-gb/articles/43084536824849-Xone-96-MIDI-Implementation",
+          "review": "Current primary HTML table reviewed through web reader. Default MIDI16, main faderCC0-3, CueNotes0-3 and crossCC5. Note0/127 and CC0-127 explicit. Native curl returned403. Local facts are independent transcription, not a source-page copy."
+        },
+        {
+          "url": "https://support.allen-heath.com/hc/en-gb/articles/43053562464017-Xone-96-User-Guide",
+          "review": "Main Cue states are hardware owned and can be changed remotely through MIDI. Native feedback remains disabled. Main channel faders also send MIDI. Auxiliary A/B faders remain analogue."
+        },
+        {
+          "url": "https://www.allen-heath.com/hardware/xone-series/xone96/resources/",
+          "review": "Manufacturer explicitly confirms class-compliant CoreAudio/CoreMIDI for macOS, iPadOS and iOS. No device driver required. External app deck routing and physical acceptance are separate."
+        }
+      ],
+      "limits": [
+        "Nine manual inputs on default channel16. No automatic ownership, hardware Cue/filter write, output or audio command.",
+        "Auxiliary channels, PHONES2, VCF/MUTE/source actions, external deck routing and physical/iPad/A10X acceptance remain open."
+      ]
     }
   ]
 }
