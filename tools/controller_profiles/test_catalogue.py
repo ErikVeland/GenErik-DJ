@@ -998,6 +998,25 @@ class GeneratedCatalogueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
 
+    def test_rmx90_is_a_bounded_manual_mixer_with_explicit_channel_and_trigger_setup(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"] == "Reloop RMX-90 DVS"),None)
+        self.assertIsNotNone(item,"RMX-90 DVS needs its own factory recipe")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),32)
+        self.assertEqual({r["channel"] for r in item["inputs"]},{0})
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        self.assertEqual({r["number"] for r in item["inputs"] if r["kind"] == "control"},set(range(1,27))|{39,40})
+        self.assertEqual([(r["number"],r["targetDeck"]) for r in item["inputs"] if r["kind"] == "note"],[(2,"a"),(5,"b"),(8,"c"),(11,"d")])
+        self.assertFalse(any(r["action"].startswith(("play","cuePreview","sync","loop","jog")) for r in item["inputs"]))
+        self.assertIn("TRIGGER",item["hardwareMode"])
+        from reloop_rmx90 import RMX90_SOURCES
+        for filename,_,digest in RMX90_SOURCES:
+            path=ROOT/"TestBuilds/r320/upstream"/filename
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),digest)
+
     def test_dj3_core_covers_named_port_and_four_configurable_channels_without_shared_pots(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"] == "Faderfox DJ3"),None)

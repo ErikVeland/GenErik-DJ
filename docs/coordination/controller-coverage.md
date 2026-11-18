@@ -3879,3 +3879,18 @@ All150 importer checks,9 focused native checks and iPad framework compilation pa
 The failed size/native logs and final source-bound evidence remain in `TestBuilds/r319/`. The repository check retains twelve historical broken links.
 The catalogue reaches319 records/312 physical models and198 data recipes. Automatic core coverage reaches166 physical models; the benchmark stays71/122.
 Generic port naming, pot ownership, full Shift/button/loop/FX modes, lights/lifecycle, calibration and physical/A10X acceptance remain open. No signed app or install is claimed.
+
+## R320 RMX-90 DVS factory MIDI mixer
+
+Assumption: this manual recipe requires MIDI on, MIDI CH1 and MIDI TYPE TRIGGER. These are explicit setup requirements, not inferred defaults. CH1/2/3/4 target native A/B/C/D. C/D require app opt-in. Use a separate software audio path because external deck routing and mixer bypass remain unavailable.
+
+- [x] Pin and visually review the factory MIDI map and manual setup page. Confirm a failing importer fixture.
+- [x] Add32 manual absolute inputs: four channel gains, EQ, filters, levels and PFL, plus crossfader, master, headphone blend and level.
+- [x] Verify all targets, channel/kind isolation, PFL ownership, inactive selectors/FX/Booth and native playback. Run importer checks and compile the iPad framework.
+
+Source base: `36044e0`. Do not infer sibling RMX models, lamp outputs, pickup SysEx, encoder decoding or automatic audio routing. Full modes, calibration and physical/A10X acceptance remain open.
+
+The manual recipe adds32 factory inputs. All151 importer checks and7 focused native checks pass. The native checks cover all four deck targets, C/D opt-in, normalised endpoints, both PFL release forms, inactive selectors/Booth/FX, reserved channels and real-WAV mixer/PFL playback with Sync retained.
+The iPad framework compiles. Its bundled resource matches the source byte for byte. All198 earlier recipes retain identical data. The catalogue stays319 records/312 physical models and reaches199 data recipes. Automatic core coverage stays166 physical models and71/122 benchmark models.
+The first native run failed a test that assumed a fixed order for deferred crossfader events. The corrected test checks each action/value independently. Both logs remain in `TestBuilds/r320/`. The repository check retains twelve historical broken links.
+No signed app, install, external mixer audio or physical/A10X acceptance is claimed. Alternate MIDI settings, full modes, output/lifecycle and calibration remain open.

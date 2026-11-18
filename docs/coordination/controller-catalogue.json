@@ -28469,46 +28469,84 @@
       "role": "dvs-only",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://www.reloop.com/media/custom/upload/Reloop-RMX-90DVS_MIDI-Map.pdf"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:relooprmx90dvs"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Reloop RMX-90 DVS",
+      "automaticControls": false,
+      "controlActions": [
+        "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cueMix",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor"
+      ],
+      "inputBindingCount": 32,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual MIDI mirror: set MIDI on, MIDI CH1 and MIDI TYPE TRIGGER. Enable input separately. Use a separate software audio path. C/D require app opt-in."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Explicit manual MIDI on/channel1/TRIGGER setup required. Other MIDI channels and toggle mode remain inactive. Use a separate software audio path; external deck routing and hardware/software mixer bypass are unavailable. Selectors, Booth, microphone, fader starts, FX, pickup SysEx, lamps, full lifecycle, calibration and physical/A10X acceptance remain open.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -320299,6 +320337,41 @@
         },
         {
           "reason": "Named DJ3 endpoint only; generic USB Audio Device naming requires manual identification. Shared/separate EQ/filter pot mode ownership, full Shift and non-critical button release cleanup, loop/FX/key modes, LED/sys feedback, complete lifecycle and native encoder calibration remain open. No copied Pioneer-style lamp/reset packet or audio route is emitted. Physical USB and A10X acceptance remain unverified."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:relooprmx90dvs",
+      "name": "Reloop RMX-90 DVS",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.reloop.com/media/custom/upload/Reloop-RMX-90DVS_MIDI-Map.pdf",
+        "sha256": "3b4fff2305692b6015ceeb4dea896b7af795ddae156a72666442353677ff8760",
+        "pages": [
+          1
+        ],
+        "relatedSources": [
+          {
+            "url": "https://www.reloop.com/media/catalog/product/pdf/2/3/2/232554_Reloop_IM.pdf",
+            "sha256": "aeb6263cfbb46285441cd9f2cd89f66e6469853284b19b76083e59ac03169473",
+            "pages": [
+              21,
+              46
+            ]
+          }
+        ],
+        "review": "Factory map uses configurable Bn/9n messages. Manual page21 independently confirms MIDI on/off, channels1..15 and TRIGGER/TOGGLE selection; channel16 is reserved for external USB OUT control. This manual recipe explicitly requires MIDI on, channel1 (wire0) and TRIGGER. These are required settings, not assumed defaults. Physical mixer CH1..4 map to native A/B/C/D: gain CC1/7/13/19, high2/8/14/20, mid3/9/15/21, low4/10/16/22, filter5/11/17/23, level6/12/18/24. Note2/5/8/11 are headphone PFL, not held main Cue. Global crossfader25, master26, headphone mix39 and level40 are absolute0..127. Source and crossfader assignment selectors are not buttons; no transport is invented. Booth28 is not headphone level. FX encoder rows print63~54 and do not qualify a decoder. No pickup SysEx, lamp output, setup packet or automatic audio routing is inferred. Hardware mixer routing/bypass, alternate MIDI settings, full modes, native calibration and physical acceptance remain open. Use a separate software audio path."
+      },
+      "implementedInputCount": 32,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Explicit manual MIDI on/channel1/TRIGGER setup required. Other MIDI channels and toggle mode remain inactive. Use a separate software audio path; external deck routing and hardware/software mixer bypass are unavailable. Selectors, Booth, microphone, fader starts, FX, pickup SysEx, lamps, full lifecycle, calibration and physical/A10X acceptance remain open."
         }
       ]
     },

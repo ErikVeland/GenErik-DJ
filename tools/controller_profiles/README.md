@@ -681,3 +681,9 @@ Oversized output fails generation. The review catalogue retains its readable for
 R319 caught a 4,196,910-byte resource that caused the native loader to reject all data profiles.
 Compact JSON reduced it to 2,235,212 bytes without changing the earlier profile data.
 Importer size checks and native catalogue-load checks cover this boundary.
+
+### RMX-90 DVS manual mixer (R320)
+
+`reloop_rmx90.py` records32 factory mixer/PFL inputs. Set MIDI on, MIDI CH1 and MIDI TYPE TRIGGER before manual selection.
+Use a separate software audio path. External deck routing and hardware/software mixer bypass remain unavailable.
+The recipe does not send pickup SysEx or infer FX encoder decoding, lamp output or sibling RMX addresses.
