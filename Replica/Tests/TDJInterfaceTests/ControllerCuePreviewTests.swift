@@ -2207,3 +2207,17 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueREV7NativeTransportLoopAndShiftBendKeepAudioAndSync() async throws {
+    try await withControllerCuePlayback("DDJ-REV7",manual: true) { model,input in
+        cuePreviewPacket([0x90,11,127,11,0,20,127,20,0],to: input)
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.loopEnabled == true)
+        cuePreviewPacket([0x90,58,127,0x96,63,127,0x90,93,0,0x96,63,0],to: input)
+        cuePreviewPacket([0xB0,34,65,34,63,0x90,115,127,115,0,35,5],to: input)
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

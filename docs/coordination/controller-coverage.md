@@ -4574,3 +4574,21 @@ Success requires passing protocol, mapping and playback fixtures with the previo
 Validation:193 Python checks and61 focused native tests passed. These include the152-profile held-Cue corpus, both release forms, ownership changes, saved-mapping capacity and queued-source isolation. The real-WAV fixture retained audio and saved Sync. The iPad framework compiled and its resource matches the source. All243 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Earlier failed logs retain the catalogue-bound failure, corrected packet/coalescing expectations and reproduced queued-movement defect. Evidence: `TestBuilds/r360/validation.json`.
 
 The catalogue now has244 data recipes and190 physical models with automatic core controls. Another122 physical models lack automatic core controls. Full theoretical support remains open for all312 physical model records. No signed app, installation or physical/A10X acceptance is claimed. The public DDJ-REV7 E2 and RMX-IGNITE tables have also been recovered for the next additions.
+
+## R361 Independent DDJ-REV7 manual MIDI core and saved bank rules
+
+Assumption: the public E2 table establishes ordinary MIDI addresses but does not establish motor/platter ownership. Add a manual subset through a separate app audio path. Keep Instant Scratch off and select the connected computer's USB source. Utility LOOP options must remain OFF for the binary Auto Loop action. Send no motor, setup or output command.
+
+- [x] Pin and visually inspect all seven manufacturer pages. Confirm a failing addition fixture.
+- [x] Add70 manual inputs for transport, pitch, mixer, browsing, eight performance Hot Cues and four upper SLOT/PAD Hot Cues per deck.
+- [x] Preserve explicit manual profile identity, bank cleanup and reload behaviour. Verify bounds, source isolation, Shift, mode changes, real-WAV playback and iPad compilation.
+
+The [E2 table](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-REV7/DDJ-REV7_MIDI_message_List_E2.pdf) has SHA256`a2d33045fc28017d48ba8e9409e0586d0f753ce426e7f955c0c56460b7dbf905`. Its filename uses lowercase `message`. The profile retains separate deck, upper-slot, performance-pad and browser channels. Paired tempo and mixer controls keep their documented addresses and direction. Normal Play, Sync, Keylock, tempo reset, loop sizing and held bends have explicit native targets. SILENT CUE is neither PFL nor held main Cue. It stays inactive. Motor count streams34/41, value-coded Auto Loop35, other pads/FX/stems and hardware source/reverse/curve functions stay inactive. No REV1/REV5 alias, motor command, lamp value, screen protocol or audio route is inferred.
+
+Manual application now saves the selected profile ID with its bindings. Only that explicit selection supplies manual bank-change rules. Endpoint names alone do not infer those rules. Reload validates known profile IDs, a64-source limit and a16KiB data bound. Clearing the bindings removes the metadata. This closes the held-bend mode-change defect reproduced by the first native run.
+
+Mode presses retire old holds. Mode-button releases preserve new holds. New failing fixtures reproduced premature release in both REV7 and XDJ-AN. The XDJ-AN change removes release handling from pad-mode metadata. Both Shift transitions still retire holds. This is the only changed earlier recipe. The other243 earlier recipes remain identical.
+
+Validation:194 Python checks and33 focused native tests passed. They include REV7 transport, both Hot Cue banks,14-bit pairing, held bends, source isolation, manual reload/bounds and inactive motor/Silent Cue wires. Existing XDJ-AN, original nanoKONTROL and original RANE ONE checks passed. Real-WAV fixtures retained audio and saved Sync. The iPad framework compiled and its resource matches the source. The repository checker retains12 historical missing-file links. Failed addition, manual-bank and mode-release logs remain preserved. Evidence: `TestBuilds/r361/validation.json`.
+
+The catalogue has245 data recipes. Automatic core coverage remains190 physical models, with122 remaining. Full theoretical support remains open for all312 physical model records. No signed app, installation or physical/A10X acceptance is claimed.

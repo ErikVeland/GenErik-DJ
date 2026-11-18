@@ -7045,49 +7045,110 @@
       "benchmark": true,
       "sources": [
         "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
-        "https://www.pioneerdj.com/-/media/pioneerdj/software-info/controller/ddj-rev7/ddj-rev7_midi_message_list_e2.pdf"
+        "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-REV7/DDJ-REV7_MIDI_message_List_E2.pdf"
       ],
       "definitions": [
         "manufacturer:pioneerddjrev7"
       ],
-      "implementation": "protocol-needed",
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Pioneer DDJ-REV7",
+      "automaticControls": false,
+      "controlActions": [
+        "browse",
+        "browsePreviousGroup",
+        "crossfader",
+        "cueMix",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "hotcue5A:a",
+        "hotcue5B:b",
+        "hotcue6A:a",
+        "hotcue6B:b",
+        "hotcue7A:a",
+        "hotcue7B:b",
+        "hotcue8A:a",
+        "hotcue8B:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopUpA:a",
+        "loopUpB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b",
+        "tempoResetA:a",
+        "tempoResetB:b"
+      ],
+      "inputBindingCount": 70,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual general MIDI core. Select this computer's USB source, turn Instant Scratch off and use Utility LOOP options OFF. Use a separate app audio path. Motor/platter, Silent Cue, full audio ownership and automatic support remain unimplemented."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Manual partial core only. Motor/platter34/41, physical resolution/contact/speed, Silent Cue, main held Cue, Utility LOOP-options ON35, hardware tempo range, other pads/FX/stems, source/reverse/curve ownership, screens, full output/lifecycle/audio routing and physical/A10X acceptance remain open. No output, motor, setup or stored-setting write is inferred.",
         "Review and implement platter, motor, display and lifecycle protocols before automatic selection. A relative JOG entry alone does not establish motorised-platter support.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -324120,17 +324181,34 @@
       "name": "Pioneer DDJ-REV7",
       "transport": "midi",
       "source": {
-        "url": "https://www.pioneerdj.com/-/media/pioneerdj/software-info/controller/ddj-rev7/ddj-rev7_midi_message_list_e2.pdf",
-        "sha256": null,
-        "review": "Factory MIDI table, web text. Local PDF unavailable. Motor and display protocols remain unreviewed."
+        "url": "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-REV7/DDJ-REV7_MIDI_message_List_E2.pdf",
+        "sha256": "a2d33045fc28017d48ba8e9409e0586d0f753ce426e7f955c0c56460b7dbf905",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "relatedSources": [
+          {
+            "url": "https://support.alphatheta.com/en-US/articles/4414574284697?product=4416585726873"
+          }
+        ],
+        "review": "All seven E2 manufacturer pages were visually reviewed. Add a manual two-deck MIDI core, not motorised compatibility. Deck channels1/2, upper four SLOT/PAD hot cues channels3/4 and eight performance hot cues channels8/10 remain independent. START/STOP Note11, Sync88, Keylock26, tempo reset69, Auto Loop20 with Utility LOOP options OFF, half18/double19 and held pitch bends57/58 retain their own addresses. Shifted bend89/93 are release-only aliases. Tempo CC0/32 is non-inverted14-bit; hardware ranges remain uncalibrated. Gain/EQ/level retain deck CC4/7/11/15/19 pairs. Filters use channel7 CC23/55 and24/56. Crossfader31/63, master8/40, headphones13/45 and blend12/44 are channel7. Browse CC64 uses signed counts, press65 opens a group, Back101 selects the previous group, Load70/71 addresses A/B. Shared Shift is channel7 Note63. Shift transitions retire holds. Normal pad/slot mode and input-source changes retire side-local holds. Main held Cue is absent from the hardware table. SILENT CUE115 is not headphone PFL or held main Cue and stays inactive. Motor/platter count stream34/41 is deliberately unmapped until motor speed/contact/ownership are implemented. Utility LOOP-options ON Note35 encodes seven lengths and is not treated as a binary toggle. Other pads/FX/stems, Stop Time, hardware source/reverse/curve controls, colour palette, screens, complete output/lifecycle/audio routing and physical/A10X acceptance remain open. No motor, setup, lamp, stored-setting or audio-route command is sent. REV1/REV5 have no inherited alias."
       },
-      "implementedInputCount": 0,
+      "implementedInputCount": 70,
       "implementedOutputCount": 0,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [
         {
-          "reason": "Review and implement platter, motor, display and lifecycle protocols before automatic selection. A relative JOG entry alone does not establish motorised-platter support."
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual partial core only. Motor/platter34/41, physical resolution/contact/speed, Silent Cue, main held Cue, Utility LOOP-options ON35, hardware tempo range, other pads/FX/stems, source/reverse/curve ownership, screens, full output/lifecycle/audio routing and physical/A10X acceptance remain open. No output, motor, setup or stored-setting write is inferred."
         }
       ]
     }

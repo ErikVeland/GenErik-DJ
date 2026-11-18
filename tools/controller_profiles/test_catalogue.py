@@ -861,6 +861,23 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_rev7_manual_core_does_not_treat_motor_counts_or_silent_cue_as_plain_controls(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Pioneer DDJ-REV7"),None)
+        self.assertIsNotNone(item,"Add the independent REV7 E2 MIDI subset without a motor or sibling alias")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),70)
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertFalse(any(r["action"] in {"jogA","jogB","cuePreviewA","cuePreviewB","cueA","cueB"} for r in item["inputs"]))
+        self.assertEqual([(r["channel"],r["number"]) for r in item["inputs"] if r["action"] in {"playA","playB"}],[(0,11),(1,11)])
+        self.assertEqual({r["channel"] for r in item["inputs"] if r["action"].startswith("hotcue")},{2,3,7,9})
+        self.assertFalse(any(r["number"]==35 and r["kind"]=="note" for r in item["inputs"]))
+        self.assertEqual(len(item["bankChanges"]),21)
+        self.assertTrue(all("releaseShiftChannels" not in r for r in item["bankChanges"] if r["number"] != 63))
+        from rev7 import REV7_REFERENCES
+        cached=ROOT/"TestBuilds/r357/upstream/ddj-rev7-midi-e2.pdf"
+        if cached.exists():self.assertEqual(hashlib.sha256(cached.read_bytes()).hexdigest(),REV7_REFERENCES[item["id"]]["sha256"])
+
     def test_xdj_an_requires_independent_paired_ownership_and_qualified_pad_pages(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next(r for r in runtime["profiles"] if r["id"]=="AlphaTheta XDJ-AN")

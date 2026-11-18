@@ -25,7 +25,7 @@ def an_profiles():
         add(result,"shift",channel,63)
         result["inputs"][-1].update(shiftInput=channel,shiftChannel=channel)
         result["bankChanges"].append({"channel":channel,"number":63,"onValue":127,"decks":[deck],"releaseShiftChannels":[]})
-        result["bankChanges"] += [{"channel":channel,"number":number,"onValue":127,"decks":[deck],"releaseShiftChannels":[]} for number in range(80,88)]
+        result["bankChanges"] += [{"channel":channel,"number":number,"onValue":127,"decks":[deck]} for number in range(80,88)]
         for action,number in [("play",0),("cuePreview",1),("sync",31),("keylock",17),("load",64),("loop",67),("jumpBack",45),("jumpForward",44),("jogTouch",32)]:
             add(result,action,channel,number,deck=deck,feedback=action in {"play","cuePreview","sync","keylock"})
             if action != "play":result["inputs"][-1].update(shifted=False,shiftChannel=channel)

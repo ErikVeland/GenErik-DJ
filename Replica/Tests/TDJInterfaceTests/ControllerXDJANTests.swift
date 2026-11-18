@@ -243,3 +243,15 @@ import Testing
         #expect(counts == [2] && events.isEmpty)
     }
 }
+
+@Test @MainActor func controllerCatalogueXDJANPadModeReleasePreservesANewHeldCue() throws {
+    try withXDJAN { input, _ in
+        anPacket([0xB0, 100, 127, 0xB1, 100, 127], input)
+        var values: [Double] = []
+        input.onAction = { action, value in if action == .cuePreviewA { values.append(value) } }
+        anPacket([0x90, 80, 127, 1, 127, 0x80, 80, 127], input)
+        #expect(values == [1])
+        anPacket([0x80, 1, 127], input)
+        #expect(values == [1, 0])
+    }
+}

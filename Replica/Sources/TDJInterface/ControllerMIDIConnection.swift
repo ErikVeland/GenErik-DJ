@@ -397,6 +397,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private var spectraDecoders: [Int32: ControllerSpectraDecoder] = [:]
     @ObservationIgnored private var p1NanoDecoders: [Int32: ControllerP1NanoDecoder] = [:]
     @ObservationIgnored private var keyLabDecoders: [Int32: ControllerKeyLabDecoder] = [:]
+    @ObservationIgnored private var manualFactoryProfiles: [Int32: ControllerFactoryProfile] = [:]
     @ObservationIgnored private var manualInputProtocols: [Int32: ControllerProfileData.InputProtocol] = [:]
     @ObservationIgnored private var bridgeDecoders: [Int32: ControllerBridgeDecoder] = [:]
     @ObservationIgnored private var bridgeConnected = false
@@ -448,6 +449,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private var savedPlayerDecks: [Int32: DeckID] = [:]
     private static let storageKey = "controllers.midiBindings.v1"
     private static let activeInputsStorageKey = "controllers.midiActiveInputs.v1"
+    private static let manualProfilesStorageKey = "controllers.factory.manualProfiles.v1"
     private static let inputProtocolsStorageKey = "controllers.midiInputProtocols.v1"
     private static let feedbackStorageKey = "controllers.midiFeedback.v1"
 
@@ -487,6 +489,10 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             let saved = try? JSONDecoder().decode([ControllerBinding].self, from: data), saved.count <= 256
         {
             bindings = saved
+        }
+        if let data = preferences.data(forKey: Self.manualProfilesStorageKey), data.count <= 16_384,
+            let saved = try? JSONDecoder().decode([Int32: ControllerFactoryProfile].self, from: data), saved.count <= 64 {
+            manualFactoryProfiles = saved.filter { source, _ in bindings.contains { $0.source == source } }
         }
         if let data = preferences.data(forKey: Self.inputProtocolsStorageKey), data.count <= 4096,
             let saved = try? JSONDecoder().decode([Int32: ControllerProfileData.InputProtocol].self, from: data),
@@ -1113,6 +1119,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             return
         }
         releaseMomentaryActions(source: selected)
+        manualFactoryProfiles[selected] = profile
         setManualInputProtocol(profile.definition?.inputProtocol, source: selected)
         bindings.removeAll { $0.source == selected }
         bindings.append(contentsOf: replacement)
@@ -2035,6 +2042,10 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         bindingCount = bindings.count
         takeoverStates.removeAll()
         if let data = try? JSONEncoder().encode(bindings) { preferences.set(data, forKey: Self.storageKey) }
+        manualFactoryProfiles = manualFactoryProfiles.filter { source, _ in bindings.contains { $0.source == source } }
+        if let data = try? JSONEncoder().encode(manualFactoryProfiles) {
+            preferences.set(data, forKey: Self.manualProfilesStorageKey)
+        }
         manualInputProtocols = manualInputProtocols.filter { source, _ in bindings.contains { $0.source == source } }
         if let data = try? JSONEncoder().encode(manualInputProtocols) {
             preferences.set(data, forKey: Self.inputProtocolsStorageKey)
@@ -2679,8 +2690,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
      */
     private func receiveFactoryBankChange(_ message: ControllerMIDIMessage, source: Int32) {
         guard message.group == 0, message.maximum <= 127,
-            let session = factorySessions.first(where: { $0.source == source }),
-            let change = session.profile.definition?.bankChanges?.first(where: {
+            let profile = manualFactoryProfiles[source] ?? factorySessions.first(where: { $0.source == source })?.profile,
+            let change = profile.definition?.bankChanges?.first(where: {
                 ($0.kind ?? .note) == message.kind && $0.channel == message.channel && $0.number == message.number
                     && (message.isNoteOff ? $0.releaseShiftChannels != nil
                         : $0.onValue.map { Int($0) == message.value } ?? true)

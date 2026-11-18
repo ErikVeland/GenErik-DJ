@@ -506,14 +506,14 @@
           "url": "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-REV7/DDJ-REV7_MIDI_message_List_E2.pdf",
           "cache": "TestBuilds/r357/upstream/ddj-rev7-midi-e2.pdf",
           "sha256": "a2d33045fc28017d48ba8e9409e0586d0f753ce426e7f955c0c56460b7dbf905",
-          "status": "Downloaded; implementation pending."
+          "status": "All seven E2 pages visually checked. R361 implements70 manual MIDI inputs with explicit bank metadata. Motor/platter, Silent Cue, full output/lifecycle/audio and physical acceptance remain open. No motor or output command is inferred."
         }
       ],
       "otherFindings": [
         {
           "model": "AlphaTheta DJM-V5",
           "url": "https://support.alphatheta.com/en-US/products/50766108259865?section=24",
-          "finding": "Current software section lists rekordbox, Serato DJ Pro and operating-system articles, without a MIDI-compatible-software article. This scoped check does not prove no protocol exists."
+          "finding": "The current software section still lists no MIDI-compatible-software article. Manufacturer FAQ50837244561049 confirms MIDI transmission and no MIDI receive. Its MIDI-list link redirects to the same section without a wire table. One EN100 filename probe returned404. No sibling wire map is inferred."
         },
         {
           "model": "Denon DJ X1850 PRIME",
@@ -543,6 +543,27 @@
           "cache": "TestBuilds/r360/upstream/xdj-an-midi-e1.pdf",
           "sha256": "8862a83688206ffe0bf7736a0235f1318b07185b467444a6bad2d49e7733c4bd",
           "status": "All three E1 pages visually checked. R360 adds99 inputs and ten binary lamps behind independent deck PC-mode notifications and a successful paired mixer-mode send. Cold notifications, device acknowledgement, audio routing and physical/A10X acceptance remain open."
+        }
+      ]
+    },
+    {
+      "request": "R361",
+      "reviewDate": "2026-11-19",
+      "documents": [
+        {
+          "model": "AlphaTheta RMX-IGNITE",
+          "article": "https://support.alphatheta.com/en-US/articles/53214453590764",
+          "url": "https://downloads.support.alphatheta.com/firmwares/dj-effectors/RMX-IGNITE/RMX-IGNITE_midi_message_list_en.pdf",
+          "cache": "TestBuilds/r361/upstream/rmx-ignite-midi-en.pdf",
+          "sha256": "11d27b45729126db68c927c7234597d8400806381ac6a81fcf3f074811ae9bc1",
+          "status": "Recovered from the current public support article. Wire pages2/3 visually checked. Manufacturer USB/MIDI chapter confirms MIDI through USB for MULTI I/O. Settings chapter defines default MIDI channel1. Native mapping is next; full hardware FX/audio ownership remains open."
+        }
+      ],
+      "otherFindings": [
+        {
+          "model": "Reloop RP-8000 MK2",
+          "url": "https://www.reloop.com/media/custom/upload/Reloop-rp-8000_mk2_platter_play_mode.pdf",
+          "finding": "Current manufacturer product page links the external Platter Play table. Its external motor-control addresses do not establish ordinary performance-pad input messages. The independent Traktor mapping9866 requires sign-in to download. No motor command, sibling input map or inaccessible mapping is imported."
         }
       ]
     }
