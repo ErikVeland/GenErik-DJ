@@ -4646,3 +4646,19 @@ Sync state/edge behaviour and PFL remain unqualified. Their packets stay inactiv
 Validation:199 Python checks and ten focused native tests passed. These include the existing152-profile held-Cue corpus. Real-WAV fixtures verified Cue return, guarded scratching, inactive state copies, finite audio and saved Sync. The iPad framework compiled and its resource matches the source. All246 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r364/validation.json`.
 
 The catalogue has247 data recipes. Automatic core coverage is191 physical models, with152 remaining. Full theoretical support remains open for all343 physical models. The app still needs an in-app Bluetooth MIDI connection browser. This source change does not establish wireless pairing, a signed build or physical/A10X acceptance.
+
+## R365 System Bluetooth MIDI connection browser
+
+Assumption: automatic mappings need a MIDI endpoint before they can receive wireless controls. The app had no Bluetooth MIDI connection browser. Reuse Apple's public CoreAudioKit interface under controller setup. Keep connection selection and radio access user-triggered.
+
+- [x] Add an explicit connection sheet under Controllers, Connections & MIDI, while MIDI input is enabled.
+- [x] Add the Bluetooth purpose string to both iOS host plists. Refresh existing Core MIDI discovery after dismissal when input remains enabled.
+- [x] Verify purpose strings, focused controller regressions and iPad SDK compilation. Keep permission, pairing and physical performance checks open.
+
+The new button opens Apple's [CABTMIDICentralViewController](https://developer.apple.com/documentation/coreaudiokit/cabtmidicentralviewcontroller?preferredLanguage=occ). The system owns Bluetooth discovery, selection and pairing. Connected peripherals enter the existing Core MIDI endpoint path. Dismissal refreshes that path without enabling a disabled input. The browser stays in controller setup. It adds no live-workspace control, custom radio scanner or background Bluetooth mode.
+
+Both iOS hosts now include [NSBluetoothAlwaysUsageDescription](https://developer.apple.com/documentation/bundleresources/information-property-list/nsbluetoothalwaysusagedescription). Their deployment target is iPadOS17. The purpose string explains connection to a wireless DJ controller. Opening the browser, denying access and reconnecting hardware remain device acceptance checks.
+
+Validation: the purpose-string test passed for both host plists after reproducing both missing keys. Ten focused native controller tests passed, including Mix Ultra playback and the152-profile held-Cue corpus. The iPad framework compiled with the new system interface. All247 runtime recipes remain byte-identical. The repository checker retains12 historical missing-file links. Source review confirms the setup-only entry point and conditional refresh. This is not a rendered or device UI check. Evidence: `TestBuilds/r365/validation.json`.
+
+Automatic core coverage remains191 of343 physical models, with152 without automatic core controls. Full theoretical support remains open for all343. No signed app, installation, successful wireless pairing, reconnect proof or A10X audio/touch acceptance is claimed.
