@@ -29504,45 +29504,118 @@
         "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Roland_DJ-505.midi.xml"
       ],
       "definitions": [
-        "Roland_DJ-505.midi.xml"
+        "Roland_DJ-505.midi.xml",
+        "reviewed:roland-dj505"
       ],
-      "implementation": "adapter-needed",
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Roland DJ-505",
+      "automaticControls": false,
+      "controlActions": [
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "keylockA:a",
+        "keylockA:c",
+        "keylockB:b",
+        "keylockB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loopDownA:a",
+        "loopDownA:c",
+        "loopDownB:b",
+        "loopDownB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "loopUpA:a",
+        "loopUpA:c",
+        "loopUpB:b",
+        "loopUpB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "reloopB:d",
+        "shift",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d",
+        "tempoA:a",
+        "tempoA:c",
+        "tempoB:b",
+        "tempoB:d"
+      ],
+      "inputBindingCount": 117,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual normal MIDI subset. Enable input separately. Software-mode startup/keepalive and full bank ownership remain open. C/D require app opt-in."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "adapter-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "A controller-specific protocol adapter is required."
+        "Manual normal subset only. Shared Load/bank ownership, crossfader maximum calibration, jog/contact, pads/FX/TR-S and full Shift modes remain inactive. Software-mode SysEx, periodic keepalive, complete output/shutdown and audio routing remain unimplemented. Native pitch polarity/range and physical/A10X acceptance remain open. DJ-202/DJ-808 require independent qualification.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -320372,6 +320445,38 @@
         },
         {
           "reason": "Explicit manual MIDI on/channel1/TRIGGER setup required. Other MIDI channels and toggle mode remain inactive. Use a separate software audio path; external deck routing and hardware/software mixer bypass are unavailable. Selectors, Booth, microphone, fader starts, FX, pickup SysEx, lamps, full lifecycle, calibration and physical/A10X acceptance remain open."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:roland-dj505",
+      "name": "Roland DJ-505",
+      "transport": "midi",
+      "source": {
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Roland_DJ-505.midi.xml",
+        "sha256": "7484f8d2e0c524f779d6c842892e219679deccc501d8cd183eea5a4b3132e688",
+        "relatedSources": [
+          {
+            "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Roland_DJ-505-scripts.js",
+            "sha256": "6e996b5a17d1fa97bfd20be69e4b76ad1996967bb91cbcb36e3855819bb02522"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/src/engine/controls/ratecontrol.cpp",
+            "sha256": "e15d822d3f2a9ff5307257a20b20db063b3ca75798e1cca1be5ae36886bbc0c0"
+          }
+        ],
+        "review": "Pinned upstream XML and script independently define deck channels0..3. Normal Play0, held Cue1, Sync2 and Keylock13 have shifted addresses4/5/3/14. Global Shift is channel15 Note0. Native positive shifted transport remains inactive; shifted and opposite-bank release aliases preserve owned releases and debounce. Six explicit14-bit pairs per deck are tempo9/59, gain22/52, high23/53, mid24/54, low25/55 and level28/58. These low bytes are not guessed from a plus32 rule. Source sets rate_dir=-1; the pinned rate-control formula is rate_ratio=1+rate_dir*range*rate. Native tempo therefore reverses the source raw parameter. Physical range calibration remains unverified. Tempo changes to key pitch under source Shift, so native normal tempo is guarded. FilterCC26 and PFLNote27 remain separate. Loop channels4..7 have Reloop/Exit51, Half52, Double53, In56 and Out57. Native loop semantics replace the source software handlers. The source switches to Serato mode with two SysEx messages and repeats BF6400 every500ms. No partial setup or keepalive is emitted. Shared Load handler ownership depends on deck-button software state. The crossfader has a source-specific maximum16368 instead of16383. Load, crossfader, jog/contact, pads, FX, TR-S and other mode/lifecycle functions remain inactive. No downloaded code runs in the app. This manual subset does not qualify automatic selection, DJ-202/DJ-808 byte compatibility, routing or physical acceptance."
+      },
+      "implementedInputCount": 117,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual normal subset only. Shared Load/bank ownership, crossfader maximum calibration, jog/contact, pads/FX/TR-S and full Shift modes remain inactive. Software-mode SysEx, periodic keepalive, complete output/shutdown and audio routing remain unimplemented. Native pitch polarity/range and physical/A10X acceptance remain open. DJ-202/DJ-808 require independent qualification."
         }
       ]
     },

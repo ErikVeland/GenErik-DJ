@@ -998,6 +998,24 @@ class GeneratedCatalogueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
 
+    def test_dj505_keeps_its_nonstandard_pairs_and_manual_lifecycle_boundary(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"] == "Roland DJ-505"),None)
+        self.assertIsNotNone(item,"DJ-505 needs a reviewed native recipe")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),117)
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        pairs=[r for r in item["inputs"] if r["encoding"] == "paired14Bit"]
+        self.assertEqual(len(pairs),24)
+        self.assertEqual({(r["number"],r["lowNumber"]) for r in pairs},{(9,59),(22,52),(23,53),(24,54),(25,55),(28,58)})
+        self.assertFalse(any(r["action"].startswith(("load","jog","wheelJog","crossfader","hotcue")) for r in item["inputs"]))
+        from roland_dj505 import DJ505_SOURCES
+        for filename,digest in DJ505_SOURCES:
+            path=ROOT/"TestBuilds/r169/upstream/res/controllers"/filename
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),digest)
+
     def test_rmx90_is_a_bounded_manual_mixer_with_explicit_channel_and_trigger_setup(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"] == "Reloop RMX-90 DVS"),None)

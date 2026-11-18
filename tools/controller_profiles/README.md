@@ -687,3 +687,9 @@ Importer size checks and native catalogue-load checks cover this boundary.
 `reloop_rmx90.py` records32 factory mixer/PFL inputs. Set MIDI on, MIDI CH1 and MIDI TYPE TRIGGER before manual selection.
 Use a separate software audio path. External deck routing and hardware/software mixer bypass remain unavailable.
 The recipe does not send pickup SysEx or infer FX encoder decoding, lamp output or sibling RMX addresses.
+
+### DJ-505 manual normal controls (R321)
+
+`roland_dj505.py` records normal four-target controls from the pinned Mixxx XML and script.
+Its explicit low-byte addresses differ from the usual plus32 pairs. The pinned Mixxx rate formula confirms pitch direction.
+The manual recipe sends no partial software-mode SysEx or keepalive. Shared Load ownership, crossfader calibration, jogs, pads, TR-S and full routing remain open.

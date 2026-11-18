@@ -3894,3 +3894,18 @@ The manual recipe adds32 factory inputs. All151 importer checks and7 focused nat
 The iPad framework compiles. Its bundled resource matches the source byte for byte. All198 earlier recipes retain identical data. The catalogue stays319 records/312 physical models and reaches199 data recipes. Automatic core coverage stays166 physical models and71/122 benchmark models.
 The first native run failed a test that assumed a fixed order for deferred crossfader events. The corrected test checks each action/value independently. Both logs remain in `TestBuilds/r320/`. The repository check retains twelve historical broken links.
 No signed app, install, external mixer audio or physical/A10X acceptance is claimed. Alternate MIDI settings, full modes, output/lifecycle and calibration remain open.
+
+## R321 Roland DJ-505 manual normal controls
+
+Assumption: the pinned upstream XML and native script review qualify a manual normal MIDI subset. Automatic selection stays off. The source switches hardware mode with two SysEx messages and repeats a keepalive every500 ms. No partial lifecycle sequence is emitted.
+
+- [x] Confirm a failing importer fixture and verify both pinned source hashes.
+- [x] Add four-target normal transport, paired tempo/mixer, filter/PFL and explicit loop buttons. Guard shifted pitch and add shifted/opposite-bank critical release aliases.
+- [x] Verify pair assembly, channel/kind isolation, C/D opt-in, release ownership and real-WAV transport. Run importer checks and compile the iPad framework.
+
+Source base: `4cf7907`. Shared Load ownership, calibrated crossfader maximum, jog/contact, pads/FX/TR-S routing, full Shift/bank state, startup/keepalive/shutdown and physical/A10X acceptance remain open. No DJ-202/DJ-808 alias or audio route is inferred.
+
+The manual DJ-505 recipe adds117 bounded inputs. All152 importer checks and8 focused native checks pass. Tests cover all24 explicit pairs, four targets with C/D opt-in, Shift blocking, shifted/opposite-bank release ownership, independent loop/PFL/filter rows and real-WAV Cue/Play with Sync retained.
+The upstream rate-control formula confirms reversed native pitch normalisation. The first native fixture sent low bytes before high bytes. The corrected fixture follows the source handler sequence; both logs remain in `TestBuilds/r321/`.
+The iPad framework compiles and its resource matches the source byte for byte. All199 earlier recipes retain identical data. The catalogue reaches200 data recipes. Automatic core coverage stays166 physical models and71/122 benchmark models. The repository check retains twelve historical broken links.
+Manual input does not provide software-mode startup/keepalive, shared Load state, calibrated crossfader/jogs, full pads/FX/TR-S/audio routing or physical/A10X acceptance. No signed app or install is claimed.
