@@ -26511,46 +26511,79 @@
       "role": "dvs-only",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://www.ranecommercial.com/legacy/pdf/mp2015_manual.pdf"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:mp2015-midi"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Rane MP2015",
+      "automaticControls": false,
+      "controlActions": [
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cueMix",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor"
+      ],
+      "inputBindingCount": 27,
+      "feedbackBindingCount": 4,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual USB MIDI mixer on channel1. Enable MIDI for the connected USB port in the Rane control panel first. The mixer saves these settings. Use separate audio for app mixer control to avoid processing EQ/levels twice. C/D require app opt-in."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Manual MIDI enable/channel1 setup is required and stays stored in the mixer. No settings are rewritten. Use separate audio for app mixer control. Hardware USB deck/session routing, filter type/enable/resonance, isolator/submix, mic/session/source controls, complete output/lifecycle and physical/A10X acceptance remain open. Published class compliance is not iPad acceptance.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -322760,6 +322793,43 @@
         },
         {
           "reason": "Manual raw Computer-mode only. Public owner export supports PRIME4/4+ but is not a complete manufacturer SDK. Mixer/software audio ownership and routing, browse encoding, held loop trigger, jog/touch/calibration, other pad/Shift/FX modes, screens, full output/setup/lifecycle and physical/A10X acceptance remain open. No sibling model or firmware compatibility is inferred."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:mp2015-midi",
+      "name": "Rane MP2015",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.ranecommercial.com/legacy/pdf/mp2015_manual.pdf",
+        "sha256": "f1d3d5c30e867dff0d204477638d1b985b50fe216a56a062f726b1ebb67010ea",
+        "pages": [
+          14,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "relatedSources": [
+          {
+            "url": "https://support.serato.com/hc/en-us/articles/205333010-DVS-control-with-the-Rane-MP2015"
+          }
+        ],
+        "review": "Manufacturer pages20/22 independently define four ordered strips. Gain/high/mid/low/level CC tuples are1/3/5/7/4,8/11/13/15/12,16/18/20/22/19 and23/25/27/29/26. PFL momentary input Notes19/20/17/11 are separate from same-number CC mixer controls. PFL LED NoteOn velocities0..42 mean off and43..127 on; native optional feedback uses0/127. Master39, headphone level41 and cue/main blend43 are absolute CC. Pages16/17 state class-compliant USB MIDI/audio, stored control-panel settings, default MIDI disabled and default channel1. Manual profile requires MIDI enable for the connected port and channel1. No persistent enableCC90/92, channel/configuration, reset or startup packet is sent. Page14 gives five stereo playback pairs: decks1..4 use1-2/3-4/5-6/7-8; session uses9-10. This does not implement those routes. App mixer control requires separate audio so hardware and software EQ/levels do not process the same deck twice. No filter mapping is inferred across HP/LP/LP-HP selectors. Isolator/crossover/resonance/submix, mic/session, source selectors and control-panel settings remain inactive. Complete output/lifecycle/audio and physical/A10X acceptance remain open. No other RANE model is an alias."
+      },
+      "implementedInputCount": 27,
+      "implementedOutputCount": 4,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual MIDI enable/channel1 setup is required and stays stored in the mixer. No settings are rewritten. Use separate audio for app mixer control. Hardware USB deck/session routing, filter type/enable/resonance, isolator/submix, mic/session/source controls, complete output/lifecycle and physical/A10X acceptance remain open. Published class compliance is not iPad acceptance."
         }
       ]
     },

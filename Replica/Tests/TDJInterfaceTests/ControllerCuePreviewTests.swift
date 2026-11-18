@@ -1929,3 +1929,16 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         }
     }
 }
+
+@Test @MainActor func controllerCatalogueMP2015NativeMixerKeepsAudioAndSync() async throws {
+    try await withControllerCuePlayback("Rane MP2015", manual: true) { model, input in
+        model.pressPlay(deck: .a, vinylStop: false)
+        input.receiveBytes([0xB0, 1, 64, 3, 64, 5, 64, 7, 64, 4, 127, 43, 64, 0x90, 19, 127, 19, 0], source: 10)
+        input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

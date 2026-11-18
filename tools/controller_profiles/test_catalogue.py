@@ -1000,6 +1000,25 @@ class GeneratedCatalogueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
 
+    def test_mp2015_uses_manufacturer_table_and_preserves_stored_midi_settings(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Rane MP2015"),None)
+        self.assertIsNotNone(item,"MP2015 needs its public manufacturer MIDI core")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),27)
+        self.assertEqual(len(item["outputs"]),4)
+        self.assertFalse(item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        self.assertEqual({i["channel"] for i in item["inputs"]},{0})
+        self.assertFalse(any(i["action"].startswith(("filter","play","sync","tempo","hotcue","crossfader")) for i in item["inputs"]))
+        from mp2015 import MP2015_SHA
+        self.assertEqual(hashlib.sha256((ROOT/"TestBuilds/r346/upstream/mp2015_manual.pdf").read_bytes()).hexdigest(),MP2015_SHA)
+        for deck,addresses in zip("abcd",[(1,3,5,7,4,19),(8,11,13,15,12,20),(16,18,20,22,19,17),(23,25,27,29,26,11)]):
+            for action,number in zip(["gain","high","mid","low","level","cue"],addresses):
+                suffix="A" if deck in "ac" else "B"
+                row=next(i for i in item["inputs"] if i["action"]==action+suffix and i.get("targetDeck")==deck)
+                self.assertEqual((row["number"],row["kind"]),(number,"note" if action=="cue" else "control"))
+
     def test_prime4_has_separate_source_backed_manual_profiles_and_logical_deck_routing(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         for name in ["Denon DJ PRIME 4","Denon DJ PRIME 4+"]:
