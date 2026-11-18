@@ -15136,48 +15136,83 @@
       "benchmark": true,
       "sources": [
         "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
         "https://maps.djtechtools.com/mappings/4017"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:afx-public-pad-transport-facts"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Akai Pro AFX",
+      "automaticControls": false,
+      "controlActions": [
+        "browse",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "hotcue5A:a",
+        "hotcue5B:b",
+        "hotcue6A:a",
+        "hotcue6B:b",
+        "loadA:a",
+        "loadB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "syncA:a",
+        "syncB:b",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopB:b"
+      ],
+      "inputBindingCount": 44,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual A/B pad accessory subset. Use normal Cue, Auto Loop and Transport pad modes. Native keeps six Cue pads and eight fixed loops per side. Configure app audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "C/D selection, Shift/FX modes, tactile search/pitch/scratch calibration, remaining pads, source state, full feedback/lifecycle and physical/iPad/A10X acceptance remain open. Generated EQ/volume commands101-108 are not physical wire proof.",
         "The author's public mapping page requires sign-in to download its TSI. The two-deck description leaves Manual/Slicer/Sample modes and other controls incomplete. No downloadable protocol file was obtained, and no runtime mapping is added.",
         "The author discussion supplies LED colour values and reports deck-dependent commands, but no complete channel/address table. Colours and the AMX mapping do not qualify AFX input addresses, deck channels, setup or complete theoretical support. Source access and physical acceptance remain open.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "sourceAudits": [
         {
@@ -30369,12 +30404,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
         "https://www.algoriddim.com/hardware/mixtrackedge"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:mixtrack-edge-public-normal-facts"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Numark Mixtrack Edge",
+      "automaticControls": false,
       "comparisonSupport": {
         "djay": {
           "sourceName": "Numark Mixtrack Edge",
@@ -30387,40 +30427,71 @@
           "source": "https://www.algoriddim.com/hardware/mixtrackedge"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "levelA:a",
+        "levelB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "lowA:a",
+        "lowB:b",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 51,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual normal-layer subset. Shared Shift retires holds and suppresses unsupported alternate buttons. Use app touch jog/tempo and configure audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Software overflow commands do not identify raw MIDI. Shift/FX alternatives, multifunction jog/touch/tempo modes and calibration, full feedback/lifecycle, USB audio pair order and physical/iPad/A10X acceptance remain open.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -333732,6 +333803,82 @@
         },
         {
           "reason": "The table's generic transport labels conflict with the Traktor faceplate. Full transport/banks, Shift, jog format/calibration, touch strips, library encoders, mode/source handling, lifecycle, external deck audio routing and physical/iPad/A10X acceptance remain open. Default Pre EQ duplicates software EQ."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:afx-public-pad-transport-facts",
+      "name": "Akai Pro AFX",
+      "transport": "midi",
+      "source": {
+        "url": "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+        "sha256": "0557173bb5cb8bce866bbd439bd10140d8c281fd550486541dc4ddfff46edbec",
+        "members": [
+          {
+            "path": "Devices/AKAI AFX Mode 1.xml",
+            "sha256": "1e99bbd92f883ab727986aab19902298e1ecdcbf2b79c26d4296bd5d46f247ca"
+          },
+          {
+            "path": "Devices/AKAI AFX Mode 2.xml",
+            "sha256": "5d2e6e53fa046801a37708b8cd60087dbf83f02997eda8e3e8b045b50bb0ccd2"
+          }
+        ],
+        "relatedSources": [
+          {
+            "url": "https://djpromixerblog.com/2015/06/13/akai-afx/"
+          },
+          {
+            "url": "https://djpromixerblog.com/midi-learn/"
+          }
+        ],
+        "review": "Two visible factory XML documents independently retain the same A/B pad, transport and library wires. The developer's own guide describes six Cue pads plus store/delete, eight fixed loops from1/4 to32 beats, transport/loop pads and browse/load. Native uses44 manual inputs. Source software-generated EQ/level commands101-108 and unqualified tactile/FX/Shift/deck modes are not treated as hardware proof. No ProMixer executable, installer, mapping action, activation, account or network-sharing service runs. Only independent MIDI address facts are transcribed. Complete C/D modes, touch-strip calibration, FX, feedback/lifecycle and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 44,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "C/D selection, Shift/FX modes, tactile search/pitch/scratch calibration, remaining pads, source state, full feedback/lifecycle and physical/iPad/A10X acceptance remain open. Generated EQ/volume commands101-108 are not physical wire proof."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:mixtrack-edge-public-normal-facts",
+      "name": "Numark Mixtrack Edge",
+      "transport": "midi",
+      "source": {
+        "url": "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+        "sha256": "0557173bb5cb8bce866bbd439bd10140d8c281fd550486541dc4ddfff46edbec",
+        "members": [
+          {
+            "path": "Devices/NUMARK MIXTRACK-EDGE.xml",
+            "sha256": "8384c6959823ec9572cc36fe1a8db31aac98892a6de6a4549c7dba475ead411e"
+          }
+        ],
+        "relatedSources": [
+          {
+            "url": "https://djpromixerblog.com/2015/06/10/numark-mixtrack-edge-2/"
+          },
+          {
+            "url": "https://www.numark.com/product/mixtrack-edge"
+          }
+        ],
+        "review": "The visible120-row factory XML and developer guide qualify normal A/B transport, three Cue pads, manual loops, PFL, two-band mixer and library wires. Global Shift Note38 is declared twice and becomes one native held input. Normal button releases rearm on Shift without firing the unsupported alternate action. Overflow commands137/142-144/164 do not become raw MIDI notes. The strict browse contract accepts1/127 only. The hardware is class-compliant on desktop, but jog/touch/tempo modes, calibration, complete lifecycle, feedback, split audio assignment and physical/iPad/A10X acceptance are not established. Native uses51 manual inputs without hardware writes. No source XML, program or installer is bundled or executed."
+      },
+      "implementedInputCount": 51,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Software overflow commands do not identify raw MIDI. Shift/FX alternatives, multifunction jog/touch/tempo modes and calibration, full feedback/lifecycle, USB audio pair order and physical/iPad/A10X acceptance remain open."
         }
       ]
     }

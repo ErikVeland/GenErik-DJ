@@ -2260,7 +2260,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
             if path.exists():
                 self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),digest)
 
-    def test_afx_source_access_audit_does_not_invent_a_runtime_mapping(self):
+    def test_afx_historical_signin_audit_stays_separate_from_the_new_public_manual_subset(self):
         from manufacturer_inventory import SOURCE_AUDITS
         self.assertTrue("Akai Pro AFX" in SOURCE_AUDITS,"The AFX source-access limit needs a recorded audit")
         audit=SOURCE_AUDITS["Akai Pro AFX"]
@@ -2271,7 +2271,10 @@ class GeneratedCatalogueTests(unittest.TestCase):
         self.assertIn(audit,model["sourceAudits"])
         self.assertFalse(model["zeroConfig"]["automaticControls"] or model["theoreticalSupport"]["complete"])
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
-        self.assertFalse(any(r["id"] in {"Akai AFX","Akai Pro AFX"} for r in runtime["profiles"]))
+        profile=next(r for r in runtime["profiles"] if r["id"] == "Akai Pro AFX")
+        self.assertFalse(profile["autoSelect"])
+        self.assertEqual(profile["definition"],"reviewed:afx-public-pad-transport-facts")
+        self.assertEqual(len(profile["inputs"]),44)
         path=ROOT/"TestBuilds/r318/upstream/AFX-mapping-page.html"
         if path.exists():
             self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),audit["source"]["sha256"])

@@ -1098,6 +1098,48 @@
         "Manual24-CC mixer subset. No outputs, setup, hardware write or automatic audio ownership.",
         "Transport/banks, Shift, jog format/calibration, library encoders, full lifecycle, external mixer outputs and physical/iPad/A10X acceptance remain open."
       ]
+    },
+    {
+      "request": "R388",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://djpromixer.com/downloads/",
+          "review": "Developer public download page links the unencrypted installer. The MIDI Learn guide documents user creation, editing and sharing of mapping files. No program installation, activation or network-sharing service runs."
+        },
+        {
+          "url": "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+          "sha256": "0557173bb5cb8bce866bbd439bd10140d8c281fd550486541dc4ddfff46edbec",
+          "members": [
+            {
+              "path": "Devices/AKAI AFX Mode 1.xml",
+              "sha256": "1e99bbd92f883ab727986aab19902298e1ecdcbf2b79c26d4296bd5d46f247ca"
+            },
+            {
+              "path": "Devices/AKAI AFX Mode 2.xml",
+              "sha256": "5d2e6e53fa046801a37708b8cd60087dbf83f02997eda8e3e8b045b50bb0ccd2"
+            },
+            {
+              "path": "Devices/NUMARK MIXTRACK-EDGE.xml",
+              "sha256": "8384c6959823ec9572cc36fe1a8db31aac98892a6de6a4549c7dba475ead411e"
+            }
+          ],
+          "review": "Read135 visible mapping/licence documents with a read-only archive library. No encrypted file, script, executable or activation runs. Independent MIDI facts only. No source XML or third-party application code is bundled."
+        },
+        {
+          "url": "https://djpromixerblog.com/2015/06/13/akai-afx/",
+          "review": "Developer documents six Cue pads plus store/delete, eight fixed loops1/4-32, loop/transport pads, browse/load and the MIDI-only Akai Pro AFX0 endpoint. Both XML modes agree on the44 native pad/transport/library inputs. Software EQ/level aliases101-108 remain inactive."
+        },
+        {
+          "url": "https://djpromixerblog.com/2015/06/10/numark-mixtrack-edge-2/",
+          "review": "Developer documents normal/Shift and FX layers. Native51-input manual subset retains normal transport, three cues, manual loops, PFL, two-band mixer and strict1/127 library steps. Duplicate Shift38 rows become one held input. Software overflow notes137/142-144/164 remain inactive."
+        }
+      ],
+      "limits": [
+        "The older AFX DJTT sign-in audit remains historical source-specific evidence. The new public XML independently adds a manual subset without claiming access to that other mapping.",
+        "No automatic core increase. Unqualified Shift/FX/deck modes, tactile/jog/tempo calibration, full feedback/lifecycle, audio ownership and physical/iPad/A10X acceptance remain open.",
+        "Archive parser and dependencies remain ignored research tools. No ProMixer program, installer, mapping action or network-sharing service runs."
+      ]
     }
   ]
 }

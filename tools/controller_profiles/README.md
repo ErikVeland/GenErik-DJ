@@ -1060,3 +1060,13 @@ MIDI channel1 carries four gain/EQ/linefader strips, master28, normal crossfader
 Native explicitly assigns physical MIDILOG1-4 to A-D. Pickup and four-deck gating retain existing app controls.
 Generic transport labels conflict with the Traktor faceplate. No sibling transport/bank/jog/Shift or hardware write is inherited.
 Use Post EQ for software EQ and deliberate analogue/software ownership. External audio and physical acceptance remain open.
+
+
+Public ProMixer XML adds independent manual AFX44-input and Mixtrack Edge51-input subsets.
+Only MIDI address facts are transcribed. No source XML, executable, installer or mapping action is bundled or run.
+AFX retains six Cue pads, eight fixed loops1/4-32, loop/transport pads and strict browse/load on A/B.
+Known mode reports retire owned holds. Generated EQ/level aliases101-108 and unqualified tactile/FX/C-D modes stay inactive.
+Edge retains normal transport, three cues, manual loops, PFL, two-band mixer and strict1/127 browse.
+One shared Shift input retires owned holds and supports alternate releases without firing unsupported actions.
+Overflow commands137/142-144/164 do not become raw notes. Jog/tempo modes, feedback, audio and physical acceptance remain open.
+Both profiles stay manual. The earlier AFX sign-in audit remains specific to its historical source.
