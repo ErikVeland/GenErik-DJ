@@ -936,6 +936,36 @@
         "Only duplicate inventory identity and a manual selection alias change. No sibling protocol, MIDI/address/control, automatic selection or audio change.",
         "342 physical models,195 automatic core models and147 without automatic core. Full theoretical and physical acceptance remain open."
       ]
+    },
+    {
+      "request": "R382",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://ts.hercules.com/download/djuced/6.8/DJUCED_6.8.1.dmg",
+          "sha256": "a76200de7cc2fced9b765d83edd02c8a07aa302d77c87c81ddf2f4c91330e2a2",
+          "member": "DJUCED.app/Contents/Resources/midi/DJControl Inpulse 200 Mk3.djm",
+          "memberSHA256": "2a0f05ea95b8a643d5d0735255cd86d28b109debb21c678ba888f2672cb6624b",
+          "review": "Read-only mounted image, expanded package,172-control/172-action XML inspected as user-visible MIDI facts. No software installed or executed. Independent MK3 normal High/Mid, shifted gain,512-count jogs, inverted7-bit pitch and separate sampler volumes qualify native boundaries. Image unmounted after inspection."
+        },
+        {
+          "url": "https://ts.hercules.com/download/sound/manuals/DJC_Inpulse_200_MK3/DJControl_Inpulse_200_MK3_User_Manual_-_21_Languages.pdf",
+          "sha256": "9a45c2ec9a9598f364caa63be1d1d3a8349dc8adf6617fd5f9c2279f4446958c",
+          "review": "PDF pages22/49 visually reviewed. Confirms physical three-band EQ/Shift gain and class-compliant USB Audio/MIDI. It does not establish physical A10X acceptance."
+        },
+        {
+          "url": "https://www.djuced.com/kb/hercules-djcontrol-inpulse-200-mk3-2026-mapping-and-manual/",
+          "review": "Manufacturer guide qualifies master1/2 and headphones3/4. Master/headphone knobs are hardware driven. Normal EQ and Shift gain agree with the factory facts."
+        },
+        {
+          "url": "https://github.com/suitux/Backspn/tree/e0e7048e970af5d623e63a3557b1545369ce2a08/crates/control/profiles",
+          "review": "Public recursive file index checked. Its model-specific MIDI profiles cover models already implemented here. No additional missing model protocol was established. No downloaded code executed or bundled."
+        }
+      ],
+      "limits": [
+        "65 automatic inputs/18 normal lamps and documented split audio. No physical Shift note or sibling alias inferred.",
+        "Source output-only master messages, conflicting shifted B-Cue output, sampler volume, source reset and startup remain inactive. Complete modes, calibration and physical/iPad USB/audio/A10X acceptance remain open."
+      ]
     }
   ]
 }

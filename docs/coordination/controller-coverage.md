@@ -4936,3 +4936,22 @@ No MIDI address, automatic selection, audio route, feature or acceptance claim c
 Validation:218 Python checks and eight focused native tests passed, including the existing real-WAV Seventy checks. The iPad framework compiled. All263 runtime recipes retain identical control/output/lifecycle data. Only the A-Trak name alias changes. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r381/validation.json`.
 
 The catalogue has349 records for342 physical models and263 data recipes. Automatic core coverage remains195 models, with147 without automatic core controls. Forty-one records still need a first protocol implementation. Complete theoretical support and physical/A10X acceptance remain open.
+
+
+## R382 Inpulse 200 MK3 public factory facts
+
+Assumption: inspect the public manufacturer's user-visible mapping documents without installing or running the downloaded software.
+
+The public [DJUCED6.8.1 image](https://ts.hercules.com/download/djuced/6.8/DJUCED_6.8.1.dmg) contains a distinct Inpulse 200 Mk3 mapping. Its172 device controls and172 mapping actions qualify independent MK3 wire facts. The image was mounted read-only and its package was expanded without execution. Only local reference files were inspected. The image was then unmounted. No source script, mapping action or source reset runs in the app.
+
+The native automatic core has65 inputs and18 normal steady lamps. Normal deck channels2/3, shifted channels5/6 and pad channels7/8 remain separate. Three-band EQ differs from MK2: normal CC5 is High, CC4 is Mid and CC2 is Low. ShiftCC5 is gain. The [manufacturer manual](https://ts.hercules.com/download/sound/manuals/DJC_Inpulse_200_MK3/DJControl_Inpulse_200_MK3_User_Manual_-_21_Languages.pdf), PDF pages22/49, confirms the physical EQ and class-compliant USB. Factory shifted CC4 controls High. Shifted volume controls target sampler decks and remain inactive.
+
+Both jog streams declare512 steps per turn with positive1-3F and negative40-7F. Native preserves multi-step magnitude through the existing decoder and uses512-count small-movement calibration. It does not inherit MK2 single-step decoding. Normal held Cue, qualified shifted release, Play, Sync, PFL, Load, loop/size and four Hot Cues retain the source wires. Scratch-mode presses retire contacts. Native touch always scratches. Full software Vinyl mode, shifted seeking and hardware calibration remain open.
+
+The file does not qualify a physical Shift note. Native uses distinct message channels and does not invent one. Qualified shifted Cue/deletion releases stop or rearm existing native actions without running stop/delete behaviour. Conflicting shifted B-Cue output remains inactive. Hardware master/headphone knobs stay under hardware control. MASTER_VOL_L/R messages are outputs, not input knobs, and remain inactive.
+
+The [manufacturer setup guide](https://www.djuced.com/kb/hercules-djcontrol-inpulse-200-mk3-2026-mapping-and-manual/) qualifies master1/2 and headphones3/4. Physical iPad enumeration, power, multichannel audio, full modes/FX/stems, lifecycle and sustained A10X acceptance remain open. No firmware, driver, query or reset command is sent. The image also contains a separate T10 mapping, reserved for its own protocol review. Backspn's current public profile index was checked and adds no uncovered model-specific MIDI profile.
+
+Validation:219 Python checks and eight focused native tests passed, including157 automatic held-Cue profiles. Every native input wire exists in the pinned MK3 document. A real-WAV fixture verified exact512-count movement, held Cue release, mode cleanup, finite audio and saved Sync. The iPad framework compiled and its resource matches the source. All263 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r382/validation.json`.
+
+The catalogue has264 data recipes for342 physical models. Automatic core coverage is196 models, with146 without automatic core controls. Forty records need a first protocol implementation. Complete theoretical and physical/A10X acceptance remain open.

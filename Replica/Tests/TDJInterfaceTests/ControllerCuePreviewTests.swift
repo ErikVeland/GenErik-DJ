@@ -2451,3 +2451,22 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueInpulse200MK3Factory512CountScratchAndModeCleanupPreserveSync() async throws {
+    try await withControllerCuePlayback("Hercules DJControl Inpulse 200 MK3") { model,input in
+        cuePreviewPacket([0x91,6,127,0x84,6,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        cuePreviewPacket([0x91,8,127,0xB1,10,2],to:input)
+        try await Task.sleep(for:.milliseconds(80))
+        _ = model.playback.core.renderOffline(frames:4096)
+        model.refreshPlayback()
+        let sampleRate = try #require(model.track(.a)?.analysis.sampleRate)
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1)-sampleRate*1.8*2/512)<=1)
+        cuePreviewPacket([0x94,3,127,3,0,0x91,7,127,7,0],to:input)
+        let audio = model.playback.core.renderOffline(frames:4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

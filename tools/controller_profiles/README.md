@@ -1017,3 +1017,10 @@ The manufacturer qualifies master1/2 and headphones3/4 on its exposed wired rout
 Canonical inventory names treat Rane SEVENTY A-Trak Edition and SEVENTY A-TRAK SIGNATURE EDITION as one physical model.
 The Serato benchmark identity, djay source name/platforms and existing manual profile remain on that record.
 Standard SEVENTY and both SEVENTY-TWO generations remain separate. This name reconciliation does not add automatic support.
+
+Inpulse 200 MK3 uses its independent manufacturer factory XML from the public DJUCED6.8.1 package.
+The65-input automatic core and18 normal lamps retain source channels and explicit512-count multi-step jogs.
+CC5 is normal High, CC4 is normal Mid and shifted CC5 is gain. Shifted volume controls target samplers and remain inactive.
+No physical Shift wire is inferred. Factory hardware channels separate normal/shifted controls. Qualified alternate releases preserve native holds.
+Master/headphone knobs stay under hardware control. Output-only MASTER_VOL_L/R and conflicting shifted B-Cue feedback remain inactive.
+No installer, downloaded script, mapping action, source reset, query or firmware runs. Exact software modes and physical iPad acceptance remain open.

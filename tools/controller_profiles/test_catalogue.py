@@ -917,6 +917,27 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for bad in [products+products,products[:100],products+'<li data-hardware-target="midinote ios">Unknown: Screen</li>',products.replace('mac ios','mac unknown',1)]:
             with self.assertRaises(ValueError):read_djay(bad)
 
+    def test_inpulse200mk3_retains_its_factory_eq_jog_and_hardware_volume_boundaries(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Hercules DJControl Inpulse 200 MK3"),None)
+        self.assertIsNotNone(item,"Use the distinct MK3 factory mapping")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),65)
+        self.assertEqual(len(item["outputs"]),18)
+        self.assertEqual(item["audioOutput"],"masterAndHeadphones")
+        self.assertFalse(item["startup"] or item["shutdown"])
+        self.assertFalse(any(r["action"] in {"shift","master","monitor","cueMix"} for r in item["inputs"]))
+        self.assertEqual([(r["channel"],r["number"]) for r in item["inputs"] if r["action"] in {"midA","midB"}],[(1,4),(2,4)])
+        self.assertEqual([(r["channel"],r["number"]) for r in item["inputs"] if r["action"] in {"gainA","gainB"}],[(4,5),(5,5)])
+        self.assertEqual({r["argument"] for r in item["inputs"] if r["action"] in {"jogA","jogB","wheelJogA","wheelJogB"}},{512})
+        self.assertTrue(all(r["encoding"]=="twosComplement" for r in item["inputs"] if r["action"] in {"jogA","jogB","wheelJogA","wheelJogB","browse"}))
+        path=ROOT/"TestBuilds/r382/upstream/DJControl Inpulse 200 Mk3.djm"
+        if path.exists():
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),"2a0f05ea95b8a643d5d0735255cd86d28b109debb21c678ba888f2672cb6624b")
+            factory=ET.parse(path).getroot()
+            wires={(int(x.get("message").split()[0],16)&15,int(x.get("message").split()[1],16),int(x.get("message").split()[0],16)>>4) for c in factory.find("midi-device") for x in c.findall("input")}
+            self.assertTrue(all((r["channel"],r["number"],9 if r["kind"]=="note" else 11) in wires for r in item["inputs"]))
+
     def test_rane_atrak_inventory_names_share_one_physical_model_and_keep_standard_models_separate(self):
         short="Rane SEVENTY A-Trak Edition"
         full="RANE SEVENTY A-TRAK SIGNATURE EDITION"
@@ -3340,7 +3361,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
             self.assertEqual(model["audioRouting"], "Automatic master 1–2 / headphones 3–4")
             self.assertTrue(model["theoreticalSupport"]["criteria"]["audioRoutingImplemented"])
             self.assertFalse(model["theoreticalSupport"]["complete"])
-            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct", "Behringer BCD3000", "Hercules DJ Control AIR", "Hercules DJControl AIR+", "Behringer CMD STUDIO 4a", "Stanton DJC.4", "Hercules P32 DJ", "Korg KAOSS DJ", "Reloop Digital Jockey 2 Interface Edition", "Numark Mixtrack Quad", "MixVibes U-Mix Control Pro", "Reloop Mixtour", "Reloop Beatpad 2", "Behringer CMD STUDIO 2a", "Casio XW-DJ1"})
+            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct", "Behringer BCD3000", "Hercules DJ Control AIR", "Hercules DJControl AIR+", "Behringer CMD STUDIO 4a", "Stanton DJC.4", "Hercules P32 DJ", "Korg KAOSS DJ", "Reloop Digital Jockey 2 Interface Edition", "Numark Mixtrack Quad", "MixVibes U-Mix Control Pro", "Reloop Mixtour", "Reloop Beatpad 2", "Behringer CMD STUDIO 2a", "Casio XW-DJ1", "Hercules DJControl Inpulse 200 MK3"})
 
     def test_scratch_requires_explicit_pulses_and_mode_guarded_shared_pads(self):
         result = scratch_profiles()[0]
