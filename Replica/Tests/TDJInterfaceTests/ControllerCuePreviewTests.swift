@@ -1360,3 +1360,19 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueReloopTouchNativeManualCueAndContactKeepAudioAndSync() async throws {
+    try await withControllerCuePlayback("Reloop TOUCH",manual:true) { model, input in
+        cuePreviewPacket([0x91,35,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x83,99,127,0x91,63,127,0xB1,96,65],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x83,63,127,0x91,36,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        let samples = model.playback.core.renderOffline(frames:4096)
+        model.refreshPlayback()
+        #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}

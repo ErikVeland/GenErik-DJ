@@ -28473,6 +28473,139 @@
       }
     },
     {
+      "id": "relooptouch",
+      "name": "Reloop TOUCH",
+      "manufacturer": "Reloop",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg"
+      ],
+      "definitions": [
+        "reviewed:reloop-touch"
+      ],
+      "implementation": "partial-midi-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Reloop TOUCH",
+      "automaticControls": false,
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "jogA:a",
+        "jogA:c",
+        "jogB:b",
+        "jogB:d",
+        "jogTouchA:a",
+        "jogTouchA:c",
+        "jogTouchB:b",
+        "jogTouchB:d",
+        "keylockA:a",
+        "keylockA:c",
+        "keylockB:b",
+        "keylockB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownA:c",
+        "pitchBendDownB:b",
+        "pitchBendDownB:d",
+        "pitchBendUpA:a",
+        "pitchBendUpA:c",
+        "pitchBendUpB:b",
+        "pitchBendUpB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d",
+        "tempoA:a",
+        "tempoA:c",
+        "tempoB:b",
+        "tempoB:d"
+      ],
+      "inputBindingCount": 126,
+      "feedbackBindingCount": 16,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual normal MIDI subset. Enable input separately. DisplayLink/UPDD and normal-mode setup remain unavailable. C/D require app opt-in."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "partial",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Manual subset requires an exposed normal MIDI port and separate input/feedback enabling. Automatic selection, DisplayLink/UPDD screen/touch drivers, normal-mode lifecycle, shared pads, loop modes, native jog calibration, finer pitch resolution and audio routing remain open. No shifted contact address is inferred. Direct iPad attachment and physical acceptance remain unverified.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
       "id": "reloopterminalmix2",
       "name": "Reloop Terminal Mix 2",
       "manufacturer": "Reloop",
@@ -319691,6 +319824,30 @@
       ]
     },
     {
+      "id": "reviewed:reloop-touch",
+      "name": "Reloop TOUCH",
+      "transport": "midi",
+      "source": {
+        "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+        "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+        "archiveMember": "Applications/DEX4.app/Contents/Resources/controllers/Reloop__Touch.js",
+        "memberSha256": "e5290feb0573c0def2823acf70be6f11281ef73047c2c23cc87bfe085c06854f",
+        "review": "The independent TOUCH script identifies USB26AD:8EB7 and input/output names TOUCH/Reloop Touch. Base channel1 gives A/B/C/D wire channels1..4. Play36, held Cue35, Sync33, contact63, bends38/39, Load57, PFL60 and shifted Keylock108 are reviewed. Normal jogCC96 is raw-minus64. Native fixed touch provides scratching from the explicit contact and movement inputs; the source uses moveDeckJogWheel with a600 software denominator, not measured physical calibration. Non-inverted pitch-bend uses native linear MIDI normalisation; source MSB-only handling does not establish finer hardware resolution. Gain/high/low/filter/levelCC16/17/18/19/20 and shifted MidCC50 remain distinct. Globals use channel5: crossfaderCC47, monitorCC1, cue-mixCC2, browseCC96 raw-minus64 and selectionNotes8/9. Explicit shifted Cue99/Play100/bends102/103 provide release-only cleanup; same-side opposite-bank releases clear only an existing owner. No shifted contact address is inferred. Source steady Play/Cue/PFL/Keylock lamps use127/0. Its startup opens an extra DisplayLink screen, enables separate UPDD touch/display drivers with SysEx and exits shop/standby mode. Native equivalents and lifecycle order remain unqualified, so this is manual MIDI only with no automatic activation or setup packet. Shared pads depend on software mode variables and remain inactive. Screen/touchscreen drivers, normal-mode setup, loop modes, full feedback/lifecycle, audio routing, native calibration and direct iPad attachment remain open. No downloaded code runs in the app."
+      },
+      "implementedInputCount": 126,
+      "implementedOutputCount": 16,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual subset requires an exposed normal MIDI port and separate input/feedback enabling. Automatic selection, DisplayLink/UPDD screen/touch drivers, normal-mode lifecycle, shared pads, loop modes, native jog calibration, finer pitch resolution and audio routing remain open. No shifted contact address is inferred. Direct iPad attachment and physical acceptance remain unverified."
+        }
+      ]
+    },
+    {
       "id": "manufacturer:pioneerddjrev7",
       "name": "Pioneer DDJ-REV7",
       "transport": "midi",
@@ -319745,7 +319902,7 @@
     "theoreticalSupport": {
       "complete": false,
       "implementedModels": 0,
-      "targetModels": 310,
+      "targetModels": 311,
       "requiresPhysicalTestForEveryModel": false
     },
     "reason": "Documented implementation gaps block theoretical completion. Physical tests are separate evidence, not a per-model completion requirement."

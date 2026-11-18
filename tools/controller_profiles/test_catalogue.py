@@ -986,6 +986,23 @@ class GeneratedCatalogueTests(unittest.TestCase):
             if path.exists():
                 self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
 
+    def test_reloop_touch_manual_core_does_not_enable_screen_drivers_or_shared_pad_modes(self):
+        runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item = next((r for r in runtime["profiles"] if r["id"] == "Reloop TOUCH"), None)
+        self.assertIsNotNone(item, "TOUCH needs its own manual MIDI subset")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual((len(item["inputs"]),len(item["outputs"])),(126,16))
+        self.assertNotIn("audioOutput",item)
+        self.assertNotIn("inputModes",item)
+        self.assertFalse(item["startup"] or item["shutdown"])
+        self.assertFalse(any(r["action"].startswith("hotcue") for r in item["inputs"]))
+        self.assertEqual({r["channel"] for r in item["inputs"] if r["kind"] == "pitch"},{1,2,3,4})
+        self.assertEqual({r["number"] for r in item["inputs"] if r["action"] in {"midA","midB"}},{50})
+        from reloop_touch import TOUCH_SCRIPT_SHA
+        path=ROOT/"TestBuilds/r301/upstream/controllers/Reloop__Touch.js"
+        if path.exists():
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),TOUCH_SCRIPT_SHA)
+
     def test_studio2a_has_independent_encoders_one_valued_lamps_and_split_audio(self):
         runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item = next((r for r in runtime["profiles"] if r["id"] == "Behringer CMD STUDIO 2a"), None)

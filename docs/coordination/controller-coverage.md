@@ -3800,3 +3800,19 @@ All143 importer checks,8 focused native tests with32 audio-routing cases and iPa
 All192 earlier runtime recipes remain unchanged. Compiled resource bytes match the source. Expected missing-profile and audio-whitelist failures remain in `TestBuilds/r314/` with final source-bound evidence.
 The catalogue now has317 records/310 physical models and193 data recipes. Automatic core coverage reaches165 physical models; the benchmark stays71/122.
 The repository check retains twelve historical broken links. Non-default MIDI channels, full modes/lifecycle/output, pitch/jog calibration and physical USB/audio acceptance remain open. No signed app or install is claimed.
+
+## R315 Reloop TOUCH manual MIDI core
+
+Assumption: the independent TOUCH source qualifies normal MIDI controls on wire channels1..4 and globals on5. Its startup also opens a DisplayLink screen and a separate UPDD touch driver. Native screen/driver and normal-mode setup remain unavailable, so automatic selection must stay off. Manual application cannot supply shared-pad mode state.
+
+- [x] Confirm the importer fixture fails without a recipe.
+- [x] Add reviewed four-target transport/mixer, fixed touch/jog, pitch and browsing, with Shift/bank release aliases and bounded steady lamps. Emit no setup, lifecycle or audio-route packet.
+- [x] Verify default-off selection, C/D opt-in, release ownership, source addresses and real-WAV Cue/touch/Sync. Run importer checks and compile the iPad framework. Compare previous recipes and resource bytes.
+
+Source base: `53600f8`. Screen/driver/normal-mode setup, shared pads, loop modes, full lifecycle, calibration and audio routing remain open.
+
+The independent manual recipe adds126 inputs and16 reviewed steady lamp outputs. C/D remain opt-in. Explicit Shift and opposite-bank releases preserve the active control owner. No shifted contact address is inferred.
+All144 importer checks,10 focused native checks and iPad framework compilation pass. Real-WAV checks verify held Cue/contact release, finite audio and saved Sync.
+All193 earlier runtime recipes remain unchanged. Compiled resource bytes match the source. Source-bound evidence remains in `TestBuilds/r315/`. The catalogue header now distinguishes the base inventory date from later profile reviews.
+The catalogue now has318 records/311 physical models and194 data recipes. Automatic core coverage stays165 physical models and71/122 benchmark models.
+The repository check retains twelve historical broken links. Screen/driver/normal-mode setup, shared pads, loop modes, full lifecycle, audio routing, calibration and physical acceptance remain open. No signed app or install is claimed.
