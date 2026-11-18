@@ -1,0 +1,12 @@
+[
+  {
+    "source": "TestBuilds/r52/before.png",
+    "sha256": "653da9bf9728a73a730023b59da64332a15c66ff6663d70d960e31a3d2103137",
+    "status": "Earlier development capture; not a release-approved current screenshot"
+  },
+  {
+    "source": "TestBuilds/r50/browser-height.png",
+    "sha256": "9ae8f558ca3413c1ef49a57bab0043dc06ad3de908a2461a8caac93247e0ff33",
+    "status": "Earlier development capture; not a release-approved current screenshot"
+  }
+]

@@ -78,7 +78,7 @@ struct StoreAccessSettings: View {
             }
             Button("Restore Purchases") { Task { await access.restorePurchases() } }
                 .disabled(access.loading)
-            if let privacyURL = URL(string: "https://generik.glasscode.academy") {
+            if let privacyURL = URL(string: "https://dj.generik.au/privacy") {
                 Link("Privacy Policy", destination: privacyURL)
             }
             if let termsURL = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/") {
