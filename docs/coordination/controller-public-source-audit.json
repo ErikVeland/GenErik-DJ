@@ -966,6 +966,28 @@
         "65 automatic inputs/18 normal lamps and documented split audio. No physical Shift note or sibling alias inferred.",
         "Source output-only master messages, conflicting shifted B-Cue output, sampler volume, source reset and startup remain inactive. Complete modes, calibration and physical/iPad USB/audio/A10X acceptance remain open."
       ]
+    },
+    {
+      "request": "R383",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://ts.hercules.com/download/djuced/6.8/DJUCED_6.8.1.dmg",
+          "sha256": "a76200de7cc2fced9b765d83edd02c8a07aa302d77c87c81ddf2f4c91330e2a2",
+          "member": "DJUCED.app/Contents/Resources/midi/DJControl T10.djm",
+          "memberSHA256": "a934c2747ae15b614133313aca2f40c199a883b913e733a129c05c7326ffe10d",
+          "review": "Separate439-control/454-action manufacturer MIDI document. Native85-input manual subset uses qualified wire facts only. Physical Shift is explicitly Note4 for each side. No MK3/T7 protocol inheritance, application/mapping execution or source startup/reset."
+        },
+        {
+          "url": "https://ts.hercules.com/download/sound/manuals/DJC_T10/HERCULES_DJC_T10_USER_MANUAL_-_EN_FR_DE_NL_IT_ES_PT_PL_JP_CNM_KO.pdf",
+          "sha256": "3a81264c2b9fe97f2d89f3761664cd3417b325aceefc5075e1c1473512d70012",
+          "review": "PDF26 visually reviewed. Motorisation cannot be disabled. Stopping the platter stops track playback. Generic mapping alone does not qualify coupled motor/platter transport. No stationary mode is invented."
+        }
+      ],
+      "limits": [
+        "Manual supplemental mixer/pads/loops/library only. Native current-size loop press differs from source fixed4.",
+        "Play, main Cue, tempo, all platters/wheels, RPM/motor modes, startup, output, settings and automatic audio remain inactive. Complete motor protocol and physical/iPad acceptance remain open."
+      ]
     }
   ]
 }

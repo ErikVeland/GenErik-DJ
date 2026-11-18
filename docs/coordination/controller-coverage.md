@@ -4955,3 +4955,18 @@ The [manufacturer setup guide](https://www.djuced.com/kb/hercules-djcontrol-inpu
 Validation:219 Python checks and eight focused native tests passed, including157 automatic held-Cue profiles. Every native input wire exists in the pinned MK3 document. A real-WAV fixture verified exact512-count movement, held Cue release, mode cleanup, finite audio and saved Sync. The iPad framework compiled and its resource matches the source. All263 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r382/validation.json`.
 
 The catalogue has264 data recipes for342 physical models. Automatic core coverage is196 models, with146 without automatic core controls. Forty records need a first protocol implementation. Complete theoretical and physical/A10X acceptance remain open.
+
+
+## R383 T10 supplemental controls and motor boundary
+
+Assumption: independently documented supplemental controls can remain manual while coupled motor transport stays unavailable.
+
+The distinct T10 factory file in the [public DJUCED6.8.1 package](https://ts.hercules.com/download/djuced/6.8/DJUCED_6.8.1.dmg) has439 device controls and454 action rows. The [manufacturer manual](https://ts.hercules.com/download/sound/manuals/DJC_T10/HERCULES_DJC_T10_USER_MANUAL_-_EN_FR_DE_NL_IT_ES_PT_PL_JP_CNM_KO.pdf), PDF26, states that platter motorisation cannot be disabled. No stationary-platter mode is invented. The generic mapping does not qualify the complete motor/platter, calibration and coupled transport contract.
+
+The85-input manual subset covers mixer level, filter, three-band EQ/gain, PFL, Load, Sync, loop In/Out/current-size toggle/size, shifted loop sizing/keylock, eight Hot Cues per deck and library controls. Normal channels2/3, shifted5/6 and pad7/8 retain independent wires. Physical Shift Note4 is explicit for this model. Each side owns its Shift and pickup reset. Qualified deletion releases rearm native pads without deleting cues. Native loop press uses current size rather than the source fixed four-beat value.
+
+Play, main Cue, tempo, all platter/wheel packets, RPM/motor modes and source startup/shutdown remain inactive. The profile sends no output, motor, query, driver or audio-routing packet. Shifted line-volume packets target samplers and remain inactive. Select the supplemental profile manually. Use app touch transport and separate app audio. This subset does not establish a complete T10 controller or automatic support.
+
+Validation:220 Python checks and eight focused native tests passed, including the157-profile held-Cue corpus. Every native input wire exists in the pinned T10 document. Native tests reject motor/transport dispatch and all hardware writes. A real-WAV fixture verified finite, synced audio started through the app action path. The iPad framework compiled and its resource matches the source. All264 earlier recipes remain identical. The first native fixture mistook neutral stop-cleanup jogs for active platter input. That failed result remains preserved. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r383/validation.json`.
+
+The catalogue has265 data recipes. Automatic core coverage remains196 of342 physical models, with146 without automatic core controls. Thirty-nine records need a first protocol implementation. Full motor support, complete theoretical support and physical/iPad/A10X acceptance remain open.

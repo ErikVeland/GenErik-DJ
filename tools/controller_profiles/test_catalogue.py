@@ -917,6 +917,24 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for bad in [products+products,products[:100],products+'<li data-hardware-target="midinote ios">Unknown: Screen</li>',products.replace('mac ios','mac unknown',1)]:
             with self.assertRaises(ValueError):read_djay(bad)
 
+    def test_t10_factory_subset_keeps_motor_transport_and_startup_inactive(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Hercules DJControl T10"),None)
+        self.assertIsNotNone(item,"Add only independently qualified T10 supplemental inputs")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),85)
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        self.assertFalse(any(r["action"] in {"playA","playB","cuePreviewA","cuePreviewB","tempoA","tempoB","jogA","jogB","jogTouchA","jogTouchB","wheelJogA","wheelJogB","master","monitor"} for r in item["inputs"]))
+        self.assertEqual([(r["channel"],r["number"]) for r in item["inputs"] if r["action"]=="shift"],[(1,4),(2,4)])
+        self.assertEqual(len([r for r in item["inputs"] if r["action"].startswith("hotcue") and not r.get("releaseOnly")]),16)
+        path=ROOT/"TestBuilds/r382/upstream/DJControl T10.djm"
+        if path.exists():
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),"a934c2747ae15b614133313aca2f40c199a883b913e733a129c05c7326ffe10d")
+            root=ET.parse(path).getroot()
+            wires={(int(x.get("message").split()[0],16)&15,int(x.get("message").split()[1],16),int(x.get("message").split()[0],16)>>4) for c in root.find("midi-device") for x in c.findall("input")}
+            self.assertTrue(all((r["channel"],r["number"],9 if r["kind"]=="note" else 11) in wires for r in item["inputs"]))
+
     def test_inpulse200mk3_retains_its_factory_eq_jog_and_hardware_volume_boundaries(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="Hercules DJControl Inpulse 200 MK3"),None)

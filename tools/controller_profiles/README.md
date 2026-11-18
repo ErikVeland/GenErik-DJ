@@ -1024,3 +1024,10 @@ CC5 is normal High, CC4 is normal Mid and shifted CC5 is gain. Shifted volume co
 No physical Shift wire is inferred. Factory hardware channels separate normal/shifted controls. Qualified alternate releases preserve native holds.
 Master/headphone knobs stay under hardware control. Output-only MASTER_VOL_L/R and conflicting shifted B-Cue feedback remain inactive.
 No installer, downloaded script, mapping action, source reset, query or firmware runs. Exact software modes and physical iPad acceptance remain open.
+
+T10 uses85 manual supplemental controls from its own439-control factory MIDI document.
+Physical Shift Note4, mixer/EQ, eight cues, loops, keylock and library controls retain independent deck/shift/pad channels.
+The manufacturer states that motorisation cannot be disabled. No stationary-platter mode is invented.
+Play, main Cue, tempo, platter/wheel, RPM/motor modes, startup/shutdown, output and automatic audio stay inactive.
+No motor packet, downloaded mapping action or hardware write runs. Use app touch transport and separate audio.
+The manual subset does not establish a complete T10 integration. Full modes/lifecycle and physical acceptance remain open.

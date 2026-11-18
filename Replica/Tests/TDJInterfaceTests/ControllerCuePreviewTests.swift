@@ -2470,3 +2470,16 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueT10SupplementalMixerKeepsTouchStartedAudioFiniteAndSynced() async throws {
+    try await withControllerCuePlayback("Hercules DJControl T10",manual:true) { model,input in
+        input.onTargetAction?(.init(.playA,deck:.a),1)
+        cuePreviewPacket([0xB1,0,64,1,64,2,64,3,64,4,64,5,64],to:input)
+        cuePreviewPacket([0x96,0,127,0,0,0x91,4,127,0xB4,5,64,0x81,4,127],to:input)
+        let audio = model.playback.core.renderOffline(frames:4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

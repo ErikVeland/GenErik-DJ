@@ -25232,12 +25232,17 @@
       "benchmark": true,
       "sources": [
         "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://ts.hercules.com/download/djuced/6.8/DJUCED_6.8.1.dmg",
         "https://www.algoriddim.com/hardware/djcontrolt10"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:hercules-t10-supplemental-factory"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Hercules DJControl T10",
+      "automaticControls": false,
       "comparisonSupport": {
         "djay": {
           "sourceName": "Hercules DJControl T10",
@@ -25250,40 +25255,94 @@
           "source": "https://www.algoriddim.com/hardware/djcontrolt10"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "browsePreviousGroup",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "hotcue5A:a",
+        "hotcue5B:b",
+        "hotcue6A:a",
+        "hotcue6B:b",
+        "hotcue7A:a",
+        "hotcue7B:b",
+        "hotcue8A:a",
+        "hotcue8B:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "loopSizeA:a",
+        "loopSizeB:b",
+        "loopUpA:a",
+        "loopUpB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "openGroup",
+        "shift",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 85,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual supplemental mixer, pads, loops and library controls only. Use app touch transport and separate app audio. T10 motor/platter integration is unavailable. Its motors cannot be disabled in a stationary-platter mode."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Manufacturer states that platter motorisation cannot be disabled. The complete motor/platter and coupled transport lifecycle contract remains unqualified. No stationary mode is invented. Manual supplemental controls do not establish a complete T10 controller. Use app touch transport and separate audio. Source fixed4 loop press uses native current-size toggle. Shifted sampler volume, FX/stem/roll/slicer/pitch-play modes, complete feedback, USB ownership, calibration and physical/iPad/A10X acceptance remain open.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -333370,6 +333429,36 @@
         },
         {
           "reason": "No physical Shift note, source reset, query, firmware or application mapping code is inferred. Hardware master/headphone levels are not duplicated. Shifted volume controls target samplers and remain inactive. Native touch always scratches rather than reproducing software Vinyl mode. Stem controls, held loop adjustment, shifted seek, cue deletion, FX/sample/beatmatch modes, conflicting shifted B-Cue lamp, complete lifecycle/calibration and physical iPad USB/audio/A10X acceptance remain open."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:hercules-t10-supplemental-factory",
+      "name": "Hercules DJControl T10",
+      "transport": "midi",
+      "source": {
+        "url": "https://ts.hercules.com/download/djuced/6.8/DJUCED_6.8.1.dmg",
+        "sha256": "a76200de7cc2fced9b765d83edd02c8a07aa302d77c87c81ddf2f4c91330e2a2",
+        "member": "djuced_6.8.1.pkg/djuced.pkg/Payload/Applications/DJUCED/DJUCED.app/Contents/Resources/midi/DJControl T10.djm",
+        "memberSHA256": "a934c2747ae15b614133313aca2f40c199a883b913e733a129c05c7326ffe10d",
+        "relatedSources": [
+          {
+            "url": "https://ts.hercules.com/download/sound/manuals/DJC_T10/HERCULES_DJC_T10_USER_MANUAL_-_EN_FR_DE_NL_IT_ES_PT_PL_JP_CNM_KO.pdf",
+            "sha256": "3a81264c2b9fe97f2d89f3761664cd3417b325aceefc5075e1c1473512d70012"
+          }
+        ],
+        "review": "Separate user-visible factory XML has439 device controls and454 action rows. Native85-input manual supplemental layout retains deck channels2/3, shifted5/6 and pad7/8. Qualified physical Shift Note4 uses independent sides and both transitions retire side holds/pickup. Normal volume/filter/three-band EQ/gain, shifted filter/EQ/gain, PFL/Load/Sync, loop In/Out/current-size toggle/size, Shift-loop half/double/keylock, eight Hot Cues per deck and normal/shifted library controls use their own wires. Shifted line volume targets sampler decks and is inactive. Native loop press uses current size rather than source fixed4. Manufacturer manual PDF26 explicitly says motorisation cannot be disabled. The generic mapping does not qualify the complete motor/platter packet, calibration and coupled lifecycle contract. Play, main Cue, tempo, platter/wheel packets, RPM/motor modes, startup F000014E2202077F000000000000F7, onexit B07F7E, output, settings and automatic audio remain inactive. No stationary-platter mode or T7/MK3 sibling protocol is invented. Manual selection and separate app audio are required. Native touch transport remains necessary. Full control support and physical/iPad acceptance remain open."
+      },
+      "implementedInputCount": 85,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manufacturer states that platter motorisation cannot be disabled. The complete motor/platter and coupled transport lifecycle contract remains unqualified. No stationary mode is invented. Manual supplemental controls do not establish a complete T10 controller. Use app touch transport and separate audio. Source fixed4 loop press uses native current-size toggle. Shifted sampler volume, FX/stem/roll/slicer/pitch-play modes, complete feedback, USB ownership, calibration and physical/iPad/A10X acceptance remain open."
         }
       ]
     }

@@ -594,3 +594,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R381 | Implemented; existing manual limits retained | Reconcile the two Rane SEVENTY A-Trak inventory names | One physical model now retains Serato and djay provenance and the same19-input manual subset.218 Python/eight native checks passed. iPad framework compiled. [Scope](controller-coverage.md#r381-rane-a-trak-inventory-identity). |
 
 | R382 | Implemented; hardware/protocol gaps open | Add Inpulse 200 MK3 from its independent public factory mapping | Added65 automatic inputs/18 lamps and documented split audio.219 Python/eight native checks passed, including exact512-count WAV movement and157 held-Cue profiles. iPad framework compiled. [Scope](controller-coverage.md#r382-inpulse-200-mk3-public-factory-facts). |
+
+| R383 | Implemented; coupled motor protocol remains open | Add independently qualified T10 supplemental controls | Added85 manual mixer/pad/loop/library inputs without motor or hardware writes.220 Python/eight native checks passed. iPad framework compiled. [Scope](controller-coverage.md#r383-t10-supplemental-controls-and-motor-boundary). |
