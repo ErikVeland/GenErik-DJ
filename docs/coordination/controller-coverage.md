@@ -3909,3 +3909,21 @@ The manual DJ-505 recipe adds117 bounded inputs. All152 importer checks and8 foc
 The upstream rate-control formula confirms reversed native pitch normalisation. The first native fixture sent low bytes before high bytes. The corrected fixture follows the source handler sequence; both logs remain in `TestBuilds/r321/`.
 The iPad framework compiles and its resource matches the source byte for byte. All199 earlier recipes retain identical data. The catalogue reaches200 data recipes. Automatic core coverage stays166 physical models and71/122 benchmark models. The repository check retains twelve historical broken links.
 Manual input does not provide software-mode startup/keepalive, shared Load state, calibrated crossfader/jogs, full pads/FX/TR-S/audio routing or physical/A10X acceptance. No signed app or install is claimed.
+
+## R322 CMD MM-1 automatic mixer core
+
+Assumption: the named MM-1 USB-MIDI endpoint permits automatic input matching. Its configurable MIDI channel does not change control addresses. Accept all16 channels on that named endpoint. The source startup builds software state and feedback; its unused dump request remains inactive.
+
+- [x] Confirm a failing importer fixture and verify the pinned XML/script against the upstream manual.
+- [x] Add31 default mixer/global inputs with physical strip order C/A/B/D and EQ/filter roles. Keep both modifier buttons as independent guards. No generic CMD alias or audio/output packet is inferred.
+- [x] Verify all16 channels, C/D opt-in, independent modifier release, browser counts, inactive alternate controls and real-WAV mixer/PFL playback. Run importer checks and compile the iPad framework.
+
+Source base: `d65a1ac`. These are fixed native default mixer controls. Dynamic strip/FX/knob modes, shifted Load, Ctrl-Sync, lamps/meters, full lifecycle, port-name variation and physical/A10X acceptance remain open.
+
+The automatic named-port recipe adds31 default controls across496 explicit channel bindings. The physical strips retain C/A/B/D order. Both modifier buttons guard deck and browser controls with independent ownership. Other CMD products and generic ports cannot select this recipe.
+All153 importer checks and8 focused native checks pass. Native checks cover all16 MIDI channels with both two- and four-deck availability, every default knob row, independent modifier release, exact signed browser counts and real-WAV mixer/PFL playback with Sync retained.
+The first native run rejected wildcard channels on a mixer and invalid modifier identity values. Explicit channel bindings and bounded modifier identities preserve the existing schema. A later test fixture needed an explicit Swift result type. Failed logs remain in `TestBuilds/r322/`.
+The iPad framework compiles. Its bundled resource matches the source byte for byte. All200 earlier recipes retain identical data. The catalogue reaches201 data recipes and167 automatic-core physical models. The benchmark stays71/122. The repository check retains twelve historical broken links.
+Full software layers, output channel selection, lamps/meters, port-name variants, calibration and physical/A10X acceptance remain open. No signed app or install is claimed.
+
+The final combined run passes all19 native checks for R320/R321/R322 and the catalogue bounds. It exposed another RMX-90 test ordering assumption. That assertion now compares the independently delivered C/D targets as a set. The failed and passing combined logs remain in `TestBuilds/r322/`.

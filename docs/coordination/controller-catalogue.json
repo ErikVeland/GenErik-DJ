@@ -11174,45 +11174,78 @@
         "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMD%20MM1.midi.xml"
       ],
       "definitions": [
-        "Behringer CMD MM1.midi.xml"
+        "Behringer CMD MM1.midi.xml",
+        "reviewed:cmd-mm1"
       ],
-      "implementation": "adapter-needed",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Behringer CMD MM-1",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cueMix",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor",
+        "shift"
+      ],
+      "inputBindingCount": 496,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Named CMD MM-1 MIDI endpoint, any configured MIDI channel. Fixed default C/A/B/D strip order and EQ/filter roles. C/D require app opt-in."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "adapter-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "A controller-specific protocol adapter is required."
+        "Named MM-1 endpoint only. Fixed default C/A/B/D strips and EQ/filter roles replace the source software layers. Dynamic strip/FX/knob assignment, shifted Load, Ctrl-Sync, balance, crossfader assignment/centre buttons, browser press, lamps/meters, complete lifecycle and physical/A10X acceptance remain open. Configurable outbound channel and endpoint-name variants need qualification. No generic CMD alias or audio route is inferred."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -320477,6 +320510,37 @@
         },
         {
           "reason": "Manual normal subset only. Shared Load/bank ownership, crossfader maximum calibration, jog/contact, pads/FX/TR-S and full Shift modes remain inactive. Software-mode SysEx, periodic keepalive, complete output/shutdown and audio routing remain unimplemented. Native pitch polarity/range and physical/A10X acceptance remain open. DJ-202/DJ-808 require independent qualification."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:cmd-mm1",
+      "name": "Behringer CMD MM-1",
+      "transport": "midi",
+      "source": {
+        "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMD%20MM1.midi.xml",
+        "sha256": "b32bdb57cdd2e8474f0b77e51df0122b389fe2b8a8c0c0230146e512592f6a90",
+        "relatedSources": [
+          {
+            "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer-CMD-MM1-scripts.js",
+            "sha256": "5babd6d36087846163ab27f777372d521cb70c2fef15d9777a915007873a65f1"
+          },
+          {
+            "url": "https://manual.mixxx.org/2.5/en/hardware/controllers/behringer_cmd_mm_1"
+          }
+        ],
+        "review": "Pinned XML/script and the upstream manual define a four-strip MIDI mixer. Default software order is C/A/B/D, not A/B/C/D. Each physical strip uses highCC6+i, mid10+i, low14+i, filter18+i and level48+i; Note48+i is headphone PFL. No gain pot, transport, pitch fader or main held Cue is invented. Globals are masterCC2, headphone level4, cue mix5, crossfader64 and browser3 with signed raw-minus64 counts. The upstream MIDI channel defaults to wire4, but the manual confirms a tool can change it. Native accepts every MIDI channel only on a named MM-1 endpoint. Both modifier Notes16/17 have independent guard ownership; either blocks normal deck/browse actions and releasing one cannot clear the other. The native recipe keeps fixed default strip/knob roles. It does not execute source software assignment/FX modes or conflate Ctrl with Shift-Load. Source startup has no active hardware handshake; its dump request is commented out and remains inactive. Source lamp colour values0/1 and meters are not emitted because the active outbound channel has not been qualified. No generic CMD/device alias, audio route or sibling CMD protocol is inferred. Full layers/output, endpoint-name variation, native calibration and physical/A10X acceptance remain open. No downloaded script executes in the app."
+      },
+      "implementedInputCount": 496,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Named MM-1 endpoint only. Fixed default C/A/B/D strips and EQ/filter roles replace the source software layers. Dynamic strip/FX/knob assignment, shifted Load, Ctrl-Sync, balance, crossfader assignment/centre buttons, browser press, lamps/meters, complete lifecycle and physical/A10X acceptance remain open. Configurable outbound channel and endpoint-name variants need qualification. No generic CMD alias or audio route is inferred."
         }
       ]
     },

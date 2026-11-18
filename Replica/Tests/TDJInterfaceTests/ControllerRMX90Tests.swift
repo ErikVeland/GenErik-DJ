@@ -73,7 +73,7 @@ import Testing
             #expect(events.allSatisfy { [.cueA, .cueB].contains($0.0.action) && $0.1 == 1 })
             events.removeAll()
             rmx90Packet([0xB0, 18, 127, 24, 127], to: input)
-            #expect(events.map { $0.0.deck } == (decks.count == 4 ? [.c, .d] : []))
+            #expect(Set(events.compactMap { $0.0.deck }) == Set(decks.count == 4 ? [DeckID.c, .d] : []))
         }
     }
 }

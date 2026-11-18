@@ -998,6 +998,26 @@ class GeneratedCatalogueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
 
+    def test_mm1_has_its_own_automatic_fixed_mixer_without_borrowed_cmd_modes(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"] == "Behringer CMD MM-1"),None)
+        self.assertIsNotNone(item,"MM-1 needs its own default mixer recipe")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),496)
+        self.assertEqual({r["channel"] for r in item["inputs"]},set(range(16)))
+        self.assertFalse(any(r.get("anyChannel") for r in item["inputs"]))
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        strips={r["number"]:r["targetDeck"] for r in item["inputs"] if r["action"] in {"highA","highB"}}
+        self.assertEqual(strips,{6:"c",7:"a",8:"b",9:"d"})
+        self.assertFalse(any(r["action"].startswith(("play","load","sync","gain","tempo","hotcue")) for r in item["inputs"]))
+        self.assertNotIn("CMD",item["aliases"])
+        from cmd_mm1 import MM1_SOURCES
+        for filename,digest in MM1_SOURCES:
+            path=ROOT/"TestBuilds/r169/upstream/res/controllers"/filename
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),digest)
+
     def test_dj505_keeps_its_nonstandard_pairs_and_manual_lifecycle_boundary(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"] == "Roland DJ-505"),None)
