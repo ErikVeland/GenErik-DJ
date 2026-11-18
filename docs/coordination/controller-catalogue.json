@@ -2786,46 +2786,84 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://alphatheta.com/en/product/dj-mixer/djm-a7/black/"
+        "https://alphatheta.com/en/product/dj-mixer/djm-a7/black/",
+        "https://downloads.support.alphatheta.com/software_info/dj-mixers/DJM-A7/djm-A7_midi_message_list_EN_100.pdf"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:pioneerdjma7"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "AlphaTheta DJM-A7",
+      "automaticControls": false,
+      "controlActions": [
+        "crossfader",
+        "cueMix",
+        "cueStateA:a",
+        "cueStateA:c",
+        "cueStateB:b",
+        "cueStateB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor"
+      ],
+      "inputBindingCount": 32,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual MIDI channel1 and BUTTON TYPE TOGGLE, with separate app audio. Physical CH1-4 map to A-D; C/D require app opt-in. Hardware/software audio ownership and external mixer routing remain unqualified."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Manual MIDI channel1/TOGGLE only; no factory button-type default is inferred. TRIGGER mode, physical taper/calibration, hardware/software audio ownership, external deck routing, Link Cue/SonicLink, master Texture, source/assign/curve switches, effects/microphone/clock, full setup/output/lifecycle and physical/A10X acceptance remain open. No sibling protocol, MIDI receive behaviour, output or stored-setting write is inferred.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -323931,6 +323969,38 @@
         },
         {
           "reason": "Fixed native layout, not factory Serato Studio semantics. Shift transitions retire held actions; shifted pads/functions and aftertouch stay inactive. Record/undo/redo, application/encoder/piano modes, touch interpretation, Mode2 strip, complete output/colour/screen/lifecycle/audio and physical/A10X acceptance remain open. No mode/setting write, HID mouse command, Serato handshake or audio route is inferred."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneerdjma7",
+      "name": "AlphaTheta DJM-A7",
+      "transport": "midi",
+      "source": {
+        "url": "https://downloads.support.alphatheta.com/software_info/dj-mixers/DJM-A7/djm-A7_midi_message_list_EN_100.pdf",
+        "sha256": "c3ccdb2f61be9f94ce6c6b22027736184d1a24709121c8952d1c8f95b979caee",
+        "pages": [
+          1,
+          2,
+          3
+        ],
+        "relatedSources": [
+          {
+            "url": "https://support.alphatheta.com/en-US/articles/53214453591428"
+          }
+        ],
+        "review": "The current A7 EN100 document independently specifies four fixed physical CH1-4 strips. All three pages were visually checked. Unlike the A9 E10 document, its CH2 fader is unambiguously CC18, with no second CUE bus overlapping another fader. These A7 facts do not repair the different A9 source. Use native A-D gain/EQ/Color/level, TOGGLE CUE state and master/headphone/crossfader controls on manually selected MIDI channel1. PFL notes10-13 are explicit state in TOGGLE mode, not software edge toggles. The table supports Trigger/Toggle button types; no factory type default is inferred. Native absolute values use MIDI's seven-bit normalisation, with physical taper/range calibration open. C/D require app opt-in. The hardware still processes its own audio, so this manual mirror uses a separate app audio path until external mixer ownership/routing is implemented. Link Cue/SonicLink, master Texture, source/assign/curve switches, effects, microphone/clock, complete setup/output/lifecycle and physical/A10X acceptance remain open. No A9/V5/Euphonia protocol alias, MIDI receive behaviour, feedback, setting write, reset or audio route is inferred."
+      },
+      "implementedInputCount": 32,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual MIDI channel1/TOGGLE only; no factory button-type default is inferred. TRIGGER mode, physical taper/calibration, hardware/software audio ownership, external deck routing, Link Cue/SonicLink, master Texture, source/assign/curve switches, effects/microphone/clock, full setup/output/lifecycle and physical/A10X acceptance remain open. No sibling protocol, MIDI receive behaviour, output or stored-setting write is inferred."
         }
       ]
     },

@@ -2167,3 +2167,19 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueA7NativeFaderAndTogglePFLKeepAudioAndSync() async throws {
+    try await withControllerCuePlayback("DJM-A7",manual: true) { model,input in
+        model.pressPlay(deck: .a,vinylStop: false)
+        input.currentTargetValue = { model.controllerValue($0.action,targetDeck: $0.deck) }
+        cuePreviewPacket([0x90,10,127,10,127],to: input)
+        #expect(model.playbackSnapshot?.a.mixer.cue == true)
+        cuePreviewPacket([0x90,10,0,10,0],to: input)
+        #expect(model.playbackSnapshot?.a.mixer.cue == false)
+        cuePreviewPacket([0xB0,17,64,17,127,2,64,3,64,4,64,5,64,11,64],to: input)
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+    }
+}

@@ -4536,3 +4536,21 @@ The four encoders control A level/filter and B filter/level. The normal Play but
 Validation:191 Python tests and ten focused native tests passed. Native fixtures cover all128 page/pad addresses with two velocities and both release forms, held-Cue page/Shift cleanup, independent sources, hidden C/D, aftertouch/alternate rejection, relative encoders, paired strip and reconnect. The automatic held-Cue fixture now covers151 profiles. A real-WAV host fixture retained Cue cleanup, loops, audio and saved Sync. The iPad framework compiled and its resource matches the source. All241 earlier recipes remain identical. The repository checker still reports12 historical missing-file links. Evidence: `TestBuilds/r358/validation.json`.
 
 The catalogue now has242 data recipes. Automatic core coverage reaches189 physical model records, with123 remaining. Full theoretical support remains open for all312 physical model records. No signed app, installation or physical/A10X acceptance is claimed.
+
+
+## R359 Independent DJM-A7 manual four-strip MIDI mixer
+
+Assumption: the current A7 EN100 table independently defines four complete fader rows. It does not resolve the different A9 table's conflicting controls. Add a separate manual MIDI channel1/TOGGLE subset, through separate app audio. Keep hardware/software audio ownership and full routing open. Do not infer a factory button-type default or write stored settings.
+
+- [x] Pin and visually inspect all three manufacturer pages. Confirm a failing addition fixture.
+- [x] Add32 manual inputs: four gain/EQ/Color/fader/PFL strips and master/headphone/crossfader globals. Preserve direct TOGGLE PFL and C/D opt-in. Infer no output or audio route.
+- [x] Verify all addresses, fader pickup/direction, PFL state, source isolation, hidden decks, unused hardware and real-WAV audio/Sync. Run importer checks and iPad framework compilation. Compare all earlier recipes, including A9's quarantined fields.
+
+Success requires an independent A7 contract with no sibling aliases or automatic routing claim. Full mixer behaviour, hardware audio ownership and physical/A10X acceptance remain open.
+
+
+Added32 manual A7 inputs from the independently published [EN100 table](https://downloads.support.alphatheta.com/software_info/dj-mixers/DJM-A7/djm-A7_midi_message_list_EN_100.pdf), SHA256`c3ccdb2f61be9f94ce6c6b22027736184d1a24709121c8952d1c8f95b979caee`. All three pages were visually checked. Gain/EQ/Color/fader controls retain each physical strip's addresses. Direct CUE state requires MIDI channel1 and TOGGLE mode. The recipe does not infer a factory type default. Headphone, master and crossfader controls affect the separate app mixer. Master Texture, Link Cue/SonicLink, source/assign/curve switches and effects remain inactive. No output, stored setting or audio route is inferred. A9's conflicting addresses remain quarantined.
+
+Validation:192 Python tests and ten focused native tests passed, including the existing A9 checks. Fixtures cover all32 addresses, fader pickup and direction, direct PFL state, source isolation, C/D opt-in and inactive hardware controls. Real-WAV host fixtures retained audio and saved Sync for both models. The iPad framework compiled and its resource matches the source. All242 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r359/validation.json`.
+
+The [public-source audit](controller-public-source-audit.json) now also records the working XDJ-AN MIDI table from its current support article. That model is the next source implementation. The catalogue has243 data recipes. Automatic core coverage remains189 physical model records, with123 remaining. Full theoretical support remains open for all312 physical model records. No signed app, installation or physical/A10X acceptance is claimed.

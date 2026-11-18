@@ -921,3 +921,6 @@ The [public-source audit](../../docs/coordination/controller-public-source-audit
 
 
 `slab.py` defines139 automatic general-MIDI bindings for an explicit fixed DJ layout. All eight normal pad pages have native cue, loop, jump or transport functions. The upper/lower physical halves address fixed deck pairs. Page presses retire old holds; both Shift transitions retire holds and gate the layout. Shifted pads and aftertouch remain inactive. Encoders and DIAL browsing use1/65 signed-bit direction. Mode1 strip uses channel7 CC14/46. This does not emulate Serato Studio. Output colours, screens, other modes, full lifecycle and audio routing remain open.
+
+
+`djm_a7.py` defines32 manual inputs from the independent A7 EN100 table, including all four faders. PFL requires channel1/TOGGLE. Use a separate app audio path until hardware/software mixer ownership is implemented. No factory button-type default, MIDI output, stored setting or audio route is inferred. The A7 table does not repair A9's conflicting rows.

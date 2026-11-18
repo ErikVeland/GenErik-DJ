@@ -523,6 +523,28 @@
           "finding": "Manufacturer guide downloaded from the current public index. It documents MIDI clock/active-send settings, without a control-address wire table."
         }
       ]
+    },
+    {
+      "request": "R359",
+      "reviewDate": "2026-11-19",
+      "documents": [
+        {
+          "model": "AlphaTheta DJM-A7",
+          "article": "https://support.alphatheta.com/en-US/articles/53214453591428",
+          "url": "https://downloads.support.alphatheta.com/software_info/dj-mixers/DJM-A7/djm-A7_midi_message_list_EN_100.pdf",
+          "cache": "TestBuilds/r359/upstream/djm-a7-midi-en100.pdf",
+          "sha256": "c3ccdb2f61be9f94ce6c6b22027736184d1a24709121c8952d1c8f95b979caee",
+          "status": "All three pages visually checked. Thirty-two manual TOGGLE/channel1 inputs implemented, including four unambiguous faders. This independent table does not repair A9 source conflicts."
+        },
+        {
+          "model": "AlphaTheta XDJ-AN",
+          "article": "https://support.alphatheta.com/en-US/articles/53214453591205?product=51352009960347",
+          "url": "https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-AN/XDJ-AN_MIDI_Massage_List_E1.pdf",
+          "cache": "TestBuilds/r360/upstream/xdj-an-midi-e1.pdf",
+          "sha256": "8862a83688206ffe0bf7736a0235f1318b07185b467444a6bad2d49e7733c4bd",
+          "status": "Downloaded from the current support article. Its published filename contains Massage. Implementation next."
+        }
+      ]
     }
   ]
 }

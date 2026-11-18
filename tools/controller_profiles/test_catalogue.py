@@ -861,6 +861,21 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_a7_keeps_its_independent_complete_four_fader_midi_subset(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="AlphaTheta DJM-A7"),None)
+        self.assertIsNotNone(item,"Add the independently published A7 MIDI table without inheriting A9 conflicts")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),32)
+        self.assertEqual([r["number"] for r in item["inputs"] if r["action"] in {"levelA","levelB"}],[17,18,19,20])
+        self.assertEqual([r["number"] for r in item["inputs"] if r["action"] in {"cueStateA","cueStateB"}],[10,11,12,13])
+        self.assertEqual({r["channel"] for r in item["inputs"]},{0})
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        from djm_a7 import A7_REFERENCES
+        cached=ROOT/"TestBuilds/r359/upstream/djm-a7-midi-en100.pdf"
+        if cached.exists():self.assertEqual(hashlib.sha256(cached.read_bytes()).hexdigest(),A7_REFERENCES[item["id"]]["sha256"])
+
     def test_slab_fixed_dj_layout_uses_all_eight_native_pad_pages_and_shift_barriers(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="AlphaTheta SLAB"),None)
