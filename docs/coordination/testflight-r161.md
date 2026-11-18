@@ -18,11 +18,13 @@ Created the macOS platform. Created Internal Testers with automatic distribution
 - External group: `4f9ffe8e-a572-4257-8b9b-b238b0dbcbe9`.
 - Internal group: `1d53909c-8e33-489b-ac41-2906dcdfa690`.
 
-Uploaded the 3840 × 1646 GenErik header to the iOS product-page draft. Apple displayed one header asset. R174 removed the rejected artwork from the project. The uploaded header still needs replacement in App Store Connect. Both archives carry the current Icon Composer artwork. Apple must process the uploaded builds before their icons and testing status can be confirmed.
+The first 3840 × 1646 header was rejected by Erik. R174 removed that artwork from the project. On 18 November, App Store Connect saved its replacement in the iOS 1.0 draft. The replacement uses the current interface mark, bold system-font wordmark and graphite palette. Apple displayed one header asset, and the iPhone preview showed the full mark and wordmark without clipping. The old asset remains in the Asset Library but is no longer assigned as the header.
 
-Beta description and feedback email are saved. The beta review contact needs Erik's phone number. The privacy-policy URL is verified below. External beta review, tester availability and physical acceptance remain open. No public App Store release was submitted.
+The replacement is `Replica/Branding/AppStore/header-current-3840x1646.png`. Regenerate it with `Replica/Scripts/export-store-header.swift`. Both archives carry the Icon Composer artwork from their recorded source commits. The store draft preview still shows an app-icon placeholder because no build is selected for that draft.
 
-Apple accepted both uploads on 11 November 2026. Both upload commands returned success. Processing, build-icon confirmation and external review remain pending. The [Mac build record](../testing/mac-builds/226.json) preserves the archive hash and export attempts.
+Beta description, feedback email and the review contact are saved. Erik supplied the review phone number directly for Apple. No private phone number is stored in the repository. External tester availability and physical acceptance remain open. No public App Store release was submitted.
+
+Apple accepted both uploads on 11 November 2026. Both upload commands returned success. On 18 November, both processed builds were submitted to External Testers. App Store Connect showed iOS and macOS 0.1.0 (226) as **Waiting for Review**, with zero testers and two builds in the group. The [Mac build record](../testing/mac-builds/226.json) preserves the archive hash and export attempts.
 
 ## Live website links — 18 November 2026
 
@@ -37,4 +39,6 @@ Erik confirmed that the website and legal pages are live. Public HTTPS checks re
 
 The site lists `erik@veland.au` as the support and privacy contact. The privacy notice covers the development app and website, effective 18 November 2026. It describes automatic private CloudKit preparation sharing and local audio analysis.
 
-App Store Connect changes and current build status still need verification after sign-in. The beta review contact phone number remains unresolved in this chat. The rejected header remains a separate R174 replacement item.
+These links are saved in App Store Connect. TestFlight has the marketing and privacy URLs. Both store drafts have the marketing and support URLs. App Privacy has the policy and privacy-choices URLs. The App Privacy questionnaire remains incomplete for a public release.
+
+The beta review submissions and header replacement required no new app build or device installation. Apple beta approval and physical acceptance remain open.
