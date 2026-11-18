@@ -10,7 +10,7 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 349 total catalogue records. 342 name physical models. The remainder identify software endpoints or protocol families.
-- 273 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 275 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 182 factory profiles select core controls automatically for 190 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - 146 physical models still lack automatic core controls.
@@ -227,8 +227,8 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 93 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 31 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 95 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 29 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -505,7 +505,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Intech TEK2 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Intech%20TEK2.midi.xml) |
 | Ion Discover DJ | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Ion%20Discover%20DJ.midi.xml) |
 | Ion Discover DJ Pro | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Ion-Discover-DJ-Pro.midi.xml) |
-| Ion iDJ2GO | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware) |
+| Ion iDJ2GO | primary | partial-midi-profile | [Reference](https://download.algoriddim.com/djay/202010171657/djay_Pro_2.2.9.zip) |
 | Keith McMillen Instruments QuNeo | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/KANE_QuNeo.midi.xml) |
 | Kontrol DJ KDJ500 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Kontrol%20Dj%20KDJ500.midi.xml) |
 | Korg KAOSS DJ | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg-KAOSS-DJ.midi.xml) |
@@ -565,7 +565,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | TrakProDJ iPad | virtual | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/TrakProDJ%20iPad.midi.xml) |
 | Wireless DJ App | virtual | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Wireless%20DJ%20App.midi.xml) |
 | Phase SAS Phase | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware#phase) |
-| Philips M1X-DJ | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware) |
+| Philips M1X-DJ | primary | partial-midi-profile | [Reference](https://download.algoriddim.com/djay/202010171657/djay_Pro_2.2.9.zip) |
 | Rane FOUR | primary | partial-midi-profile | [Reference](https://support.rane.com/en/support/solutions/articles/69000828752-rane-four-frequently-asked-questions) |
 | Rane PERFORMER | primary | protocol-needed | [Reference](https://www.rane.com/downloads/?product=Rane+Performer) |
 | Reloop BeatMix | primary | automatic-core-profile | [Reference](https://www.reloop.com/media/catalog/product/pdf/2/2/5/225067_Reloop_IM.pdf) |

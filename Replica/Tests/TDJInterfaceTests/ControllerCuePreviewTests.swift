@@ -2585,3 +2585,32 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueLegacyDockIonHeldCueAndPlayRestoreRealAudioSync() async throws {
+    try await withControllerCuePlayback("ION iDJ2GO", manual: true) { model, input in
+        cuePreviewPacket([0x90, 51, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80, 51, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        cuePreviewPacket([0x90, 59, 127, 59, 0, 67, 127, 67, 0], to: input)
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+    }
+}
+
+@Test @MainActor func controllerCatalogueLegacyDockPhilipsSeparateCueActionsPreserveRealAudioSync() async throws {
+    try await withControllerCuePlayback("Philips M1X DJ", manual: true) { model, input in
+        cuePreviewPacket([0x91, 1, 127, 1, 0], to: input)
+        _ = model.playback.core.renderOffline(frames: 4096)
+        cuePreviewPacket([0x91, 3, 127, 3, 0], to: input)
+        _ = model.playback.core.renderOffline(frames: 4096)
+        cuePreviewPacket([0x91, 2, 127, 2, 0], to: input)
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

@@ -1163,6 +1163,29 @@
         "Manual18-input S3 subset. Cached table text is usable, but source table byte hash and visual table verification are unavailable.",
         "No inherited sibling protocol, hardware command, output or automatic audio route. Analogue ownership, AUX/microphone, curve/reverse, global Filter/parameter, full modes/lifecycle/calibration, external deck outputs and physical/iPad/A10X acceptance remain open."
       ]
+    },
+    {
+      "request": "R390",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://help.algoriddim.com/topic/subscription/purchased-older-version",
+          "finding": "Current primary support page publicly links the legacy Mac archive. No app installation, launch, activation or account was required."
+        },
+        {
+          "url": "https://download.algoriddim.com/djay/202010171657/djay_Pro_2.2.9.zip",
+          "sha256": "a3c00db3030859bdb71c74368ac5adcc85d62a06790e31a635fa6c8f663775ee",
+          "finding": "115 visible editable MIDI/licence documents extracted read-only. Independent iDJ2GO and M1X DJ wire facts qualify two21-input manual profiles. No source code, artwork or preset document is bundled."
+        },
+        {
+          "url": "https://support.alphatheta.com/en-US/articles/50837244561049",
+          "finding": "Current V5 FAQ confirms MIDI output only and links legacy section50767330408729 for the MIDI list. The redirected software section exposes only rekordbox, Serato and OS articles. All50 results of the current V5 MIDI search were reviewed. No usable V5 table was recovered."
+        }
+      ],
+      "limits": [
+        "Legacy dock authentication, CoreMIDI exposure, audio ownership and complete modes/lifecycle/calibration remain open. Philips private custom class is not inspected or reproduced.",
+        "VCI300 preset names only the original VCI300. It does not establish MKII compatibility. VFX1 two-page public brochure contains no wire addresses."
+      ]
     }
   ]
 }

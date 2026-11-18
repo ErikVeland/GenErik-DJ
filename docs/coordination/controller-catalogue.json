@@ -26099,12 +26099,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://download.algoriddim.com/djay/202010171657/djay_Pro_2.2.9.zip",
         "https://www.algoriddim.com/hardware"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:idj2go-public-factory-inputs"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Ion iDJ2GO",
+      "automaticControls": false,
       "comparisonSupport": {
         "djay": {
           "sourceName": "Ion iDJ2GO",
@@ -26115,40 +26120,62 @@
           "source": "https://www.algoriddim.com/hardware"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "master",
+        "monitor",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b"
+      ],
+      "inputBindingCount": 21,
+      "feedbackBindingCount": 0,
+      "connection": "Manual exposed MIDI port only. Legacy dock authentication, CoreMIDI exposure and direct iPad connection remain unimplemented or unqualified.",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual exposed MIDI port only. Original hardware uses a hard-wired30-pin dock. Native Load directly loads the selected track. Dock authentication and audio require separate work."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Original30-pin accessory authentication/CoreMIDI exposure, library Back/Enter, jog/browse direction and calibration, long-Load modes, full feedback/lifecycle and physical/iPad/A10X acceptance remain open.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -34674,12 +34701,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://download.algoriddim.com/djay/202010171657/djay_Pro_2.2.9.zip",
         "https://www.algoriddim.com/hardware"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:m1x-dj-public-factory-inputs"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Philips M1X-DJ",
+      "automaticControls": false,
       "comparisonSupport": {
         "djay": {
           "sourceName": "Philips M1X-DJ",
@@ -34690,40 +34722,62 @@
           "source": "https://www.algoriddim.com/hardware"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueGotoA:a",
+        "cueGotoB:b",
+        "cueSetA:a",
+        "cueSetB:b",
+        "highA:a",
+        "highB:b",
+        "levelA:a",
+        "levelB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "playA:a",
+        "playB:b",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b"
+      ],
+      "inputBindingCount": 21,
+      "feedbackBindingCount": 0,
+      "connection": "Manual exposed MIDI port only. Legacy dock authentication, CoreMIDI exposure and direct iPad connection remain unimplemented or unqualified.",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual exposed MIDI port only. The manufacturer specifies its Lightning dock for DJ controls. Bluetooth is audio-only. Native uses separate Cue Set and Cue recall. Configure audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Lightning authentication/CoreMIDI exposure, private custom initialisation, jog/mode/record controls, two-second Cue clear, hardware/software audio ownership, complete output/lifecycle/calibration and physical/iPad/A10X acceptance remain open.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -333939,6 +333993,83 @@
         },
         {
           "reason": "The source MIDI table was reviewed as cached text. Direct table PDF bytes/screenshots were unavailable. Hardware/software ownership, AUX/microphone, curve/reverse, global Filter/parameter, complete modes/lifecycle/calibration, external mixer outputs and physical/iPad/A10X acceptance remain open."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:idj2go-public-factory-inputs",
+      "name": "Ion iDJ2GO",
+      "transport": "midi",
+      "source": {
+        "url": "https://download.algoriddim.com/djay/202010171657/djay_Pro_2.2.9.zip",
+        "sha256": "a3c00db3030859bdb71c74368ac5adcc85d62a06790e31a635fa6c8f663775ee",
+        "members": [
+          {
+            "path": "djay Pro 2.app/Contents/Resources/MIDI Mappings/ION iDJ2GO.djayMidiMapping",
+            "sha256": "00df443d04bd488f544232aef9ba6a2825287899ce236cda9f3d4d7c7d11ce3c"
+          }
+        ],
+        "relatedSources": [
+          {
+            "url": "https://asset.conrad.com/media10/add/160267/c1/-/gl/000312642ML01/manual-312642-ion-audio-idj2go-dj-controller.pdf",
+            "sha256": "58fb91b5f69e33469a82de2372253400de6f1356d13ac7bd11e35f82c1e9601f",
+            "pages": [
+              3,
+              4
+            ]
+          }
+        ],
+        "review": "The visible26-control iOS factory preset independently qualifies21 native manual inputs. The manufacturer quickstart page4 was visually reviewed and explicitly describes held Cue and pitch-bend release. Native Load buttons load the current selection directly. The source app opens its library. Its rotary sensitivity does not establish jog counts or encoder direction. Jog/browse streams and Back/Enter stay inactive. The30-pin connection, accessory authentication and any CoreMIDI exposure require implementation or qualification. No Numark sibling, source program, private custom class, output, startup or audio route is inherited."
+      },
+      "implementedInputCount": 21,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Original30-pin accessory authentication/CoreMIDI exposure, library Back/Enter, jog/browse direction and calibration, long-Load modes, full feedback/lifecycle and physical/iPad/A10X acceptance remain open."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:m1x-dj-public-factory-inputs",
+      "name": "Philips M1X-DJ",
+      "transport": "midi",
+      "source": {
+        "url": "https://download.algoriddim.com/djay/202010171657/djay_Pro_2.2.9.zip",
+        "sha256": "a3c00db3030859bdb71c74368ac5adcc85d62a06790e31a635fa6c8f663775ee",
+        "members": [
+          {
+            "path": "djay Pro 2.app/Contents/Resources/MIDI Mappings/Philips M1X DJ.djayMidiMapping",
+            "sha256": "6c6375b3daf7aea971def8b4cbcff658169e05deaf74a5a47ce0c14f5728c449"
+          }
+        ],
+        "relatedSources": [
+          {
+            "url": "https://www.documents.philips.com/assets/20231208/7ae14ad277064c378795b0d2011f4d72.pdf",
+            "sha256": "4e06e2522c0bc5323e18eef29a8da7f4783a3a7700b0cc92afd9f407ea979818",
+            "pages": [
+              10,
+              11,
+              12
+            ]
+          }
+        ],
+        "review": "The visible28-control factory preset independently qualifies21 native manual inputs. Manufacturer printed page10 was visually reviewed and distinguishes Cue Set from Cue recall. Native Cue Set/Goto preserve separate actions without a held-Cue inference. The private PhilipsM1XDJ class is neither inspected nor reproduced. Unqualified jog/mode/record controls and nested output addresses do not establish full wire contracts. The Lightning accessory connection, authentication, custom initialisation, audio ownership, two-second Cue clear, full modes/calibration/lifecycle and physical/iPad/A10X acceptance remain open. Bluetooth audio is not Bluetooth MIDI."
+      },
+      "implementedInputCount": 21,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Lightning authentication/CoreMIDI exposure, private custom initialisation, jog/mode/record controls, two-second Cue clear, hardware/software audio ownership, complete output/lifecycle/calibration and physical/iPad/A10X acceptance remain open."
         }
       ]
     }

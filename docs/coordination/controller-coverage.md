@@ -5056,3 +5056,22 @@ The18-input manual profile uses two independent gain/three-band EQ/Color/linefad
 Validation:230 Python checks and11 focused native tests passed, including the157-profile held-Cue corpus and DJM450 regression checks. Native fixtures cover every mixer input, direct Cue idempotence, source/deck isolation, pickup reset, inactive wires and sibling aliases. A real-WAV fixture retained finite, synced app-started audio. The iPad framework compiled and its resource matches the source. All272 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r389/validation.json`.
 
 The catalogue has273 data recipes. Automatic core coverage remains196 of342 physical models, with146 without automatic core controls. Thirty-one records still need a first protocol implementation. Full theoretical support and physical/iPad/A10X acceptance remain open.
+
+## R390 legacy dock-controller MIDI facts
+
+Assumption: readable factory presets establish MIDI addresses. They do not establish a private dock transport, authentication, hardware initialisation or audio route. Manual profiles require an exposed MIDI port.
+
+- [x] Pin the public archive and each model-specific preset. Transcribe only independent address facts.
+- [x] Add21 manual inputs per model. Keep unqualified rotary streams, private transport and hardware writes inactive.
+- [x] Verify both Cue release forms, pitch-bend cleanup, separate Philips Cue Set/Goto, pickup, source/deck isolation and real-WAV behaviour.
+- [x] Run importer/native checks, compile the iPad framework and compare all earlier recipes.
+
+Algoriddim's [current legacy-download guide](https://help.algoriddim.com/topic/subscription/purchased-older-version) links the public2.2.9 archive. Only115 visible preset/licence documents were extracted. No application, installer, activation, account, private custom class or downloaded mapping code runs. The archive and both presets have pinned hashes. Native resources contain independently transcribed MIDI facts, without source documents, artwork or executable code.
+
+Each model has21 manual inputs. iDJ2GO keeps held Cue and pitch bends, native direct Load, Play/Sync/PFL, level/tempo and three global mixer controls. Its manufacturer quickstart printed page4 was visually reviewed and confirms held Cue and bend release. Factory polarity is retained for tempo and crossfader. M1X DJ keeps Play/Sync/PFL, separate Cue Set/Goto, tempo, three-band EQ and mixer faders. Its printed manual page10 was visually reviewed and distinguishes Cue Set from recall. Cue clear on a two-second hold remains open. Philips Bluetooth audio does not establish Bluetooth MIDI.
+
+The native factory presets contain additional private or incomplete behaviour. Unqualified jog/browse scaling, source library navigation, Philips mode/record controls and output values remain inactive. The ION30-pin and Philips Lightning docks still need authentication/CoreMIDI exposure and audio qualification. The catalogue states this connection limit explicitly. No Numark sibling protocol or Philips custom class is inherited.
+
+Validation:232 Python checks and nine native tests passed. Fixtures cover both Cue release forms, bend/stop cleanup, duplicate-button suppression, source ownership, independent Philips Cue actions, every absolute input and polarity, pickup, unavailable decks and inactive wires. Two real-WAV fixtures retain finite, synced playback. The first native run found an incorrect fixture count for two simultaneously mapped sources. The corrected fixture expects42 bindings and passes. Both logs remain in ignored evidence. The iPad framework compiled and its resource matches the source. All273 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r390/validation.json`.
+
+The catalogue has275 recipes for342 physical models. Automatic core coverage remains196, with146 without automatic core. Twenty-nine records still need a first protocol implementation. Full theoretical support, signed-app delivery and physical/iPad/A10X acceptance remain open.

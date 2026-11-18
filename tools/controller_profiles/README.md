@@ -1078,3 +1078,5 @@ Direct table PDF bytes/screenshots were unavailable. No source byte hash or visu
 The operating manual page21 visually confirms MIDI1/TOGGLE defaults. Source notes reset only their strip's pickup.
 No DJM450/250/S9 alias, stored-setting write, hardware output or automatic audio route is inferred.
 Full modes/lifecycle, external deck outputs, analogue ownership and physical acceptance remain open.
+
+R390 adds `legacy_djay_docks.py` and two distinct21-input manual profiles from pinned public factory presets. They require exposed MIDI ports. Original30-pin/Lightning authentication and audio remain open. Unqualified rotary streams, private custom classes and hardware writes stay inactive.232 source checks, nine native tests and the iPad framework pass. Earlier273 recipes remain identical.
