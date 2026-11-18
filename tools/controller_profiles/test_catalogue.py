@@ -1133,15 +1133,22 @@ class GeneratedCatalogueTests(unittest.TestCase):
         self.assertEqual(next(r["number"] for r in item["outputs"] if r["action"] == "playA"), 10)
         self.assertFalse(any(r["action"].startswith(("hotcue", "jogTouch", "tempo", "load")) for r in item["inputs"]))
 
-    def test_mcx8000_factory_subset_keeps_unqualified_encoders_pads_and_connection_manual(self):
+    def test_mcx8000_independent_source_resolves_core_but_keeps_shared_pads_and_audio_open(self):
         item, = mcx_profiles()
-        self.assertFalse(item["autoSelect"])
-        self.assertEqual((len(item["inputs"]), len(item["outputs"])), (99, 24))
-        self.assertEqual(len(item["startup"]) + len(item["shutdown"]), 48)
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual((len(item["inputs"]), len(item["outputs"])), (121, 24))
+        self.assertEqual(len(item["startup"]) + len(item["shutdown"]), 58)
         self.assertNotIn("audioOutput", item)
-        self.assertFalse(any(r["action"].startswith(("jog", "wheelJog", "tempo", "hotcue", "browse")) for r in item["inputs"]))
-        self.assertEqual(sum(r.get("releaseOnly", False) for r in item["inputs"]), 12)
+        self.assertFalse(any(r["action"].startswith("hotcue") or r["encoding"] == "paired14Bit" for r in item["inputs"]))
+        self.assertEqual(sum(r.get("releaseOnly", False) for r in item["inputs"]), 20)
         self.assertEqual([r["targetDeck"] for r in item["inputs"] if r["action"].startswith("load")], list("abcd"))
+        from mcx8000 import MCX_PCDJ_SOURCES
+        for filename, digest in MCX_PCDJ_SOURCES:
+            path = ROOT / "TestBuilds/r298/upstream" / filename
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+        self.assertEqual(len(item["bankChanges"]), 4)
+        self.assertEqual({r["number"] for r in item["inputs"] if r["action"] == "browse"}, {0, 68})
         path = ROOT / "TestBuilds/r282/manufacturer/mcx8000-midi-v1.pdf"
         if path.exists():
             self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), MCX_SHA)

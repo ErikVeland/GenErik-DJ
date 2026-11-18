@@ -894,7 +894,7 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
 }
 
 @Test @MainActor func controllerCatalogueMCX8000NativeCueLoopAndShiftedBendReleaseKeepSync() async throws {
-    try await withControllerCuePlayback("Denon DJ MCX8000", manual: true) { model, input in
+    try await withControllerCuePlayback("Denon DJ MCX8000") { model, input in
         cuePreviewPacket([0x90, 1, 127], to: input)
         #expect(model.playbackSnapshot?.a.touchActive == true)
         cuePreviewPacket([0x90, 5, 0], to: input)

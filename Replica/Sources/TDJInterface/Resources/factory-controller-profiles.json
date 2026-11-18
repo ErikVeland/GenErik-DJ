@@ -15253,10 +15253,30 @@
           "targetDeck": "a"
         },
         {
+          "action": "playA",
+          "kind": "note",
+          "channel": 0,
+          "number": 4,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
           "action": "cuePreviewA",
           "kind": "note",
           "channel": 0,
           "number": 5,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "keylockA",
+          "kind": "note",
+          "channel": 0,
+          "number": 41,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "a",
@@ -15281,6 +15301,33 @@
           "inverted": false,
           "targetDeck": "a",
           "releaseOnly": true
+        },
+        {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 0,
+          "number": 6,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "jogA",
+          "kind": "control",
+          "channel": 0,
+          "number": 6,
+          "encoding": "binaryOffset",
+          "inverted": true,
+          "targetDeck": "a"
+        },
+        {
+          "action": "tempoA",
+          "kind": "control",
+          "channel": 0,
+          "number": 9,
+          "encoding": "absolute",
+          "inverted": true,
+          "targetDeck": "a"
         },
         {
           "action": "loadA",
@@ -15472,10 +15519,30 @@
           "targetDeck": "b"
         },
         {
+          "action": "playB",
+          "kind": "note",
+          "channel": 1,
+          "number": 4,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "releaseOnly": true
+        },
+        {
           "action": "cuePreviewB",
           "kind": "note",
           "channel": 1,
           "number": 5,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "releaseOnly": true
+        },
+        {
+          "action": "keylockB",
+          "kind": "note",
+          "channel": 1,
+          "number": 41,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "b",
@@ -15500,6 +15567,33 @@
           "inverted": false,
           "targetDeck": "b",
           "releaseOnly": true
+        },
+        {
+          "action": "jogTouchB",
+          "kind": "note",
+          "channel": 1,
+          "number": 6,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "jogB",
+          "kind": "control",
+          "channel": 1,
+          "number": 6,
+          "encoding": "binaryOffset",
+          "inverted": true,
+          "targetDeck": "b"
+        },
+        {
+          "action": "tempoB",
+          "kind": "control",
+          "channel": 1,
+          "number": 9,
+          "encoding": "absolute",
+          "inverted": true,
+          "targetDeck": "b"
         },
         {
           "action": "loadB",
@@ -15691,10 +15785,30 @@
           "targetDeck": "c"
         },
         {
+          "action": "playA",
+          "kind": "note",
+          "channel": 2,
+          "number": 4,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "c",
+          "releaseOnly": true
+        },
+        {
           "action": "cuePreviewA",
           "kind": "note",
           "channel": 2,
           "number": 5,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "c",
+          "releaseOnly": true
+        },
+        {
+          "action": "keylockA",
+          "kind": "note",
+          "channel": 2,
+          "number": 41,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "c",
@@ -15719,6 +15833,33 @@
           "inverted": false,
           "targetDeck": "c",
           "releaseOnly": true
+        },
+        {
+          "action": "jogTouchA",
+          "kind": "note",
+          "channel": 2,
+          "number": 6,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "c"
+        },
+        {
+          "action": "jogA",
+          "kind": "control",
+          "channel": 2,
+          "number": 6,
+          "encoding": "binaryOffset",
+          "inverted": true,
+          "targetDeck": "c"
+        },
+        {
+          "action": "tempoA",
+          "kind": "control",
+          "channel": 2,
+          "number": 9,
+          "encoding": "absolute",
+          "inverted": true,
+          "targetDeck": "c"
         },
         {
           "action": "loadA",
@@ -15910,10 +16051,30 @@
           "targetDeck": "d"
         },
         {
+          "action": "playB",
+          "kind": "note",
+          "channel": 3,
+          "number": 4,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "d",
+          "releaseOnly": true
+        },
+        {
           "action": "cuePreviewB",
           "kind": "note",
           "channel": 3,
           "number": 5,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "d",
+          "releaseOnly": true
+        },
+        {
+          "action": "keylockB",
+          "kind": "note",
+          "channel": 3,
+          "number": 41,
           "encoding": "absolute",
           "inverted": false,
           "targetDeck": "d",
@@ -15938,6 +16099,33 @@
           "inverted": false,
           "targetDeck": "d",
           "releaseOnly": true
+        },
+        {
+          "action": "jogTouchB",
+          "kind": "note",
+          "channel": 3,
+          "number": 6,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "d"
+        },
+        {
+          "action": "jogB",
+          "kind": "control",
+          "channel": 3,
+          "number": 6,
+          "encoding": "binaryOffset",
+          "inverted": true,
+          "targetDeck": "d"
+        },
+        {
+          "action": "tempoB",
+          "kind": "control",
+          "channel": 3,
+          "number": 9,
+          "encoding": "absolute",
+          "inverted": true,
+          "targetDeck": "d"
         },
         {
           "action": "loadB",
@@ -16079,6 +16267,22 @@
           "number": 6,
           "encoding": "absolute",
           "inverted": false
+        },
+        {
+          "action": "browse",
+          "kind": "control",
+          "channel": 15,
+          "number": 0,
+          "encoding": "binaryDirection",
+          "inverted": true
+        },
+        {
+          "action": "browse",
+          "kind": "control",
+          "channel": 15,
+          "number": 68,
+          "encoding": "binaryDirection",
+          "inverted": true
         }
       ],
       "outputs": [
@@ -16089,7 +16293,7 @@
           "number": 0,
           "targetDeck": "a",
           "onValue": 127,
-          "offValue": 0,
+          "offValue": 1,
           "offUsesNoteOn": true
         },
         {
@@ -16099,7 +16303,7 @@
           "number": 1,
           "targetDeck": "a",
           "onValue": 127,
-          "offValue": 0,
+          "offValue": 1,
           "offUsesNoteOn": true
         },
         {
@@ -16109,7 +16313,7 @@
           "number": 2,
           "targetDeck": "a",
           "onValue": 127,
-          "offValue": 0,
+          "offValue": 1,
           "offUsesNoteOn": true
         },
         {
@@ -16119,7 +16323,7 @@
           "number": 13,
           "targetDeck": "a",
           "onValue": 127,
-          "offValue": 0,
+          "offValue": 1,
           "offUsesNoteOn": true
         },
         {
@@ -16139,7 +16343,7 @@
           "number": 50,
           "targetDeck": "a",
           "onValue": 127,
-          "offValue": 0,
+          "offValue": 1,
           "offUsesNoteOn": true
         },
         {
@@ -16149,7 +16353,7 @@
           "number": 0,
           "targetDeck": "b",
           "onValue": 127,
-          "offValue": 0,
+          "offValue": 1,
           "offUsesNoteOn": true
         },
         {
@@ -16159,7 +16363,7 @@
           "number": 1,
           "targetDeck": "b",
           "onValue": 127,
-          "offValue": 0,
+          "offValue": 1,
           "offUsesNoteOn": true
         },
         {
@@ -16169,7 +16373,7 @@
           "number": 2,
           "targetDeck": "b",
           "onValue": 127,
-          "offValue": 0,
+          "offValue": 1,
           "offUsesNoteOn": true
         },
         {
@@ -16179,7 +16383,7 @@
           "number": 13,
           "targetDeck": "b",
           "onValue": 127,
-          "offValue": 0,
+          "offValue": 1,
           "offUsesNoteOn": true
         },
         {
@@ -16199,7 +16403,7 @@
           "number": 50,
           "targetDeck": "b",
           "onValue": 127,
-          "offValue": 0,
+          "offValue": 1,
           "offUsesNoteOn": true
         },
         {
@@ -16209,7 +16413,7 @@
           "number": 0,
           "targetDeck": "c",
           "onValue": 127,
-          "offValue": 0,
+          "offValue": 1,
           "offUsesNoteOn": true
         },
         {
@@ -16219,7 +16423,7 @@
           "number": 1,
           "targetDeck": "c",
           "onValue": 127,
-          "offValue": 0,
+          "offValue": 1,
           "offUsesNoteOn": true
         },
         {
@@ -16229,7 +16433,7 @@
           "number": 2,
           "targetDeck": "c",
           "onValue": 127,
-          "offValue": 0,
+          "offValue": 1,
           "offUsesNoteOn": true
         },
         {
@@ -16239,7 +16443,7 @@
           "number": 13,
           "targetDeck": "c",
           "onValue": 127,
-          "offValue": 0,
+          "offValue": 1,
           "offUsesNoteOn": true
         },
         {
@@ -16259,7 +16463,7 @@
           "number": 50,
           "targetDeck": "c",
           "onValue": 127,
-          "offValue": 0,
+          "offValue": 1,
           "offUsesNoteOn": true
         },
         {
@@ -16269,7 +16473,7 @@
           "number": 0,
           "targetDeck": "d",
           "onValue": 127,
-          "offValue": 0,
+          "offValue": 1,
           "offUsesNoteOn": true
         },
         {
@@ -16279,7 +16483,7 @@
           "number": 1,
           "targetDeck": "d",
           "onValue": 127,
-          "offValue": 0,
+          "offValue": 1,
           "offUsesNoteOn": true
         },
         {
@@ -16289,7 +16493,7 @@
           "number": 2,
           "targetDeck": "d",
           "onValue": 127,
-          "offValue": 0,
+          "offValue": 1,
           "offUsesNoteOn": true
         },
         {
@@ -16299,7 +16503,7 @@
           "number": 13,
           "targetDeck": "d",
           "onValue": 127,
-          "offValue": 0,
+          "offValue": 1,
           "offUsesNoteOn": true
         },
         {
@@ -16319,30 +16523,40 @@
           "number": 50,
           "targetDeck": "d",
           "onValue": 127,
-          "offValue": 0,
+          "offValue": 1,
           "offUsesNoteOn": true
         }
       ],
       "startup": [
         [
           144,
+          8,
+          127
+        ],
+        [
+          145,
+          8,
+          127
+        ],
+        [
+          144,
           0,
-          0
+          1
         ],
         [
           144,
           1,
-          0
+          1
         ],
         [
           144,
           2,
-          0
+          1
         ],
         [
           144,
           13,
-          0
+          1
         ],
         [
           144,
@@ -16352,27 +16566,27 @@
         [
           148,
           50,
-          0
+          1
         ],
         [
           145,
           0,
-          0
+          1
         ],
         [
           145,
           1,
-          0
+          1
         ],
         [
           145,
           2,
-          0
+          1
         ],
         [
           145,
           13,
-          0
+          1
         ],
         [
           145,
@@ -16382,27 +16596,27 @@
         [
           149,
           50,
-          0
+          1
         ],
         [
           146,
           0,
-          0
+          1
         ],
         [
           146,
           1,
-          0
+          1
         ],
         [
           146,
           2,
-          0
+          1
         ],
         [
           146,
           13,
-          0
+          1
         ],
         [
           146,
@@ -16412,27 +16626,27 @@
         [
           150,
           50,
-          0
+          1
         ],
         [
           147,
           0,
-          0
+          1
         ],
         [
           147,
           1,
-          0
+          1
         ],
         [
           147,
           2,
-          0
+          1
         ],
         [
           147,
           13,
-          0
+          1
         ],
         [
           147,
@@ -16442,29 +16656,49 @@
         [
           151,
           50,
-          0
+          1
+        ],
+        [
+          144,
+          7,
+          127
+        ],
+        [
+          145,
+          7,
+          127
+        ],
+        [
+          146,
+          7,
+          127
+        ],
+        [
+          147,
+          7,
+          127
         ]
       ],
       "shutdown": [
         [
           144,
           0,
-          0
+          1
         ],
         [
           144,
           1,
-          0
+          1
         ],
         [
           144,
           2,
-          0
+          1
         ],
         [
           144,
           13,
-          0
+          1
         ],
         [
           144,
@@ -16474,27 +16708,27 @@
         [
           148,
           50,
-          0
+          1
         ],
         [
           145,
           0,
-          0
+          1
         ],
         [
           145,
           1,
-          0
+          1
         ],
         [
           145,
           2,
-          0
+          1
         ],
         [
           145,
           13,
-          0
+          1
         ],
         [
           145,
@@ -16504,27 +16738,27 @@
         [
           149,
           50,
-          0
+          1
         ],
         [
           146,
           0,
-          0
+          1
         ],
         [
           146,
           1,
-          0
+          1
         ],
         [
           146,
           2,
-          0
+          1
         ],
         [
           146,
           13,
-          0
+          1
         ],
         [
           146,
@@ -16534,27 +16768,27 @@
         [
           150,
           50,
-          0
+          1
         ],
         [
           147,
           0,
-          0
+          1
         ],
         [
           147,
           1,
-          0
+          1
         ],
         [
           147,
           2,
-          0
+          1
         ],
         [
           147,
           13,
-          0
+          1
         ],
         [
           147,
@@ -16564,15 +16798,77 @@
         [
           151,
           50,
-          0
+          1
+        ],
+        [
+          144,
+          7,
+          1
+        ],
+        [
+          145,
+          7,
+          1
+        ],
+        [
+          146,
+          7,
+          1
+        ],
+        [
+          147,
+          7,
+          1
         ]
       ],
-      "autoSelect": false,
-      "scope": "Manual four-target transport, held Cue/bend, direct Load, mixer/filter and loops. Encoders, pitch, pads, screens, connection/audio route and automatic lifecycle remain open.",
+      "autoSelect": true,
+      "scope": "Automatic four-target MIDI core with fixed native touch/jog, coarse pitch, both browsers, bank-release ownership, held Cue/bend, mixer/loops and source-valued steady lights. Pads, high-resolution pitch, full modes/screens, routing and physical acceptance remain open.",
       "source": "https://cdn.inmusicbrands.com/denondj/MCX8000/Denon_DJ_MCX8000_MIDI_Command_List_v1.0.pdf",
-      "hardwareMode": "PC input selector. Manual MIDI transport/mixer subset. Direct iPad connection remains unqualified.",
+      "hardwareMode": "PC input selector. Automatic visible MIDI-port selection with native fixed touch scratch. Direct iPad attachment and audio routing remain unqualified.",
       "gaps": [
-        "Jog/browser values, pitch byte order/polarity, Shift input, bank/source-selector ownership, pads and all modes, FX, meters/rings/screens, full feedback/lifecycle, direct iPad connection/audio and physical acceptance remain open. Manual apply does not activate the input or run lifecycle. No automatic support is claimed."
+        "Source-specific Shift input/search, bank/source-selector audio ownership, shared pad modes, high-resolution pitch pairing, FX, complete feedback/meters/rings/screens, full lifecycle, direct iPad attachment/audio routing and physical acceptance remain open. Native fixed touch keeps default unverified calibration; source7200 is an app-specific scale. CoarseCC9 pitch is source-backed;CC119 remains ignored."
+      ],
+      "bankChanges": [
+        {
+          "channel": 0,
+          "number": 8,
+          "onValue": 127,
+          "releaseShiftChannels": [],
+          "decks": [
+            "a",
+            "c"
+          ]
+        },
+        {
+          "channel": 1,
+          "number": 8,
+          "onValue": 127,
+          "releaseShiftChannels": [],
+          "decks": [
+            "b",
+            "d"
+          ]
+        },
+        {
+          "channel": 2,
+          "number": 8,
+          "onValue": 127,
+          "releaseShiftChannels": [],
+          "decks": [
+            "a",
+            "c"
+          ]
+        },
+        {
+          "channel": 3,
+          "number": 8,
+          "onValue": 127,
+          "releaseShiftChannels": [],
+          "decks": [
+            "b",
+            "d"
+          ]
+        }
       ]
     },
     {

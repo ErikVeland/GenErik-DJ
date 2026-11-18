@@ -3541,3 +3541,32 @@ Expected failures and source-bound validation remain in `TestBuilds/r299/`. The 
 The catalogue now has180 data recipes. Automatic core coverage reaches157 physical models and68/122 benchmark models.
 Full theoretical feature parity remains unimplemented. Output, complete modes/lifecycle, audio routing and physical acceptance remain open.
 Source base: `8d73bf3`. Source cache: `TestBuilds/r298/upstream/`. No signed app, install or A10X acceptance forms part of this increment.
+
+## R300 MCX8000 independent core source
+
+Assumption: reuse the Denon-assisted PCDJ mapping for jog direction, coarse pitch, browser direction, bank messages and steady lights.
+Denon documents generic MIDI access and current class compliance on macOS. Direct iPad attachment and audio acceptance remain unverified.
+The source readsCC9 as coarse pitch despite the old table's LSB label. LeaveCC119 and high-resolution pairing unmapped.
+Native fixed touch replaces source software Vinyl toggling. Pads remain inactive because their shared mode contract is outside this increment.
+
+Implementation plan and checks:
+
+- [x] Fail the former manual-only fixture. Add source encoder/pitch, bank-release, startup failure/reconnect and feedback-value checks.
+- [x] Add the reviewed controls, normal-button release aliases and bounded fixed-mode lifecycle. Preserve explicit four-target and hidden-deck contracts.
+- [x] Enable automatic MIDI selection only. Keep source selectors in PC mode, pads, high-resolution pitch, screens, routing and physical acceptance open.
+- [x] Run focused native playback/protocol checks, importer checks and iPad framework compilation. Compare earlier recipes and bundle bytes.
+
+The core now has121 inputs and24 steady feedback definitions. Source button lights use127/1, while PFL uses127/0.
+Startup has30 packets. Shutdown has28. Pad setup, unowned FX cleanup and source screen identifiers are not sent.
+Source deck-layer Note8 retires held Cue/contact and cached controls for the same physical side. Failed setup leaves input inactive.
+Repeated discovery does not repeat setup. Reconnect restores the bounded native fixed-mode state.
+Coarse pitch retains the independent source's CC9 direction. CC119 cannot change pitch. Full-resolution pairing remains unresolved.
+Both browsers retain low-half forward direction with native64 neutral. The new source does not establish measured jog revolution counts.
+No native pad, Shift-search, screen or automatic audio-route support is inferred. Automatic selection applies to an exposed MIDI port in PC mode.
+
+All11 focused Swift checks,129 importer checks and native iPad framework compilation pass.
+The compiled resource matches the source. Only MCX8000 changed; all179 other runtime recipes remain unchanged.
+Expected failures and source-bound validation remain in `TestBuilds/r300/`. The repository check retains twelve historical broken links.
+The catalogue keeps180 data recipes. Automatic core coverage reaches158 physical models and69/122 benchmark models.
+Full theoretical feature parity remains unimplemented. Direct iPad attachment, full lifecycle/modes, routing and physical acceptance remain open.
+Source base: `f37ca41`. Source cache: `TestBuilds/r298/upstream/`. No signed app, install or A10X acceptance forms part of this increment.
