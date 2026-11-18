@@ -998,6 +998,30 @@ class GeneratedCatalogueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
 
+    def test_kontrol_one_has_independent_guarded_channel_aware_core(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"] == "DJ-Tech Kontrol One"),None)
+        self.assertIsNotNone(item,"Kontrol One needs a source-local deck-change barrier")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual(item["inputProtocol"],"kontrolOne")
+        self.assertEqual(len(item["inputs"]),116)
+        self.assertEqual({r["targetDeck"] for r in item["inputs"] if "targetDeck" in r},{"a","b","c","d"})
+        self.assertEqual({r["number"] for r in item["inputs"] if r["action"].startswith("hotcue")},{11,12,13,14})
+        self.assertTrue(all(r["argument"]==202.5 for r in item["inputs"] if r["action"].startswith("jog") and not r["action"].startswith("jogTouch")))
+        self.assertTrue(all(r.get("shifted")==False for r in item["inputs"] if r["action"]!="shift"))
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        import xml.etree.ElementTree as ET
+        xml_path=ROOT/"TestBuilds/r169/upstream/res/controllers/DJ-Tech Kontrol One.midi.xml"
+        if xml_path.exists():
+            addresses={(int(r.findtext("status"),0),int(r.findtext("midino"),0)) for r in ET.parse(xml_path).findall(".//controls/control")}
+            for row in item["inputs"]:
+                self.assertIn(((0x90 if row["kind"]=="note" else 0xB0)+row["channel"],row["number"]),addresses)
+        from kontrol_one import KONTROL_ONE_SOURCES
+        for filename,digest in KONTROL_ONE_SOURCES:
+            path=ROOT/"TestBuilds/r169/upstream/res/controllers"/filename
+            if path.exists(): self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),digest)
+
     def test_original_keylab_has_bounded_mmc_and_independent_88_key_core(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"] == "Arturia KeyLab 88 Mk 1"),None)

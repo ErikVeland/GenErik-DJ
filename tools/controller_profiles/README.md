@@ -779,3 +779,13 @@ Selected controls use logical channels0..3. Fixed C/A/B/D faders and globals use
 Deck/layout changes release owned contacts and reset affected pickup/debounce. Source-specific state resets on reconnect.
 The explicit XML input dispatch takes priority over conflicting component MIDI fields. No output or persistent preset is written.
 Complete menus, extra cues, samplers/recording, delayed display/lights, calibration and physical acceptance remain open.
+
+### Kontrol One native base (R332)
+
+`kontrol_one.py` keeps independent wire addresses and a fixed native base layout.
+`ControllerKontrolOneDecoder` marks hardware channel changes before dispatch. Boundaries release owned contacts and reset non-modifier pickup/debounce.
+Seven physical modifiers retain separate identities across channels. Jog and knob directions use separate source rules.
+The actual scratch arrays select150 ticks and45 RPM. The unused header scratch value is not used.
+Labelled Sync, native normalised knob steps and direct loop controls replace source custom/timed software behaviours.
+The direction-step guard admits gain/EQ only at reviewed Kontrol One knob addresses. Other profiles retain the existing limit.
+Complete banks/Shift latches, kills, source loop editing, dynamic output ownership and physical acceptance remain open.

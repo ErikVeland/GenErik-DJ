@@ -3,7 +3,7 @@ import TDJCore
 
 struct ControllerProfileData: Decodable, Sendable {
     enum InputProtocol: String, Codable, Sendable {
-        case smk25II, cdj101, ddjSR2, keyLabMKI
+        case smk25II, cdj101, ddjSR2, keyLabMKI, kontrolOne
     }
     enum AudioOutput: String, Decodable, Sendable {
         case masterAndHeadphones
@@ -167,7 +167,7 @@ struct ControllerProfileData: Decodable, Sendable {
                     && (![.mixstreamJog, .cyclic14BitJog, .vci100MK2Tempo, .lc6000Jog, .readyTempo, .airTempo].contains(
                         $0.encoding)
                         || $0.lowNumber != nil)
-                    && Self.validDirectionStep($0)
+                    && validDirectionStep($0)
                     && Self.validArgument($0)
                     && (![
                         .centreDetent, .binaryStep, .binaryDirection, .signedStep, .dj2go2Jog, .mc7000Jog, .denonJog,
@@ -186,12 +186,15 @@ struct ControllerProfileData: Decodable, Sendable {
     }
 
     /**
-     * Limits source-specific normalised direction steps to reviewed tempo and cue-blend encoders.
+     * Limits normalised direction steps to reviewed encoder actions and protocol addresses.
      */
-    private static func validDirectionStep(_ input: Input) -> Bool {
+    private func validDirectionStep(_ input: Input) -> Bool {
         guard let step = input.directionStep else { return true }
         return step.isFinite && step > 0 && step <= 0.1 && input.kind == .control
-            && input.encoding == .twosComplement && [.tempoA, .tempoB, .cueMix].contains(input.action)
+            && input.encoding == .twosComplement
+            && ([.tempoA, .tempoB, .cueMix].contains(input.action)
+                || (inputProtocol == .kontrolOne && (52...55).contains(input.number)
+                    && [.gainA, .gainB, .highA, .highB, .midA, .midB, .lowA, .lowB].contains(input.action)))
     }
 
     private var validBankChanges: Bool {

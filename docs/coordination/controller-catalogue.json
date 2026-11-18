@@ -12275,48 +12275,133 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Kontrol%20One.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Kontrol%20One.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Kontrol%20One.midi.xml"
       ],
       "definitions": [
-        "DJ-Tech Kontrol One.midi.xml"
+        "DJ-Tech Kontrol One.midi.xml",
+        "reviewed:kontrol-one"
       ],
-      "implementation": "adapter-needed",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "DJ-Tech Kontrol One",
+      "automaticControls": true,
+      "controlActions": [
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "jogA:a",
+        "jogA:c",
+        "jogB:b",
+        "jogB:d",
+        "jogTouchA:a",
+        "jogTouchA:c",
+        "jogTouchB:b",
+        "jogTouchB:d",
+        "loopDownA:a",
+        "loopDownA:c",
+        "loopDownB:b",
+        "loopDownB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "loopUpA:a",
+        "loopUpA:c",
+        "loopUpB:b",
+        "loopUpB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "reloopB:d",
+        "shift",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d",
+        "tempoA:a",
+        "tempoA:c",
+        "tempoB:b",
+        "tempoB:d",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopA:c",
+        "toggleFixedLoopB:b",
+        "toggleFixedLoopB:d"
+      ],
+      "inputBindingCount": 116,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Original Kontrol One USB-MIDI channels1..4 select A/B/C/D. Fixed native base layout; software-only alternate banks remain inactive. C/D requires app opt-in."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "adapter-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "A controller-specific protocol adapter is required."
+        "Fixed native base only. Software-only bank/Shift latches, kills, source custom resume/slip, cue-loop/move/edit gestures, exact logarithmic knob response, source scratch tuning, dynamic active-channel output ownership, complete feedback/lifecycle/calibration and physical/A10X acceptance remain open. Native Sync, fixed-loop toggles and direct loop controls deliberately replace source custom/timed behaviour. No audio interface is inferred."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -321446,6 +321531,37 @@
         },
         {
           "reason": "Original88-key model only;25/49/61-key, Essential and MkII/Mk3 variants need independent qualification. MMC supplies pulses, not physical hold duration. Ordinary CC transport/mod-wheel, intro/outro, cues9..16, sampler/recording, menu/library/skin/FX actions, delayed display/LED output, whole lifecycle/calibration and physical/A10X acceptance remain open. No persistent preset or audio interface is inferred."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:kontrol-one",
+      "name": "DJ-Tech Kontrol One",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Kontrol%20One.midi.xml",
+        "sha256": "c867803184375965b65e1d49ee5a35e13bff1ba7549e65f7e72d980c814e3989",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech-Kontrol-One-scripts.js",
+            "sha256": "4ce919cd968d2e4e8bdcda6db5f1209389ab1efb35c6c89599d5e15fc0855266"
+          },
+          {
+            "url": "https://manual.mixxx.org/2.5/en/hardware/controllers/dj_tech_kontrol_one"
+          }
+        ],
+        "review": "Independent XML qualifies four hardware channels0..3 and exact notes/CCs. The selector sends no dedicated MIDI packet; each known input reveals its channel. Source-local decoder marks changes before dispatch, releases owned contacts and resets affected pickup/debounce. Seven physical modifiers keep independent identity across wire channels. Native fixed base layout does not emulate software-only bank/Shift latches. Labelled Sync Note29 controls native Sync rather than source custom resume; Cue28 retains native held-preview release. Raw jogCC32 values>1 are forward,0/1 backward. KnobCC52..55 value127 is forward; other seven-bit values backward. These are normalised separately before native decoding. Native gain/EQ uses bounded0.02 normalised steps rather than the source logarithmic0..4 curve. PitchCC33 retains inverted centred source polarity. Actual scratch defaults use wheelResArray[4]=150 and scratchRevArray[7]=45 RPM, not the unused header scratchRev160. Native33⅓-RPM resolution is202.5 ticks. Source default row2 pads are cues5..8 at14/13/12/11; they are not renumbered1..4. Native fixed-loop toggles1/2/4 and direct loop In/Out/size replace source timed/held editing in the base layout. No input handshake is required by source init. Output depends on the active wire channel, so no unqualified global lighting is sent. Complete banks/Shift latches, kills, custom resume/loops, exact knob response, output/lifecycle/calibration and physical/A10X acceptance remain open."
+      },
+      "implementedInputCount": 116,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Fixed native base only. Software-only bank/Shift latches, kills, source custom resume/slip, cue-loop/move/edit gestures, exact logarithmic knob response, source scratch tuning, dynamic active-channel output ownership, complete feedback/lifecycle/calibration and physical/A10X acceptance remain open. Native Sync, fixed-loop toggles and direct loop controls deliberately replace source custom/timed behaviour. No audio interface is inferred."
         }
       ]
     },

@@ -9,10 +9,10 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 319 total catalogue records. 312 name physical models. The remainder identify software endpoints or protocol families.
-- 212 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 163 factory profiles select core controls automatically for 171 physical models.
+- 213 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 164 factory profiles select core controls automatically for 172 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
-- 135 physical models still lack automatic core controls.
+- 134 physical models still lack automatic core controls.
 - 312 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -220,8 +220,8 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 
 | State | Records | Meaning |
 | --- | ---: | --- |
-| adapter-needed | 23 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 165 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| adapter-needed | 22 | A referenced HID, bulk or script protocol needs an adapter. |
+| automatic-core-profile | 166 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
@@ -440,7 +440,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | DJ TechTools MIDI Fighter Twister | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ%20TechTools%20MIDI%20Fighter%20Twister.midi.xml) |
 | DJ-Tech CDJ-101 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20CDJ-101.midi.xml) |
 | DJ-Tech DJM-101 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20DJM-101.midi.xml) |
-| DJ-Tech Kontrol One | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Kontrol%20One.midi.xml) |
+| DJ-Tech Kontrol One | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Kontrol%20One.midi.xml) |
 | DJ-Tech MIX-101 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Mix-101.midi.xml) |
 | DJ-Tech Mixer One | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Mixer%20One.midi.xml) |
 | DJ-Tech VTT-101 | primary | protocol-needed | [Reference](https://asset.conrad.com/media10/add/160267/c1/-/gl/000092385ML01/mode-demploi-092385-mini-controleur-usb-dj-tech-vtt101.pdf) |

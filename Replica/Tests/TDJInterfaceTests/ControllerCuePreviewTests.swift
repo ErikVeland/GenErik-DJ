@@ -1686,3 +1686,21 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueKontrolOneNativeDeckSwitchReleasesCueAndKeepsAudioAndSync() async throws {
+    try await withControllerCuePlayback("Kontrol One") { model, input in
+        input.receiveBytes([0x90, 28, 127], source: 10)
+        input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0xB1, 33, 64], source: 10)
+        input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == false && model.playbackSnapshot?.a.phase.active == false)
+        input.receiveBytes([0x90, 27, 127, 27, 0, 31, 127, 0xB0, 32, 127, 0x80, 31, 127], source: 10)
+        input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.touchActive == false && model.playbackSnapshot?.a.phase.active == true)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}

@@ -4077,3 +4077,20 @@ All165 importer checks,32 native checks and iPad framework compilation pass. Nat
 Only88-specific aliases select this profile. Generic KeyLab-family names and smaller/later variants do not select it. The catalogue retains its existing family inventory record while naming the implemented88-key profile explicitly.
 Earlier211 recipes retain identical data. The compiled resource matches the source byte for byte. The catalogue reaches212 data recipes and177 automatic-core physical records. The automatic-core remainder is135. Full theoretical support remains open for312 physical records. The repository check retains twelve historical broken links.
 Intro/outro, cues9–16, recording/samplers, menu/FX/skin actions, delayed display/LED output, complete lifecycle/calibration, signed app/install and physical/A10X acceptance remain open. Continue through the remaining source-backed controllers.
+
+## R332 Kontrol One native base core
+
+Assumption: use the independent Kontrol One XML and script for wire facts. Provide a fixed native base layout. Software-only bank/Shift latches, custom resume, logarithmic EQ response and loop-moving modes are not copied. The labelled Sync button controls native Sync. Knobs use native normalised steps. Full source behaviour remains open.
+
+- [x] Pin and check each input address, four hardware deck channels, wheel direction and actual scratch-array defaults. Confirm failing importer/native fixtures.
+- [x] Add bounded source-local channel-change decoding. Release owned contacts and reset affected pickup/debounce before new-deck input. Preserve physical modifiers across channel changes.
+- [x] Add guarded transport, Cue, native relative gain/EQ, tempo, jog, cues5–8 and base loop controls. Keep unqualified outputs and alternate modes inactive.
+- [x] Verify directions, releases, all targets, source/reconnect/overload boundaries and real-WAV Cue/Sync. Run importer checks and compile the iPad framework. Compare earlier recipes.
+
+No input handshake is required by the pinned script. Complete modes, loop editing, kills, feedback/lifecycle, calibration and physical/A10X acceptance remain open.
+
+The independent recipe adds116 bindings. All116 addresses match the pinned XML. Seven separately owned physical modifiers survive hardware channel changes. A source-local barrier releases owned contacts and resets non-modifier pickup/debounce before dispatch on the new channel. The active150-tick/45-RPM source defaults give202.5 effective native ticks.
+All166 importer checks,23 native checks and iPad framework compilation pass. Native checks cover all128 wheel/knob values on four channels, fragments, unknown traffic, every base button, held modifiers, two-source Cue ownership, pitch centre, native knob steps, reconnect/overload reset and real-WAV Cue/jog/Play/Sync. The generic held-Cue fixture now covers147 automatic profiles.
+The first native run caught a rejected direction-step field. Its existing validation guard now admits gain/EQ only for the reviewed Kontrol One protocol and knob addresses. Ordinary profiles, other actions, foreign addresses and oversized steps remain rejected. Failed logs remain in `TestBuilds/r332/`.
+Earlier212 recipes retain identical data. The compiled resource matches the source byte for byte. The catalogue reaches213 data recipes and178 automatic-core physical records. The automatic-core remainder is134. Full theoretical support remains open for312 physical records. The repository check retains twelve historical broken links.
+Complete source modes/loop editing/kills, dynamic output ownership, lifecycle/calibration, signed app/install and physical/A10X acceptance remain open. Continue through the remaining source-backed controllers.
