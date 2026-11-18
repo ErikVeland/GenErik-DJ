@@ -1067,6 +1067,37 @@
         "Manual40-input subset. Initial and reconnected banks are A/B. No output, setup, query, motor, audio route or automatic ownership.",
         "Manufacturer2000-point claim conflicts with source2730 calibration. Shift, Vinyl/keylock, PFL, FX/sampler, library encoder, complete lifecycle, external mixer outputs and physical/iPad/A10X acceptance remain open."
       ]
+    },
+    {
+      "request": "R387",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://www.adj.com/collections/vms4-1-traktor-parts",
+          "review": "Manufacturer separately lists the Traktor-edition MIDI table and manual. The table retains generic transport labels, which remain unresolved."
+        },
+        {
+          "url": "https://www.adj.com/cdn/shop/files/3f2ef6d86a8275636284f11557be4fdcf27bff1a_vms4_1_traktor_midi_table.pdf?v=5359426295610137759",
+          "sha256": "dc207f113d1735899a769ba18536994a98f6578eeaa1af189358d817c1f8703c",
+          "pages": [
+            2,
+            6,
+            7,
+            8,
+            9
+          ],
+          "review": "Pages6-8 visually reviewed. All MIDI channel1. Four five-CC mixer strips, normal crossfader31, master28, Cue mix34 and Cue gain35 retain explicit0-127 ranges. Native manually assigns physical CH1-4 to A-D."
+        },
+        {
+          "url": "https://akeneo-asset-proxy.adj-group.workers.dev/dl/files/VMS599__DL__001.pdf",
+          "sha256": "9f55cc053272c38369833b18a53d20bc0385ad4fecc12807f212d1d3d656833e",
+          "review": "Traktor faceplate has A/C and B/D selection, Play/Cue and Shift. Generic table labels do not reconcile sufficiently for transport. Default Pre EQ duplicates software EQ. No ordinary VMS4 or VMS5 transport is inherited."
+        }
+      ],
+      "limits": [
+        "Manual24-CC mixer subset. No outputs, setup, hardware write or automatic audio ownership.",
+        "Transport/banks, Shift, jog format/calibration, library encoders, full lifecycle, external mixer outputs and physical/iPad/A10X acceptance remain open."
+      ]
     }
   ]
 }

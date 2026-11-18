@@ -5015,3 +5015,16 @@ The public DEX document supplies cyclic16384-wrap assembly and its2730-count jog
 Validation:223 Python checks and41 focused native tests passed. These include the157-profile held-Cue corpus, side/source isolation, duplicate selector presses, both Cue release forms, four-deck gating, reconnect reset, independent mixer pickup and real-WAV2730-scale movement. The tests caught old-jog cleanup targeting the new bank. The corrected order now retires the old bank before retargeting, including disconnect. Initial pickup fixture failures came from values combined within one packet. Those failed results remain preserved. The iPad framework compiled and its resource matches the source. All268 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r386/validation.json`.
 
 The catalogue has269 data recipes. Automatic core coverage remains196 of342 physical models, with146 without automatic core controls. Thirty-five records still need a first protocol implementation. Full theoretical support and physical/iPad/A10X acceptance remain open.
+
+
+## R387 independent VMS4.1 Traktor manual mixer
+
+Assumption: use the independently listed Traktor-edition manufacturer table. Assign physical MIDILOG1-4 to native A-D explicitly. Require manual mixer ownership.
+
+The [manufacturer service page](https://www.adj.com/collections/vms4-1-traktor-parts) links the Traktor-edition MIDI table and manual. The table fixes MIDI channel1. Its pages6-8 were visually reviewed. The24-input manual subset contains four five-CC gain/EQ/linefader strips, masterCC28, normal crossfaderCC31, Cue mixCC34 and Cue gainCC35. All use the published0-127 ranges. The normal crossfader follows the table's left-to-right direction. C/D retain the app's four-deck option. Pickup protects existing app values.
+
+The table uses generic CUE/PLAY/PAUSE/HOT START labels. The Traktor manual shows PLAY/CUE/A-C/SHIFT controls. Those labels do not reconcile sufficiently for transport or bank inheritance. Transport, Shift, jogs, encoders, touch strips, source/mode changes and all hardware writes remain inactive. The manual warns that default Pre EQ duplicates software EQ. Use Post EQ for software EQ. Configure audio separately and avoid duplicate analogue/software mixer control. Complete external deck routing and physical/iPad/A10X acceptance remain open.
+
+Validation:225 Python checks and eight native tests passed, including the157-profile held-Cue corpus. Native fixtures cover every mixer input, direction, pickup, four-deck gating, inactive conflicting wires and distinct aliases. A real-WAV fixture retained finite, synced touch-started audio. The iPad framework compiled and its resource matches the source. All269 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r387/validation.json`.
+
+The catalogue has270 data recipes. Automatic core coverage remains196 of342 physical models, with146 without automatic core controls. Thirty-four records still need a first protocol implementation. Full theoretical support remains open.

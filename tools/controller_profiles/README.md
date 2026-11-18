@@ -1053,3 +1053,10 @@ Initial/reconnected banks are A/B. Post EQ and deliberate analogue/software mixe
 The source2730-count jog scale conflicts with a manufacturer2000-point claim. Calibration remains provisional.
 Unqualified Shift, Vinyl/keylock, PFL, FX/pads, library encoder and hardware output stay inactive.
 No downloaded code, query, installer, firmware or audio command runs. Full modes and physical acceptance remain open.
+
+
+VMS4.1 Traktor has an independent24-input manual mixer subset from its separately listed manufacturer MIDI table.
+MIDI channel1 carries four gain/EQ/linefader strips, master28, normal crossfader31, Cue mix34 and Cue gain35.
+Native explicitly assigns physical MIDILOG1-4 to A-D. Pickup and four-deck gating retain existing app controls.
+Generic transport labels conflict with the Traktor faceplate. No sibling transport/bank/jog/Shift or hardware write is inherited.
+Use Post EQ for software EQ and deliberate analogue/software ownership. External audio and physical acceptance remain open.

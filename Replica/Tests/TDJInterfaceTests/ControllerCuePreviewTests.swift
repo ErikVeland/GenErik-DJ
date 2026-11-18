@@ -2533,3 +2533,16 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueVMS41TraktorMixerKeepsTouchStartedAudioFiniteAndSynced() async throws {
+    try await withControllerCuePlayback("American Audio VMS4.1 Traktor",manual:true) { model,input in
+        input.onTargetAction?(.init(.playA,deck:.a),1)
+        input.currentTargetValue = {model.controllerValue($0.action,targetDeck:$0.deck)}
+        cuePreviewPacket([0xB0,4,127,1,64,2,64,3,64],to:input)
+        let audio = model.playback.core.renderOffline(frames:4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

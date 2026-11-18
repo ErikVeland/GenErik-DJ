@@ -2949,12 +2949,9 @@ class GeneratedCatalogueTests(unittest.TestCase):
             self.assertFalse(model["zeroConfig"]["automaticControls"])
             self.assertFalse(model["theoreticalSupport"]["criteria"]["audioRoutingImplemented"])
             self.assertIn("separate deck outputs", model["audioRouting"])
-            if name == "VMS4.1 Traktor":
-                self.assertEqual(model["implementation"], "protocol-needed")
-                self.assertNotIn("profile", model)
-            elif name == "VMS5":
+            if name in {"VMS4.1 Traktor", "VMS5"}:
                 self.assertEqual(model["implementation"], "partial-midi-profile")
-                self.assertEqual(model["profile"], "American Audio VMS5")
+                self.assertEqual(model["profile"], "American Audio " + name)
         for name in ["American Audio VMS2", "American Audio VMS4/4.1"]:
             profile = next(p for p in runtime["profiles"] if p["id"] == name)
             self.assertFalse(profile["autoSelect"])
