@@ -30891,48 +30891,66 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton%20SCS.3m.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton%20SCS.3m.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton-SCS3m-scripts.js"
       ],
       "definitions": [
-        "Stanton SCS.3m.midi.xml"
+        "Stanton SCS.3m.midi.xml",
+        "reviewed:scs3m-fixed-mixer"
       ],
-      "implementation": "adapter-needed",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Stanton SCS.3m",
+      "automaticControls": true,
+      "controlActions": [
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "highA:a",
+        "highB:b",
+        "levelA:a",
+        "levelB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "shift"
+      ],
+      "inputBindingCount": 28,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Automatic fixed native A/B EQ mixer after paced transient flat/absolute setup through one paired MIDI output. Software deck/FX/Master alternatives remain inactive."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "adapter-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "A controller-specific protocol adapter is required."
+        "Fixed native A/B EQ mixer only. Absolute top sliders deliberately replace source relative filter response. Software C/D/deck/FX/Master selection, slider resets and relative alternatives, soft-button FX assignments, coordinated SCS.3d state, meters/lighting, delayed shutdown/full lifecycle and physical/A10X acceptance remain open. Manual setup without an established automatic paired session is not implemented. No factory reset, persistent preset or audio interface is inferred."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -321908,6 +321926,41 @@
         },
         {
           "reason": "Manual DIN MIDI through a separate interface, with hardware section/channel setup. The mixer has no USB MIDI or digital audio interface. Fixed native crossfader omits source assignment/enable/curve/reverse semantics. Hardware trim, kills, microphone/sampler/FX, staggered full light initialisation and complete output/lifecycle and physical/A10X acceptance remain open. PFL outputs are CC63/73/83/93, not their input Notes."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:scs3m-fixed-mixer",
+      "name": "Stanton SCS.3m",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton-SCS3m-scripts.js",
+        "sha256": "f4f3fcc33a16a862c1ea9c5eb971f4b8ee14886b716907c536a2cd9b73dffb42",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton%20SCS.3m.midi.xml",
+            "sha256": "b32516ac22c7853c31690e0e017de4aefdbf7ad34fe2a80187a2fb4e209a06a5"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton-SCS3m-scripts.js",
+            "sha256": "f4f3fcc33a16a862c1ea9c5eb971f4b8ee14886b716907c536a2cd9b73dffb42"
+          },
+          {
+            "url": "https://manual.mixxx.org/2.5/en/hardware/controllers/stanton_scs3m"
+          }
+        ],
+        "review": "Independent source defines transient flat mode F0/00/01/60/15/01/F7. Slider modes use channel16 CCid/70 absolute followed immediately by CCid/7F termination, then20 ms settling. Source explicitly uses absolute mode for top0/1 and volume8/9 sliders. Native fixed A/B layout selects those four absolute modes after flat mode; EQ2..7 and crossfader10 retain the flat source's absolute interpretation. Each delay begins after actual send completion. Startup requires one paired physical output; input stays inactive until the last settling interval completes. Earlier queued frames cannot dispatch, while later valid frames retain their hardware-ready timestamp. Left/right CC0/1 controls native absolute filter instead of source relative filter; EQ low2/3,mid4/5,high6/7,volume8/9, crossfader10 and PFL Notes8/9 retain wire assignments. Soft/FX/EQ/Master/deck buttons0..7/10..16 are separate held guards in this fixed layout. Source software deck/FX/Master modes, relative alternatives, meters/lighting, delayed shutdown and full lifecycle remain open. No factory reset F0/00/01/60/40/F7, persistent preset, sibling protocol or audio route is inferred. Manual application without an established automatic paired setup session is rejected. Physical/A10X acceptance remains open."
+      },
+      "implementedInputCount": 28,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Fixed native A/B EQ mixer only. Absolute top sliders deliberately replace source relative filter response. Software C/D/deck/FX/Master selection, slider resets and relative alternatives, soft-button FX assignments, coordinated SCS.3d state, meters/lighting, delayed shutdown/full lifecycle and physical/A10X acceptance remain open. Manual setup without an established automatic paired session is not implemented. No factory reset, persistent preset or audio interface is inferred."
         }
       ]
     },

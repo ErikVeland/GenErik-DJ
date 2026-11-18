@@ -101,6 +101,7 @@ struct ControllerProfileData: Decodable, Sendable {
     let inputs: [Input]
     let outputs: [Output]
     let startup: [[UInt8]]
+    let startupDelaysMilliseconds: [UInt16]?
     let shutdown: [[UInt8]]
     let autoSelect: Bool
     let scope: String
@@ -120,7 +121,7 @@ struct ControllerProfileData: Decodable, Sendable {
                 ?? true)
             && (excludedAliases?.count ?? 0) <= 24
             && (excludedAliases ?? []).allSatisfy { !$0.isEmpty && $0.count <= 128 }
-            && validInputModes && validBankChanges && (audioOutput == nil || autoSelect)
+            && validInputModes && validBankChanges && validStartupTiming && (audioOutput == nil || autoSelect)
             && inputs.allSatisfy { input in
                 guard let channel = input.shiftChannel else { return true }
                 return channel < 16 && inputs.contains { $0.action == .shift && $0.shiftChannel == channel }
@@ -224,13 +225,20 @@ struct ControllerProfileData: Decodable, Sendable {
             }
     }
 
-    static func validSetupMessage(_ bytes: [UInt8]) -> Bool {
-        if bytes.count == 3 {
-            return (0x80...0xEF).contains(bytes[0]) && bytes[1] < 128 && bytes[2] < 128
+    var hasDelayedStartup: Bool { startupDelaysMilliseconds?.contains { $0 > 0 } == true }
+
+    var startupSteps: [ControllerMIDISetupStep] {
+        zip(startup, startupDelaysMilliseconds ?? []).map {
+            .init(message: $0.0, delayMilliseconds: $0.1)
         }
-        return (4...128).contains(bytes.count) && bytes.first == 0xF0 && bytes.last == 0xF7
-            && bytes.dropFirst().dropLast().allSatisfy { $0 < 128 }
     }
+
+    private var validStartupTiming: Bool {
+        guard let delays = startupDelaysMilliseconds else { return true }
+        return delays.count == startup.count && ControllerMIDISetupSequence(steps: startupSteps, startingAt: 0) != nil
+    }
+
+    static func validSetupMessage(_ bytes: [UInt8]) -> Bool { ControllerMIDISetupStep.validMessage(bytes) }
 
     private static func validArgument(_ input: Input) -> Bool {
         switch input.action {

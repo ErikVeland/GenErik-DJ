@@ -998,6 +998,23 @@ class GeneratedCatalogueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
 
+    def test_scs3m_has_timed_transient_absolute_setup_and_guarded_fixed_mixer(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Stanton SCS.3m"),None)
+        self.assertIsNotNone(item,"SCS.3m needs paced transient mode setup before input")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),28)
+        self.assertEqual(item["startup"],[ [0xF0,0,1,96,21,1,0xF7] ] + [m for number in [0,1,8,9] for m in [[0xBF,number,112],[0xBF,number,127]]])
+        self.assertEqual(item["startupDelaysMilliseconds"],[20,0,20,0,20,0,20,0,20])
+        self.assertFalse(item["outputs"] or item["shutdown"])
+        self.assertNotIn([0xF0,0,1,96,64,0xF7],item["startup"])
+        self.assertNotIn("audioOutput",item)
+        self.assertEqual(sum(r["action"]=="shift" for r in item["inputs"]),15)
+        from scs3m import SCS3M_SOURCES
+        for filename,digest in SCS3M_SOURCES:
+            path=ROOT/"TestBuilds/r169/upstream/res/controllers"/filename
+            if path.exists(): self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),digest)
+
     def test_ddm4000_has_independent_manual_din_mixer_and_separate_pfl_cc_lights(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="Behringer DDM4000"),None)

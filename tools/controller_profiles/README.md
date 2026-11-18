@@ -824,3 +824,12 @@ The source helper staggers component initialisation at40 ms; it does not enforce
 MIDI CC light echoes, hardware trim, microphone, sampler, curve/reverse and assignment inputs cannot become unrelated actions.
 The DDM4000 requires a DIN MIDI interface and separate audio routing. It has no USB MIDI or digital audio interface. Automatic selection stays off.
 Full modes/output/lifecycle and physical acceptance remain open.
+
+### Timed factory setup and SCS.3m (R338)
+
+`scs3m.py` adds fixed native A/B mixer controls behind transient flat/absolute mode setup.
+`startupDelaysMilliseconds` is optional. Its count must match startup messages, with at most1,000 ms per step and5,000 ms total.
+`ControllerMIDISetupSequence` measures each wait from actual send completion. The input polling loop advances at most64 packets per call across at most16 pending sources.
+Known timed inputs and ordinary output remain inactive until setup finishes. Failure/disconnect cancels pending work. Explicit discovery can retry.
+Queued input before the hardware-ready deadline cannot dispatch. Manual application requires an established automatic paired session.
+SCS.3m uses nine packets and five20 ms waits. Full software modes, meters/lights, shutdown/lifecycle and physical acceptance remain open.

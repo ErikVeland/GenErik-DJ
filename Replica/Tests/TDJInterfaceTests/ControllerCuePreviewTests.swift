@@ -6,6 +6,8 @@ import Testing
 
 @MainActor private func withControllerCuePlayback(
     _ name: String = "DJ2GO2 Touch", manual: Bool = false, ports: [String] = [],
+    setupClock: @escaping () -> UInt64 = { DispatchTime.now().uptimeNanoseconds },
+    prepareInput: ((ControllerMIDIConnection) -> Void)? = nil,
     _ body: (ReplicaModel, ControllerMIDIConnection) async throws -> Void
 )
     async throws
@@ -23,7 +25,8 @@ import Testing
     let suite = "cue-preview-\(UUID().uuidString)"
     let preferences = UserDefaults(suiteName: suite)!
     defer { preferences.removePersistentDomain(forName: suite) }
-    let input = ControllerMIDIConnection(preferences: preferences, factoryPacketSender: { _, _ in true })
+    let input = ControllerMIDIConnection(
+        preferences: preferences, factoryPacketSender: { _, _ in true }, factorySetupClock: setupClock)
     input.sources = [
         .init(
             id: 10, reference: 100, name: name,
@@ -37,6 +40,7 @@ import Testing
     input.onTargetAction = model.controllerInput.onTargetAction
     input.onJogAction = model.controllerInput.onJogAction
     input.reconcileFactoryProfiles()
+    prepareInput?(input)
     if manual {
         input.select(10)
         input.applyFactoryProfile(try #require(ControllerFactoryProfile.matching([name])))
@@ -1765,6 +1769,27 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
     try await withControllerCuePlayback("Behringer DDM4000", manual: true) { model, input in
         model.pressPlay(deck: .a, vinylStop: false)
         input.receiveBytes([0xB0, 4, 64, 5, 64, 6, 64, 7, 127, 21, 0, 0x90, 63, 127, 63, 0], source: 10)
+        input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test @MainActor func controllerTimedSetupSCS3mNativeMixerKeepsAudioAndSync() async throws {
+    var now: UInt64 = 0
+    try await withControllerCuePlayback(
+        "Stanton SCS.3m", setupClock: { now }, prepareInput: { input in
+            for _ in 0..<5 {
+                now += 20_000_000
+                input.advanceFactorySetups()
+            }
+        }
+    ) { model, input in
+        model.pressPlay(deck: .a, vinylStop: false)
+        input.receiveBytes([0xB0, 0, 64, 2, 64, 4, 64, 6, 64, 8, 127, 10, 0, 0x90, 8, 127, 8, 0], source: 10)
         input.flushPendingActions()
         let audio = model.playback.core.renderOffline(frames: 4096)
         model.refreshPlayback()
