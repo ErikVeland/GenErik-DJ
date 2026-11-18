@@ -1404,3 +1404,17 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueDJ3NativeCueAcrossBankAndPlayKeepAudioAndSync() async throws {
+    try await withControllerCuePlayback("Faderfox DJ3") { model,input in
+        cuePreviewPacket([0x93,90,127,72,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x83,106,127,80,127,0x93,89,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        let samples = model.playback.core.renderOffline(frames:4096)
+        model.refreshPlayback()
+        #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}

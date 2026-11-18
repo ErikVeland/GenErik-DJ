@@ -3861,3 +3861,21 @@ Source base: `c418214`. Mapping-source access, mode/endpoint protocol, setup and
 All147 importer checks pass. The existing AFX benchmark record now carries the pinned source-access audit. All197 runtime recipes and resource bytes remain unchanged. No Swift/iPad rebuild was needed for this metadata-only change.
 Evidence remains in `TestBuilds/r318/`. The repository check retains twelve historical broken links. Counts stay318 records/311 physical models,197 data recipes,165 automatic core physical models and71/122 benchmark models.
 No runtime, full theoretical support, signed app, install or physical acceptance is claimed for AFX.
+
+## R319 Faderfox DJ3 independent input core
+
+Assumption: the named class-compliant DJ3 port and four manufacturer-selectable MIDI channels allow automatic input matching. The manufacturer's TSI uses wire channel3 and confirms7Fh/01h gain/pitch/browser encoders. The manual has shared and separate A/C-B/D pot addressing. Exclude all EQ/filter pots until that state is qualified. The PCDJ lamp/reset code uses unrelated addresses and is not inherited.
+
+- [x] Confirm the importer fixture fails without a DJ3 recipe. Pin manufacturer manual/setup and the independent PCDJ source.
+- [x] Add normal four-target transport, held Cue/bends, source relative gain/pitch, distinct level/PFL addresses, four cues and global controls. Accept only the four selectable channels. Add opposite-bank critical release aliases. Emit no output/reset/audio packet.
+- [x] Verify four-channel input, C/D opt-in, encoder counts, inactive shared pots, held release ownership and real-WAV Cue/Play/Sync. Run importer checks and compile the iPad framework. Compare previous recipes and resource bytes.
+
+Source base: `7ef47eb`. Generic USB Audio Device naming, pot ownership, full Shift/loop/FX modes, lights/lifecycle, calibration and physical acceptance remain open.
+
+The named-port DJ3 recipe adds392 inputs across the four selectable MIDI channels, with four opt-in deck targets. No shared EQ/filter pot, generic USB-device alias, loop/FX mode or copied lamp/reset output is activated.
+The first native run exposed a catalogue-wide size failure: pretty JSON reached4,196,910 bytes, exceeding the unchanged4 MiB native limit. The loader rejected all data profiles. The generator now writes compact UTF-8 JSON and rejects oversized resources before writing either output. New tests cover the byte limit, multibyte text and data-preserving encoding.
+The resource is now2,235,212 bytes. All197 earlier recipes retain identical data; only runtime whitespace changes. The compiled iPad resource matches the source byte for byte.
+All150 importer checks,9 focused native checks and iPad framework compilation pass. Native checks cover the full catalogue load, oversized rejection,141 reviewed factory Cue profiles, four selectable MIDI channels, bank releases and real-WAV Play/Cue/Sync.
+The failed size/native logs and final source-bound evidence remain in `TestBuilds/r319/`. The repository check retains twelve historical broken links.
+The catalogue reaches319 records/312 physical models and198 data recipes. Automatic core coverage reaches166 physical models; the benchmark stays71/122.
+Generic port naming, pot ownership, full Shift/button/loop/FX modes, lights/lifecycle, calibration and physical/A10X acceptance remain open. No signed app or install is claimed.

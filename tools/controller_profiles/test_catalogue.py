@@ -986,6 +986,36 @@ class GeneratedCatalogueTests(unittest.TestCase):
             if path.exists():
                 self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
 
+    def test_bundled_runtime_fits_the_native_four_mib_limit(self):
+        path=ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json"
+        self.assertLessEqual(path.stat().st_size,4*1024*1024,"The native loader rejects larger catalogues")
+
+    def test_runtime_encoder_preserves_data_and_rejects_oversized_utf8(self):
+        from build_catalogue import encode_runtime
+        value={"schemaVersion":1,"profiles":[{"scope":"Café – cue"}]}
+        self.assertEqual(json.loads(encode_runtime(value)),value)
+        self.assertLess(len(encode_runtime(value)),len(json.dumps(value,indent=2)))
+        with self.assertRaises(ValueError):
+            encode_runtime({"scope":"é"*(2*1024*1024)})
+
+    def test_dj3_core_covers_named_port_and_four_configurable_channels_without_shared_pots(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"] == "Faderfox DJ3"),None)
+        self.assertIsNotNone(item,"DJ3 needs its own reviewed input core")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),392)
+        self.assertEqual({r["channel"] for r in item["inputs"]},{0,1,2,3})
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        self.assertFalse(any(r["action"].startswith(("high","mid","low","filterKnob","jog","loop")) for r in item["inputs"]))
+        self.assertFalse(any("usb audio device" in a.lower() for a in item["aliases"]))
+        self.assertEqual(sum(r["action"].startswith("hotcue") for r in item["inputs"]),64)
+        from faderfox_dj3 import DJ3_SOURCES
+        for relative,digest in DJ3_SOURCES:
+            path=ROOT/relative
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),digest)
+
     def test_afx_source_access_audit_does_not_invent_a_runtime_mapping(self):
         from manufacturer_inventory import SOURCE_AUDITS
         self.assertTrue("Akai Pro AFX" in SOURCE_AUDITS,"The AFX source-access limit needs a recorded audit")

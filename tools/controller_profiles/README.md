@@ -672,3 +672,12 @@ The mode state still changes before action dispatch. The connection sends no mod
 Specify both values for reviewed mode feedback. An incomplete pair is invalid.
 Party Mix Live uses input-only modes for its Cue and Loop pads. Sampler and Effect mode selections block those actions.
 This does not supply cue deletion, held Pad Mode behaviour or automatic audio routing.
+
+### Runtime resource size (R319)
+
+The native loader accepts at most 4 MiB of UTF-8 JSON. Keep this limit unchanged.
+The generator writes compact runtime JSON and checks its byte count before it writes either output.
+Oversized output fails generation. The review catalogue retains its readable format.
+R319 caught a 4,196,910-byte resource that caused the native loader to reject all data profiles.
+Compact JSON reduced it to 2,235,212 bytes without changing the earlier profile data.
+Importer size checks and native catalogue-load checks cover this boundary.

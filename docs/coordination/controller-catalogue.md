@@ -8,9 +8,9 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 164 Mixxx definitions at `20f2c218ae1b762ac39fd76ff408c8428056f4f7`, including alternative MIDI, HID and bulk mappings.
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
-- 318 total catalogue records. 311 name physical models. The remainder identify software endpoints or protocol families.
-- 197 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 151 factory profiles select core controls automatically for 159 physical models.
+- 319 total catalogue records. 312 name physical models. The remainder identify software endpoints or protocol families.
+- 198 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 152 factory profiles select core controls automatically for 160 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -219,7 +219,7 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 36 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 153 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 154 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
@@ -456,6 +456,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | EKS Otus HID | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/EKS%20Otus.hid.xml) |
 | Electrix Tweaker | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Electrix%20Tweaker.midi.xml) |
 | FaderFox DJ2 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/FaderFoxDJ2.midi.xml) |
+| Faderfox DJ3 | primary | automatic-core-profile | [Reference](https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg) |
 | Gemini CDMP-7000 L | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Gemini%20CDMP-7000%20L%20audio.midi.xml) |
 | Gemini CDMP-7000 R | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Gemini%20CDMP-7000%20R%20audio.midi.xml) |
 | Gemini FirstMix | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Gemini%20FirstMix.midi.xml) |
