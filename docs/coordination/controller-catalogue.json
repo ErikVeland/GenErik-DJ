@@ -11286,6 +11286,105 @@
       }
     },
     {
+      "id": "behringercmdstudio2a",
+      "name": "Behringer CMD STUDIO 2a",
+      "manufacturer": "Behringer",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg"
+      ],
+      "definitions": [
+        "reviewed:behringer-cmd-studio-2a"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Behringer CMD STUDIO 2a",
+      "automaticControls": true,
+      "controlActions": [
+        "browseNext",
+        "browsePrevious",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b"
+      ],
+      "inputBindingCount": 41,
+      "feedbackBindingCount": 14,
+      "connection": "USB MIDI",
+      "audioRouting": "Automatic master 1–2 / headphones 3–4",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Default MIDI channel1 (wire0). User-changed channels require the documented factory reset."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": true,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "User-changed MIDI channels are not reset automatically. Sampler, Assign/Mode alternate layouts, folder focus, software Vinyl toggle, on-beat Sync lamps, full lifecycle/output and native pitch/jog calibration remain open. No STUDIO 4a protocol is inherited. Direct iPad USB/audio and physical acceptance remain unverified."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
       "id": "behringercmdstudio4a",
       "name": "Behringer CMD STUDIO 4a",
       "manufacturer": "Behringer",
@@ -319562,6 +319661,36 @@
       ]
     },
     {
+      "id": "reviewed:behringer-cmd-studio-2a",
+      "name": "Behringer CMD STUDIO 2a",
+      "transport": "midi",
+      "source": {
+        "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+        "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+        "archiveMember": "Applications/DEX4.app/Contents/Resources/controllers/Behringer__CMD_Studio_2A.js",
+        "memberSha256": "3212396251cba387cb75a40ce2e787e189a76164a741272b6ec7a304b5ff5df7",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/wiki/Behringer-Cmd-Studio-2A",
+            "sha256": "7126f052cfe5acf5ba52dd81fd9492d9d6418181ad79bf9e5cd25c24fee15954"
+          }
+        ],
+        "review": "Independent STUDIO 2a script identifies MIDI name Studio 2A and primary USB1397:00C7. Its secondary PID contains literal0x????; no script executes and no secondary identifier is adopted. The original Mixxx mapping guide independently confirms default MIDI channel0, physical touch and master1/2 plus headphones3/4. User-changed channels require reset to the documented default; no unqualified channel-change packet is emitted. On channel0, A/B address offset48 supplies held Cue1/49, Play2/50, contact3/51, Sync4/52, bends6/7 and54/55, PFL22/70 and Load23/71. JogCC3/51 and relative pitchCC5/53 use raw-minus64. Native fixed touch replaces the software Vinyl toggleNote34; its source lamp uses1/on and0/off. Native encoder adjustment is retained; source jog170 is software calibration, not measured counts. High/mid/lowCC19/20/21 plus48 and level24/72 are separate from crossfader32 and monitor33. Four cue notes10..13 and58..61 use source127-valued input, with1/0 lamp output. NavigationNotes36/39 move previous/next track;38 toggles selection. Folder37 semantics remain inactive. Play/Cue/PFL and Hot Cue lights use1/0, not127/on. Sync is on-beat output and is not replaced by a steady lamp. Sampler, Mode/Assign alternate software layouts, full lifecycle/output, non-default channels, native pitch/jog calibration and direct iPad USB/audio acceptance remain open. STUDIO 4a is not an alias."
+      },
+      "implementedInputCount": 41,
+      "implementedOutputCount": 14,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and input audio routing remain unimplemented."
+        },
+        {
+          "reason": "User-changed MIDI channels are not reset automatically. Sampler, Assign/Mode alternate layouts, folder focus, software Vinyl toggle, on-beat Sync lamps, full lifecycle/output and native pitch/jog calibration remain open. No STUDIO 4a protocol is inherited. Direct iPad USB/audio and physical acceptance remain unverified."
+        }
+      ]
+    },
+    {
       "id": "manufacturer:pioneerddjrev7",
       "name": "Pioneer DDJ-REV7",
       "transport": "midi",
@@ -319616,7 +319745,7 @@
     "theoreticalSupport": {
       "complete": false,
       "implementedModels": 0,
-      "targetModels": 309,
+      "targetModels": 310,
       "requiresPhysicalTestForEveryModel": false
     },
     "reason": "Documented implementation gaps block theoretical completion. Physical tests are separate evidence, not a per-model completion requirement."

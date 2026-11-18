@@ -3784,3 +3784,19 @@ All142 importer checks,6 focused native checks and iPad framework compilation pa
 All191 earlier runtime recipes remain unchanged. Compiled resource bytes match the source. Evidence remains in `TestBuilds/r313/`.
 The catalogue now has316 records/309 physical models and192 data recipes. Automatic core coverage reaches164 physical models; the benchmark stays71/122.
 The repository check retains twelve historical broken links. Full modes/lifecycle/output, scaled Master, calibration, iPod/audio routing and direct iPad attachment remain open. No signed app, install or physical/A10X acceptance is claimed.
+
+## R314 Independent CMD STUDIO 2a core
+
+Assumption: the STUDIO 2a source qualifies distinct normal controls. The original Mixxx mapping guide confirms default wire channel0 and master1/2 with headphones3/4. The PCDJ file contains an invalid secondary PID placeholder. Its reviewed address facts are reused without executing that file or adopting the placeholder.
+
+- [x] Confirm the importer fixture fails without a recipe.
+- [x] Add normal transport, held Cue/bend/contact, relative jog/pitch, EQ/level, four cues, browsing and source-valued steady lamps. Add only the documented split audio route.
+- [x] Verify independent deck actions, encoder counts, one-valued lamps and real-WAV Cue/touch/Sync. Run importer checks and compile the iPad framework. Compare previous recipes and resource bytes.
+
+Source base: `93c7390`. Non-default MIDI channels, full modes/lifecycle/output, pitch/jog calibration and physical USB/audio acceptance remain open.
+
+The independent recipe adds41 inputs and14 steady lamp outputs. Source relative pitch/jog encoders and one-valued lamps remain distinct from STUDIO 4a. The original mapping guide qualifies automatic master1/2 and headphones3/4.
+All143 importer checks,8 focused native tests with32 audio-routing cases and iPad framework compilation pass. Real-WAV checks verify Cue/contact release, Hot Cue playback, finite audio and saved Sync.
+All192 earlier runtime recipes remain unchanged. Compiled resource bytes match the source. Expected missing-profile and audio-whitelist failures remain in `TestBuilds/r314/` with final source-bound evidence.
+The catalogue now has317 records/310 physical models and193 data recipes. Automatic core coverage reaches165 physical models; the benchmark stays71/122.
+The repository check retains twelve historical broken links. Non-default MIDI channels, full modes/lifecycle/output, pitch/jog calibration and physical USB/audio acceptance remain open. No signed app or install is claimed.

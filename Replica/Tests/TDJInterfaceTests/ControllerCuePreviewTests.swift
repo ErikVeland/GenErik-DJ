@@ -1343,3 +1343,20 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueStudio2ANativeCueTouchAndHotCueKeepAudioAndSync() async throws {
+    try await withControllerCuePlayback("Studio 2A") { model, input in
+        cuePreviewPacket([0x90,1,127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80,1,127,0x90,3,127,0xB0,3,65], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x90,3,0,10,127,0x80,10,0], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        let samples = model.playback.core.renderOffline(frames:4096)
+        model.refreshPlayback()
+        #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}

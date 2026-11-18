@@ -986,6 +986,24 @@ class GeneratedCatalogueTests(unittest.TestCase):
             if path.exists():
                 self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
 
+    def test_studio2a_has_independent_encoders_one_valued_lamps_and_split_audio(self):
+        runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item = next((r for r in runtime["profiles"] if r["id"] == "Behringer CMD STUDIO 2a"), None)
+        self.assertIsNotNone(item, "STUDIO 2a needs an independent recipe")
+        self.assertTrue(item["autoSelect"])
+        self.assertIn("Studio 2A", item["aliases"])
+        self.assertEqual((len(item["inputs"]),len(item["outputs"])),(41,14))
+        self.assertEqual(item["audioOutput"],"masterAndHeadphones")
+        self.assertEqual({r["channel"] for r in item["inputs"]},{0})
+        self.assertTrue(all(r["encoding"] == "binaryOffset" for r in item["inputs"] if r["action"] in {"tempoA","tempoB","jogA","jogB"}))
+        self.assertTrue(all((r["onValue"],r["offValue"]) == (1,0) for r in item["outputs"]))
+        self.assertFalse(any(r["action"] in {"syncA","syncB"} for r in item["outputs"]))
+        from studio2a import STUDIO2A_SCRIPT_SHA, STUDIO2A_WIKI_SHA
+        for path,digest in [(ROOT/"TestBuilds/r301/upstream/controllers/Behringer__CMD_Studio_2A.js",STUDIO2A_SCRIPT_SHA),
+                            (ROOT/"TestBuilds/r314/upstream/Behringer-Cmd-Studio-2A.html",STUDIO2A_WIKI_SHA)]:
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),digest)
+
     def test_idj3_has_its_own_touch_core_without_ipod_or_scaled_master_assumptions(self):
         runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item = next((r for r in runtime["profiles"] if r["id"] == "Numark iDJ3"), None)
@@ -2062,7 +2080,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
             self.assertEqual(model["audioRouting"], "Automatic master 1–2 / headphones 3–4")
             self.assertTrue(model["theoreticalSupport"]["criteria"]["audioRoutingImplemented"])
             self.assertFalse(model["theoreticalSupport"]["complete"])
-            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct", "Behringer BCD3000", "Hercules DJ Control AIR", "Behringer CMD STUDIO 4a", "Stanton DJC.4", "Hercules P32 DJ", "Korg KAOSS DJ", "Reloop Digital Jockey 2 Interface Edition", "Numark Mixtrack Quad", "MixVibes U-Mix Control Pro", "Reloop Mixtour", "Reloop Beatpad 2"})
+            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct", "Behringer BCD3000", "Hercules DJ Control AIR", "Behringer CMD STUDIO 4a", "Stanton DJC.4", "Hercules P32 DJ", "Korg KAOSS DJ", "Reloop Digital Jockey 2 Interface Edition", "Numark Mixtrack Quad", "MixVibes U-Mix Control Pro", "Reloop Mixtour", "Reloop Beatpad 2", "Behringer CMD STUDIO 2a"})
 
     def test_scratch_requires_explicit_pulses_and_mode_guarded_shared_pads(self):
         result = scratch_profiles()[0]
