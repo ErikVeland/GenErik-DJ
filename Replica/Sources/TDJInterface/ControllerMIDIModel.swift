@@ -164,7 +164,7 @@ extension ReplicaModel {
         let mixer = snapshot[deck].mixer
         switch action {
         case .playA, .playB: return snapshot[deck].phase == .playing ? 1 : 0
-        case .syncA, .syncB: return snapshot[deck].synced ? 1 : 0
+        case .syncA, .syncB, .syncStateA, .syncStateB: return snapshot[deck].synced ? 1 : 0
         case .keylockA, .keylockB, .keylockStateA, .keylockStateB: return snapshot[deck].keylock ? 1 : 0
         case .pitchBendDownA, .pitchBendDownB, .pitchBendUpA, .pitchBendUpB:
             return controllerPitchBendButtons[deck]?.isPressed(
@@ -207,6 +207,7 @@ extension ReplicaModel {
             if !finishControllerCue(deck, continuePlaying: true) { pressPlay(deck: deck) }
         case .syncA, .syncB: toggleSync(deck: deck)
         case .syncDisableA, .syncDisableB: setSync(false, deck: deck)
+        case .syncStateA, .syncStateB: setSync(value > 0, deck: deck)
         case .keylockA, .keylockB: toggleKeylock(deck: deck)
         case .keylockStateA, .keylockStateB:
             guard playbackSnapshot?[deck].phase != .empty else { return }

@@ -2019,3 +2019,21 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueSP404NativeSyncAndPFLStatesStayIdempotentDuringRealAudio() async throws {
+    try await withControllerCuePlayback("Roland SP-404MKII", manual: true) { model, input in
+        model.pressPlay(deck: .a, vinylStop: false)
+        for enabled in [false, false, true, true, false, true] {
+            cuePreviewPacket([0xB0, 22, enabled ? 127 : 0, 23, enabled ? 127 : 0], to: input)
+            #expect(model.playbackSnapshot?.a.synced == enabled)
+            #expect(model.playbackSnapshot?.a.mixer.cue == enabled)
+            #expect(model.controllerValue(.syncStateA) == (enabled ? 1 : 0))
+        }
+        cuePreviewPacket([0xB0, 7, 64, 8, 64, 24, 127, 24, 0], to: input)
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

@@ -861,6 +861,23 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_sp404mk2_dj_subset_keeps_state_ccs_and_does_not_infer_serato_or_sample_modes(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Roland SP-404MKII"),None)
+        self.assertIsNotNone(item,"SP-404MKII needs an independent manual DJ-mode CC subset")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),11)
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        self.assertEqual({r["kind"] for r in item["inputs"]},{"control"})
+        for channel,deck in enumerate("ab"):
+            actual={(r["action"],r["number"]) for r in item["inputs"] if r.get("targetDeck")==deck}
+            self.assertEqual(actual,{(a+deck.upper(),n) for a,n in [("level",7),("syncState",22),("cueState",23),("pitchBendUp",24),("pitchBendDown",25)]})
+            self.assertEqual({r["channel"] for r in item["inputs"] if r.get("targetDeck")==deck},{channel})
+        self.assertEqual([(r["number"],r["channel"]) for r in item["inputs"] if r["action"]=="crossfader"],[(8,0)])
+        from sp404mk2 import SP404_SHA
+        self.assertEqual(hashlib.sha256((ROOT/"TestBuilds/r351/upstream/SP-404MK2-v550.pdf").read_bytes()).hexdigest(),SP404_SHA)
+
     def test_rdj2_master_uses_its_own_driver_midi_table_without_interface_mode_inheritance(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="Reloop Digital Jockey 2 Master Edition"),None)

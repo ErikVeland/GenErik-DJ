@@ -31213,46 +31213,63 @@
       "role": "primary",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://static.roland.com/assets/media/pdf/SP-404mk2_v550_reference_eng04_W.pdf"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:sp404mk2-dj-cc"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Roland SP-404MKII",
+      "automaticControls": false,
+      "controlActions": [
+        "crossfader",
+        "cueStateA:a",
+        "cueStateB:b",
+        "levelA:a",
+        "levelB:b",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "syncStateA:a",
+        "syncStateB:b"
+      ],
+      "inputBindingCount": 11,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual ordinary DJ mode, with separate app audio. Serato control mode and sample/Looper/Chromatic modes are not this MIDI contract."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Manual ordinary DJ mode with separate audio only. Native Play-state/return-to-start/BPM-step semantics, proprietary Serato mode handshake, sample/Chromatic/FX/Looper modes, full setup/output/lifecycle/audio and physical/A10X acceptance remain open. No stored setting, MIDI clock, firmware or output command is sent.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -323319,6 +323336,37 @@
         },
         {
           "reason": "Manual desktop-driver or bridge MIDI only; this model is not USB MIDI class compliant. Front channel selectors require MIDI. Native iPad access, driver/bridge discovery, full shifted/jog/FX modes, pitch polarity/calibration, output/setup/lifecycle/audio and physical/A10X acceptance remain open. No Interface Edition protocol, stored setting or output command is inferred."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:sp404mk2-dj-cc",
+      "name": "Roland SP-404MKII",
+      "transport": "midi",
+      "source": {
+        "url": "https://static.roland.com/assets/media/pdf/SP-404mk2_v550_reference_eng04_W.pdf",
+        "sha256": "ab7635f6bf4c702d21e03d4379dddd8e5ecfc64735d40990620f8e7a699c3dbd",
+        "relatedSources": [
+          {
+            "url": "https://static.roland.com/assets/media/pdf/SP-404MK2_v4_reference_eng02_W.pdf",
+            "sha256": "db784ba6a66b62616114fb0fd14e5904d7bf1230a5ade74091046fd0f5245977"
+          },
+          {
+            "url": "https://static.roland.com/manuals/sp-404mk2_serato_dj/en-US/297025419301529355.html"
+          }
+        ],
+        "review": "Manufacturer version5.50 reference, MIDI chart version5 dated2025-07-01, pages167-169. Independently agrees with version4's pages268-270. Ordinary DJ mode sends channel0/1 CC7 for A/B level, CC22 for explicit Sync state, CC23 for explicit headphone Cue state, CC24/25 for held pitch bends, and channel0 CC8 for crossfader. CC8 explicitly ranges from CH1:CH2=127:0 to0:127, so native polarity is unchanged. Direct Sync state sets the saved choice instead of toggling it and bypasses pickup just like direct PFL/keylock state. No invented LED output: the chart marksCC20-27 receive unsupported. PlayCC20 is state-valued, with an inconsistent01 example versus127 in the detailed table; native toggle Play must not consume it. Return-to-sample-start21 and BPM step26/27 stay inactive rather than substituting a different Cue or percentage step. Pattern-sequencer channel2, sample/Chromatic note banks, FX/looper CCs and MIDI clock do not control app decks. Standalone DJ mode and the version5 Serato-control screen are separate modes. The latter auto-connects in Serato through an unpublished host handshake, not this ordinary CC contract. Native profile selection remains manual with separate audio. No stored setting, firmware, mode-write or setup/output packet is sent. Full native Play-state, modes/output/lifecycle/audio and physical/A10X acceptance remain open."
+      },
+      "implementedInputCount": 11,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual ordinary DJ mode with separate audio only. Native Play-state/return-to-start/BPM-step semantics, proprietary Serato mode handshake, sample/Chromatic/FX/Looper modes, full setup/output/lifecycle/audio and physical/A10X acceptance remain open. No stored setting, MIDI clock, firmware or output command is sent."
         }
       ]
     },
