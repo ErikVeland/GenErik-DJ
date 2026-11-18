@@ -387,6 +387,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private var smk25Decoders: [Int32: ControllerSMK25Decoder] = [:]
     @ObservationIgnored private var cdj101Decoders: [Int32: ControllerCDJ101Decoder] = [:]
     @ObservationIgnored private var sr2Decoders: [Int32: ControllerSR2Decoder] = [:]
+    @ObservationIgnored private var keyLabDecoders: [Int32: ControllerKeyLabDecoder] = [:]
     @ObservationIgnored private var manualInputProtocols: [Int32: ControllerProfileData.InputProtocol] = [:]
     @ObservationIgnored private var bridgeDecoders: [Int32: ControllerBridgeDecoder] = [:]
     @ObservationIgnored private var bridgeConnected = false
@@ -588,6 +589,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         smk25Decoders.removeAll()
         cdj101Decoders.removeAll()
         sr2Decoders.removeAll()
+        keyLabDecoders.removeAll()
         bridgeDecoders.removeAll()
         shiftLayers.removeAll()
         channelShiftLayers.removeAll()
@@ -997,6 +999,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         smk25Decoders[source] = nil
         cdj101Decoders[source] = nil
         sr2Decoders[source] = nil
+        keyLabDecoders[source] = nil
         if wasConnected, connectedPorts[source] != inputPort(for: source) {
             disconnectInput(source)
             connectInput(source)
@@ -1026,6 +1029,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         smk25Decoders[id] = nil
         cdj101Decoders[id] = nil
         sr2Decoders[id] = nil
+        keyLabDecoders[id] = nil
         bridgeDecoders[id] = .init()
         updatePollingInterval()
         return true
@@ -1042,6 +1046,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         smk25Decoders[id] = nil
         cdj101Decoders[id] = nil
         sr2Decoders[id] = nil
+        keyLabDecoders[id] = nil
         bridgeDecoders[id] = nil
         shiftLayers[id] = nil
         channelShiftLayers[id] = nil
@@ -1836,6 +1841,32 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                     releaseMomentaryActions(source: source, decks: decks)
                     resetInputValueStates(inputBindings(source: source).filter {
                         $0.targetDeck.map { decks.contains($0) } == true
+                    })
+                }
+            }
+            return events.count
+        }
+        if inputProtocol(for: source) == .keyLabMKI {
+            var decoder = keyLabDecoders[source, default: .init()]
+            let events = decoder.append(bytes, timestamp: timestamp)
+            keyLabDecoders[source] = decoder
+            guard events.count <= limit else {
+                stop()
+                status = "Controller input overload. Reconnect to continue."
+                return nil
+            }
+            for event in events {
+                switch event {
+                case .message(let message): receive(message, source: source)
+                case .deckChanged:
+                    flushPendingActions()
+                    releaseMomentaryActions(source: source)
+                    resetInputValueStates(inputBindings(source: source).filter { $0.channel < 4 })
+                case .padLayerChanged:
+                    flushPendingActions()
+                    releaseMomentaryActions(source: source, resetJogs: false)
+                    resetInputValueStates(inputBindings(source: source).filter {
+                        $0.kind == .note && (64...71).contains($0.number)
                     })
                 }
             }

@@ -998,6 +998,22 @@ class GeneratedCatalogueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
 
+    def test_original_keylab_has_bounded_mmc_and_independent_88_key_core(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"] == "Arturia KeyLab 88 Mk 1"),None)
+        self.assertIsNotNone(item,"Original KeyLab needs MMC and reviewed normal controls")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual(item["inputProtocol"],"keyLabMKI")
+        self.assertEqual(len(item["inputs"]),83)
+        self.assertEqual(len([r for r in item["inputs"] if r["action"].startswith("hotcue")]),32)
+        self.assertEqual({r["channel"] for r in item["inputs"] if r["action"].startswith("hotcue")},{0,1,2,3})
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        from keylab import KEYLAB_SOURCES
+        for filename,digest in KEYLAB_SOURCES:
+            path=ROOT/"TestBuilds/r169/upstream/res/controllers"/filename
+            if path.exists(): self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),digest)
+
     def test_ddj_sr2_has_independent_manual_protocol_and_unknown_initial_load_bank(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"] == "Pioneer DDJ-SR2"),None)

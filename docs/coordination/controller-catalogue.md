@@ -9,10 +9,10 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 319 total catalogue records. 312 name physical models. The remainder identify software endpoints or protocol families.
-- 211 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 162 factory profiles select core controls automatically for 170 physical models.
+- 212 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 163 factory profiles select core controls automatically for 171 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
-- 136 physical models still lack automatic core controls.
+- 135 physical models still lack automatic core controls.
 - 312 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -220,8 +220,8 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 
 | State | Records | Meaning |
 | --- | ---: | --- |
-| adapter-needed | 24 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 164 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| adapter-needed | 23 | A referenced HID, bulk or script protocol needs an adapter. |
+| automatic-core-profile | 165 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
@@ -426,7 +426,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | American Audio VMS4.1 | primary | partial-midi-profile | [Reference](https://manual.mixxx.org/2.5/en/hardware/controllers/american_audio_vms4) |
 | American Audio VMS4.1 Traktor | primary | protocol-needed | [Reference](https://www.adj.eu/vms4-1-traktor) |
 | American Audio VMS5 | primary | protocol-needed | [Reference](https://www.adj.com/products/vms5) |
-| Arturia KeyLab Mk 1 | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/ArturiaKeyLab.midi.xml) |
+| Arturia KeyLab Mk 1 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/ArturiaKeyLab.midi.xml) |
 | Behringer BCD2000 | primary | partial-midi-profile | [Reference](https://github.com/anyc/snd-bcd2000) |
 | Behringer BCD3000 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20BCD3000%20Advanced.midi.xml) |
 | Behringer BCR2000 | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20BCR2000.midi.xml) |

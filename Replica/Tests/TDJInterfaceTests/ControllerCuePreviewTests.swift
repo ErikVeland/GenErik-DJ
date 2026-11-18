@@ -1666,3 +1666,23 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueKeyLabNativeMMCPulsesAndMixerKeepAudioAndSync() async throws {
+    try await withControllerCuePlayback("KeyLab 88") { model, input in
+        input.receiveBytes([0xF0, 0x7F, 0x7F, 6, 1, 0xF7], source: 10)
+        input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        input.receiveBytes([0xF0, 0x7F, 0x7F, 6, 2, 0xF7, 0xB0, 75, 64], source: 10)
+        input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        input.receiveBytes([0xF0, 0x7F, 0x7F, 6, 1, 0xF7], source: 10)
+        input.flushPendingActions()
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(model.playbackSnapshot?.a.phase.active == false && model.playbackSnapshot?.a.touchActive == false)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}

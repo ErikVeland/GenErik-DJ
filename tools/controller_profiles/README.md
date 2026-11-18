@@ -768,3 +768,14 @@ Only shared Note70/71 can produce logical Load126. The raw deck TRANS-parameter 
 The manual recipe retains all28 explicit14-bit pairs and distinct shifted release aliases. Normal pad addresses remain separate from other hardware pages.
 The pending-source inventory cannot override a reviewed recipe. The missing cold query keeps automatic selection off.
 Full Vinyl/Shift/pad/FX modes, output/lifecycle/routing, calibration and physical acceptance remain open.
+
+### Original KeyLab 88 input (R331)
+
+`keylab.py` names the original88-key profile explicitly. The generic source inventory record does not qualify smaller or later keyboard variants.
+`ControllerKeyLabDecoder` validates bounded broadcast MMC and emits native pulses. MMC does not provide physical hold duration.
+Ordinary piano notes, mod-wheel CC1 and alternate CC transport assignments remain inactive.
+Sound/Multi uses the pinned275 ms timing. Released snapshots choose the two cue layouts or the inactive sampler layer.
+Selected controls use logical channels0..3. Fixed C/A/B/D faders and globals use logical channel4.
+Deck/layout changes release owned contacts and reset affected pickup/debounce. Source-specific state resets on reconnect.
+The explicit XML input dispatch takes priority over conflicting component MIDI fields. No output or persistent preset is written.
+Complete menus, extra cues, samplers/recording, delayed display/lights, calibration and physical acceptance remain open.

@@ -4058,3 +4058,22 @@ All164 importer checks,39 native checks and iPad framework compilation pass. Nat
 The generator now preserves an implemented reviewed profile when it also has a pending manufacturer record. SR2 moves from adapter-needed to a manual partial profile. The missing cold query remains a visible gap.
 Earlier210 recipes retain identical data. The compiled resource matches the source byte for byte. The catalogue reaches211 data recipes. Automatic core remains176 physical models with136 remaining. Full theoretical support remains open for312 models. The repository check retains twelve historical broken links.
 Cold-bank discovery, automatic selection/setup, complete modes/output/lifecycle, audio routing, native jog calibration, signed app/install and physical/A10X acceptance remain open. Continue through the remaining source-backed controllers.
+
+## R331 Original KeyLab 88 normal input core
+
+Assumption: use the pinned original KeyLab mapping's explicit XML input dispatch. Its component MIDI fields differ from the XML in places, so output is not inferred. The upstream manual qualifies only the original88-key model. Smaller variants, Essential and MkII/Mk3 remain separate.
+
+- [x] Confirm failing importer/native fixtures and pin the XML, device script and shared component timing.
+- [x] Decode only bounded six-byte broadcast MMC commands. Emit bounded native transport pulses because MMC supplies no release duration. Keep ordinary keyboard notes and mod-wheel CC1 out of DJ transport.
+- [x] Preserve the source's275 ms Sound/Multi deck selection, two cue layouts and inactive sampler layout. Add fixed C/A/B/D faders/pitch, globals, selected-deck gain/EQ/filter and eight native cues. Reset owned contacts and affected pickup/debounce on deck/layout changes.
+- [x] Verify mode/channel/address isolation, malformed/fragmented frames, timing boundaries, all four targets with C/D opt-in, controls/pads, source/reconnect/overload isolation and real-WAV transport/Sync. Run importer checks and compile the iPad framework. Compare earlier recipes.
+
+Input setup requires the original factory first control bank. No persistent preset or output packet is sent. MMC has no physical hold duration. Intro/outro markers, cues9–16, samplers, recording, menu/FX/skin actions, display/LED timing, full lifecycle/calibration and physical/A10X acceptance remain open.
+
+The wider reuse audit also checked VirtualDJ's public material. Its staff confirm that built-in wire definitions are not public. Custom mapper labels are not those definitions. [2025 source-access statement](https://virtualdj.com/forums/264927/VirtualDJ_Technical_Support/Creating_an_Traktor_Kontrol_S5_definition_file_from_an__Traktor_Kontrol_S8_or_D2_definition_file.html). No installer extraction or controller support is inferred from those labels.
+
+The 88-specific recipe adds83 logical bindings. Bounded MMC pulses preserve transport without inventing physical hold time. Ordinary keyboard notes and mod-wheel CC1 cannot become transport. The source275 ms selector timing and released snapshot controls retain separate per-source deck/layout state. Fixed C/A/B/D faders remain separate from selected-deck pickup.
+All165 importer checks,32 native checks and iPad framework compilation pass. Native checks cover malformed/fragmented/oversized MMC, timing boundaries/repeated presses, all source targets, fixed controls and selected knobs, both cue layouts, sampler blocking, learned Cue cleanup, source/reconnect/overload isolation and a real-WAV MMC/mixer/Sync flow. SR2/manual protocol regressions pass. The generic held-Cue fixture now covers146 automatic profiles; MMC physical hold duration remains unqualified.
+Only88-specific aliases select this profile. Generic KeyLab-family names and smaller/later variants do not select it. The catalogue retains its existing family inventory record while naming the implemented88-key profile explicitly.
+Earlier211 recipes retain identical data. The compiled resource matches the source byte for byte. The catalogue reaches212 data recipes and177 automatic-core physical records. The automatic-core remainder is135. Full theoretical support remains open for312 physical records. The repository check retains twelve historical broken links.
+Intro/outro, cues9–16, recording/samplers, menu/FX/skin actions, delayed display/LED output, complete lifecycle/calibration, signed app/install and physical/A10X acceptance remain open. Continue through the remaining source-backed controllers.

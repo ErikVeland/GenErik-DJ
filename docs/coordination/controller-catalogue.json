@@ -11010,48 +11010,135 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/ArturiaKeyLab.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/ArturiaKeyLab.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/ArturiaKeyLab.midi.xml"
       ],
       "definitions": [
-        "ArturiaKeyLab.midi.xml"
+        "ArturiaKeyLab.midi.xml",
+        "reviewed:keylab-mk1-88"
       ],
-      "implementation": "adapter-needed",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Arturia KeyLab 88 Mk 1",
+      "automaticControls": true,
+      "controlActions": [
+        "crossfader",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "jumpBackA:a",
+        "jumpBackA:c",
+        "jumpBackB:b",
+        "jumpBackB:d",
+        "jumpForwardA:a",
+        "jumpForwardA:c",
+        "jumpForwardB:b",
+        "jumpForwardB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "reloopB:d",
+        "tempoA:a",
+        "tempoA:c",
+        "tempoB:b",
+        "tempoB:d"
+      ],
+      "inputBindingCount": 83,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Original KeyLab88 factory first control bank. Initial selected deck A. Sound/Multi selects A/B; release after275 ms selects C/D, with app opt-in. Smaller and later variants remain unqualified."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "adapter-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "A controller-specific protocol adapter is required."
+        "Original88-key model only;25/49/61-key, Essential and MkII/Mk3 variants need independent qualification. MMC supplies pulses, not physical hold duration. Ordinary CC transport/mod-wheel, intro/outro, cues9..16, sampler/recording, menu/library/skin/FX actions, delayed display/LED output, whole lifecycle/calibration and physical/A10X acceptance remain open. No persistent preset or audio interface is inferred."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -321324,6 +321411,41 @@
         },
         {
           "reason": "Initial Load bank has no documented query. Move the hardware selectors before shared Load; external/current-selector release makes that side unknown again. Automatic selection remains off. Native fixed touch replaces source Vinyl mode variations. Shifted transport/grid/key/scan/fine-pitch/jog, alternate pad/Saved Flip/Roll/Slicer/Sampler/TRANS/Pitch Play, FX, booth/mic/sampler routing, full lights/lifecycle, jog calibration and physical/A10X acceptance remain open. Raw deck-channel Note126 is an unimplemented TRANS parameter; only the adapter can emit logical Load126."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:keylab-mk1-88",
+      "name": "Arturia KeyLab 88 Mk 1",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/ArturiaKeyLab.midi.xml",
+        "sha256": "dfa94f00c4ac092534502445c7879c03f1a73dd66331788ce4b01a951cb33f79",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Arturia-KeyLab-Mk1-scripts.js",
+            "sha256": "b67ec8f8ccc9481125d6087d58378acbc4bd6cd812f67f38daa9ce6c469f2ae2"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/midi-components-0.0.js",
+            "sha256": "f15845d0b3fa10609aedc2fb74a9067d0f1d89387f011de72c3301799003f026"
+          },
+          {
+            "url": "https://manual.mixxx.org/2.5/en/hardware/controllers/arturia_keylab_mk1"
+          }
+        ],
+        "review": "Upstream manual qualifies only the original KeyLab88. Explicit XML input dispatch uses wire channel0 for fixed faders/knobs; component MIDI fields differ and are not copied as output facts. Fixed C/A/B/D volumes73/75/79/72, rates80/81/82/83, crossfader85, master7 and headphone gain0 retain source assignments. Native centred pitch preserves the source rate polarity. Selected-deck trim74/high71/mid76/low77/filter93 follow software deck selection. Sound/Multi CC118/119 select A/B on first press and C/D on release after the pinned component's275 ms power-window interval; repeats cannot retime the hold. Released snapshot CC22/23/24 chooses intro/outro+12-cue,16-cue or sampler layout. Native eight-cue capacity retains the first8 in each cue layout and blocks sampler pads. Raw pads are channel9 notes36..51 with top-to-bottom rows48/44/40/36. MMC requires F0/7F/7F/06/command/F7; only Stop1, Play2, forward4, backward5 and reloop55 become bounded native pulses. MMC supplies no physical release duration. Ordinary mod-wheel CC1 and alternate CC transport assignments remain inactive, preventing keyboard modulation from becoming transport. Logical MMC/pads use selected channels0..3; fixed controls use logical channel4. No logical message can be injected by raw keyboard traffic. Input startup needs no hardware handshake in the reviewed script. No persistent preset, display/LED packet or smaller/Essential/later KeyLab protocol is inferred. Full menus, cues9..16, recording, samplers, delayed display/lights/lifecycle, calibration and physical/A10X acceptance remain open."
+      },
+      "implementedInputCount": 83,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Original88-key model only;25/49/61-key, Essential and MkII/Mk3 variants need independent qualification. MMC supplies pulses, not physical hold duration. Ordinary CC transport/mod-wheel, intro/outro, cues9..16, sampler/recording, menu/library/skin/FX actions, delayed display/LED output, whole lifecycle/calibration and physical/A10X acceptance remain open. No persistent preset or audio interface is inferred."
         }
       ]
     },
