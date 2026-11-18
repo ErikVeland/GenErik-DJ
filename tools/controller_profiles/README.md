@@ -934,3 +934,7 @@ The [public-source audit](../../docs/coordination/controller-public-source-audit
 The source lock also pins204 rows and57 platform limitations from the19 November2026 djay hardware page. `read_djay` separates product rows, NEW badges and limitation rows. Two explicit naming variants resolve to existing records. Other models retain independent records. `comparisonSupport.djay` stores competitor evidence. It does not set our runtime or theoretical-support flags. Use `build_catalogue.py --djay PATH` to verify the optional HTML snapshot against the pinned hash and rows. Fresh checkout regeneration uses the locked facts without requiring the ignored cache.
 
 `mix_ultra.py` defines48 automatic normal Mix Ultra inputs from three pinned independent owner sources and manufacturer semantics. Cue uses set/return/stop. Qualified level/pitch/crossfader pairs use14-bit values. Other absolute controls use their seven-bit MSBs. Conflicting physical Shift-side attribution uses a source-wide OR guard. Both Shift transitions retire contacts. Sync/PFL, other pad modes, service-mode overlap, full feedback, pairing/audio and physical acceptance remain open. No firmware patch, executable map or setting/output write is imported.
+
+DJM-900NXS2 uses an independent Version1.00 table. Its default TOGGLE PFL states use CC70-73.
+All four faders are explicitly CC17-20. This does not repair another model’s conflicting table.
+The manual profile requires separate app audio. Hardware audio ownership and external deck routing remain open.

@@ -917,6 +917,24 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for bad in [products+products,products[:100],products+'<li data-hardware-target="midinote ios">Unknown: Screen</li>',products.replace('mac ios','mac unknown',1)]:
             with self.assertRaises(ValueError):read_djay(bad)
 
+    def test_djm900nxs2_independent_table_keeps_cc_cue_and_four_manual_strips(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Pioneer DJM-900NXS2"),None)
+        self.assertIsNotNone(item,"Add independently documented NXS2 controls without a sibling alias")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(item["role"],"accessory")
+        self.assertEqual(len(item["inputs"]),32)
+        strips=[(1,2,3,4,5,17),(6,7,8,9,10,18),(12,14,15,21,22,19),(80,81,92,82,83,20)]
+        for deck,numbers in zip("abcd",strips):
+            self.assertEqual([r["number"] for r in item["inputs"] if r.get("targetDeck")==deck and not r["action"].startswith("cueState")],list(numbers))
+        self.assertEqual([(r["kind"],r["number"]) for r in item["inputs"] if r["action"].startswith("cueState")],[("control",70),("control",71),("control",72),("control",73)])
+        self.assertEqual({r["channel"] for r in item["inputs"]},{0})
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        from djm900nxs2 import NXS2_REFERENCES
+        cached=ROOT/"TestBuilds/r366/upstream/djm-900nxs2-midi.pdf"
+        if cached.exists():self.assertEqual(hashlib.sha256(cached.read_bytes()).hexdigest(),NXS2_REFERENCES[item["id"]]["sha256"])
+
     def test_rmx_ignite_native_accessory_layout_preserves_documented_addresses_and_triplet_gaps(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="AlphaTheta RMX-IGNITE"),None)

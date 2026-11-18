@@ -12535,73 +12535,6 @@
       }
     },
     {
-      "id": "pioneerdjm900nxs2",
-      "name": "Pioneer DJ DJM-900NXS2",
-      "manufacturer": "Pioneer",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://www.algoriddim.com/hardware/djm900nxs2"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "djay": {
-          "sourceName": "Pioneer DJ DJM-900NXS2",
-          "platforms": [
-            "mac",
-            "win",
-            "winArm"
-          ],
-          "limitations": [],
-          "source": "https://www.algoriddim.com/hardware/djm900nxs2"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
       "id": "pioneerdjma9",
       "name": "Pioneer DJ DJM-A9",
       "manufacturer": "Pioneer",
@@ -13643,6 +13576,111 @@
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
         "While-held5-8 rows have conflicting channel/status columns and stay inactive. Other pad modes, deletion, pitch/brake/needle/deck/application controls, feedback colour/off semantics, display, motor/platter/DVS/audio, full lifecycle and physical/A10X acceptance remain open. No output or mode/setting write is inferred."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "pioneerdjm900nxs2",
+      "name": "Pioneer DJM-900NXS2",
+      "manufacturer": "Pioneer",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://impact-even.com/wp-content/uploads/2022/03/pioneer_djm900nexus2_midimessages.pdf",
+        "https://www.algoriddim.com/hardware/djm900nxs2"
+      ],
+      "definitions": [
+        "manufacturer:pioneerdjm900nxs2"
+      ],
+      "implementation": "partial-midi-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer DJM-900NXS2",
+      "automaticControls": false,
+      "comparisonSupport": {
+        "djay": {
+          "sourceName": "Pioneer DJ DJM-900NXS2",
+          "platforms": [
+            "mac",
+            "win",
+            "winArm"
+          ],
+          "limitations": [],
+          "source": "https://www.algoriddim.com/hardware/djm900nxs2"
+        }
+      },
+      "controlActions": [
+        "crossfader",
+        "cueMix",
+        "cueStateA:a",
+        "cueStateA:c",
+        "cueStateB:b",
+        "cueStateB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor"
+      ],
+      "inputBindingCount": 32,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual MIDI channel1 and BUTTON TYPE TOGGLE, with separate app audio. Enable MIDI ON for the connected USB port. Physical CH1-4 map to A-D; C/D require app opt-in. Hardware/software audio ownership and external mixer routing remain unqualified."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "partial",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Manual default MIDI channel1/TOGGLE only. TRIGGER mode, physical taper/calibration, hardware/software audio ownership, external deck routing, source/assign/curve switches, master/Link Cue, booth, effects/X-PAD, microphone/clock, full output/lifecycle and physical/A10X acceptance remain open. No output, setting write, sibling protocol or audio route is inferred.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -331958,6 +331996,40 @@
         },
         {
           "reason": "Sync5 state/edge and PFL12 semantics remain unqualified. Conflicting physical Shift-side attribution uses a source-wide OR guard. Other absolute low bytes, jog resolution/taper, gain/Neural Mix, other pad modes, service-mode pad overlap, full LED/lifecycle/audio and physical/A10X acceptance remain open. Stock firmware may suppress slow ring packets. No firmware patch, executable map, setting/output write, sibling protocol, BLE pairing or audio route is imported."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneerdjm900nxs2",
+      "name": "Pioneer DJM-900NXS2",
+      "transport": "midi",
+      "source": {
+        "url": "https://impact-even.com/wp-content/uploads/2022/03/pioneer_djm900nexus2_midimessages.pdf",
+        "sha256": "48fc203ca395e6449311f021ec61119e0401e26e0389c9f0aadf4209bebe0a0c",
+        "pages": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "relatedSources": [
+          {
+            "url": "https://c3.zzounds.com/media/DJM-900NXS2_manual_EN-0703f22a06f23c5041e63da3db269aa6.pdf",
+            "page": 20
+          }
+        ],
+        "review": "All four pages of the manufacturer-authored Version1.00 wire table were visually checked through a public rental-company mirror. The operating manual independently specifies MIDI channel1 and BUTTON TYPE TOGGLE as defaults. Four fixed CH1-4 strips map to native A-D gain, three-band EQ, Color/filter, channel level and direct PFL state. Cue uses CC70-73, not sibling A7/A9 Note10-13. All four faders are unambiguous CC17-20 in this source. Master24, headphones26/blend27 and crossfader11 use seven-bit normalisation. Physical taper/range calibration remains open. Manual selection and C/D opt-in remain required. Use separate app audio because the hardware retains its own processing. Input/assign/curve switches, master/Link Cue, booth, FX/X-PAD, microphone, clock, full lifecycle/output, external mixer ownership/routing and physical/A10X acceptance remain open. X-PAD touch and Beat FX ON/OFF share CC114 in the source and remain inactive. No stored-setting, output, audio route or sibling protocol is inferred."
+      },
+      "implementedInputCount": 32,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual default MIDI channel1/TOGGLE only. TRIGGER mode, physical taper/calibration, hardware/software audio ownership, external deck routing, source/assign/curve switches, master/Link Cue, booth, effects/X-PAD, microphone/clock, full output/lifecycle and physical/A10X acceptance remain open. No output, setting write, sibling protocol or audio route is inferred."
         }
       ]
     }

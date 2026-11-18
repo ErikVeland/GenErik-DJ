@@ -4662,3 +4662,21 @@ Both iOS hosts now include [NSBluetoothAlwaysUsageDescription](https://developer
 Validation: the purpose-string test passed for both host plists after reproducing both missing keys. Ten focused native controller tests passed, including Mix Ultra playback and the152-profile held-Cue corpus. The iPad framework compiled with the new system interface. All247 runtime recipes remain byte-identical. The repository checker retains12 historical missing-file links. Source review confirms the setup-only entry point and conditional refresh. This is not a rendered or device UI check. Evidence: `TestBuilds/r365/validation.json`.
 
 Automatic core coverage remains191 of343 physical models, with152 without automatic core controls. Full theoretical support remains open for all343. No signed app, installation, successful wireless pairing, reconnect proof or A10X audio/touch acceptance is claimed.
+
+## R366 Independent DJM-900NXS2 mixer contract
+
+Assumption: the mixer retains its own audio processing. Add a manually selected app-mixer mirror with separate app audio.
+
+- [x] Review all four Version1.00 manufacturer wire pages.
+- [x] Implement32 inputs: four independent gain/EQ/filter/fader/PFL strips and four global mixer controls.
+- [x] Verify pickup, explicit Cue state, source isolation, C/D opt-in, inactive hardware controls and iPad compilation.
+
+The [manufacturer-authored wire table](https://impact-even.com/wp-content/uploads/2022/03/pioneer_djm900nexus2_midimessages.pdf) is available through a public rental-company mirror. The manufacturer software page returns403. The [manufacturer manual](https://c3.zzounds.com/media/DJM-900NXS2_manual_EN-0703f22a06f23c5041e63da3db269aa6.pdf), web-reviewed on page20, defines channel1 and TOGGLE defaults. Enable MIDI ON for the connected USB port. No app command changes those settings.
+
+Physical CH1-4 map to native A-D. C/D require app opt-in. Cue uses CC70-73 as direct state, including repeated values. It does not use newer mixers’ Cue notes. The source independently specifies all four faders as CC17-20. Absolute controls retain pickup and seven-bit normalisation. Physical taper/calibration remains open.
+
+The profile sends no output, setup, shutdown, stored-setting or audio-route command. TRIGGER buttons, source/assign/curve switches, master/Link Cue, booth, effects/X-PAD, microphone, clock and external mixer ownership/routing remain open. The table assigns CC114 to both X-PAD touch and Beat FX ON/OFF. Both remain inactive. No sibling protocol is inferred.
+
+Validation:200 Python checks and six focused native tests passed. These include the152-profile held-Cue corpus. The iPad framework compiled and its resource matches the source. All247 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r366/validation.json`.
+
+The catalogue has248 data recipes. Automatic core coverage remains191 of343 physical models, with152 without automatic core controls. Full theoretical support, signed-app checks and physical/A10X acceptance remain open.
