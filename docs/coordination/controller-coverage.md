@@ -4718,3 +4718,19 @@ LX has a non-commercial source licence. This implementation independently normal
 Validation:202 Python checks and six focused native tests passed, including the152-profile held-Cue corpus. The iPad framework compiled and its resource matches the source. All249 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r368/validation.json`.
 
 The catalogue has251 data recipes. Automatic core coverage remains191 of343 physical models, with152 without automatic core controls. Full theoretical support and physical/A10X acceptance remain open.
+
+## R369 Independent DJM-450 manual mixer
+
+Assumption: use explicit channel1/TOGGLE settings and separate app audio. No factory defaults are inferred.
+
+- [x] Review all three manufacturer wire pages through the public retailer mirror.
+- [x] Add18 manual inputs for two gain/EQ/filter/fader/Cue strips and four global mixer controls.
+- [x] Verify pickup, CC Cue states, source isolation, inactive C/D/sibling/hardware messages and iPad compilation.
+
+The [manufacturer-authored Version1.00 table](https://www.recordcase.de/media/pdf/84/26/2c/Pioneer-DJM-450-Addendum-EN.pdf) independently qualifies physical CH1/2 as native A/B. Cue uses direct CC70/71 state. Master24, headphones26/blend27 and crossfader11 use seven-bit normalisation with pickup. Physical taper/calibration remains open.
+
+The profile sends no output, setup, shutdown, stored-setting or audio-route command. Master Cue, EQ/curve/reverse switches, FX/time/send-return, AUX/microphone, clock and complete hardware/audio ownership remain open. No sibling protocol is inferred.
+
+Validation:203 Python checks and six focused native tests passed, including the152-profile held-Cue corpus. The iPad framework compiled and its resource matches the source. All251 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r369/validation.json`.
+
+The catalogue has252 data recipes. Automatic core coverage remains191 of343 physical models, with152 without automatic core controls. Full theoretical support and physical/A10X acceptance remain open.

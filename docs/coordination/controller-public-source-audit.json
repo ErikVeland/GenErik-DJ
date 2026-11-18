@@ -649,6 +649,22 @@
         "Hardware CH5/6, four-band mids, mode-dependent filters, full output/lifecycle/audio and physical/A10X acceptance remain open.",
         "No LF EQ/PFL/headphone facts inferred from the separate V10 source. Distribution review remains open."
       ]
+    },
+    {
+      "request": "R369",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://www.recordcase.de/media/pdf/84/26/2c/Pioneer-DJM-450-Addendum-EN.pdf",
+          "sha256": "eca0374d463ab83b30716a775b584579485eef1f6033a5abf0063d5150d75c49",
+          "review": "All three manufacturer-authored Version1.00 pages visually reviewed. Two independent strips, CC70/71 Cue states and four global controls."
+        }
+      ],
+      "limits": [
+        "18 manual inputs. Explicit channel1/TOGGLE selection, no factory defaults inferred. Separate app audio.",
+        "Full hardware/audio ownership/output/lifecycle and physical/A10X acceptance remain open.",
+        "S3 manufacturer manual article4404659821465 links a MIDI addendum that returns404. Alza mirror61365 requires human verification. No challenge bypass attempted. S3 mapping remains open."
+      ]
     }
   ]
 }

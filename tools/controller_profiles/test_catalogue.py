@@ -917,6 +917,21 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for bad in [products+products,products[:100],products+'<li data-hardware-target="midinote ios">Unknown: Screen</li>',products.replace('mac ios','mac unknown',1)]:
             with self.assertRaises(ValueError):read_djay(bad)
 
+    def test_djm450_manual_two_strip_table_keeps_its_own_pfl_and_audio_boundary(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Pioneer DJM-450"),None)
+        self.assertIsNotNone(item,"Add the independent three-page 450 wire table")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(item["role"],"accessory")
+        self.assertEqual(len(item["inputs"]),18)
+        self.assertEqual({r.get("targetDeck") for r in item["inputs"]},{None,"a","b"})
+        self.assertEqual([(r["kind"],r["number"]) for r in item["inputs"] if r["action"].startswith("cueState")],[("control",70),("control",71)])
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        from djm450 import DJM450_REFERENCES
+        cached=ROOT/"TestBuilds/r367/upstream/djm-450-midi.pdf"
+        if cached.exists():self.assertEqual(hashlib.sha256(cached.read_bytes()).hexdigest(),DJM450_REFERENCES[item["id"]]["sha256"])
+
     def test_v10_and_lf_keep_independent_public_evidence_and_inactive_six_channel_features(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         by={r["id"]:r for r in runtime["profiles"]}

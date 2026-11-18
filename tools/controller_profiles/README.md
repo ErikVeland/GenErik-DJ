@@ -947,3 +947,6 @@ V10 and V10-LF retain separate public evidence. V10 has24 manual controls; LF ha
 Only physical CH1-4 map to native A-D. CH5/6, four-band mids and mode-dependent filters remain inactive.
 LF reuses only the trim/fader/master facts that Beat Link Trigger explicitly shares.
 No downloaded LX or show code is copied, executed or bundled. Source-reuse review remains open.
+
+DJM-450 has18 manual inputs from its independently reviewed three-page Version1.00 table.
+Use explicit channel1/TOGGLE and separate app audio. No factory defaults or sibling wires are inferred.
