@@ -4592,3 +4592,21 @@ Mode presses retire old holds. Mode-button releases preserve new holds. New fail
 Validation:194 Python checks and33 focused native tests passed. They include REV7 transport, both Hot Cue banks,14-bit pairing, held bends, source isolation, manual reload/bounds and inactive motor/Silent Cue wires. Existing XDJ-AN, original nanoKONTROL and original RANE ONE checks passed. Real-WAV fixtures retained audio and saved Sync. The iPad framework compiled and its resource matches the source. The repository checker retains12 historical missing-file links. Failed addition, manual-bank and mode-release logs remain preserved. Evidence: `TestBuilds/r361/validation.json`.
 
 The catalogue has245 data recipes. Automatic core coverage remains190 physical models, with122 remaining. Full theoretical support remains open for all312 physical model records. No signed app, installation or physical/A10X acceptance is claimed.
+
+## R362 RMX-IGNITE manual native DJ accessory layout
+
+Assumption: the manufacturer documents MIDI output on configurable channels, with channel1 as the default. Add an explicit manual deck-A layout. Use separate app audio because the unit continues its own hardware processing. This layout does not emulate hardware FX, the sampler or held sample rolls.
+
+- [x] Pin the current manufacturer table and visually inspect both wire pages. Verify the USB/MIDI and default-channel instructions.
+- [x] Add22 manual inputs for native Hot Cues, latched loops, held bends, Sync, level/EQ/filter/effect amount and browsing.
+- [x] Verify both release forms, pickup, source ownership, unused channels/functions, real-WAV audio/Sync and iPad framework compilation.
+
+The [manufacturer table](https://downloads.support.alphatheta.com/firmwares/dj-effectors/RMX-IGNITE/RMX-IGNITE_midi_message_list_en.pdf) has SHA256`11d27b45729126db68c927c7234597d8400806381ac6a81fcf3f074811ae9bc1`. It is published under `firmwares`, although the file contains MIDI documentation. The [USB/MIDI chapter](https://downloads.support.alphatheta.com/manuals/dj-effectors/RMX-IGNITE/HTML/en/RMX-IGNITE/USB_MIDI/USB_MIDI.htm) specifies the USB for MULTI I/O port. The [settings chapter](https://downloads.support.alphatheta.com/manuals/dj-effectors/RMX-IGNITE/HTML/en/RMX-IGNITE/Settings/Settings.htm) defines the default channel.
+
+Sample triggers A-D become native Hot Cues1-4. The six straight roll buttons select native latched loops of1/8,1/4,1/2,1,2 and4 beats. The four triplet/dotted lengths stay inactive because the native loop contract does not support them. Isolate knobs control native EQ. Sampler Volume controls native deck level. Sampler Color controls native filter amount. Lever Sub Parameter controls the selected native effect amount. Phase nudge buttons provide held native bends. Beat Sync controls native Sync. Browse, encoder press and Back retain library actions. The incoming timing clock does not change app transport or saved Sync.
+
+Hardware FX selectors, sampler edit/hold, Echo Time, Release/Echo and connection switches remain inactive. The DRIVE selector's printed status is ambiguous and is not interpreted. No hardware bypass, output message, stored setting, audio route or RMX-500/1000 alias is inferred. Full hardware behaviour and physical/A10X acceptance remain open.
+
+Validation:195 Python checks and seven focused native tests passed. Fixtures cover all22 inputs, both note-release forms, pickup/direction, source-local held-bend cleanup and inactive controls/channels. Real-WAV playback retained finite audio and saved Sync. The iPad framework compiled and its resource matches the source. All245 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r362/validation.json`.
+
+The catalogue now has246 data recipes. Automatic core coverage remains190 physical models, with122 remaining. Full theoretical support remains open for all312 physical model records. No signed app, installation or physical/A10X acceptance is claimed.

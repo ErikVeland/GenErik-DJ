@@ -2221,3 +2221,18 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueIgniteNativeLoopBendAndClockKeepAudioAndSync() async throws {
+    try await withControllerCuePlayback("RMX-IGNITE",manual: true) { model,input in
+        model.pressPlay(deck: .a,vinylStop: false)
+        cuePreviewPacket([0x90,55,127,55,0,4,127,0x80,4,127],to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        input.currentTargetValue = { model.controllerValue($0.action,targetDeck: $0.deck) }
+        cuePreviewPacket([0xB0,21,64,22,64,23,64,25,64,0xF8,0x90,57,127,57,0],to: input)
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

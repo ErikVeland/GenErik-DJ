@@ -861,6 +861,21 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_rmx_ignite_native_accessory_layout_preserves_documented_addresses_and_triplet_gaps(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="AlphaTheta RMX-IGNITE"),None)
+        self.assertIsNotNone(item,"Add the public RMX-IGNITE MIDI contract without claiming hardware FX emulation")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(item["role"],"accessory")
+        self.assertEqual(len(item["inputs"]),22)
+        self.assertEqual({r["channel"] for r in item["inputs"]},{0})
+        self.assertEqual([(r["number"],r["argument"]) for r in item["inputs"] if r["action"]=="toggleFixedLoopA"],[(52,.125),(53,.25),(54,.5),(55,1),(56,2),(61,4)])
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        from rmx_ignite import IGNITE_REFERENCES
+        cached=ROOT/"TestBuilds/r361/upstream/rmx-ignite-midi-en.pdf"
+        if cached.exists():self.assertEqual(hashlib.sha256(cached.read_bytes()).hexdigest(),IGNITE_REFERENCES[item["id"]]["sha256"])
+
     def test_rev7_manual_core_does_not_treat_motor_counts_or_silent_cue_as_plain_controls(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="Pioneer DDJ-REV7"),None)

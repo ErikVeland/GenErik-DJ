@@ -556,7 +556,7 @@
           "url": "https://downloads.support.alphatheta.com/firmwares/dj-effectors/RMX-IGNITE/RMX-IGNITE_midi_message_list_en.pdf",
           "cache": "TestBuilds/r361/upstream/rmx-ignite-midi-en.pdf",
           "sha256": "11d27b45729126db68c927c7234597d8400806381ac6a81fcf3f074811ae9bc1",
-          "status": "Recovered from the current public support article. Wire pages2/3 visually checked. Manufacturer USB/MIDI chapter confirms MIDI through USB for MULTI I/O. Settings chapter defines default MIDI channel1. Native mapping is next; full hardware FX/audio ownership remains open."
+          "status": "Both wire pages visually checked. R362 adds22 manual native deck-A accessory inputs. Hardware FX/sampler emulation, triplet/dotted loops, full audio ownership and physical/A10X acceptance remain open. No output, bypass or stored-setting write is inferred."
         }
       ],
       "otherFindings": [
