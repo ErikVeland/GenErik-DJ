@@ -77,6 +77,16 @@ SOURCE_AUDITS["Rane ONE MKII"] = {
 
 SOURCE_AUDITS.update(SEVENTY_AUDITS)
 SOURCE_AUDITS["Numark NV"] = NV_AUDIT
+SOURCE_AUDITS["Akai Pro AFX"] = {
+    "source":{"url":"https://maps.djtechtools.com/mappings/4017",
+              "sha256":"e11c26da43d231a8b4d289e09278a401a2702dcbe30d4617e6d9ca14bb995c1a"},
+    "relatedSources":[{"url":"https://forum.djtechtools.com/t/akai-amx-afx-mapping-wanted/68926",
+                       "sha256":"fbcc83b1d393d0e75bf21d1ff0b9aa07d1829febbf496cf2c4b010c1ece061f7"}],
+    "format":"Public HTML source-access audit; no TSI file downloaded",
+    "publishedMappingVersion":"0.1.0","mappingDownloadRequiresSignIn":True,"automaticSupportAdded":False,
+    "gaps":["The author's public mapping page requires sign-in to download its TSI. The two-deck description leaves Manual/Slicer/Sample modes and other controls incomplete. No downloadable protocol file was obtained, and no runtime mapping is added.",
+            "The author discussion supplies LED colour values and reports deck-dependent commands, but no complete channel/address table. Colours and the AMX mapping do not qualify AFX input addresses, deck channels, setup or complete theoretical support. Source access and physical acceptance remain open."]}
+
 
 MODELS = [
     ('Hercules DJControl Inpulse T7', 'https://community.algoriddim.com/t/hercules-inpulse-t7-support/20172/186'),

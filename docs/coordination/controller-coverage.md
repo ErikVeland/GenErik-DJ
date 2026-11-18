@@ -3848,3 +3848,16 @@ All146 importer checks,5 focused native checks and iPad framework compilation pa
 All196 earlier runtime recipes remain unchanged. Compiled resource bytes match the source. The missing-profile and bank-release failures remain in `TestBuilds/r317/` with final source-bound evidence.
 The catalogue stays318 records/311 physical models and reaches197 data recipes. The existing NV benchmark record now has a manual subset. Automatic core coverage stays165 physical models and71/122 benchmark models.
 The repository check retains twelve historical broken links. The source prototype does not establish jogs, pads, PFL, loops, screens, complete setup, feedback, audio routing or physical acceptance. No signed app, install or NVII support is claimed.
+
+## R318 AFX public source-access boundary
+
+The public author's AFX mapping page requires sign-in to download the TSI. Its description and author discussion identify incomplete modes and a colour palette, but do not provide a complete channel/address table. The colour table cannot establish input addresses. AMX is a separate device. No address, deck channel or handshake is inferred.
+
+- [x] Pin the public mapping page and author discussion, including the sign-in requirement. Add a failing audit fixture.
+- [x] Connect the audit to the existing AFX benchmark record. Keep runtime bytes unchanged and confirm importer checks.
+
+Source base: `c418214`. Mapping-source access, mode/endpoint protocol, setup and physical acceptance remain open.
+
+All147 importer checks pass. The existing AFX benchmark record now carries the pinned source-access audit. All197 runtime recipes and resource bytes remain unchanged. No Swift/iPad rebuild was needed for this metadata-only change.
+Evidence remains in `TestBuilds/r318/`. The repository check retains twelve historical broken links. Counts stay318 records/311 physical models,197 data recipes,165 automatic core physical models and71/122 benchmark models.
+No runtime, full theoretical support, signed app, install or physical acceptance is claimed for AFX.

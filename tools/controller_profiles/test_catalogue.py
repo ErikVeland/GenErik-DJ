@@ -986,6 +986,23 @@ class GeneratedCatalogueTests(unittest.TestCase):
             if path.exists():
                 self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
 
+    def test_afx_source_access_audit_does_not_invent_a_runtime_mapping(self):
+        from manufacturer_inventory import SOURCE_AUDITS
+        self.assertTrue("Akai Pro AFX" in SOURCE_AUDITS,"The AFX source-access limit needs a recorded audit")
+        audit=SOURCE_AUDITS["Akai Pro AFX"]
+        self.assertTrue(audit["mappingDownloadRequiresSignIn"])
+        self.assertFalse(audit["automaticSupportAdded"])
+        catalogue=json.loads((ROOT/"docs/coordination/controller-catalogue.json").read_text())
+        model=next(r for r in catalogue["models"] if r["id"] == canonical("Akai Pro AFX"))
+        self.assertIn(audit,model["sourceAudits"])
+        self.assertFalse(model["zeroConfig"]["automaticControls"] or model["theoreticalSupport"]["complete"])
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        self.assertFalse(any(r["id"] in {"Akai AFX","Akai Pro AFX"} for r in runtime["profiles"]))
+        path=ROOT/"TestBuilds/r318/upstream/AFX-mapping-page.html"
+        if path.exists():
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),audit["source"]["sha256"])
+            self.assertIn("Sign in to download",path.read_text())
+
     def test_nv_prototype_only_qualifies_a_manual_normal_subset(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"] == "Numark NV"),None)
