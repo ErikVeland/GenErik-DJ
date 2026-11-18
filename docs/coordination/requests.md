@@ -432,3 +432,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R291 | Published; release checks open | Build and deploy the official GenErik DJ website | Ten public pages live on Glasscode at https://dj.generik.au with valid HTTPS. Erik confirmed iPad, iPhone, iPhone Duo and Mac support. Static checks, canonical redirects and public routes pass. Fresh captures, final privacy reconciliation and full device/browser accessibility checks remain open. [Scope and verification](website-r291.md). |
 
 | R292 | Partly published; PACtrack upload blocked | Link GenErik DJ and PACtrack with GlassCode Academy | Both About entries and GenErik DJ credits are live. PACtrack credits are committed locally, but the Sites source service rejected three uploads. [Evidence and remaining step](website-credits-r292.md). |
+
+| R293 | Published | Add previews to the GlassCode Academy project catalogue | Seven previews and larger detail images are live. Production build, three-language image checks, desktop/mobile layout and filter checks passed. [Evidence](website-previews-r293.md). |
