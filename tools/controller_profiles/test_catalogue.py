@@ -861,6 +861,26 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_rane_one_mkii_public_template_does_not_infer_missing_play_motor_or_audio_support(self):
+        from manufacturer_inventory import SOURCE_AUDITS
+        self.assertIn("Rane ONE MKII", SOURCE_AUDITS, "The public MKII template needs an explicit source audit")
+        audit = SOURCE_AUDITS["Rane ONE MKII"]
+        self.assertEqual((audit["mappingVersion"],audit["inputRows"],audit["headingRows"],audit["outputRows"]), (3,667,11,2))
+        self.assertEqual(audit["declaredCustomClass"], "RaneOneMK2")
+        self.assertFalse(audit["automaticSupportAdded"])
+        catalogue = json.loads((ROOT / "docs/coordination/controller-catalogue.json").read_text())
+        model = next(r for r in catalogue["models"] if r["id"] == canonical("Rane ONE MKII"))
+        self.assertFalse(model["zeroConfig"]["automaticControls"] or model["theoreticalSupport"]["complete"])
+        self.assertIn(audit,model["sourceAudits"])
+        runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        self.assertFalse(any(r["id"] == "Rane ONE MKII" for r in runtime["profiles"]))
+        path = ROOT / "TestBuilds/r308/upstream/RANE-One-MK2.djayMidiMapping.xml"
+        if path.exists():
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), audit["source"]["sha256"])
+            data = plistlib.loads(path.read_bytes())
+            self.assertEqual(data["audioConfiguration"]["externalModeTurntableOutputChannels"], [0,2])
+            self.assertEqual(sum(r.get("keyPath") in {"turntable1.playPause","turntable2.playPause"} for r in data["controls"]), 0)
+
     def test_djm_s7_s5_keep_independent_manual_profiles_and_browser_qualification(self):
         runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         by_id = {r["id"]:r for r in runtime["profiles"]}

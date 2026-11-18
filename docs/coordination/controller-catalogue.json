@@ -24987,7 +24987,8 @@
       "role": "primary",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://drive.google.com/file/d/1yBQ4jeM7oBpswsmKOf5WhgFYFqGWDQxc/view"
       ],
       "definitions": [],
       "implementation": "protocol-needed",
@@ -25026,7 +25027,47 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Algoriddim staff shared this template4June2026. It declares USB1CC5:0026 and the absent RaneOneMK2 class. Its667 input-list rows include11 headings and no ordinary turntable1/2.playPause mapping. Normal Play input, platter/motor reports, startup and lifecycle are not established by this export.",
+        "Two explicit output rows are Play-button lamp states on notes0/channels0/1 with values4/12; they do not establish Play input or a motor protocol. Native external deck/sampler/FX audio routing and hardware/software mixer ownership remain unimplemented.",
+        "Original ONE, FOUR and SYSTEM ONE are not aliases. No motor command, transport address or automatic profile is inferred from another model. Complete theoretical support and physical acceptance remain open.",
         "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+      ],
+      "sourceAudits": [
+        {
+          "source": {
+            "url": "https://drive.google.com/file/d/1yBQ4jeM7oBpswsmKOf5WhgFYFqGWDQxc/view",
+            "sha256": "c5af95945a0e66c23d5fde29f1ba12a3216443d8fa27a132a9ad7df20e099a00"
+          },
+          "discussion": "https://community.algoriddim.com/t/modify-a-midi-map-from-one-controller-for-use-on-another/42455",
+          "format": "Apple property list",
+          "mappingVersion": 3,
+          "inputRows": 667,
+          "headingRows": 11,
+          "outputRows": 2,
+          "declaredCustomClass": "RaneOneMK2",
+          "automaticSupportAdded": false,
+          "audioConfiguration": {
+            "mixerMode": 1,
+            "externalModeTurntableOutputChannels": [
+              0,
+              2
+            ],
+            "externalModeSamplerOutputChannel": 4,
+            "fxSendInputChannelOffsets": [
+              8,
+              10
+            ],
+            "fxReturnChannelOffsets": [
+              6,
+              8
+            ]
+          },
+          "gaps": [
+            "Algoriddim staff shared this template4June2026. It declares USB1CC5:0026 and the absent RaneOneMK2 class. Its667 input-list rows include11 headings and no ordinary turntable1/2.playPause mapping. Normal Play input, platter/motor reports, startup and lifecycle are not established by this export.",
+            "Two explicit output rows are Play-button lamp states on notes0/channels0/1 with values4/12; they do not establish Play input or a motor protocol. Native external deck/sampler/FX audio routing and hardware/software mixer ownership remain unimplemented.",
+            "Original ONE, FOUR and SYSTEM ONE are not aliases. No motor command, transport address or automatic profile is inferred from another model. Complete theoretical support and physical acceptance remain open."
+          ]
+        }
       ],
       "priority": {
         "regionalSalesRank": null,

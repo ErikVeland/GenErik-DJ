@@ -59,6 +59,20 @@ SOURCE_AUDITS["Mixars PRIMO"] = {
              "Shared global Load4/5 requires deck-bank state. SelectorCC34/Note8 values are unspecified. Relative jog/browser formats, pad mode ownership, button light values and lifecycle remain unqualified.",
              "Firmware1.12 adds14-bit pitch, but the old table lists onlyCC9 without low-byte order. Later firmware1.16 does not supply a revised protocol chart. External mixer/audio ownership also requires review."]}
 
+
+SOURCE_AUDITS["Rane ONE MKII"] = {
+    "source": {"url": "https://drive.google.com/file/d/1yBQ4jeM7oBpswsmKOf5WhgFYFqGWDQxc/view",
+               "sha256": "c5af95945a0e66c23d5fde29f1ba12a3216443d8fa27a132a9ad7df20e099a00"},
+    "discussion": "https://community.algoriddim.com/t/modify-a-midi-map-from-one-controller-for-use-on-another/42455",
+    "format": "Apple property list", "mappingVersion": 3, "inputRows": 667, "headingRows": 11,
+    "outputRows": 2, "declaredCustomClass": "RaneOneMK2", "automaticSupportAdded": False,
+    "audioConfiguration": {"mixerMode": 1, "externalModeTurntableOutputChannels": [0,2],
+                           "externalModeSamplerOutputChannel": 4, "fxSendInputChannelOffsets": [8,10],
+                           "fxReturnChannelOffsets": [6,8]},
+    "gaps": ["Algoriddim staff shared this template4June2026. It declares USB1CC5:0026 and the absent RaneOneMK2 class. Its667 input-list rows include11 headings and no ordinary turntable1/2.playPause mapping. Normal Play input, platter/motor reports, startup and lifecycle are not established by this export.",
+             "Two explicit output rows are Play-button lamp states on notes0/channels0/1 with values4/12; they do not establish Play input or a motor protocol. Native external deck/sampler/FX audio routing and hardware/software mixer ownership remain unimplemented.",
+             "Original ONE, FOUR and SYSTEM ONE are not aliases. No motor command, transport address or automatic profile is inferred from another model. Complete theoretical support and physical acceptance remain open."]}
+
 MODELS = [
     ('Hercules DJControl Inpulse T7', 'https://community.algoriddim.com/t/hercules-inpulse-t7-support/20172/186'),
     ('Reloop Mixon 8 Pro', 'https://community.algoriddim.com/t/reloop-mixon-8-ultimate-stems-mapping/20579'),

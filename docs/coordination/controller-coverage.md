@@ -3688,3 +3688,18 @@ All8 focused native checks,136 importer checks and iPad framework compilation pa
 Expected failures, both factory PDF hashes, inspected table images and source-bound evidence remain in `TestBuilds/r307/`.
 The repository check retains twelve historical broken links. The catalogue has189 data recipes; automatic core coverage stays161 physical models and71/122 benchmark models.
 Full theoretical feature parity remains unimplemented. Source base: `e0c74c0`. No signed app, install or physical/A10X acceptance is claimed.
+
+## R308 RANE ONE MKII source audit
+
+Assumption: a staff-shared djay template is a source of explicit mapping facts, not the implementation of its missing `RaneOneMK2` class. It must not establish motor, normal Play, startup or audio support. The original ONE and SYSTEM ONE are distinct devices.
+
+- [x] Pin the version3 template, source discussion and audio fields. Add a failing audit fixture.
+- [x] Record667 input-list rows,11 headings, two output rows and absent normal Play mappings in the catalogue source audit. Keep runtime support unchanged.
+- [x] Run importer/repository checks and verify every runtime profile byte remains unchanged. Retain the previous native/iPad framework evidence for identical app resources.
+
+The staff-shared source declares USB1CC5:0026. Its two output rows only specify Play lamps4/12 on note0; output does not prove the missing normal Play input or motor lifecycle.
+Per-deck outputs0/2, sampler4 and FX send/return offsets remain explicit native routing gaps. Original ONE, FOUR and SYSTEM ONE do not inherit this template.
+All137 importer checks pass. Every runtime profile byte remains unchanged from `c3200d6`; its8 native checks and iPad framework resource comparison remain valid for identical app resources.
+Expected failure, the template/hash and source-bound results remain in `TestBuilds/r308/`. The repository check retains twelve historical broken links.
+Review also found three duplicate Pioneer DJM catalogue records caused by brand normalisation. R309 will correct their model links without changing MIDI dispatch.
+Automatic core coverage stays161 physical models and71/122 benchmark models. Full theoretical feature parity remains unimplemented. No signed app, install or physical/A10X acceptance is claimed.
