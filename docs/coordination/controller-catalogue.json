@@ -17282,12 +17282,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://gist.github.com/samba2/5af83e947297ab99a4745a5be3e13d55/a8c441c832affebb59415abdc80872967bc8c0e6",
         "https://www.algoriddim.com/hardware"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:xwj1-shared-input-facts"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Casio XW-J1",
+      "automaticControls": false,
       "comparisonSupport": {
         "djay": {
           "sourceName": "Casio XW-J1",
@@ -17299,40 +17304,71 @@
           "source": "https://www.algoriddim.com/hardware"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browseNext",
+        "browsePrevious",
+        "browsePreviousGroup",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopUpA:a",
+        "loopUpB:b",
+        "openGroup",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 30,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual fixed native input layout through an exposed MIDI port. Deck notes use channels1/2; shared jogs and Shift/navigation use channel3; crossfader uses channel5. Touch always selects native scratch. Use separate app audio."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Conflicting/asymmetric mixer/EQ/pitch rows and undefined Hot Cue1 handler stay inactive. Fixed native touch scratch replaces software Scratch mode. Source375-count estimate is provisional. Shared Shift wire cannot identify simultaneous physical modifiers separately. Full FX/filter modes, feedback/lifecycle, device USB/audio routing/calibration, distribution review and physical/A10X acceptance remain open. No original Spin, Typhoon or XW-DJ1 inheritance. No downloaded code, setting, startup lamp clear or output command runs.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -40380,12 +40416,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://gist.github.com/samba2/5af83e947297ab99a4745a5be3e13d55/a8c441c832affebb59415abdc80872967bc8c0e6",
         "https://www.algoriddim.com/hardware"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:spin2-shared-input-facts"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Vestax Spin2",
+      "automaticControls": false,
       "comparisonSupport": {
         "djay": {
           "sourceName": "Vestax Spin2",
@@ -40398,40 +40439,71 @@
           "source": "https://www.algoriddim.com/hardware"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browseNext",
+        "browsePrevious",
+        "browsePreviousGroup",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopUpA:a",
+        "loopUpB:b",
+        "openGroup",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 30,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual fixed native input layout through an exposed MIDI port. Deck notes use channels1/2; shared jogs and Shift/navigation use channel3; crossfader uses channel5. Touch always selects native scratch. Use separate app audio."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Conflicting/asymmetric mixer/EQ/pitch rows and undefined Hot Cue1 handler stay inactive. Fixed native touch scratch replaces software Scratch mode. Source375-count estimate is provisional. Shared Shift wire cannot identify simultaneous physical modifiers separately. Full FX/filter modes, feedback/lifecycle, device USB/audio routing/calibration, distribution review and physical/A10X acceptance remain open. No original Spin, Typhoon or XW-DJ1 inheritance. No downloaded code, setting, startup lamp clear or output command runs.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -332892,6 +332964,68 @@
         },
         {
           "reason": "Manual fixed channel block1-4 and explicit PC MIX/source selectors. Physical mixer CH1-4 use native A-D order. No MK2 inheritance or automatic hardware setting/audio route. Alternate channel blocks, FX/sample pages, shifted functions, PAN/blend ownership, full lifecycle/output/calibration and physical/A10X acceptance remain open. No fader request, meter/dimmer, reset, driver or downloaded executable source is sent or run."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:spin2-shared-input-facts",
+      "name": "Vestax Spin2",
+      "transport": "midi",
+      "source": {
+        "url": "https://gist.github.com/samba2/5af83e947297ab99a4745a5be3e13d55/a8c441c832affebb59415abdc80872967bc8c0e6",
+        "relatedSources": [
+          {
+            "url": "https://gist.githubusercontent.com/samba2/5af83e947297ab99a4745a5be3e13d55/raw/dc830e0e72e89999f0074d60a8e0aa6f6e5b93aa/Casio-XW-J1-scripts.js",
+            "sha256": "83599154b1356378bd0335cdbc2ac256694b6511991ccd30ee5c979cd6ea8b5b"
+          },
+          {
+            "url": "https://gist.githubusercontent.com/samba2/5af83e947297ab99a4745a5be3e13d55/raw/8c6c20bd87042e63cb44a7eeae014788d6647912/Casio_MIDI_In.midi.xml",
+            "sha256": "770fce8365eb28a6cc542046fba4aa5a55735685ddbbe98d3517e191d6b7959e"
+          }
+        ],
+        "review": "Pinned author-owned XML and script explicitly name both Casio XW-J1 and Vestax Spin2. Independent native30-input manual layouts retain deck-channel1/2 Play46, held Cue47, Sync49, PFL50, loop36/size35/37, Hot Cues2/3 at43/44 and full-value contact59. Shared channel3 CC16/17 jogs use raw-minus64. The author's375-position estimate is a provisional native scale, not manufacturer calibration. Fixed native touch scratch does not reproduce the script's software Scratch toggle; mode button45 retires the deck contact. Shared Shift channel3 Note32 guards normal controls and both transitions retire contacts. Native Shift-Left/Right loads only once per press, correcting the source handlers' missing release guard. Plain Left/Right map to native group navigation. Shared crossfader is explicitly channel5 CC16. Conflicting/asymmetric learned mixer, EQ and pitch rows remain inactive. Hot Cue1 references an undefined handler and remains inactive. No source startup lamp clear, FX/filter software mode, output list, audio route or sibling protocol is inferred. No executable source is copied, executed or bundled. Desktop/exposed MIDI port, device-specific USB/audio, complete modes/lifecycle/calibration, distribution review and physical/A10X acceptance remain open."
+      },
+      "implementedInputCount": 30,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Conflicting/asymmetric mixer/EQ/pitch rows and undefined Hot Cue1 handler stay inactive. Fixed native touch scratch replaces software Scratch mode. Source375-count estimate is provisional. Shared Shift wire cannot identify simultaneous physical modifiers separately. Full FX/filter modes, feedback/lifecycle, device USB/audio routing/calibration, distribution review and physical/A10X acceptance remain open. No original Spin, Typhoon or XW-DJ1 inheritance. No downloaded code, setting, startup lamp clear or output command runs."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:xwj1-shared-input-facts",
+      "name": "Casio XW-J1",
+      "transport": "midi",
+      "source": {
+        "url": "https://gist.github.com/samba2/5af83e947297ab99a4745a5be3e13d55/a8c441c832affebb59415abdc80872967bc8c0e6",
+        "relatedSources": [
+          {
+            "url": "https://gist.githubusercontent.com/samba2/5af83e947297ab99a4745a5be3e13d55/raw/dc830e0e72e89999f0074d60a8e0aa6f6e5b93aa/Casio-XW-J1-scripts.js",
+            "sha256": "83599154b1356378bd0335cdbc2ac256694b6511991ccd30ee5c979cd6ea8b5b"
+          },
+          {
+            "url": "https://gist.githubusercontent.com/samba2/5af83e947297ab99a4745a5be3e13d55/raw/8c6c20bd87042e63cb44a7eeae014788d6647912/Casio_MIDI_In.midi.xml",
+            "sha256": "770fce8365eb28a6cc542046fba4aa5a55735685ddbbe98d3517e191d6b7959e"
+          }
+        ],
+        "review": "Pinned author-owned XML and script explicitly name both Casio XW-J1 and Vestax Spin2. Independent native30-input manual layouts retain deck-channel1/2 Play46, held Cue47, Sync49, PFL50, loop36/size35/37, Hot Cues2/3 at43/44 and full-value contact59. Shared channel3 CC16/17 jogs use raw-minus64. The author's375-position estimate is a provisional native scale, not manufacturer calibration. Fixed native touch scratch does not reproduce the script's software Scratch toggle; mode button45 retires the deck contact. Shared Shift channel3 Note32 guards normal controls and both transitions retire contacts. Native Shift-Left/Right loads only once per press, correcting the source handlers' missing release guard. Plain Left/Right map to native group navigation. Shared crossfader is explicitly channel5 CC16. Conflicting/asymmetric learned mixer, EQ and pitch rows remain inactive. Hot Cue1 references an undefined handler and remains inactive. No source startup lamp clear, FX/filter software mode, output list, audio route or sibling protocol is inferred. No executable source is copied, executed or bundled. Desktop/exposed MIDI port, device-specific USB/audio, complete modes/lifecycle/calibration, distribution review and physical/A10X acceptance remain open."
+      },
+      "implementedInputCount": 30,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Conflicting/asymmetric mixer/EQ/pitch rows and undefined Hot Cue1 handler stay inactive. Fixed native touch scratch replaces software Scratch mode. Source375-count estimate is provisional. Shared Shift wire cannot identify simultaneous physical modifiers separately. Full FX/filter modes, feedback/lifecycle, device USB/audio routing/calibration, distribution review and physical/A10X acceptance remain open. No original Spin, Typhoon or XW-DJ1 inheritance. No downloaded code, setting, startup lamp clear or output command runs."
         }
       ]
     }

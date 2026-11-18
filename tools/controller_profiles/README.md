@@ -977,3 +977,8 @@ PC MIX, MIDI/USB source selectors and explicit MIDI block1-4 are required. Deck 
 The native layout explicitly assigns physical mixer CH1-4 to A-D. Global Load A/B stays on channel1.
 Raw64 contact uses release-aware gates. Model-specific2000-count jog facts reuse the existing Denon decoder.
 PAN is not inferred as cue/master blend. No fader query, meter, dimmer or setting command is sent.
+
+Spin2 and XW-J1 have distinct30-input manual layouts from one explicitly shared, pinned author mapping.
+Transport, PFL, Hot Cues2/3, loop/size, touch jogs, browsing, Shift-Load and channel5 crossfader retain qualified wires.
+The375-count scale is the author's estimate and remains provisional. Fixed native touch scratch replaces the software toggle.
+Conflicting mixer/EQ/pitch rows, undefined Hot Cue1 and output/lifecycle lists stay inactive. No downloaded code runs.

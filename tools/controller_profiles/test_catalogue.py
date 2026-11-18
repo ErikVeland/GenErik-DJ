@@ -917,6 +917,26 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for bad in [products+products,products[:100],products+'<li data-hardware-target="midinote ios">Unknown: Screen</li>',products.replace('mac ios','mac unknown',1)]:
             with self.assertRaises(ValueError):read_djay(bad)
 
+    def test_spin2_and_xwj1_reuse_only_the_authors_explicit_shared_facts(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        by={r["id"]:r for r in runtime["profiles"]}
+        for name in ["Vestax Spin2","Casio XW-J1"]:
+            self.assertTrue(name in by,"Add independent shared Spin2/XW-J1 public facts")
+            item=by[name]
+            self.assertFalse(item["autoSelect"])
+            self.assertEqual(len(item["inputs"]),30)
+            self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+            self.assertNotIn("audioOutput",item)
+            self.assertFalse(any(r["action"] in {"hotcue1A","hotcue1B","tempoA","tempoB","levelA","levelB","gainA","gainB","highA","highB","midA","midB","lowA","lowB"} for r in item["inputs"]))
+            self.assertEqual([(r["channel"],r["number"]) for r in item["inputs"] if r["action"] in {"jogA","jogB"}],[(2,16),(2,17)])
+        from spin2_xwj1 import SPIN2_FILES
+        for source,name in zip(SPIN2_FILES,["Casio-XW-J1-scripts.js","Casio_MIDI_In.midi.xml"]):
+            cached=ROOT/"TestBuilds/r375/upstream"/name
+            if cached.exists():self.assertEqual(hashlib.sha256(cached.read_bytes()).hexdigest(),source["sha256"])
+        self.assertEqual(by["Vestax Spin2"]["inputs"],by["Casio XW-J1"]["inputs"])
+        self.assertNotIn("Spin",by["Vestax Spin2"]["aliases"])
+        self.assertNotIn("XW-DJ1",by["Casio XW-J1"]["aliases"])
+
     def test_original_mc6000_has_its_own_manual_pc_mix_contract(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="Denon DJ MC6000"),None)

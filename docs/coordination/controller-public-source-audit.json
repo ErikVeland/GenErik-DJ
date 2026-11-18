@@ -793,6 +793,32 @@
         "112 manual inputs and40 separately selected steady lamp recipes. Explicit native mixer CH1-4 to A-D order, deck A/C/B/D channels and shared channel1 controls.",
         "No MK2 inheritance, fader query, settings, dimmers/meters, driver or downloaded executable source. Full audio ownership/calibration and physical/A10X acceptance remain open."
       ]
+    },
+    {
+      "request": "R376",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://gist.github.com/samba2/5af83e947297ab99a4745a5be3e13d55/a8c441c832affebb59415abdc80872967bc8c0e6",
+          "revision": "a8c441c832affebb59415abdc80872967bc8c0e6",
+          "files": [
+            {
+              "name": "Casio-XW-J1-scripts.js",
+              "sha256": "83599154b1356378bd0335cdbc2ac256694b6511991ccd30ee5c979cd6ea8b5b"
+            },
+            {
+              "name": "Casio_MIDI_In.midi.xml",
+              "sha256": "770fce8365eb28a6cc542046fba4aa5a55735685ddbbe98d3517e191d6b7959e"
+            }
+          ],
+          "review": "The author explicitly names both Spin2 and XW-J1. Only independently translated input facts are used. Conflicting mixer/EQ/pitch rows, undefined Hot Cue1 handler, source startup clear and feedback lists remain inactive.375 positions per revolution is explicitly an author estimate and remains provisional."
+        }
+      ],
+      "limits": [
+        "Two distinct manual30-input native layouts. No original Spin, Typhoon or XW-DJ1 inheritance. Fixed touch scratch replaces software Scratch toggle.",
+        "No direct USB/audio or full mode/lifecycle claim. Separate app audio and exposed MIDI port required. Physical/A10X and source reuse/distribution review remain open.",
+        "Public SDK searches continue without user-supplied files. Rane Twelve FAQ confirms generic MIDI, but no wire/motor contract was recovered. Checked Seventy-Two DJTT mapping requires sign-in. Neither is treated as an implemented profile."
+      ]
     }
   ]
 }

@@ -2356,3 +2356,26 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueSpin2SharedNativeScratchUsesProvisional375ScaleAndRestoresSync() async throws {
+    for name in ["Vestax Spin2","Casio XW-J1"] {
+        try await withControllerCuePlayback(name,manual:true) { model,input in
+            cuePreviewPacket([0x90,47,127],to:input)
+            #expect(model.playbackSnapshot?.a.touchActive == true)
+            cuePreviewPacket([0x80,47,127],to:input)
+            #expect(model.playbackSnapshot?.a.touchActive == false)
+            cuePreviewPacket([0x90,59,127,0xB2,16,65],to:input)
+            try await Task.sleep(for:.milliseconds(80))
+            _ = model.playback.core.renderOffline(frames:4096)
+            model.refreshPlayback()
+            let sampleRate = try #require(model.track(.a)?.analysis.sampleRate)
+            #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1)-sampleRate*1.8/375)<=1)
+            cuePreviewPacket([0x92,32,127,32,0,0x90,46,127,46,0],to:input)
+            let audio = model.playback.core.renderOffline(frames:4096)
+            model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+            #expect(model.playbackSnapshot?.a.touchActive == false)
+        }
+    }
+}

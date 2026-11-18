@@ -4836,3 +4836,18 @@ The independent model-specific [DEX handler](https://pcdj.com/downloads/dex4/set
 Validation:209 Python checks and eight focused native tests passed, including the154-profile held-Cue corpus. A real-WAV fixture verified2000-count movement, velocity64 Cue/contact release, deck cleanup, finite audio and saved Sync. The iPad framework compiled and its resource matches the source. All256 earlier recipes remain identical. Failed fixture expectations are retained with the final passing results. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r375/validation.json`.
 
 The catalogue has257 data recipes. Automatic core coverage remains193 of343 physical models, with150 without automatic core controls. Full theoretical support and physical/A10X acceptance remain open.
+
+
+## R376 Spin2 and XW-J1 shared public input facts
+
+Assumption: reuse only the shared input facts that the mapping author explicitly attributes to both models.
+
+The [pinned author-owned mapping](https://gist.github.com/samba2/5af83e947297ab99a4745a5be3e13d55/a8c441c832affebb59415abdc80872967bc8c0e6) explicitly supports Vestax Spin2 and Casio XW-J1. Each distinct manual profile has30 inputs. Native transport, PFL, Hot Cues2/3, loop/size, touch jogs, browsing, Shift-Load and crossfader retain the reviewed channels. No original Spin, Typhoon or XW-DJ1 protocol is inherited.
+
+Conflicting/asymmetric mixer, EQ and pitch rows remain inactive. Hot Cue1 references an undefined source handler and remains inactive. Fixed native touch scratch replaces the source's software Scratch toggle. The source's375-position estimate remains a provisional native scale. It is not manufacturer calibration. Shift guards normal controls. Both Shift transitions retire contacts. Shift-Left/Right loads once per press, including a corrected release guard absent from the source handlers.
+
+Use an exposed MIDI port and separate app audio. Device-specific USB/audio, complete modes/lifecycle, feedback and physical calibration remain open. The shared Shift wire cannot identify simultaneous physical modifiers separately. No downloaded code, source startup lamp clear, output list, mode write or audio route runs in the app. The Japanese Spin2 manual link returned404. An unrelated Reloop Spin!2 manual and a blocked HTML response were excluded from protocol evidence.
+
+Validation:210 Python checks and eight focused native tests passed, including both profiles and the154-profile held-Cue corpus. Real-WAV fixtures verified both provisional-scale scratch paths, Cue release, modifier cleanup, finite audio and saved Sync. The iPad framework compiled and its resource matches the source. All257 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r376/validation.json`.
+
+The catalogue has259 data recipes. Automatic core coverage remains193 of343 physical models, with150 without automatic core controls. Full theoretical support and physical/A10X acceptance remain open.
