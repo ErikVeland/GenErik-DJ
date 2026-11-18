@@ -598,3 +598,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R383 | Implemented; coupled motor protocol remains open | Add independently qualified T10 supplemental controls | Added85 manual mixer/pad/loop/library inputs without motor or hardware writes.220 Python/eight native checks passed. iPad framework compiled. [Scope](controller-coverage.md#r383-t10-supplemental-controls-and-motor-boundary). |
 
 | R384 | Implemented; analogue/audio ownership open | Add Xone:96 manual MIDI faders and independent Cue states | Added9 manual inputs and source-specific pickup reset.221 Python/eight native checks passed. iPad framework compiled. Hardware Cue/filter writes stay disabled. [Scope](controller-coverage.md#r384-xone96-manual-faders-and-cue-state). |
+
+| R385 | Implemented; analogue/audio ownership open | Add independent PX5 and24C manual fader subsets | Added five PX5/three24C manual faders from separate sources.222 Python/seven native checks passed. iPad framework compiled. [Scope](controller-coverage.md#r385-independent-px5-and24c-fader-subsets). |

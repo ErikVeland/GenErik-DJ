@@ -2498,3 +2498,17 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueXoneFaderSubsetsKeepTouchStartedAudioFiniteAndSynced() async throws {
+    for (name,number):(String,UInt8) in [("Allen & Heath Xone:PX5",0),("Allen & Heath Xone:24C",5)] {
+        try await withControllerCuePlayback(name,manual:true) { model,input in
+            input.onTargetAction?(.init(.playA,deck:.a),1)
+            cuePreviewPacket([0xBF,number,100,4,64],to:input)
+            let audio = model.playback.core.renderOffline(frames:4096)
+            model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+            #expect(model.playbackSnapshot?.a.touchActive == false)
+        }
+    }
+}

@@ -1037,3 +1037,9 @@ Physical CH1-4 map A-D. C/D require the existing four-deck option. Source-select
 MIDI output to Cue/filter changes real hardware state, so feedback and hardware writes remain disabled.
 Analogue gain/four-band EQ/filter/headphone controls, auxiliary Cue/PHONES2 and external deck routing remain outside this subset.
 The manufacturer confirms class-compliant iPadOS/iOS USB. Configure app audio separately. Physical acceptance remains open.
+
+PX5 and24C use distinct manual fader subsets on MIDI channel16.
+PX5 uses channel fadersCC0-3 and crossfaderCC4. Native explicitly maps physical CH1-4 to A-D.
+24C uses channel fadersCC5/6 and crossfaderCC4. Shared frequencyCC7 and unqualified button notes stay inactive.
+No Xone96/23C alias, analogue EQ/gain/headphone control, hardware write or automatic audio route is inferred.
+Use deliberate manual ownership and separate app audio. Complete external mixer routing and physical acceptance remain open.

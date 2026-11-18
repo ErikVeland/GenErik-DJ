@@ -15283,12 +15283,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://support.allen-heath.com/hc/en-gb/articles/39821017822865-Xone-24C-User-Guide",
         "https://www.algoriddim.com/hardware/xone24c"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:xone-24c-independent-faders"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Allen & Heath Xone:24C",
+      "automaticControls": false,
       "comparisonSupport": {
         "djay": {
           "sourceName": "Allen & Heath Xone:24C",
@@ -15302,40 +15307,44 @@
           "source": "https://www.algoriddim.com/hardware/xone24c"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "crossfader",
+        "levelA:a",
+        "levelB:b"
+      ],
+      "inputBindingCount": 3,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual fader subset on MIDI channel16 through the mixer's own USB host connection. Physical CH1 onward map A onward. Configure app audio separately. These controls also affect analogue audio."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Analogue audio and MIDI faders require deliberate ownership. Native does not send hardware commands or select an audio route. Cue/filter/FX/insert controls, source/mode handling, X:Link or USB-hub accessory protocols, complete lifecycle, external mixer outputs and physical/iPad/A10X acceptance remain open. No analogue EQ/gain/headphone knob or sibling protocol is invented.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -15726,12 +15735,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://virtualdj.com/forums/264850/VirtualDJ_Plugins/Mapping_the_XONE:PX5_Mixer.html",
         "https://www.algoriddim.com/hardware/xonepx5"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:xone-px5-independent-faders"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Allen & Heath Xone:PX5",
+      "automaticControls": false,
       "comparisonSupport": {
         "djay": {
           "sourceName": "Allen & Heath Xone:PX5",
@@ -15752,40 +15766,46 @@
           "source": "https://www.algoriddim.com/hardware/xonepx5"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "crossfader",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d"
+      ],
+      "inputBindingCount": 5,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual fader subset on MIDI channel16 through the mixer's own USB host connection. Physical CH1 onward map A onward. Configure app audio separately. These controls also affect analogue audio."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Analogue audio and MIDI faders require deliberate ownership. Native does not send hardware commands or select an audio route. Cue/filter/FX/insert controls, source/mode handling, X:Link or USB-hub accessory protocols, complete lifecycle, external mixer outputs and physical/iPad/A10X acceptance remain open. No analogue EQ/gain/headphone knob or sibling protocol is invented.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -333504,6 +333524,59 @@
         },
         {
           "reason": "The hardware faders and Cue switches also affect analogue audio. Select this MIDI subset deliberately and configure app audio separately. Native does not set hardware Cue/filter states. Auxiliary channels/PHONES2, source-state actions, VCF/MUTE, complete lifecycle, external mixer deck outputs and physical/iPad/A10X acceptance remain open. Analogue gain/four-band EQ/filter/headphone controls are not MIDI knobs and are not duplicated. Alternate saved MIDI channels need separate mappings."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:xone-px5-independent-faders",
+      "name": "Allen & Heath Xone:PX5",
+      "transport": "midi",
+      "source": {
+        "url": "https://virtualdj.com/forums/264850/VirtualDJ_Plugins/Mapping_the_XONE:PX5_Mixer.html",
+        "reviewDate": "2026-11-19",
+        "relatedSources": [
+          {
+            "url": "https://cardinia.net/products/pro/",
+            "sha256": "d8e08cc67c0305a63fb6d65eee0c1e79f1e5b11921520a9cbfddff233de4b998"
+          },
+          {
+            "url": "https://support.allen-heath.com/hc/en-gb/articles/43208403578641-Xone-PX5-User-Guide"
+          }
+        ],
+        "review": "The definition author's public XML qualifies physical fader CC0-3 and crossfaderCC4. Cardinia's own working hardware table independently qualifies channel16/faderCC0-3. Native explicitly assigns physical CH1-4 to A-D. The author's software C/A/B/D deck order is not a hardware address fact. Cue press-versus-state semantics, filter/FX assignment switches, selector values and encoder formats are not established sufficiently for native actions and remain inactive. Five manual faders only. No downloaded definition, VDJ command, X:Link sibling mapping, hardware write or audio command runs. Analogue mixer duplication, external audio routing and physical/iPad acceptance remain open."
+      },
+      "implementedInputCount": 5,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Analogue audio and MIDI faders require deliberate ownership. Native does not send hardware commands or select an audio route. Cue/filter/FX/insert controls, source/mode handling, X:Link or USB-hub accessory protocols, complete lifecycle, external mixer outputs and physical/iPad/A10X acceptance remain open. No analogue EQ/gain/headphone knob or sibling protocol is invented."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:xone-24c-independent-faders",
+      "name": "Allen & Heath Xone:24C",
+      "transport": "midi",
+      "source": {
+        "url": "https://support.allen-heath.com/hc/en-gb/articles/39821017822865-Xone-24C-User-Guide",
+        "reviewDate": "2026-11-19",
+        "review": "Current manufacturer MIDI table explicitly fixes channel16 and faders crossCC4/CH1CC5/CH2CC6 with0-127 ranges. Native uses only these three manual faders. VCF FREQCC7 has126-0 mild-to-wild semantics and unqualified shared hardware assignment, so it is not treated as a bipolar deck filter. Prose mentions Cue/filter/insert buttons, but the shown table does not qualify their note addresses. Those remain inactive. No Xone96/PX5/23C protocol is inherited. Manufacturer qualifies class-compliant macOS/iOS USB and separate host/hub endpoints. It does not establish native external mixer routing, automatic audio ownership or physical/A10X acceptance."
+      },
+      "implementedInputCount": 3,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Analogue audio and MIDI faders require deliberate ownership. Native does not send hardware commands or select an audio route. Cue/filter/FX/insert controls, source/mode handling, X:Link or USB-hub accessory protocols, complete lifecycle, external mixer outputs and physical/iPad/A10X acceptance remain open. No analogue EQ/gain/headphone knob or sibling protocol is invented."
         }
       ]
     }

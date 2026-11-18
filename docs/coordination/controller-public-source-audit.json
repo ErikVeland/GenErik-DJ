@@ -1010,6 +1010,29 @@
         "Nine manual inputs on default channel16. No automatic ownership, hardware Cue/filter write, output or audio command.",
         "Auxiliary channels, PHONES2, VCF/MUTE/source actions, external deck routing and physical/iPad/A10X acceptance remain open."
       ]
+    },
+    {
+      "request": "R385",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://virtualdj.com/forums/264850/VirtualDJ_Plugins/Mapping_the_XONE:PX5_Mixer.html",
+          "review": "Definition author publishes working PX5 XML with faderCC0-3/crossCC4. Software C/A/B/D ordering remains an author choice. Incomplete selector discussions and unqualified Cue semantics do not become native mappings."
+        },
+        {
+          "url": "https://cardinia.net/products/pro/",
+          "sha256": "d8e08cc67c0305a63fb6d65eee0c1e79f1e5b11921520a9cbfddff233de4b998",
+          "review": "Hardware developers independently qualify PX5 MIDI channel16 and channel faderCC0-3 for their working on-air product. No firmware or network protocol copied."
+        },
+        {
+          "url": "https://support.allen-heath.com/hc/en-gb/articles/39821017822865-Xone-24C-User-Guide",
+          "review": "Current primary table fixes MIDI16, crossCC4/CH1CC5/CH2CC6 with0-127 ranges. VCFCC7 has126-0 mild-to-wild semantics. Prose button claims do not supply note addresses, so those remain inactive."
+        }
+      ],
+      "limits": [
+        "Five PX5 and three24C manual faders only. No automatic control/audio claim.",
+        "Analogue ownership, unqualified Cue/filter/FX/insert controls, external deck routing and physical/iPad/A10X acceptance remain open."
+      ]
     }
   ]
 }

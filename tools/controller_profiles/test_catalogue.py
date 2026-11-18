@@ -917,6 +917,20 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for bad in [products+products,products[:100],products+'<li data-hardware-target="midinote ios">Unknown: Screen</li>',products.replace('mac ios','mac unknown',1)]:
             with self.assertRaises(ValueError):read_djay(bad)
 
+    def test_px5_and_24c_keep_their_independent_fader_only_contracts(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        by={r["id"]:r for r in runtime["profiles"]}
+        for name,levels,cross in [("Allen & Heath Xone:PX5",[0,1,2,3],4),("Allen & Heath Xone:24C",[5,6],4)]:
+            self.assertTrue(name in by,"Add independently qualified manual fader subsets")
+            item=by[name]
+            self.assertFalse(item["autoSelect"])
+            self.assertEqual(len(item["inputs"]),len(levels)+1)
+            self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+            self.assertNotIn("audioOutput",item)
+            self.assertEqual([(r["number"],r["targetDeck"]) for r in item["inputs"] if r["action"] in {"levelA","levelB"}],list(zip(levels,"abcd")))
+            self.assertEqual([r["number"] for r in item["inputs"] if r["action"]=="crossfader"],[cross])
+            self.assertTrue(all(r["kind"]=="control" and r["channel"]==15 and r["encoding"]=="absolute" for r in item["inputs"]))
+
     def test_xone96_uses_default_channel16_and_keeps_hardware_owned_controls_inactive(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="Allen & Heath Xone:96"),None)

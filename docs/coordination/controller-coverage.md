@@ -4985,3 +4985,18 @@ The [manufacturer resource page](https://www.allen-heath.com/hardware/xone-serie
 Validation:221 Python checks and eight focused native tests passed, including the157-profile held-Cue corpus. Tests verified four-deck gating, direct Cue states, source-specific pickup and absence of hardware writes. A real-WAV fixture verified idempotent Cue, finite audio and saved Sync. The iPad framework compiled and its resource matches the source. All265 earlier recipes remain identical. A corrected fixture compile failure remains preserved. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r384/validation.json`.
 
 The catalogue has266 data recipes. Automatic core coverage remains196 of342 physical models, with146 without automatic core controls. Thirty-eight records need a first protocol implementation. Complete theoretical and physical/iPad acceptance remain open.
+
+
+## R385 independent PX5 and24C fader subsets
+
+Assumption: each mixer needs independent wire facts. A manual fader subset does not establish analogue audio ownership.
+
+The [PX5 definition author's public XML](https://virtualdj.com/forums/264850/VirtualDJ_Plugins/Mapping_the_XONE:PX5_Mixer.html) gives four channel faders CC0-3 and crossfader CC4. [Cardinia's own hardware table](https://cardinia.net/products/pro/) independently qualifies channel16 and CC0-3. Native explicitly assigns physical CH1-4 to A-D. The author's C/A/B/D software deck order is not a hardware address fact. Five manual faders are active. Cue press-versus-state semantics, FX assignment selectors and encoder formats remain unqualified for native actions.
+
+The [24C manufacturer table](https://support.allen-heath.com/hc/en-gb/articles/39821017822865-Xone-24C-User-Guide) fixes channel16 and qualifies crossfader CC4, CH1 CC5 and CH2 CC6. Three manual faders are active. Shared VCF frequency CC7 has126-0 mild-to-wild behaviour and unqualified software assignment. It is not treated as a bipolar deck filter. Prose mentions Cue/filter/insert buttons, but the shown table does not supply their note addresses. Those controls remain inactive.
+
+Both profiles require deliberate manual selection and separate app audio. Neither sends hardware, output, mode, reset or audio-route commands. Analogue EQ/gain/headphone controls, source/mode ownership, accessory endpoints, external mixer outputs and full lifecycle remain open. The manufacturer confirms class-compliant iPadOS/iOS USB for these mixers. Physical power, enumeration, audio and sustained A10X acceptance remain separate.
+
+Validation:222 Python checks and seven focused native tests passed, including the157-profile held-Cue corpus. Native fixtures verified distinct CC layouts, four-deck gating, pickup, ignored buttons/other model wires and no hardware writes. Real-WAV fixtures for both profiles verified finite audio and saved Sync. The iPad framework compiled and its resource matches the source. All266 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r385/validation.json`.
+
+The catalogue has268 data recipes. Automatic core coverage remains196 of342 physical models, with146 without automatic core controls. Thirty-six records need a first protocol implementation. Complete theoretical and physical/iPad acceptance remain open.
