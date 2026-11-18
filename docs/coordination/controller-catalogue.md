@@ -10,10 +10,10 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 350 total catalogue records. 343 name physical models. The remainder identify software endpoints or protocol families.
-- 252 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 177 factory profiles select core controls automatically for 185 physical models.
+- 253 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 178 factory profiles select core controls automatically for 186 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
-- 152 physical models still lack automatic core controls.
+- 151 physical models still lack automatic core controls.
 - 343 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -222,13 +222,13 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 17 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 179 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 180 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
 | partial-midi-profile | 77 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 53 | The pinned references contain no implemented mapping for this model. |
+| protocol-needed | 52 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -398,6 +398,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Pioneer DDJ-1000 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-1000/DDJ-1000_MIDI_Message_List_E1.pdf) |
 | Pioneer DDJ-1000SRT | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/firmwares/dj-controllers/DDJ-1000SRT/DDJ-1000SRT_MIDI_Message_List_E1.pdf) |
 | Pioneer DDJ-800 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-800/DDJ-800_MIDI_Message_List_E1.pdf) |
+| Pioneer DDJ-FLX6-GT | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-FLX6/DDJ-FLX6_MIDI_message_List_E1.pdf) |
 | Pioneer DDJ-RB | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-RB/DDJ-RB_MIDI_Message_List_E.pdf) |
 | Pioneer DDJ-RR | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-RR/DDJ-RR_MIDI_Message_List_E.pdf) |
 | Pioneer DDJ-RX | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-RX/DDJ-RX_List_of_MIDI_Message_E.pdf) |
@@ -411,7 +412,6 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Pioneer DDJ-WeGO2 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-WeGO2/DDJWeGO2ListofMIDIMessageVirtualDJE.pdf) |
 | Pioneer DDJ-WeGO4 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-WeGO4/DDJ-WeGO4_List_of_MIDI_Message_E.pdf) |
 | Pioneer DDJ-XP1 | accessory | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-XP1/DDJ-XP1_List_of_MIDI_Message_E1.pdf) |
-| Pioneer DJ DDJ-FLX6-GT | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware/ddjflx6gt) |
 | Pioneer DJ DJM-S3 | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware/djms3) |
 | Pioneer DJ DJM-TOUR1 | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware/djmtour1) |
 | Pioneer DJM-450 | accessory | partial-midi-profile | [Reference](https://www.recordcase.de/media/pdf/84/26/2c/Pioneer-DJM-450-Addendum-EN.pdf) |

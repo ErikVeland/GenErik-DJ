@@ -7268,6 +7268,201 @@
       }
     },
     {
+      "id": "pioneerddjflx6gt",
+      "name": "Pioneer DDJ-FLX6-GT",
+      "manufacturer": "Pioneer",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-FLX6/DDJ-FLX6_MIDI_message_List_E1.pdf",
+        "https://www.algoriddim.com/hardware/ddjflx6gt"
+      ],
+      "definitions": [
+        "manufacturer:pioneerddjflx6gt"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer DDJ-FLX6-GT",
+      "automaticControls": true,
+      "comparisonSupport": {
+        "djay": {
+          "sourceName": "Pioneer DJ DDJ-FLX6-GT",
+          "platforms": [
+            "mac",
+            "ios",
+            "win",
+            "winArm",
+            "quest"
+          ],
+          "limitations": [
+            {
+              "platforms": [
+                "quest"
+              ],
+              "text": "Deck 3/4"
+            }
+          ],
+          "source": "https://www.algoriddim.com/hardware/ddjflx6gt"
+        }
+      },
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "fixedLoopA:a",
+        "fixedLoopA:c",
+        "fixedLoopB:b",
+        "fixedLoopB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "jogA:a",
+        "jogA:c",
+        "jogB:b",
+        "jogB:d",
+        "jogTouchA:a",
+        "jogTouchA:c",
+        "jogTouchB:b",
+        "jogTouchB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor",
+        "openGroup",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "reloopB:d",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d",
+        "tempoA:a",
+        "tempoA:c",
+        "tempoB:b",
+        "tempoB:d",
+        "wheelJogA:a",
+        "wheelJogA:c",
+        "wheelJogB:b",
+        "wheelJogB:d"
+      ],
+      "inputBindingCount": 127,
+      "feedbackBindingCount": 12,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Select the utility setting for DJ software other than rekordbox/Serato DJ Pro. Power-cycle when switching software. The manufacturer explicitly shares the FLX6 E1 MIDI table with GT. Full audio routing and hardware acceptance remain open."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Manufacturer-qualified shared FLX6/GT MIDI core only. Hardware utility mode is user-selected, not negotiated. Merge FX, Jog Cutter, full pads/modes/displays/lifecycle/audio routing, calibration and physical/A10X acceptance remain open. No stored-setting or audio-route write is inferred."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
       "id": "pioneerddjrb",
       "name": "Pioneer DDJ-RB",
       "manufacturer": "Pioneer",
@@ -10331,82 +10526,6 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
-      "id": "pioneerddjflx6gt",
-      "name": "Pioneer DJ DDJ-FLX6-GT",
-      "manufacturer": "Pioneer",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://www.algoriddim.com/hardware/ddjflx6gt"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "djay": {
-          "sourceName": "Pioneer DJ DDJ-FLX6-GT",
-          "platforms": [
-            "mac",
-            "ios",
-            "win",
-            "winArm",
-            "quest"
-          ],
-          "limitations": [
-            {
-              "platforms": [
-                "quest"
-              ],
-              "text": "Deck 3/4"
-            }
-          ],
-          "source": "https://www.algoriddim.com/hardware/ddjflx6gt"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -325644,6 +325763,45 @@
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneerddjflx6gt",
+      "name": "Pioneer DDJ-FLX6-GT",
+      "transport": "midi",
+      "source": {
+        "url": "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-FLX6/DDJ-FLX6_MIDI_message_List_E1.pdf",
+        "sha256": "a12861c81f1550c35ae446a311951ade2a51cecfc2fd07081f5c405a4f3cfbc2",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "relatedSources": [
+          {
+            "url": "https://support.alphatheta.com/en-US/articles/4404631697945"
+          }
+        ],
+        "review": "The current manufacturer article explicitly assigns this exact E1 table to DDJ-FLX6 and DDJ-FLX6-GT. The downloaded table matches the previously reviewed hash. Reuse only the existing core inputs/outputs/lifecycle, with a distinct GT identity. Select the utility mode for software other than rekordbox/Serato and power-cycle when switching software. No mode negotiation or stored-setting write is inferred. The endpoint may use either manufacturer-qualified model name; no generic FLX or clone alias is added. Merge FX, Jog Cutter, full pads/modes/displays/lifecycle/audio routing, calibration and physical/A10X acceptance remain open."
+      },
+      "implementedInputCount": 127,
+      "implementedOutputCount": 12,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manufacturer-qualified shared FLX6/GT MIDI core only. Hardware utility mode is user-selected, not negotiated. Merge FX, Jog Cutter, full pads/modes/displays/lifecycle/audio routing, calibration and physical/A10X acceptance remain open. No stored-setting or audio-route write is inferred."
         }
       ]
     },

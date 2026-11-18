@@ -6,6 +6,7 @@ CONTROLLER_REFERENCES = {
     "Pioneer XDJ-RX3": ("all-in-one-dj-systems/XDJ-RX3/XDJ-RX3_MIDI_Message_List_E1.pdf", "bd9c747ec65c3910d139d33cbbf08033a9ffd57b548978bf5dd51f2c2cdf9c36", 5),
     "Pioneer XDJ-XZ": ("all-in-one-dj-systems/XDJ-XZ/XDJ-XZ_MIDI_Message_List_E1.pdf", "c0e23435447a5c3f444f55e777e4d7e1b02a0abd6238e8dd0ff1a6a00df867b9", 5),
     "Pioneer DDJ-FLX6": ("dj-controllers/DDJ-FLX6/DDJ-FLX6_MIDI_message_List_E1.pdf", "a12861c81f1550c35ae446a311951ade2a51cecfc2fd07081f5c405a4f3cfbc2", 10),
+    "Pioneer DDJ-FLX6-GT": ("dj-controllers/DDJ-FLX6/DDJ-FLX6_MIDI_message_List_E1.pdf", "a12861c81f1550c35ae446a311951ade2a51cecfc2fd07081f5c405a4f3cfbc2", 10),
     "Pioneer DDJ-800": ("dj-controllers/DDJ-800/DDJ-800_MIDI_Message_List_E1.pdf", "1a9ff6d4cb4db440e572cc2736c5c7b20eca054ca2a5ace58065744507a97a3a", 8),
     "Pioneer DDJ-SB3": ("dj-controllers/DDJ-SB3/DDJ-SB3_MIDI_Message_List_E1.pdf", "7dcc8c30cea39597e6b1f9bdd79ec7105a58382bc8e7e89982001bf7714556da", 3),
     "Pioneer XDJ-RX2": ("all-in-one-dj-systems/XDJ-RX2/XDJ-RX2_List_of_MIDI_Message_E3.pdf", "a4a4711cb419052ec93eb06e9ea3573d5c355c15fa555d730a71ae4058ecd497", 7),
@@ -13,8 +14,12 @@ CONTROLLER_REFERENCES = {
 
 
 def controller_references():
-    return {name: {"url": BASE + path, "sha256": digest, "pages": list(range(1, pages + 1))}
-            for name, (path, digest, pages) in CONTROLLER_REFERENCES.items()}
+    references = {name: {"url": BASE + path, "sha256": digest, "pages": list(range(1, pages + 1))}
+                  for name, (path, digest, pages) in CONTROLLER_REFERENCES.items()}
+    references["Pioneer DDJ-FLX6-GT"].update(
+        relatedSources=[{"url":"https://support.alphatheta.com/en-US/articles/4404631697945"}],
+        review="The current manufacturer article explicitly assigns this exact E1 table to DDJ-FLX6 and DDJ-FLX6-GT. The downloaded table matches the previously reviewed hash. Reuse only the existing core inputs/outputs/lifecycle, with a distinct GT identity. Select the utility mode for software other than rekordbox/Serato and power-cycle when switching software. No mode negotiation or stored-setting write is inferred. The endpoint may use either manufacturer-qualified model name; no generic FLX or clone alias is added. Merge FX, Jog Cutter, full pads/modes/displays/lifecycle/audio routing, calibration and physical/A10X acceptance remain open.")
+    return references
 
 
 def controller_profiles():
@@ -24,6 +29,10 @@ def controller_profiles():
         club = "XDJ-" in name
         az, rx3, sb3, flx6 = (name.endswith(model) for model in ["XDJ-AZ", "XDJ-RX3", "DDJ-SB3", "DDJ-FLX6"])
         rx2 = name.endswith("XDJ-RX2")
+        flx6 = name in {"Pioneer DDJ-FLX6", "Pioneer DDJ-FLX6-GT"}
+        if name.endswith("DDJ-FLX6-GT"):
+            result["hardwareMode"] = "Select the utility setting for DJ software other than rekordbox/Serato DJ Pro. Power-cycle when switching software. The manufacturer explicitly shares the FLX6 E1 MIDI table with GT. Full audio routing and hardware acceptance remain open."
+            result["gaps"] = ["Manufacturer-qualified shared FLX6/GT MIDI core only. Hardware utility mode is user-selected, not negotiated. Merge FX, Jog Cutter, full pads/modes/displays/lifecycle/audio routing, calibration and physical/A10X acceptance remain open. No stored-setting or audio-route write is inferred."]
         result["scope"] = "Automatic core MIDI controls. Hardware control mode, advanced modes, displays and audio routing remain open."
         if club:
             result["hardwareMode"] = "PC control / MIDI. Select MIDI mixer control where required."

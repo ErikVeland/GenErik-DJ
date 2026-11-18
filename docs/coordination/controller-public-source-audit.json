@@ -665,6 +665,25 @@
         "Full hardware/audio ownership/output/lifecycle and physical/A10X acceptance remain open.",
         "S3 manufacturer manual article4404659821465 links a MIDI addendum that returns404. Alza mirror61365 requires human verification. No challenge bypass attempted. S3 mapping remains open."
       ]
+    },
+    {
+      "request": "R370",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://support.alphatheta.com/en-US/articles/4404631697945",
+          "review": "Current article explicitly names DDJ-FLX6/DDJ-FLX6-GT and supplies one shared E1 table. Requires utility mode for other DJ software and power cycle between software."
+        },
+        {
+          "url": "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-FLX6/DDJ-FLX6_MIDI_message_List_E1.pdf",
+          "sha256": "a12861c81f1550c35ae446a311951ade2a51cecfc2fd07081f5c405a4f3cfbc2",
+          "review": "Current download is byte-identical to the previously reviewed pinned E1 table. Reuse existing inputs/outputs/lifecycle exactly under a distinct GT profile."
+        }
+      ],
+      "limits": [
+        "Automatic core after the user selects the required hardware mode. No mode negotiation or stored-setting write.",
+        "Merge FX/Jog Cutter, full modes/feedback/lifecycle/audio and physical/A10X acceptance remain open. No clone or generic alias."
+      ]
     }
   ]
 }

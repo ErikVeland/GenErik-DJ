@@ -4734,3 +4734,19 @@ The profile sends no output, setup, shutdown, stored-setting or audio-route comm
 Validation:203 Python checks and six focused native tests passed, including the152-profile held-Cue corpus. The iPad framework compiled and its resource matches the source. All251 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r369/validation.json`.
 
 The catalogue has252 data recipes. Automatic core coverage remains191 of343 physical models, with152 without automatic core controls. Full theoretical support and physical/A10X acceptance remain open.
+
+## R370 Manufacturer-qualified FLX6-GT core reuse
+
+Assumption: reuse a sibling protocol only when the manufacturer explicitly assigns its table to both models.
+
+- [x] Read the current shared manufacturer article and verify the current E1 download against the pinned hash.
+- [x] Add a distinct GT automatic core profile with the existing FLX6 inputs/outputs/lifecycle.
+- [x] Verify exact matching, packet parity, deck limits, pad layouts,14-bit decoding, loop controls, feedback and held Cue.
+
+The [current manufacturer article](https://support.alphatheta.com/en-US/articles/4404631697945) explicitly names DDJ-FLX6/DDJ-FLX6-GT. It links one [E1 wire table](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-FLX6/DDJ-FLX6_MIDI_message_List_E1.pdf). The current download matches the previously reviewed hash exactly. The GT recipe reuses those core packets and keeps its own qualified names. No generic FLX or clone alias is added.
+
+The manufacturer requires the utility setting for software other than rekordbox/Serato DJ Pro. It specifies a power cycle when switching DJ software. Automatic core selection therefore follows the user-selected hardware mode. The app sends no mode, stored-setting or audio-route command. Merge FX, Jog Cutter, complete pads/modes/displays/lifecycle/audio routing, calibration and physical/A10X acceptance remain open.
+
+Validation:204 Python checks and ten focused native tests passed. GT now runs through the existing Pioneer system tests. The automatic held-Cue corpus covers153 profiles. The iPad framework compiled and its resource matches the source. All252 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r370/validation.json`.
+
+The catalogue has253 data recipes. Automatic core coverage is192 of343 physical models, with151 without automatic core controls. Full theoretical support and physical/A10X acceptance remain open.

@@ -950,3 +950,7 @@ No downloaded LX or show code is copied, executed or bundled. Source-reuse revie
 
 DJM-450 has18 manual inputs from its independently reviewed three-page Version1.00 table.
 Use explicit channel1/TOGGLE and separate app audio. No factory defaults or sibling wires are inferred.
+
+The current manufacturer article explicitly shares the FLX6 E1 table with FLX6-GT.
+GT reuses the existing core through a distinct automatic profile. Hardware utility mode remains user-selected.
+The exact current PDF hash matches the earlier review. No clone, generic alias or mode-setting command is added.

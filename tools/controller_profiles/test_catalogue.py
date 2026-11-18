@@ -917,6 +917,22 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for bad in [products+products,products[:100],products+'<li data-hardware-target="midinote ios">Unknown: Screen</li>',products.replace('mac ios','mac unknown',1)]:
             with self.assertRaises(ValueError):read_djay(bad)
 
+    def test_flx6_gt_reuses_only_the_explicit_manufacturer_shared_midi_contract(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        by={r["id"]:r for r in runtime["profiles"]}
+        self.assertTrue("Pioneer DDJ-FLX6-GT" in by,"The current manufacturer article explicitly assigns the FLX6 table to GT")
+        original=by["Pioneer DDJ-FLX6"]
+        gt=by["Pioneer DDJ-FLX6-GT"]
+        for key in ["inputs","outputs","startup","shutdown","autoSelect"]:self.assertEqual(gt[key],original[key])
+        self.assertTrue(gt["autoSelect"])
+        self.assertIn("utility",gt["hardwareMode"])
+        self.assertNotIn("DDJ-FLX6",gt["aliases"])
+        from controllers import controller_references
+        reference=controller_references()[gt["id"]]
+        self.assertEqual(reference["relatedSources"][0]["url"],"https://support.alphatheta.com/en-US/articles/4404631697945")
+        cached=ROOT/"TestBuilds/r370/upstream/ddj-flx6-midi.pdf"
+        if cached.exists():self.assertEqual(hashlib.sha256(cached.read_bytes()).hexdigest(),reference["sha256"])
+
     def test_djm450_manual_two_strip_table_keeps_its_own_pfl_and_audio_boundary(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="Pioneer DJM-450"),None)
