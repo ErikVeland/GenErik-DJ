@@ -998,6 +998,24 @@ class GeneratedCatalogueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
 
+    def test_ddm4000_has_independent_manual_din_mixer_and_separate_pfl_cc_lights(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Behringer DDM4000"),None)
+        self.assertIsNotNone(item,"DDM4000 needs its reviewed MIDI-enabled mixer controls")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),21)
+        self.assertEqual(len(item["outputs"]),4)
+        self.assertFalse(item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        self.assertNotIn("inputProtocol",item)
+        self.assertEqual({r["number"] for r in item["inputs"] if r["kind"]=="note"},{63,73,83,93})
+        self.assertTrue(all(r["kind"]=="control" for r in item["outputs"]))
+        self.assertTrue(all(r["channel"]==0 for r in item["inputs"]+item["outputs"]))
+        from ddm4000 import DDM_SOURCES
+        for filename,digest in DDM_SOURCES:
+            path=ROOT/"TestBuilds/r169/upstream/res/controllers"/filename
+            if path.exists(): self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),digest)
+
     def test_p1_nano_has_manual_stateful_input_without_unqualified_motor_output(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="Icon P1-Nano MIDI 1"),None)

@@ -11837,48 +11837,74 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20DDM4000.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20DDM4000.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer-DDM4000-scripts.js"
       ],
       "definitions": [
-        "Behringer DDM4000.midi.xml"
+        "Behringer DDM4000.midi.xml",
+        "reviewed:ddm4000"
       ],
-      "implementation": "adapter-needed",
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Behringer DDM4000",
+      "automaticControls": false,
+      "controlActions": [
+        "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d"
+      ],
+      "inputBindingCount": 21,
+      "feedbackBindingCount": 4,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual DIN MIDI accessory through a separate host-visible interface. MIDI channel1 and required hardware sections in MIDI mode. Native fixed A/B/C/D strips; C/D requires app opt-in. Audio stays separate."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "adapter-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "A controller-specific protocol adapter is required."
+        "Manual DIN MIDI through a separate interface, with hardware section/channel setup. The mixer has no USB MIDI or digital audio interface. Fixed native crossfader omits source assignment/enable/curve/reverse semantics. Hardware trim, kills, microphone/sampler/FX, staggered full light initialisation and complete output/lifecycle and physical/A10X acceptance remain open. PFL outputs are CC63/73/83/93, not their input Notes.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -321839,6 +321865,49 @@
         },
         {
           "reason": "Manual MIDI1/default DAW1 input only. Source descriptions differ from executable lane groups; native A/B/C/D contract needs physical confirmation. Motor/position feedback, display/ring/meters, master-fader midpoint, knob resets, custom touchscreen controls, recording/navigation/keyboard modes, endpoint/USB qualification, complete lifecycle/calibration and physical/A10X acceptance remain open. No generic MCU or P1-M/P1-X compatibility is inferred."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:ddm4000",
+      "name": "Behringer DDM4000",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer-DDM4000-scripts.js",
+        "sha256": "ead855d1801c8aed74c97a61e46944da81e2d1a29db4d009c26d010a4b51bcc4",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20DDM4000.midi.xml",
+            "sha256": "74724faeac70e591badee6dbe7478171294239e4c2eb310cf05bde480fcb20a0"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer-DDM4000-scripts.js",
+            "sha256": "ead855d1801c8aed74c97a61e46944da81e2d1a29db4d009c26d010a4b51bcc4"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer-Extension-scripts.js",
+            "sha256": "6c175dcf576804ccb09389075550b08f483c7c1c53569bad9d8d548ee4d0da89"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/midi-components-0.0.js",
+            "sha256": "f15845d0b3fa10609aedc2fb74a9067d0f1d89387f011de72c3301799003f026"
+          },
+          {
+            "url": "https://manual.mixxx.org/2.5/en/hardware/controllers/behringer_ddm4000"
+          }
+        ],
+        "review": "Independent script uses wire channel0. Four A/B/C/D strips use high/mid/low/level CC4/5/6/7,8/9/10/11,12/13/14/15,16/17/18/19. Equalizer parameter3 is high and parameter1 low; physical strip order is not inferred from another CMD controller. PFL input Notes63/73/83/93 are separate from their same-number CC light output. Native fixed crossfader uses CC21. Source init changes output message type only and requires no input handshake. The helper staggers controller component initialisation at40 ms; it does not impose a40 ms interval on each live lamp message. Four independently addressed PFL CC lamps retain the component on127/off0 values. Full source light initialisation remains unqualified. Hardware gain/trim, microphone, kills, sampler, crossfader assignments/enable/curve/reverse and other modes remain unmapped. Hardware sections must be explicitly configured for MIDI and the MIDI channel set to1. The mixer has DIN MIDI ports, no USB MIDI or digital audio interface; a separate host-visible MIDI interface and separate audio routing are required. Manual selection prevents arbitrary DIN bridge identity from claiming automatic device recognition. No persistent setup, sibling protocol or audio route is inferred. Full output/lifecycle and physical/A10X acceptance remain open."
+      },
+      "implementedInputCount": 21,
+      "implementedOutputCount": 4,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual DIN MIDI through a separate interface, with hardware section/channel setup. The mixer has no USB MIDI or digital audio interface. Fixed native crossfader omits source assignment/enable/curve/reverse semantics. Hardware trim, kills, microphone/sampler/FX, staggered full light initialisation and complete output/lifecycle and physical/A10X acceptance remain open. PFL outputs are CC63/73/83/93, not their input Notes."
         }
       ]
     },

@@ -815,3 +815,12 @@ The `p1NanoEncoder` codec preserves source counts in0.01 normalised units. Neutr
 Profile validation admits it only for reviewed P1-Nano gain/EQ/filter addresses. Raw logical channels, master-fader guesses and custom touchscreen traffic remain inactive.
 Deck/control changes release owned contacts and reset pickup/debounce. Reconnect resets decoder modes; the manual protocol tag remains bounded and persistent.
 Source captions differ from executable lane groups. Motor/display output, complete lifecycle and physical acceptance remain open. Automatic selection stays off.
+
+### DDM4000 manual MIDI mixer (R336)
+
+`ddm4000.py` retains four independent source strips and a fixed native crossfader. Hardware sections must use MIDI mode on channel1.
+PFL input uses Notes63/73/83/93. Four separate light mappings use same-number CCs with127/0 values.
+The source helper staggers component initialisation at40 ms; it does not enforce that interval between every live light message. Full source light initialisation remains open.
+MIDI CC light echoes, hardware trim, microphone, sampler, curve/reverse and assignment inputs cannot become unrelated actions.
+The DDM4000 requires a DIN MIDI interface and separate audio routing. It has no USB MIDI or digital audio interface. Automatic selection stays off.
+Full modes/output/lifecycle and physical acceptance remain open.
