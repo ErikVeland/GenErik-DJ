@@ -9,10 +9,10 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 319 total catalogue records. 312 name physical models. The remainder identify software endpoints or protocol families.
-- 243 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 175 factory profiles select core controls automatically for 183 physical models.
+- 244 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 176 factory profiles select core controls automatically for 184 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
-- 123 physical models still lack automatic core controls.
+- 122 physical models still lack automatic core controls.
 - 312 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -221,13 +221,13 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 17 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 177 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 178 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
 | partial-midi-profile | 70 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 31 | The pinned references contain no implemented mapping for this model. |
+| protocol-needed | 30 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -392,7 +392,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Pioneer XDJ-RR | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-RR/XDJ-RR_List_of_MIDI_Message_ver101_e.pdf) |
 | AlphaTheta DJM-A7 | primary | partial-midi-profile | [Reference](https://alphatheta.com/en/product/dj-mixer/djm-a7/black/) |
 | AlphaTheta RMX-IGNITE | primary | protocol-needed | [Reference](https://alphatheta.com/en/product/effector/rmx-ignite/black/) |
-| AlphaTheta XDJ-AN | primary | protocol-needed | [Reference](https://alphatheta.com/en/product/all-in-one-dj-system/xdj-an/black/) |
+| AlphaTheta XDJ-AN | primary | automatic-core-profile | [Reference](https://alphatheta.com/en/product/all-in-one-dj-system/xdj-an/black/) |
 | Pioneer CDJ HID | protocol-family | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20CDJ%20HID.hid.xml) |
 | Pioneer DDJ-1000 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-1000/DDJ-1000_MIDI_Message_List_E1.pdf) |
 | Pioneer DDJ-1000SRT | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/firmwares/dj-controllers/DDJ-1000SRT/DDJ-1000SRT_MIDI_Message_List_E1.pdf) |

@@ -2183,3 +2183,27 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueXDJANNativeCueModeLossAndLoopKeepAudioAndSync() async throws {
+    try await withControllerCuePlayback("XDJ-AN", prepareInput: {
+        $0.receiveBytes([0xB0,100,127,0xB1,100,127],source: 10)
+    }) { model,input in
+        input.receiveBytes([0x90,1,127],source: 10)
+        input.flushPendingActions()
+        model.refreshPlayback()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0xB4,101,127],source: 10)
+        input.flushPendingActions()
+        model.refreshPlayback()
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(!input.isInputActive(10))
+        input.receiveBytes([0xB4,101,0,0x90,0,127,0,0,0x95,51,127,51,0],source: 10)
+        input.flushPendingActions()
+        model.refreshPlayback()
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+    }
+}

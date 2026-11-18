@@ -861,6 +861,20 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_xdj_an_requires_independent_paired_ownership_and_qualified_pad_pages(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next(r for r in runtime["profiles"] if r["id"]=="AlphaTheta XDJ-AN")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual(item["inputProtocol"],"xdjAN")
+        self.assertFalse(item["startup"] or item["shutdown"])
+        self.assertEqual(len(item["inputs"]),99)
+        self.assertEqual(len(item["outputs"]),10)
+        self.assertEqual({r["number"] for r in item["inputs"] if r["channel"] in {5,6}},set(range(8))|set(range(16,24))|set(range(48,56)))
+        self.assertFalse(any(r["number"] in {100,101} for r in item["inputs"]))
+        from xdj_an import AN_REFERENCES
+        cached=ROOT/"TestBuilds/r360/upstream/xdj-an-midi-e1.pdf"
+        if cached.exists():self.assertEqual(hashlib.sha256(cached.read_bytes()).hexdigest(),AN_REFERENCES[item["id"]]["sha256"])
+
     def test_a7_keeps_its_independent_complete_four_fader_midi_subset(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="AlphaTheta DJM-A7"),None)
@@ -3072,7 +3086,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for name, source in MANUFACTURER_MODELS:
             model = next(item for item in catalogue["models"] if item["id"] == canonical(name))
             self.assertIn(source, model["sources"])
-            self.assertEqual(model["zeroConfig"]["automaticControls"], name in {"Reloop Mixtour", "Reloop Beatpad 2", "Numark Stealth Control", "Denon DJ PRIME GO", "Numark MixTrack Go", "Numark Party Mix III", "AlphaTheta SLAB"})
+            self.assertEqual(model["zeroConfig"]["automaticControls"], name in {"Reloop Mixtour", "Reloop Beatpad 2", "Numark Stealth Control", "Denon DJ PRIME GO", "Numark MixTrack Go", "Numark Party Mix III", "AlphaTheta SLAB", "AlphaTheta XDJ-AN"})
             self.assertFalse(model["theoreticalSupport"]["complete"])
         model_ids = {model["id"] for model in catalogue["models"]}
         for row in catalogue["benchmarkRows"]:

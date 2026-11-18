@@ -924,3 +924,5 @@ The [public-source audit](../../docs/coordination/controller-public-source-audit
 
 
 `djm_a7.py` defines32 manual inputs from the independent A7 EN100 table, including all four faders. PFL requires channel1/TOGGLE. Use a separate app audio path until hardware/software mixer ownership is implemented. No factory button-type default, MIDI output, stored setting or audio route is inferred. The A7 table does not repair A9's conflicting rows.
+
+`xdj_an.py` defines99 XDJ-AN inputs and ten binary lamps from the independent E1 table. Both decks must enter Software Control before a paired-output command selects MIDI Control. Input readiness follows local send success, without claiming device acknowledgement. Source-local mode loss releases holds and cancels owned queued movement. Saved raw mappings remain active until explicit replacement. The separate Core decoder owns setup state. Other modes, jog calibration, full feedback, audio routing, cold notifications and physical/A10X acceptance remain open.

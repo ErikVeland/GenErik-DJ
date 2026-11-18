@@ -390,7 +390,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private var cdj101Decoders: [Int32: ControllerCDJ101Decoder] = [:]
     @ObservationIgnored private var sr2Decoders: [Int32: ControllerSR2Decoder] = [:]
     @ObservationIgnored private var kontrolOneDecoders: [Int32: ControllerKontrolOneDecoder] = [:]
-    @ObservationIgnored private var korgInputDecoders: [Int32: ControllerKorgInputDecoder] = [:]
+    @ObservationIgnored private var setupInputDecoders: [Int32: ControllerSetupInputDecoder] = [:]
     @ObservationIgnored private var nativeFactoryProtocols: [Int32: ControllerProfileData.InputProtocol] = [:]
     @ObservationIgnored private var sc5000MDecoders: [Int32: ControllerSC5000MDecoder] = [:]
     @ObservationIgnored private var prime4Decoders: [Int32: ControllerPrime4Decoder] = [:]
@@ -411,6 +411,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private var valueStates: [String: ControllerMIDIValueState] = [:]
     @ObservationIgnored private var takeoverStates: [String: ControllerMIDITakeoverState] = [:]
     @ObservationIgnored private var pendingValues: [ControllerActionTarget: Double] = [:]
+    @ObservationIgnored private var pendingInputOwners: [ControllerActionTarget: Int32] = [:]
+    @ObservationIgnored private var pendingJogSources: [ControllerActionTarget: [Int32: Double]] = [:]
     @ObservationIgnored private var pendingJogValues: [ControllerActionTarget: ControllerMIDIValue] = [:]
     @ObservationIgnored private var channelShiftLayers: [Int32: [UInt8: ControllerShiftLayerState]] = [:]
     @ObservationIgnored private var shiftLayers: [Int32: ControllerShiftLayerState] = [:]
@@ -613,7 +615,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         sr2Decoders.removeAll()
         keyLabDecoders.removeAll()
         p1NanoDecoders.removeAll()
-        korgInputDecoders.removeAll()
+        setupInputDecoders.removeAll()
         sc5000MDecoders.removeAll()
         prime4Decoders.removeAll()
         spectraDecoders.removeAll()
@@ -630,6 +632,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         values.removeAll()
         valueStates.removeAll()
         takeoverStates.removeAll()
+        pendingInputOwners.removeAll()
+        pendingJogSources.removeAll()
         pendingValues.removeAll()
         pendingJogValues.removeAll()
         _ = inbox.take()
@@ -731,8 +735,49 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         updatePollingInterval()
     }
 
-    private func keepsRawNanoKontrolMappings(_ source: Int32) -> Bool {
-        bindings.contains { $0.source == source } && manualInputProtocols[source] != .nanoKontrolScene
+    /**
+     * Removes queued input from the controller that lost software ownership.
+     */
+    private func discardPendingInput(source: Int32) {
+        let targets = Set(pendingInputOwners.compactMap { $0.value == source ? $0.key : nil })
+            .union(pendingJogSources.compactMap { $0.value[source] != nil ? $0.key : nil })
+        for target in targets {
+            if var contributions = pendingJogSources[target] {
+                contributions[source] = nil
+                if let owner = contributions.keys.min() {
+                    let total = contributions.values.reduce(0,+)
+                    pendingJogSources[target] = contributions
+                    pendingInputOwners[target] = owner
+                    pendingJogValues[target] = .relative(total)
+                    pendingValues[target] = 0.5 + min(4,max(-4,total)) / 8
+                    continue
+                }
+            }
+            pendingInputOwners[target] = nil
+            pendingJogSources[target] = nil
+            pendingJogValues[target] = nil
+            pendingValues[target] = nil
+        }
+    }
+
+    private func setupInputModeChanged(_ ready: Bool, source: Int32) {
+        if !ready { discardPendingInput(source: source) }
+        releaseMomentaryActions(source: source, resetJogs: false)
+        shiftLayers[source] = nil
+        channelShiftLayers[source] = nil
+        resetInputValueStates(inputBindings(source: source))
+        if inputProtocol(for: source) == .nanoKontrolScene {
+            status = ready ? "Controller scene ready." : "Reading the controller scene. Reconnect if setup does not finish."
+        } else {
+            status = ready ? "Controller ready." : "Controller left its MIDI mode. Reconnect to continue."
+        }
+        if let destination = factorySessions.first(where: { $0.source == source })?.destination {
+            sentFactoryValues[destination] = nil
+        }
+    }
+
+    private func keepsRawSetupMappings(_ source: Int32, protocol input: ControllerProfileData.InputProtocol) -> Bool {
+        input.preservesRawMappings && bindings.contains { $0.source == source } && manualInputProtocols[source] != input
     }
 
     func reconcileFactoryProfiles(reassigning: Set<Int32> = []) {
@@ -747,9 +792,9 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         nativeFactoryProtocols = Dictionary(uniqueKeysWithValues: sources.compactMap { source in
             guard let identity = source.identity,
                 let input = ControllerFactoryProfile.matching(identity.names, automaticOnly: true)?.definition?.inputProtocol,
-                input.korgInputMode != nil
+                input.setupInputMode != nil
             else { return nil }
-            guard input != .nanoKontrolScene || !keepsRawNanoKontrolMappings(source.id) else { return nil }
+            guard !keepsRawSetupMappings(source.id, protocol: input) else { return nil }
             return (source.id, input)
         })
         let timedDevices = Set(sources.compactMap { source -> UInt32? in
@@ -761,15 +806,15 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             guard let identity = destination.identity else { return nil }
             let profile = ControllerFactoryProfile.matching(identity.names, automaticOnly: true)
             return timedDevices.contains(identity.device)
-                || (profile?.definition?.requiresPairedSetup == true && profile?.definition?.inputProtocol != .nanoKontrolScene)
+                || (profile?.definition?.requiresPairedSetup == true && profile?.definition?.inputProtocol?.preservesRawMappings != true)
                 ? destination.id : nil
         })
         let discovered = ControllerFactorySession.discover(
             sources: sources.compactMap(\.identity), destinations: destinations.compactMap(\.identity),
             disabled: disabledFactoryProfiles
-        ).filter {
-            (!$0.profile.isPlayer || !disabledPlayerSources.contains($0.source))
-                && ($0.profile.definition?.inputProtocol != .nanoKontrolScene || !keepsRawNanoKontrolMappings($0.source))
+        ).filter { session in
+            (!session.profile.isPlayer || !disabledPlayerSources.contains(session.source))
+                && (session.profile.definition?.inputProtocol.map { !keepsRawSetupMappings(session.source, protocol: $0) } ?? true)
         }
         let current = Dictionary(
             uniqueKeysWithValues: factorySessions.compactMap { session -> (Int32, DeckID)? in
@@ -892,11 +937,11 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
      * Sends bounded mode messages only to the paired physical output.
      */
     @discardableResult private func sendFactorySetup(_ session: ControllerFactorySession, starting: Bool) -> Bool {
-        if let model = session.profile.definition?.inputProtocol?.korgInputMode {
+        if let model = session.profile.definition?.inputProtocol?.setupInputMode {
             if starting {
-                korgInputDecoders[session.source] = .init(mode: model)
+                setupInputDecoders[session.source] = .init(mode: model)
                 status = "Waiting for controller setup."
-            } else if let message = korgInputDecoders[session.source]?.exitRequest {
+            } else if let message = setupInputDecoders[session.source]?.exitRequest {
                 return sendFactoryMessage(message, session: session, starting: false)
             }
         }
@@ -981,7 +1026,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     }
 
     private func failFactorySetup(_ session: ControllerFactorySession) {
-        if session.profile.definition?.inputProtocol?.korgInputMode != nil {
+        if session.profile.definition?.inputProtocol?.setupInputMode != nil {
             _ = sendFactorySetup(session, starting: false)
         }
         disconnectInput(session.source)
@@ -1036,8 +1081,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     func factoryOutputIsReady(_ id: Int32) -> Bool {
         guard timedFactoryOutputs.contains(id) else { return true }
         guard let session = factorySessions.first(where: { $0.destination == id }) else { return false }
-        if session.profile.definition?.inputProtocol?.korgInputMode != nil {
-            return korgInputDecoders[session.source]?.isReady == true
+        if session.profile.definition?.inputProtocol?.setupInputMode != nil {
+            return setupInputDecoders[session.source]?.isReady == true
         }
         return factoryInputReadyTimes[session.source] != nil
     }
@@ -1050,7 +1095,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
 
     func applyFactoryProfile(_ profile: ControllerFactoryProfile) {
         guard !originalZ1Bridge, let selected else { return }
-        let adoptsSceneProfile = profile.definition?.inputProtocol == .nanoKontrolScene
+        let adoptsSceneProfile = profile.definition?.inputProtocol?.preservesRawMappings == true
             && !factorySessions.contains(where: { $0.source == selected && $0.profile == profile })
         let availableScenePair = adoptsSceneProfile && ControllerFactorySession.discover(
             sources: sources.compactMap(\.identity), destinations: destinations.compactMap(\.identity), disabled: []
@@ -1073,6 +1118,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         bindings.append(contentsOf: replacement)
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
+        pendingInputOwners.removeAll()
+        pendingJogSources.removeAll()
         pendingValues.removeAll()
         pendingJogValues.removeAll()
         learning = nil
@@ -1085,7 +1132,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             reconcileFactoryProfiles()
             return
         }
-        if profile.definition?.inputProtocol?.korgInputMode != nil,
+        if profile.definition?.inputProtocol?.setupInputMode != nil,
             let session = factorySessions.first(where: { $0.source == selected && $0.profile == profile }) {
             if !sendFactorySetup(session, starting: true) { failFactorySetup(session) }
             return
@@ -1160,7 +1207,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     }
     func isInputActive(_ id: Int32) -> Bool {
         guard !timedFactoryInputs.contains(id) || factoryInputReadyTimes[id] != nil,
-            nativeFactoryProtocols[id] == nil || korgInputDecoders[id]?.isReady == true else { return false }
+            nativeFactoryProtocols[id] == nil || setupInputDecoders[id]?.isReady == true else { return false }
         return activeInputIDs.contains(id) || factoryBindings[id] != nil
     }
     private func setFactoryDisabled(_ disabled: Bool, profile: ControllerFactoryProfile, source: Int32) {
@@ -1205,7 +1252,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         sr2Decoders[source] = nil
         keyLabDecoders[source] = nil
         p1NanoDecoders[source] = nil
-        korgInputDecoders[source] = nil
+        setupInputDecoders[source] = nil
         sc5000MDecoders[source] = nil
         prime4Decoders[source] = nil
         spectraDecoders[source] = nil
@@ -1242,7 +1289,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         sr2Decoders[id] = nil
         keyLabDecoders[id] = nil
         p1NanoDecoders[id] = nil
-        korgInputDecoders[id] = nil
+        setupInputDecoders[id] = nil
         sc5000MDecoders[id] = nil
         prime4Decoders[id] = nil
         spectraDecoders[id] = nil
@@ -1250,7 +1297,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         bridgeDecoders[id] = .init()
         updatePollingInterval()
         if startingFactorySetup, let timedSession, factoryInputReadyTimes[id] == nil,
-            korgInputDecoders[id]?.isReady != true {
+            setupInputDecoders[id]?.isReady != true {
             return beginFactorySetup(timedSession)
         }
         return true
@@ -1271,7 +1318,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         sr2Decoders[id] = nil
         keyLabDecoders[id] = nil
         p1NanoDecoders[id] = nil
-        korgInputDecoders[id] = nil
+        setupInputDecoders[id] = nil
         sc5000MDecoders[id] = nil
         prime4Decoders[id] = nil
         spectraDecoders[id] = nil
@@ -1282,6 +1329,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         values = values.filter { !$0.key.hasPrefix("\(id)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(id)-") }
         takeoverStates = takeoverStates.filter { !$0.key.hasPrefix("\(id)-") }
+        pendingInputOwners.removeAll()
+        pendingJogSources.removeAll()
         pendingValues.removeAll()
         pendingJogValues.removeAll()
         releaseMomentaryActions(source: id, resetJogs: endpoint != nil || playerDeck(source: id) != nil)
@@ -1703,6 +1752,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         bindings.removeAll { $0.source == selected }
         values.removeAll()
         valueStates.removeAll()
+        pendingInputOwners.removeAll()
+        pendingJogSources.removeAll()
         pendingValues.removeAll()
         pendingJogValues.removeAll()
         learning = nil
@@ -1723,6 +1774,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         bindings.append(contentsOf: profile)
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
+        pendingInputOwners.removeAll()
+        pendingJogSources.removeAll()
         pendingValues.removeAll()
         pendingJogValues.removeAll()
         learning = nil
@@ -1745,6 +1798,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         bindings.append(contentsOf: profile)
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
+        pendingInputOwners.removeAll()
+        pendingJogSources.removeAll()
         pendingValues.removeAll()
         pendingJogValues.removeAll()
         learning = nil
@@ -1766,6 +1821,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         bindings.append(contentsOf: profile)
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
+        pendingInputOwners.removeAll()
+        pendingJogSources.removeAll()
         pendingValues.removeAll()
         pendingJogValues.removeAll()
         learning = nil
@@ -1793,6 +1850,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         bindings.append(contentsOf: profile)
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
+        pendingInputOwners.removeAll()
+        pendingJogSources.removeAll()
         pendingValues.removeAll()
         pendingJogValues.removeAll()
         learning = nil
@@ -1815,6 +1874,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         bindings.append(contentsOf: profile)
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
+        pendingInputOwners.removeAll()
+        pendingJogSources.removeAll()
         pendingValues.removeAll()
         pendingJogValues.removeAll()
         learning = nil
@@ -2031,8 +2092,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @discardableResult func receiveBytes(
         _ bytes: [UInt8], source: Int32, limit: Int = 256, timestamp: UInt64 = DispatchTime.now().uptimeNanoseconds
     ) -> Int? {
-        let nativeSetup = inputProtocol(for: source)?.korgInputMode != nil
-            && factorySessions.contains { $0.source == source && $0.profile.definition?.inputProtocol?.korgInputMode != nil }
+        let nativeSetup = inputProtocol(for: source)?.setupInputMode != nil
+            && factorySessions.contains { $0.source == source && $0.profile.definition?.inputProtocol?.setupInputMode != nil }
         guard isInputActive(source) || nativeSetup else { return 0 }
         if let ready = factoryInputReadyTimes[source], timestamp < ready { return 0 }
         guard bytes.count <= 4096, (0...256).contains(limit) else {
@@ -2103,10 +2164,10 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             }
             return events.count
         }
-        if let model = inputProtocol(for: source)?.korgInputMode {
-            var decoder = korgInputDecoders[source, default: .init(mode: model)]
+        if let model = inputProtocol(for: source)?.setupInputMode {
+            var decoder = setupInputDecoders[source, default: .init(mode: model)]
             let events = decoder.append(bytes)
-            korgInputDecoders[source] = decoder
+            setupInputDecoders[source] = decoder
             guard events.count <= limit else {
                 stop()
                 status = "Controller input overload. Reconnect to continue."
@@ -2124,20 +2185,18 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                     flushPendingActions()
                     releaseMomentaryActions(source: source, resetJogs: false)
                     resetInputValueStates(inputBindings(source: source).filter { $0.action != .shift })
-                case .modeChanged(let ready):
-                    releaseMomentaryActions(source: source, resetJogs: false)
-                    shiftLayers[source] = nil
-                    channelShiftLayers[source] = nil
-                    resetInputValueStates(inputBindings(source: source))
-                    if inputProtocol(for: source) == .nanoKontrolScene {
-                        status = ready ? "Controller scene ready." : "Reading the controller scene. Reconnect if setup does not finish."
-                    } else {
-                        status = ready ? "Controller ready." : "Controller left its MIDI mode. Reconnect to continue."
-                    }
-                    if let destination = factorySessions.first(where: { $0.source == source })?.destination {
-                        sentFactoryValues[destination] = nil
-                    }
+                case .modeChanged(let ready): setupInputModeChanged(ready, source: source)
                 case .message(let message): receive(message, source: source)
+                }
+            }
+            if let request = setupInputDecoders[source]?.pendingRequest {
+                guard let session = factorySessions.first(where: { $0.source == source }),
+                    sendFactoryMessage(request, session: session, starting: true) else {
+                    if let session = factorySessions.first(where: { $0.source == source }) { failFactorySetup(session) }
+                    return nil
+                }
+                if setupInputDecoders[source]?.didSendPendingRequest(request) == true {
+                    setupInputModeChanged(true, source: source)
                 }
             }
             return events.count
@@ -2328,6 +2387,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     func flushPendingActions() {
         let pending = pendingValues
         let jogs = pendingJogValues
+        pendingInputOwners.removeAll(keepingCapacity: true)
+        pendingJogSources.removeAll(keepingCapacity: true)
         pendingValues.removeAll(keepingCapacity: true)
         pendingJogValues.removeAll(keepingCapacity: true)
         for (target, value) in pending { sendAction(target, value: value, jog: jogs[target]) }
@@ -2572,12 +2633,16 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                         let previous: Double
                         if case .relative(let counts) = pendingJogValues[binding.target] { previous = counts }
                         else { previous = 0 }
-                        let total = previous + (binding.inverted == true ? -delta : delta)
+                        let signedDelta = binding.inverted == true ? -delta : delta
+                        let total = previous + signedDelta
+                        pendingJogSources[binding.target, default: [:]][sourceID, default: 0] += signedDelta
                         pendingJogValues[binding.target] = .relative(total)
                     case .absolute:
+                        pendingJogSources[binding.target] = nil
                         pendingJogValues[binding.target] = .absolute(value)
                     }
                 }
+                pendingInputOwners[binding.target] = sourceID
                 pendingValues[binding.target] = value
             }
         }
@@ -2668,6 +2733,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             let deck = target.deck ?? target.action.deck
             let jogs = pendingValues.keys.filter { $0.action.isJog && ($0.deck ?? $0.action.deck) == deck }
             for key in jogs {
+                pendingInputOwners[key] = nil
+                pendingJogSources[key] = nil
                 if let pending = pendingValues.removeValue(forKey: key) {
                     sendAction(key, value: pending, jog: pendingJogValues.removeValue(forKey: key))
                 }
@@ -2682,6 +2749,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         if target.action == .loadA || target.action == .loadB || target.action == .openGroup {
             for encoder in [ControllerAction.browse, .browseGroups] {
                 let key = ControllerActionTarget(encoder)
+                pendingInputOwners[key] = nil
+                pendingJogSources[key] = nil
                 if let pending = pendingValues.removeValue(forKey: key) { sendAction(key, value: pending) }
             }
         }

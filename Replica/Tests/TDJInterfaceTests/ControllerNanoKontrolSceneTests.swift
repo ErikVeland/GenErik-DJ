@@ -249,3 +249,58 @@ func controllerOriginalNanoSceneFixture(offset: UInt8 = 0, toggle: Bool = false,
         }
     }
 }
+
+@Test @MainActor func controllerCatalogueXDJANKeepsSavedRawMappingsUntilExplicitReplacement() throws {
+    for overCapacity in [false, true] {
+        let suite = "xdjan-legacy-\(UUID().uuidString)"
+        let preferences = UserDefaults(suiteName: suite)!
+        defer { preferences.removePersistentDomain(forName: suite) }
+        var bindings = [
+            ControllerBinding(
+                source: 10, group: nil, channel: 0, kind: .control, number: 99, parameter: nil, noteNumber: nil,
+                action: .crossfader, encoding: nil, inverted: nil, shifted: nil)
+        ]
+        if overCapacity {
+            bindings += (0..<158).map {
+                ControllerBinding(
+                    source: 11, group: nil, channel: UInt8($0 / 128), kind: .control, number: UInt8($0 % 128),
+                    parameter: nil, noteNumber: nil, action: .levelB, encoding: nil, inverted: nil, shifted: nil)
+            }
+        }
+        let saved = try JSONEncoder().encode(bindings)
+        preferences.set(saved, forKey: "controllers.midiBindings.v1")
+        preferences.set(try JSONEncoder().encode([Int32(10)]), forKey: "controllers.midiActiveInputs.v1")
+        let probe = SceneProbe()
+        let input = ControllerMIDIConnection(
+            preferences: preferences, factoryPacketSender: { probe.send($0, to: $1) },
+            factoryInputConnector: { _ in true })
+        input.sources = [
+            .init(
+                id: 10, reference: 100, name: "XDJ-AN", identity: .init(id: 10, device: 1, names: ["XDJ-AN"]))
+        ]
+        input.destinations = [
+            .init(
+                id: 20, reference: 200, name: "XDJ-AN", identity: .init(id: 20, device: 1, names: ["XDJ-AN"]))
+        ]
+        input.reconcileFactoryProfiles()
+        #expect(input.isInputActive(10) && input.factoryOutputIsReady(20) && probe.packets.isEmpty)
+        #expect(preferences.data(forKey: "controllers.midiBindings.v1") == saved)
+        input.currentTargetValue = { _ in 0.5 }
+        var values: [Double] = []
+        input.onAction = { action, value in if action == .crossfader { values.append(value) } }
+        originalNanoPacket([0xB0, 99, 64], to: input)
+        originalNanoPacket([0xB0, 99, 127], to: input)
+        #expect(values == [64.0 / 127, 1])
+        input.select(10)
+        input.applyFactoryProfile(try #require(ControllerFactoryProfile.matching(["XDJ-AN"])))
+        if overCapacity {
+            #expect(preferences.data(forKey: "controllers.midiBindings.v1") == saved && probe.packets.isEmpty)
+            #expect(input.isInputActive(10))
+        } else {
+            #expect(input.bindingCount == 99 && !input.isInputActive(10) && !input.factoryOutputIsReady(20))
+            #expect(probe.packets.isEmpty)
+            originalNanoPacket([0xB0, 100, 127, 0xB1, 100, 127], to: input)
+            #expect(input.isInputActive(10))
+        }
+    }
+}

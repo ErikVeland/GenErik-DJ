@@ -3219,46 +3219,119 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://alphatheta.com/en/product/all-in-one-dj-system/xdj-an/black/"
+        "https://alphatheta.com/en/product/all-in-one-dj-system/xdj-an/black/",
+        "https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-AN/XDJ-AN_MIDI_Massage_List_E1.pdf"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:pioneerxdjan"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "AlphaTheta XDJ-AN",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "browsePreviousGroup",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "fixedJumpA:a",
+        "fixedJumpB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "hotcue5A:a",
+        "hotcue5B:b",
+        "hotcue6A:a",
+        "hotcue6B:b",
+        "hotcue7A:a",
+        "hotcue7B:b",
+        "hotcue8A:a",
+        "hotcue8B:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "jumpBackA:a",
+        "jumpBackB:b",
+        "jumpForwardA:a",
+        "jumpForwardB:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "openGroup",
+        "playA:a",
+        "playB:b",
+        "seekA:a",
+        "seekB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
+      ],
+      "inputBindingCount": 99,
+      "feedbackBindingCount": 10,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Select SOURCE, Software Control, then LOAD1 and LOAD2 after connecting the app. Both deck PC-mode notifications and a paired output are required. The app then requests MIDI Control mixer mode. USB-C iPad support does not qualify Lightning/A10X."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Physical Software Control entry remains required. Cold PC-mode notifications, mode-command timing, jog resolution, tempo range/taper, remaining pad/FX modes, ambiguous BeatLoop rotation, screens/meters/full feedback, audio routes and physical/A10X acceptance remain open. No shutdown mode write or audio route is inferred."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -324001,6 +324074,44 @@
         },
         {
           "reason": "Manual MIDI channel1/TOGGLE only; no factory button-type default is inferred. TRIGGER mode, physical taper/calibration, hardware/software audio ownership, external deck routing, Link Cue/SonicLink, master Texture, source/assign/curve switches, effects/microphone/clock, full setup/output/lifecycle and physical/A10X acceptance remain open. No sibling protocol, MIDI receive behaviour, output or stored-setting write is inferred."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneerxdjan",
+      "name": "AlphaTheta XDJ-AN",
+      "transport": "midi",
+      "source": {
+        "url": "https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-AN/XDJ-AN_MIDI_Massage_List_E1.pdf",
+        "sha256": "8862a83688206ffe0bf7736a0235f1318b07185b467444a6bad2d49e7733c4bd",
+        "pages": [
+          1,
+          2,
+          3
+        ],
+        "relatedSources": [
+          {
+            "url": "https://support.alphatheta.com/en-US/articles/53214453591205?product=51352009960347"
+          },
+          {
+            "url": "https://downloads.support.alphatheta.com/manuals/all-in-one-dj-systems/XDJ-AN/html/en/000_EP169_en/Using_DJ_software/Using_DJ_software.htm"
+          },
+          {
+            "url": "https://downloads.support.alphatheta.com/manuals/all-in-one-dj-systems/XDJ-AN/html/en/000_EP169_en/Settings/Settings.htm"
+          }
+        ],
+        "review": "All three E1 pages were visually reviewed. Decks use channels1/2; mixer channel5; normal pads channels6/7; Shift pads channels8/9. Input-only PC Control CC100 must report127 independently from both decks before one paired-output Mixer Mode CC101=0 requests MIDI Control. The decoder marks local readiness only after the send succeeds, without claiming a device acknowledgement. Any deck leaving PC mode gates controls and releases holds. Nonzero mixer mode gates controls without fighting the physical choice. The user can restore MIDI Control explicitly or re-enter PC mode. No guessed XDJ-AN mode value or shutdown write is sent. Source-selected Software Control and LOAD1/2 are physical steps. Current manual explicitly describes USB-C iPhone/iPad, not Lightning/A10X qualification. Tempo uses non-inverted paired14-bit CC0/32; jogs use documented centre64 difference counts, with physical resolution/range calibration open. Main Cue is held; both Shift transitions retire side-local holds. Normal hot cues, fixed native eight-pad loops and signed jumps are distinct pages; mode presses retire held actions. Mixer/PFL and exact127/0 Play/Cue/Sync/Keylock lamps use independently listed addresses. Remaining pad/effect/keyboard modes, ambiguous binary BeatLoop rotation, source tempo range switches, touch interpretation, meters/screens, audio routes, ownership timing/cold notifications, full lifecycle and physical acceptance remain open. No sibling profile, HID, SDK or audio route is inferred."
+      },
+      "implementedInputCount": 99,
+      "implementedOutputCount": 10,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Physical Software Control entry remains required. Cold PC-mode notifications, mode-command timing, jog resolution, tempo range/taper, remaining pad/FX modes, ambiguous BeatLoop rotation, screens/meters/full feedback, audio routes and physical/A10X acceptance remain open. No shutdown mode write or audio route is inferred."
         }
       ]
     },
