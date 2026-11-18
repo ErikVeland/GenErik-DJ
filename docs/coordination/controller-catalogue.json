@@ -18674,12 +18674,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://cdn.inmusicbrands.com/denondj/legacy/dnmc6000/DN-MC6000_ownersmanual.pdf",
         "https://www.algoriddim.com/hardware"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:original-mc6000-pc-mix"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Denon DJ MC6000",
+      "automaticControls": false,
       "comparisonSupport": {
         "djay": {
           "sourceName": "Denon DJ MC6000",
@@ -18707,40 +18712,146 @@
           "source": "https://www.algoriddim.com/hardware"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "browsePreviousGroup",
+        "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "jogA:a",
+        "jogA:c",
+        "jogB:b",
+        "jogB:d",
+        "jogTouchA:a",
+        "jogTouchA:c",
+        "jogTouchB:b",
+        "jogTouchB:d",
+        "keylockA:a",
+        "keylockA:c",
+        "keylockB:b",
+        "keylockB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "loopDownA:a",
+        "loopDownA:c",
+        "loopDownB:b",
+        "loopDownB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "loopUpA:a",
+        "loopUpA:c",
+        "loopUpB:b",
+        "loopUpB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownA:c",
+        "pitchBendDownB:b",
+        "pitchBendDownB:d",
+        "pitchBendUpA:a",
+        "pitchBendUpA:c",
+        "pitchBendUpB:b",
+        "pitchBendUpB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "shift",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d",
+        "tempoA:a",
+        "tempoA:c",
+        "tempoB:b",
+        "tempoB:d"
+      ],
+      "inputBindingCount": 112,
+      "feedbackBindingCount": 40,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual PC MIX, MIDI/USB channel source selectors and MIDI block1-4 (SHIFT+BROWSE). Deck channels1-4 map A/C/B/D. Physical mixer CH1-4 explicitly map A/B/C/D. Use separate app audio. C/D require app opt-in."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Manual fixed channel block1-4 and explicit PC MIX/source selectors. Physical mixer CH1-4 use native A-D order. No MK2 inheritance or automatic hardware setting/audio route. Alternate channel blocks, FX/sample pages, shifted functions, PAN/blend ownership, full lifecycle/output/calibration and physical/A10X acceptance remain open. No fader request, meter/dimmer, reset, driver or downloaded executable source is sent or run.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -332751,6 +332862,36 @@
         },
         {
           "reason": "Desktop driver/bridge, direct iPad USB/audio and hardware/software source ownership remain unqualified. Manual core only; tempo/mixer use qualified seven-bit MSBs. Strip Search, loops/sampler pages, FX, reverse/Slip, tempo ranges, full output/lifecycle/calibration and physical/A10X acceptance remain open. Separate manual feedback selection. No TEST-labelled platter mode, device-layer/setting write, driver install, startup/shutdown or audio-route command is sent."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:original-mc6000-pc-mix",
+      "name": "Denon DJ MC6000",
+      "transport": "midi",
+      "source": {
+        "url": "https://cdn.inmusicbrands.com/denondj/legacy/dnmc6000/DN-MC6000_ownersmanual.pdf",
+        "sha256": "2f7d75c1973fdc752699ab4dc90f3fcf5bbe316b51f57b060687194815d2b45f",
+        "relatedSources": [
+          {
+            "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+            "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+            "member": "Applications/DEX4.app/Contents/Resources/controllers/Denon__MC6000.js",
+            "memberSHA256": "bf2c260eaf1ede588d7fd40998d40d8e954bcdfdac39694011303acdf14f049d"
+          }
+        ],
+        "review": "Manufacturer printed pages19-21 visually reviewed. Explicit channel block1-4 uses deck order A/C/B/D, with mixer/global bus1. PC MIX and MIDI/USB source selectors are required. Native manual layout explicitly assigns physical mixer CH1-4 to A-D, independently of the downloaded application's different strip order. Normal deck transport, four Hot Cues, loop controls, side-scoped Shift, raw64 touch and CC81 raw-minus64 jogs retain their own addresses. Independent original-MC6000 DEX handler gives2000 positions per revolution. Pitch uses the documented pitch message with native inverted direction pending calibration. Shared PAN is not inferred as cue/master blend. Forty steady lamp recipes retain CC74/75 or PFL80/81 trigger identifiers. No ALL SLIDER/VOLUME/FADER REQUEST, dimmer, meter, startup/reset, driver or stored-setting command is imported. The source's touch-toggle handler and nonzero browser fallback are not copied. Native uses release-aware contact and strict0/127 browsing. Fixed channel block, full FX/sample/shifted features, audio ownership/routing, calibration and physical/A10X acceptance remain open. No downloaded code runs or is bundled."
+      },
+      "implementedInputCount": 112,
+      "implementedOutputCount": 40,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual fixed channel block1-4 and explicit PC MIX/source selectors. Physical mixer CH1-4 use native A-D order. No MK2 inheritance or automatic hardware setting/audio route. Alternate channel blocks, FX/sample pages, shifted functions, PAN/blend ownership, full lifecycle/output/calibration and physical/A10X acceptance remain open. No fader request, meter/dimmer, reset, driver or downloaded executable source is sent or run."
         }
       ]
     }

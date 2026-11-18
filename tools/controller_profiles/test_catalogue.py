@@ -917,6 +917,19 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for bad in [products+products,products[:100],products+'<li data-hardware-target="midinote ios">Unknown: Screen</li>',products.replace('mac ios','mac unknown',1)]:
             with self.assertRaises(ValueError):read_djay(bad)
 
+    def test_original_mc6000_has_its_own_manual_pc_mix_contract(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Denon DJ MC6000"),None)
+        self.assertIsNotNone(item,"Add original MC6000 facts without borrowing MK2 wires")
+        self.assertFalse(item["autoSelect"])
+        self.assertFalse(item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        self.assertEqual([r["targetDeck"] for r in item["inputs"] if r["action"] in {"jogA","jogB"}],["a","c","b","d"])
+        jogs=[r for r in item["inputs"] if r["action"] in {"jogA","jogB"}]
+        self.assertTrue(all(r["encoding"]=="denonJog" and r["number"]==81 and r["argument"]==2000 for r in jogs))
+        self.assertEqual(len(item["outputs"]),40)
+        self.assertFalse(any("MK2" in a for a in item["aliases"]))
+
     def test_original_ns6_reuses_cyclic_decoder_without_inheriting_ns6ii_wires_or_driver_claims(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="Numark NS6"),None)

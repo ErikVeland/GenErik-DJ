@@ -971,3 +971,9 @@ Original NS6 uses99 manual inputs and32 CC lamp recipes from its own public mapp
 Existing cyclic14BitJog decoding retains explicit CC0/32 pairs,16384 wrap and3600 positions per revolution.
 Deck channels2-5 stay separate from shared channel1 mixer/browse controls. Side reports retire counters and holds.
 Use the exposed desktop-driver/bridge MIDI port and separate app audio. No NS6II inheritance or TEST platter setup runs.
+
+Original DN-MC6000 uses112 manual inputs and40 separately selected CC-trigger lamp recipes.
+PC MIX, MIDI/USB source selectors and explicit MIDI block1-4 are required. Deck channel order is A/C/B/D.
+The native layout explicitly assigns physical mixer CH1-4 to A-D. Global Load A/B stays on channel1.
+Raw64 contact uses release-aware gates. Model-specific2000-count jog facts reuse the existing Denon decoder.
+PAN is not inferred as cue/master blend. No fader query, meter, dimmer or setting command is sent.

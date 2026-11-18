@@ -4821,3 +4821,18 @@ Use an exposed desktop-driver/bridge MIDI port, PC sources and separate app audi
 Validation:208 Python checks and eight focused native tests passed, including the154-profile held-Cue corpus. Real-WAV fixtures verified3600-count scratch movement, Cue release, bank cleanup, finite audio and saved Sync. The iPad framework compiled and its resource matches the source. All255 earlier recipes remain identical. An initial native run rejected a missing explicit low-byte address. The failed log is retained. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r374/validation.json`.
 
 The catalogue has256 data recipes. Automatic core coverage remains193 of343 physical models, with150 without automatic core controls. Full theoretical support and physical/A10X acceptance remain open.
+
+
+## R375 independent original MC6000 PC MIX layout
+
+Assumption: the original MC6000 needs its own channel contract and an explicit native mixer assignment.
+
+The [manufacturer manual](https://cdn.inmusicbrands.com/denondj/legacy/dnmc6000/DN-MC6000_ownersmanual.pdf), printed pages19-21, supplies112 manual inputs and40 steady lamp recipes. Deck channels1-4 map A/C/B/D. Shared channel1 retains mixer controls, Load A/B and browsing. The native manual layout explicitly assigns physical mixer CH1-4 to A-D. This differs from the downloaded DEX application's strip choices. No MK2 recipe is inherited.
+
+Use PC MIX, MIDI/USB source selectors, MIDI block1-4 and separate app audio. Other channel blocks remain inactive. The app does not change these hardware settings. Velocity64 starts buttons and contact. Both Note Off and zero-velocity releases retire held actions. Side Shift guards normal controls and shared browsing. Deck changes retire side contacts. Ordinary deck-change releases preserve new holds.
+
+The independent model-specific [DEX handler](https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg) gives2000 jog positions per revolution. Native reuses its existing Denon decoder and release-aware contact gates. It does not copy the source's contact-toggle handler. Browse accepts only the specified0/127 values. Pitch retains the documented pitch message and an explicit native inverted direction pending physical calibration. PAN is not inferred as cue/master blend. No fader request, dimmer, meter, reset, driver, setting or automatic audio command is sent.
+
+Validation:209 Python checks and eight focused native tests passed, including the154-profile held-Cue corpus. A real-WAV fixture verified2000-count movement, velocity64 Cue/contact release, deck cleanup, finite audio and saved Sync. The iPad framework compiled and its resource matches the source. All256 earlier recipes remain identical. Failed fixture expectations are retained with the final passing results. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r375/validation.json`.
+
+The catalogue has257 data recipes. Automatic core coverage remains193 of343 physical models, with150 without automatic core controls. Full theoretical support and physical/A10X acceptance remain open.

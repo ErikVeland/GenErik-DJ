@@ -10,7 +10,7 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 350 total catalogue records. 343 name physical models. The remainder identify software endpoints or protocol families.
-- 256 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 257 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 179 factory profiles select core controls automatically for 187 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - 150 physical models still lack automatic core controls.
@@ -227,8 +227,8 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 79 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 49 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 80 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 48 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -460,7 +460,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | DJ-Tech Mixer One | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Mixer%20One.midi.xml) |
 | DJ-Tech VTT-101 | primary | protocol-needed | [Reference](https://asset.conrad.com/media10/add/160267/c1/-/gl/000092385ML01/mode-demploi-092385-mini-controleur-usb-dj-tech-vtt101.pdf) |
 | DJ-Tech i-Mix Reload | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20i-Mix%20Reload.midi.xml) |
-| Denon DJ MC6000 | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware) |
+| Denon DJ MC6000 | primary | partial-midi-profile | [Reference](https://cdn.inmusicbrands.com/denondj/legacy/dnmc6000/DN-MC6000_ownersmanual.pdf) |
 | Denon DJ PRIME 2 | primary | partial-midi-profile | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
 | Denon DJ PRIME GO | primary | automatic-core-profile | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
 | Denon DJ PRIME GO+ | primary | protocol-needed | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |

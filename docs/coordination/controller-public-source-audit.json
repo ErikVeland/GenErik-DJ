@@ -771,6 +771,28 @@
         "99 manual inputs and32 separately selected lamp recipes. Desktop-driver/bridge MIDI and separate app audio required. No NS6II inheritance.",
         "No TEST-labelled platter mode, layer-setting write, driver installation or automatic audio. Full features/lifecycle/calibration and physical/A10X acceptance remain open."
       ]
+    },
+    {
+      "request": "R375",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://cdn.inmusicbrands.com/denondj/legacy/dnmc6000/DN-MC6000_ownersmanual.pdf",
+          "sha256": "2f7d75c1973fdc752699ab4dc90f3fcf5bbe316b51f57b060687194815d2b45f",
+          "review": "Printed pages19-21 visually reviewed. Independent original MC6000 channel diagram, input messages and output trigger identifiers. Mac needs no separate driver. Manual PC MIX, channel block1-4 and source selectors remain explicit."
+        },
+        {
+          "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+          "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+          "member": "Applications/DEX4.app/Contents/Resources/controllers/Denon__MC6000.js",
+          "memberSHA256": "bf2c260eaf1ede588d7fd40998d40d8e954bcdfdac39694011303acdf14f049d",
+          "review": "Read-only original model jog handler gives2000 positions per revolution. Native does not copy its touch toggle, nonzero browser fallback or mixer assignment."
+        }
+      ],
+      "limits": [
+        "112 manual inputs and40 separately selected steady lamp recipes. Explicit native mixer CH1-4 to A-D order, deck A/C/B/D channels and shared channel1 controls.",
+        "No MK2 inheritance, fader query, settings, dimmers/meters, driver or downloaded executable source. Full audio ownership/calibration and physical/A10X acceptance remain open."
+      ]
     }
   ]
 }
