@@ -833,3 +833,12 @@ Full modes/output/lifecycle and physical acceptance remain open.
 Known timed inputs and ordinary output remain inactive until setup finishes. Failure/disconnect cancels pending work. Explicit discovery can retry.
 Queued input before the hardware-ready deadline cannot dispatch. Manual application requires an established automatic paired session.
 SCS.3m uses nine packets and five20 ms waits. Full software modes, meters/lights, shutdown/lifecycle and physical acceptance remain open.
+
+### BCR2000 factory preset and direct state (R339)
+
+`bcr2000.py` selects factory preset1 with the exact two-byte Program Change. It never writes a preset or factory reset.
+Twelve normal inputs retain fixed group2 EQ/filter, explicit keylock state and a shared global Shift guard. Ten CC outputs retain parameter/keylock feedback.
+Direct keylock state uses the existing explicit playback setter. It bypasses pickup and positive-edge toggling. MIDI learning does not expose this action.
+Global CC Shift bindings can share a bounded `shiftInput` identity. Channel-specific CC identity stays invalid.
+Setup validation now requires two bytes for Program Change/channel pressure and three for other supported channel messages.
+Complete modes, Shift-lamp synchronisation, lifecycle and physical acceptance remain open.

@@ -998,6 +998,24 @@ class GeneratedCatalogueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
 
+    def test_bcr2000_uses_exact_factory_preset_and_state_buttons_without_sibling_alias(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Behringer BCR2000"),None)
+        self.assertIsNotNone(item,"BCR2000 needs its independent factory-preset core")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual(item["startup"],[[0xC0,0]])
+        self.assertFalse(item["shutdown"])
+        self.assertEqual(len(item["inputs"]),12)
+        self.assertEqual(len(item["outputs"]),10)
+        shifts=[i for i in item["inputs"] if i["action"]=="shift"]
+        self.assertEqual([(i["number"],i["shiftInput"]) for i in shifts],[(68,0),(72,0)])
+        self.assertEqual([(i["action"],i["number"]) for i in item["inputs"] if i["action"].startswith("keylock")],[("keylockStateA",65),("keylockStateB",69)])
+        from bcr2000 import BCR_SOURCES
+        for filename,digest in BCR_SOURCES:
+            self.assertEqual(hashlib.sha256((ROOT/"TestBuilds/r169/upstream/res/controllers"/filename).read_bytes()).hexdigest(),digest)
+        self.assertTrue(all("BCF2000" not in alias for alias in item["aliases"]))
+        self.assertEqual(item.get("audioOutput"),None)
+
     def test_scs3m_has_timed_transient_absolute_setup_and_guarded_fixed_mixer(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="Stanton SCS.3m"),None)

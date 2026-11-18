@@ -166,7 +166,8 @@ struct ControllerProfileData: Decodable, Sendable {
                         || ($0.kind == .note && $0.encoding == .absolute && $0.action.isButton
                             && !$0.action.isMomentary && $0.action != .shift && $0.releaseOnly != true))
                     && ($0.shiftInput == nil
-                        || ($0.shiftInput! < 16 && $0.action == .shift && $0.kind == .note))
+                        || ($0.shiftInput! < 16 && $0.action == .shift
+                            && ($0.kind == .note || ($0.kind == .control && $0.shiftChannel == nil))))
                     && ($0.encoding != .centredPitch || ($0.kind == .pitch && $0.number == 0))
                     && (![.mixstreamJog, .cyclic14BitJog, .vci100MK2Tempo, .lc6000Jog, .readyTempo, .airTempo].contains(
                         $0.encoding)

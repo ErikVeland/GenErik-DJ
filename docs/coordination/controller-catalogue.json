@@ -11323,48 +11323,63 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20BCR2000.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20BCR2000.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer-BCR2000-scripts.js"
       ],
       "definitions": [
-        "Behringer BCR2000.midi.xml"
+        "Behringer BCR2000.midi.xml",
+        "reviewed:bcr2000-factory-preset"
       ],
-      "implementation": "adapter-needed",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Behringer BCR2000",
+      "automaticControls": true,
+      "controlActions": [
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "highA:a",
+        "highB:b",
+        "keylockStateA:a",
+        "keylockStateB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "shift"
+      ],
+      "inputBindingCount": 12,
+      "feedbackBindingCount": 10,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Factory preset1 selected automatically through a paired output. Push-encoder group2 provides fixed native A/B filter/EQ. Default latched buttons retain direct on/off state. Custom presets are not rewritten."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "adapter-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "A controller-specific protocol adapter is required."
+        "Factory preset1 must retain its documented addresses. Custom presets are not overwritten. Fixed native normal group2 EQ/filter and keylock only. Source pitch/loop/reverse/FX, filter/kill buttons, shared Shift-lamp synchronisation, complete modes/output/lifecycle and physical/A10X acceptance remain open. No audio interface or sibling protocol is inferred."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -321961,6 +321976,53 @@
         },
         {
           "reason": "Fixed native A/B EQ mixer only. Absolute top sliders deliberately replace source relative filter response. Software C/D/deck/FX/Master selection, slider resets and relative alternatives, soft-button FX assignments, coordinated SCS.3d state, meters/lighting, delayed shutdown/full lifecycle and physical/A10X acceptance remain open. Manual setup without an established automatic paired session is not implemented. No factory reset, persistent preset or audio interface is inferred."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:bcr2000-factory-preset",
+      "name": "Behringer BCR2000",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer-BCR2000-scripts.js",
+        "sha256": "87ab64b1d3b61c824f3bc0bfa8075df8e06b77483eb8dbba23112cfeedf876cb",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20BCR2000.midi.xml",
+            "sha256": "e961989dc4bacae20715a575b259a9b869eb3b032406df12a96afe3c56e39671"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer-BCR2000-scripts.js",
+            "sha256": "87ab64b1d3b61c824f3bc0bfa8075df8e06b77483eb8dbba23112cfeedf876cb"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer-BCR2000-preset-scripts.js",
+            "sha256": "83ea7da36aa208082f7758751ced8bbd8eebca241ff85b75768f5587de8f1bf6"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer-Extension-scripts.js",
+            "sha256": "6c175dcf576804ccb09389075550b08f483c7c1c53569bad9d8d548ee4d0da89"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/midi-components-0.0.js",
+            "sha256": "f15845d0b3fa10609aedc2fb74a9067d0f1d89387f011de72c3301799003f026"
+          },
+          {
+            "url": "https://manual.mixxx.org/2.5/en/hardware/controllers/behringer_bcr2000"
+          }
+        ],
+        "review": "Independent script selects factory preset1 with Program Change C0/00. The source sendShortMsg third argument is not a third wire byte. No preset dump, factory reset or persistent programming is sent. Factory preset1 uses wire channel0. Push-encoder group2 CC9/10/11/12 controls A filter/low/mid/high and CC13/14/15/16 controls B. Source EQ/filter parameters and feedback are absolute0..127. Keylock CC65/69 uses components.Button default push state, not a positive-edge software toggle. Native direct state preserves both default Toggle On hardware127/0 presses and optional Toggle Off press/release. Shift CC68/72 writes one shared global state; one shared input identity preserves last-message state rather than independent held-button OR. Only the normal native layer is enabled. Source default pitch/loop/reverse and effect controls remain inactive. Eight normal parameter rings and two keylock CC lamps retain independent source addresses/values. Shift-lamp feedback synchronisation, complete layers/output/lifecycle, custom presets, USB endpoint qualification and physical/A10X acceptance remain open. The BCR2000 has no audio interface. No BCF2000/DDM4000/CMD sibling protocol or audio route is inferred."
+      },
+      "implementedInputCount": 12,
+      "implementedOutputCount": 10,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Factory preset1 must retain its documented addresses. Custom presets are not overwritten. Fixed native normal group2 EQ/filter and keylock only. Source pitch/loop/reverse/FX, filter/kill buttons, shared Shift-lamp synchronisation, complete modes/output/lifecycle and physical/A10X acceptance remain open. No audio interface or sibling protocol is inferred."
         }
       ]
     },

@@ -66,3 +66,21 @@ import Testing
     #expect(sequence.didSend(at: UInt64.max) == false)
     #expect(!sequence.isComplete(at: UInt64.max))
 }
+
+@Test func controllerMIDISetupUsesExactChannelMessageLengthsForEveryWireChannel() {
+    for channel: UInt8 in 0..<16 {
+        for status: UInt8 in [0xC0 | channel, 0xD0 | channel] {
+            for value: UInt8 in [0, 127] {
+                #expect(ControllerMIDISetupStep.validMessage([status, value]))
+                #expect(!ControllerMIDISetupStep.validMessage([status, value, 0]))
+            }
+            #expect(!ControllerMIDISetupStep.validMessage([status, 128]))
+        }
+        for status: UInt8 in [0x80 | channel, 0x90 | channel, 0xA0 | channel, 0xB0 | channel, 0xE0 | channel] {
+            #expect(ControllerMIDISetupStep.validMessage([status, 0, 127]))
+            #expect(!ControllerMIDISetupStep.validMessage([status, 0]))
+        }
+    }
+    #expect(!ControllerMIDISetupStep.validMessage([0xF1, 0]))
+    #expect(!ControllerMIDISetupStep.validMessage([0xC0]))
+}

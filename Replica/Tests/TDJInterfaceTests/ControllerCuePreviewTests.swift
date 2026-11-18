@@ -1798,3 +1798,23 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueBCR2000NativeKeylockStatePreservesOrderedIntentAudioAndSync() async throws {
+    try await withControllerCuePlayback("Behringer BCR2000") { model, input in
+        model.pressPlay(deck: .a, vinylStop: false)
+        for enabled in [false, true, true, false, false, true, false] {
+            let value: UInt8 = enabled ? 127 : 0
+            input.receiveBytes([0xB0, 65, value], source: 10)
+            input.flushPendingActions()
+            #expect(model.playback.requestedKeylock(.a) == enabled)
+        }
+        input.receiveBytes([0xB0, 9, 64, 10, 64, 11, 64, 12, 64], source: 10)
+        input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(model.playbackSnapshot?.a.keylock == false)
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

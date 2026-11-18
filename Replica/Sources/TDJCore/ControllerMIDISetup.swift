@@ -8,8 +8,12 @@ public struct ControllerMIDISetupStep: Equatable, Sendable {
     }
 
     public static func validMessage(_ bytes: [UInt8]) -> Bool {
+        if bytes.count == 2 {
+            return (0xC0...0xDF).contains(bytes[0]) && bytes[1] < 128
+        }
         if bytes.count == 3 {
-            return (0x80...0xEF).contains(bytes[0]) && bytes[1] < 128 && bytes[2] < 128
+            return ((0x80...0xBF).contains(bytes[0]) || (0xE0...0xEF).contains(bytes[0]))
+                && bytes[1] < 128 && bytes[2] < 128
         }
         return (4...128).contains(bytes.count) && bytes.first == 0xF0 && bytes.last == 0xF7
             && bytes.dropFirst().dropLast().allSatisfy { $0 < 128 }

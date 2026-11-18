@@ -5,7 +5,7 @@ import TDJCore
 
 enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     case playA, playB, syncA, syncB, keylockA, keylockB, cueA, cueB
-    case cueStateA, cueStateB
+    case cueStateA, cueStateB, keylockStateA, keylockStateB
     case syncDisableA, syncDisableB
     case cueSetA, cueSetB, cueGotoA, cueGotoB
     case pitchBendDownA, pitchBendDownB, pitchBendUpA, pitchBendUpB
@@ -55,7 +55,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
         let labels = [
             "play": "Play / Pause", "sync": "Sync", "keylock": "Key lock", "cue": "Headphone cue", "level": "Volume",
             "pitchBendDown": "Pitch bend down (hold)", "pitchBendUp": "Pitch bend up (hold)",
-            "cueState": "Headphone cue state", "syncDisable": "Turn Sync off", "loopEnable": "Enable loop", "loopDisable": "Disable loop", "loopOutOrExit": "Loop out / exit",
+            "keylockState": "Key lock state", "cueState": "Headphone cue state", "syncDisable": "Turn Sync off", "loopEnable": "Enable loop", "loopDisable": "Disable loop", "loopOutOrExit": "Loop out / exit",
             "cueSet": "Set Cue point", "cueGoto": "Go to Cue point",
             "gain": "Gain", "low": "Low EQ", "mid": "Mid EQ", "high": "High EQ", "filter": "Filter",
             "filterToggle": "Filter on / off", "fx": "Effect amount", "fxToggle": "Effect on / off",
@@ -77,7 +77,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
         case .levelA, .levelB, .gainA, .gainB, .lowA, .lowB, .midA, .midB, .highA, .highB, .filterA, .filterB, .fxA,
             .fxB, .crossfader, .cueMix, .master, .monitor, .tempoA, .tempoB, .jogA, .jogB, .wheelJogA, .wheelJogB,
             .browse, .browseGroups, .filterKnobA, .filterKnobB, .seekA, .seekB, .loopSizeA, .loopSizeB,
-            .cueStateA, .cueStateB:
+            .cueStateA, .cueStateB, .keylockStateA, .keylockStateB:
             false
         default: true
         }
@@ -90,7 +90,8 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     }
     var isJog: Bool { self == .jogA || self == .jogB || self == .wheelJogA || self == .wheelJogB }
     var isCueState: Bool { self == .cueStateA || self == .cueStateB }
-    var isLearnable: Bool { ![.toggleFixedLoopA, .toggleFixedLoopB, .fixedLoopA, .fixedLoopB, .fixedJumpA, .fixedJumpB, .loopSizeA, .loopSizeB].contains(self) }
+    var isDirectState: Bool { isCueState || self == .keylockStateA || self == .keylockStateB }
+    var isLearnable: Bool { ![.keylockStateA, .keylockStateB, .toggleFixedLoopA, .toggleFixedLoopB, .fixedLoopA, .fixedLoopB, .fixedJumpA, .fixedJumpB, .loopSizeA, .loopSizeB].contains(self) }
     func assigned(to deck: DeckID) -> Self {
         Self(rawValue: String(rawValue.dropLast()) + (deck.leftSide ? "A" : "B")) ?? self
     }
@@ -2357,7 +2358,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 sendAction(binding.target, value: value)
                 continue
             }
-            if binding.action.isCueState {
+            if binding.action.isDirectState {
                 sendAction(binding.target, value: value)
                 continue
             }
