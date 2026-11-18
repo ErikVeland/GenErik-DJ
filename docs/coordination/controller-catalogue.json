@@ -14655,6 +14655,119 @@
       }
     },
     {
+      "id": "geminig2v",
+      "name": "Gemini G2V",
+      "manufacturer": "Gemini",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg"
+      ],
+      "definitions": [
+        "reviewed:gemini-g2v"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Gemini G2V",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "hotcue5A:a",
+        "hotcue5B:b",
+        "hotcue6A:a",
+        "hotcue6B:b",
+        "hotcue7A:a",
+        "hotcue7B:b",
+        "hotcue8A:a",
+        "hotcue8B:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "openGroup",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopB:b"
+      ],
+      "inputBindingCount": 86,
+      "feedbackBindingCount": 8,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Sampler/manual-loop, cue deletion, CUP, FX, pitch range and high-resolution alternatives, software Scratch toggle, pad/meters and full lifecycle remain open. Native fixed touch/jog calibration and audio routing need qualification. Direct iPad attachment and physical acceptance remain unverified. G4V is a separate model."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
       "id": "geminislate",
       "name": "Gemini Slate",
       "manufacturer": "Gemini",
@@ -319166,6 +319279,35 @@
       ]
     },
     {
+      "id": "reviewed:gemini-g2v",
+      "name": "Gemini G2V",
+      "transport": "midi",
+      "source": {
+        "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+        "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+        "archiveMember": "Applications/DEX4.app/Contents/Resources/controllers/Gemini__G2V.js",
+        "memberSha256": "955e8f79b7ee3b98d341a2b7dfc7f729f1665ea6bdf27f0b8e66f9e3f53f8a13",
+        "relatedSources": [
+          {
+            "url": "https://pcdj.com/dj-controllers-gemini-g2v/"
+          }
+        ],
+        "review": "Independent G2V Audio script identifies USB23C7:0466. Its copied header names another controller; G2V function identities, USB identifiers, handlers and publisher page establish this model. Deck channels0/1 provide Play1, held Cue2, Sync4, Keylock5, contact37, CC6 jog raw-minus64 and inverted CC1 pitch. Source scratch500 and wheel150 denominators are software calibration, not measured counts. Native fixed touch replaces the source software Scratch toggle. Mixer channel3 provides A/B gain1/2, high9/10, mid5/6, low13/14, filter17/18, level21/22, Load1/2 and PFL13/14. Channel3 crossfaderCC25 is inverted, cue-mix26, master27 and monitor28 are normal. BrowserCC30 uses raw>64 forward, otherwise reverse, including64; pushNote17 toggles selection. ModeNotes27/28/29/30 select Cue/AutoLoop/Sampler/ManualLoop independently per deck. Pads9..16 provide eight cues or1/8..16-beat loops. Shift40 suppresses normal cue recall; explicit clear-address17..24 releases only rearm normal cues. Sampler/manual-loop and deletion actions stay inactive. Mode lights and steady Play/Cue/Keylock/PFL lamps use127/0. Startup/shutdown contain bounded source lamp clears only; Sync is an on-beat pulse, not a steady state. No source software runs in the app. Higher-resolution alternatives, full modes/feedback/lifecycle, native jog calibration, audio routing and direct iPad attachment remain unqualified."
+      },
+      "implementedInputCount": 86,
+      "implementedOutputCount": 8,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Sampler/manual-loop, cue deletion, CUP, FX, pitch range and high-resolution alternatives, software Scratch toggle, pad/meters and full lifecycle remain open. Native fixed touch/jog calibration and audio routing need qualification. Direct iPad attachment and physical acceptance remain unverified. G4V is a separate model."
+        }
+      ]
+    },
+    {
       "id": "manufacturer:pioneerddjrev7",
       "name": "Pioneer DDJ-REV7",
       "transport": "midi",
@@ -319220,7 +319362,7 @@
     "theoreticalSupport": {
       "complete": false,
       "implementedModels": 0,
-      "targetModels": 306,
+      "targetModels": 307,
       "requiresPhysicalTestForEveryModel": false
     },
     "reason": "Documented implementation gaps block theoretical completion. Physical tests are separate evidence, not a per-model completion requirement."

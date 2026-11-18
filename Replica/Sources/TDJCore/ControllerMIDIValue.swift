@@ -3,7 +3,7 @@ import Foundation
 public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
     case absolute, touchGate, fullVelocityGate, paired14Bit, paired14BitRelative, twosComplement, binaryOffset,
         signedBit
-    case ndx500Jog, ndx500Browse
+    case ndx500Jog, ndx500Browse, g2vBrowse
     case numarkPlatinumJog, denonJog, zeroForward, mc7000Jog, dj2go2Jog, signedStep, noteStep, rot64Fast
     case binaryStep, binaryDirection, centreDetent, centredPitch, mixstreamJog, cyclic14BitJog, vci300Tempo,
         vci100MK2Tempo, lc6000Jog, readyTempo, compactTempo, airTempo, fineTempo512
@@ -12,7 +12,7 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
         [
             .twosComplement, .binaryOffset, .signedBit, .paired14BitRelative, .numarkPlatinumJog, .denonJog,
             .zeroForward, .mc7000Jog, .dj2go2Jog, .signedStep, .binaryStep, .binaryDirection, .mixstreamJog,
-            .cyclic14BitJog, .lc6000Jog, .compactTempo, .fineTempo512, .noteStep, .rot64Fast, .ndx500Jog, .ndx500Browse,
+            .cyclic14BitJog, .lc6000Jog, .compactTempo, .fineTempo512, .noteStep, .rot64Fast, .ndx500Jog, .ndx500Browse, .g2vBrowse,
         ]
         .contains(self)
     }
@@ -25,7 +25,7 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
         !isContactGate && self != .mixstreamJog && self != .cyclic14BitJog && self != .vci100MK2Tempo
             && self != .lc6000Jog && self != .readyTempo && self != .compactTempo && self != .airTempo
             && self != .fineTempo512 && self != .noteStep && self != .rot64Fast
-            && self != .ndx500Jog && self != .ndx500Browse
+            && self != .ndx500Jog && self != .ndx500Browse && self != .g2vBrowse
     }
     public var isContactGate: Bool { self == .touchGate || self == .fullVelocityGate }
     public var title: String {
@@ -60,6 +60,7 @@ public enum ControllerMIDIEncoding: String, Codable, CaseIterable, Sendable {
         case .binaryOffset: "Encoder: 65 / 63"
         case .ndx500Jog: "NDX500 jog"
         case .ndx500Browse: "NDX500 browser"
+        case .g2vBrowse: "G2V browser"
         case .signedBit: "Encoder: 1 / 65"
         case .cdjPlatterSpeed: "CDJ platter speed"
         case .cdjRingSpeed: "CDJ wheel-side speed"
@@ -88,6 +89,12 @@ public struct ControllerMIDIValueState: Sendable {
     )
         -> ControllerMIDIValue?
     {
+        if encoding == .g2vBrowse {
+            guard message.kind == .control, message.number == number, message.maximum == 127,
+                (0...127).contains(message.value)
+            else { return nil }
+            return .relative(message.value > 64 ? 1 : -1)
+        }
         if encoding == .ndx500Jog || encoding == .ndx500Browse {
             guard message.kind == .control, message.number == number, message.maximum == 127,
                 (0...127).contains(message.value)

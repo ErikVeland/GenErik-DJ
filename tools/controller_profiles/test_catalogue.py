@@ -986,6 +986,24 @@ class GeneratedCatalogueTests(unittest.TestCase):
             if path.exists():
                 self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
 
+    def test_g2v_has_independent_core_and_source_pad_modes(self):
+        runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item = next((r for r in runtime["profiles"] if r["id"] == "Gemini G2V"), None)
+        self.assertIsNotNone(item, "G2V needs its own source-backed recipe")
+        self.assertTrue(item["autoSelect"])
+        self.assertIn("G2V Audio", item["aliases"])
+        self.assertEqual((len(item["inputs"]), len(item["outputs"])), (86, 8))
+        self.assertNotIn("audioOutput", item)
+        self.assertEqual(item["inputModes"], [{"channel":c,"initial":27,"numbers":[27,28,29,30],"onValue":127,"offValue":0} for c in [0,1]])
+        self.assertEqual([r["argument"] for r in item["inputs"] if r["action"].startswith("toggleFixedLoop")], [.125,.25,.5,1,2,4,8,16]*2)
+        self.assertTrue(all(r["inverted"] for r in item["inputs"] if r["action"] in {"tempoA","tempoB","crossfader"}))
+        browse = next(r for r in item["inputs"] if r["action"] == "browse")
+        self.assertEqual((browse["channel"],browse["number"],browse["encoding"]),(3,30,"g2vBrowse"))
+        from g2v import G2V_SCRIPT_SHA
+        path = ROOT / "TestBuilds/r301/upstream/controllers/Gemini__G2V.js"
+        if path.exists():
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), G2V_SCRIPT_SHA)
+
     def test_party_mix_live_has_independent_pads_without_inherited_jog_or_mode_output_setup(self):
         runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item = next((r for r in runtime["profiles"] if r["id"] == "Numark Party Mix Live"), None)

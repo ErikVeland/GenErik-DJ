@@ -1265,3 +1265,30 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueG2VNativeTouchCueAndEightLoopsKeepAudioAndSync() async throws {
+    try await withControllerCuePlayback("G2V Audio") { model, input in
+        cuePreviewPacket([0x90,2,127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80,2,127,0x90,37,127,0xB0,6,65], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x90,37,0,9,127,0x80,9,0], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        cuePreviewPacket([0x90,28,127], to: input)
+        for (slot, beats) in [0.125,0.25,0.5,1,2,4,8,16].enumerated() {
+            let pad = UInt8(slot+9)
+            cuePreviewPacket([0x90,pad,127,0x80,pad,0], to: input)
+            let state = try #require(model.playbackSnapshot?.a)
+            let grid = try #require(model.timing(.a))
+            #expect(state.loopEnabled)
+            #expect(abs(state.loopEnd-state.loopStart-grid.span(beats: beats, from: state.loopStart)) <= 1)
+            #expect(state.synced)
+            let samples = model.playback.core.renderOffline(frames: 512)
+            #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
+            model.refreshPlayback()
+        }
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}

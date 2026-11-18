@@ -3736,3 +3736,19 @@ Only Party Mix Live changes in the runtime catalogue; all188 other recipes remai
 Evidence remains in `TestBuilds/r310/`. The repository check retains twelve historical broken links. Counts stay189 data recipes,161 automatic core physical models and71/122 benchmark models.
 Sampler/FX actions, held Pad Mode, deletion, full output/lifecycle, calibration and audio routing remain open. No signed app, install or physical/A10X acceptance is claimed.
 Source base: `2e277a5`.
+
+## R311 Independent Gemini G2V core
+
+Assumption: the G2V-specific public PCDJ script qualifies its two-deck MIDI core. Its G2V Audio identity and pad modes must remain separate from G4V. Source seven-bit controls provide a bounded core even where the product advertises higher resolution. No audio route or physical jog calibration is inferred.
+
+- [x] Add failing importer and native decoder/profile tests.
+- [x] Add the independent recipe, exact browser boundary, per-deck Shift and mode-gated cues/loops. Keep Sampler/manual-loop actions inactive.
+- [x] Verify both decks, mode lights, reconnects, held Cue and real-WAV loops/Sync. Run importer checks and compile the iPad framework. Compare all earlier recipes and bundle bytes.
+
+Source base: `c76529c`. Full modes, lifecycle, audio routing and physical acceptance remain open.
+
+The independent recipe adds86 inputs and8 steady lamp outputs. Source-valued mode lamps follow per-deck Cue/AutoLoop/Sampler/ManualLoop selection. Sampler/manual-loop actions and deletion remain inactive.
+All140 importer checks,21 focused native checks and iPad framework compilation pass. Real-WAV checks cover all eight loop lengths, held Cue, contact release, finite audio and saved Sync.
+All189 earlier runtime recipes remain unchanged. Compiled resource bytes match the source. Evidence and failed fixture logs remain in `TestBuilds/r311/`.
+The catalogue now has314 records/307 physical models and190 data recipes. Automatic core coverage reaches162 physical models; the benchmark remains71/122.
+The repository check retains twelve historical broken links. Full modes/output/lifecycle, audio routing, calibration and direct iPad attachment remain open. No signed app, install or physical/A10X acceptance is claimed.

@@ -140,6 +140,7 @@ struct ControllerProfileData: Decodable, Sendable {
                     && ($0.encoding != .lc6000Jog || $0.action.isJog)
                     && ($0.encoding != .ndx500Jog || ($0.kind == .control && $0.action.isJog))
                     && ($0.encoding != .ndx500Browse || ($0.kind == .control && $0.action == .browse))
+                    && ($0.encoding != .g2vBrowse || ($0.kind == .control && $0.action == .browse))
                     && ($0.encoding != .noteStep || ($0.kind == .note && $0.action.isJog))
                     && ($0.encoding != .rot64Fast || ($0.kind == .control && [.master, .monitor].contains($0.action)))
                     && ($0.encoding != .readyTempo || [.tempoA, .tempoB].contains($0.action))
