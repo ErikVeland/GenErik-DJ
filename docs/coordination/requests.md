@@ -586,3 +586,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R377 | Implemented; protocol/hardware gaps open | Add unambiguous PRIMO manual controls and record recovered manufacturer limits | Added63 manual inputs with conflicting rows inactive.211 Python/eight native checks passed, including real-WAV source cleanup. iPad framework compiled. [Scope](controller-coverage.md#r377-unambiguous-primo-manufacturer-inputs). |
 
 | R378 | Implemented; hardware/protocol gaps open | Inspect factory TSI files and add original BeatMix controls | Added bounded read-only TSI inspection and50 automatic original BeatMix inputs.215 Python/eight native checks passed, including155 held-Cue profiles. iPad framework compiled. [Scope](controller-coverage.md#r378-original-beatmix-factory-tsi-facts-and-automatic-core). |
+
+| R379 | Implemented; hardware/protocol gaps open | Add the recovered VCM-100 manufacturer MIDI contract | Added72 manual inputs with independent hold identities for two MIDI channel choices.216 Python/40 native checks passed. iPad framework compiled. [Scope](controller-coverage.md#r379-recovered-vcm-100-manufacturer-contract). |

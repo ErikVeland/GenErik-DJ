@@ -879,6 +879,29 @@
         "50 automatic original BeatMix inputs. Firmware1.1.4+ and Scratch mode required. Seven-bit pitch MSBs only until arrival order is established.",
         "No generic-template inference, old manual global bus4, Beatmix2/4 alias, output, reset/query, firmware or automatic audio command. Full modes/lifecycle/calibration and physical/A10X acceptance remain open."
       ]
+    },
+    {
+      "request": "R379",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://www.kevinchant.com/uploads/7/1/0/8/7108231/vsm-vcm-100.pdf",
+          "sha256": "69b1c3066fdb1653bf0f547dd323838a2dc681f0fa3df310ba66c16a8cdeb59b",
+          "review": "Preserved manufacturer service note pages6,15,16,19,20 visually reviewed. Both PGM decks share default MIDI channel1 or power-on-selected channel2. Rear modes A/B/C retain core wires. Large level rotaries are volumes, not jogs. Generic Vestax PC-CONTROLLER identity requires manual model selection. Mode-A centre notes include a conflicting trim-B decimal/hex value and remain inactive."
+        },
+        {
+          "url": "https://www.kevinchant.com/uploads/7/1/0/8/7108231/vsm-vfx-1.pdf",
+          "review": "Preserved manufacturer service note reviewed as a complete contact sheet. PCB, schematics and parts do not qualify MIDI wire addresses. No VFX-1 recipe inferred."
+        },
+        {
+          "url": "https://www.kevinchant.com/uploads/7/1/0/8/7108231/sm-vci-300mk2.pdf",
+          "review": "Preserved manufacturer service note reviewed as a complete contact sheet. No MIDI map recovered. No original VCI-300 startup or wire protocol inherited."
+        }
+      ],
+      "limits": [
+        "72 manual VCM-100 inputs across two documented MIDI channel choices. No generic endpoint alias, centre note, balance, search, CUP/Preview, output, mode write, driver or audio command.",
+        "Native CuePause/Fine use held Cue/bend semantics. Tempo direction, hardware taper, iPad USB/audio, complete lifecycle and physical/A10X acceptance remain open."
+      ]
     }
   ]
 }

@@ -4887,3 +4887,22 @@ No Beatmix2/4 protocol, master MIDI control, undefined LED velocity, startup/res
 Validation:215 Python checks and eight focused native tests passed, including155 automatic held-Cue profiles. Malformed TSI fixtures and the pinned factory file passed. A real-WAV fixture verified Cue/contact release, scratch movement, mode cleanup, finite audio and saved Sync. The iPad framework compiled and its resource matches the source. All260 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r378/validation.json`.
 
 The catalogue has261 data recipes. Automatic core coverage is194 of343 physical models, with149 without automatic core controls. Full theoretical support and physical/A10X acceptance remain open.
+
+
+## R379 recovered VCM-100 manufacturer contract
+
+Assumption: both documented MIDI channel choices must work without confusing PGM decks with MIDI channels.
+
+The [preserved manufacturer service note](https://www.kevinchant.com/uploads/7/1/0/8/7108231/vsm-vcm-100.pdf) supplies the full MIDI chart. Pages6,15,16,19,20 were visually reviewed. Rear modes A/B/C share the normal core packets. Both PGM decks use default MIDI channel1 or optional channel2. Holding PGM1 LOOP during power-on selects channel2.
+
+The manual profile has72 inputs across these choices. Rotary levels, Play, held native Cue/bends, Set Cue, PFL, Sync, loop, pitch/EQ/gain, Load, browsing and global sound retain independent addresses. Large level knobs control volume. No jog wheels are invented. Mode-A centre notes, conflicting trim-B centre values, balance, search, CUP/Preview and output remain inactive.
+
+The manufacturer identifies its Mac MIDI endpoint as generic Vestax PC-CONTROLLER. The app does not assign that name automatically to VCM-100. Select the model manually and configure app audio separately. Native CuePause/Fine semantics and tempo direction require physical calibration. Device-specific iPad USB/audio, complete lifecycle/feedback and physical/A10X acceptance remain open. No mode, power, driver, setup or audio command is sent.
+
+A failing Cue fixture exposed source-only hold ownership. Optional bounded `holdInput` identities now separate the VCM channel choices within each source, MIDI group and action target. Existing unspecified identities preserve cross-channel aliases. A rejected blanket channel change and its failing Hercules jog regression remain in the evidence. The final tests verify both independent channel/source holds and existing Shift/channel-changing releases.
+
+Validation:216 Python checks and40 focused native tests passed, including155 automatic held-Cue profiles and real-WAV Cue/bend release. The iPad framework compiled and its resource matches the source. All261 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r379/validation.json`.
+
+The preserved VFX-1 and VCI-300MKII service notes were also reviewed. Their schematics and parts do not qualify MIDI wire addresses. Neither model inherits a sibling protocol.
+
+The catalogue has262 data recipes. Automatic core coverage remains194 of343 physical models, with149 without automatic core controls. Full theoretical support and physical/A10X acceptance remain open.

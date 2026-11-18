@@ -917,6 +917,22 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for bad in [products+products,products[:100],products+'<li data-hardware-target="midinote ios">Unknown: Screen</li>',products.replace('mac ios','mac unknown',1)]:
             with self.assertRaises(ValueError):read_djay(bad)
 
+    def test_vcm100_keeps_program_decks_separate_from_both_midi_channel_choices(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Vestax VCM-100"),None)
+        self.assertIsNotNone(item,"Add the recovered manufacturer VCM100 MIDI table")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),72)
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        self.assertNotIn("Vestax PC-CONTROLLER",item["aliases"])
+        self.assertEqual([(r["channel"],r["number"],r["targetDeck"]) for r in item["inputs"] if r["action"] in {"levelA","levelB"}],[(0,12,"a"),(0,13,"b"),(1,12,"a"),(1,13,"b")])
+        self.assertEqual([(r["channel"],r["number"]) for r in item["inputs"] if r["action"] in {"cuePreviewA","cuePreviewB"}],[(0,52),(0,56),(1,52),(1,56)])
+        held=[r for r in item["inputs"] if r["action"].startswith(("cuePreview","pitchBend"))]
+        self.assertEqual(len(held),12)
+        self.assertTrue(all(r["holdInput"]==r["channel"] for r in held))
+        self.assertFalse(any(r["action"] in {"jogA","jogB","jogTouchA","jogTouchB"} for r in item["inputs"]))
+
     def test_original_beatmix_uses_factory_tsi_to_resolve_manual_conflicts(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="Reloop BeatMix"),None)

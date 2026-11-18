@@ -41376,12 +41376,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://www.kevinchant.com/uploads/7/1/0/8/7108231/vsm-vcm-100.pdf",
         "https://www.algoriddim.com/hardware"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:vcm100-manufacturer-midi"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Vestax VCM-100",
+      "automaticControls": false,
       "comparisonSupport": {
         "djay": {
           "sourceName": "Vestax VCM-100",
@@ -41393,40 +41398,77 @@
           "source": "https://www.algoriddim.com/hardware"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browseNext",
+        "browsePrevious",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "cueSetA:a",
+        "cueSetB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b"
+      ],
+      "inputBindingCount": 72,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual VCM-100 selection on its exposed MIDI endpoint. Rear modes A/B/C share these core packets. Accept default MIDI channel1 or optional channel2. PGM1/2 map A/B on the selected channel. Use separate app audio."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Generic Vestax PC-CONTROLLER endpoint cannot identify this model safely. Manual model selection required. Mode-A centre notes, conflicting trim-B centre value, balance, F1-F4 search, CUP/Preview and output remain inactive. Native CuePause/Fine buttons use held Cue/bend behaviour. Native tempo direction and physical taper/calibration remain unverified. Device-specific iPad USB/audio, complete lifecycle/feedback and physical/A10X acceptance remain open. No mode/power, driver, setup/output or automatic audio command.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -333204,6 +333246,28 @@
         },
         {
           "reason": "Requires firmware1.1.4+ and hardware Scratch mode. Normal jog32/34, search/shift streams, loop/FX encoders, Beat Mash, CUP, other shifted functions, master MIDI, LED velocities and full output/lifecycle remain inactive. Pitch uses qualified seven-bit MSBs; packet order for full14-bit pairs remains unqualified. Native jog scale/direction and physical/audio/A10X acceptance remain open. No Beatmix2/4 inheritance, generic-template guessing, firmware/reset/query/settings or automatic audio command."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:vcm100-manufacturer-midi",
+      "name": "Vestax VCM-100",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.kevinchant.com/uploads/7/1/0/8/7108231/vsm-vcm-100.pdf",
+        "sha256": "69b1c3066fdb1653bf0f547dd323838a2dc681f0fa3df310ba66c16a8cdeb59b",
+        "review": "Manufacturer service note pages6,15,16,19,20 visually reviewed. The full MIDI table gives shared normal notes/CC for rear modes A/B/C, default MIDI channel1 and optional channel2 selected by holding PGM1 LOOP during power-on. PGM1/2 are two app decks on the same selected MIDI channel, not separate MIDI channels. Native accepts both documented channel choices on an explicitly selected endpoint. Play50/54, CuePause52/56 as native held Cue, SetCue53/57, PFL72/73, Sync70/71, Loop66/67, Fine78-81 as native held bends, rotary level12/13, tempo14/15, high20/24, mid21/25, low23/27 and trim28/29 retain independent wires. Global Load96/97, Up92/Down93, master7, cross8, monitor88 and cueMix89 are explicit. Centre-detent notes are mode-A-only and include a conflicting trim-B decimal/hex value; all remain inactive. No centre note, balance, F1-F4 search, CUP/Preview, output, mode/power write, setting, driver or audio route is inferred. The manufacturer's Mac identity is generic Vestax PC-CONTROLLER. Native does not auto-select or alias that identity to one model. Core MIDI is manual, with separate app audio and physical/iPad USB/audio/calibration acceptance open. No downloaded code is copied or run."
+      },
+      "implementedInputCount": 72,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Generic Vestax PC-CONTROLLER endpoint cannot identify this model safely. Manual model selection required. Mode-A centre notes, conflicting trim-B centre value, balance, F1-F4 search, CUP/Preview and output remain inactive. Native CuePause/Fine buttons use held Cue/bend behaviour. Native tempo direction and physical taper/calibration remain unverified. Device-specific iPad USB/audio, complete lifecycle/feedback and physical/A10X acceptance remain open. No mode/power, driver, setup/output or automatic audio command."
         }
       ]
     }

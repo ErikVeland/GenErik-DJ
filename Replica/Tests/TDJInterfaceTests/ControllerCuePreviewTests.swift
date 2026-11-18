@@ -2413,3 +2413,20 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueVCM100BothChannelChoicesReleaseCueAndBendsInRealAudio() async throws {
+    for channel:UInt8 in [0,1] {
+        try await withControllerCuePlayback("Vestax VCM-100",manual:true) { model,input in
+            cuePreviewPacket([0x90+channel,52,127],to:input)
+            #expect(model.playbackSnapshot?.a.touchActive == true)
+            cuePreviewPacket([0x80+channel,52,127],to:input)
+            #expect(model.playbackSnapshot?.a.touchActive == false)
+            cuePreviewPacket([0x90+channel,50,127,50,0,78,127,0x80+channel,78,127],to:input)
+            let audio = model.playback.core.renderOffline(frames:4096)
+            model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+            #expect(model.playbackSnapshot?.a.touchActive == false)
+        }
+    }
+}

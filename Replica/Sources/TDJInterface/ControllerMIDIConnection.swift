@@ -145,6 +145,7 @@ struct ControllerBinding: Codable {
     var requiredMode: UInt8? = nil
     var shiftChannel: UInt8? = nil
     var shiftInput: UInt8? = nil
+    var holdInput: UInt8? = nil
     var lowNumber: UInt8? = nil
     var pulse: Bool? = nil
     var requiresTouch: Bool? = nil
@@ -404,7 +405,12 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private var pendingFeedback: [UInt8]?
     @ObservationIgnored private var sentFeedback: [UInt8] = []
     @ObservationIgnored private var sentMIDIValues: [String: [UInt8]] = [:]
-    @ObservationIgnored private var activeMomentaryInputs: [ControllerActionTarget: Set<Int32>] = [:]
+    private struct MomentaryInput: Hashable {
+        let source: Int32
+        let group: UInt8
+        let input: UInt8?
+    }
+    @ObservationIgnored private var activeMomentaryInputs: [ControllerActionTarget: Set<MomentaryInput>] = [:]
     @ObservationIgnored private var lastMIDIOutputTime = 0.0
     @ObservationIgnored private var lastFeedbackTime = 0.0
     @ObservationIgnored private var needsBridgeHello = true
@@ -901,7 +907,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                             layerIndependent: binding.layerIndependent, anyChannel: binding.anyChannel,
                             argument: binding.argument, releaseOnly: binding.releaseOnly,
                             requiredMode: binding.requiredMode, shiftChannel: binding.shiftChannel,
-                            shiftInput: binding.shiftInput, lowNumber: binding.lowNumber, pulse: binding.pulse,
+                            shiftInput: binding.shiftInput, holdInput: binding.holdInput, lowNumber: binding.lowNumber, pulse: binding.pulse,
                             requiresTouch: binding.requiresTouch, directionStep: binding.directionStep)
                     } ?? session.profile.bindings(source: session.source, playerDeck: session.playerDeck)
                 return (session.source, profile)
@@ -2057,7 +2063,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             if let decks, !decks.contains(target.deck ?? target.action.deck) { continue }
             guard var inputs = activeMomentaryInputs[target] else { continue }
             let wasActive = !inputs.isEmpty
-            if let source { inputs.remove(source) } else { inputs.removeAll() }
+            if let source { inputs = inputs.filter { $0.source != source } } else { inputs.removeAll() }
             activeMomentaryInputs[target] = inputs.isEmpty ? nil : inputs
             if wasActive && inputs.isEmpty { sendAction(target, value: 0) }
         }
@@ -2524,7 +2530,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             if binding.requiresTouch == true {
                 let touch = ControllerActionTarget(
                     binding.action.deck == .a ? .jogTouchA : .jogTouchB, deck: binding.targetDeck)
-                guard activeMomentaryInputs[touch]?.contains(sourceID) == true else { continue }
+                guard activeMomentaryInputs[touch]?.contains(where: { $0.source == sourceID && $0.group == message.group }) == true else { continue }
             }
             var value: Double
             switch decoded {
@@ -2595,7 +2601,12 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             if binding.action.isMomentary {
                 var inputs = activeMomentaryInputs[binding.target, default: []]
                 let wasActive = !inputs.isEmpty
-                if value > 0 { inputs.insert(sourceID) } else { inputs.remove(sourceID) }
+                let owner = MomentaryInput(source: sourceID, group: message.group, input: binding.holdInput)
+                if value > 0 {
+                    inputs.insert(owner)
+                } else {
+                    inputs.remove(owner)
+                }
                 activeMomentaryInputs[binding.target] = inputs.isEmpty ? nil : inputs
                 if value > 0 && !wasActive {
                     sendAction(binding.target, value: value)

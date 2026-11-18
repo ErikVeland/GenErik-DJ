@@ -998,3 +998,11 @@ The used bindings correct right Low to channel2/CC69 and global controls to chan
 Qualified Scratch-mode jogs and browsing use3F/41. Normal jog templates remain inactive.
 Pitch retains the qualified54/70 MSBs. Full14-bit arrival order, output, audio routing and physical calibration remain open.
 Same-wire linefaders and global sound controls stay usable during Shift. No Beatmix2/4 protocol is inherited.
+
+VCM-100 uses72 manual inputs across documented MIDI channel1 and optional channel2.
+Both PGM decks share the selected channel. Rear modes A/B/C share normal core packets.
+Level rotaries control deck volume. Mode-A centre notes, balance, search, CUP/Preview and output remain inactive.
+The generic Vestax PC-CONTROLLER identity cannot safely identify this model. Select the profile manually and configure app audio separately.
+Optional `holdInput` identities0-127 keep independent momentary controls separate within each source, MIDI group and action target.
+VCM-100 assigns one identity per channel choice. Unspecified identities retain existing cross-channel aliases and Shift releases.
+Only momentary actions can use this field. It does not create a MIDI channel, wire address or automatic identity match.

@@ -37,6 +37,7 @@ struct ControllerProfileData: Decodable, Sendable {
         let requiredMode: UInt8?
         let shifted: Bool?
         let shiftInput: UInt8?
+        let holdInput: UInt8?
         let shiftChannel: UInt8?
         let lowNumber: UInt8?
         let pulse: Bool?
@@ -49,7 +50,7 @@ struct ControllerProfileData: Decodable, Sendable {
                 parameter: nil, noteNumber: nil, action: action, encoding: encoding,
                 inverted: inverted, shifted: shifted ?? false, targetDeck: targetDeck, layerIndependent: shifted == nil,
                 anyChannel: anyChannel, argument: argument, releaseOnly: releaseOnly, requiredMode: requiredMode,
-                shiftChannel: shiftChannel, shiftInput: shiftInput, lowNumber: lowNumber, pulse: pulse,
+                shiftChannel: shiftChannel, shiftInput: shiftInput, holdInput: holdInput, lowNumber: lowNumber, pulse: pulse,
                 requiresTouch: requiresTouch, directionStep: directionStep)
         }
     }
@@ -182,6 +183,7 @@ struct ControllerProfileData: Decodable, Sendable {
                     && ($0.shiftInput == nil
                         || ($0.shiftInput! < 16 && $0.action == .shift
                             && ($0.kind == .note || ($0.kind == .control && $0.shiftChannel == nil))))
+                    && ($0.holdInput == nil || ($0.holdInput! < 128 && $0.action.isMomentary))
                     && ($0.encoding != .centredPitch || ($0.kind == .pitch && $0.number == 0))
                     && (![.mixstreamJog, .cyclic14BitJog, .vci100MK2Tempo, .lc6000Jog, .readyTempo, .airTempo].contains(
                         $0.encoding)
