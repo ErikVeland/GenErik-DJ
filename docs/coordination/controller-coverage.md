@@ -3455,3 +3455,34 @@ The catalogue keeps PRIMO open until an independent mapping or capture resolves 
 All 127 importer checks pass. All 177 runtime recipes remain unchanged.
 The repository check retains twelve historical broken links. No native code or runtime resource changed.
 Source base: `83753a1`. Hashes, rendered tables and validation remain in `TestBuilds/r296/`.
+
+## R297 Distinct Slate and Slate 4 profiles
+
+Assumption: use the original Slate's tested PCDJ map for its core wire facts. Its stale Pioneer header does not identify the hardware.
+Its active identity is `SLATE Audio`, USB23C7:0468. The Slate4 author file identifies USB23C7:0467 and `SLATE4-4 decks`.
+These are separate models. The Slate4 source corroborates global channel3, mixer addresses and centred jog values but does not qualify original Slate aliases.
+The original keeps native fixed touch scratch. Its source Vinyl button changes only software state; full source mode switching remains open.
+
+Implementation plan and checks:
+
+- [x] Add failing native/importer fixtures for separate identities, automatic versus manual activation, held Cue and pickup.
+- [x] Translate original seven-bit inverted pitch, centre64 jogs, distinct cue/fixed-loop addresses, source Shift guard and bounded steady feedback.
+- [x] Keep Slate4's conflicting shared touch row, absent pitch, shared pads and source Neural Mix EQ inactive. No original-Slate alias enters Slate4.
+- [x] Run focused native playback/protocol checks, importer checks and iPad framework compilation. Compare earlier recipes and bundled bytes.
+
+The original Slate recipe has68 inputs,26 steady feedback definitions and a36-packet lifecycle. Startup sets only the two source-valued Vinyl lights.
+Setup failure leaves input inactive. Repeated discovery does not repeat setup. Reconnect restores its fixed native mode indication.
+Shift blocks Hot Cue clear presses. Distinct loop notes retain1/8-to16-beat sizes. Source combined manual-loop commands stay inactive.
+The source's browser uses greater-than64 for forward. Native64 is neutral. Source Sync beat flashes become steady saved Sync feedback.
+Slate4 has27 manual inputs, no output and no lifecycle packet. Its conflicting touch row cannot engage either deck.
+Its explicit rotary64 wheel packets remain bend controls. Pitch, shared pads, source Neural Mix knobs and C/D dispatch remain open.
+
+All11 focused Swift checks,128 importer checks and native iPad framework compilation pass.
+Native offline audio checks cover original touch/Cue release and Slate4 held Cue with saved Sync.
+The compiled resource matches the source. All177 earlier recipes remain unchanged.
+The first fixture attempts used incorrect local endpoint/callback types; corrected pre-implementation failures and all logs remain in `TestBuilds/r297/`.
+The repository check retains twelve historical broken links. Inline review followed the serial-work rule; no reviewer agent was started.
+The catalogue has179 data recipes plus five code profiles. Automatic core coverage reaches155 physical models and66/122 benchmark models.
+Full theoretical feature parity remains unimplemented. Calibration, complete modes/lifecycle, audio routing and device acceptance remain open.
+Source base: `6ab5af9`. Source cache: `TestBuilds/r296/manufacturer/`. Validation: `TestBuilds/r297/`.
+No signed app, install, controller hardware test or A10X acceptance forms part of this increment.

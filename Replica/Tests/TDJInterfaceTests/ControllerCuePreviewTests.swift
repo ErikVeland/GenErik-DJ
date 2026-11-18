@@ -1117,3 +1117,35 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueSlateNativeTouchAndCueRestoreGridAndSavedSync() async throws {
+    try await withControllerCuePlayback("SLATE Audio") { model, input in
+        cuePreviewPacket([0x90, 57, 127, 0xB0, 4, 65], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80, 57, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(model.playbackSnapshot?.a.synced == true)
+        cuePreviewPacket([0x90, 2, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x90, 2, 0, 1, 127], to: input)
+        let samples = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}
+
+@Test @MainActor func controllerCatalogueSlateFourNativeManualCuePreservesSavedSync() async throws {
+    try await withControllerCuePlayback("SLATE4-4 decks", manual: true) { model, input in
+        cuePreviewPacket([0x90, 2, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80, 2, 127, 0x90, 1, 127], to: input)
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}

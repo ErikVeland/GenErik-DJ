@@ -14577,46 +14577,104 @@
       "role": "primary",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://pcdj.com/downloads/djcontrollers/Gemini__Slate.zip"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:geminislate"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Gemini Slate",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "hotcue5A:a",
+        "hotcue5B:b",
+        "hotcue6A:a",
+        "hotcue6B:b",
+        "hotcue7A:a",
+        "hotcue7B:b",
+        "hotcue8A:a",
+        "hotcue8B:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "openGroup",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopB:b"
+      ],
+      "inputBindingCount": 68,
+      "feedbackBindingCount": 26,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Native fixed touch scratch keeps the app's default jog calibration; source150 is not a measured revolution resolution. Source Vinyl toggle, shifted cue clear, combined manual loops, saved loops, full pad/FX/sampler modes, full feedback/lifecycle, audio routing and physical acceptance remain open."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -14632,46 +14690,79 @@
       "role": "primary",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://community.algoriddim.com/uploads/short-url/pYMYB13dHQw7Rccw8pdbs3mdsgz.djayMidiMa"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:geminislate4"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Gemini Slate 4",
+      "automaticControls": false,
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "highA:a",
+        "highB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
+      ],
+      "inputBindingCount": 27,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual two-deck custom-map subset. Enable input separately; full four-deck dispatch is unqualified."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Conflicting source touch row, absent pitch, outer Neural Mix EQ, shared pad/deck state, full four-deck dispatch, unspecified light ranges, lifecycle and audio routing remain open. No original-Slate alias is inferred. Physical acceptance remains open.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -318159,6 +318250,64 @@
         },
         {
           "reason": "Jog/pitch, shared EQ/pad modes, shifted presses, loop/FX, full browsing, light ranges, startup/shutdown and audio routing remain unqualified. Master/headphone knobs are not mapped. No Ready alias is inferred. Physical acceptance remains open."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:geminislate",
+      "name": "Gemini Slate",
+      "transport": "midi",
+      "source": {
+        "url": "https://pcdj.com/downloads/djcontrollers/Gemini__Slate.zip",
+        "sha256": "53f4ccbfca7c1c9a58f4afed956f1b5a444a28555a9d8f760a45b1fc09f7e7bf",
+        "relatedSources": [
+          {
+            "url": "https://pcdj.com/dj-controllers-gemini-slate/"
+          },
+          {
+            "url": "https://community.algoriddim.com/uploads/short-url/pYMYB13dHQw7Rccw8pdbs3mdsgz.djayMidiMa",
+            "sha256": "5f99dd156c5c2ee57c61cee6a5abd15ae16223b0905d8abac8a4cfce12eaed5f"
+          }
+        ],
+        "review": "PCDJ states its team mapped and tested the original two-channel Slate. Active source identity is SLATE Audio andUSB23C7:0468; the Pioneer header and commented Pioneer SysEx are stale and unused. Explicit deck channels0/1 supply Play1, held Cue2, Sync3, Key4, inverted seven-bit pitchCC1 and centre64 jogCC4. Touch57 supplies fixed native touch scratch; source software Vinyl56 toggle is not copied. Source scratch/move denominator150 is app-specific, not a measured ticks/revolution claim; retain native default calibration. Global channel3 supplies direct Load1/2, PFL5/6 and Shift13; its mixer CCs and centre64 jog values are independently corroborated by the different Slate4 file. Eight Hot Cues use6+3*slot; distinct fixed loop notes8+3*slot carry1/8..16 beats. Source Shift+cue clear remains inactive. Ambiguous combined manual-loop commands, saved loops, sampler, FX and gain stay unmapped. Browse uses source greater-than64 direction with native64 neutral. Published127/0 transport/PFL/cue lights become steady feedback; source Sync beat flashes and loop animation stay open. Native fixed Vinyl lights56 are set at startup and cleared with source FX lamps at shutdown. Commented application-connect and identity strings never become setup. Slate4 has a different USB product and no automatic alias. Full modes, lights, audio routing, calibration and physical acceptance remain open. No downloaded script runs in the app."
+      },
+      "implementedInputCount": 68,
+      "implementedOutputCount": 26,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Native fixed touch scratch keeps the app's default jog calibration; source150 is not a measured revolution resolution. Source Vinyl toggle, shifted cue clear, combined manual loops, saved loops, full pad/FX/sampler modes, full feedback/lifecycle, audio routing and physical acceptance remain open."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:geminislate4",
+      "name": "Gemini Slate 4",
+      "transport": "midi",
+      "source": {
+        "url": "https://community.algoriddim.com/uploads/short-url/pYMYB13dHQw7Rccw8pdbs3mdsgz.djayMidiMa",
+        "sha256": "5f99dd156c5c2ee57c61cee6a5abd15ae16223b0905d8abac8a4cfce12eaed5f",
+        "relatedSources": [
+          {
+            "url": "https://community.algoriddim.com/t/gemini-slate-4-midi-mapping/37308"
+          }
+        ],
+        "review": "DJ_MKB's corrected1.01 two-deck custom mapping identifies USB23C7:0467 andSLATE4-4 decks, without a custom app class. Normal A/B transport, global-channel3 Load/PFL/mixer and explicit rotary64 jog/browse facts enter a separate manual subset. Both source touch rows address channel1 Note57 while naming different decks; neither is imported. Pitch is absent. Outer EQs control Neural Mix, not ordinary C/D EQ. Shared pad/deck modes, full four-deck dispatch, lights with unspecified ranges, startup/shutdown, original-Slate aliases and audio routing remain unqualified. Manual application requires separate input enabling and runs no lifecycle. No downloaded code runs in the app."
+      },
+      "implementedInputCount": 27,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Conflicting source touch row, absent pitch, outer Neural Mix EQ, shared pad/deck state, full four-deck dispatch, unspecified light ranges, lifecycle and audio routing remain open. No original-Slate alias is inferred. Physical acceptance remains open."
         }
       ]
     },
