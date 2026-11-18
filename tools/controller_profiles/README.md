@@ -758,3 +758,13 @@ Manual application retains the closed `inputProtocol` tag against that source ID
 SMK-25 II and CDJ-101 use the byte input port on unnamed endpoints. Known factory identities retain their own wire protocol.
 A profile change resets fragments, bank/click state and held contacts. Ordinary and legacy profile replacements clear the manual tag.
 Restoration checks metadata size, source count and binding ownership. Hardware startup/output remains separate from manual input conversion.
+
+### DDJ-SR2 manual normal core (R330)
+
+`ddj_sr2.py` declares the independent manufacturer table and `inputProtocol: ddjSR2`.
+`ControllerSR2Decoder` starts with unknown Load ownership on each side. Positive selector state qualifies A/C or B/D.
+Current-selector release, external input or invalid selection clears that side. Selector boundaries release owned contacts and pickup without clearing physical Shift.
+Only shared Note70/71 can produce logical Load126. The raw deck TRANS-parameter Note126 and shifted Load remain inactive.
+The manual recipe retains all28 explicit14-bit pairs and distinct shifted release aliases. Normal pad addresses remain separate from other hardware pages.
+The pending-source inventory cannot override a reviewed recipe. The missing cold query keeps automatic selection off.
+Full Vinyl/Shift/pad/FX modes, output/lifecycle/routing, calibration and physical acceptance remain open.

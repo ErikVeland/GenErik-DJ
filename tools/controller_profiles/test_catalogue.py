@@ -998,6 +998,30 @@ class GeneratedCatalogueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
 
+    def test_ddj_sr2_has_independent_manual_protocol_and_unknown_initial_load_bank(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"] == "Pioneer DDJ-SR2"),None)
+        self.assertIsNotNone(item,"SR2 needs independent controls and safe shared Load routing")
+        self.assertFalse(item["autoSelect"])
+        catalogue=json.loads((ROOT/"docs/coordination/controller-catalogue.json").read_text())
+        model=next(r for r in catalogue["models"] if r["name"] == "Pioneer DDJ-SR2")
+        self.assertEqual(model["implementation"],"partial-midi-profile")
+        self.assertEqual(model["inputBindingCount"],202)
+        self.assertEqual(len(item["inputs"]),202)
+        self.assertEqual(item["inputProtocol"],"ddjSR2")
+        self.assertEqual({r["targetDeck"] for r in item["inputs"] if "targetDeck" in r},{"a","b","c","d"})
+        loads=[r for r in item["inputs"] if r["action"].startswith("load")]
+        self.assertEqual(len(loads),4)
+        self.assertEqual({r["number"] for r in loads},{126})
+        self.assertEqual({r["channel"] for r in loads},{0,1,2,3})
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        self.assertTrue(all(r.get("lowNumber",r["number"]+32)==r["number"]+32 for r in item["inputs"] if r["encoding"]=="paired14Bit"))
+        from ddj_sr2 import SR2_SHA, SR2_GUIDE
+        self.assertIn(SR2_GUIDE,item["source"])
+        path=ROOT/"TestBuilds/r179/manufacturer/DDJ-SR2.pdf"
+        if path.exists(): self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),SR2_SHA)
+
     def test_cdj101_has_timed_source_local_input_and_independent_player_core(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"] == "DJ-Tech CDJ-101"),None)

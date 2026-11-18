@@ -1644,3 +1644,25 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueSR2NativeSelectorCueReleaseAndPlayKeepAudioAndSync() async throws {
+    try await withControllerCuePlayback("DDJ-SR2", manual: true) { model, input in
+        input.receiveBytes([0x90, 12, 127], source: 10)
+        input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x92, 86, 127], source: 10)
+        input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == false && model.playbackSnapshot?.a.phase.active == false)
+        input.receiveBytes([0x90, 85, 127, 11, 127, 11, 0], source: 10)
+        input.flushPendingActions()
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        input.receiveBytes([0x90, 85, 0, 0x92, 86, 127], source: 10)
+        input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+    }
+}

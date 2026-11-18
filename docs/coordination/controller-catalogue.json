@@ -4776,46 +4776,168 @@
         "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-SR2/DDJ-SR2_MIDI_Message_E1.pdf"
       ],
       "definitions": [
-        "manufacturer:pioneerddjsr2"
+        "manufacturer:ddjsr2"
       ],
-      "implementation": "adapter-needed",
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Pioneer DDJ-SR2",
+      "automaticControls": false,
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "jogA:a",
+        "jogA:c",
+        "jogB:b",
+        "jogB:d",
+        "jogTouchA:a",
+        "jogTouchA:c",
+        "jogTouchB:b",
+        "jogTouchB:d",
+        "keylockA:a",
+        "keylockA:c",
+        "keylockB:b",
+        "keylockB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "loopDownA:a",
+        "loopDownA:c",
+        "loopDownB:b",
+        "loopDownB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "loopUpA:a",
+        "loopUpA:c",
+        "loopUpB:b",
+        "loopUpB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor",
+        "openGroup",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "shift",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d",
+        "tempoA:a",
+        "tempoA:c",
+        "tempoB:b",
+        "tempoB:d",
+        "wheelJogA:a",
+        "wheelJogA:c",
+        "wheelJogB:b",
+        "wheelJogB:d"
+      ],
+      "inputBindingCount": 202,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual SR2 USB-MIDI core. Move each hardware input selector to identify its deck before shared Load. Initial and external-input Load ownership remains unknown. C/D require app opt-in."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "adapter-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Load buttons use shared left/right packets. Implement deck-bank selection and safe initial bank state before automatic selection.",
-        "A controller-specific protocol adapter is required."
+        "Initial Load bank has no documented query. Move the hardware selectors before shared Load; external/current-selector release makes that side unknown again. Automatic selection remains off. Native fixed touch replaces source Vinyl mode variations. Shifted transport/grid/key/scan/fine-pitch/jog, alternate pad/Saved Flip/Roll/Slicer/Sampler/TRANS/Pitch Play, FX, booth/mic/sampler routing, full lights/lifecycle, jog calibration and physical/A10X acceptance remain open. Raw deck-channel Note126 is an unimplemented TRANS parameter; only the adapter can emit logical Load126.",
+        "A separate manual core now tracks positive selector state and safely routes shared Load. Initial bank remains unknown because the table gives no cold query. Automatic selection, complete modes/output/lifecycle and physical acceptance remain open.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -321176,6 +321298,36 @@
       ]
     },
     {
+      "id": "manufacturer:ddjsr2",
+      "name": "Pioneer DDJ-SR2",
+      "transport": "midi",
+      "source": {
+        "url": "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-SR2/DDJ-SR2_MIDI_Message_E1.pdf",
+        "sha256": "d7a665835c7278838ba64b1dc4ee7d01a785045e3fe028597c87e104a084356f",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "review": "Independent manufacturer table defines four deck channels0..3 and pad channels7..10. Standard Play11, held Cue12, Sync88, key lock26, loop20, halve18/double19, loop-in16/out17 and PFL84 have distinct shifted addresses. Shift63 retains physical side identity across A/C and B/D. Normal jog34 and Vinyl-Off35 use the fixed native touch/count contract; wheel33 retains separate contact suppression. Pitch0/32, trim4/36, high7/39, mid11/43, low15/47 and fader19/51 are explicit14-bit pairs per deck. Global channel6 pairs are master8/40, headphone level13/45, blend12/44 and crossfader31/63. BrowserCC64 uses signed counts and pushNote65 opens the selected group. Cue pads0..7 retain unqualified shifted-pad release aliases8..15 without activating Saved Flip/deletion. The source-local ddjSR2 adapter consumes selector Note85/86/87 on deck channels: positive A0/85, B1/85, C2/86, D3/86 establish separate left/right state. Current selector release or external/invalid selection clears that side. Shared channel6 Note70/71 converts to logical Note126 on the known target only. Logical126 cannot be injected by the raw TRANS parameter address. Selector events release source-owned A/C or B/D contacts and pickup while preserving physical Shift ownership. The table gives no cold-bank query; initial state remains unknown and automatic selection stays off. No SR/SX sibling setup, filter knob, FX bank, audio route or output is inferred. Complete Vinyl/Shift/pad/FX modes, feedback/lifecycle, jog calibration and physical/A10X acceptance remain open."
+      },
+      "implementedInputCount": 202,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Initial Load bank has no documented query. Move the hardware selectors before shared Load; external/current-selector release makes that side unknown again. Automatic selection remains off. Native fixed touch replaces source Vinyl mode variations. Shifted transport/grid/key/scan/fine-pitch/jog, alternate pad/Saved Flip/Roll/Slicer/Sampler/TRANS/Pitch Play, FX, booth/mic/sampler routing, full lights/lifecycle, jog calibration and physical/A10X acceptance remain open. Raw deck-channel Note126 is an unimplemented TRANS parameter; only the adapter can emit logical Load126."
+        }
+      ]
+    },
+    {
       "id": "manufacturer:pioneerddjrev7",
       "name": "Pioneer DDJ-REV7",
       "transport": "midi",
@@ -321191,32 +321343,6 @@
       "unresolved": [
         {
           "reason": "Review and implement platter, motor, display and lifecycle protocols before automatic selection. A relative JOG entry alone does not establish motorised-platter support."
-        }
-      ]
-    },
-    {
-      "id": "manufacturer:pioneerddjsr2",
-      "name": "Pioneer DDJ-SR2",
-      "transport": "midi",
-      "source": {
-        "url": "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-SR2/DDJ-SR2_MIDI_Message_E1.pdf",
-        "sha256": "d7a665835c7278838ba64b1dc4ee7d01a785045e3fe028597c87e104a084356f",
-        "pages": [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ]
-      },
-      "implementedInputCount": 0,
-      "implementedOutputCount": 0,
-      "sourceInputCount": null,
-      "sourceOutputCount": null,
-      "unresolved": [
-        {
-          "reason": "Load buttons use shared left/right packets. Implement deck-bank selection and safe initial bank state before automatic selection."
         }
       ]
     }

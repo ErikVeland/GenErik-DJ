@@ -9,7 +9,7 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 319 total catalogue records. 312 name physical models. The remainder identify software endpoints or protocol families.
-- 210 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 211 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 162 factory profiles select core controls automatically for 170 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - 136 physical models still lack automatic core controls.
@@ -220,13 +220,13 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 
 | State | Records | Meaning |
 | --- | ---: | --- |
-| adapter-needed | 25 | A referenced HID, bulk or script protocol needs an adapter. |
+| adapter-needed | 24 | A referenced HID, bulk or script protocol needs an adapter. |
 | automatic-core-profile | 164 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 50 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| partial-midi-profile | 51 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
 | protocol-needed | 56 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
@@ -402,7 +402,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Pioneer DDJ-RX | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-RX/DDJ-RX_List_of_MIDI_Message_E.pdf) |
 | Pioneer DDJ-RZ | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-RZ/DDJ-RZ_MIDI_Message_List_E.pdf) |
 | Pioneer DDJ-RZX | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-RZX/DDJ-RZX_MIDI_Message_List_E.pdf) |
-| Pioneer DDJ-SR2 | primary | adapter-needed | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-SR2/DDJ-SR2_MIDI_Message_E1.pdf) |
+| Pioneer DDJ-SR2 | primary | partial-midi-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-SR2/DDJ-SR2_MIDI_Message_E1.pdf) |
 | Pioneer DDJ-SX3 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-SX3/DDJ-SX3_MIDI_Message_List_E1.pdf) |
 | Pioneer DDJ-SZ | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-SZ/DDJ-SZ_MIDI_Message_List_E.pdf) |
 | Pioneer DDJ-SZ2 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-SZ2/DDJ-SZ2_MIDI_Message_v100_E.pdf) |
