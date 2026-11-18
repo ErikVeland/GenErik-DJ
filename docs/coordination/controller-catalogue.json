@@ -11904,49 +11904,78 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20CDJ-101.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20CDJ-101.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech-CDJ-101-scripts.js"
       ],
       "definitions": [
-        "DJ-Tech CDJ-101.midi.xml"
+        "DJ-Tech CDJ-101.midi.xml",
+        "reviewed:cdj101"
       ],
-      "implementation": "adapter-needed",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "DJ-Tech CDJ-101",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "browseGroups",
+        "cuePreviewA:a",
+        "jogA:a",
+        "jogTouchA:a",
+        "loadA:a",
+        "playA:a",
+        "shift",
+        "syncA:a",
+        "tempoA:a",
+        "wheelJogA:a"
+      ],
+      "inputBindingCount": 22,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "CDJ-101 USB-MIDI channel1 or2. Native software deck allocation is independent of the wire channel. Browser push is Shift; a release before200 ms loads."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "adapter-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "A controller-specific protocol adapter is required."
+        "Fixed native touch/count response replaces source delayed100 ms outer-to-inner spinback handover. Shifted cue/grid/scan and fine outer-wheel alternatives, exact outer-wheel response and physical tick calibration remain open. Active wire-channel ownership must be qualified before lights/output. Full feedback/lifecycle and physical/A10X acceptance remain open. No audio route or other DJ-Tech player protocol is inferred.",
+        "Fixed native touch/count response replaces source delayed100 ms outer-to-inner spinback handover. Shifted cue/grid/scan and fine outer-wheel alternatives, exact outer-wheel response and physical tick calibration remain open. Active wire-channel ownership must be qualified before lights/output. Full feedback/lifecycle and physical/A10X acceptance remain open. No audio route or other DJ-Tech player protocol is inferred."
       ],
+      "playerSupport": {
+        "requiredHardwareMode": "CDJ-101 USB-MIDI channel1 or2. Native software deck allocation is independent of the wire channel. Browser push is Shift; a release before200 ms loads.",
+        "midiInputImplemented": true,
+        "recognisedNames": [
+          "DJ-Tech CDJ-101",
+          "CDJ-101"
+        ],
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
@@ -321107,6 +321136,42 @@
         },
         {
           "reason": "Fixed A/B initial tall layout only. Dynamic chord-selected channels, C/D/samplers, alternate presets, conditional Load/eject, nudge/grid/tap/quantise/slip/key/jump variants, modifier alternatives, held library scrolling, full per-size loop lamps/RGB cues/feedback/calibration and physical/A10X acceptance remain open. Mini MK3 other port-name variants and whole lifecycle need qualification. No persistent preset or audio route is inferred."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:cdj101",
+      "name": "DJ-Tech CDJ-101",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech-CDJ-101-scripts.js",
+        "sha256": "15c2091a3f39bad84bf8c7d95ae959a441cb41b755fd444a919fdc65cc13562d",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20CDJ-101.midi.xml",
+            "sha256": "67b81fe30a79ae834367c55bfb0f8808b7efa1d2b9b13e9d9a85d01548d01648"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech-CDJ-101-scripts.js",
+            "sha256": "15c2091a3f39bad84bf8c7d95ae959a441cb41b755fd444a919fdc65cc13562d"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/common-controller-scripts.js",
+            "sha256": "27bad1799146932e2184995d4ab5eb7c1c2a09e0e909284249d6030f7edccdf3"
+          },
+          {
+            "url": "https://manual.mixxx.org/2.5/en/hardware/controllers/dj_tech_cdj_101"
+          }
+        ],
+        "review": "Independent XML/source use wire channels0/1: Play42, held Cue43, contact32, browser push31, inner jogCC54/outer53, browserCC56 and standard14-bit pitch. Native source-local input converts browser raw65 to logical+1, every other seven-bit value to-1, and emits logical Note126 Load only on owned push release before200 ms. Repeat presses cannot shorten the interval; backwards/late/unowned releases cannot load. Callback arrival timestamps survive the inbox so main-thread delay cannot compress two separate callback times. Source script.pitch delegates to midiPitch, preserving the14-bit value; native pitch normalisation follows the reviewed source rate direction. Source143 ticks at45 RPM becomes193.05 effective native33⅓-RPM ticks, preserving60/(45*143) seconds per inner tick. Player allocation replaces hard-coded software deck ownership. Native fixed touch replaces source100 ms spinback handover. Shifted Play supplies Sync; shifted browser supplies groups. Shifted cue/grid/scan and fine outer-wheel variants remain inactive. Output channel ownership, full lights/lifecycle/calibration and physical/A10X acceptance remain open. No downloaded script executes in the app."
+      },
+      "implementedInputCount": 22,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Fixed native touch/count response replaces source delayed100 ms outer-to-inner spinback handover. Shifted cue/grid/scan and fine outer-wheel alternatives, exact outer-wheel response and physical tick calibration remain open. Active wire-channel ownership must be qualified before lights/output. Full feedback/lifecycle and physical/A10X acceptance remain open. No audio route or other DJ-Tech player protocol is inferred."
         }
       ]
     },

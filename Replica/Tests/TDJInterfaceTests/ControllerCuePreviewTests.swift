@@ -1597,3 +1597,26 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         }
     }
 }
+
+@Test @MainActor func controllerCatalogueCDJ101NativeSourceTicksCuePlayKeepAudioAndSync() async throws {
+    try await withControllerCuePlayback("CDJ-101") { model, input in
+        input.receiveBytes([0x90, 32, 127, 0xB0, 54, 67], source: 10)
+        input.flushPendingActions()
+        try await Task.sleep(for: .milliseconds(80))
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        let sampleRate = try #require(model.track(.a)?.analysis.sampleRate)
+        let expected = sampleRate * 60 / (45 * 143) * 3
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1) - expected) <= 1)
+        input.receiveBytes([0x80, 32, 127, 0x90, 43, 127], source: 10)
+        input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x90, 42, 127, 42, 0, 43, 0], source: 10)
+        input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.touchActive == false && model.playbackSnapshot?.a.phase.active == true)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}

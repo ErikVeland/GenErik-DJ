@@ -741,3 +741,13 @@ Both modifiers guard normal deck controls. Halve/double and individual library c
 The eight core lamps retain source palette values. Per-size loop lamps and RGB cue colours need richer feedback state.
 Dynamic layouts, conditional Load, alternate modes, full feedback and physical acceptance remain open.
 The original full-size Launchpad requires desktop drivers and a qualified iPad bridge. It cannot use these class-compliant contracts.
+
+### CDJ-101 timed player input (R328)
+
+`cdj101.py` declares `inputProtocol: cdj101`. `ControllerCDJ101Decoder` normalises browser direction and short-click Load.
+Only raw65 moves forward. Every other seven-bit browser value moves back, as the source specifies.
+An owned push release before200 ms emits logical Note126. Repeated presses cannot restart that interval.
+The callback records arrival time before queuing input. A delayed main-thread drain retains the original interval.
+Input state resets on disconnect. Output expansion passes the existing frame limit before dispatch.
+Native player assignment separates software decks from wire channels1/2. Source143 ticks at45 RPM becomes193.05 effective native ticks.
+Full spinback/Shift/outer-wheel behaviour, output ownership, complete lifecycle and physical acceptance remain open.

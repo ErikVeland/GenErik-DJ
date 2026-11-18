@@ -998,6 +998,24 @@ class GeneratedCatalogueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
 
+    def test_cdj101_has_timed_source_local_input_and_independent_player_core(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"] == "DJ-Tech CDJ-101"),None)
+        self.assertIsNotNone(item,"CDJ-101 needs its own timed input contract")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual(item["role"],"player")
+        self.assertEqual(item["inputProtocol"],"cdj101")
+        self.assertEqual(len(item["inputs"]),22)
+        self.assertEqual({r["channel"] for r in item["inputs"]},{0,1})
+        self.assertEqual({r["number"] for r in item["inputs"] if r["action"].startswith("load")},{126})
+        self.assertEqual({r["argument"] for r in item["inputs"] if r["action"].startswith(("jogA","wheelJogA"))},{193.05})
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        from cdj101 import CDJ101_SOURCES
+        for filename,digest in CDJ101_SOURCES:
+            path=ROOT/"TestBuilds/r169/upstream/res/controllers"/filename
+            if path.exists(): self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),digest)
+
     def test_rgb_launchpads_keep_separate_setup_ports_and_reviewed_fixed_tall_layout(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         for name in ["Novation Launchpad MK2","Novation Launchpad Mini MK3"]:

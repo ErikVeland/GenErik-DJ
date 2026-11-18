@@ -385,6 +385,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private var sourceIDsByEndpoint: [UInt32: Int32] = [:]
     @ObservationIgnored private var decoders: [Int32: ControllerMIDIDecoder] = [:]
     @ObservationIgnored private var smk25Decoders: [Int32: ControllerSMK25Decoder] = [:]
+    @ObservationIgnored private var cdj101Decoders: [Int32: ControllerCDJ101Decoder] = [:]
     @ObservationIgnored private var bridgeDecoders: [Int32: ControllerBridgeDecoder] = [:]
     @ObservationIgnored private var bridgeConnected = false
     @ObservationIgnored private var pendingFeedback: [UInt8]?
@@ -499,7 +500,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 inbox.append(
                     source: source,
                     bytes: count <= 4096
-                        ? Array(UnsafeBufferPointer(start: bytes, count: count)) : Array(repeating: 0, count: 4097))
+                        ? Array(UnsafeBufferPointer(start: bytes, count: count)) : Array(repeating: 0, count: 4097),
+                    timestamp: DispatchTime.now().uptimeNanoseconds)
                 packet = MIDIPacketNext(packet)
             }
         }
@@ -575,6 +577,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         sourceIDsByEndpoint.removeAll()
         decoders.removeAll()
         smk25Decoders.removeAll()
+        cdj101Decoders.removeAll()
         bridgeDecoders.removeAll()
         shiftLayers.removeAll()
         channelShiftLayers.removeAll()
@@ -987,6 +990,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         sourceIDsByEndpoint[source.reference] = id
         decoders[id] = .init()
         smk25Decoders[id] = nil
+        cdj101Decoders[id] = nil
         bridgeDecoders[id] = .init()
         updatePollingInterval()
         return true
@@ -1001,6 +1005,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         }
         decoders[id] = nil
         smk25Decoders[id] = nil
+        cdj101Decoders[id] = nil
         bridgeDecoders[id] = nil
         shiftLayers[id] = nil
         channelShiftLayers[id] = nil
@@ -1737,7 +1742,9 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     /**
      * Applies a bounded byte frame through the active factory protocol or the ordinary MIDI decoder.
      */
-    @discardableResult func receiveBytes(_ bytes: [UInt8], source: Int32, limit: Int = 256) -> Int? {
+    @discardableResult func receiveBytes(
+        _ bytes: [UInt8], source: Int32, limit: Int = 256, timestamp: UInt64 = DispatchTime.now().uptimeNanoseconds
+    ) -> Int? {
         guard isInputActive(source) else { return 0 }
         guard bytes.count <= 4096, (0...256).contains(limit) else {
             stop()
@@ -1764,9 +1771,16 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             }
             return events.count
         }
-        var decoder = decoders[source, default: .init()]
-        let messages = decoder.append(bytes)
-        decoders[source] = decoder
+        let messages: [ControllerMIDIMessage]
+        if factorySessions.first(where: { $0.source == source })?.profile.definition?.inputProtocol == .cdj101 {
+            var decoder = cdj101Decoders[source, default: .init()]
+            messages = decoder.append(bytes, timestamp: timestamp)
+            cdj101Decoders[source] = decoder
+        } else {
+            var decoder = decoders[source, default: .init()]
+            messages = decoder.append(bytes)
+            decoders[source] = decoder
+        }
         guard messages.count <= limit else {
             stop()
             status = "Controller input overload. Reconnect to continue."
@@ -1804,7 +1818,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             let messages: [ControllerMIDIMessage]
             switch frame.payload {
             case .bytes(let bytes):
-                guard let count = receiveBytes(bytes, source: sourceID, limit: 256 - processed) else { return }
+                guard let count = receiveBytes(bytes, source: sourceID, limit: 256 - processed, timestamp: frame.timestamp) else { return }
                 processed += count
                 continue
             case .messages(let input): messages = input
