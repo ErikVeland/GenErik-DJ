@@ -5,7 +5,7 @@ import Testing
 @testable import TDJInterface
 
 @MainActor private func withControllerCuePlayback(
-    _ name: String = "DJ2GO2 Touch", manual: Bool = false,
+    _ name: String = "DJ2GO2 Touch", manual: Bool = false, ports: [String] = [],
     _ body: (ReplicaModel, ControllerMIDIConnection) async throws -> Void
 )
     async throws
@@ -27,12 +27,12 @@ import Testing
     input.sources = [
         .init(
             id: 10, reference: 100, name: name,
-            identity: .init(id: 10, device: 1, names: [name]))
+            identity: .init(id: 10, device: 1, names: [name], portNames: ports))
     ]
     input.destinations = [
         .init(
             id: 20, reference: 200, name: name,
-            identity: .init(id: 20, device: 1, names: [name]))
+            identity: .init(id: 20, device: 1, names: [name], portNames: ports))
     ]
     input.onTargetAction = model.controllerInput.onTargetAction
     input.onJogAction = model.controllerInput.onJogAction
@@ -1062,6 +1062,21 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.touchActive == true)
         cuePreviewPacket([0x80, 1, 127, 0x90, 0, 127], to: input)
         #expect(model.playbackSnapshot?.a.touchActive == false)
+        let samples = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}
+
+@Test @MainActor func controllerCatalogueTweakerNativeDeckShiftCueKeepsReleaseAndSync() async throws {
+    try await withControllerCuePlayback("Tweaker", ports: ["Tweaker MIDI 1"]) { model, input in
+        cuePreviewPacket([0x90, 19, 127, 35, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x90, 19, 0, 0x80, 35, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        cuePreviewPacket([0x90, 35, 127], to: input)
         let samples = model.playback.core.renderOffline(frames: 4096)
         model.refreshPlayback()
         #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))

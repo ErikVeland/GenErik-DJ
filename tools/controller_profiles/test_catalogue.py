@@ -861,6 +861,28 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_tweaker_generation_keeps_fixed_ab_and_programmed_absolute_eq(self):
+        runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item = next(row for row in runtime["profiles"] if row["id"] == "Electrix Tweaker")
+        self.assertTrue(item["autoSelect"], "Tweaker needs a reviewed automatic recipe")
+        self.assertEqual(item["portAliases"], ["Tweaker MIDI 1"])
+        self.assertEqual([(r["action"], r["argument"]) for r in item["inputs"] if "argument" in r],
+                         [("fixedJumpA", 4), ("fixedJumpA", 1), ("fixedJumpA", -4), ("fixedJumpA", -1),
+                          ("fixedJumpB", 4), ("fixedJumpB", 1), ("fixedJumpB", -4), ("fixedJumpB", -1)])
+        from electrix_tweaker import TWEAKER_SOURCES
+        for name, digest in TWEAKER_SOURCES:
+            path = ROOT / "TestBuilds/r169/upstream/res/controllers" / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+        self.assertEqual({r["targetDeck"] for r in item["inputs"] if "targetDeck" in r}, {"a", "b"})
+        self.assertFalse(any(row[0] == 240 for row in item["startup"]))
+        for number in range(57, 63):
+            self.assertIn([191, number, 118], item["startup"])
+        for number in range(79, 85):
+            self.assertIn([191, number, 70], item["startup"])
+        self.assertLessEqual(len(item["startup"]) + len(item["shutdown"]), 64)
+        self.assertNotIn("audioOutput", item)
+
     def test_mixtour_pro_manual_core_omits_shared_conditional_pads_and_missing_class(self):
         runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item = next((row for row in runtime["profiles"] if row["id"] == "Reloop Mixtour Pro"), None)

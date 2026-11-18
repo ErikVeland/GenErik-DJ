@@ -3351,3 +3351,35 @@ The catalogue retains 313 records for 306 physical models and now has 175 data r
 Automatic core coverage stays at 147 factory physical models plus six other native models; the benchmark stays 65/122.
 Source base: `bd51935`. Source cache: `TestBuilds/r291/manufacturer/`. Validation: `TestBuilds/r292/`.
 No signed app, install, controller hardware test or A10X acceptance forms part of this increment.
+
+## R293 Electrix Tweaker fixed A/B core
+
+Assumption: the controller retains its factory MIDI assignments. Use its USB `Tweaker MIDI 1` port, not the DIN `Tweaker MIDI 2` port.
+The pinned source programs six absolute EQ encoders and local rings. Its default-settings SysEx block is commented out and must not run.
+The native recipe fixes the software banks to A/B and EQ. Unsupported bank/mode keys cannot change those assignments.
+
+Implementation plan and checks:
+
+- [x] Add failing native fixtures for port isolation, fixed A/B controls, Top Shift versus deck Shift, held Cue release, EQ pickup and lifecycle failure/reconnect.
+- [x] Add `electrix_tweaker.py` and source hashes. Reuse existing composite Shift groups, typed actions and bounded startup/feedback.
+- [x] Verify eight normal cues, normal/shifted beat jumps and manual loop boundaries. Keep unsupported sampler, Slip, extra cue/deck banks and encoder modes inactive.
+- [x] Run importer checks, focused native playback/protocol checks and iPad framework compilation. Compare the bundle and all previous recipes.
+
+Ruling: use separate pure-deck and Top-or-deck Shift groups, as already supported by the Xone adapter.
+This preserves modifier priority without a new state engine or changes to live audio code.
+Normal Play is blocked by Top Shift. Deck Shift+Play uses held Cue, including the source's deck-Shift priority when both modifiers are held.
+Native Cue release keeps the app's existing return-to-cue behaviour. The source's continue-playing-on-Shift-release variation remains open.
+No audio interface, four-deck switching or source-specific fader/EQ curve is inferred.
+
+The recipe has 67 inputs, 30 feedback definitions and a 62-packet lifecycle. It claims only the paired USB MIDI1 port.
+Setup failure leaves input inactive. Repeated discovery does not repeat setup; reconnect restores it.
+A/B stay fixed when unsupported bank/encoder-mode keys are pressed. EQ feedback retains the programmed encoder positions and local rings.
+The first native check rejected argument-bearing generic jump actions. The recipe now uses the existing signed `fixedJump` contract.
+The failed run and expected pre-implementation failures remain in `TestBuilds/r293/`.
+
+All ten focused Swift checks, 124 importer checks and native iPad framework compilation pass.
+The compiled resource matches the source. Only the previous Tweaker partial recipe changed; all 174 other recipes remain unchanged.
+Factory coverage reaches 140 profiles for 148 physical models, plus six other native models. The benchmark remains 65/122.
+The repository check retains twelve historical broken links. Inline review followed the serial-work rule; no reviewer agent was started.
+Source base: `d32470e`. Evidence: `TestBuilds/r293/`.
+No signed app, install, controller hardware test or A10X acceptance forms part of this increment.

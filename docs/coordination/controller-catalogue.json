@@ -14168,51 +14168,106 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Electrix%20Tweaker.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Electrix%20Tweaker.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Electrix%20Tweaker.midi.xml"
       ],
       "definitions": [
-        "Electrix Tweaker.midi.xml"
+        "Electrix Tweaker.midi.xml",
+        "manufacturer:electrixtweaker"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Electrix Tweaker",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
-        "crossfader"
+        "browse",
+        "browseNextGroup",
+        "browsePreviousGroup",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "fixedJumpA:a",
+        "fixedJumpB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "hotcue5A:a",
+        "hotcue5B:b",
+        "hotcue6A:a",
+        "hotcue6B:b",
+        "hotcue7A:a",
+        "hotcue7B:b",
+        "hotcue8A:a",
+        "hotcue8B:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopDisableA:a",
+        "loopDisableB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "openGroup",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b",
+        "tempoResetA:a",
+        "tempoResetB:b"
       ],
-      "inputBindingCount": 1,
-      "feedbackBindingCount": 0,
+      "inputBindingCount": 67,
+      "feedbackBindingCount": 30,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Factory MIDI assignments on Tweaker MIDI1. Native fixed A/B, EQ and first cue page; software bank/mode keys remain inactive."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 69,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Fixed A/B, EQ and eight cues only. Software deck/encoder/cue banks, Slip, Quantize-off wind/bend, sampler/DVS, EQ kills, other Top controls, source fader/EQ curves, loaded/Cue light states, full lifecycle and physical acceptance remain open. Native Cue release returns to its saved point; source continue-playing-on-Shift-release is not implemented. A separate audio interface is required."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -317830,6 +317885,41 @@
         },
         {
           "reason": "Conditional pads, split/deck mode state, loop combinations, shifted functions, Neural Mix, FX/paddles, PFL lights/meters, browser source/back keys, complete setup/reset and audio routing remain open. Source steady A/B feedback6/2 and C/D feedback5/1 do not qualify full light behaviour. C/D retain the app's four-deck opt-in. Manual feedback requires separate loading and enabling. Manual application does not activate input or automatic lifecycle; physical acceptance remains open."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:electrixtweaker",
+      "name": "Electrix Tweaker",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Electrix%20Tweaker.midi.xml",
+        "sha256": "fba75aac5f2870b235c0103f2188749b41ddaa7384256201a143b41e5f0cc04f",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Electrix%20Tweaker.midi.xml",
+            "sha256": "fba75aac5f2870b235c0103f2188749b41ddaa7384256201a143b41e5f0cc04f"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Electrix-Tweaker-scripts.js",
+            "sha256": "40fb3b9f73c83810c02714c03008dc5c1493b39a34fe83ab4991504ab95de667"
+          },
+          {
+            "url": "https://manual.mixxx.org/2.5/en/hardware/controllers/electrix_tweaker"
+          }
+        ],
+        "review": "Class-compliant USB MIDI1 is distinct from DIN MIDI2. Pinned XML/script define fixed physical A/B addresses and software deck/EQ/loop/cue-page states. Native core fixes A/B, EQ and first eight-cue page. Program EQ CC57..62 via channel15 value118 (70+8*source sensitivity6) and local rings79..84 value70. Commented default-reset/query SysEx is not sent. Composite Shift groups0/1 combine Top with that side, group2 is pure Top, groups3/4 pure deck Shift. Physical Shift identities prevent one release clearing another. Normal Play needs composite Shift off; held Cue needs pure deck Shift on, retaining source deck-Shift priority over Top. Native release returns to Cue, rather than copying source continue-playing-on-Shift-release. EQ and cues block both modifiers; Load blocks only Top, and PFL/Sync/Keylock follow deck Shift. Source shifted PFL exits loops; shifted Sync resets tempo; shifted Slip/Deck keys set loop In/Out. Native fixed4-beat and shifted1-beat jumps use app grid timing. Source Quantize-off wind/bend, software banks, Slip, extra cue pages, encoder modes/kills, sampler/DVS, Top controls and full light states remain open. Browser uses strict1/127 steps. EQ feedback CCs restore native normalised positions. Playing lights use steady green only; loaded red/Cue yellow and other animations remain open. Source fader/EQ nonlinear curves are not asserted as native calibration. Startup25 and shutdown37 total62 packets. Shutdown restores EQ positions to64 and clears owned indicators only. No built-in sound card or automatic audio route is inferred. No downloaded script runs in the app."
+      },
+      "implementedInputCount": 67,
+      "implementedOutputCount": 30,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Fixed A/B, EQ and eight cues only. Software deck/encoder/cue banks, Slip, Quantize-off wind/bend, sampler/DVS, EQ kills, other Top controls, source fader/EQ curves, loaded/Cue light states, full lifecycle and physical acceptance remain open. Native Cue release returns to its saved point; source continue-playing-on-Shift-release is not implemented. A separate audio interface is required."
         }
       ]
     },
