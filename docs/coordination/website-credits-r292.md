@@ -14,7 +14,7 @@ About source: `/Users/veland/Sites/glasscode-about-r292`, commit `0962d7d`. The 
 
 About release: `/opt/about-releases/0.1.1-r292-0962d7d`. The prior release remains intact. The service backup is `/etc/systemd/system/about-web.service.pre-r292`. Existing service hardening and environment settings remain in place.
 
-## PACtrack publication blocked
+## Initial PACtrack publication failure
 
 The source at `/Users/veland/Sites/pactrack-credits-r292/.sites-checkout` contains reciprocal credits in its existing About and Transparency section. Local commit: `40ae39491d67eebc0ac8b49ed4f8fbc667a3982c`, based on `6678891b7f1491902d245251b437a344bf5f17ca`.
 
@@ -24,7 +24,7 @@ Sites rejected three source uploads with `artifacts_git_receive_pack_failed`, af
 
 An earlier prebuilt package and separate publication candidate were not used. The project-specific refresh instructions require the custom source build. Retain the unused candidate at `/Users/veland/Sites/pactrack-publication-r292` as failed-path evidence, not as publication source.
 
-## Remaining work
+## Original recovery checklist
 
 1. Restore Sites source-upload service access for project `appgprj_6aee56dc1ae88191820164d5ac7fea53`.
 2. Reconcile remote source before retrying. Preserve any newer owner changes.
@@ -33,3 +33,7 @@ An earlier prebuilt package and separate publication candidate were not used. Th
 5. Require matching asset readback, unchanged saved presentation and visible reciprocal credits before marking R292 complete.
 
 No native app source changed. No app build or device test ran.
+
+## Resolved in R295
+
+PACtrack version 78 is published with both credits. The exact source upload, deployment, complete asset readback, unchanged presentation and public browser checks passed. [Resolution and evidence](website-links-r295.md#r295-pactrack-publication). The earlier failure record above remains as historical evidence.

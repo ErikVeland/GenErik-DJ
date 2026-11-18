@@ -1,0 +1,44 @@
+{
+  "presentationUnchanged": true,
+  "pages": [
+    {
+      "path": "/house",
+      "status": 200,
+      "title": "PACtrack - Israeli ownership of the United States",
+      "image": "https://pactrack.glasscode.academy/social/house-funding-c01e78bbfb4a6a00c080b0fef0f02e81b55d3ed6aa0b8a762be3263d2df6abe7.png",
+      "imageStatus": 200,
+      "imageMime": "image/png",
+      "dimensions": [
+        1200,
+        630
+      ],
+      "sha256": "e99e6089a07b06dc1676b774b90b62e80dbe92229487fada7e6f4765a90c75bc"
+    },
+    {
+      "path": "/senate",
+      "status": 200,
+      "title": "PACtrack — Senate campaign finance",
+      "image": "https://pactrack.glasscode.academy/social/senate-funding-c01e78bbfb4a6a00c080b0fef0f02e81b55d3ed6aa0b8a762be3263d2df6abe7.png",
+      "imageStatus": 200,
+      "imageMime": "image/png",
+      "dimensions": [
+        1200,
+        630
+      ],
+      "sha256": "807b4a9ce030770a0043648df44c206ba5905d88f66d2a404b7aebf1efd00023"
+    },
+    {
+      "path": "/house?party=D",
+      "status": 200,
+      "title": "PACtrack — House selection",
+      "image": "https://pactrack.glasscode.academy/social/house-count-c01e78bbfb4a6a00c080b0fef0f02e81b55d3ed6aa0b8a762be3263d2df6abe7.png?party=D",
+      "imageStatus": 200,
+      "imageMime": "image/png",
+      "dimensions": [
+        1200,
+        630
+      ],
+      "sha256": "a0b76d936f96545cbc6e7306cc53cddfa4a6821b1508650d041ca5bd676e76a3"
+    }
+  ]
+}

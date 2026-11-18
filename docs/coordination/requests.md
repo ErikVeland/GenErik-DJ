@@ -431,6 +431,10 @@ Every request ID is retained. “Implemented” describes source availability, n
 
 | R291 | Published; release checks open | Build and deploy the official GenErik DJ website | Ten public pages live on Glasscode at https://dj.generik.au with valid HTTPS. Erik confirmed iPad, iPhone, iPhone Duo and Mac support. Static checks, canonical redirects and public routes pass. Fresh captures, final privacy reconciliation and full device/browser accessibility checks remain open. [Scope and verification](website-r291.md). |
 
-| R292 | Partly published; PACtrack upload blocked | Link GenErik DJ and PACtrack with GlassCode Academy | Both About entries and GenErik DJ credits are live. PACtrack credits are committed locally, but the Sites source service rejected three uploads. [Evidence and remaining step](website-credits-r292.md). |
+| R292 | Published | Link GenErik DJ and PACtrack with GlassCode Academy | Both About entries and reciprocal credits are live. R295 resolved the PACtrack source-upload failure and verified publication. [Evidence](website-credits-r292.md). |
 
 | R293 | Published | Add previews to the GlassCode Academy project catalogue | Seven previews and larger detail images are live. Production build, three-language image checks, desktop/mobile layout and filter checks passed. [Evidence](website-previews-r293.md). |
+
+| R294 | Published | Restore PiDay styles and refresh its preview | Replaced the stale static-asset directory with routing to the active app. All ten CSS/JavaScript files return HTTP 200. Repaired preview deployed on About. [Evidence](website-links-r295.md). |
+
+| R295 | Published | Add return links across the project sites | All seven catalogue sites link to About. PiDay and RaceHub footer links and PACtrack credits are live. Public checks passed. [Evidence](website-links-r295.md). |

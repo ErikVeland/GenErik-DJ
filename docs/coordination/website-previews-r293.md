@@ -22,3 +22,7 @@ The captures exposed inaccurate existing descriptions. Askøy Rocketre now descr
 - The browser viewport was reset after the check.
 
 No native app source changed. No app build or device test ran. R292’s PACtrack reciprocal-credit publication remains open.
+
+## R294 and R295 follow-up
+
+R294 repaired PiDay styles and replaced both PiDay preview sizes with a fresh browser capture. R295 restored PACtrack publication and completed its reciprocal credits. [Release evidence](website-links-r295.md).
