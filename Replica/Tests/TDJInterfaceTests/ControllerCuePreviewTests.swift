@@ -1911,3 +1911,21 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCataloguePrime4NativeCueDeckBoundariesAndPlayKeepAudioAndSync() async throws {
+    for name in ["Denon DJ PRIME 4", "Denon DJ PRIME 4+"] {
+        try await withControllerCuePlayback(name, manual: true) { model, input in
+            input.receiveBytes([0x94, 9, 127], source: 10)
+            #expect(model.playbackSnapshot?.a.touchActive == true)
+            input.receiveBytes([0x9F, 30, 127, 30, 0, 0x84, 9, 127], source: 10)
+            #expect(model.playbackSnapshot?.a.touchActive == false)
+            input.receiveBytes([0x9F, 28, 127, 28, 0, 0x94, 10, 127, 10, 0], source: 10)
+            input.flushPendingActions()
+            let audio = model.playback.core.renderOffline(frames: 4096)
+            model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+            #expect(model.playbackSnapshot?.a.touchActive == false)
+        }
+    }
+}

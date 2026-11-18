@@ -1000,6 +1000,36 @@ class GeneratedCatalogueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
 
+    def test_prime4_has_separate_source_backed_manual_profiles_and_logical_deck_routing(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        for name in ["Denon DJ PRIME 4","Denon DJ PRIME 4+"]:
+            item=next((r for r in runtime["profiles"] if r["id"]==name),None)
+            self.assertIsNotNone(item,name+" needs the public Computer-mode core")
+            self.assertFalse(item["autoSelect"])
+            self.assertEqual(item["inputProtocol"],"denonPrime4")
+            self.assertEqual(len(item["inputs"]),133)
+            self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+            self.assertNotIn("audioOutput",item)
+            self.assertEqual({i["targetDeck"] for i in item["inputs"] if "targetDeck" in i},set("abcd"))
+            self.assertFalse(any(i["action"].startswith(("jog","level","gain","high","mid","low","filter","master","monitor","cueMix","crossfader")) for i in item["inputs"]))
+        from prime4 import PRIME4_SOURCES
+        for filename,digest in PRIME4_SOURCES:
+            self.assertEqual(hashlib.sha256((ROOT/"TestBuilds/r345/upstream"/filename).read_bytes()).hexdigest(),digest)
+        xml=ET.parse(ROOT/"TestBuilds/r345/upstream/Denon-Prime-4.midi.xml")
+        rows={(int(c.findtext("status"),0),int(c.findtext("midino"),0),c.findtext("key")) for c in xml.findall(".//control")}
+        for channel,side in [(4,"leftDeck"),(5,"rightDeck")]:
+            for number,key in [(8,"syncButton"),(9,"cueButton"),(10,"playButton"),(29,"pitchBendDown"),(30,"pitchBendUp"),(34,"keylockButton"),(37,"loopInButton"),(38,"loopOutButton")]:
+                self.assertIn((0x90+channel,number,"Prime4."+side+"."+key+".input"),rows)
+                if number != 34 and not (channel == 5 and number == 10):
+                    self.assertIn((0x80+channel,number,"Prime4."+side+"."+key+".input"),rows)
+            self.assertIn((0xB0+channel,31,"Prime4."+side+".tempoFader.inputMSB"),rows)
+            self.assertIn((0xB0+channel,75,"Prime4."+side+".tempoFader.inputLSB"),rows)
+            self.assertIn((0xB0+channel,32,"Prime4."+side+".loopEncoder.input"),rows)
+            for number in range(15,23):
+                self.assertIn((0x90+channel,number,"Prime4."+side+".padGrid.performancePad"),rows)
+        for index in range(4):
+            self.assertIn((0x9F,28+index,"Prime4.assignmentButtons["+str(index)+"].input"),rows)
+
     def test_nanopad2_uses_its_own_native_project_and_source_scene_controls(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next(r for r in runtime["profiles"] if r["id"]=="Korg nanoPAD2")

@@ -13727,46 +13727,129 @@
       "role": "primary",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://raw.githubusercontent.com/RattyDAVE/mixxx-Denon-Prime-4-controller/83701fd73dd1339bd4f9b7ce56ab00436adb68ac/Denon-Prime-4.midi.xml"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:prime-4-public-core"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Denon DJ PRIME 4",
+      "automaticControls": false,
+      "controlActions": [
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "keylockA:a",
+        "keylockA:c",
+        "keylockB:b",
+        "keylockB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "loopSizeA:a",
+        "loopSizeA:c",
+        "loopSizeB:b",
+        "loopSizeB:d",
+        "pitchBendDownA:a",
+        "pitchBendDownA:c",
+        "pitchBendDownB:b",
+        "pitchBendDownB:d",
+        "pitchBendUpA:a",
+        "pitchBendUpA:c",
+        "pitchBendUpB:b",
+        "pitchBendUpB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "shift",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d",
+        "tempoA:a",
+        "tempoA:c",
+        "tempoB:b",
+        "tempoB:d"
+      ],
+      "inputBindingCount": 133,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual raw PRIME 4 Computer-mode MIDI input. Software targets start A/B; hardware deck buttons select A/C and B/D. C/D need app opt-in. Only Hot Cue pad mode is active. Configure audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Manual raw Computer-mode only. Public owner export supports PRIME4/4+ but is not a complete manufacturer SDK. Mixer/software audio ownership and routing, browse encoding, held loop trigger, jog/touch/calibration, other pad/Shift/FX modes, screens, full output/setup/lifecycle and physical/A10X acceptance remain open. No sibling model or firmware compatibility is inferred.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -13782,46 +13865,129 @@
       "role": "primary",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://raw.githubusercontent.com/RattyDAVE/mixxx-Denon-Prime-4-controller/83701fd73dd1339bd4f9b7ce56ab00436adb68ac/Denon-Prime-4.midi.xml"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:prime-4+-public-core"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Denon DJ PRIME 4+",
+      "automaticControls": false,
+      "controlActions": [
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "keylockA:a",
+        "keylockA:c",
+        "keylockB:b",
+        "keylockB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "loopSizeA:a",
+        "loopSizeA:c",
+        "loopSizeB:b",
+        "loopSizeB:d",
+        "pitchBendDownA:a",
+        "pitchBendDownA:c",
+        "pitchBendDownB:b",
+        "pitchBendDownB:d",
+        "pitchBendUpA:a",
+        "pitchBendUpA:c",
+        "pitchBendUpB:b",
+        "pitchBendUpB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "shift",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d",
+        "tempoA:a",
+        "tempoA:c",
+        "tempoB:b",
+        "tempoB:d"
+      ],
+      "inputBindingCount": 133,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual raw PRIME 4+ Computer-mode MIDI input. Software targets start A/B; hardware deck buttons select A/C and B/D. C/D need app opt-in. Only Hot Cue pad mode is active. Configure audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Manual raw Computer-mode only. Public owner export supports PRIME4/4+ but is not a complete manufacturer SDK. Mixer/software audio ownership and routing, browse encoding, held loop trigger, jog/touch/calibration, other pad/Shift/FX modes, screens, full output/setup/lifecycle and physical/A10X acceptance remain open. No sibling model or firmware compatibility is inferred.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -322522,6 +322688,78 @@
         },
         {
           "reason": "First-bank15 cues, held Clear guards and third-bank14 loop controls only. Cue deletion, later cue slots9..16, held loop moves, timed reloop, fourth-bank mute/kills/reverse/one-shot sync/FX, XY/touch-scale, reply timeout/recovery and complete lifecycle remain open. Native Scene lamps are dynamic; no pad lights are inferred. No saved scene write/reset, original nanoPAD alias or audio interface is inferred. Physical/A10X acceptance remains open."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:prime-4-public-core",
+      "name": "Denon DJ PRIME 4",
+      "transport": "midi",
+      "source": {
+        "url": "https://raw.githubusercontent.com/RattyDAVE/mixxx-Denon-Prime-4-controller/83701fd73dd1339bd4f9b7ce56ab00436adb68ac/Denon-Prime-4.midi.xml",
+        "sha256": "d03623af76b4f49c60866d012e11d5490695d5a85c079abd339e1d6ecc8b62c7",
+        "revision": "83701fd73dd1339bd4f9b7ce56ab00436adb68ac",
+        "relatedSources": [
+          {
+            "url": "https://raw.githubusercontent.com/RattyDAVE/mixxx-Denon-Prime-4-controller/83701fd73dd1339bd4f9b7ce56ab00436adb68ac/Denon-Prime-4-scripts.js",
+            "sha256": "a19c8158076da9951f59179b8b452677d2e2f8fc53feaa7857b620cee57daf43"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/RattyDAVE/mixxx-Denon-Prime-4-controller/83701fd73dd1339bd4f9b7ce56ab00436adb68ac/README.md",
+            "sha256": "2e6d381a38ad7798b7d4db88cb88a3abca781db0057031dc26d3306fc3bcbebb"
+          },
+          {
+            "url": "https://github.com/ultra-vi-olet/denon-prime-4-analysis"
+          }
+        ],
+        "review": "Public repository explicitly covers PRIME4 and4+ and reports Mac/Linux testing. XML declares physical deck channels4/5 and shared Load channel15 Notes1/2. Script independently defines deck selection channel15 Notes28..31, starts software A/B and retains per-deck pad mode. Native source-local adapter routes normal Play10/Cue9/Sync8/Keylock34/bends29/30/loop-in37/out38, paired pitchCC31/75 with source inversion, exact loop-sizeCC32 values1/127 and HotCue raw pads15..22 only in mode11. Modes12..14 disable pads. Logical deck channels4..7 and Load126 cannot be injected through raw sibling channels. Each held button retains original deck/address and unsupported held pads cannot activate after a mode change. Both Shift buttons become one last-message global identity, as in source; normal buttons have shifted release aliases. Source all-in-one mixer ownership, browse direction, held beatloop trigger39, jog/touch/calibration, other pad/Shift/FX modes and screen protocols are not inferred. No source JavaScript executes. No reset, setup, output or motor packet is sent. Complete lifecycle/audio and physical/A10X acceptance remain open. Automatic selection stays off."
+      },
+      "implementedInputCount": 133,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual raw Computer-mode only. Public owner export supports PRIME4/4+ but is not a complete manufacturer SDK. Mixer/software audio ownership and routing, browse encoding, held loop trigger, jog/touch/calibration, other pad/Shift/FX modes, screens, full output/setup/lifecycle and physical/A10X acceptance remain open. No sibling model or firmware compatibility is inferred."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:prime-4+-public-core",
+      "name": "Denon DJ PRIME 4+",
+      "transport": "midi",
+      "source": {
+        "url": "https://raw.githubusercontent.com/RattyDAVE/mixxx-Denon-Prime-4-controller/83701fd73dd1339bd4f9b7ce56ab00436adb68ac/Denon-Prime-4.midi.xml",
+        "sha256": "d03623af76b4f49c60866d012e11d5490695d5a85c079abd339e1d6ecc8b62c7",
+        "revision": "83701fd73dd1339bd4f9b7ce56ab00436adb68ac",
+        "relatedSources": [
+          {
+            "url": "https://raw.githubusercontent.com/RattyDAVE/mixxx-Denon-Prime-4-controller/83701fd73dd1339bd4f9b7ce56ab00436adb68ac/Denon-Prime-4-scripts.js",
+            "sha256": "a19c8158076da9951f59179b8b452677d2e2f8fc53feaa7857b620cee57daf43"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/RattyDAVE/mixxx-Denon-Prime-4-controller/83701fd73dd1339bd4f9b7ce56ab00436adb68ac/README.md",
+            "sha256": "2e6d381a38ad7798b7d4db88cb88a3abca781db0057031dc26d3306fc3bcbebb"
+          },
+          {
+            "url": "https://github.com/ultra-vi-olet/denon-prime-4-analysis"
+          }
+        ],
+        "review": "Public repository explicitly covers PRIME4 and4+ and reports Mac/Linux testing. XML declares physical deck channels4/5 and shared Load channel15 Notes1/2. Script independently defines deck selection channel15 Notes28..31, starts software A/B and retains per-deck pad mode. Native source-local adapter routes normal Play10/Cue9/Sync8/Keylock34/bends29/30/loop-in37/out38, paired pitchCC31/75 with source inversion, exact loop-sizeCC32 values1/127 and HotCue raw pads15..22 only in mode11. Modes12..14 disable pads. Logical deck channels4..7 and Load126 cannot be injected through raw sibling channels. Each held button retains original deck/address and unsupported held pads cannot activate after a mode change. Both Shift buttons become one last-message global identity, as in source; normal buttons have shifted release aliases. Source all-in-one mixer ownership, browse direction, held beatloop trigger39, jog/touch/calibration, other pad/Shift/FX modes and screen protocols are not inferred. No source JavaScript executes. No reset, setup, output or motor packet is sent. Complete lifecycle/audio and physical/A10X acceptance remain open. Automatic selection stays off."
+      },
+      "implementedInputCount": 133,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual raw Computer-mode only. Public owner export supports PRIME4/4+ but is not a complete manufacturer SDK. Mixer/software audio ownership and routing, browse encoding, held loop trigger, jog/touch/calibration, other pad/Shift/FX modes, screens, full output/setup/lifecycle and physical/A10X acceptance remain open. No sibling model or firmware compatibility is inferred."
         }
       ]
     },

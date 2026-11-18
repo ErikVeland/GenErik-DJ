@@ -392,6 +392,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private var korgNativeDecoders: [Int32: ControllerKorgNativeDecoder] = [:]
     @ObservationIgnored private var nativeFactoryProtocols: [Int32: ControllerProfileData.InputProtocol] = [:]
     @ObservationIgnored private var sc5000MDecoders: [Int32: ControllerSC5000MDecoder] = [:]
+    @ObservationIgnored private var prime4Decoders: [Int32: ControllerPrime4Decoder] = [:]
     @ObservationIgnored private var spectraDecoders: [Int32: ControllerSpectraDecoder] = [:]
     @ObservationIgnored private var p1NanoDecoders: [Int32: ControllerP1NanoDecoder] = [:]
     @ObservationIgnored private var keyLabDecoders: [Int32: ControllerKeyLabDecoder] = [:]
@@ -613,6 +614,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         p1NanoDecoders.removeAll()
         korgNativeDecoders.removeAll()
         sc5000MDecoders.removeAll()
+        prime4Decoders.removeAll()
         spectraDecoders.removeAll()
         kontrolOneDecoders.removeAll()
         bridgeDecoders.removeAll()
@@ -1044,10 +1046,15 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             status = "Controller setup needs a paired MIDI input and output."
             return
         }
+        let replacement = profile.bindings(source: selected, playerDeck: playerDeck(source: selected))
+        guard bindings.filter({ $0.source != selected }).count + replacement.count <= 256 else {
+            status = "The controller mapping is full. Remove a mapping before applying this profile."
+            return
+        }
         releaseMomentaryActions(source: selected)
         setManualInputProtocol(profile.definition?.inputProtocol, source: selected)
         bindings.removeAll { $0.source == selected }
-        bindings.append(contentsOf: profile.bindings(source: selected, playerDeck: playerDeck(source: selected)))
+        bindings.append(contentsOf: replacement)
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
         pendingValues.removeAll()
@@ -1179,6 +1186,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         p1NanoDecoders[source] = nil
         korgNativeDecoders[source] = nil
         sc5000MDecoders[source] = nil
+        prime4Decoders[source] = nil
         spectraDecoders[source] = nil
         kontrolOneDecoders[source] = nil
         if wasConnected, connectedPorts[source] != inputPort(for: source) {
@@ -1215,6 +1223,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         p1NanoDecoders[id] = nil
         korgNativeDecoders[id] = nil
         sc5000MDecoders[id] = nil
+        prime4Decoders[id] = nil
         spectraDecoders[id] = nil
         kontrolOneDecoders[id] = nil
         bridgeDecoders[id] = .init()
@@ -1243,6 +1252,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         p1NanoDecoders[id] = nil
         korgNativeDecoders[id] = nil
         sc5000MDecoders[id] = nil
+        prime4Decoders[id] = nil
         spectraDecoders[id] = nil
         kontrolOneDecoders[id] = nil
         bridgeDecoders[id] = nil
@@ -2103,6 +2113,29 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                         sentFactoryValues[destination] = nil
                     }
                 case .message(let message): receive(message, source: source)
+                }
+            }
+            return events.count
+        }
+        if inputProtocol(for: source) == .denonPrime4 {
+            var decoder = prime4Decoders[source, default: .init()]
+            let events = decoder.append(bytes)
+            prime4Decoders[source] = decoder
+            guard events.count <= limit else {
+                stop()
+                status = "Controller input overload. Reconnect to continue."
+                return nil
+            }
+            for event in events {
+                switch event {
+                case .message(let message): receive(message, source: source)
+                case .controlsChanged(let left):
+                    let decks: Set<DeckID> = left ? [.a, .c] : [.b, .d]
+                    flushPendingActions()
+                    releaseMomentaryActions(source: source, resetJogs: false, decks: decks)
+                    resetInputValueStates(inputBindings(source: source).filter {
+                        $0.action != .shift && $0.targetDeck.map { decks.contains($0) } == true
+                    })
                 }
             }
             return events.count

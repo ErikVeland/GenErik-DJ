@@ -9,7 +9,7 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 319 total catalogue records. 312 name physical models. The remainder identify software endpoints or protocol families.
-- 225 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 227 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 169 factory profiles select core controls automatically for 177 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - 129 physical models still lack automatic core controls.
@@ -226,8 +226,8 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 58 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 49 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 60 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 47 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -289,8 +289,8 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Denon DJ MC6000MK2 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Denon DJ MC7000 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Denon DJ MCX8000 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Denon DJ PRIME 4 | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Denon DJ PRIME 4+ | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Denon DJ PRIME 4 | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Denon DJ PRIME 4+ | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Denon DJ SC Live 2 | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Denon DJ SC Live 4 | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Denon DJ X1800 PRIME | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |

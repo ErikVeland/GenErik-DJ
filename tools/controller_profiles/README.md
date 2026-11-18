@@ -884,3 +884,6 @@ Native pad releases retain their original scene address. Scene barriers release 
 Fifteen first-bank cues and14 third-bank loop controls are active. Later cues9–16, timed reloop, fourth-bank controls and XY/touch-scale stay inactive.
 The paired output sends exact Scene lamps after confirmation. Setup or live lamp failure disables that source and attempts native exit. No saved scenes are written.
 Full modes, reply timeout/recovery, lifecycle and physical acceptance remain open.
+
+PRIME4 and4+ retain separate manual profiles from the public owner mapping. A source-local adapter owns software deck selection, pad modes and original button releases. Logical channels and Load addresses cannot be injected through raw sibling channels. Mixer ownership, jog/screens, complete lifecycle and audio stay open. Public repository metadata explicitly names both models; it is not a manufacturer SDK. The XML omits some unneeded toggle-button release mappings, so source checks distinguish exported rows from native standard release handling.
+Manual profile replacement must fit the existing256-binding saved-set limit before it changes any state. An over-capacity request retains every existing mapping. Automatic factory recipes retain their separate512-input bound.

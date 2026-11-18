@@ -3,7 +3,7 @@ import TDJCore
 
 struct ControllerProfileData: Decodable, Sendable {
     enum InputProtocol: String, Codable, Sendable {
-        case smk25II, cdj101, ddjSR2, keyLabMKI, kontrolOne, midiFighterSpectra, p1Nano, sc5000M, denonPrimePlayer, nanoKontrol2Native, nanoPad2Native
+        case smk25II, cdj101, ddjSR2, keyLabMKI, kontrolOne, midiFighterSpectra, p1Nano, sc5000M, denonPrimePlayer, denonPrime4, nanoKontrol2Native, nanoPad2Native
         var korgNativeModel: ControllerKorgNativeDecoder.Model? {
             switch self {
             case .nanoKontrol2Native: .nanoKontrol2
