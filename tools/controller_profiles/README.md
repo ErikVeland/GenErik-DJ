@@ -938,3 +938,7 @@ The source lock also pins204 rows and57 platform limitations from the19 November
 DJM-900NXS2 uses an independent Version1.00 table. Its default TOGGLE PFL states use CC70-73.
 All four faders are explicitly CC17-20. This does not repair another model’s conflicting table.
 The manual profile requires separate app audio. Hardware audio ownership and external deck routing remain open.
+
+DJM-S9 uses its official Version1.00 table for42 manual mixer/browser/loop-size inputs.
+Its pad rows conflict with the channel header. Status9q and4BEAT LOOP utility choices remain unqualified.
+These messages stay inactive. Shared Shift guards normal browser/loop-size controls. Use separate app audio.

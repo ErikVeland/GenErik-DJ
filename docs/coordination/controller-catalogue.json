@@ -12990,72 +12990,6 @@
       }
     },
     {
-      "id": "pioneerdjms9",
-      "name": "Pioneer DJ DJM-S9",
-      "manufacturer": "Pioneer",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://www.algoriddim.com/hardware/djms9"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "djay": {
-          "sourceName": "Pioneer DJ DJM-S9",
-          "platforms": [
-            "mac",
-            "win"
-          ],
-          "limitations": [],
-          "source": "https://www.algoriddim.com/hardware/djms9"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
       "id": "pioneerdjmtour1",
       "name": "Pioneer DJ DJM-TOUR1",
       "manufacturer": "Pioneer",
@@ -13680,6 +13614,120 @@
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
         "Manual default MIDI channel1/TOGGLE only. TRIGGER mode, physical taper/calibration, hardware/software audio ownership, external deck routing, source/assign/curve switches, master/Link Cue, booth, effects/X-PAD, microphone/clock, full output/lifecycle and physical/A10X acceptance remain open. No output, setting write, sibling protocol or audio route is inferred.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "pioneerdjms9",
+      "name": "Pioneer DJM-S9",
+      "manufacturer": "Pioneer",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://downloads.support.alphatheta.com/midi-mapping/dj-mixers/DJM-S9/DJM-S9_List_of_MIDI_Message_E.pdf",
+        "https://www.algoriddim.com/hardware/djms9"
+      ],
+      "definitions": [
+        "manufacturer:pioneerdjms9"
+      ],
+      "implementation": "partial-midi-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer DJM-S9",
+      "automaticControls": false,
+      "comparisonSupport": {
+        "djay": {
+          "sourceName": "Pioneer DJ DJM-S9",
+          "platforms": [
+            "mac",
+            "win"
+          ],
+          "limitations": [],
+          "source": "https://www.algoriddim.com/hardware/djms9"
+        }
+      },
+      "controlActions": [
+        "browse",
+        "browsePreviousGroup",
+        "crossfader",
+        "cueMix",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadB:b",
+        "loopDownA:a",
+        "loopDownA:c",
+        "loopDownB:b",
+        "loopDownB:d",
+        "loopUpA:a",
+        "loopUpA:c",
+        "loopUpB:b",
+        "loopUpB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor",
+        "openGroup",
+        "shift"
+      ],
+      "inputBindingCount": 42,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual utility setting for DJ software other than Serato DJ Pro, with separate app audio. Power-cycle when switching DJ software. Deck channels1-4 map to A-D; C/D require app opt-in. Pads/modes and utility-dependent 4BEAT LOOP remain inactive."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "partial",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "The header says pad channels8/9/10/11 but rows say8/8/10/11. Mode status9q has no definition. Pads/modes stay inactive. Utility-dependent 4BEAT LOOP69/20, fader-start contacts, headphone channel Cuefader14, hardware/audio ownership, source/reverse/curve controls, microphone/FX/levers/sampler, full output/lifecycle/calibration and physical/A10X acceptance remain open. No setting, output, sibling protocol or audio route is inferred.",
         "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
@@ -332030,6 +332078,39 @@
         },
         {
           "reason": "Manual default MIDI channel1/TOGGLE only. TRIGGER mode, physical taper/calibration, hardware/software audio ownership, external deck routing, source/assign/curve switches, master/Link Cue, booth, effects/X-PAD, microphone/clock, full output/lifecycle and physical/A10X acceptance remain open. No output, setting write, sibling protocol or audio route is inferred."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneerdjms9",
+      "name": "Pioneer DJM-S9",
+      "transport": "midi",
+      "source": {
+        "url": "https://downloads.support.alphatheta.com/midi-mapping/dj-mixers/DJM-S9/DJM-S9_List_of_MIDI_Message_E.pdf",
+        "sha256": "ff942101be3328acf0b9fa90d54c15f5a02a9d8efc494ca5a8142fe308e4badd",
+        "pages": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "relatedSources": [
+          {
+            "url": "https://support.alphatheta.com/en-US/articles/4405086271129"
+          }
+        ],
+        "review": "All four official Version1.00 wire pages were visually checked. The manufacturer article requires the utility setting for DJ software other than Serato DJ Pro and a power cycle when switching software. Four explicitly documented deck channels1-4 retain native gain/EQ/filter/level using14-bit pairs4/36,7/39,11/43,15/47,1/33,19/51. Channel7 supplies crossfader31/63, master8/40, headphones13/45 and blend12/44. Browser64 uses signed counts; press65, Back101 and normal Load70/71 address the native browser/A-B. Shared Shift63 guards normal actions. Loop half18/double19 retain deck channels. The 4BEAT LOOP row lists both69 and20 against an incomplete PC utility preference; neither becomes a guessed Loop or tempo-reset action. The channel header assigns performance pads8/9/10/11 but every pad row says8/8/10/11; no duplicate second channel is repaired. Additional mode rows use undefined9q. Pads/modes remain inactive. Headphone Cuefader14 blends physical channels, not the native cue/master blend, and remains inactive. Fader-start notes81/82/102, source/reverse/curve controls, microphone, FX/levers/sampler, complete output/lifecycle/audio routing and physical/A10X acceptance remain open. Manual separate app audio only. No feedback, setup, stored-setting, audio-route write or sibling protocol is inferred."
+      },
+      "implementedInputCount": 42,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "The header says pad channels8/9/10/11 but rows say8/8/10/11. Mode status9q has no definition. Pads/modes stay inactive. Utility-dependent 4BEAT LOOP69/20, fader-start contacts, headphone channel Cuefader14, hardware/audio ownership, source/reverse/curve controls, microphone/FX/levers/sampler, full output/lifecycle/calibration and physical/A10X acceptance remain open. No setting, output, sibling protocol or audio route is inferred."
         }
       ]
     }

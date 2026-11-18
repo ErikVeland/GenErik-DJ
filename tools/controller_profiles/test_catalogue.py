@@ -917,6 +917,21 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for bad in [products+products,products[:100],products+'<li data-hardware-target="midinote ios">Unknown: Screen</li>',products.replace('mac ios','mac unknown',1)]:
             with self.assertRaises(ValueError):read_djay(bad)
 
+    def test_djms9_manual_mixer_rejects_unqualified_pad_and_mode_channels(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Pioneer DJM-S9"),None)
+        self.assertIsNotNone(item,"Add the independent S9 contract without correcting its pad-channel conflicts")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(item["role"],"accessory")
+        self.assertEqual(len(item["inputs"]),42)
+        self.assertFalse(any(r["action"].startswith(("hotcue","cuePreview","cueState","loopA","loopB","tempoReset")) for r in item["inputs"]))
+        self.assertTrue(all(r["encoding"]=="paired14Bit" for r in item["inputs"] if r["action"].startswith(("gain","level","filterKnob","high","mid","low","master","monitor","cueMix","crossfader"))))
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        from djm_s9 import S9_REFERENCES
+        cached=ROOT/"TestBuilds/r366/upstream/djm-s9-midi.pdf"
+        if cached.exists():self.assertEqual(hashlib.sha256(cached.read_bytes()).hexdigest(),S9_REFERENCES[item["id"]]["sha256"])
+
     def test_djm900nxs2_independent_table_keeps_cc_cue_and_four_manual_strips(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="Pioneer DJM-900NXS2"),None)

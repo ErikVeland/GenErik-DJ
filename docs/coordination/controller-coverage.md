@@ -4680,3 +4680,21 @@ The profile sends no output, setup, shutdown, stored-setting or audio-route comm
 Validation:200 Python checks and six focused native tests passed. These include the152-profile held-Cue corpus. The iPad framework compiled and its resource matches the source. All247 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r366/validation.json`.
 
 The catalogue has248 data recipes. Automatic core coverage remains191 of343 physical models, with152 without automatic core controls. Full theoretical support, signed-app checks and physical/A10X acceptance remain open.
+
+## R367 Independent DJM-S9 manual controls
+
+Assumption: use the clear MIDI controls with separate app audio. Preserve published conflicts as open gaps.
+
+- [x] Recover the current official PDF through the manufacturer software article and review all four pages.
+- [x] Add42 manual inputs for four-deck mixer strips, loop-size controls, global mixer and normal browsing/A-B Load.
+- [x] Verify14-bit pickup/pairing, C/D opt-in, button releases, Shift, source isolation and inactive conflicting messages.
+
+The [current manufacturer article](https://support.alphatheta.com/en-US/articles/4405086271129) links the [Version1.00 wire table](https://downloads.support.alphatheta.com/midi-mapping/dj-mixers/DJM-S9/DJM-S9_List_of_MIDI_Message_E.pdf). The article requires the utility setting for software other than Serato DJ Pro. It specifies a power cycle when switching DJ software. The app sends no setting command.
+
+Four documented deck channels retain gain, EQ, filter and level through independent14-bit pairs. Loop half/double stay on their deck channels. Normal signed Browse, encoder press, Back and A/B Load retain channel7. Shared Shift guards normal browser and loop-size actions. Global crossfader, master and headphone controls retain their qualified14-bit pairs.
+
+The pad-channel header says8/9/10/11, but each pad row says8/8/10/11. Additional mode rows use undefined status9q. Pads and modes remain inactive. The4BEAT LOOP row lists69/20 against an incomplete utility preference. Neither becomes a guessed Loop or tempo-reset action. Headphone Cuefader14 blends hardware channels and is not treated as the app's cue/master blend. Fader-start notes, hardware reverse/curve controls, FX/levers/sampler, microphone, full output/lifecycle/audio ownership and physical/A10X acceptance remain open. No output, setting write, sibling wire fact or audio route is inferred.
+
+Validation:201 Python checks and six focused native tests passed, including the152-profile held-Cue corpus. The iPad framework compiled and its resource matches the source. All248 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r367/validation.json`.
+
+The catalogue has249 data recipes. Automatic core coverage remains191 of343 physical models, with152 without automatic core controls. Full theoretical support and physical/A10X acceptance remain open.

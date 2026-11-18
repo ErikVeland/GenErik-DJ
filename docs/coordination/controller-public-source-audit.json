@@ -609,6 +609,25 @@
         "Manual separate app audio only. Hardware processing, external mixer routing, full protocol/lifecycle/output and physical/A10X acceptance remain open.",
         "CC114 collision between X-PAD touch and Beat FX ON/OFF stays inactive. No sibling wire facts or setting/output writes."
       ]
+    },
+    {
+      "request": "R367",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://support.alphatheta.com/en-US/articles/4405086271129",
+          "review": "Current manufacturer software article supplies the migrated MIDI PDF. Requires other-software utility setting and power cycle when changing software."
+        },
+        {
+          "url": "https://downloads.support.alphatheta.com/midi-mapping/dj-mixers/DJM-S9/DJM-S9_List_of_MIDI_Message_E.pdf",
+          "sha256": "ff942101be3328acf0b9fa90d54c15f5a02a9d8efc494ca5a8142fe308e4badd",
+          "review": "All four Version1.00 wire pages visually reviewed. Header pad channels8/9/10/11 conflict with rows8/8/10/11. Additional mode status9q is undefined. 4BEAT LOOP69/20 depends on incompletely specified utility preference."
+        }
+      ],
+      "limits": [
+        "42 manual controls with separate app audio. Pads/modes, utility-dependent loop activation, PFL channel fader, fader-start contacts, full hardware/audio/lifecycle/output and physical/A10X acceptance remain open.",
+        "No vendor code, output, stored-setting or sibling protocol imported."
+      ]
     }
   ]
 }

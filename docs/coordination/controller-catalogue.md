@@ -10,7 +10,7 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 350 total catalogue records. 343 name physical models. The remainder identify software endpoints or protocol families.
-- 248 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 249 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 177 factory profiles select core controls automatically for 185 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - 152 physical models still lack automatic core controls.
@@ -227,8 +227,8 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 73 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 57 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 74 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 56 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -414,11 +414,11 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Pioneer DJ DDJ-FLX6-GT | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware/ddjflx6gt) |
 | Pioneer DJ DJM-450 | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware) |
 | Pioneer DJ DJM-S3 | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware/djms3) |
-| Pioneer DJ DJM-S9 | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware/djms9) |
 | Pioneer DJ DJM-TOUR1 | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware/djmtour1) |
 | Pioneer DJ DJM-V10 | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware/djmv10) |
 | Pioneer DJ DJM-V10-LF | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware/djmv10lf) |
 | Pioneer DJM-900NXS2 | accessory | partial-midi-profile | [Reference](https://impact-even.com/wp-content/uploads/2022/03/pioneer_djm900nexus2_midimessages.pdf) |
+| Pioneer DJM-S9 | accessory | partial-midi-profile | [Reference](https://downloads.support.alphatheta.com/midi-mapping/dj-mixers/DJM-S9/DJM-S9_List_of_MIDI_Message_E.pdf) |
 | Pioneer XDJ-AERO | primary | automatic-core-profile | [Reference](https://www.recordcase.de/media/94/f5/e0/1745829305/Pioneer-XDJ-AERO-Manual-EN.pdf) |
 | Pioneer XDJ-R1 | primary | automatic-core-profile | [Reference](https://www.uns.nu/pdf/Pioneer_XDJ-R1_Manual.pdf) |
 | Pioneer XDJ-RX | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-RX/XDJ-RX_List_of_MIDI_Message_E.pdf) |
