@@ -1,4 +1,5 @@
 """Manufacturer sources and model records for the controller catalogue."""
+from numark_nv import NV_AUDIT
 from rane_seventy import SEVENTY_AUDITS
 from mixtour_pro import MIXTOUR_PRO_AUDIT
 from hercules_t7 import T7_PROTOCOL_SOURCES
@@ -75,6 +76,7 @@ SOURCE_AUDITS["Rane ONE MKII"] = {
              "Original ONE, FOUR and SYSTEM ONE are not aliases. No motor command, transport address or automatic profile is inferred from another model. Complete theoretical support and physical acceptance remain open."]}
 
 SOURCE_AUDITS.update(SEVENTY_AUDITS)
+SOURCE_AUDITS["Numark NV"] = NV_AUDIT
 
 MODELS = [
     ('Hercules DJControl Inpulse T7', 'https://community.algoriddim.com/t/hercules-inpulse-t7-support/20172/186'),

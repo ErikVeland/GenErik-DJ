@@ -23087,46 +23087,128 @@
       "role": "primary",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://raw.githubusercontent.com/manzyun/mixxx/6e999daaf62322e351169b364f071dfb1df4e4c1/res/controllers/Numark-NV.midi.xml"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:numark-nv"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Numark NV",
+      "automaticControls": false,
+      "controlActions": [
+        "crossfader",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor",
+        "pitchBendDownA:a",
+        "pitchBendDownA:c",
+        "pitchBendDownB:b",
+        "pitchBendDownB:d",
+        "pitchBendUpA:a",
+        "pitchBendUpA:c",
+        "pitchBendUpB:b",
+        "pitchBendUpB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "shift",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d",
+        "tempoA:a",
+        "tempoA:c",
+        "tempoB:b",
+        "tempoB:d"
+      ],
+      "inputBindingCount": 79,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual normal MIDI subset. Enable input separately. Default normal modes and exposed MIDI port are required. C/D need app opt-in."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Manual subset requires normal modes and separate input enabling. The unmerged version0.1.0 prototype does not qualify jog/contact decoding, shared pads, PFL, loops, screens or cold-start setup. No invalid CC255/status SysEx or unqualified output is emitted. Native pitch polarity/calibration, full modes/lifecycle, audio routing and physical acceptance remain open. NVII is separate.",
+        "Unmerged prototype has shared cross-deck jog state, unfinished modes and invalid startup CC value255. No downloaded script or startup packet executes. The bounded manual subset does not qualify automatic setup, full controller support or NVII byte compatibility.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
+      ],
+      "sourceAudits": [
+        {
+          "source": {
+            "url": "https://raw.githubusercontent.com/manzyun/mixxx/6e999daaf62322e351169b364f071dfb1df4e4c1/res/controllers/Numark-NV.midi.xml",
+            "sha256": "269d5f698e58464fb9b4d884427b7c0b9f65166daf29d6dec050a1d358b7ed9d"
+          },
+          "relatedSources": [
+            {
+              "url": "https://raw.githubusercontent.com/manzyun/mixxx/6e999daaf62322e351169b364f071dfb1df4e4c1/res/controllers/Numark-NV-controller-scripts.js",
+              "sha256": "f02dc7dbc8078d83d8f0a8fed6905a12288ec5b3c3e2c8bb1f0b556eccb2c834"
+            }
+          ],
+          "format": "Mixxx XML and prototype JavaScript",
+          "upstreamRevision": "6e999daaf62322e351169b364f071dfb1df4e4c1",
+          "inputRows": 192,
+          "outputRows": 0,
+          "scriptVersion": "0.1.0",
+          "automaticSupportAdded": false,
+          "gaps": [
+            "Unmerged prototype has shared cross-deck jog state, unfinished modes and invalid startup CC value255. No downloaded script or startup packet executes. The bounded manual subset does not qualify automatic setup, full controller support or NVII byte compatibility."
+          ]
+        }
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -319994,6 +320076,37 @@
         },
         {
           "reason": "Manual subset requires separate input enabling and the connected USB A/B source. Missing RaneSeventy code leaves modifier/shared-pad dispatch and cold-start lifecycle unqualified. Standard-owner yellow Transport sub-mode actions are not inherited by the A-Trak profile. Main Cue, other pads, external line-volume/mixer ownership, external deck/FX audio, feedback, complete theoretical support and physical acceptance remain open."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:numark-nv",
+      "name": "Numark NV",
+      "transport": "midi",
+      "source": {
+        "url": "https://raw.githubusercontent.com/manzyun/mixxx/6e999daaf62322e351169b364f071dfb1df4e4c1/res/controllers/Numark-NV.midi.xml",
+        "sha256": "269d5f698e58464fb9b4d884427b7c0b9f65166daf29d6dec050a1d358b7ed9d",
+        "relatedSources": [
+          {
+            "url": "https://raw.githubusercontent.com/manzyun/mixxx/6e999daaf62322e351169b364f071dfb1df4e4c1/res/controllers/Numark-NV-controller-scripts.js",
+            "sha256": "f02dc7dbc8078d83d8f0a8fed6905a12288ec5b3c3e2c8bb1f0b556eccb2c834"
+          },
+          {
+            "url": "https://www.numark.com/product/nv"
+          }
+        ],
+        "review": "Independent manzyun mapping at the pinned commit has192 input rows and no outputs. The script identifies itself as version0.1.0. Deck channels1..4 supply Play33, held Cue32, Sync31, Load5, held bends16/17 and coarse pitchCC1. The source normal handlers toggle Play, drive cue_default/cue_preview, enable Sync and LoadSelectedTrack. Global ShiftNote13 switches all normal handlers to alternate software actions. Native Shift guards block alternate presses while allowing owned releases; same-side bank release aliases clear held Cue/bends and rearm Play/Sync/Load. Source rate uses setParameter(rate,raw/127); native polarity follows the established Mixxx rate normalisation. Mixer channel0 has levels8/13/19/24, gains12/17/23/28, low9/14/20/25, mid10/15/21/26 and high11/16/22/27. Globals are crossfaderCC7, monitor68 and cue-mix18. The prototype's startup emits CC100 value255 with a 'maybe' display comment; that non-seven-bit packet and status SysEx are not emitted. Jog decoding shares previous state across all decks and has unfinished touch/scratch behaviour. Jogs/contact, pads, undefined PFL handler, misspelled loop-half control, full loops, screens and setup remain inactive. This is manual normal MIDI only, not a released or hardware-accepted upstream mapping. No downloaded code runs in the app. NVII is not an alias. Full modes, calibration, feedback/lifecycle, audio routing and physical acceptance remain open."
+      },
+      "implementedInputCount": 79,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual subset requires normal modes and separate input enabling. The unmerged version0.1.0 prototype does not qualify jog/contact decoding, shared pads, PFL, loops, screens or cold-start setup. No invalid CC255/status SysEx or unqualified output is emitted. Native pitch polarity/calibration, full modes/lifecycle, audio routing and physical acceptance remain open. NVII is separate."
         }
       ]
     },

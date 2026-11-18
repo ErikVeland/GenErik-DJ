@@ -986,6 +986,23 @@ class GeneratedCatalogueTests(unittest.TestCase):
             if path.exists():
                 self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
 
+    def test_nv_prototype_only_qualifies_a_manual_normal_subset(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"] == "Numark NV"),None)
+        self.assertIsNotNone(item,"NV needs an independent bounded subset")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),79)
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        self.assertFalse(any(r["action"].startswith(("jog","hotcue","loop","cueA","cueB")) for r in item["inputs"]))
+        self.assertTrue(all(r["inverted"] for r in item["inputs"] if r["action"] in {"tempoA","tempoB"}))
+        self.assertEqual({r["channel"] for r in item["inputs"] if r["action"] == "shift"},{1,2,3,4})
+        from numark_nv import NV_SOURCES
+        for filename,digest in NV_SOURCES:
+            path=ROOT/"TestBuilds/r317/upstream"/filename
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),digest)
+
     def test_seventy_exports_provide_separate_manual_subsets_with_explicit_mode_limits(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         by_id={r["id"]:r for r in runtime["profiles"]}

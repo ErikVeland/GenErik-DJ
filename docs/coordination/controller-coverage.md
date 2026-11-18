@@ -3832,3 +3832,19 @@ All145 importer checks,8 focused native checks and iPad framework compilation pa
 All194 earlier runtime recipes remain unchanged. Compiled resource bytes match the source. Evidence remains in `TestBuilds/r316/`. The catalogue stays318 records/311 physical models and reaches196 data recipes.
 Both existing benchmark records now have manual subsets. Automatic core coverage stays165 physical models and71/122 benchmark models.
 The repository check retains twelve historical broken links. Missing RaneSeventy code, shared modes, ordinary Cue/transport, external-mixer/FX audio, feedback/lifecycle and physical acceptance keep automatic selection off. No signed app or install is claimed.
+
+## R317 Numark NV prototype source boundary and manual core
+
+Assumption: the owner's pinned NV XML and normal script handlers qualify a bounded manual subset. The version0.1.0 prototype is not a released Mixxx definition. Shared cross-deck jog state, unfinished modes and a startup CC value255 prevent qualified automatic setup. NVII must remain separate.
+
+- [x] Confirm the importer fixture fails without the NV profile. Pin the independent XML/script and commit.
+- [x] Add normal Play/held Cue/Sync/Load, held bends, source coarse pitch, mixer and global Shift guards. Keep pads/jogs/PFL/loops, lamps, setup and audio routing inactive. Do not repair or run downloaded code.
+- [x] Verify C/D opt-in, Shift/bank releases, source mixer/pitch addresses and real-WAV Cue/Play/Sync. Run importer checks and compile the iPad framework. Compare previous recipes and resource bytes.
+
+Source base: `d242481`. Theoretical full support and physical acceptance remain open.
+
+The bounded NV profile adds79 manual inputs. Global Shift blocks alternate normal transport presses. Cross-bank release aliases clear held Cue/bends and rearm Play/Sync/Load. The failing bank fixture proved Play and Load stayed latched without those aliases.
+All146 importer checks,5 focused native checks and iPad framework compilation pass. Real-WAV checks verify Cue release across Shift/bank changes, finite audio, Play and saved Sync.
+All196 earlier runtime recipes remain unchanged. Compiled resource bytes match the source. The missing-profile and bank-release failures remain in `TestBuilds/r317/` with final source-bound evidence.
+The catalogue stays318 records/311 physical models and reaches197 data recipes. The existing NV benchmark record now has a manual subset. Automatic core coverage stays165 physical models and71/122 benchmark models.
+The repository check retains twelve historical broken links. The source prototype does not establish jogs, pads, PFL, loops, screens, complete setup, feedback, audio routing or physical acceptance. No signed app, install or NVII support is claimed.
