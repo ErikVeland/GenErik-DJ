@@ -2073,3 +2073,22 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         }
     }
 }
+
+@Test @MainActor func controllerCatalogueOriginalNanoSceneNativeMixerAndLatchedStatesKeepAudioAndSync() async throws {
+    try await withControllerCuePlayback("nanoKONTROL", prepareInput: { input in
+        input.receiveBytes(controllerOriginalNanoSceneFixture(toggle: true), source: 10)
+        input.flushPendingActions()
+    }) { model, input in
+        model.pressPlay(deck: .a, vinylStop: false)
+        input.receiveBytes([0xB0, 1, 127, 2, 64, 3, 127, 0xB4, 2, 64], source: 10)
+        input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.mixer.cue == true)
+        input.receiveBytes([0xB0, 3, 0, 0x90, 4, 127, 4, 0], source: 10)
+        input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.mixer.cue == false && model.playbackSnapshot?.a.keylock == false)
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+    }
+}

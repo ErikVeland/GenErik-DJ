@@ -861,6 +861,19 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_original_nanokontrol_reads_current_scenes_without_entering_native_mode_or_writing_presets(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next(r for r in runtime["profiles"] if r["id"]=="Korg nanoKONTROL")
+        self.assertTrue(item["autoSelect"],"Original nanoKONTROL needs a separately qualified read-only scene core")
+        self.assertEqual(item["inputProtocol"],"nanoKontrolScene")
+        self.assertEqual(len(item["inputs"]),32)
+        self.assertEqual(item["startup"],[[240,66,80,0,45,247]])
+        self.assertFalse(item["shutdown"] or item["outputs"])
+        self.assertNotIn("audioOutput",item)
+        self.assertEqual({r["channel"] for r in item["inputs"]},{0})
+        from nanokontrol_scene import SCENE_SPEC_SHA
+        self.assertEqual(hashlib.sha256((ROOT/"TestBuilds/r354/upstream/nanoKONTROL-MIDIimp.txt").read_bytes()).hexdigest(),SCENE_SPEC_SHA)
+
     def test_numark_2026_models_have_independent_fixed_cores_without_copied_pad_modes_or_audio(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         for name,count in [("Numark MixTrack Go",34),("Numark Party Mix III",28)]:

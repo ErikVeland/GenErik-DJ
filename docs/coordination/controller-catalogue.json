@@ -19418,46 +19418,65 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg%20nanoKONTROL.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg%20nanoKONTROL.midi.xml",
+        "https://cdn.korg.com/us/support/download/files/2f509a92db41920e950a23cbe5edb481.txt"
       ],
       "definitions": [
-        "Korg nanoKONTROL.midi.xml"
+        "Korg nanoKONTROL.midi.xml",
+        "manufacturer:nanokontrol-current-scene"
       ],
-      "implementation": "partial-midi-profile",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
       "profile": "Korg nanoKONTROL",
-      "automaticControls": false,
+      "automaticControls": true,
       "controlActions": [
         "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
         "cueMix",
+        "cueStateA:a",
+        "cueStateA:c",
+        "cueStateB:b",
+        "cueStateB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
         "gainA:a",
+        "gainA:c",
         "gainB:b",
-        "highA:a",
-        "highB:b",
+        "gainB:d",
+        "keylockA:a",
+        "keylockA:c",
+        "keylockB:b",
+        "keylockB:d",
+        "keylockStateA:a",
+        "keylockStateA:c",
+        "keylockStateB:b",
+        "keylockStateB:d",
         "levelA:a",
+        "levelA:c",
         "levelB:b",
-        "lowA:a",
-        "lowB:b",
+        "levelB:d",
         "master",
-        "midA:a",
-        "midB:b",
-        "monitor",
-        "tempoA:a",
-        "tempoB:b"
+        "monitor"
       ],
-      "inputBindingCount": 16,
+      "inputBindingCount": 32,
       "feedbackBindingCount": 0,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Automatic read-only current-scene mixer through a paired output. Strips1-4: A-D level/filter/PFL/keylock. Strips5-8: global faders and A-D gain knobs. Existing raw custom mappings remain in use until replaced. No scene or mode write is sent."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "partial",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
           "protocolImplemented": true,
@@ -19466,7 +19485,7 @@
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 16,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
@@ -19476,7 +19495,7 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
+        "Read-only fixed physical mixer layout, not the upstream downloadable custom scene. Paired output and valid requested scene are required. Ninth strip, transport/MMC, ramped buttons, extra switches, disabled/duplicate assignments, full layers/output, response timeout/recovery and physical/A10X acceptance remain open. No native mode, scene change/write, reset, firmware or audio route is sent."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -323562,6 +323581,28 @@
         },
         {
           "reason": "Only independently wired fixed normal Party Mix III inputs. Prototype's unwired Sync/PFL/jog, ambiguous volume28, copied mode/pad constants and source pitch-centre calibration stay inactive. Shared pad/FX/stems modes, lamps/timing, complete setup/lifecycle, USB-versus-Bluetooth audio and physical/A10X acceptance remain open. No stored setting, firmware, reset, automatic audio route or sibling protocol is inferred."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:nanokontrol-current-scene",
+      "name": "Korg nanoKONTROL",
+      "transport": "midi",
+      "source": {
+        "url": "https://cdn.korg.com/us/support/download/files/2f509a92db41920e950a23cbe5edb481.txt",
+        "sha256": "dcd048e21fe8c4ab580a929df86bb25c8a764710e770d38b1a31e027b4a6c242",
+        "review": "Korg original model04 revision1.00 explicitly provides Search Device, current Scene Data Request and Scene Change notifications. It has no native mode. Discover model/global channel before sending only the11-byte1F/10 current-scene query. Validate the307-byte response, unpack293 seven-bit bytes into256 parameter bytes, and read channels/ranges/assignment types. Never send native mode, scene change14, scene write11 or a host data dump40. Serialise requests and discard replies when another scene notification arrived while waiting, because dumps carry no scene number. Duplicate wire assignments, including collisions with unused strips/transport controls, are inactive. Constant ranges, ramped buttons, disabled/unknown controls and transport/MMC do not become app actions. A fixed native layout uses physical strips1-4 for A-D level/filter/PFL/keylock, strips5-8 faders for master/headphone level/blend/crossfader and their knobs for A-D gain. Buttons retain momentary software toggles or explicit latched PFL/keylock state. Custom channels and reversed/limited ranges retain physical direction through logical normalisation. Ninth strip and other switches remain inactive. Existing saved raw mappings take priority until explicit profile replacement. Current scenes are read without modifying stored data. Full transport/layers/output/timeout recovery and physical/A10X acceptance remain open. No audio interface or nanoKONTROL2 native protocol is inferred."
+      },
+      "implementedInputCount": 32,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Read-only fixed physical mixer layout, not the upstream downloadable custom scene. Paired output and valid requested scene are required. Ninth strip, transport/MMC, ramped buttons, extra switches, disabled/duplicate assignments, full layers/output, response timeout/recovery and physical/A10X acceptance remain open. No native mode, scene change/write, reset, firmware or audio route is sent."
         }
       ]
     },
