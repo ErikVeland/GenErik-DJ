@@ -861,6 +861,40 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_numark_2026_models_have_independent_fixed_cores_without_copied_pad_modes_or_audio(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        for name,count in [("Numark MixTrack Go",34),("Numark Party Mix III",28)]:
+            item=next((r for r in runtime["profiles"] if r["id"]==name),None)
+            self.assertIsNotNone(item,name+" needs an independent source-backed input core")
+            self.assertTrue(item["autoSelect"])
+            self.assertEqual(len(item["inputs"]),count)
+            self.assertNotIn("audioOutput",item)
+            self.assertFalse(item["outputs"] or item["shutdown"])
+            self.assertEqual(item["startup"],[[240,126,127,6,1,247],[240,0,32,127,3,1,247]])
+            self.assertFalse(any(r["action"].startswith(("hotcue","loop","keylock","fx","shift")) for r in item["inputs"]))
+            tempo=[r for r in item["inputs"] if r["action"].startswith("tempo")]
+            self.assertEqual(len(tempo),2)
+            self.assertTrue(all(r["number"]==9 and r["lowNumber"]==41 and r["inverted"] and r["encoding"]=="paired14Bit" for r in tempo))
+            if name.endswith("III"):
+                self.assertFalse(any(r["action"].startswith(("sync","jog","cueA","cueB")) for r in item["inputs"]))
+            else:
+                self.assertEqual({r["argument"] for r in item["inputs"] if r["action"].startswith("jog") and r["kind"]=="control"},{242})
+        from numark_2026 import NUMARK_2026_FILES
+        for filename,digest in NUMARK_2026_FILES:
+            self.assertEqual(hashlib.sha256((ROOT/"TestBuilds/r353/upstream"/filename).read_bytes()).hexdigest(),digest)
+        for prefix in ["mixtrack-go","party3"]:
+            xml=ET.parse(ROOT/"TestBuilds/r353/upstream"/(prefix+".xml"))
+            rows={(c.findtext("status"),c.findtext("midino"),c.findtext("key")) for c in xml.findall(".//controls/control")}
+            for status in ["0x90","0x91"]:
+                self.assertIn((status,"0x00","play"),rows)
+                self.assertIn((status,"0x01","cue_default"),rows)
+            self.assertIn(("0x9F","0x02","LoadSelectedTrack"),rows)
+            self.assertIn(("0x9F","0x03","LoadSelectedTrack"),rows)
+            script=(ROOT/"TestBuilds/r353/upstream"/(prefix+".js")).read_text()
+            self.assertIn("const invertedRate = rate * -1",script)
+            self.assertIn("0xF0, 0x00, 0x20, 0x7F, 0x03, 0x01, 0xF7",script)
+            if prefix=="party3":self.assertFalse(any("pflButton.input" in str(r) or "jogWheel.input" in str(r) for r in rows))
+
     def test_euphonia_uses_its_independent_fixed_table_and_latched_pfl_notes_without_audio_inference(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="AlphaTheta Euphonia"),None)
@@ -2927,7 +2961,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for name, source in MANUFACTURER_MODELS:
             model = next(item for item in catalogue["models"] if item["id"] == canonical(name))
             self.assertIn(source, model["sources"])
-            self.assertEqual(model["zeroConfig"]["automaticControls"], name in {"Reloop Mixtour", "Reloop Beatpad 2", "Numark Stealth Control", "Denon DJ PRIME GO"})
+            self.assertEqual(model["zeroConfig"]["automaticControls"], name in {"Reloop Mixtour", "Reloop Beatpad 2", "Numark Stealth Control", "Denon DJ PRIME GO", "Numark MixTrack Go", "Numark Party Mix III"})
             self.assertFalse(model["theoreticalSupport"]["complete"])
         model_ids = {model["id"] for model in catalogue["models"]}
         for row in catalogue["benchmarkRows"]:

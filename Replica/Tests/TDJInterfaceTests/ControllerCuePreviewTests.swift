@@ -2053,3 +2053,23 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueNumark2026NativeCuePlayTempoAndMixerKeepAudioAndSync() async throws {
+    for name in ["Numark MixTrack Go", "Numark Party Mix III"] {
+        try await withControllerCuePlayback(name) { model, input in
+            cuePreviewPacket([0x90, 1, 127], to: input)
+            #expect(model.playbackSnapshot?.a.touchActive == true)
+            cuePreviewPacket([0x80, 5, 127, 0x90, 0, 127, 0, 0], to: input)
+            #expect(model.playbackSnapshot?.a.touchActive == false)
+            cuePreviewPacket([0xB0, 22, 127, 26, 64, 9, 64, 41, 0, 0xBF, 8, 64], to: input)
+            if name.hasSuffix("Go") {
+                cuePreviewPacket([0x90, 80, 127, 0xB0, 6, 1, 6, 127, 0x80, 80, 127], to: input)
+            }
+            let audio = model.playback.core.renderOffline(frames: 4096)
+            model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+            #expect(model.playbackSnapshot?.a.touchActive == false)
+        }
+    }
+}

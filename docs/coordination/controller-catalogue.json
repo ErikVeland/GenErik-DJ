@@ -22650,46 +22650,75 @@
       "role": "primary",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://raw.githubusercontent.com/josefveiga/Numark-Mixtrack-Go-mapping-for-Mixxx/97296b1cf0d8427963c6c96eac6f48dece86224e/Numark-Mixtrack-Go.midi.xml"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:numark-2026-mixtrack-go"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Numark MixTrack Go",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "master",
+        "monitor",
+        "playA:a",
+        "playB:b",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b"
+      ],
+      "inputBindingCount": 34,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Automatic fixed normal MixTrack Go input core. Shared pad/FX modes stay inactive. USB and Bluetooth audio require separate setup; Bluetooth MIDI disables controller audio outputs."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Only independently wired fixed normal MixTrack Go inputs. Approximate242-count jog estimate and native fixed touch; exact source pitch centre and paused-scrub scaling remain unqualified. Shared pad/FX/stems modes, lamps/timing, complete setup/lifecycle, USB-versus-Bluetooth audio and physical/A10X acceptance remain open. No stored setting, firmware, reset, automatic audio route or sibling protocol is inferred."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -25207,46 +25236,73 @@
       "role": "primary",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://raw.githubusercontent.com/stefets/numark-party-mix-III-mixxx-mapping/7eb1c4a2a7cfe4a709485ab3e46444e98d8f6e08/NumarkPartyMixIII.midi.xml"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:numark-2026-party-mix-iii"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Numark Party Mix III",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "highA:a",
+        "highB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "playA:a",
+        "playB:b",
+        "tempoA:a",
+        "tempoB:b"
+      ],
+      "inputBindingCount": 28,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Automatic fixed normal Party Mix III input core. Shared pad/FX modes stay inactive. USB and Bluetooth audio require separate setup; Bluetooth MIDI disables controller audio outputs."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Only independently wired fixed normal Party Mix III inputs. Prototype's unwired Sync/PFL/jog, ambiguous volume28, copied mode/pad constants and source pitch-centre calibration stay inactive. Shared pad/FX/stems modes, lamps/timing, complete setup/lifecycle, USB-versus-Bluetooth audio and physical/A10X acceptance remain open. No stored setting, firmware, reset, automatic audio route or sibling protocol is inferred."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -323434,6 +323490,78 @@
         },
         {
           "reason": "Manual fixed app mixer controls through separate audio only. Hardware/software ownership, driver/platform setup, complete routing, isolator/send/FX, display/settings, full output/lifecycle and physical/A10X acceptance remain open. No automatic route, source-selector change, MIDI clock, stored setting, reset or output command is inferred."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:numark-2026-mixtrack-go",
+      "name": "Numark MixTrack Go",
+      "transport": "midi",
+      "source": {
+        "url": "https://raw.githubusercontent.com/josefveiga/Numark-Mixtrack-Go-mapping-for-Mixxx/97296b1cf0d8427963c6c96eac6f48dece86224e/Numark-Mixtrack-Go.midi.xml",
+        "sha256": "7f6eeba6d8acc9170262abade6df980a8d781b88eb2aaa669f48e5beff02fb96",
+        "revision": "97296b1cf0d8427963c6c96eac6f48dece86224e",
+        "relatedSources": [
+          {
+            "url": "https://raw.githubusercontent.com/josefveiga/Numark-Mixtrack-Go-mapping-for-Mixxx/97296b1cf0d8427963c6c96eac6f48dece86224e/Numark-Mixtrack-Go.scripts.js",
+            "sha256": "a129618747420e27267835166bd44a2d6b422b3ea8c2c3bf62ce0a05c2abfcd0"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/josefveiga/Numark-Mixtrack-Go-mapping-for-Mixxx/97296b1cf0d8427963c6c96eac6f48dece86224e/README.md",
+            "sha256": "1da5c0ed0765d5694f44f8ad0dca6570d219ebd8db7332db10b74d2d76c7abd1"
+          },
+          {
+            "url": "https://support.numark.com/en/support/solutions/articles/69000880702-numark-mixtrack-go-frequently-asked-questions"
+          }
+        ],
+        "review": "Independent pinned model-specific XML and script. Fixed Play0 and held Cue1 use deck channels0/1; Load is global channel15 Note2/3. LevelCC22, filterCC26, paired tempoMSB9/LSB41 and global MasterCC10/headphone12/crossfader8/browserCC0 agree within this model's wiring. Tempo handler explicitly inverts the14-bit value. Native paired normalisation is bounded0..1; exact source8192-centre calibration remains open. Browser127 is-1 and1 is+1. Identity request and source controller-status query are transient startup only. No delayed lamps are sent. Go additionally wires Sync2/PFL27, physical touch80 and wheelCC6. Fixed native touch scratch uses the author's approximate242-count revolution estimate. Source paused scrub multipliers and software Vinyl/Low/Filter modes are not inherited. Normal Play/Cue/Sync/PFL/Load shifted release addresses4/5/3/84/72-or73 rearm only. No shared pad modes, Fade FX, stems, shifted destructive actions or display protocol is inferred. Native filter is fixed, not the source's configurable QuickEffect. Both public setup guides describe wired Main1/2 and headphones3/4, while manufacturer Bluetooth MIDI disables controller audio outputs. No automatic audio route or Bluetooth setup is claimed. Full modes/output/setup/lifecycle/audio, direct iPad transport and physical/A10X acceptance remain open. Downloaded code never executes."
+      },
+      "implementedInputCount": 34,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Only independently wired fixed normal MixTrack Go inputs. Approximate242-count jog estimate and native fixed touch; exact source pitch centre and paused-scrub scaling remain unqualified. Shared pad/FX/stems modes, lamps/timing, complete setup/lifecycle, USB-versus-Bluetooth audio and physical/A10X acceptance remain open. No stored setting, firmware, reset, automatic audio route or sibling protocol is inferred."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:numark-2026-party-mix-iii",
+      "name": "Numark Party Mix III",
+      "transport": "midi",
+      "source": {
+        "url": "https://raw.githubusercontent.com/stefets/numark-party-mix-III-mixxx-mapping/7eb1c4a2a7cfe4a709485ab3e46444e98d8f6e08/NumarkPartyMixIII.midi.xml",
+        "sha256": "21ed2eff0b2b84850dfe275aef48c7fffd3504973d1b2cec3e28d56abd99a7d7",
+        "revision": "7eb1c4a2a7cfe4a709485ab3e46444e98d8f6e08",
+        "relatedSources": [
+          {
+            "url": "https://raw.githubusercontent.com/stefets/numark-party-mix-III-mixxx-mapping/7eb1c4a2a7cfe4a709485ab3e46444e98d8f6e08/NumarkPartyMixIII.scripts.js",
+            "sha256": "0b6e592f9d21a8293562debfd4ae0e2d1c8c62ea62202130046a8bc1a24d6008"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/stefets/numark-party-mix-III-mixxx-mapping/7eb1c4a2a7cfe4a709485ab3e46444e98d8f6e08/README.md",
+            "sha256": "50c0f6bdd46b34f2d6f8fb2b8980e115170718beec80cf9abe22bc911c1b92c0"
+          },
+          {
+            "url": "https://support.numark.com/en/support/solutions/articles/69000880584-party-mix-iii-frequently-asked-questions"
+          }
+        ],
+        "review": "Independent pinned model-specific XML and script. Fixed Play0 and held Cue1 use deck channels0/1; Load is global channel15 Note2/3. LevelCC22, filterCC26, paired tempoMSB9/LSB41 and global MasterCC10/headphone12/crossfader8/browserCC0 agree within this model's wiring. Tempo handler explicitly inverts the14-bit value. Native paired normalisation is bounded0..1; exact source8192-centre calibration remains open. Browser127 is-1 and1 is+1. Identity request and source controller-status query are transient startup only. No delayed lamps are sent. Party Mix III separately wires HighCC23/Mid24/Low25. Its XML omits the copied script's Sync/PFL/jog handlers. Do not expose those unwired fields or the ambiguous second volumeCC28. Its right mode constant incorrectly names a jog address and shared-pad implementation disagrees with direct XML cue rows, so all pad/mode traffic stays inactive. Normal Play/Cue/Load shifted release addresses4/5/72-or73 rearm only. No shared pad modes, Fade FX, stems, shifted destructive actions or display protocol is inferred. Native filter is fixed, not the source's configurable QuickEffect. Both public setup guides describe wired Main1/2 and headphones3/4, while manufacturer Bluetooth MIDI disables controller audio outputs. No automatic audio route or Bluetooth setup is claimed. Full modes/output/setup/lifecycle/audio, direct iPad transport and physical/A10X acceptance remain open. Downloaded code never executes."
+      },
+      "implementedInputCount": 28,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Only independently wired fixed normal Party Mix III inputs. Prototype's unwired Sync/PFL/jog, ambiguous volume28, copied mode/pad constants and source pitch-centre calibration stay inactive. Shared pad/FX/stems modes, lamps/timing, complete setup/lifecycle, USB-versus-Bluetooth audio and physical/A10X acceptance remain open. No stored setting, firmware, reset, automatic audio route or sibling protocol is inferred."
         }
       ]
     },
