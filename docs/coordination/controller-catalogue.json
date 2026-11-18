@@ -20583,46 +20583,76 @@
       "role": "primary",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:numark-mixdeck-express"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Numark MixDeck Express",
+      "automaticControls": false,
+      "controlActions": [
+        "browse",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "tempoA:a",
+        "tempoB:b"
+      ],
+      "inputBindingCount": 26,
+      "feedbackBindingCount": 4,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual MIDI-PC transport only. Enable input separately; analogue mixer requires external deck audio routing."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Native fixed touch replaces source software Scratch/Search toggles. Native calibration and finer pitch resolution remain unverified. Combined-loop/edit variations, pitch ranges, reverse/slip/FX, full displays/text, complete lifecycle and audio routing remain open. No Sync button is inferred. The analogue mixer sends no MIDI. Separate deck audio routing is unavailable, so automatic selection stays off.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -20638,46 +20668,98 @@
       "role": "primary",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:numark-mixdeck-quad"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Numark MixDeck Quad",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "tempoA:a",
+        "tempoB:b"
+      ],
+      "inputBindingCount": 49,
+      "feedbackBindingCount": 4,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "USB-MIDI deck sources; USB AUDIO PGM/CUE; MIDI USB selectors for software mixing. Audio routing remains separate."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Native fixed touch replaces source software Scratch/Search toggles. Native calibration and finer pitch resolution remain unverified. Combined-loop/edit variations, pitch ranges, reverse/slip/FX, full displays/text, complete lifecycle and audio routing remain open. No Sync button is inferred. Shared cue/sampler mode, full PFL routing and legacy30-pin iOS mono handling remain open. Physical switch setup is required."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -318639,6 +318721,74 @@
         },
         {
           "reason": "Shared pads and mode feedback need input-only mode ownership before native import. Held Pad Mode, cue deletion, Sampler/FX, party lights, on-beat Sync lamps, complete lifecycle and audio routing remain open. Browser handles1/127 only. Native jog calibration, direct iPad attachment and physical acceptance remain unverified. No Party Mix II setup, mode writes or calibration is inherited."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:numark-mixdeck-express",
+      "name": "Numark MixDeck Express",
+      "transport": "midi",
+      "source": {
+        "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+        "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+        "archiveMember": "Applications/DEX4.app/Contents/Resources/controllers/Numark__MixDeck_Express.js",
+        "memberSha256": "f0604b632561fb3ddb24521825c392ee519c491ddfebda354406da11eab33ca9",
+        "relatedSources": [
+          {
+            "url": "https://www.numark.com/images/product_downloads/MixdeckExpress-UserGuide-1.1.pdf",
+            "sha256": "6a929b593a0a578f9459d41853416488b7780b910b5e7bfac6f1ad2aeebbafbd"
+          }
+        ],
+        "review": "PCDJ public DEX4.0 package contains Brandon James's model-specific V1.1 DEX2.61+ script. Independent native facts replace downloaded code. Source physical transports use channels0/1. PitchBend is inverted pitch, with source MSB handling; finer resolution is not proven. CC34 follows raw64-positive signed counts, inverted only on Quad. The source600 denominator is software calibration, not measured hardware resolution. CC33 browser is value1 forward, all other seven-bit values backward, matching the existing typed NDX500 browser decoder. Native fixed touch replaces software-only Scratch/Search modes. Play output51 and Cue output49 differ from input notes. No Sync button, full displays, text SysEx, source pitch-range switching, combined-loop edit variations, reverse/slip/FX or complete lifecycle is inferred. Express uses Play61/Cue63/Load78, held bends58/59, contact80, loop In55/Out54/Reloop53 and browser press75. Manufacturer guide states the mixer sends no MIDI. Select MIDI-PC at each deck. Separate external deck audio routing is unavailable; automatic selection stays off. Manual input/feedback require separate enabling."
+      },
+      "implementedInputCount": 26,
+      "implementedOutputCount": 4,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Native fixed touch replaces source software Scratch/Search toggles. Native calibration and finer pitch resolution remain unverified. Combined-loop/edit variations, pitch ranges, reverse/slip/FX, full displays/text, complete lifecycle and audio routing remain open. No Sync button is inferred. The analogue mixer sends no MIDI. Separate deck audio routing is unavailable, so automatic selection stays off."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:numark-mixdeck-quad",
+      "name": "Numark MixDeck Quad",
+      "transport": "midi",
+      "source": {
+        "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+        "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+        "archiveMember": "Applications/DEX4.app/Contents/Resources/controllers/Numark__MixDeck_Quad.js",
+        "memberSha256": "404e2c813ff5d91c0ebaf8e3959c456ce279df4dfad2321dedb4c65b186dd0fc",
+        "relatedSources": [
+          {
+            "url": "https://www.numark.com/images/product_downloads/MIXDECK_QUAD_Traktor_Pro_2.zip",
+            "sha256": "7d0a1e647afe75db13a6cc8bc17a3e048f3dbdbbf4648c6d757d3c2a5827a346",
+            "archiveMember": "MIXDECK_QUAD_Rev5.tsi",
+            "memberSha256": "497059d84ac5a64560906ff3406f2ae0fa336d7d82f605948a2c761857f0240f"
+          },
+          {
+            "url": "https://www.numark.com/images/product_downloads/mixdeck_quad_-_quickstart_guide_-_v1.5.pdf"
+          },
+          {
+            "url": "https://www.numark.com/product/mixdeckquad"
+          }
+        ],
+        "review": "PCDJ public DEX4.0 package contains Brandon James's model-specific V1.1 DEX2.61+ script. Independent native facts replace downloaded code. Source physical transports use channels0/1. PitchBend is inverted pitch, with source MSB handling; finer resolution is not proven. CC34 follows raw64-positive signed counts, inverted only on Quad. The source600 denominator is software calibration, not measured hardware resolution. CC33 browser is value1 forward, all other seven-bit values backward, matching the existing typed NDX500 browser decoder. Native fixed touch replaces software-only Scratch/Search modes. Play output51 and Cue output49 differ from input notes. No Sync button, full displays, text SysEx, source pitch-range switching, combined-loop edit variations, reverse/slip/FX or complete lifecycle is inferred. Quad uses Play58/Cue56/Load70, held bends61/60, contact89, loop In48/Out49/Reloop50 and browser press74. Its shared cue/sampler mode stays inactive. Numark's425-row TSI independently confirms fixed physical channels0/1, inverted jog and mixer channel0. Its mixer CC13/19/8/24 targets A/B/C/D levels, with gain/high/mid/low in the source inside-out order. Crossfader7, cue-mix18 and monitor66 share channel0. Native C/D targets remain opt-in; Traktor software deck-bank modifiers do not become extra physical MIDI channels. Use USB-MIDI deck sources, USB AUDIO PGM/CUE and MIDI USB selectors for software mixing, as the guide specifies. Automatic input core does not configure switches, audio outputs or the legacy30-pin iOS mono route. Full PFL routing, source cue/sampler modes and physical acceptance remain open."
+      },
+      "implementedInputCount": 49,
+      "implementedOutputCount": 4,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Native fixed touch replaces source software Scratch/Search toggles. Native calibration and finer pitch resolution remain unverified. Combined-loop/edit variations, pitch ranges, reverse/slip/FX, full displays/text, complete lifecycle and audio routing remain open. No Sync button is inferred. Shared cue/sampler mode, full PFL routing and legacy30-pin iOS mono handling remain open. Physical switch setup is required."
         }
       ]
     },

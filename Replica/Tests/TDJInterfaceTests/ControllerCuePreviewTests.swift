@@ -1195,3 +1195,21 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueMixDeckNativeCueTouchAndPlayKeepSavedSync() async throws {
+    for (name, cue, touch, play) in [("MixDeck Express", UInt8(63), UInt8(80), UInt8(61)), ("MixDeck Quad", 56, 89, 58)] {
+        try await withControllerCuePlayback(name, manual: name.hasSuffix("Express")) { model, input in
+            cuePreviewPacket([0x90, cue, 127], to: input)
+            #expect(model.playbackSnapshot?.a.touchActive == true)
+            cuePreviewPacket([0x80, cue, 127, 0x90, touch, 127, 0xB0, 34, 1], to: input)
+            #expect(model.playbackSnapshot?.a.touchActive == true)
+            cuePreviewPacket([0x90, touch, 0, play, 127], to: input)
+            #expect(model.playbackSnapshot?.a.touchActive == false)
+            let samples = model.playback.core.renderOffline(frames: 4096)
+            model.refreshPlayback()
+            #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.phase.active == true)
+            #expect(model.playbackSnapshot?.a.synced == true)
+        }
+    }
+}

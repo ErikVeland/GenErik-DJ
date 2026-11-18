@@ -3610,3 +3610,21 @@ An initial protocol fixture lacked the output port required for startup; the cor
 All181 earlier recipes remain unchanged; the compiled resource matches the source. The repository check retains twelve historical broken links.
 The catalogue has182 data recipes and159 automatic core physical models, including70/122 benchmark models. Full theoretical feature parity remains unimplemented.
 Source base: `4aae3c4`. No signed app, install, physical attachment or A10X acceptance is claimed.
+
+## R303 MixDeck Express and Quad source-backed core
+
+Assumption: independently normalise the public PCDJ scripts and use Numark's own Quad TSI to confirm mixer channel0 and A/B/C/D targets. Express has no MIDI mixer; its manual recipe must not enable automatic selection or invent a split-output route. Quad uses fixed physical transport A/B and four mixer targets; its software-only Traktor deck banks do not become hardware channels.
+
+- [x] Add failing generation and native packet/playback checks for both identities, transport, pitch/jog direction and mixer separation.
+- [x] Pin source hashes. Add Express manual and Quad automatic input core without guessed screens, lifecycle or audio routing.
+- [x] Check Cue releases, hidden C/D targets, unchanged earlier recipes and the iPad framework resource. Preserve failed and final results.
+
+Express has26 manual inputs and four reviewed transport lamps. Quad has49 automatic core inputs and four lamps, including its separate four-target mixer on wire channel0.
+Their Play/Cue input and lamp addresses differ. No Sync button, shared cue/sampler mode, software-bank MIDI channels, partial LCD setup or automatic audio route is invented.
+The manufacturer guide requires Quad USB AUDIO PGM/CUE and MIDI USB selectors for software mixing. Its legacy30-pin iOS mono route remains separate.
+The pinned Quad TSI contains425 mapping rows. An offline read-only review follows Ivan Zlatev's published chunk layout; no Traktor code runs in the app.
+
+All7 focused native checks,132 importer checks and iPad framework compilation pass. The playback check uses real WAV audio on both recipes and retains saved Sync.
+All182 earlier recipes remain unchanged; the compiled resource matches the source. Expected failures, source hashes and review extracts remain in `TestBuilds/r303/`.
+The repository check retains twelve historical broken links. The catalogue now has184 data recipes and160 automatic core physical models, including71/122 benchmark models.
+Full theoretical feature parity remains unimplemented. Source base: `c78cf46`. No signed app, install or physical/A10X acceptance is claimed.

@@ -861,6 +861,28 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_mixdeck_models_keep_distinct_protocol_and_hardware_mixer_contracts(self):
+        runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        by_id = {r["id"]:r for r in runtime["profiles"]}
+        for name in ["Numark MixDeck Express", "Numark MixDeck Quad"]:
+            self.assertIn(name, by_id, "Both MixDeck models need independent recipes")
+        express, quad = [by_id["Numark MixDeck " + name] for name in ["Express", "Quad"]]
+        self.assertFalse(express["autoSelect"])
+        self.assertTrue(quad["autoSelect"])
+        self.assertEqual([(len(r["inputs"]),len(r["outputs"])) for r in [express,quad]], [(26,4),(49,4)])
+        for r in [express,quad]:
+            self.assertNotIn("audioOutput", r)
+            self.assertFalse(r["startup"])
+            self.assertFalse(any(i["action"].startswith("sync") for i in r["inputs"]))
+            self.assertTrue(all(i["inverted"] for i in r["inputs"] if i["kind"] == "pitch"))
+        self.assertFalse(any(i["action"].startswith(("gain","level","high","mid","low","crossfader")) for i in express["inputs"]))
+        self.assertEqual({i["channel"] for i in quad["inputs"] if i["action"].startswith(("gain","level","high","mid","low"))}, {0})
+        from mixdeck import MIXDECK_SCRIPTS
+        for filename,digest in MIXDECK_SCRIPTS:
+            path = ROOT / "TestBuilds/r301/upstream/controllers" / filename
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_party_mix_live_has_independent_core_without_inherited_pad_or_jog_setup(self):
         runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item = next((r for r in runtime["profiles"] if r["id"] == "Numark Party Mix Live"), None)
