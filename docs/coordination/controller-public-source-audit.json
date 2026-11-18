@@ -1186,6 +1186,29 @@
         "Legacy dock authentication, CoreMIDI exposure, audio ownership and complete modes/lifecycle/calibration remain open. Philips private custom class is not inspected or reproduced.",
         "VCI300 preset names only the original VCI300. It does not establish MKII compatibility. VFX1 two-page public brochure contains no wire addresses."
       ]
+    },
+    {
+      "request": "R391",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://manual.mixxx.org/2.4/en_gb/hardware/controllers/vestax_vci_300",
+          "sha256": "db1c1ef0247057ef6d76364904fb2cee14a6ad29d3ed3133990e236f23f2d73f",
+          "finding": "The official software-project manual explicitly states unchanged MKII MIDI mapping. Distinct native MKII automatic profile reuses the reviewed original MIDI contract. Independent manufacturer table, full modes/audio/calibration and physical acceptance remain open."
+        },
+        {
+          "url": "https://github.com/tooh/mixxx-controller-mappings/tree/fde78e35e0fcf83f5024f740bbfaf7941a60c8a2",
+          "finding": "Public SX1 XML213 rows includes original legacy-wire alternatives and unresolved THENEXTBEAT handlers. Its declared companion script defines only TheNextBeatSX1 initialisation. The other script contains candidate wheel handlers but is not referenced by the XML. The manufacturer distinguishes wired SX1 from the catalogue original/LX1 product. No sibling identity, startup or conflicting controls are imported."
+        },
+        {
+          "url": "https://deathcamel58.github.io/denon-reverse-engineering/controller-assignments.html",
+          "finding": "Public test-app manifest lists JP11 and JP11S against one JP11 assignment patch. Only archive text inspected. No script runs, remount, service restart, firmware modification or installation occurs. This alone is not independent USB host/MIDI calibration proof."
+        }
+      ],
+      "limits": [
+        "No downloaded executable/controller script runs. Reuse covers explicitly documented VCI300MKII MIDI only.",
+        "Next Beat SX1 partial map does not establish original/LX1 identity or a complete host implementation."
+      ]
     }
   ]
 }

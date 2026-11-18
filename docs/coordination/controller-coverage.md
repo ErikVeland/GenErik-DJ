@@ -5075,3 +5075,22 @@ The native factory presets contain additional private or incomplete behaviour. U
 Validation:232 Python checks and nine native tests passed. Fixtures cover both Cue release forms, bend/stop cleanup, duplicate-button suppression, source ownership, independent Philips Cue actions, every absolute input and polarity, pickup, unavailable decks and inactive wires. Two real-WAV fixtures retain finite, synced playback. The first native run found an incorrect fixture count for two simultaneously mapped sources. The corrected fixture expects42 bindings and passes. Both logs remain in ignored evidence. The iPad framework compiled and its resource matches the source. All273 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r390/validation.json`.
 
 The catalogue has275 recipes for342 physical models. Automatic core coverage remains196, with146 without automatic core. Twenty-nine records still need a first protocol implementation. Full theoretical support, signed-app delivery and physical/iPad/A10X acceptance remain open.
+
+## R391 documented VCI-300MKII core reuse
+
+Assumption: the primary mapping project's versioned manual explicitly states that MKII does not change the original MIDI mapping. This qualifies reuse of the reviewed MIDI contract. It does not qualify audio gain, direct-through routing, hardware jog sensitivity or physical acceptance.
+
+- [x] Pin the official manual and retain a distinct MKII profile and model record.
+- [x] Reuse existing native inputs, lamps and lifecycle bytes without downloaded code execution.
+- [x] Verify automatic identity, held Cue release/cleanup, cyclic jog priming/wrap, pitch pickup and real-WAV movement.
+- [x] Run source/native checks, compile the iPad framework and compare all earlier recipes.
+
+The [official Mixxx2.4 manual](https://manual.mixxx.org/2.4/en_gb/hardware/controllers/vestax_vci_300) explicitly states that the MKII MIDI mapping is unchanged. The cached HTML and native source XML/script have pinned hashes. The older wiki used an AFAIK qualification. The versioned manual removes it. This is an explicit primary software-project compatibility claim. An independent manufacturer MKII wire table remains unavailable.
+
+The distinct MKII profile reuses61 reviewed inputs,24 steady lamp recipes, five startup bytes and five shutdown bytes. It retains1600-count paired cyclic jogs, exact-centre nine-bit tempo, three Cue pads, native loops, Scroll/PFL loading and scoped modifiers. Exact MKII/MK2 aliases resolve independently from the original. All275 earlier runtime recipes remain identical. No downloaded code executes.
+
+The manual separates analogue gain with the DC7 supply, optional digital crossfader, direct audio thru, jog-sensor adjusters and extra headphone socket. MIDI reuse does not implement those hardware features or establish audio routing. Complete modes/feedback/lifecycle, calibration and physical/iPad/A10X acceptance remain open.
+
+Validation:234 Python checks and12 native tests passed. The158-profile held-Cue corpus includes MKII. Fixtures cover separate identity, both Cue release forms, duplicate suppression, disconnect/reconnect cleanup, independent cyclic counter wrap and pitch endpoints by target deck. Existing composed-modifier/pickup/feedback checks remain passing. The real-WAV touch/stop/Sync fixture now runs for both models. Earlier failed runs retain fixture diagnostics for a stale corpus count, the separate automatic binding store and unordered cross-deck event delivery. No production codec change was needed. The iPad framework compiled and the bundled resource matches the source. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r391/validation.json`.
+
+The catalogue has276 recipes. Automatic core coverage reaches197 of342 physical models, with145 without automatic core. Twenty-eight records still need a first protocol implementation. Full theoretical support, signed-app delivery and physical/iPad/A10X acceptance remain open.

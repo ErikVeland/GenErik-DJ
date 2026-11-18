@@ -1080,3 +1080,5 @@ No DJM450/250/S9 alias, stored-setting write, hardware output or automatic audio
 Full modes/lifecycle, external deck outputs, analogue ownership and physical acceptance remain open.
 
 R390 adds `legacy_djay_docks.py` and two distinct21-input manual profiles from pinned public factory presets. They require exposed MIDI ports. Original30-pin/Lightning authentication and audio remain open. Unqualified rotary streams, private custom classes and hardware writes stay inactive.232 source checks, nine native tests and the iPad framework pass. Earlier273 recipes remain identical.
+
+R391 adds `vci300_mkii.py`. The official versioned Mixxx manual explicitly states unchanged MIDI mapping. The distinct MKII profile reuses the reviewed61 inputs/24 lamps and existing lifecycle bytes.234 source checks,12 native tests and the iPad framework pass. Audio and hardware-specific calibration remain open. The original profile and all earlier recipes remain identical.

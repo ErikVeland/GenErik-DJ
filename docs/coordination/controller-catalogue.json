@@ -41499,12 +41499,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://manual.mixxx.org/2.4/en_gb/hardware/controllers/vestax_vci_300",
         "https://www.algoriddim.com/hardware"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:vci-300mkii-documented-shared-midi"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Vestax VCI-300MKII",
+      "automaticControls": true,
       "comparisonSupport": {
         "djay": {
           "sourceName": "Vestax VCI-300MKII",
@@ -41516,40 +41521,95 @@
           "source": "https://www.algoriddim.com/hardware"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
+        "browsePreviousGroup",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "loopUpA:a",
+        "loopUpB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b",
+        "tempoResetA:a",
+        "tempoResetB:b"
+      ],
+      "inputBindingCount": 61,
+      "feedbackBindingCount": 24,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "VCI-300MKII raw USB MIDI core. The Mixxx project explicitly documents the same MIDI mapping as VCI-300. Configure app audio separately. Hardware jog sensitivity and analogue gain need qualification."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Compatibility is explicitly documented by the primary software mapping project, not independently verified against a manufacturer MKII wire table. Analogue gain/DC7 supply, direct audio thru, optional digital fader and jog-sensor sensitivity remain hardware-specific. Complete modes/feedback/lifecycle, audio routing/calibration and physical/iPad/A10X acceptance remain open."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -334070,6 +334130,45 @@
         },
         {
           "reason": "Lightning authentication/CoreMIDI exposure, private custom initialisation, jog/mode/record controls, two-second Cue clear, hardware/software audio ownership, complete output/lifecycle/calibration and physical/iPad/A10X acceptance remain open."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:vci-300mkii-documented-shared-midi",
+      "name": "Vestax VCI-300MKII",
+      "transport": "midi",
+      "source": {
+        "url": "https://manual.mixxx.org/2.4/en_gb/hardware/controllers/vestax_vci_300",
+        "sha256": "db1c1ef0247057ef6d76364904fb2cee14a6ad29d3ed3133990e236f23f2d73f",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-300.midi.xml",
+            "sha256": "f6efbd83c4bfc47c68fbb7eba594951357b906e627c2d920a9e32fe88035b54c",
+            "relatedSources": [
+              {
+                "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-300.midi.xml",
+                "sha256": "f6efbd83c4bfc47c68fbb7eba594951357b906e627c2d920a9e32fe88035b54c"
+              },
+              {
+                "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax-VCI-300-scripts.js",
+                "sha256": "36150baffe7f4d8b047fa84b8b361452ff318626a8f61cb42882410070fc18e2"
+              }
+            ],
+            "review": "XML dispatch and script handlers define distinct two-deck addresses on channel zero. Jogs consume a fresh high/low pair, prime a cyclic fourteen-bit counter, wrap at half range and retain 1600 counts per revolution. Tempo packs nine bits with exact centre 256 and unequal 256/255 endpoint ranges. Native fixed touch scratching replaces source mode toggles and nonlinear nudge curves. Scroll plus PFL loads. Composed Shift/Scroll scopes block unsupported jog search and browsing without changing transport on the other deck. Shift guards tempo and rearms native pickup. Core LEDs retain direction-specific output addresses. Other modes, full feedback, cleanup, routing and physical calibration remain open."
+          }
+        ],
+        "review": "The primary software mapping project explicitly states in its versioned manual that VCI-300 MKII does not change the original MIDI mapping. Reuse the existing reviewed61-input/24-lamp contract, paired1600-count cyclic jogs, exact nine-bit tempo, scoped modifiers and five startup/shutdown bytes. Keep a distinct MKII identity. No downloaded code executes. The manual separately describes higher analogue gain with DC7 power, optional digital crossfader, direct audio thru, jog-sensor adjusters and an extra headphone socket. Those changes do not establish native audio routing, hardware gain/sensitivity calibration, complete mode/lifecycle parity or physical/iPad/A10X acceptance. The old wiki qualified its statement with AFAIK. The cited versioned manual states compatibility explicitly. This remains a primary software-project claim, not independent manufacturer wire verification."
+      },
+      "implementedInputCount": 61,
+      "implementedOutputCount": 24,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Compatibility is explicitly documented by the primary software mapping project, not independently verified against a manufacturer MKII wire table. Analogue gain/DC7 supply, direct audio thru, optional digital fader and jog-sensor sensitivity remain hardware-specific. Complete modes/feedback/lifecycle, audio routing/calibration and physical/iPad/A10X acceptance remain open."
         }
       ]
     }
