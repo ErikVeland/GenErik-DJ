@@ -4509,3 +4509,30 @@ Validation:190 Python tests and six focused native tests passed. Fixtures cover 
 The [public-source audit](controller-public-source-audit.json) records the migrated support articles and exact working SLAB/A9/REV7 filenames. SLAB and REV7 tables are downloaded for the next implementation steps. V5's current software section has no MIDI article in the checked list. The current X1850 guide documents MIDI settings without an address table. These are scoped findings, not claims that no other source exists.
 
 The catalogue now has241 data recipes. Automatic core coverage remains188 physical model records, with124 remaining. Full theoretical support remains open for all312 physical model records. No signed app, installation or physical/A10X acceptance is claimed.
+
+
+## R358 SLAB fixed native DJ layout across eight pad pages
+
+Assumption: use SLAB's general MIDI table to define an explicit GenErik DJ layout. This is a fixed native DJ layout, not Serato Studio emulation. Pages1/2 provide A/B and C/D cues. Pages3/4 provide fixed loops. Pages5/6 provide beat jumps. Pages7/8 provide transport. Each page's top eight physical pads address the first deck and its bottom eight address the second. C/D retain app opt-in. Four encoders control A level/filter and B filter/level. The normal Play button controls A. The dial/arrows browse; dial press opens a group. Mode1 strip controls the crossfader.
+
+- [x] Pin and visually inspect all four manufacturer pages. Confirm the new-recipe fixture fails before implementation.
+- [x] Add139 automatic accessory bindings. Keep all128 normal pad addresses distinct. Page-button presses retire held actions and reset edges. Both Shift transitions retire holds and gate the native layout, so unsupported shifted releases cannot strand Cue. Keep aftertouch, shifted pages/functions, other modes, lights/screens and setup writes inactive.
+- [x] Verify all128 page/pad addresses, both releases, page/Shift hold cleanup, velocity/aftertouch separation, source isolation, C/D opt-in, signed encoders, paired strip, reconnect and real-WAV Cue/loop/audio/Sync. Recheck automatic held-Cue fixtures, importer checks and iPad framework compilation. Compare earlier recipes.
+
+Success requires a documented fixed DJ layout, bounded state and no inferred Serato handshake, colour palette or audio route. Full source functions, output/lifecycle and physical/A10X acceptance remain open.
+
+
+Added139 automatic SLAB accessory bindings from the [current manufacturer table](https://downloads.support.alphatheta.com/midi-mapping/music-production/SLAB/SLAB_MIDI_Message_List_en.pdf), SHA256`aaba912538403e712fb73554a4e30fff8b467e115e91f9455718711fd1b29a0c`. All four PDF pages were visually checked. The native layout uses all128 normal pad addresses. It does not emulate Serato Studio. Shift gates native controls and retires held Cue on both transitions. Page presses retire old holds and reset edges; page-button releases preserve a new held Cue. Shift pad messages and aftertouch cannot become normal pad presses. Encoders and DIAL-mode browsing retain published1/65 direction. The normal Mode1 strip uses its documented channel7 CC14/46 pair. No setup, output, setting write, HID mouse command or audio route is sent.
+
+| Pages | Top eight pads | Bottom eight pads | Functions in physical row order |
+| --- | --- | --- | --- |
+| 1 / 2 | A / C | B / D | Cues1–8 |
+| 3 / 4 | A / C | B / D | Fixed loops:1/4,1/2,1,2,4,8,16,32 beats |
+| 5 / 6 | A / C | B / D | Beat jumps:-1,+1,-2,+2,-4,+4,-8,+8 |
+| 7 / 8 | A / C | B / D | Play, held Cue, Sync, Keylock, PFL, loop toggle, Load, tempo reset |
+
+The four encoders control A level/filter and B filter/level. The normal Play button controls A. The dial and arrows browse; dial press opens a group. Press DIAL MODE for MIDI browsing. Mode1 strip controls the crossfader. C/D require app opt-in.
+
+Validation:191 Python tests and ten focused native tests passed. Native fixtures cover all128 page/pad addresses with two velocities and both release forms, held-Cue page/Shift cleanup, independent sources, hidden C/D, aftertouch/alternate rejection, relative encoders, paired strip and reconnect. The automatic held-Cue fixture now covers151 profiles. A real-WAV host fixture retained Cue cleanup, loops, audio and saved Sync. The iPad framework compiled and its resource matches the source. All241 earlier recipes remain identical. The repository checker still reports12 historical missing-file links. Evidence: `TestBuilds/r358/validation.json`.
+
+The catalogue now has242 data recipes. Automatic core coverage reaches189 physical model records, with123 remaining. Full theoretical support remains open for all312 physical model records. No signed app, installation or physical/A10X acceptance is claimed.

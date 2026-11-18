@@ -2145,3 +2145,25 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueSLABNativePageShiftCueAndLoopsKeepAudioAndSync() async throws {
+    try await withControllerCuePlayback("SLAB") { model,input in
+        cuePreviewPacket([0x97,109,127],to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x90,70,127,0x98,109,0],to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        cuePreviewPacket([0x90,70,0,94,127,94,0,0x97,44,127,44,0],to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        cuePreviewPacket([0x96,85,127,85,0],to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        cuePreviewPacket([0x97,44,127,44,0],to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == false)
+        input.currentTargetValue = { model.controllerValue($0.action,targetDeck: $0.deck) }
+        cuePreviewPacket([0xB0,16,1,0xB6,14,64,46,0,0xA7,12,127],to: input)
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

@@ -861,6 +861,28 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_slab_fixed_dj_layout_uses_all_eight_native_pad_pages_and_shift_barriers(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="AlphaTheta SLAB"),None)
+        self.assertIsNotNone(item,"Add the SLAB general-MIDI fixed DJ layout from the recovered manufacturer table")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual((item["role"],len(item["inputs"])),("accessory",139))
+        pads=[r for r in item["inputs"] if r["channel"]==7]
+        self.assertEqual({r["number"] for r in pads},set(range(128)))
+        self.assertEqual(len(pads),128)
+        self.assertTrue(all(not r.get("shifted") for r in pads))
+        self.assertFalse(any(r["channel"]==8 for r in item["inputs"]))
+        self.assertFalse(item["startup"] or item["shutdown"] or item["outputs"])
+        self.assertNotIn("audioOutput",item)
+        self.assertEqual({r["number"] for r in item["bankChanges"] if r["channel"]==6},{83,84,85,86})
+        self.assertTrue(any(r["channel"]==0 and r["number"]==70 and r.get("releaseShiftChannels")==[] for r in item["bankChanges"]))
+        self.assertEqual({r["encoding"] for r in item["inputs"] if r["kind"]=="control" and r["channel"]==0},{"signedBit"})
+        strip=next(r for r in item["inputs"] if r["action"]=="crossfader")
+        self.assertEqual((strip["channel"],strip["number"],strip["encoding"]),(6,14,"paired14Bit"))
+        from slab import SLAB_REFERENCES
+        cached=ROOT/"TestBuilds/r357/upstream/slab-midi-en.pdf"
+        if cached.exists():self.assertEqual(hashlib.sha256(cached.read_bytes()).hexdigest(),SLAB_REFERENCES[item["id"]]["sha256"])
+
     def test_a9_manual_core_quarantines_conflicting_channel_two_rows_and_keeps_toggle_state(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="Pioneer DJM-A9"),None)
@@ -3035,7 +3057,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for name, source in MANUFACTURER_MODELS:
             model = next(item for item in catalogue["models"] if item["id"] == canonical(name))
             self.assertIn(source, model["sources"])
-            self.assertEqual(model["zeroConfig"]["automaticControls"], name in {"Reloop Mixtour", "Reloop Beatpad 2", "Numark Stealth Control", "Denon DJ PRIME GO", "Numark MixTrack Go", "Numark Party Mix III"})
+            self.assertEqual(model["zeroConfig"]["automaticControls"], name in {"Reloop Mixtour", "Reloop Beatpad 2", "Numark Stealth Control", "Denon DJ PRIME GO", "Numark MixTrack Go", "Numark Party Mix III", "AlphaTheta SLAB"})
             self.assertFalse(model["theoreticalSupport"]["complete"])
         model_ids = {model["id"] for model in catalogue["models"]}
         for row in catalogue["benchmarkRows"]:

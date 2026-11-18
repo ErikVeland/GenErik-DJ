@@ -490,7 +490,7 @@
           "url": "https://downloads.support.alphatheta.com/midi-mapping/music-production/SLAB/SLAB_MIDI_Message_List_en.pdf",
           "cache": "TestBuilds/r357/upstream/slab-midi-en.pdf",
           "sha256": "aaba912538403e712fb73554a4e30fff8b467e115e91f9455718711fd1b29a0c",
-          "status": "Downloaded; implementation next."
+          "status": "R358:139 automatic fixed native DJ bindings across all eight normal pad pages, with source-local page/Shift cleanup. Full Serato semantics/output/lifecycle and physical acceptance remain open."
         },
         {
           "model": "Pioneer DJM-A9",

@@ -918,3 +918,6 @@ The [public-source audit](../../docs/coordination/controller-public-source-audit
 
 
 `djm_a9.py` supplies30 manual A9 inputs from the current E10 table. Its CH2 CUE B/fader rows conflict with other controls. CH1/2 faders and all CUE B controls stay inactive. CUE A uses direct state in default TOGGLE mode. Separate app audio, C/D opt-in and manual channel1 selection remain explicit. No MIDI output or source/audio switch is inferred. Follow the current migrated support articles for exact document filenames.
+
+
+`slab.py` defines139 automatic general-MIDI bindings for an explicit fixed DJ layout. All eight normal pad pages have native cue, loop, jump or transport functions. The upper/lower physical halves address fixed deck pairs. Page presses retire old holds; both Shift transitions retire holds and gate the layout. Shifted pads and aftertouch remain inactive. Encoders and DIAL browsing use1/65 signed-bit direction. Mode1 strip uses channel7 CC14/46. This does not emulate Serato Studio. Output colours, screens, other modes, full lifecycle and audio routing remain open.

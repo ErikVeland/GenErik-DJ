@@ -3039,46 +3039,133 @@
       "role": "accessory",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://downloads.support.alphatheta.com/midi-mapping/music-production/SLAB/SLAB_MIDI_Message_List_en.pdf"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:pioneerslab"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "AlphaTheta SLAB",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "browseNext",
+        "browsePrevious",
+        "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "fixedJumpA:a",
+        "fixedJumpA:c",
+        "fixedJumpB:b",
+        "fixedJumpB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "keylockA:a",
+        "keylockA:c",
+        "keylockB:b",
+        "keylockB:d",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "openGroup",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "shift",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d",
+        "tempoResetA:a",
+        "tempoResetA:c",
+        "tempoResetB:b",
+        "tempoResetB:d",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopA:c",
+        "toggleFixedLoopB:b",
+        "toggleFixedLoopB:d"
+      ],
+      "inputBindingCount": 139,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Fixed GenErik DJ layout in general MIDI operation. OCTAVE-/+ selects pages1-8. Pages1/2 cues,3/4 loops,5/6 jumps,7/8 transport; top/bottom eight pads address A/B or C/D. C/D require app opt-in. Press DIAL MODE to browse with the knob. Shift gates native controls."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Fixed native layout, not factory Serato Studio semantics. Shift transitions retire held actions; shifted pads/functions and aftertouch stay inactive. Record/undo/redo, application/encoder/piano modes, touch interpretation, Mode2 strip, complete output/colour/screen/lifecycle/audio and physical/A10X acceptance remain open. No mode/setting write, HID mouse command, Serato handshake or audio route is inferred."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -323811,6 +323898,39 @@
         },
         {
           "reason": "Manufacturer E10 CH2 CUE B CC17 overlaps CH1 fader; CH2 fader Note18 overlaps CH3 CUE B. Both candidate CC17/18 faders and all CUE B controls stay inactive pending independent wire evidence. Manual default channel1/TOGGLE only. TRIGGER mode, Headphones B, hardware/software audio ownership, external deck routing, source/assign/curve switches, FX/microphone/clock, full lifecycle/calibration and physical/A10X acceptance remain open. The mixer does not receive MIDI. No output, stored setting or audio route is inferred."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneerslab",
+      "name": "AlphaTheta SLAB",
+      "transport": "midi",
+      "source": {
+        "url": "https://downloads.support.alphatheta.com/midi-mapping/music-production/SLAB/SLAB_MIDI_Message_List_en.pdf",
+        "sha256": "aaba912538403e712fb73554a4e30fff8b467e115e91f9455718711fd1b29a0c",
+        "pages": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "relatedSources": [
+          {
+            "url": "https://support.alphatheta.com/en-US/articles/52774134882841?product=50303541909785"
+          }
+        ],
+        "review": "Current four-page manufacturer MIDI list independently defines all128 normal pad addresses on channel8, Shift on channel9 and aftertouch as separate poly-pressure. Physical row-major order is12-15,8-11,4-7,0-3 within each16-note page. Define an explicit fixed GenErik DJ layout, not Serato Studio emulation: pages1/2 eight cues per A/B or C/D; pages3/4 eight fixed loops; pages5/6 eight signed beat jumps; pages7/8 Play, held Cue, Sync, Keylock, PFL, loop toggle, Load and tempo reset per deck. Top eight physical pads address the first deck; bottom eight the second. Native normal Play controls A. DIAL-mode knob sends1/65 on CC60 for browsing; its press opens a group. Arrows browse one track. Encoders CC16-19 use1/65 for A level/filter and B filter/level. Mode1 strip is channel7 CC14/46 paired14-bit crossfader. Four page-change button variants on channel7 Notes83-86 retire source-local holds and reset deck edges on press. Both physical Shift transitions on channel1 Note70 retire holds and gate native inputs, avoiding stranded Cue when its release arrives on the unsupported Shift pad channel. Page-button releases do not retire new holds. C/D retain app opt-in. Source application/encoder modes, record/undo/redo, shifted functions, aftertouch, Mode2 strip, touch interpretation, colour feedback, screens, full lifecycle and physical/A10X acceptance remain open. No Serato handshake, HID mouse command, setting write, firmware or audio route is inferred."
+      },
+      "implementedInputCount": 139,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Fixed native layout, not factory Serato Studio semantics. Shift transitions retire held actions; shifted pads/functions and aftertouch stay inactive. Record/undo/redo, application/encoder/piano modes, touch interpretation, Mode2 strip, complete output/colour/screen/lifecycle/audio and physical/A10X acceptance remain open. No mode/setting write, HID mouse command, Serato handshake or audio route is inferred."
         }
       ]
     },
