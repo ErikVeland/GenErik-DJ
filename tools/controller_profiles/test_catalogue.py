@@ -998,6 +998,42 @@ class GeneratedCatalogueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
 
+    def test_rgb_launchpads_keep_separate_setup_ports_and_reviewed_fixed_tall_layout(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        for name in ["Novation Launchpad MK2","Novation Launchpad Mini MK3"]:
+            item=next((r for r in runtime["profiles"] if r["id"] == name),None)
+            self.assertIsNotNone(item,name+" needs an independent recipe")
+            self.assertTrue(item["autoSelect"])
+            self.assertEqual(len(item["inputs"]),47)
+            self.assertEqual({r["targetDeck"] for r in item["inputs"] if "targetDeck" in r},{"a","b"})
+            self.assertEqual({r["argument"] for r in item["inputs"] if r["action"].startswith("toggleFixedLoop")},{0.5,1,2,4,8,16})
+            self.assertFalse(any(r["action"].startswith("load") for r in item["inputs"]))
+            self.assertNotIn("audioOutput",item)
+            if name.endswith("MK2"):
+                self.assertEqual(item["startup"],[[240,0,32,41,2,24,34,0,247]])
+                self.assertNotIn("portAliases",item)
+                self.assertEqual({r["kind"] for r in item["inputs"] if r["action"] == "shift"},{"note"})
+            else:
+                self.assertEqual(item["startup"],[[240,0,32,41,2,13,14,1,247]])
+                self.assertEqual(item["shutdown"][-1],[240,0,32,41,2,13,14,0,247])
+                self.assertTrue(all("MIDI" in n and "DAW" not in n for n in item["portAliases"]))
+                self.assertEqual({r["kind"] for r in item["inputs"] if r["action"] == "shift"},{"control"})
+        from launchpad_rgb import RGB_SOURCES, RGB_GUIDES
+        for sources in RGB_SOURCES.values():
+            for filename,digest in sources:
+                path=ROOT/"TestBuilds/r169/upstream/res/controllers"/filename
+                if path.exists(): self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),digest)
+        for name,guide in RGB_GUIDES.items():
+            path=ROOT/"TestBuilds/r327/upstream"/guide[2]
+            if path.exists(): self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),guide[1])
+
+    def test_original_full_size_launchpad_retains_driver_boundary(self):
+        catalogue=json.loads((ROOT/"docs/coordination/controller-catalogue.json").read_text())
+        item=next(r for r in catalogue["models"] if r["name"] == "Novation Launchpad")
+        self.assertFalse(item["zeroConfig"]["automaticControls"])
+        self.assertIn("Non-class-compliant",item["connection"])
+        self.assertTrue(any("bridge" in gap for gap in item["gaps"]))
+
     def test_original_launchpad_mini_has_independent_page_aware_core(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"] == "Novation Launchpad Mini"),None)

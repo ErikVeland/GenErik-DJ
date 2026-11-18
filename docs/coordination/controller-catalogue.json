@@ -20544,7 +20544,8 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Launchpad.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Launchpad.midi.xml",
+        "https://manual.mixxx.org/2.7/en/hardware/controllers/novation_launchpad_mk1"
       ],
       "definitions": [
         "Novation Launchpad.midi.xml"
@@ -20555,7 +20556,7 @@
       "controlActions": [],
       "inputBindingCount": null,
       "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "connection": "Non-class-compliant USB. Windows/macOS drivers translate controls to MIDI. A desktop bridge is required for iPad; direct USB control is not implemented.",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
@@ -20585,7 +20586,21 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "The original full-size Launchpad is not USB MIDI class compliant. Desktop drivers translate its signals. Direct iPad USB control and a qualified bridge remain unimplemented. MK2 and Mini controllers have separate contracts.",
+        "Implement and qualify a driver-backed desktop MIDI bridge. A stored virtual-MIDI recipe does not provide direct iPad USB support.",
         "A controller-specific protocol adapter is required."
+      ],
+      "sourceAudits": [
+        {
+          "source": {
+            "url": "https://manual.mixxx.org/2.7/en/hardware/controllers/novation_launchpad_mk1"
+          },
+          "format": "Upstream hardware manual",
+          "automaticSupportAdded": false,
+          "gaps": [
+            "The original full-size Launchpad is not USB MIDI class compliant. Desktop drivers translate its signals. Direct iPad USB control and a qualified bridge remain unimplemented. MK2 and Mini controllers have separate contracts."
+          ]
+        }
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -20601,48 +20616,88 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Launchpad%20MK2.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Launchpad%20MK2.midi.xml",
+        "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/Launchpad%20MK2%20Programmers%20Reference%20Manual%20v1.03.pdf"
       ],
       "definitions": [
-        "Novation Launchpad MK2.midi.xml"
+        "Novation Launchpad MK2.midi.xml",
+        "reviewed:launchpad-mk2"
       ],
-      "implementation": "adapter-needed",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Novation Launchpad MK2",
+      "automaticControls": true,
+      "controlActions": [
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
+        "browsePreviousGroup",
+        "cueA:a",
+        "cueB:b",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "keylockA:a",
+        "keylockB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "loopUpA:a",
+        "loopUpB:b",
+        "openGroup",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopB:b"
+      ],
+      "inputBindingCount": 47,
+      "feedbackBindingCount": 8,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "MK2 Session layout and MIDI channel1 selected by native setup."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "adapter-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "A controller-specific protocol adapter is required."
+        "Fixed A/B initial tall layout only. Dynamic chord-selected channels, C/D/samplers, alternate presets, conditional Load/eject, nudge/grid/tap/quantise/slip/key/jump variants, modifier alternatives, held library scrolling, full per-size loop lamps/RGB cues/feedback/calibration and physical/A10X acceptance remain open. Mini MK3 other port-name variants and whole lifecycle need qualification. No persistent preset or audio route is inferred."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -20765,48 +20820,88 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Launchpad%20Mini%20MK3.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Launchpad%20Mini%20MK3.midi.xml",
+        "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/Launchpad%20Mini%20-%20Programmers%20Reference%20Manual.pdf"
       ],
       "definitions": [
-        "Novation Launchpad Mini MK3.midi.xml"
+        "Novation Launchpad Mini MK3.midi.xml",
+        "reviewed:launchpad-mini-mk3"
       ],
-      "implementation": "adapter-needed",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Novation Launchpad Mini MK3",
+      "automaticControls": true,
+      "controlActions": [
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
+        "browsePreviousGroup",
+        "cueA:a",
+        "cueB:b",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "keylockA:a",
+        "keylockB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "loopUpA:a",
+        "loopUpB:b",
+        "openGroup",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopB:b"
+      ],
+      "inputBindingCount": 47,
+      "feedbackBindingCount": 8,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Mini MK3 MIDI interface, Programmer mode selected by native setup."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "adapter-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "A controller-specific protocol adapter is required."
+        "Fixed A/B initial tall layout only. Dynamic chord-selected channels, C/D/samplers, alternate presets, conditional Load/eject, nudge/grid/tap/quantise/slip/key/jump variants, modifier alternatives, held library scrolling, full per-size loop lamps/RGB cues/feedback/calibration and physical/A10X acceptance remain open. Mini MK3 other port-name variants and whole lifecycle need qualification. No persistent preset or audio route is inferred."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -320937,6 +321032,81 @@
         },
         {
           "reason": "Original Mini only. Source momentary toggle/roll loop pads, seek/sampler pages, fast scroll, first-stopped Load, zoom and Shift cue deletion remain inactive. Complete lights/page display/lifecycle, port-name variations and physical/A10X acceptance remain open. This accessory has no inferred audio route."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:launchpad-mk2",
+      "name": "Novation Launchpad MK2",
+      "transport": "midi",
+      "source": {
+        "url": "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/Launchpad%20MK2%20Programmers%20Reference%20Manual%20v1.03.pdf",
+        "sha256": "5e38d75078b987c51427f8cb603c9e77ea782ad1eeaa8651198cfa8361885cb1",
+        "pages": [
+          6,
+          7,
+          8
+        ],
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Launchpad%20MK2.midi.xml",
+            "sha256": "d453c050f1faa2830986f6a0a34b7168bd92122e31df2f9ad7a0bc4f290a1934"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation-Launchpad%20MK2-scripts.js",
+            "sha256": "a01853bbeef2e965ec8dd8397ed2b90906c7efb599cc6348b32dcefb1180e837"
+          }
+        ],
+        "review": "Independent hardware tables qualify grid11+10*y+x, channel0. The pinned script initialSelection[0,1] places tall presets at offsets0/4. Its nameOf flips y then the device table resolves the physical address. Fixed A/B preserves this initial layout; source chord-selected decks/samplers and alternate presets remain inactive. Play11, Sync12, held Cue21, PFL31, key lock42, loop-in33/out34, reloop43, cues51/52/61/62, halve53/double54 and fixed loops63/64/73/74/83/84 carry independent native targets. Both source modifiers29/19 guard normal deck controls; halve/double and individual library actions are modifier-independent. Conditional Load-if-empty is omitted. Source colours qualify Play/key lock5/0, PFL17/0 and reloop17/19; fixed-loop-specific lamps and RGB cue colours need richer feedback state and remain inactive. MK2 uses Note right-column controls and a single class-compliant MIDI interface. The manufacturer Session layout command F0/00/20/29/02/18/22/00/F7 establishes the fixed channel1 address map, independent of saved User layouts. Complete alternate modes/output/lifecycle, calibration and physical/A10X acceptance remain open. No downloaded script executes in the app."
+      },
+      "implementedInputCount": 47,
+      "implementedOutputCount": 8,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Fixed A/B initial tall layout only. Dynamic chord-selected channels, C/D/samplers, alternate presets, conditional Load/eject, nudge/grid/tap/quantise/slip/key/jump variants, modifier alternatives, held library scrolling, full per-size loop lamps/RGB cues/feedback/calibration and physical/A10X acceptance remain open. Mini MK3 other port-name variants and whole lifecycle need qualification. No persistent preset or audio route is inferred."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:launchpad-mini-mk3",
+      "name": "Novation Launchpad Mini MK3",
+      "transport": "midi",
+      "source": {
+        "url": "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/Launchpad%20Mini%20-%20Programmers%20Reference%20Manual.pdf",
+        "sha256": "5db2df60c500e71a55c24ec730c5d45956d3a115db965a1d8fae3af890054cae",
+        "pages": [
+          6,
+          7,
+          8,
+          10
+        ],
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Launchpad%20Mini%20MK3.midi.xml",
+            "sha256": "3defeb6d00eb7c70aebae696bcbd897f87f83a6764c269d533b90da0f467fd78"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation-Launchpad%20Mini%20MK3-scripts.js",
+            "sha256": "75ff90c1bb13d1c23940550e8a67af6bbe93316c3b65530fe9924a6320606d63"
+          }
+        ],
+        "review": "Independent hardware tables qualify grid11+10*y+x, channel0. The pinned script initialSelection[0,1] places tall presets at offsets0/4. Its nameOf flips y then the device table resolves the physical address. Fixed A/B preserves this initial layout; source chord-selected decks/samplers and alternate presets remain inactive. Play11, Sync12, held Cue21, PFL31, key lock42, loop-in33/out34, reloop43, cues51/52/61/62, halve53/double54 and fixed loops63/64/73/74/83/84 carry independent native targets. Both source modifiers29/19 guard normal deck controls; halve/double and individual library actions are modifier-independent. Conditional Load-if-empty is omitted. Source colours qualify Play/key lock5/0, PFL17/0 and reloop17/19; fixed-loop-specific lamps and RGB cue colours need richer feedback state and remain inactive. Mini MK3 uses CC right-column controls, a separate DAW interface and MIDI interface. Match only the documented LPMiniMK3 MIDI In/Out names. Manufacturer command0E selects Programmer1 and returns Live0 on disconnect, after bounded lamp clears. No persistent custom preset or DAW handshake is written. Complete alternate modes/output/lifecycle, calibration and physical/A10X acceptance remain open. No downloaded script executes in the app."
+      },
+      "implementedInputCount": 47,
+      "implementedOutputCount": 8,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Fixed A/B initial tall layout only. Dynamic chord-selected channels, C/D/samplers, alternate presets, conditional Load/eject, nudge/grid/tap/quantise/slip/key/jump variants, modifier alternatives, held library scrolling, full per-size loop lamps/RGB cues/feedback/calibration and physical/A10X acceptance remain open. Mini MK3 other port-name variants and whole lifecycle need qualification. No persistent preset or audio route is inferred."
         }
       ]
     },

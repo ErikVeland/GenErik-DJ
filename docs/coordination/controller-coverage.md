@@ -3992,3 +3992,19 @@ The source loops toggle on press and conditionally on release. Native toggle-loo
 The original Mini adds46 bounded inputs. All160 importer checks,8 native checks and iPad framework compilation pass. Native checks cover every Play/cue target, two/four-deck availability, all page selectors, CC/Note separation, Shift, individual library/load targets, independent source pages, setup failure, reconnect reset and real-WAV Play/cue with Sync retained.
 Earlier206 recipes retain identical data. The compiled resource matches the source byte for byte. The catalogue reaches207 data recipes and173 automatic-core physical models. The automatic-core remainder is139. Full theoretical support remains open for312 models. The repository check retains twelve historical broken links.
 Loops, other source pages, full feedback/lifecycle, signed app/install and physical/A10X acceptance remain open. Continue through the remaining source-backed controllers.
+
+## R327 Independent MK2 and Mini MK3 Launchpad cores
+
+Assumption: preserve the pinned source's initial two-tall A/B layout. Do not silently implement dynamic deck/sampler selection or inherit hardware setup across models. The manufacturer guides independently qualify their grid addresses and mode commands.
+
+- [x] Confirm failing importer/native fixtures for independent MK2 and Mini MK3 identities, setup and port rules.
+- [x] Add fixed normal A/B Play, held Cue, Sync, PFL, key lock, loop points/reloop, four cues, six fixed loops and halve/double controls. Retain both modifier guards and individual library controls. Keep source Load-if-empty and other modes inactive.
+- [x] Add source-valued core lamps. Select MK2 Session layout. Select Mini MK3 Programmer mode only on its MIDI interface and return to Live mode on disconnect. Record the original full-size Launchpad driver boundary.
+- [x] Verify both release forms, modifier ownership, loop arguments, every native target, port/duplicate/setup failure isolation, lifecycle and real-WAV Cue/Play/loop/Sync. Run importer checks and compile the iPad framework. Compare earlier recipes.
+
+Dynamic chord-selected layouts, C/D/sampler assignment, alternate presets, conditional Load, key/grid/quantise/nudge/jump variants, held library scrolling, full RGB/feedback/calibration and physical/A10X acceptance remain open. Fixed A/B replaces source software layout selection. No audio route is inferred.
+
+Each independent model adds47 inputs and8 core lamps. All162 importer checks,9 native checks and iPad framework compilation pass. Native checks cover fixed A/B targets, every normal control, loop arguments, both Cue release forms, independent modifiers, modifier-independent halve/double and library controls, exact lamp packets, port/duplicate/setup failure isolation and cleanup.
+The WAV check exercises held Cue, Play, fixed loops and reloop on both models, with finite audio and Sync retained. The generic held-Cue fixture now covers144 automatic profiles. A test helper first had its packet/destination parameters reversed and omitted `try`. Failed logs remain in `TestBuilds/r327/`.
+Earlier207 recipes retain identical data. The compiled resource matches the source byte for byte. The catalogue reaches209 data recipes and175 automatic-core physical models. The automatic-core remainder is137. Full theoretical support remains open for312 models. The repository check retains twelve historical broken links.
+The original full-size Launchpad retains its independently confirmed non-class-compliant driver boundary. No direct iPad support is inferred. Dynamic layouts, conditional Load, full RGB/feedback/modes/calibration, signed app/install and physical/A10X acceptance remain open. Continue through the remaining source-backed controllers.

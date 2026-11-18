@@ -731,3 +731,13 @@ All eight page selectors guard the shared grid. Page-H individual library/load c
 CC111 guards cue deletion. Note104 page selection stays distinct from CC104.
 The source loop pads toggle on press and conditionally on release. They remain inactive until a native action preserves that behaviour.
 Other pages, full lights/lifecycle and physical acceptance remain open. No other Launchpad model inherits these addresses.
+
+### MK2 and Mini MK3 Launchpad cores (R327)
+
+`launchpad_rgb.py` preserves the initial fixed A/B tall layout from each pinned script.
+The independent manufacturer tables qualify the grid, MIDI message kinds, mode commands and Mini MK3 MIDI interface.
+MK2 selects Session layout. Mini MK3 selects Programmer mode only on its MIDI port, then returns to Live on disconnect.
+Both modifiers guard normal deck controls. Halve/double and individual library controls remain independent, as the source requires.
+The eight core lamps retain source palette values. Per-size loop lamps and RGB cue colours need richer feedback state.
+Dynamic layouts, conditional Load, alternate modes, full feedback and physical acceptance remain open.
+The original full-size Launchpad requires desktop drivers and a qualified iPad bridge. It cannot use these class-compliant contracts.

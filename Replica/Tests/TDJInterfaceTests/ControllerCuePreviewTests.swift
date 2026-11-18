@@ -1574,3 +1574,26 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueRGBLaunchpadNativeCuePlayLoopKeepAudioAndSync() async throws {
+    for name in ["Launchpad MK2", "Launchpad Mini MK3"] {
+        try await withControllerCuePlayback(name, ports: name.hasSuffix("MK3") ? ["LPMiniMK3 MIDI"] : []) {
+            model, input in
+            cuePreviewPacket([0x90, 21, 127], to: input)
+            #expect(model.playbackSnapshot?.a.touchActive == true)
+            cuePreviewPacket([0x90, 11, 127, 11, 0, 21, 0], to: input)
+            _ = model.playback.core.renderOffline(frames: 4096)
+            model.refreshPlayback()
+            #expect(model.playbackSnapshot?.a.touchActive == false && model.playbackSnapshot?.a.phase.active == true)
+            cuePreviewPacket([0x90, 63, 127, 63, 0], to: input)
+            model.refreshPlayback()
+            #expect(model.playbackSnapshot?.a.loopEnabled == true)
+            cuePreviewPacket([0x90, 43, 127, 43, 0], to: input)
+            let audio = model.playback.core.renderOffline(frames: 4096)
+            model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.loopEnabled == false)
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        }
+    }
+}

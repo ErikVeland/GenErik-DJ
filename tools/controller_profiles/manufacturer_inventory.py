@@ -9,7 +9,7 @@ from mixon8 import MIXON8_SOURCE, MIXON8_SHA, MIXON8_DISCUSSION
 REVIEWED = "2026-11-17"
 DENON_ENGINE = "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services"
 RELOOP_COMPARISON = "https://www.reloop.com/djing-with-smart-devices-controllercomparisonchart"
-DRIVER_REQUIRED = {"Reloop Jockey 3 ME", "Reloop Digital Jockey 2 Master Edition"}
+DRIVER_REQUIRED = {"Reloop Jockey 3 ME", "Reloop Digital Jockey 2 Master Edition", "Novation Launchpad"}
 
 SOURCE_AUDITS = {'Hercules DJControl Inpulse T7': {'source': {'url': 'https://drive.google.com/file/d/1ApFMGZpGgrtDCpAZ6vo4VdpAszKgEfnZ/view',
                                               'sha256': 'a6c14da8d8d8f660e4903a4070c92b9820f8dbf07e89583443b468b1004b93d3'},
@@ -37,6 +37,12 @@ SOURCE_AUDITS = {'Hercules DJControl Inpulse T7': {'source': {'url': 'https://dr
                                  'This custom version2 map predates firmware49.36. Its author reports '
                                  'incompatibility with that update. Current firmware and dispatch need '
                                  'independent qualification.']}}
+
+SOURCE_AUDITS["Novation Launchpad"] = {
+    "source": {"url": "https://manual.mixxx.org/2.7/en/hardware/controllers/novation_launchpad_mk1"},
+    "format": "Upstream hardware manual", "automaticSupportAdded": False,
+    "gaps": ["The original full-size Launchpad is not USB MIDI class compliant. Desktop drivers translate its signals. Direct iPad USB control and a qualified bridge remain unimplemented. MK2 and Mini controllers have separate contracts."],
+}
 
 SOURCE_AUDITS["Reloop Mixtour Pro"] = MIXTOUR_PRO_AUDIT
 SOURCE_AUDITS["Reloop Buddy"] = BUDDY_AUDIT
