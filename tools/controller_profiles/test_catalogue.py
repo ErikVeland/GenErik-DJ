@@ -1000,6 +1000,25 @@ class GeneratedCatalogueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
 
+    def test_original_rane_one_uses_separate_owner_rows_without_inheriting_mk2_sync_off(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Rane ONE"),None)
+        self.assertIsNotNone(item,"Original ONE needs its own public source subset")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),43)
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertFalse(any(i["action"].startswith(("cue","jog","tempo","gain","level","high","mid","low","hotcue","syncDisable","loopOut")) for i in item["inputs"]))
+        self.assertEqual({i["number"] for i in item["inputs"] if i["action"].startswith("play")},{0})
+        from rane_one import ONE_SHA,ONE_ROWS
+        path=ROOT/"TestBuilds/r347/upstream/RANE-One-Edit-12.djayMidiMapping"
+        self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),ONE_SHA)
+        source=plistlib.loads(path.read_bytes())
+        self.assertEqual(source["customClassName"],"RaneOne")
+        self.assertEqual(source["endpointName"],"RANE One")
+        keys=["keyPath","midiChannel","midiData","midiMessageType","controlType","flipped","buttonMode"]
+        rows={tuple(str(r.get(k)) for k in keys) for r in source["controls"] if not r.get("condition") and not r.get("modifier")}
+        for row in ONE_ROWS: self.assertIn(tuple(str(row.get(k)) for k in keys),rows)
+
     def test_mp2015_uses_manufacturer_table_and_preserves_stored_midi_settings(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="Rane MP2015"),None)

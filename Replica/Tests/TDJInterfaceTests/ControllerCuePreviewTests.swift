@@ -1942,3 +1942,23 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueRaneOneOriginalNativePlayLoopBendAndSyncKeepAudioFinite() async throws {
+    try await withControllerCuePlayback("Rane ONE", manual: true) { model, input in
+        cuePreviewPacket([0x90, 0, 127, 0, 0], to: input)
+        model.setLoopSize(4, deck: .a)
+        cuePreviewPacket([0x94, 63, 127, 63, 0, 52, 127, 52, 0, 53, 127, 53, 0], to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        cuePreviewPacket([0x90, 12, 127, 12, 0], to: input)
+        try await Task.sleep(for: .milliseconds(80))
+        cuePreviewPacket([0x90, 3, 127, 3, 0], to: input)
+        #expect(model.playbackSnapshot?.a.synced == true)
+        model.setSync(false, deck: .a)
+        cuePreviewPacket([0x90, 2, 127, 2, 0], to: input)
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

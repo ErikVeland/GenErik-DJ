@@ -26599,46 +26599,76 @@
       "role": "primary",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://community.algoriddim.com/uploads/short-url/vo8FDgWWHvGsLvDLlam7YEsosU6.djayMidiMa"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:rane-one-owner-core"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Rane ONE",
+      "automaticControls": false,
+      "controlActions": [
+        "browse",
+        "keylockA:a",
+        "keylockB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopUpA:a",
+        "loopUpB:b",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 43,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual original RANE ONE normal MIDI subset. Motor/platter, main Cue, complete pitch and RaneOne setup remain inactive. Configure audio separately. ONE MKII is a separate model."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Manual original ONE only. RaneOne class/setup, motor/platter, held main Cue, exact pitch, ambiguous Sync3/loop-out55, custom pads/stems/mic mappings, mixer/audio ownership, full output/lifecycle and physical/A10X acceptance remain open. No motor, persistent setting or output command is sent. ONE MKII is not an alias.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -322830,6 +322860,36 @@
         },
         {
           "reason": "Manual MIDI enable/channel1 setup is required and stays stored in the mixer. No settings are rewritten. Use separate audio for app mixer control. Hardware USB deck/session routing, filter type/enable/resonance, isolator/submix, mic/session/source controls, complete output/lifecycle and physical/A10X acceptance remain open. Published class compliance is not iPad acceptance."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:rane-one-owner-core",
+      "name": "Rane ONE",
+      "transport": "midi",
+      "source": {
+        "url": "https://community.algoriddim.com/uploads/short-url/vo8FDgWWHvGsLvDLlam7YEsosU6.djayMidiMa",
+        "sha256": "a13eaa48a39d93db5b7868896017b4f8f79bba8182ef09604262acd0716dfe60",
+        "relatedSources": [
+          {
+            "url": "https://community.algoriddim.com/t/sharing-my-edited-rane-one-mapping-for-ipad/15719"
+          },
+          {
+            "url": "https://community.algoriddim.com/t/rane-one-midi-mapping/26978"
+          }
+        ],
+        "review": "Independent original RANE ONE owner export:180495 bytes,462 control rows, version4, endpoint RANE One and customClassName RaneOne. Source author states iPad use and describes custom pad/stem/mic remaps; another owner reports testing. Import only25 explicit unconditional rows: global Shift channel15 Note50; Play0/Load6/Sync2/Keylock13/held bends12 and11 on0/1; loop63/reloop65/half52/double53/in54 on4/5; rotary-64 flipped BrowseCC0 on0/1. Numbered cuePositionOrJumpConsideringPlayState1 does not prove held main Cue. Sync3 has no buttonMode off, unlike MKII, and is inactive. Original loopOutAndReloopOrUnloop55 is not silently converted to MKII's out-or-double action and stays inactive. Motor/platter, CC9 pitch pairing/polarity/range, scrubbing43, custom pads/stems/mic remaps, mixer/audio ownership and full RaneOne lifecycle remain unimplemented. Native normal controls use global Shift and shifted release aliases. No source class/XML code executes. No output/setup/motor packet is sent. Original ONE and ONE MKII remain separate manual profiles. Full lifecycle/audio and physical/A10X acceptance remain open."
+      },
+      "implementedInputCount": 43,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual original ONE only. RaneOne class/setup, motor/platter, held main Cue, exact pitch, ambiguous Sync3/loop-out55, custom pads/stems/mic mappings, mixer/audio ownership, full output/lifecycle and physical/A10X acceptance remain open. No motor, persistent setting or output command is sent. ONE MKII is not an alias."
         }
       ]
     },

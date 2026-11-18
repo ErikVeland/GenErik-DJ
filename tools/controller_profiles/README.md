@@ -889,3 +889,5 @@ PRIME4 and4+ retain separate manual profiles from the public owner mapping. A so
 Manual profile replacement must fit the existing256-binding saved-set limit before it changes any state. An over-capacity request retains every existing mapping. Automatic factory recipes retain their separate512-input bound.
 
 MP2015 uses its manufacturer table, with explicit port MIDI enable and channel1 setup. The mixer saves those settings; native setup does not change them. Optional PFL lights use NoteOn0/127, with four independent addresses. Fixed mixer control requires separate audio to avoid double EQ/level processing. Hardware filter types, source routing and complete USB audio/lifecycle remain open.
+
+Original RANE ONE uses a separate public owner export with Play0 and RaneOne class metadata. ONE MKII's explicit Sync-off3 and loop-out-or-double55 do not apply to the original export. Numbered cue targets do not establish held main Cue. Keep motor/platter/setup, full pitch, custom pads and mixer/audio ownership open. Neither model selects automatically.
