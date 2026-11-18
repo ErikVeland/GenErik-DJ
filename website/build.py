@@ -11,7 +11,7 @@ CONFIG = json.loads((ROOT / 'site.json').read_text())
 OUT = ROOT / 'dist'
 PLATFORMS = ', '.join(CONFIG['platforms'][:-1]) + ' and ' + CONFIG['platforms'][-1]
 PAGES = [
-    ('/', 'home', 'GenErik DJ — Native DJ software', f'Native DJ software for {PLATFORMS}. Browse tracks, prepare beat grids, mix and record.'),
+    ('/', 'home', 'GenErik DJ — Native DJ software', f'DJ software for {PLATFORMS}. Choose the controls you need, hide the rest and mix by touch.'),
     ('/manual', 'manual', 'Manual', 'Task-based help for the GenErik DJ development build: library, decks, grids, Sync, mixing and recording.'),
     ('/support', 'support', 'Support', 'Get help with GenErik DJ. Troubleshooting, bug reports, feature requests and contact details for Erik Veland.'),
     ('/privacy', 'privacy', 'Privacy', 'How the GenErik DJ development app and website handle music, preparation, iCloud, diagnostics and support information.'),

@@ -64,7 +64,7 @@ The app purchase page privacy link now targets the canonical privacy route. No a
 ## Published result
 
 Published https://dj.generik.au on 18 November 2026 from source `012c17e0a61fd6d6d00a8af197ebe2808ac595d3`.
-`https://dj.generik.au/build.json` reports that exact revision.
+That was the initial publication. `https://dj.generik.au/build.json` identifies the currently deployed revision.
 The Glasscode Nginx host serves the site directly. Certbot has scheduled renewal.
 
 All ten public routes returned HTTP 200 at their exact canonical URLs.
@@ -95,3 +95,11 @@ The corrected site stores all four platform names in `website/site.json` and use
 The manual describes the distinct phone front, Duo inside, iPad and Mac workspaces.
 Privacy choices now distinguish mobile settings and deletion from Mac settings and build-specific data locations.
 Product images remain identified as iPad captures. Other platforms do not receive fabricated screenshots.
+
+## Interface emphasis
+
+Erik identified individual feature choice, uncluttered music-first layouts and direct touch as the main selling points.
+The homepage now leads with control choice and explains deck count, independent control visibility, manual control and movable panes.
+The touch section uses source-backed Load, loop and FX gestures. The manual has stable control-choice and gesture anchors.
+Four decks remain accurately identified as an iPad trial option. Pitch bend is documented as a controller mapping, distinct from the visible tempo fader.
+No app code changed. Verification covers the static site, links, responsive homepage and public deployment.
