@@ -25325,7 +25325,7 @@
       "inputBindingCount": 93,
       "feedbackBindingCount": 26,
       "connection": "USB MIDI",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "audioRouting": "Automatic master 1–2 / headphones 3–4",
       "zeroConfig": {
         "automaticControls": true,
         "completeFeatureParity": false,
@@ -25340,20 +25340,19 @@
           "protocolImplemented": true,
           "documentedControlsComplete": false,
           "lifecycleReviewed": true,
-          "audioRoutingImplemented": false,
+          "audioRoutingImplemented": true,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Default1024-count jog calibration and native nudge response need physical qualification. EQ Classic/Filter controls retain their own MIDI meanings; automatic reset of the previous Mid/Filter value on preset changes is not implemented. Source loop-page subset is not the full factory automatic-loop layout. Other shifted transport/pad modes, cue deletion, sampler/slicer/rolls/FX, fader start, ring/mode/live-meter feedback, complete lifecycle, numbered audio route and physical USB/audio acceptance remain open."
+        "Default1024-count jog calibration and native nudge response need physical qualification. EQ Classic/Filter controls retain their own MIDI meanings; automatic reset of the previous Mid/Filter value on preset changes is not implemented. Source loop-page subset is not the full factory automatic-loop layout. Other shifted transport/pad modes, cue deletion, sampler/slicer/rolls/FX, fader start, ring/mode/live-meter feedback, complete lifecycle, external/input audio routing and physical USB/audio acceptance remain open."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -26615,7 +26614,7 @@
       "inputBindingCount": 64,
       "feedbackBindingCount": 18,
       "connection": "USB MIDI",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "audioRouting": "Automatic master 1–2 / headphones 3–4",
       "zeroConfig": {
         "automaticControls": true,
         "completeFeatureParity": false,
@@ -26629,20 +26628,19 @@
           "protocolImplemented": true,
           "documentedControlsComplete": false,
           "lifecycleReviewed": true,
-          "audioRoutingImplemented": false,
+          "audioRoutingImplemented": true,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Original Mixtour only. Native Loop uses the selected app length. Full FX/sampler/shift modes, fader start, T+Trax seek, live meters, remaining lights/reset, numbered audio routing and physical USB/calibration acceptance remain open. No Mixtour Pro protocol or jog/tempo fader is inferred."
+        "Original Mixtour only. Native Loop uses the selected app length. Full FX/sampler/shift modes, fader start, T+Trax seek, live meters, remaining lights/reset, external/input audio routing and physical USB/audio/calibration acceptance remain open. No Mixtour Pro protocol or jog/tempo fader is inferred."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -317672,7 +317670,7 @@
             "sha256": "2f8ae3942c26d7456e506eb445daa0b056ddbde2498ca65664eecf98d80c2386"
           }
         ],
-        "review": "Original Mixtour factory chart defines normal/shifted mixer, direct Load/PFL, cue page, two deck channels0/1 and global Shift. Factory TSI supplies transport page missing from the chart: Loop9, Sync10, held Cue11, Play12, shifted72..75. Cues13..16 retain distinct shifted76..79 clear addresses; unsupported clear presses cannot fire cues. TSI DCDT sets browseCC7 to7Fh/01h with no inversion. Native signed browse follows that fact, not an inferred centre64 sibling. Physical T/C mode reports release only their deck's contacts and reset pickup. Every mapped normal note has a shifted release alias to rearm debounce. Shift-Loop/Sync retain halve/double. Native Loop uses selected app length; source forced length and loop-out customisation are not copied. Factory bi-colour feedback uses orange64 for transport and green32 for cues, with ordinary PFL127. Factory outbound SysEx disables the30-second demo mode. Bounded lifecycle clears unsupported filter/FX indicators and meters plus owned outputs; other shifted lights/reset, live meters, FX, sampler, fader start, T+Trax seek, full feedback, audio channel order and physical acceptance remain open. No jog or tempo fader is invented. Mixtour Pro is excluded. No vendor code runs in the app."
+        "review": "Original Mixtour factory chart defines normal/shifted mixer, direct Load/PFL, cue page, two deck channels0/1 and global Shift. Factory TSI supplies transport page missing from the chart: Loop9, Sync10, held Cue11, Play12, shifted72..75. Cues13..16 retain distinct shifted76..79 clear addresses; unsupported clear presses cannot fire cues. TSI DCDT sets browseCC7 to7Fh/01h with no inversion. Native signed browse follows that fact, not an inferred centre64 sibling. Physical T/C mode reports release only their deck's contacts and reset pickup. Every mapped normal note has a shifted release alias to rearm debounce. Shift-Loop/Sync retain halve/double. Native Loop uses selected app length; source forced length and loop-out customisation are not copied. Factory bi-colour feedback uses orange64 for transport and green32 for cues, with ordinary PFL127. Factory outbound SysEx disables the30-second demo mode. Bounded lifecycle clears unsupported filter/FX indicators and meters plus owned outputs; other shifted lights/reset, live meters, FX, sampler, fader start, T+Trax seek and full feedback remain open. Both ordinary and FS internal routing records name Reloop ASIO and assign Master0/1, Monitor2/3; only that four-channel split is declared. Physical USB/audio acceptance remains open. No jog or tempo fader is invented. Mixtour Pro is excluded. No vendor code runs in the app."
       },
       "implementedInputCount": 64,
       "implementedOutputCount": 18,
@@ -317680,10 +317678,10 @@
       "sourceOutputCount": null,
       "unresolved": [
         {
-          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+          "reason": "Additional modes, FX, displays and input audio routing remain unimplemented."
         },
         {
-          "reason": "Original Mixtour only. Native Loop uses the selected app length. Full FX/sampler/shift modes, fader start, T+Trax seek, live meters, remaining lights/reset, numbered audio routing and physical USB/calibration acceptance remain open. No Mixtour Pro protocol or jog/tempo fader is inferred."
+          "reason": "Original Mixtour only. Native Loop uses the selected app length. Full FX/sampler/shift modes, fader start, T+Trax seek, live meters, remaining lights/reset, external/input audio routing and physical USB/audio/calibration acceptance remain open. No Mixtour Pro protocol or jog/tempo fader is inferred."
         }
       ]
     },
@@ -317714,7 +317712,7 @@
             "url": "https://www.reloop.com/media/custom/upload/Reloop-Beatpad2_MIDI-Map.pdf"
           }
         ],
-        "review": "Separate Beatpad2 chart supplies eight distinct pad pages on channels2/3, shifted pad clear64..71, EQ Classic/Filter semantic CCs and fader-start Note96 collision. Factory mapping requires firmware0.17+. Its BP2 Deck A/B normal rows supply Play96, Cue94, Sync93, PFL97, Load98, Keylock1, contact99 and unflipped PitchBend. Each active deck's input DCDT sets its own jogCC99 to3Fh/41h; unrelated device copies retain stale7Fh/01h and are not followed. Mixer device DCDT sets global browseCC66 to3Fh/41h. Native centre64 decoders use those active definitions. No original-Beatpad sensor count or shifted transport address is inferred. Native default1024 scratch calibration, speed response and physical direction remain open. Factory Shift Note28 reports have distinct physical identities and global OR. Shift presses and explicit NoteOff releases clear contacts and reset pickup/debounce on both decks, preventing stuck normal inputs and fader-start Play96 from firing while Shift is held. EQ addresses follow their physical function in both layouts; automatic neutralisation of the previous Mid/Filter on EQ preset change remains open. Native source loop page keeps four-beat toggle8, selected-size toggle11, In12/Out13 and Halve14/Double15; source move9/10, full factory automatic loop lengths, roll/slicer/sampler/FX modes remain inactive. Normal cue pads0..7 use factory-source blue11/off0, transport steady127/off0. Source has no startup SysEx; no sibling query is copied. Shutdown clears26 owned outputs only. Rings, pad-mode LEDs, unsupported shifted lights, complete lifecycle, numbered split audio, live meters and physical acceptance remain open. Master/headphone knobs remain hardware controls. No vendor settings/code run in the app."
+        "review": "Separate Beatpad2 chart supplies eight distinct pad pages on channels2/3, shifted pad clear64..71, EQ Classic/Filter semantic CCs and fader-start Note96 collision. Factory mapping requires firmware0.17+. Its BP2 Deck A/B normal rows supply Play96, Cue94, Sync93, PFL97, Load98, Keylock1, contact99 and unflipped PitchBend. Each active deck's input DCDT sets its own jogCC99 to3Fh/41h; unrelated device copies retain stale7Fh/01h and are not followed. Mixer device DCDT sets global browseCC66 to3Fh/41h. Native centre64 decoders use those active definitions. No original-Beatpad sensor count or shifted transport address is inferred. Native default1024 scratch calibration, speed response and physical direction remain open. Factory Shift Note28 reports have distinct physical identities and global OR. Shift presses and explicit NoteOff releases clear contacts and reset pickup/debounce on both decks, preventing stuck normal inputs and fader-start Play96 from firing while Shift is held. EQ addresses follow their physical function in both layouts; automatic neutralisation of the previous Mid/Filter on EQ preset change remains open. Native source loop page keeps four-beat toggle8, selected-size toggle11, In12/Out13 and Halve14/Double15; source move9/10, full factory automatic loop lengths, roll/slicer/sampler/FX modes remain inactive. Normal cue pads0..7 use factory-source blue11/off0, transport steady127/off0. Source has no startup SysEx; no sibling query is copied. Shutdown clears26 owned outputs only. Rings, pad-mode LEDs, unsupported shifted lights, complete lifecycle, live meters and physical acceptance remain open. Ordinary and FS internal routing records name Reloop ASIO and assign Master0/1, Monitor2/3; only that four-channel split is declared. Master/headphone knobs remain hardware controls. No vendor settings/code run in the app."
       },
       "implementedInputCount": 93,
       "implementedOutputCount": 26,
@@ -317722,10 +317720,10 @@
       "sourceOutputCount": null,
       "unresolved": [
         {
-          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+          "reason": "Additional modes, FX, displays and input audio routing remain unimplemented."
         },
         {
-          "reason": "Default1024-count jog calibration and native nudge response need physical qualification. EQ Classic/Filter controls retain their own MIDI meanings; automatic reset of the previous Mid/Filter value on preset changes is not implemented. Source loop-page subset is not the full factory automatic-loop layout. Other shifted transport/pad modes, cue deletion, sampler/slicer/rolls/FX, fader start, ring/mode/live-meter feedback, complete lifecycle, numbered audio route and physical USB/audio acceptance remain open."
+          "reason": "Default1024-count jog calibration and native nudge response need physical qualification. EQ Classic/Filter controls retain their own MIDI meanings; automatic reset of the previous Mid/Filter value on preset changes is not implemented. Source loop-page subset is not the full factory automatic-loop layout. Other shifted transport/pad modes, cue deletion, sampler/slicer/rolls/FX, fader start, ring/mode/live-meter feedback, complete lifecycle, external/input audio routing and physical USB/audio acceptance remain open."
         }
       ]
     },

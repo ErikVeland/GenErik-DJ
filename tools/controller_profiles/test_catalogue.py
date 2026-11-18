@@ -861,6 +861,22 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_reloop_factory_files_number_master_and_monitor_outputs(self):
+        runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        sources = {"Reloop Mixtour": "Traktor_Setup_Mixtour_V1.0.tsi", "Reloop Beatpad 2": "Traktor_Setup_BP2_FINALV1-1.tsi"}
+        for model, filename in sources.items():
+            item = next(row for row in runtime["profiles"] if row["id"] == model)
+            self.assertEqual(item.get("audioOutput"), "masterAndHeadphones")
+            path = ROOT / "TestBuilds/r289/manufacturer" / filename
+            if not path.exists():
+                continue
+            entries = {n.attrib["Name"]: n.attrib["Value"] for n in ET.parse(path).getroot().iter("Entry")}
+            self.assertEqual(entries["Audio.DeviceName.Win"], "Reloop ASIO")
+            self.assertEqual(entries["Routing.Mixer.External"], "0")
+            for prefix in ["Routing.Out.Internal.", "Routing.FS.Out.Internal."]:
+                self.assertEqual([entries[prefix + side] for side in ["Master.Left", "Master.Right", "Monitor.Left", "Monitor.Right"]],
+                                 ["0", "1", "2", "3"])
+
     def test_beatpad2_generation_keeps_pad_wire_channels_and_factory_pitch(self):
         runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item = next((row for row in runtime["profiles"] if row["id"] == "Reloop Beatpad 2"), None)
@@ -872,7 +888,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
                          [(0, "pitch", "centredPitch"), (1, "pitch", "centredPitch")])
         self.assertEqual({r["channel"] for r in item["inputs"] if r["action"].startswith("hotcue")}, {2, 3})
         self.assertLessEqual(len(item["startup"]) + len(item["shutdown"]), 64)
-        self.assertNotIn("audioOutput", item)
+        self.assertEqual(item["audioOutput"], "masterAndHeadphones")
         from beatpad2 import BEATPAD2_SOURCES
         for name, digest in BEATPAD2_SOURCES:
             path = ROOT / "TestBuilds/r289/manufacturer" / name
@@ -892,7 +908,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
         self.assertEqual([r["number"] for r in normal if r["action"].startswith("hotcue")], [13, 14, 15, 16] * 2)
         self.assertEqual(next(r["encoding"] for r in normal if r["action"] == "browse"), "twosComplement")
         self.assertLessEqual(len(item["startup"]) + len(item["shutdown"]), 64)
-        self.assertNotIn("audioOutput", item)
+        self.assertEqual(item["audioOutput"], "masterAndHeadphones")
         from mixtour import MIXTOUR_SOURCES
         for name, digest in MIXTOUR_SOURCES:
             path = ROOT / "TestBuilds/r289/manufacturer" / name
@@ -1690,7 +1706,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
             self.assertEqual(model["audioRouting"], "Automatic master 1–2 / headphones 3–4")
             self.assertTrue(model["theoreticalSupport"]["criteria"]["audioRoutingImplemented"])
             self.assertFalse(model["theoreticalSupport"]["complete"])
-            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct", "Behringer BCD3000", "Hercules DJ Control AIR", "Behringer CMD STUDIO 4a", "Stanton DJC.4", "Hercules P32 DJ", "Korg KAOSS DJ", "Reloop Digital Jockey 2 Interface Edition", "Numark Mixtrack Quad", "MixVibes U-Mix Control Pro"})
+            self.assertEqual({p["id"] for p in runtime["profiles"] if p.get("audioOutput")}, {"Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct", "Behringer BCD3000", "Hercules DJ Control AIR", "Behringer CMD STUDIO 4a", "Stanton DJC.4", "Hercules P32 DJ", "Korg KAOSS DJ", "Reloop Digital Jockey 2 Interface Edition", "Numark Mixtrack Quad", "MixVibes U-Mix Control Pro", "Reloop Mixtour", "Reloop Beatpad 2"})
 
     def test_scratch_requires_explicit_pulses_and_mode_guarded_shared_pads(self):
         result = scratch_profiles()[0]

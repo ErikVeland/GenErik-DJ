@@ -124858,8 +124858,9 @@
         ]
       ],
       "autoSelect": true,
-      "scope": "Automatic Beatpad2 normal core with explicit deck/pad/global channels, native touch/jog, full pitch, eight cues, source loop page, mixer/filter and bounded steady feedback. Full EQ-mode reset, pad/shift modes, lifecycle/routing and physical calibration remain open.",
+      "scope": "Automatic Beatpad2 normal core with explicit deck/pad/global channels, native touch/jog, full pitch, eight cues, source loop page, mixer/filter and bounded steady feedback and documented split output. Full EQ-mode reset, pad/shift modes, lifecycle/input routing and physical calibration remain open.",
       "source": "https://www.jaytec.de/media/custom/upload/Reloop-Beatpad2_MIDI-Map.pdf",
+      "audioOutput": "masterAndHeadphones",
       "excludedAliases": [
         "Beatpad",
         "Reloop Beatpad",
@@ -124868,7 +124869,7 @@
       ],
       "hardwareMode": "Factory MIDI configuration, firmware0.17 or later. Original Beatpad is a separate adapter.",
       "gaps": [
-        "Default1024-count jog calibration and native nudge response need physical qualification. EQ Classic/Filter controls retain their own MIDI meanings; automatic reset of the previous Mid/Filter value on preset changes is not implemented. Source loop-page subset is not the full factory automatic-loop layout. Other shifted transport/pad modes, cue deletion, sampler/slicer/rolls/FX, fader start, ring/mode/live-meter feedback, complete lifecycle, numbered audio route and physical USB/audio acceptance remain open."
+        "Default1024-count jog calibration and native nudge response need physical qualification. EQ Classic/Filter controls retain their own MIDI meanings; automatic reset of the previous Mid/Filter value on preset changes is not implemented. Source loop-page subset is not the full factory automatic-loop layout. Other shifted transport/pad modes, cue deletion, sampler/slicer/rolls/FX, fader start, ring/mode/live-meter feedback, complete lifecycle, external/input audio routing and physical USB/audio acceptance remain open."
       ],
       "bankChanges": [
         {
@@ -132565,14 +132566,15 @@
         ]
       ],
       "autoSelect": true,
-      "scope": "Automatic original-Mixtour core with separate transport/cue pages, held Cue, mixer/filter, signed browse, shifted loop sizing and factory-coloured feedback. Full modes/reset, audio routing and physical acceptance remain open.",
+      "scope": "Automatic original-Mixtour core with separate transport/cue pages, held Cue, mixer/filter, signed browse, shifted loop sizing, factory-coloured feedback and documented split output. Full modes/reset, input routing and physical acceptance remain open.",
       "source": "https://www.reloop.com/media/custom/upload/Reloop-Mixtour_MIDI-Map.pdf",
+      "audioOutput": "masterAndHeadphones",
       "excludedAliases": [
         "Reloop Mixtour Pro",
         "Mixtour Pro"
       ],
       "gaps": [
-        "Original Mixtour only. Native Loop uses the selected app length. Full FX/sampler/shift modes, fader start, T+Trax seek, live meters, remaining lights/reset, numbered audio routing and physical USB/calibration acceptance remain open. No Mixtour Pro protocol or jog/tempo fader is inferred."
+        "Original Mixtour only. Native Loop uses the selected app length. Full FX/sampler/shift modes, fader start, T+Trax seek, live meters, remaining lights/reset, external/input audio routing and physical USB/audio/calibration acceptance remain open. No Mixtour Pro protocol or jog/tempo fader is inferred."
       ],
       "bankChanges": [
         {

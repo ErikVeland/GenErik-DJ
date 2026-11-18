@@ -3297,3 +3297,25 @@ The repository check retains twelve historical broken links.
 Factory coverage reaches 139 profiles for 147 physical models, plus six other native models. The benchmark remains 65/122.
 Source base: `dc10926`. Sources were retrieved in `TestBuilds/r289/manufacturer/`; validation is in `TestBuilds/r290/`.
 No signed app, install, controller hardware test or A10X acceptance forms part of this increment.
+
+## R291 Mixtour and Beatpad 2 split audio
+
+Assumption: the controller retains its factory four-channel USB audio layout. The factory Traktor files name `Reloop ASIO` and select internal mixing.
+Both files explicitly assign zero-based Master Left/Right 0/1 and Monitor Left/Right 2/3 in the ordinary and FS routing records.
+External-mixer records are inactive and do not define this route. No source settings or software runs in the app.
+
+Implementation plan and checks:
+
+- [x] Add expected failures for automatic split-output selection and both recovery/sample-preservation fixtures.
+- [x] Verify the pinned factory routing entries and declare only the existing `masterAndHeadphones` route in both recipes.
+- [x] Run focused native routing/controller checks, importer checks and iPad framework compilation. Check the compiled resource and exact scope of recipe changes.
+
+This qualifies source-level routing only. Physical iPad USB enumeration, cables, channel order, headphone/master separation and A10X performance remain unverified.
+
+Both recipes now declare the reviewed master/headphone split. Their MIDI bindings and lifecycle bytes remain unchanged.
+All 21 focused Swift checks pass, including 30 parameterised recovery/sample-preservation cases.
+All 122 importer checks and native iPad framework compilation pass. The compiled resource matches the source.
+Only the two intended runtime recipes changed; the other 172 recipes remain unchanged.
+The first importer run found the older expected audio-model set; the fixture now includes both qualified models. The failed log is preserved.
+The repository check retains twelve historical broken links. Source base: `949bc69`. Evidence: `TestBuilds/r291/`.
+No signed app, install, controller hardware test or A10X acceptance forms part of this increment.

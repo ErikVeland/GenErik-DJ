@@ -29,7 +29,7 @@ import Testing
     #expect(!BeatpadIdentity.matches("Beatpad 2"))
     #expect(profile != ControllerFactoryProfile.matching(["Beatpad"], automaticOnly: true))
     #expect(ControllerFactoryProfile.matching(["Beatpad 2", "Beatpad"], automaticOnly: true) == nil)
-    #expect(!profile.hasAutomaticSplitOutput)
+    #expect(profile.hasAutomaticSplitOutput)
     let data = try #require(profile.definition)
     #expect(data.startup.isEmpty)
     #expect(data.shutdown.count <= 64)
