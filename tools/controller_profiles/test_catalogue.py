@@ -917,6 +917,19 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for bad in [products+products,products[:100],products+'<li data-hardware-target="midinote ios">Unknown: Screen</li>',products.replace('mac ios','mac unknown',1)]:
             with self.assertRaises(ValueError):read_djay(bad)
 
+    def test_original_beatmix_uses_factory_tsi_to_resolve_manual_conflicts(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Reloop BeatMix"),None)
+        self.assertIsNotNone(item,"Add original BeatMix facts independently of Beatmix2/4")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),50)
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        self.assertEqual([(r["channel"],r["number"]) for r in item["inputs"] if r["action"]=="lowB"],[(1,69)])
+        self.assertEqual([(r["channel"],r["number"]) for r in item["inputs"] if r["action"] in {"monitor","cueMix","crossfader"}],[(4,81),(4,82),(4,83)])
+        self.assertEqual([(r["channel"],r["number"]) for r in item["inputs"] if r["action"] in {"tempoA","tempoB"}],[(0,54),(1,70)])
+        self.assertTrue(all(r["encoding"]=="binaryOffset" for r in item["inputs"] if r["kind"]=="control" and r["action"] in {"jogA","jogB","browse"}))
+
     def test_primo_factory_table_conflicts_stay_inactive_without_relative_value_guesses(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="Mixars PRIMO"),None)

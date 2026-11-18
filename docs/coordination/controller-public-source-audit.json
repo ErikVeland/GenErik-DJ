@@ -853,6 +853,32 @@
         "63 PRIMO manual inputs, no output, query or automatic audio. FILTER texture selection and separate app audio required.",
         "Cue/pad/PFL collisions, unknown jog/browser formats and banked Load remain inactive. Physical/A10X and full theoretical support remain open."
       ]
+    },
+    {
+      "request": "R378",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://www.reloop.com/media/catalog/product/pdf/2/2/5/225067_Reloop_IM.pdf",
+          "sha256": "099af480f3932e39d4112cd88f414828f35ea8f8c447cd4f38126eaaceb994ca",
+          "review": "Printed MIDI chart page20 visually reviewed. Original BeatMix differs from Beatmix2/4. Its channel and pitch-cell ambiguities require the separate factory TSI cross-check."
+        },
+        {
+          "url": "https://www.reloop.com/media/custom/upload/225067/225067%20Mapping%201.0%202D%20Traktor%201.2.7%2B%20FW%201.1.4%2B%20Win.zip",
+          "sha256": "e65e3361a71716b8ccf6560486d3688eb4d24a2ae84f3d06b65485bb7492ee25",
+          "member": "Beatmix_V1_(2-Deck)-WIN.tsi",
+          "memberSHA256": "7ac250dc0b18f5b63580790a5bd4fd262e25d0b17e4c6f313a2d2159bf8b27f8",
+          "review": "Manufacturer requires firmware1.1.4+. Read-only182 used mapping rows resolve right Low to channel2 CC69, global bus to channel5 and pitch pairs118+54/118+70. Used jog36/42 and browser24 select3F/41 encoder mode0. No controller source executed."
+        },
+        {
+          "url": "https://github.com/ivanz/TraktorMappingFileFormat/wiki/File-Format-Specification",
+          "review": "Primary reverse-engineering reference for bounded XML/base64, big-endian frames, used binding IDs and per-signal encoder mode. Independent inspector extracts facts only and does not create runtime mappings. Unknown fields remain uninterpreted."
+        }
+      ],
+      "limits": [
+        "50 automatic original BeatMix inputs. Firmware1.1.4+ and Scratch mode required. Seven-bit pitch MSBs only until arrival order is established.",
+        "No generic-template inference, old manual global bus4, Beatmix2/4 alias, output, reset/query, firmware or automatic audio command. Full modes/lifecycle/calibration and physical/A10X acceptance remain open."
+      ]
     }
   ]
 }

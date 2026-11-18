@@ -4870,3 +4870,20 @@ Validation:211 Python checks and eight focused native tests passed, including th
 Current official RMX-95 and ELITE manuals were also preserved. RMX-95 confirms its MIDI/EQ ownership menu but provides no recovered control-address table. ELITE's hex table configures USB output sources. Neither table qualifies an automatic native mixer mapping.
 
 The catalogue has260 data recipes. Automatic core coverage remains193 of343 physical models, with150 without automatic core controls. Full theoretical support and physical/A10X acceptance remain open.
+
+
+## R378 original BeatMix factory TSI facts and automatic core
+
+Assumption: use actual factory bindings to resolve manual errors. Generic MIDI templates do not prove hardware messages.
+
+The [manufacturer manual](https://www.reloop.com/media/catalog/product/pdf/2/2/5/225067_Reloop_IM.pdf), printed page20, supplies the original BeatMix addresses. Its [factory TSI](https://www.reloop.com/media/custom/upload/225067/225067%20Mapping%201.0%202D%20Traktor%201.2.7%2B%20FW%201.1.4%2B%20Win.zip) requires firmware1.1.4 or later. The182 used mapping rows correct right Low to channel2 CC69 and global sound/browser controls to channel5. Used pitch pairs identify MSBs54/70 and LSB118. Native uses their coarse MSBs until packet arrival order is established.
+
+A bounded read-only TSI inspector now extracts used signal names, command IDs, targets and encoder settings. The [primary format reference](https://github.com/ivanz/TraktorMappingFileFormat/wiki/File-Format-Specification) documents these fields. The inspector checks XML/base64, frame sizes, array counts, strings and binding references. It rejects document declarations and malformed or ambiguous structures. It does not execute, rewrite or automatically translate a mapping. Unknown fields remain uninterpreted.
+
+The automatic original BeatMix profile has50 inputs. Qualified jog streams CC36/42 and browser CC24 explicitly use3F/41 encoder mode. Enable Scratch mode on both hardware decks. Unused normal-jog templates CC32/34, search and shifted streams remain inactive. Side Shift guards normal controls and shared browsing. Same-wire linefaders and global sound remain usable during Shift. Mode presses retire side holds. Their releases preserve new holds. Three Hot Cues, Play, held Cue, Sync, PFL, Load, asymmetric AutoLoop and held bends retain their independent wires.
+
+No Beatmix2/4 protocol, master MIDI control, undefined LED velocity, startup/reset, firmware, query or automatic audio route is inferred. Use a separately configured app audio route. The native pitch direction and jog scale remain uncalibrated. Complete modes, full14-bit pitch, feedback/lifecycle and physical/A10X acceptance remain open.
+
+Validation:215 Python checks and eight focused native tests passed, including155 automatic held-Cue profiles. Malformed TSI fixtures and the pinned factory file passed. A real-WAV fixture verified Cue/contact release, scratch movement, mode cleanup, finite audio and saved Sync. The iPad framework compiled and its resource matches the source. All260 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r378/validation.json`.
+
+The catalogue has261 data recipes. Automatic core coverage is194 of343 physical models, with149 without automatic core controls. Full theoretical support and physical/A10X acceptance remain open.

@@ -987,3 +987,14 @@ PRIMO uses63 unambiguous manual inputs from its own manufacturer appendix.
 N transport/mixer channels1-4, P loop channels5-8 and G channel16 stay separate.
 Earlier Cue/mode, bend/mode, PFL/pad, relative-format and pitch low-byte gaps remain inactive.
 FILTER texture selection and separate app audio are explicit. No button-light values, banked Load or encoder formats are guessed.
+
+`tsi_facts.py PATH` reads a local TSI file and prints used binding facts as JSON.
+It bounds XML/base64, frames, arrays and strings. It rejects malformed or ambiguous structures and document declarations.
+It does not execute, rewrite or import the mapping. Unknown fields stay uninterpreted. Generic MIDI templates do not qualify unused device controls.
+The independent format reference is [TraktorMappingFileFormat](https://github.com/ivanz/TraktorMappingFileFormat/wiki/File-Format-Specification).
+
+Original BeatMix uses50 automatic core inputs from its own manual and factory TSI for firmware1.1.4+.
+The used bindings correct right Low to channel2/CC69 and global controls to channel5.
+Qualified Scratch-mode jogs and browsing use3F/41. Normal jog templates remain inactive.
+Pitch retains the qualified54/70 MSBs. Full14-bit arrival order, output, audio routing and physical calibration remain open.
+Same-wire linefaders and global sound controls stay usable during Shift. No Beatmix2/4 protocol is inherited.

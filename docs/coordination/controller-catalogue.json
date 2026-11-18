@@ -35541,12 +35541,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://www.reloop.com/media/catalog/product/pdf/2/2/5/225067_Reloop_IM.pdf",
         "https://www.algoriddim.com/hardware/beatmix"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:original-beatmix-factory-tsi-core"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Reloop BeatMix",
+      "automaticControls": true,
       "comparisonSupport": {
         "djay": {
           "sourceName": "Reloop BeatMix",
@@ -35559,40 +35564,86 @@
           "source": "https://www.algoriddim.com/hardware/beatmix"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b"
+      ],
+      "inputBindingCount": 50,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Original BeatMix with firmware1.1.4 or later. Enable Scratch mode on both decks for the qualified jog streams. Deck MIDI channels1/2 and global channel5 follow the factory TSI. Use a separately configured app audio route."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Requires firmware1.1.4+ and hardware Scratch mode. Normal jog32/34, search/shift streams, loop/FX encoders, Beat Mash, CUP, other shifted functions, master MIDI, LED velocities and full output/lifecycle remain inactive. Pitch uses qualified seven-bit MSBs; packet order for full14-bit pairs remains unqualified. Native jog scale/direction and physical/audio/A10X acceptance remain open. No Beatmix2/4 inheritance, generic-template guessing, firmware/reset/query/settings or automatic audio command."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -333123,6 +333174,36 @@
         },
         {
           "reason": "Factory appendix collides Cue/Hot Cue mode, Vinyl/Roll mode, bend-down/Sampler mode on the same N note addresses, plus unqualified PFL channel versus Pad8 on N27. These rows, all pads, shifted overlaps, jog/contact/library encoder, banked Load and undefined LED velocities remain inactive. Firmware1.12 high-resolution pitch low-byte pairing is unqualified. Manual FILTER texture selection and separate app audio required. Full features/lifecycle/audio ownership/calibration and physical/A10X acceptance remain open. No sibling wires, guessed packets, output/query/settings, firmware or driver command."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:original-beatmix-factory-tsi-core",
+      "name": "Reloop BeatMix",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.reloop.com/media/catalog/product/pdf/2/2/5/225067_Reloop_IM.pdf",
+        "sha256": "099af480f3932e39d4112cd88f414828f35ea8f8c447cd4f38126eaaceb994ca",
+        "relatedSources": [
+          {
+            "url": "https://www.reloop.com/media/custom/upload/225067/225067%20Mapping%201.0%202D%20Traktor%201.2.7%2B%20FW%201.1.4%2B%20Win.zip",
+            "sha256": "e65e3361a71716b8ccf6560486d3688eb4d24a2ae84f3d06b65485bb7492ee25",
+            "member": "Beatmix_V1_(2-Deck)-WIN.tsi",
+            "memberSHA256": "7ac250dc0b18f5b63580790a5bd4fd262e25d0b17e4c6f313a2d2159bf8b27f8"
+          }
+        ],
+        "review": "Printed page20 visually reviewed. Manufacturer TSI version1.0 requires firmware1.1.4 or later. Its182 used mapping rows resolve right Low to Ch02.CC.069 and global controls to Ch05, correcting the older table's CH1/CH4 labels. Used pitch pairs are118+54 and118+70; native retains their qualified MSBs only until packet order is established. The literal cell36/76 is hexadecimal, not decimal. Used jogCC36/42 and browserCC24 definitions explicitly select3F/41 encoder mode0. Native maps only those qualified jog streams with touch Note63 and requires hardware Scratch mode. Unused generic MIDI templates do not qualify normal jogCC32/34 or search/shift streams. Source positions per revolution are unspecified; native scale and physical direction remain uncalibrated. Deck Shift40 has independent local and global OR identities. Mode presses retire side holds; releases preserve new holds. Three Hot Cues, Play47, held Cue46, Sync44, PFL35, Load50, asymmetric AutoLoop34/33 and held bends38/39 retain their own channels. Same-wire linefaders and global sound controls remain usable during Shift. No master MIDI control, LED velocities, reset, source software actions, startup/shutdown or audio route is inferred. No TSI is executed or bundled. Full modes/output/lifecycle, fourteen-bit pitch order, audio routing/calibration and physical/A10X acceptance remain open."
+      },
+      "implementedInputCount": 50,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Requires firmware1.1.4+ and hardware Scratch mode. Normal jog32/34, search/shift streams, loop/FX encoders, Beat Mash, CUP, other shifted functions, master MIDI, LED velocities and full output/lifecycle remain inactive. Pitch uses qualified seven-bit MSBs; packet order for full14-bit pairs remains unqualified. Native jog scale/direction and physical/audio/A10X acceptance remain open. No Beatmix2/4 inheritance, generic-template guessing, firmware/reset/query/settings or automatic audio command."
         }
       ]
     }
