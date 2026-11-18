@@ -1,6 +1,7 @@
 """Manufacturer sources and model records for the controller catalogue."""
 from mixtour_pro import MIXTOUR_PRO_AUDIT
 from hercules_t7 import T7_PROTOCOL_SOURCES
+from buddy import BUDDY_AUDIT
 
 REVIEWED = "2026-11-17"
 DENON_ENGINE = "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services"
@@ -35,6 +36,7 @@ SOURCE_AUDITS = {'Hercules DJControl Inpulse T7': {'source': {'url': 'https://dr
                                  'independent qualification.']}}
 
 SOURCE_AUDITS["Reloop Mixtour Pro"] = MIXTOUR_PRO_AUDIT
+SOURCE_AUDITS["Reloop Buddy"] = BUDDY_AUDIT
 SOURCE_AUDITS["Hercules DJControl Inpulse T7"]["relatedSources"] = T7_PROTOCOL_SOURCES
 SOURCE_AUDITS["Hercules DJControl Inpulse T7"]["gaps"] = [
     "The djay XML omits its custom app class. An independently pinned public beta now documents the platter clock and motor commands. Native motor/velocity handover remains unimplemented; ordinary MIDI controls have a separate manual recipe."

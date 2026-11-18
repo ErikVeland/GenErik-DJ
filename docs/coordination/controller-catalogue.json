@@ -25510,46 +25510,92 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://www.reloop.com/reloop-buddy"
+        "https://www.reloop.com/reloop-buddy",
+        "https://community.algoriddim.com/uploads/short-url/5FGS5zbolFu2YI0qzC2hVKsZP3K.djayMidiMa"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:reloopbuddy"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Reloop Buddy",
+      "automaticControls": false,
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "playA:a",
+        "playB:b",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 21,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual reviewed normal-control subset. Enable input separately; missing custom-class setup and mode ownership remain open."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Author mapping changes EQ, shifted gain and some cues. Missing ReloopBuddy class leaves shared pad/EQ state, jog/pitch dispatch, cold-start setup and lifecycle unqualified. Backspn's Buddy profile conflicts on Play/Cue and pitch pairing and is not imported. Only unconditional normal controls enter the manual recipe.",
+        "Jog/pitch, shared EQ/pad modes, shifted presses, loop/FX, full browsing, light ranges, startup/shutdown and audio routing remain unqualified. Master/headphone knobs are not mapped. No Ready alias is inferred. Physical acceptance remains open.",
+        "Author mapping changes EQ, shifted gain and some cues. Missing ReloopBuddy class leaves shared pad/EQ state, jog/pitch dispatch, cold-start setup and lifecycle unqualified. Backspn's Buddy profile conflicts on Play/Cue and pitch pairing and is not imported. Only unconditional normal controls enter the manual recipe.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
+      ],
+      "sourceAudits": [
+        {
+          "source": {
+            "url": "https://community.algoriddim.com/uploads/short-url/5FGS5zbolFu2YI0qzC2hVKsZP3K.djayMidiMa",
+            "sha256": "d25b406cf6e0c63cf88dbeecbbd31df45b370971abf87d930f21087fb5bb3836"
+          },
+          "discussion": "https://community.algoriddim.com/t/midi-mapping-for-reloop-buddy/15528",
+          "format": "Apple property list",
+          "mappingVersion": 2,
+          "inputRows": 331,
+          "declaredCustomClass": "ReloopBuddy",
+          "automaticSupportAdded": false,
+          "relatedSources": [
+            {
+              "url": "https://raw.githubusercontent.com/suitux/Backspn/e0e7048e970af5d623e63a3557b1545369ce2a08/crates/control/profiles/reloop/buddy.json",
+              "sha256": "b332b2a9bdaf6ffe1aa2dffeeaf65a15ea8da8a04eb92997a40b5fd3eefd7a8e"
+            }
+          ],
+          "gaps": [
+            "Author mapping changes EQ, shifted gain and some cues. Missing ReloopBuddy class leaves shared pad/EQ state, jog/pitch dispatch, cold-start setup and lifecycle unqualified. Backspn's Buddy profile conflicts on Play/Cue and pitch pairing and is not imported. Only unconditional normal controls enter the manual recipe."
+          ]
+        }
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -318047,6 +318093,43 @@
         },
         {
           "reason": "Platter/motor handling is unimplemented. T7 pitch-bend packets are2.4MHz timestamps, not tempo. Motor control, speed feedback and timestamp-aware velocity/transport handover require a separate adapter before automatic selection. No motor or setup command is emitted. Crossfader curve/disable ownership, FX/stems, full tempo ranges, shared pad/feedback state, live meters/rings, full lifecycle and audio routing remain open. Manual MIDI input and light mappings require separate loading/enabling. Physical acceptance is open."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:reloopbuddy",
+      "name": "Reloop Buddy",
+      "transport": "midi",
+      "source": {
+        "url": "https://community.algoriddim.com/uploads/short-url/5FGS5zbolFu2YI0qzC2hVKsZP3K.djayMidiMa",
+        "sha256": "d25b406cf6e0c63cf88dbeecbbd31df45b370971abf87d930f21087fb5bb3836",
+        "relatedSources": [
+          {
+            "url": "https://community.algoriddim.com/t/midi-mapping-for-reloop-buddy/15528"
+          },
+          {
+            "url": "https://www.reloop.com/reloop-buddy"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/suitux/Backspn/e0e7048e970af5d623e63a3557b1545369ce2a08/crates/control/profiles/reloop/buddy.json",
+            "sha256": "b332b2a9bdaf6ffe1aa2dffeeaf65a15ea8da8a04eb92997a40b5fd3eefd7a8e"
+          }
+        ],
+        "review": "Maurizio T's hardware-owned custom map, shared31January2022, declares ReloopBuddy and331 control rows. Only unconditional normal Play0, held Cue1, Sync2, PFL27, levelCC28, global Load2/3, crossfaderCC8, cue-mixCC13 and flipped rotary64 browseCC0 enter the native manual recipe. Per-deck channels0/1 and global14 stay distinct. Alternate Play16/Cue5/Sync3 addresses are release-only so modifier transitions cannot leave normal transport held or trigger unsupported shifted presses. No EQ/gain/filter is inferred from the author's changed assignments and shared Neural Mix modes. Source PFL/Sync lights have only minima and other outputs omit explicit ranges; no light value is guessed. Ten-bit pitch includes absent class-specific offset handling; jog and loop encodings remain unqualified. Shared pads, modes, FX, master/headphone hardware knobs, source/back browsing, cold-start, complete lifecycle and audio routing remain open. Backspn's pinned Buddy profile disagrees with this primary source and does not supply an alternative qualified protocol. Automatic selection stays off. Manual input requires separate enabling; no lifecycle packet runs and no downloaded code executes in the app."
+      },
+      "implementedInputCount": 21,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Author mapping changes EQ, shifted gain and some cues. Missing ReloopBuddy class leaves shared pad/EQ state, jog/pitch dispatch, cold-start setup and lifecycle unqualified. Backspn's Buddy profile conflicts on Play/Cue and pitch pairing and is not imported. Only unconditional normal controls enter the manual recipe."
+        },
+        {
+          "reason": "Jog/pitch, shared EQ/pad modes, shifted presses, loop/FX, full browsing, light ranges, startup/shutdown and audio routing remain unqualified. Master/headphone knobs are not mapped. No Ready alias is inferred. Physical acceptance remains open."
         }
       ]
     },

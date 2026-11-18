@@ -9,7 +9,7 @@ Reviewed 17 November 2026. The pinned software inventory is complete. The wider 
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 313 total catalogue records. 306 name physical models. The remainder identify software endpoints or protocol families.
-- 176 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 177 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 140 factory profiles select core controls automatically for 148 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
@@ -224,8 +224,8 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 38 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 73 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 39 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 72 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -542,7 +542,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Reloop Beatmix 4 MK2 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Beatmix-2-4-MK2.midi.xml) |
 | Reloop Beatpad | primary | native-midi | [Reference](../../docs/coordination/beatpad-native.md) |
 | Reloop Beatpad 2 | primary | automatic-core-profile | [Reference](https://www.reloop.com/djing-with-smart-devices-controllercomparisonchart) |
-| Reloop Buddy | primary | protocol-needed | [Reference](https://www.reloop.com/reloop-buddy) |
+| Reloop Buddy | primary | partial-midi-profile | [Reference](https://www.reloop.com/reloop-buddy) |
 | Reloop Digital Jockey 2 Controller | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop%20Digital%20Jockey%202%20Controller%20Edition.midi.xml) |
 | Reloop Digital Jockey 2 Interface Edition | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Digital-Jockey-2-IE.midi.xml) |
 | Reloop Digital Jockey 2 Master Edition | primary | protocol-needed | [Reference](https://www.reloop.com/reloop-digital-jockey-2-master-edition) |

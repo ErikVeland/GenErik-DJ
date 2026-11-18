@@ -861,6 +861,27 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_buddy_manual_subset_rejects_conflicting_addresses_and_custom_modes(self):
+        runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item = next((r for r in runtime["profiles"] if r["id"] == "Reloop Buddy"), None)
+        self.assertIsNotNone(item, "Buddy needs its own reviewed manual subset")
+        self.assertFalse(item["autoSelect"])
+        self.assertNotIn("audioOutput", item)
+        self.assertEqual((len(item["inputs"]), item["outputs"], item["startup"], item["shutdown"]), (21, [], [], []))
+        self.assertEqual({(r["channel"], r["number"]) for r in item["inputs"] if r["action"] in {"playA", "playB"} and not r.get("releaseOnly")}, {(0, 0), (1, 0)})
+        self.assertFalse(any(r["action"].startswith(("tempo", "jog", "hotcue", "gain", "high", "mid", "low", "filter")) for r in item["inputs"]))
+        from buddy import BUDDY_SHA
+        path = ROOT / "TestBuilds/r295/upstream/Buddy-author.djayMidiMapping"
+        if path.exists():
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), BUDDY_SHA)
+            source = plistlib.loads(path.read_bytes())
+            self.assertEqual((source["customClassName"], len(source["controls"])), ("ReloopBuddy", 331))
+            for row in item["inputs"]:
+                if row.get("releaseOnly"):
+                    continue
+                matches = [r for r in source["controls"] if r.get("midiChannel") == row["channel"] and r.get("midiData") == row["number"] and r.get("midiMessageType") == (1 if row["kind"] == "note" else 3) and not r.get("condition") and not r.get("modifier")]
+                self.assertTrue(matches, row)
+
     def test_t7_manual_generation_excludes_motor_outputs_and_platter_timestamps(self):
         runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item = next((r for r in runtime["profiles"] if r["id"] == "Hercules DJControl Inpulse T7"), None)

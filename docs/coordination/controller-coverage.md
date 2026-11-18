@@ -3416,3 +3416,29 @@ The catalogue now has 176 data recipes. Automatic coverage remains 148 factory p
 The repository check retains twelve historical broken links. Inline review followed the serial-work rule; no reviewer agent was started.
 Source base: `c8196d3`. Sources and evidence: `TestBuilds/r294/`.
 No signed app, install, controller hardware test or A10X acceptance forms part of this increment.
+
+## R295 Buddy manual source subset
+
+Assumption: reuse only unconditional normal controls from Maurizio T's public Buddy mapping.
+The author changed EQ, shifted loop gain and some Hot Cues. Shared modes and the absent `ReloopBuddy` class remain unqualified.
+The Backspn Buddy profile conflicts with this file on Play, Cue and high-resolution pitch. Do not use it as automatic support evidence.
+
+Implementation plan and checks:
+
+- [x] Add failing fixtures for separate manual identity, normal transport, cross-address Cue releases, mixer pickup and inactive shared controls.
+- [x] Pin the author file and conflicting profile. Add a manual Buddy recipe with no inferred lights, setup, jog or pitch protocol.
+- [x] Run importer checks, focused native playback/protocol checks and iPad framework compilation. Compare all earlier recipes and the bundle.
+
+The manual recipe has 21 inputs and no output or lifecycle packet. Alternate transport addresses release normal holds without enabling shifted presses.
+The author's changed EQ and conditional Hot Cues remain inactive. PFL/Sync outputs omit explicit maxima; no feedback value is guessed.
+The source's rotary64 browse convention matches the reviewed djay convention. The native recipe retains its inverted direction.
+Manual application requires separate input enabling. No Ready profile, paired pitch, jog resolution, custom class or automatic audio route is inferred.
+
+All seven focused Swift checks, 126 importer checks and native iPad framework compilation pass.
+The compiled resource matches the source. All 176 earlier recipes remain unchanged.
+The catalogue now has 177 data recipes. Automatic core coverage stays at 154 physical models; the benchmark remains65/122.
+The initial native check could not find the temporary directory after the host restart. Its retry produced the expected missing-profile failure.
+Both logs and expected importer failures remain in `TestBuilds/r295/`. The repository check retains twelve historical broken links.
+Inline review followed the serial-work rule; no reviewer agent was started.
+Source base: `0a5c395`. Primary source: [author upload](https://community.algoriddim.com/t/midi-mapping-for-reloop-buddy/15528).
+No signed app, install, controller hardware test or A10X acceptance forms part of this increment.

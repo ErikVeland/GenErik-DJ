@@ -128098,6 +128098,219 @@
       ]
     },
     {
+      "id": "Reloop Buddy",
+      "aliases": [
+        "Reloop Buddy",
+        "Buddy"
+      ],
+      "definition": "manufacturer:reloopbuddy",
+      "inputs": [
+        {
+          "action": "playA",
+          "kind": "note",
+          "channel": 0,
+          "number": 0,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "playA",
+          "kind": "note",
+          "channel": 0,
+          "number": 16,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "cuePreviewA",
+          "kind": "note",
+          "channel": 0,
+          "number": 1,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "cuePreviewA",
+          "kind": "note",
+          "channel": 0,
+          "number": 5,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "syncA",
+          "kind": "note",
+          "channel": 0,
+          "number": 2,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "syncA",
+          "kind": "note",
+          "channel": 0,
+          "number": 3,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "releaseOnly": true
+        },
+        {
+          "action": "cueA",
+          "kind": "note",
+          "channel": 0,
+          "number": 27,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "levelA",
+          "kind": "control",
+          "channel": 0,
+          "number": 28,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "loadA",
+          "kind": "note",
+          "channel": 14,
+          "number": 2,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a"
+        },
+        {
+          "action": "playB",
+          "kind": "note",
+          "channel": 1,
+          "number": 0,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "playB",
+          "kind": "note",
+          "channel": 1,
+          "number": 16,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "releaseOnly": true
+        },
+        {
+          "action": "cuePreviewB",
+          "kind": "note",
+          "channel": 1,
+          "number": 1,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "cuePreviewB",
+          "kind": "note",
+          "channel": 1,
+          "number": 5,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "releaseOnly": true
+        },
+        {
+          "action": "syncB",
+          "kind": "note",
+          "channel": 1,
+          "number": 2,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "syncB",
+          "kind": "note",
+          "channel": 1,
+          "number": 3,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "releaseOnly": true
+        },
+        {
+          "action": "cueB",
+          "kind": "note",
+          "channel": 1,
+          "number": 27,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "levelB",
+          "kind": "control",
+          "channel": 1,
+          "number": 28,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "loadB",
+          "kind": "note",
+          "channel": 14,
+          "number": 3,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b"
+        },
+        {
+          "action": "crossfader",
+          "kind": "control",
+          "channel": 14,
+          "number": 8,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "cueMix",
+          "kind": "control",
+          "channel": 14,
+          "number": 13,
+          "encoding": "absolute",
+          "inverted": false
+        },
+        {
+          "action": "browse",
+          "kind": "control",
+          "channel": 14,
+          "number": 0,
+          "encoding": "binaryOffset",
+          "inverted": true
+        }
+      ],
+      "outputs": [],
+      "startup": [],
+      "shutdown": [],
+      "autoSelect": false,
+      "scope": "Manual normal transport, held Cue, direct Load, channel levels, crossfader, cue mix and inverted rotary64 browsing. Jog/pitch, shared EQ/pads, lights, setup, audio routing and physical acceptance remain open.",
+      "source": "https://community.algoriddim.com/uploads/short-url/5FGS5zbolFu2YI0qzC2hVKsZP3K.djayMidiMa",
+      "hardwareMode": "Manual reviewed normal-control subset. Enable input separately; missing custom-class setup and mode ownership remain open.",
+      "gaps": [
+        "Author mapping changes EQ, shifted gain and some cues. Missing ReloopBuddy class leaves shared pad/EQ state, jog/pitch dispatch, cold-start setup and lifecycle unqualified. Backspn's Buddy profile conflicts on Play/Cue and pitch pairing and is not imported. Only unconditional normal controls enter the manual recipe.",
+        "Jog/pitch, shared EQ/pad modes, shifted presses, loop/FX, full browsing, light ranges, startup/shutdown and audio routing remain unqualified. Master/headphone knobs are not mapped. No Ready alias is inferred. Physical acceptance remains open."
+      ]
+    },
+    {
       "id": "Reloop Digital Jockey 2 Controller",
       "aliases": [
         "Reloop Digital Jockey 2 Controller",
