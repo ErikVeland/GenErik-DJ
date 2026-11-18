@@ -5,5 +5,16 @@
   "contact": "erik@veland.au",
   "state": "In development",
   "app_store_url": null,
-  "policy_date": "18 November 2026"
+  "policy_date": "18 November 2026",
+  "platforms": [
+    "iPad",
+    "iPhone",
+    "iPhone Duo",
+    "Mac"
+  ],
+  "operating_systems": [
+    "iPadOS 17 or later",
+    "iOS 17 or later",
+    "macOS 14 or later"
+  ]
 }

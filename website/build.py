@@ -9,8 +9,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 CONFIG = json.loads((ROOT / 'site.json').read_text())
 OUT = ROOT / 'dist'
+PLATFORMS = ', '.join(CONFIG['platforms'][:-1]) + ' and ' + CONFIG['platforms'][-1]
 PAGES = [
-    ('/', 'home', 'GenErik DJ — Native DJ software for iPad', 'A look inside GenErik DJ: a native two-deck touch workspace in development for iPad.'),
+    ('/', 'home', 'GenErik DJ — Native DJ software', f'Native DJ software for {PLATFORMS}. Browse tracks, prepare beat grids, mix and record.'),
     ('/manual', 'manual', 'Manual', 'Task-based help for the GenErik DJ development build: library, decks, grids, Sync, mixing and recording.'),
     ('/support', 'support', 'Support', 'Get help with GenErik DJ. Troubleshooting, bug reports, feature requests and contact details for Erik Veland.'),
     ('/privacy', 'privacy', 'Privacy', 'How the GenErik DJ development app and website handle music, preparation, iCloud, diagnostics and support information.'),
@@ -43,10 +44,10 @@ def build():
         canonical = origin + (route if not is_home else '/')
         schema = [{"@context": "https://schema.org", "@type": "WebSite", "@id": origin + '/#website', "name": CONFIG['name'], "url": origin + '/', "inLanguage": "en-AU", "creator": {"@type": "Person", "name": CONFIG['developer'], "url": origin + '/support'}}]
         if is_home:
-            schema.append({"@context":"https://schema.org", "@type":"SoftwareApplication", "name":"GenErik DJ", "url":canonical, "applicationCategory":"MultimediaApplication", "operatingSystem":"iPadOS 17 or later (development target)", "description":description, "creativeWorkStatus":"In development", "author":{"@type":"Person","name":CONFIG['developer']}, "image":origin+'/assets/social.jpg'})
+            schema.append({"@context":"https://schema.org", "@type":"SoftwareApplication", "name":"GenErik DJ", "url":canonical, "applicationCategory":"MultimediaApplication", "operatingSystem":CONFIG["operating_systems"], "availableOnDevice":CONFIG["platforms"], "description":description, "creativeWorkStatus":"In development", "author":{"@type":"Person","name":CONFIG['developer']}, "image":origin+'/assets/social.jpg'})
         elif source not in ('404', '503'):
             schema.append({"@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[{"@type":"ListItem","position":1,"name":"GenErik DJ","item":origin+'/'},{"@type":"ListItem","position":2,"name":title,"item":canonical}]})
-        body = (ROOT / 'content' / (source + '.html')).read_text()
+        body = (ROOT / 'content' / (source + '.html')).read_text().replace('{{platforms}}', html.escape(PLATFORMS))
         if not is_home:
             body = f'<div class="document-heading"><h1>{html.escape(title)}</h1><a href="/">GenErik DJ</a></div><div class="document-body">{body}</div>'
         robots = '<meta name="robots" content="noindex,follow">' if source in ('404', '503') else ''

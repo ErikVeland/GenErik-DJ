@@ -13,7 +13,7 @@ The repository does not establish an accepted public release. Public pages must 
 
 | Area | Status | Evidence and public boundary |
 | --- | --- | --- |
-| iPad | Implemented, acceptance open | README and iPad project target iPadOS 17+. State the development target, not a released compatibility guarantee. |
+| iPad | Supported platform, app release pending | Erik explicitly confirmed support on 18 November 2026. The project minimum is iPadOS 17. |
 | Two decks, library, search, playlists | Implemented, acceptance open | ARCHITECTURE base instrument, LocalMusicLibrary and MusicLibraryView. Describe the development build. |
 | Local music | Implemented | LocalMusicLibrary rejects protected and unavailable audio. No subscription streaming claim. |
 | Waveforms, BPM, key, grids, sections | Implemented, acceptance open | ARCHITECTURE and R118/R124/R129/R139. No accuracy or timing guarantees. |
@@ -24,7 +24,7 @@ The repository does not establish an accepted public release. Public pages must 
 | StoreKit purchases | Implemented, not release-ready | R175. Products, pricing and purchase acceptance remain open. No App Store badge or prices. |
 | Four decks, live stems, automatic mix | Experimental | ARCHITECTURE expansion gates. Excluded from home page. |
 | Controller catalogue | Implemented, model acceptance varies | R169 and R176–R290. No supported-model list. |
-| iPhone, Duo, Mac public support | Not release-approved | Active target is iPad. Excluded from availability claims. |
+| iPhone, iPhone Duo, Mac | Supported platforms, app release pending | Erik explicitly confirmed all three on 18 November 2026. Native source supports phone/front, Duo/inside and Mac workspaces. The current iPad testing focus does not restrict product platform support. |
 | Subscription streaming, testimonials, awards | Unsupported by evidence | Omitted. |
 | Accessibility | No complete test evidence | Describe website implementation and app verification limits separately. |
 
@@ -86,3 +86,12 @@ App Store Connect metadata fields were prepared in the website README but were n
 - [Apple iPad privacy controls](https://support.apple.com/en-ie/guide/ipad/ipad9ae59af9/27/ipados/27)
 
 These references support the licence link and system-setting guidance. App-specific data statements come from the audited source, not assumptions about Apple services.
+
+## Platform correction
+
+Erik confirmed support for iPad, iPhone, iPhone Duo and Mac after the initial publication.
+The first publication incorrectly treated the active iPad test loop as the product platform scope.
+The corrected site stores all four platform names in `website/site.json` and uses them in page copy and structured metadata.
+The manual describes the distinct phone front, Duo inside, iPad and Mac workspaces.
+Privacy choices now distinguish mobile settings and deletion from Mac settings and build-specific data locations.
+Product images remain identified as iPad captures. Other platforms do not receive fabricated screenshots.

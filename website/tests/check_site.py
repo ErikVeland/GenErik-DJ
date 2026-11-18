@@ -39,7 +39,10 @@ def check():
             if tag=='a':assert attrs.get('href') not in ('',None,'#'),route
             if tag in ('iframe','form'):raise AssertionError((route,tag))
         for data in re.findall(r'<script type="application/ld\+json">(.*?)</script>',text,re.S):json.loads(data)
-        assert not re.search(r'\bTODO\b|lorem ipsum|placeholder',text,re.I),route
+        assert not re.search(r'\bTODO\b|lorem ipsum|placeholder|\{\{platforms\}\}',text,re.I),route
+        if source in ('home','manual','support'):
+            for platform in CONFIG['platforms']:
+                assert platform in text,(route,platform)
     for route,p in cache.items():
         for tag,attrs in p.tags:
             urls=[attrs[x] for x in ('href','src') if x in attrs]
