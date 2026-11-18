@@ -2272,3 +2272,23 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueAIRPlusBothStreamsScratchAtCorroboratedResolutionAndRestoreSync() async throws {
+    for number: UInt8 in [102,104] {
+        try await withControllerCuePlayback("DJControl AIR+") { model,input in
+            cuePreviewPacket([0x90,27,127,0xB0,number,2],to:input)
+            try await Task.sleep(for:.milliseconds(80))
+            _ = model.playback.core.renderOffline(frames:4096)
+            model.refreshPlayback()
+            let sampleRate = try #require(model.track(.a)?.analysis.sampleRate)
+            #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1) - sampleRate*1.8*2/765) <= 1)
+            #expect(model.playbackSnapshot?.a.touchActive == true)
+            cuePreviewPacket([0x80,27,127],to:input)
+            #expect(model.playbackSnapshot?.a.touchActive == false && model.playbackSnapshot?.a.synced == true)
+            _ = model.playback.core.renderOffline(frames:4096)
+            model.refreshPlayback()
+            #expect(model.playbackSnapshot?.a.phase.active == false)
+            #expect(abs(model.playbackSnapshot?.a.sourceFrame ?? -1) <= 1)
+        }
+    }
+}

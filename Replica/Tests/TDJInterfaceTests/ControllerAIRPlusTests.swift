@@ -91,7 +91,7 @@ import Testing
     }
 }
 
-@Test @MainActor func controllerCatalogueAIRPlusPairsFactoryMixerAndPitchWithLiteralKnobPolarity() throws {
+@Test @MainActor func controllerCatalogueAIRPlusPairsFactoryMixerAndPitchWithCorroboratedKnobPolarity() throws {
     try withAIRPlus { input in
         input.currentTargetValue = { _ in 0.5 }
         var events: [(ControllerActionTarget, Double)] = []
@@ -106,8 +106,8 @@ import Testing
                 #expect(events.isEmpty)
                 airPlusPacket([0xB0, number, 64], input)
                 airPlusPacket([0xB0, number, 127, number + 32, 127], input)
-                #expect(events.first?.1 == (action == .levelA ? 8192.0 / 16383 : 1 - 8192.0 / 16383))
-                #expect(events.last?.1 == (action == .levelA ? 1 : 0))
+                #expect(events.first?.1 == (action == .tempoA ? 1 - 8192.0 / 16383 : 8192.0 / 16383))
+                #expect(events.last?.1 == (action == .tempoA ? 0 : 1))
                 #expect(events.allSatisfy { $0.0 == .init(action.assigned(to: deck), deck: deck) })
             }
         }

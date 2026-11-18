@@ -711,6 +711,23 @@
         "FX/loops/sample/pressure, filter reassignment, HP Cue/Mix, Vinyl/Air, full lifecycle/audio device acceptance and A10X performance remain open.",
         "No Update_All_Controls query/reset, setting, firmware or driver command. Status-only bank recovery remains open."
       ]
+    },
+    {
+      "request": "R372",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+          "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+          "member": "Applications/DEX4.app/Contents/Resources/controllers/Hercules__DJ_Control_Air+.js",
+          "memberSHA256": "39ba734e1fcd15b7c7930fc829f611ede3bca36357f7ac421f872981876a5bd8",
+          "review": "Read-only comparison with the already preserved public installer member. No installation or downloaded code execution. Explicit normal EQ/gain setters contradict manufacturer CW/CCW wording. Both CC102/104 and103/105 share765-position touch-aware jog handling."
+        }
+      ],
+      "limits": [
+        "Retain factory raw64 reverse boundary over the independent mapping off-by-one.",
+        "Use only protocol facts. No proprietary executable source copied or bundled. Distribution review and physical calibration remain open."
+      ]
     }
   ]
 }

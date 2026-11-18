@@ -956,6 +956,8 @@ GT reuses the existing core through a distinct automatic profile. Hardware utili
 The exact current PDF hash matches the earlier review. No clone, generic alias or mode-setting command is added.
 
 AIR+ uses its own manufacturer packet table, default channel1/14-bit setup and master1/2-headphones3/4 route.
-Normal and contact-gated scratch streams retain signed counts. Four Hot Cues per side retain velocity edges.
+Both normal and scratch streams retain the independently specified765-count scale. Normal motion becomes scratch during contact.
+The dedicated scratch stream requires contact. Four Hot Cues per side retain velocity edges.
 Physical and reported Shift inputs use source-local OR guards with independent side scopes.
-Sixteen owned lamps clear individually. Update_All_Controls stays unused. Physical polarity/taper/jog calibration remains open.
+Sixteen owned lamps clear individually. Update_All_Controls stays unused. Independent AIR+-specific DEX facts resolve normal EQ/gain polarity over the conflicting table wording.
+Physical polarity/taper/jog acceptance remains open.

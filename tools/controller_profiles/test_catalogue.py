@@ -917,6 +917,15 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for bad in [products+products,products[:100],products+'<li data-hardware-target="midinote ios">Unknown: Screen</li>',products.replace('mac ios','mac unknown',1)]:
             with self.assertRaises(ValueError):read_djay(bad)
 
+    def test_air_plus_corroborated_mapping_resolves_knob_polarity_and_both_jog_streams(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next(r for r in runtime["profiles"] if r["id"]=="Hercules DJControl AIR+")
+        jogs=[r for r in item["inputs"] if r["action"] in {"jogA","jogB"}]
+        self.assertEqual([(r["number"],r.get("requiresTouch",False)) for r in jogs],[(102,False),(104,True),(103,False),(105,True)])
+        self.assertTrue(all(r.get("argument")==765 for r in jogs))
+        self.assertFalse(any(r["inverted"] for r in item["inputs"] if r["action"].startswith(("high","mid","low","gain"))))
+        self.assertTrue(all(r["inverted"] for r in item["inputs"] if r["action"].startswith("tempo")))
+
     def test_air_plus_uses_its_own_default_fourteen_bit_and_distinct_scratch_streams(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="Hercules DJControl AIR+"),None)
@@ -928,8 +937,8 @@ class GeneratedCatalogueTests(unittest.TestCase):
         self.assertFalse(item["startup"])
         self.assertEqual(len(item["shutdown"]),16)
         self.assertFalse(any(p[0]==0xB0 and p[1]==127 for p in item["shutdown"]))
-        self.assertEqual([(r["number"],r["requiresTouch"]) for r in item["inputs"] if r["action"] in {"jogA","jogB"}],[(104,True),(105,True)])
-        self.assertEqual([r["number"] for r in item["inputs"] if r["action"] in {"wheelJogA","wheelJogB"}],[102,103])
+        self.assertEqual([(r["number"],r["requiresTouch"]) for r in item["inputs"] if r["action"] in {"jogA","jogB"} and r.get("requiresTouch")],[(104,True),(105,True)])
+        self.assertEqual([r["number"] for r in item["inputs"] if r["action"] in {"jogA","jogB"} and not r.get("requiresTouch")],[102,103])
         self.assertEqual([r["number"] for r in item["inputs"] if r["action"] in {"cuePreviewA","cuePreviewB"}],[18,45])
         self.assertEqual({r["channel"] for r in item["inputs"]},{0})
         self.assertEqual([r["number"] for r in item["inputs"] if r["action"] in {"tempoA","tempoB"}],[4,10])

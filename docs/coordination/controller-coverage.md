@@ -4753,6 +4753,8 @@ The catalogue has253 data recipes. Automatic core coverage is192 of343 physical 
 
 ## R371 Independent Hercules AIR+ automatic core
 
+R372 supersedes the initial knob polarity and normal-stream jog assumptions below.
+
 Assumption: use the manufacturer's default channel1/14-bit configuration and keep optional hardware pages outside the core.
 
 - [x] Review all eight specification pages and the default settings on page1 of the manufacturer Traktor guide.
@@ -4770,3 +4772,19 @@ Sixteen qualified Play/Cue/Sync/PFL/Hot Cue lamps use127/0 and clear individuall
 Validation:205 Python checks and eight focused native tests passed, including the154-profile held-Cue corpus. Real-WAV fixtures verified Cue release, scratch cleanup, finite audio and saved Sync. The iPad framework compiled and its resource matches the source. All253 earlier recipes remain identical. An initial source check required adding the newly documented audio route to its explicit allowlist. A test-only API-name correction followed the first native compile. Both failed logs are retained. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r371/validation.json`.
 
 The catalogue has254 data recipes. Automatic core coverage is193 of343 physical models, with150 without automatic core controls. Full theoretical support, physical USB/audio acceptance and A10X performance remain open.
+
+## R372 AIR+ independent polarity and jog cross-check
+
+Assumption: compare working model-specific handlers with conflicting table wording before calling a direction or scale qualified.
+
+- [x] Inspect the already pinned public DEX AIR+ member without installing or executing downloaded code.
+- [x] Resolve normal EQ/gain polarity,765-position jog scale and touch-aware normal-stream movement.
+- [x] Verify both streams against actual source-frame movement in a real-WAV fixture. Preserve guards and signed64 handling.
+
+The independent AIR+-specific mapping in the previously preserved [public DEX installer](https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg) sends ordinary EQ/gain values to native setters. This conflicts with the manufacturer CW/CCW wording, as seen in the independently reviewed MK4 table. AIR+ now follows the corroborated normal EQ/gain direction. Pitch retains the explicit native direction choice.
+
+Both normal CC102/103 and scratch CC104/105 use765 positions per revolution in that mapping. Normal motion now enters native touch-aware jog handling. It scratches during contact and nudges/seeks without contact. The dedicated scratch stream still requires source-owned contact. The factory's signed64 reverse boundary remains authoritative. The independent handler's off-by-one does not enter the recipe.
+
+Validation:206 Python checks and nine focused native tests passed, including the154-profile held-Cue corpus. New real-WAV checks verify exact765-count movement and grid restoration for both normal and dedicated scratch streams. Existing release, ownership, mode, pickup, feedback and saved-Sync checks passed. The iPad framework compiled and its resource matches the source. The other253 recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r372/validation.json`.
+
+Counts remain254 recipes and193 automatic-core physical models, with150 without automatic core controls. Full theoretical support, source-reuse review, physical calibration and A10X acceptance remain open. No downloaded executable source is copied, run or bundled.
