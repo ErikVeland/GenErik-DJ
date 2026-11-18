@@ -16569,10 +16569,12 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Console%20Mk4.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Console%20Mk4.midi.xml",
+        "https://ts.hercules.com/download/sound/manuals/Mk4/DJ_Console_Mk4_ENG.pdf"
       ],
       "definitions": [
-        "Hercules DJ Console Mk4.midi.xml"
+        "Hercules DJ Console Mk4.midi.xml",
+        "manufacturer:herculesdjconsolemk4"
       ],
       "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
@@ -16580,25 +16582,48 @@
       "profile": "Hercules DJ Console MK4",
       "automaticControls": false,
       "controlActions": [
+        "browseNext",
+        "browsePrevious",
         "crossfader",
+        "cueA:a",
+        "cueB:b",
         "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
         "highA:a",
         "highB:b",
         "levelA:a",
         "levelB:b",
+        "loadA:a",
+        "loadB:b",
         "lowA:a",
         "lowB:b",
         "midA:a",
-        "midB:b"
+        "midB:b",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
       ],
-      "inputBindingCount": 10,
-      "feedbackBindingCount": 12,
+      "inputBindingCount": 38,
+      "feedbackBindingCount": 8,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual default-channel1 MIDI through the desktop driver or an external bridge. Select computer sources. Native iPad USB access and hardware/software audio ownership remain unresolved."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
@@ -16607,21 +16632,21 @@
         "criteria": {
           "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
-        "untranslatedSourceRows": 49,
+        "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Desktop driver/bridge and native iPad USB access remain open. Manual default channel1 only. Native relative tempo differs from the old custom sensitivity. Normal K buttons use a fixed1/2/4/8 loop layout. K-bank/Shift modes, shifted FX, Scratch/contact, source/audio switching, search, gain/master/headphone knobs, complete light ownership/setup/lifecycle/audio and physical/A10X acceptance remain open. No RMX/4-Mx protocol, blanket lamp reset, update query or stored setting is inferred.",
         "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
@@ -323670,6 +323695,43 @@
         },
         {
           "reason": "While-held5-8 rows have conflicting channel/status columns and stay inactive. Other pad modes, deletion, pitch/brake/needle/deck/application controls, feedback colour/off semantics, display, motor/platter/DVS/audio, full lifecycle and physical/A10X acceptance remain open. No output or mode/setting write is inferred."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:herculesdjconsolemk4",
+      "name": "Hercules DJ Console MK4",
+      "transport": "midi",
+      "source": {
+        "url": "https://ts.hercules.com/download/sound/manuals/Mk4/DJ_Console_Mk4_ENG.pdf",
+        "sha256": "914feabd4b8e1f8ac5acd084ca6ce09d2575a75acc7e679d73721af36057a03c",
+        "pages": [
+          3,
+          18,
+          26,
+          27,
+          28
+        ],
+        "relatedSources": [
+          {
+            "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+            "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+            "member": "Applications/DEX4.app/Contents/Resources/controllers/Hercules__DJ_Console_MK4.js",
+            "memberSHA256": "426fb02d842475dfa781f1b2ac643496ce10345cd034a4563a04903af4119226"
+          }
+        ],
+        "review": "The original manufacturer guide defines default MIDI channel1, held127/0 buttons, two's-complement relative pitch/jog and fixed mixer addresses. Driver setup applies to desktop operation; no native iPad USB access is established. Independent MK4-specific DEX script corroborates normal value direction for EQ/blend despite the guide's reversed CW/CCW wording. Its channel0 wire map agrees with the pinned Mixxx XML and supplies the native fixed1/2/4/8 loop layout on normal K1-4. Native tempo uses signed relative magnitude against the app's existing plus/minus8-percent range, not the Mixxx script's custom sensitivity or an absolute slider. DEX specifies128 wheel positions per revolution; retain that source scale for sensorless nudge/paused seek, with physical calibration open. There is no contact sensor or inferred scratch state. Physical Scratch, K-bank/Shift state and source selectors do not become synthetic contacts, app Shift, software audio changes or FX. Factory Play/Cue/Sync/PFL lights use note127/0 on their own addresses. No blanket94-light reset, update-all-controls query, stored setting, driver installation or firmware command is sent. Manual input and feedback remain separate selections. Full modes, search, light ownership/lifecycle, driver/bridge and audio routing plus physical/A10X acceptance remain open."
+      },
+      "implementedInputCount": 38,
+      "implementedOutputCount": 8,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Desktop driver/bridge and native iPad USB access remain open. Manual default channel1 only. Native relative tempo differs from the old custom sensitivity. Normal K buttons use a fixed1/2/4/8 loop layout. K-bank/Shift modes, shifted FX, Scratch/contact, source/audio switching, search, gain/master/headphone knobs, complete light ownership/setup/lifecycle/audio and physical/A10X acceptance remain open. No RMX/4-Mx protocol, blanket lamp reset, update query or stored setting is inferred."
         }
       ]
     },

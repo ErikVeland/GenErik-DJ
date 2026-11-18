@@ -912,3 +912,6 @@ MixTrack Go and Party Mix III use separate pinned2026 public mappings. Shared fi
 `plx_crss12.py` defines68 automatic PLX-CRSS12 MIDI accessory bindings from the E1 manufacturer table. PAD MODE1 supplies eight Hot Cues per hardware-selected deck. Shift aliases only rearm normal cues. The extra while-held5–8 rows have conflicting channel/status columns and stay inactive. Turntable transport, pitch, motor/platter, display, feedback colours, DVS/audio and full lifecycle remain open. No output or setting write is inferred.
 
 The [public-source audit](../../docs/coordination/controller-public-source-audit.json) records scoped Rane/Denon SDK and protocol searches. An unavailable protocol remains a gap.
+
+
+`hercules_mk4.py` replaces the generic MK4 import with a documented38-input manual core and eight transport/PFL lamps. Relative pitch and sensorless wheels retain signed magnitude. Normal K buttons use the native1/2/4/8 loop layout. The manufacturer guide and independent MK4-specific mapping govern the facts. Desktop driver/bridge access, native iPad USB, other modes, full lifecycle and audio routing remain open.

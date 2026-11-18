@@ -2108,3 +2108,24 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueMK4NativeCueLoopsAndRelativePitchKeepAudioAndSync() async throws {
+    try await withControllerCuePlayback("DJ Console Mk4",manual: true) { model,input in
+        cuePreviewPacket([0x90,14,127],to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80,14,127],to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        model.pressPlay(deck: .a,vinylStop: false)
+        cuePreviewPacket([0x90,2,127,2,0],to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        cuePreviewPacket([0x90,2,127,2,0],to: input)
+        #expect(model.playbackSnapshot?.a.loopEnabled == false)
+        input.currentTargetValue = { model.controllerValue($0.action, targetDeck: $0.deck) }
+        cuePreviewPacket([0xB0,50,1,48,1,48,127],to: input)
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

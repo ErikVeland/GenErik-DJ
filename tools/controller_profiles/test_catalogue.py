@@ -861,6 +861,29 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_mk4_manual_core_uses_relative_pitch_and_independent_factory_addresses(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next(r for r in runtime["profiles"] if r["id"]=="Hercules DJ Console MK4")
+        self.assertEqual(len(item["inputs"]),38,"Replace the ten-row generic import with the reviewed MK4 core")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(len(item["outputs"]),8)
+        self.assertEqual({r["channel"] for r in item["inputs"]},{0})
+        self.assertFalse(item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        for side,deck in enumerate("ab"):
+            rows=[r for r in item["inputs"] if r.get("targetDeck")==deck]
+            pitch=next(r for r in rows if r["action"].startswith("tempo"))
+            self.assertEqual((pitch["kind"],pitch["number"],pitch["encoding"]),("control",50+side,"twosComplement"))
+            jog=next(r for r in rows if r["action"].startswith("wheelJog"))
+            self.assertEqual((jog["number"],jog["argument"]),(48+side,128))
+            self.assertEqual({r["argument"] for r in rows if r["action"].startswith("toggleFixedLoop")},{1,2,4,8})
+            self.assertTrue(all(r["onValue"]==127 and r["offValue"]==0 for r in item["outputs"]))
+        from hercules_mk4 import MK4_REFERENCES
+        cached=ROOT/"TestBuilds/r356/upstream/mk4-guide.pdf"
+        if cached.exists():self.assertEqual(hashlib.sha256(cached.read_bytes()).hexdigest(),MK4_REFERENCES[item["id"]]["sha256"])
+        independent=ROOT/"TestBuilds/r301/upstream/controllers/Hercules__DJ_Console_MK4.js"
+        if independent.exists():self.assertEqual(hashlib.sha256(independent.read_bytes()).hexdigest(),MK4_REFERENCES[item["id"]]["relatedSources"][0]["memberSHA256"])
+
     def test_plx_crss12_has_only_unambiguous_hot_cue_accessory_inputs(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="Pioneer PLX-CRSS12"),None)
