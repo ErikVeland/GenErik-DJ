@@ -1473,3 +1473,28 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueFixedMixersNativeLevelsPFLAndRelativeGainKeepPlaybackAndSync() async throws {
+    for name in ["SMC-Mixer", "iControls"] {
+        try await withControllerCuePlayback(name) { model, input in
+            input.currentTargetValue = model.controllerInput.currentTargetValue
+            model.pressPlay(deck: .a, vinylStop: false)
+            _ = model.playback.core.renderOffline(frames: 4096)
+            model.refreshPlayback()
+            let firstFrame = try #require(model.playbackSnapshot?.a.sourceFrame)
+            let firstGain = try #require(model.playbackSnapshot?.a.mixer.gain)
+            let note: UInt8 = name == "SMC-Mixer" ? 29 : 9
+            cuePreviewPacket([0xE1, 127, 127, 0x90, note, 127], to: input)
+            #expect(model.playbackSnapshot?.a.mixer.volume == 1 && model.playbackSnapshot?.a.mixer.cue == true)
+            cuePreviewPacket([0xB0, 17, 1], to: input)
+            #expect((model.playbackSnapshot?.a.mixer.gain ?? 0) > firstGain)
+            cuePreviewPacket([0x90, note, 0, note, 127, 0xE1, 0, 0], to: input)
+            let audio = model.playback.core.renderOffline(frames: 4096)
+            model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.mixer.volume == 0 && model.playbackSnapshot?.a.mixer.cue == false)
+            #expect((model.playbackSnapshot?.a.sourceFrame ?? 0) > firstFrame)
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        }
+    }
+}

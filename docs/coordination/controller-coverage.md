@@ -3927,3 +3927,22 @@ The iPad framework compiles. Its bundled resource matches the source byte for by
 Full software layers, output channel selection, lamps/meters, port-name variants, calibration and physical/A10X acceptance remain open. No signed app or install is claimed.
 
 The final combined run passes all19 native checks for R320/R321/R322 and the catalogue bounds. It exposed another RMX-90 test ordering assumption. That assertion now compares the independently delivered C/D targets as a set. The failed and passing combined logs remain in `TestBuilds/r322/`.
+
+## R323 Controller remainder and fixed MIDI mixers
+
+Starting source: `fb8906a`. The catalogue has312 physical models. Of these,145 lack automatic core input:56 need protocol work,31 need adapters,45 have manual partial mappings and13 require bridges. Full theoretical support remains incomplete for all312 models. This is the whole remaining scope, not a three-profile stopping point.
+
+Assumption: retain the established source-backed recipe architecture and serial execution. Finish documented native MIDI work first. Treat platform drivers, USB/HID access, unidentified hardware modes and undocumented protocols as concrete blockers. Never change completion flags merely to reduce the remainder.
+
+- [x] Add failing importer and native decoder fixtures for separate SMC-Mixer and iControls normal mixer contracts.
+- [x] Add exact source encoder decoding, fixed C/A/B/D mixer strips, independent fader/tempo/PFL controls and source-supported globals. Keep software-selected transport, shared knob modes and unqualified output inactive.
+- [x] Report the current automatic-core and complete-theoretical remainder from generated catalogue data.
+- [x] Verify both recipes, all four targets with C/D opt-in, encoder steps and malformed inputs, native WAV mixer/PFL flow, catalogue bounds and iPad framework compilation. Preserve failed checks and compare earlier recipes.
+- [ ] Continue through the remaining source-backed adapters, partial mappings and protocol work. Preserve each unresolved hardware/platform boundary in the catalogue.
+
+The upstream iControls manual limits the default mapping to its distinguishable hardware layer1. SMC-Mixer default knobs control gain; long-press EQ/filter reassignment stays inactive. Named USB-MIDI core does not imply Bluetooth pairing, hardware reset, all software modes, complete feedback or physical/A10X acceptance.
+
+SMC-Mixer adds25 fixed inputs. iControls adds26 separate layer1 inputs. Their bounded factory-only encoder decoders retain every seven-bit source value, including magnitude and exact0.01 steps. No shared transport or hardware layer is guessed.
+All156 importer checks,9 native checks and iPad framework compilation pass. Native checks include256 encoder cases, malformed messages, schema restrictions, C/D opt-in, all eight faders and two real-WAV mixer/PFL/gain flows with Sync retained.
+The initial native fixture skipped soft takeover for absolute global controls. The corrected fixture crosses the current value first. Failed and passing logs remain in `TestBuilds/r323/`. Earlier201 recipes retain identical data. The compiled resource matches the source byte for byte. The repository check retains twelve historical broken links.
+The catalogue now has203 data recipes and169 automatic-core physical models. The automatic-core remainder is143. Full theoretical completion remains open for312 physical models. The final checklist item remains open for continued execution.

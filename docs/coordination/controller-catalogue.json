@@ -17735,48 +17735,78 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Icon-iControls.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Icon-iControls.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Icon-iControls.midi.xml"
       ],
       "definitions": [
-        "Icon-iControls.midi.xml"
+        "Icon-iControls.midi.xml",
+        "reviewed:icon-icontrols"
       ],
-      "implementation": "adapter-needed",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Icon iControls",
+      "automaticControls": true,
+      "controlActions": [
+        "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "filterToggleA:a",
+        "filterToggleA:c",
+        "filterToggleB:b",
+        "filterToggleB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "master",
+        "tempoA:a",
+        "tempoA:c",
+        "tempoB:b",
+        "tempoB:d"
+      ],
+      "inputBindingCount": 26,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Named USB-MIDI endpoint, fixed default C/A/B/D strips. Default hardware layer1 only."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "adapter-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "A controller-specific protocol adapter is required."
+        "Fixed default C/A/B/D mixer only. Shared transport/deck selection, full software layers, Slip/Quantize, recording, feedback/lifecycle and native calibration remain open. Only distinguishable default hardware layer1 is qualified. Other layers, effect selection, joystick mouse and iControls Pro remain separate. No unqualified output/reset/audio packet executes. Physical USB and A10X acceptance remain open."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -18603,48 +18633,77 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MVave-SMC-Mixer.midi.xml"
+        "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MVave-SMC-Mixer.midi.xml",
+        "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MVave-SMC-Mixer.midi.xml"
       ],
       "definitions": [
-        "MVave-SMC-Mixer.midi.xml"
+        "MVave-SMC-Mixer.midi.xml",
+        "reviewed:smc-mixer"
       ],
-      "implementation": "adapter-needed",
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "M-Vave SMC-Mixer",
+      "automaticControls": true,
+      "controlActions": [
+        "browseNext",
+        "browsePrevious",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cueMix",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "keylockA:a",
+        "keylockA:c",
+        "keylockB:b",
+        "keylockB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "master",
+        "monitor",
+        "tempoA:a",
+        "tempoA:c",
+        "tempoB:b",
+        "tempoB:d"
+      ],
+      "inputBindingCount": 25,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Named USB-MIDI endpoint, fixed default C/A/B/D strips. USB-C only; Bluetooth pairing remains unqualified."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "adapter-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "A controller-specific protocol adapter is required."
+        "Fixed default C/A/B/D mixer only. Shared transport/deck selection, full software layers, Slip/Quantize, recording, feedback/lifecycle and native calibration remain open. Long-press EQ/filter reassignment and kill buttons remain inactive; default encoder action is gain. Balance, focus, Bluetooth pairing/duplicate routes and LEDs remain unqualified. No unqualified output/reset/audio packet executes. Physical USB and A10X acceptance remain open."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -320541,6 +320600,68 @@
         },
         {
           "reason": "Named MM-1 endpoint only. Fixed default C/A/B/D strips and EQ/filter roles replace the source software layers. Dynamic strip/FX/knob assignment, shifted Load, Ctrl-Sync, balance, crossfader assignment/centre buttons, browser press, lamps/meters, complete lifecycle and physical/A10X acceptance remain open. Configurable outbound channel and endpoint-name variants need qualification. No generic CMD alias or audio route is inferred."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:smc-mixer",
+      "name": "M-Vave SMC-Mixer",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MVave-SMC-Mixer.midi.xml",
+        "sha256": "daca4d1f4600618c49e8b253bd542fec939d1339288009e0de5283a3f3f54638",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MVave-SMC-Mixer-scripts.js",
+            "sha256": "606e2bf0aa7a5a4a7256dd59fc96cf2d3f4868ebc0c102e8fed40d80d3cf535c"
+          },
+          {
+            "url": "https://manual.mixxx.org/2.5/en/hardware/controllers/mvave_smc_mixer"
+          }
+        ],
+        "review": "Independent pinned XML/script and upstream manual confirm physical C/A/B/D strip order. Pitch-bend channels0..3 control levels and4..7 control tempo; native uses standard MIDI normalisation and the established reversed Mixxx rate direction. No extra physical fader or EQ pot is invented. SMC-Mixer default gain encoders are CC16..19. Their literal handler decrements0.01 only for raw65; every other seven-bit value increments0.01. Master20, headphone level22 and cue mix23 share that handler. Note4..7 toggles keylock; Note28..31 toggles headphone PFL. Note96/97 move up/down in the library. Long-press EQ/filter knob reassignment, kill buttons, Slip/Quantize, selected-deck transport, recording, focus, balance and blinking pickup LEDs remain inactive. No invalid source LED packet is inherited. Use one USB-C connection; Bluetooth pairing/duplicate-route handling remains unqualified. Both initialisers construct software state without an input handshake. Native input cores execute no downloaded script and emit no unqualified feedback/reset/audio packet. Named ports only. Full modes/output/lifecycle, calibration, direct USB attachment and physical/A10X acceptance remain open."
+      },
+      "implementedInputCount": 25,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Fixed default C/A/B/D mixer only. Shared transport/deck selection, full software layers, Slip/Quantize, recording, feedback/lifecycle and native calibration remain open. Long-press EQ/filter reassignment and kill buttons remain inactive; default encoder action is gain. Balance, focus, Bluetooth pairing/duplicate routes and LEDs remain unqualified. No unqualified output/reset/audio packet executes. Physical USB and A10X acceptance remain open."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:icon-icontrols",
+      "name": "Icon iControls",
+      "transport": "midi",
+      "source": {
+        "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Icon-iControls.midi.xml",
+        "sha256": "9f2f635393abc48434938e2ac5fc84b209fdaf54ef4a36745c9e97c40b460df0",
+        "relatedSources": [
+          {
+            "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Icon-iControls-scripts.js",
+            "sha256": "6e44c621405cc6efe0c315c8f8c5d45cbf46ced39012aa08823667fc98f9078e"
+          },
+          {
+            "url": "https://manual.mixxx.org/2.5/en/hardware/controllers/icon_icontrols"
+          }
+        ],
+        "review": "Independent pinned XML/script and upstream manual confirm physical C/A/B/D strip order. Pitch-bend channels0..3 control levels and4..7 control tempo; native uses standard MIDI normalisation and the established reversed Mixxx rate direction. No extra physical fader or EQ pot is invented. iControls layer1 gain encoders are CC16..19 and filter encoders20..23. Their literal handler uses raw<=64 positive, otherwise raw-minus128, divided by100. Counts retain their magnitude, not only their sign. PFL is Note8..11 and filter enable is Note20..23. Pitch-bend channel8 controls crossfader, while master gain is ordinary CC12. XML wire facts override unused component MIDI descriptors. The upstream manual states that only hardware layer1 is distinguishable in the default configuration. Shared transport/deck selection, other hardware layers, Slip, effect selection, recording and joystick mouse behaviour remain inactive. No iControls Pro alias is inferred. Both initialisers construct software state without an input handshake. Native input cores execute no downloaded script and emit no unqualified feedback/reset/audio packet. Named ports only. Full modes/output/lifecycle, calibration, direct USB attachment and physical/A10X acceptance remain open."
+      },
+      "implementedInputCount": 26,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Fixed default C/A/B/D mixer only. Shared transport/deck selection, full software layers, Slip/Quantize, recording, feedback/lifecycle and native calibration remain open. Only distinguishable default hardware layer1 is qualified. Other layers, effect selection, joystick mouse and iControls Pro remain separate. No unqualified output/reset/audio packet executes. Physical USB and A10X acceptance remain open."
         }
       ]
     },

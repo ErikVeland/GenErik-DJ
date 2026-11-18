@@ -998,6 +998,45 @@ class GeneratedCatalogueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
 
+    def test_smc_mixer_has_independent_fixed_strip_and_literal_encoder_facts(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"] == "M-Vave SMC-Mixer"),None)
+        self.assertIsNotNone(item,"SMC-Mixer needs its own reviewed recipe")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),25)
+        self.assertEqual(sum(r["encoding"] == "smcMixerEncoder" for r in item["inputs"]),7)
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        self.assertFalse(any(r["action"].startswith(("play","cuePreview","load","crossfader","high","mid","low")) for r in item["inputs"]))
+        from fixed_midi_mixers import FIXED_MIXER_SOURCES
+        for filename,digest in FIXED_MIXER_SOURCES[item["id"]]:
+            path=ROOT/"TestBuilds/r169/upstream/res/controllers"/filename
+            if path.exists(): self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),digest)
+
+    def test_icontrols_layer_one_has_distinct_pitch_faders_and_counted_encoders(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"] == "Icon iControls"),None)
+        self.assertIsNotNone(item,"iControls needs its own layer1 recipe")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),26)
+        self.assertEqual(sum(r["encoding"] == "iconVelocity" for r in item["inputs"]),8)
+        self.assertEqual(sum(r["kind"] == "pitch" for r in item["inputs"]),9)
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        self.assertFalse(any(r["action"].startswith(("play","cuePreview","load")) for r in item["inputs"]))
+        from fixed_midi_mixers import FIXED_MIXER_SOURCES
+        for filename,digest in FIXED_MIXER_SOURCES[item["id"]]:
+            path=ROOT/"TestBuilds/r169/upstream/res/controllers"/filename
+            if path.exists(): self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),digest)
+
+    def test_report_states_automatic_and_full_theoretical_remainders_separately(self):
+        catalogue=json.loads((ROOT/"docs/coordination/controller-catalogue.json").read_text())
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        physical=[m for m in catalogue["models"] if m["isPhysicalModel"]]
+        text=report(catalogue,runtime)
+        self.assertIn(f"- {sum(not m['zeroConfig']['automaticControls'] for m in physical)} physical models still lack automatic core controls.",text)
+        self.assertIn(f"- {sum(not m['theoreticalSupport']['complete'] for m in physical)} physical models still need complete theoretical support.",text)
+
     def test_mm1_has_its_own_automatic_fixed_mixer_without_borrowed_cmd_modes(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"] == "Behringer CMD MM-1"),None)

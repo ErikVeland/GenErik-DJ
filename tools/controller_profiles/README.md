@@ -700,3 +700,11 @@ The manual recipe sends no partial software-mode SysEx or keepalive. Shared Load
 Only named MM-1 endpoints select the recipe. The fixed strip order is C/A/B/D, with EQ/filter roles and headphone PFL.
 Shift and Ctrl have independent guard identities. Either blocks normal deck and browser actions.
 Dynamic software layers, lamp/meter output and physical acceptance remain open. No generic CMD alias or audio route is inferred.
+
+### Fixed SMC-Mixer and iControls mixer cores (R323)
+
+`fixed_midi_mixers.py` keeps the two default USB-MIDI contracts separate. Both use C/A/B/D physical strip order.
+SMC-Mixer encoders use the literal raw65 decrement rule. iControls encoders retain signed counts divided by100.
+The native decoders reject foreign message kinds and values. Only the reviewed continuous mixer actions can use them.
+Shared transport and software modes remain inactive. No unqualified lamp, reset or audio packet is emitted.
+The generated report states the automatic-core and complete-theoretical remainders separately.
