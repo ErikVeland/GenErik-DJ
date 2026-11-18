@@ -23514,44 +23514,89 @@
         "https://www.numark.com/images/product_downloads/numark_stealth_control_xml_file_for_cue_5_and_virtual_vinyl_5.zip",
         "https://www.numark.com/images/product_downloads/stealth_control___quickstart_manual___v1.4.pdf"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:numark-stealth-control"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Numark Stealth Control",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopDisableA:a",
+        "loopDisableB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutOrExitA:a",
+        "loopOutOrExitB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
+      ],
+      "inputBindingCount": 42,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Numark's factory Cue B68 choice differs from source Pause60; physical labels and response require acceptance. Native jog calibration, source stutter/Smart Cue, full manual-loop/browser semantics, sensorless Scratch/Vinyl toggle, EQ kills, samples/FX and all light/lifecycle values remain open. Separate audio hardware is required; no audio route or Total/Omni lamp assignment is inferred."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -318883,6 +318928,41 @@
         },
         {
           "reason": "Missing ReloopMixon8 class leaves setup, pitch/jog translation, EQ/level mode ownership, shared pads and screens unqualified. The source reports a saved-loop/sampler alias issue; those shared pads remain inactive. Complete feedback values, full lifecycle, audio routing and physical acceptance remain open. Automatic selection stays off. Cross-bank release clears held Cue only when a release packet arrives. No Mixon4 facts are inherited."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:numark-stealth-control",
+      "name": "Numark Stealth Control",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.numark.com/images/product_downloads/numark_stealth_control_xml_file_for_cue_5_and_virtual_vinyl_5.zip",
+        "sha256": "5429b3d5a0d3340664f7982a74bd78f261ac2ca1461a1949d7c59dada34c7b17",
+        "archiveMember": "Numark Stealth Control/stealth_control_cue.xml",
+        "memberSha256": "fb961915199268c46c201ae84c1e2e595a40ff72b922c462d43cb69da8258dc1",
+        "relatedSources": [
+          {
+            "url": "https://www.madrix.com/download/m5/LegacyMADRIX5MIDIMaps.zip",
+            "sha256": "51d319a701242cf53b5f077bb1f91b3ac1b62beb3cbe29ba35656b2882de7fee",
+            "archiveMember": "LegacyMADRIX5MIDIMaps/Numark-StealthControl/Numark StealthControl.mmrx",
+            "memberSha256": "e0a5d5df6baa350aa44862d2f58cb65e81c363542ab9f65581aa51085af1e2a6"
+          },
+          {
+            "url": "https://www.numark.com/product/stealthcontrol"
+          }
+        ],
+        "review": "Numark's model-specific Cue5 factory XML governs input addresses and absolute slider direction. Its chan fields choose software decks, not wire channels. MADRIX5.4a's52-entry Stealth XML independently confirms wire channel0 and two's-complement browser/jog encoders. MADRIX's Total-style opposite jog addresses do not override Numark's Stealth-specific A24/B25. Source Play67/76, held Cue51/68, Sync64/71, Keylock56/63, PFL48/55, Load75/52, bends65/66 and69/70, manual loop In73/77 and Out74/78 remain distinct. The factory map assigns B60 to Pause and B68 to Cue Stop; native Cue follows that explicit source choice, with physical label acceptance open. Smart Cue59 and source Pause60 stay inactive. Native manual In clears an old loop before recording the boundary; Out sets the boundary or exits. Source pitchCC11/12 and crossfaderCC10 are inverted. GainCC13/14, level8/9, high16/17, mid18/19, low20/21, master23, monitor15 and cue-mix22 remain seven-bit. Source browser press79 enters native Open Group. Wheels remain sensorless native nudge/paused seek; source software Vinyl72 is not converted to a synthetic contact. No Total/Omni fine-tempo assignments, LED addresses/values, setup or audio route is inherited. Native calibration, full browser/loop semantics, scratch, EQ kills, samples/FX, lights and physical acceptance remain open. No downloaded controller code runs in the app."
+      },
+      "implementedInputCount": 42,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Numark's factory Cue B68 choice differs from source Pause60; physical labels and response require acceptance. Native jog calibration, source stutter/Smart Cue, full manual-loop/browser semantics, sensorless Scratch/Vinyl toggle, EQ kills, samples/FX and all light/lifecycle values remain open. Separate audio hardware is required; no audio route or Total/Omni lamp assignment is inferred."
         }
       ]
     },

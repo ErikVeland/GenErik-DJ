@@ -861,6 +861,23 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_stealth_keeps_factory_addresses_and_independent_wire_encoding_evidence(self):
+        runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item = next((r for r in runtime["profiles"] if r["id"] == "Numark Stealth Control"), None)
+        self.assertIsNotNone(item, "Stealth needs an independently reviewed recipe")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]), 42)
+        self.assertEqual({i["channel"] for i in item["inputs"]}, {0})
+        self.assertEqual([(i["action"],i["number"],i["encoding"]) for i in item["inputs"] if i["action"].startswith("wheelJog")], [("wheelJogA",24,"twosComplement"),("wheelJogB",25,"twosComplement")])
+        self.assertEqual([i["number"] for i in item["inputs"] if i["action"] in {"cuePreviewA","cuePreviewB"}], [51,68])
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertFalse(any(i["action"].startswith("jogTouch") for i in item["inputs"]))
+        from stealth_control import STEALTH_SOURCES
+        for filename,digest in STEALTH_SOURCES:
+            path = ROOT / "TestBuilds/r305/upstream" / filename
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_mixon8_manual_subset_excludes_custom_class_jog_pitch_and_shared_modes(self):
         runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item = next((r for r in runtime["profiles"] if r["id"] == "Reloop Mixon 8 Pro"), None)
@@ -1460,9 +1477,11 @@ class GeneratedCatalogueTests(unittest.TestCase):
         if cache.exists():
             catalogue, runtime = build(cache, None)
             model = next(row for row in catalogue["models"] if row["id"] == canonical("Numark Stealth Control"))
-            self.assertEqual(model["implementation"], "protocol-needed")
-            self.assertFalse(model["zeroConfig"]["automaticControls"])
-            self.assertFalse(any("stealth" in alias.lower() for p in runtime["profiles"] for alias in p["aliases"]))
+            self.assertEqual(model["implementation"], "automatic-core-profile")
+            self.assertTrue(model["zeroConfig"]["automaticControls"])
+            stealth = [p for p in runtime["profiles"] if any("stealth" in alias.lower() for alias in p["aliases"])]
+            self.assertEqual([p["id"] for p in stealth], ["Numark Stealth Control"])
+            self.assertFalse(any("omni" in alias.lower() or "total" in alias.lower() for alias in stealth[0]["aliases"]))
         factory = ROOT / "TestBuilds/r257/manufacturer"
         for name, digest in [
             ("Stealth-Control.zip", "5429b3d5a0d3340664f7982a74bd78f261ac2ca1461a1949d7c59dada34c7b17"),
@@ -2010,7 +2029,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for name, source in MANUFACTURER_MODELS:
             model = next(item for item in catalogue["models"] if item["id"] == canonical(name))
             self.assertIn(source, model["sources"])
-            self.assertEqual(model["zeroConfig"]["automaticControls"], name in {"Reloop Mixtour", "Reloop Beatpad 2"})
+            self.assertEqual(model["zeroConfig"]["automaticControls"], name in {"Reloop Mixtour", "Reloop Beatpad 2", "Numark Stealth Control"})
             self.assertFalse(model["theoreticalSupport"]["complete"])
         model_ids = {model["id"] for model in catalogue["models"]}
         for row in catalogue["benchmarkRows"]:

@@ -3643,3 +3643,19 @@ All6 focused native checks,133 importer checks and iPad framework compilation pa
 All184 earlier recipes remain unchanged; the compiled resource matches the source. Expected failures and source-bound results remain in `TestBuilds/r304/`.
 The repository check retains twelve historical broken links. The catalogue has185 data recipes. Automatic core coverage stays160 physical models and71/122 benchmark models.
 Full theoretical feature parity remains unimplemented. Source base: `646228e`. No signed app, install or physical/A10X acceptance is claimed.
+
+## R305 Stealth Control independent core
+
+Assumption: Numark's model-specific Cue5 XML governs addresses. Its `chan` selects software decks; MADRIX's public Stealth map independently confirms wire channel0 and signed two's-complement browser/jog decoding. MADRIX reuses Total's opposite jog addresses, which do not override Numark's Stealth source. No lamp or setup packet is inferred.
+
+- [x] Add failing generation/native fixtures for independent identity, transport, jog addresses and signed counts.
+- [x] Add42 automatic input bindings from pinned sources. Keep sensorless wheels, source Cue51/68, and browser press79 distinct from Total/Omni.
+- [x] Check native playback/Cue release, earlier profiles and iPad framework resource bytes. Preserve source-bound evidence.
+
+The42-input recipe adds automatic normal input only. Its wheels stay sensorless. Numark's source Cue B68 choice remains explicit; source Pause60 and Smart Cue59 stay inactive pending physical acceptance.
+MADRIX qualifies channel0 and signed counts only; its opposite jog addresses do not override the model-specific Numark map. No Total/Omni light or fine-tempo address is inherited.
+All5 focused native checks,134 importer checks and iPad framework compilation pass. The real-WAV check retains saved Sync after Cue and wheel control.
+Two older catalogue assertions still expected protocol-needed status; they now require this independent profile and reject Omni/Total aliasing. Failed results remain in `TestBuilds/r305/`.
+All185 earlier recipes remain unchanged; the compiled resource matches the source. The repository check retains twelve historical broken links.
+The catalogue has186 data recipes and161 automatic core physical models; benchmark coverage stays71/122. Full theoretical feature parity remains unimplemented.
+Source base: `bbefb6b`. No signed app, install or physical/A10X acceptance is claimed.
