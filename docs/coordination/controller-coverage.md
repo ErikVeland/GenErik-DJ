@@ -4157,3 +4157,16 @@ All170 importer checks,7 native checks and iPad framework compilation pass. Nati
 Review distinguishes the helper's40 ms component initialisation staggering from live output. It does not establish a required40 ms interval for every lamp message. The four explicit core lamps are retained. Full source light initialisation and lifecycle remain open.
 Earlier217 recipes retain identical data. The compiled resource matches the source byte for byte. The catalogue reaches218 data recipes. DDM4000 moves from adapter-needed to a manual partial profile. Automatic core remains179 physical records, with133 without automatic core. Full theoretical support remains open for312 physical records. The repository check retains twelve historical broken links.
 DIN interface and hardware section/channel setup, full crossfader/kill/microphone/sampler/FX modes, complete output/lifecycle, signed app/install and physical/A10X acceptance remain open. Continue through the remaining source-backed controllers.
+
+## R337 Spectra filter rearm at bank boundaries
+
+Serial review found that hardware bank changes reset selected-deck cues but retained fixed filter-button debounce. If a filter pad changes bank before its old release arrives, its next press can be missed. Reset all source input values at hardware bank boundaries. Deck-selection changes can keep the narrower cue reset.
+
+- [x] Reproduce the missed next press for each fixed filter pad. Check learned Cue ownership on those pads across two sources.
+- [x] Reset fixed filter debounce on hardware bank changes without changing protocol routing, source-owned cleanup or catalogue recipes.
+- [x] Run focused native checks, importer checks and iPad framework compilation. Preserve all catalogue/runtime bytes.
+
+The regression reproduced a missed second press on all four fixed filter pads after a bank change without the old release. Hardware bank boundaries now reset all source input values. Deck selection retains its narrower cue-only reset. Source-owned contact cleanup is unchanged. A learned Cue on another controller remains held until that source releases it.
+All170 importer checks,26 native checks and iPad framework compilation pass. The two new bank/ownership checks, earlier Spectra/P1-Nano input cases, real-WAV cue/Sync flows, bounds and147 automatic held-Cue profiles pass. The failing regression log remains in `TestBuilds/r337/`.
+All218 runtime recipes, catalogue JSON and generated report remain byte for byte unchanged. The compiled resource matches the source. Automatic core remains179 physical records, with133 without automatic core. Full theoretical support remains open for312 physical records. The repository check retains twelve historical broken links.
+This is a serial review fix. No signed app/install or physical/A10X acceptance is claimed. Continue through the remaining source-backed controllers.

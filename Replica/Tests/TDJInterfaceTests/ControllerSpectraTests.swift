@@ -139,3 +139,39 @@ import Testing
         #expect(input.status.contains("overload"))
     }
 }
+
+@Test @MainActor func controllerCatalogueSpectraBankChangeRearmsFixedFilterPadsWithoutTheirOldRelease() {
+    withSpectra { input, _ in
+        var events: [ControllerActionTarget] = []
+        input.onTargetAction = { target, _ in if !target.action.isJog { events.append(target) } }
+        for (number, deck): (UInt8, DeckID) in [(36, .c), (37, .a), (38, .b), (39, .d)] {
+            events.removeAll()
+            spectraPacket([0x93, 0, 127, 0x92, number, 127], to: input)
+            spectraPacket([0x83, 0, 127, 0x93, 1, 127], to: input)
+            spectraPacket([0x83, 1, 127, 0x93, 0, 127, 0x92, number, 127], to: input)
+            #expect(
+                events
+                    == Array(repeating: .init(ControllerAction.filterToggleA.assigned(to: deck), deck: deck), count: 2))
+        }
+    }
+}
+
+@Test @MainActor func controllerCatalogueSpectraBankCleanupKeepsLearnedFilterCueOwnedByOtherSource() {
+    withSpectra { input, _ in
+        for source: Int32 in [10, 11] {
+            input.select(source)
+            input.learning = .cuePreviewA
+            spectraPacket([0x92, 36, 127, 36, 0], source: source, to: input)
+        }
+        var values: [Double] = []
+        input.onAction = { action, value in if action == .cuePreviewA { values.append(value) } }
+        spectraPacket([0x92, 36, 127], to: input)
+        spectraPacket([0x92, 36, 127], source: 11, to: input)
+        spectraPacket([0x93, 2, 127], to: input)
+        #expect(values == [1])
+        spectraPacket([0x82, 36, 127], source: 11, to: input)
+        #expect(values == [1, 0])
+        spectraPacket([0x92, 36, 127, 0x82, 36, 127], to: input)
+        #expect(values == [1, 0, 1, 0])
+    }
+}

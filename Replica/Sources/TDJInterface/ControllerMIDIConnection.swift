@@ -1896,7 +1896,9 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 case .deckChanged, .bankChanged:
                     flushPendingActions()
                     releaseMomentaryActions(source: source, resetJogs: false)
-                    resetInputValueStates(inputBindings(source: source).filter { $0.channel < 4 })
+                    resetInputValueStates(inputBindings(source: source).filter {
+                        event == .bankChanged || $0.channel < 4
+                    })
                 }
             }
             return events.count
