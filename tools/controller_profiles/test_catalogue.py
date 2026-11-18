@@ -998,6 +998,21 @@ class GeneratedCatalogueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
 
+    def test_sc5000m_uses_independent_captured_manual_protocol_without_motor_or_sibling_inference(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Denon DJ SC5000M PRIME"),None)
+        self.assertIsNotNone(item,"SC5000M needs its captured wire protocol and native manual core")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(item["inputProtocol"],"sc5000M")
+        self.assertFalse(item["startup"] or item["shutdown"] or item["outputs"])
+        self.assertFalse(any(i["action"].startswith(("jog","tempo")) for i in item["inputs"]))
+        self.assertEqual(len([i for i in item["inputs"] if i["action"].startswith("hotcue")]),32)
+        self.assertEqual(len([i for i in item["inputs"] if i["action"].startswith("toggleFixedLoop")]),32)
+        from sc5000m import SC5000M_SOURCES
+        for filename,digest in SC5000M_SOURCES:
+            self.assertEqual(hashlib.sha256((ROOT/"TestBuilds/r340/upstream"/filename).read_bytes()).hexdigest(),digest)
+        self.assertFalse(any("SC6000" in alias or "LC6000" in alias for alias in item["aliases"]))
+
     def test_bcr2000_uses_exact_factory_preset_and_state_buttons_without_sibling_alias(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="Behringer BCR2000"),None)

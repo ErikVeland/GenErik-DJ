@@ -842,3 +842,12 @@ Direct keylock state uses the existing explicit playback setter. It bypasses pic
 Global CC Shift bindings can share a bounded `shiftInput` identity. Channel-specific CC identity stays invalid.
 Setup validation now requires two bytes for Program Change/channel pressure and three for other supported channel messages.
 Complete modes, Shift-lamp synchronisation, lifecycle and physical acceptance remain open.
+
+### SC5000M captured Computer-mode input (R340)
+
+`sc5000m.py` pins the public author captures, working mapping/proxy and iOS investigation independently of the LC6000 specification.
+`ControllerSC5000MDecoder` retains fresh-press LAYER selection, shared Shift, per-deck pad modes and original release ownership.
+The manual111-binding core supports normal transport/loops/browser, Hot Cue1–8 and source-sized auto-loop pads. Roll/Slicer pads stay inactive.
+Motor/platter counters, pitch bend and absent Note40 touch never become jog or tempo input. No motor or screen command is sent.
+The closed manual protocol tag persists with bindings. Deck, mode, fragments and held state reset on replacement/reconnect.
+Motor/hand inference, platter/pitch calibration, screen/touch bulk protocol, complete output/lifecycle/audio and physical acceptance remain open.

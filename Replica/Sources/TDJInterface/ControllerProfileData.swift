@@ -3,7 +3,7 @@ import TDJCore
 
 struct ControllerProfileData: Decodable, Sendable {
     enum InputProtocol: String, Codable, Sendable {
-        case smk25II, cdj101, ddjSR2, keyLabMKI, kontrolOne, midiFighterSpectra, p1Nano
+        case smk25II, cdj101, ddjSR2, keyLabMKI, kontrolOne, midiFighterSpectra, p1Nano, sc5000M
     }
     enum AudioOutput: String, Decodable, Sendable {
         case masterAndHeadphones

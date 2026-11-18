@@ -389,6 +389,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private var cdj101Decoders: [Int32: ControllerCDJ101Decoder] = [:]
     @ObservationIgnored private var sr2Decoders: [Int32: ControllerSR2Decoder] = [:]
     @ObservationIgnored private var kontrolOneDecoders: [Int32: ControllerKontrolOneDecoder] = [:]
+    @ObservationIgnored private var sc5000MDecoders: [Int32: ControllerSC5000MDecoder] = [:]
     @ObservationIgnored private var spectraDecoders: [Int32: ControllerSpectraDecoder] = [:]
     @ObservationIgnored private var p1NanoDecoders: [Int32: ControllerP1NanoDecoder] = [:]
     @ObservationIgnored private var keyLabDecoders: [Int32: ControllerKeyLabDecoder] = [:]
@@ -608,6 +609,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         sr2Decoders.removeAll()
         keyLabDecoders.removeAll()
         p1NanoDecoders.removeAll()
+        sc5000MDecoders.removeAll()
         spectraDecoders.removeAll()
         kontrolOneDecoders.removeAll()
         bridgeDecoders.removeAll()
@@ -1141,6 +1143,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         sr2Decoders[source] = nil
         keyLabDecoders[source] = nil
         p1NanoDecoders[source] = nil
+        sc5000MDecoders[source] = nil
         spectraDecoders[source] = nil
         kontrolOneDecoders[source] = nil
         if wasConnected, connectedPorts[source] != inputPort(for: source) {
@@ -1175,6 +1178,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         sr2Decoders[id] = nil
         keyLabDecoders[id] = nil
         p1NanoDecoders[id] = nil
+        sc5000MDecoders[id] = nil
         spectraDecoders[id] = nil
         kontrolOneDecoders[id] = nil
         bridgeDecoders[id] = .init()
@@ -1200,6 +1204,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         sr2Decoders[id] = nil
         keyLabDecoders[id] = nil
         p1NanoDecoders[id] = nil
+        sc5000MDecoders[id] = nil
         spectraDecoders[id] = nil
         kontrolOneDecoders[id] = nil
         bridgeDecoders[id] = nil
@@ -2023,6 +2028,26 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                     flushPendingActions()
                     releaseMomentaryActions(source: source)
                     resetInputValueStates(inputBindings(source: source))
+                }
+            }
+            return events.count
+        }
+        if inputProtocol(for: source) == .sc5000M {
+            var decoder = sc5000MDecoders[source, default: .init()]
+            let events = decoder.append(bytes)
+            sc5000MDecoders[source] = decoder
+            guard events.count <= limit else {
+                stop()
+                status = "Controller input overload. Reconnect to continue."
+                return nil
+            }
+            for event in events {
+                switch event {
+                case .message(let message): receive(message, source: source)
+                case .deckChanged, .padModeChanged:
+                    flushPendingActions()
+                    releaseMomentaryActions(source: source, resetJogs: false)
+                    resetInputValueStates(inputBindings(source: source).filter { $0.action != .shift })
                 }
             }
             return events.count

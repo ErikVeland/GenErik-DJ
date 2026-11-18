@@ -14112,46 +14112,98 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
-        "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services"
+        "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services",
+        "https://raw.githubusercontent.com/saustin2010/denon_sc5000_algoriddim_midi_mapping/a34fb9a4367731014e469aaf86f5fde78cc00896/PRIME_MIDI_SPEC.md"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:sc5000m-captured-core"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Denon DJ SC5000M PRIME",
+      "automaticControls": false,
+      "controlActions": [
+        "browse",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "hotcue5A:a",
+        "hotcue5B:b",
+        "hotcue6A:a",
+        "hotcue6B:b",
+        "hotcue7A:a",
+        "hotcue7B:b",
+        "hotcue8A:a",
+        "hotcue8B:b",
+        "jumpBackA:a",
+        "jumpBackB:b",
+        "jumpForwardA:a",
+        "jumpForwardB:b",
+        "keylockA:a",
+        "keylockB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutOrExitA:a",
+        "loopOutOrExitB:b",
+        "loopSizeA:a",
+        "loopSizeB:b",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopB:b"
+      ],
+      "inputBindingCount": 111,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual raw SC5000M Computer-mode MIDI input. Native LAYER toggles A/B, starting A. Per-deck Hot Cue and auto-loop pad modes are software-owned. Motor/platter/display remain inactive; separate audio required."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Manual raw Computer-mode only. Motor/platter hand inference, measured native gearing, pitch slider polarity/range, screen/touch bulk protocol, hardware track-skip loading, Roll/Slicer/Shift alternatives, dynamic per-deck lamp shadowing, complete setup/output/lifecycle/audio and physical/A10X acceptance remain open. No motor output, factory reset or sibling protocol is sent or inferred. Native LAYER selects A/B only.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -322023,6 +322075,51 @@
         },
         {
           "reason": "Factory preset1 must retain its documented addresses. Custom presets are not overwritten. Fixed native normal group2 EQ/filter and keylock only. Source pitch/loop/reverse/FX, filter/kill buttons, shared Shift-lamp synchronisation, complete modes/output/lifecycle and physical/A10X acceptance remain open. No audio interface or sibling protocol is inferred."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:sc5000m-captured-core",
+      "name": "Denon DJ SC5000M PRIME",
+      "transport": "midi",
+      "source": {
+        "url": "https://raw.githubusercontent.com/saustin2010/denon_sc5000_algoriddim_midi_mapping/a34fb9a4367731014e469aaf86f5fde78cc00896/PRIME_MIDI_SPEC.md",
+        "sha256": "033a337fe32b5bd866d0831ce9d5ce495c6c71b4959f256b126ab03a8caa64be",
+        "revision": "a34fb9a4367731014e469aaf86f5fde78cc00896",
+        "relatedSources": [
+          {
+            "url": "https://raw.githubusercontent.com/saustin2010/denon_sc5000_algoriddim_midi_mapping/a34fb9a4367731014e469aaf86f5fde78cc00896/PRIME_MIDI_SPEC.md",
+            "sha256": "033a337fe32b5bd866d0831ce9d5ce495c6c71b4959f256b126ab03a8caa64be"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/saustin2010/denon_sc5000_algoriddim_midi_mapping/a34fb9a4367731014e469aaf86f5fde78cc00896/README.md",
+            "sha256": "c8d98ea69fc90ecfccb8cfbb373a3a1f7887d73474ad9087ff023b4d69f072e0"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/saustin2010/denon_sc5000_algoriddim_midi_mapping/a34fb9a4367731014e469aaf86f5fde78cc00896/midiproxy.swift",
+            "sha256": "803afc4aae02c059ee9f6f74f4be120571a3c0ebab175e1cc85d158bc29f7842"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/saustin2010/denon_sc5000_algoriddim_midi_mapping/a34fb9a4367731014e469aaf86f5fde78cc00896/build_mapping.py",
+            "sha256": "29a2b6c56954190e57d8fb59f37f7e9f33a8f5531bab83025c0823e6ee57f01e"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/saustin2010/denon_sc5000_algoriddim_midi_mapping/a34fb9a4367731014e469aaf86f5fde78cc00896/IOS_PORT_PLAN.md",
+            "sha256": "66fad9f1be72cf22658be196fbf902b44f00e5484f835cdf065b8aafe804a926"
+          }
+        ],
+        "review": "Author captures and working proxy/mapping independently identify SC5000M Computer-mode channel0, LAYER Note11, shared Shift26 and software-owned pad modes27..30 with raw pads32..39. Native decoder starts on A/Hot Cue, toggles A/B on fresh LAYER presses and keeps pad modes per deck. Releases retain their original deck/logical pad address across layer/mode changes. Native normal transport follows the working mapping: Play1, Cue2, jump3/4, loop8/9/10, Load18, Sync20, Keylock22, held bend24/25, relative loop CC3/browser CC6. Loop Out uses native out-or-exit. Hardware track-skip5/6 is not mislabelled library selection. Hot Cue1..8 and auto-loop1/16,1/8,1/4,1/2,1,2,4,8 retain source modes; Roll/Slicer remain inactive. Captures contradict LC6000 assumptions: no Note40 touch is emitted; CC17/49 and54/55 plus pitch bend are motor/platter reports. They never become tempo or jog input. Source discovers motor start CC65/67 and stop66/68 with value ignored,3683 ticks/revolution and motor rate near2000 ticks/second. Those facts do not establish safe native motor/hand inference, so no motor command is sent. Main screen is a separate15e4:a00a USB device, not a MIDI display. Manual raw Computer-mode selection and separate audio are required; the author reports iOS MIDI enumeration but this project has no physical proof. Pitch slider polarity/range, full modes/output/lifecycle and physical/A10X acceptance remain open. No SC5000/SC6000/SC6000M/LC6000 sibling compatibility is inferred."
+      },
+      "implementedInputCount": 111,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual raw Computer-mode only. Motor/platter hand inference, measured native gearing, pitch slider polarity/range, screen/touch bulk protocol, hardware track-skip loading, Roll/Slicer/Shift alternatives, dynamic per-deck lamp shadowing, complete setup/output/lifecycle/audio and physical/A10X acceptance remain open. No motor output, factory reset or sibling protocol is sent or inferred. Native LAYER selects A/B only."
         }
       ]
     },
