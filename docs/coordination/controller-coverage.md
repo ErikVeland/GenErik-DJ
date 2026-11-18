@@ -4610,3 +4610,19 @@ Hardware FX selectors, sampler edit/hold, Echo Time, Release/Echo and connection
 Validation:195 Python checks and seven focused native tests passed. Fixtures cover all22 inputs, both note-release forms, pickup/direction, source-local held-bend cleanup and inactive controls/channels. Real-WAV playback retained finite audio and saved Sync. The iPad framework compiled and its resource matches the source. All245 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r362/validation.json`.
 
 The catalogue now has246 data recipes. Automatic core coverage remains190 physical models, with122 remaining. Full theoretical support remains open for all312 physical model records. No signed app, installation or physical/A10X acceptance is claimed.
+
+## R363 Complete pinned djay inventory audit
+
+Assumption: the Serato iOS benchmark and Mixxx definitions do not cover every model in the current djay list. Audit the public all-platform list. Preserve competitor platform claims and limitations as comparison evidence. Keep our own support criteria unchanged.
+
+- [x] Pin all204 hardware rows and57 platform-specific limitation notes from the current public page.
+- [x] Resolve the Digital Jockey IE2 and MIXAGE IE naming variants. Add31 missing model records without sibling protocol aliases.
+- [x] Verify source replay, badges, limitation matching, duplicate/truncated input rejection, stable model names, runtime identity and catalogue release gates.
+
+The [djay hardware list](https://www.algoriddim.com/hardware) was checked on19 November2026. Its snapshot has SHA256`db8bf667068cbcb278d49f5ee5794e5d6baccc528cdff917e41b00da232954a3`. The parser separates product rows from NEW badges and platform limitation rows. It retains each published platform and limitation under `comparisonSupport.djay`. These fields describe djay. They do not establish GenErik DJ behaviour. The catalogue completion gate now checks every pinned djay product, as well as the existing Serato and Mixxx sources.
+
+The31 additions include Mix Ultra, original MC6000/NS6, several Xone mixers, Casio controllers, Phase, Mixtrack Edge and remaining Pioneer club mixers. Digital Jockey IE2 and MIXAGE IE are naming variants of existing records. Other family members retain separate records and open protocol/audio work. In particular, FLX6-GT, VCI-300MKII and the A-TRAK edition gain no inherited mapping.
+
+Validation:198 Python tests passed. Source replay verifies both the snapshot hash and parsed rows. A changed snapshot is rejected even when its product rows match. Fixtures reject unknown limitation targets, duplicate/truncated products and unknown platforms. All existing model names remain unchanged. The bundled runtime remains byte-identical, SHA256`3289ca45e149ab91a788b0fee23a00918184a797f238335e4a9e415a1fe7670b`, so native/framework checks were not repeated for this inventory-only change. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r363/validation.json`.
+
+The current catalogue has350 records, including343 physical models. Runtime recipes remain246. Automatic core coverage remains190 physical models. The additional inventory records increase the remaining automatic-core count to153. Full theoretical support remains open for all343 physical models. The wider market audit remains open. No device acceptance or feature-parity claim is added.

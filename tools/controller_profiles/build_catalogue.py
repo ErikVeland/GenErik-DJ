@@ -8,7 +8,7 @@ from pathlib import Path
 
 from convert import convert_xml
 from curated import curated_profiles, REFERENCES
-from sources import canonical, manufacturer, read_serato, split_models
+from sources import canonical, manufacturer, read_serato, read_djay, split_models
 from reviewed import REVIEWED
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY, CDJ_GAPS
@@ -209,7 +209,7 @@ def aliases(name, identifiers):
     return sorted({value for value in names if len(value) >= 4 and value.lower() not in GENERIC_NAMES})
 
 
-def build(cache, serato_html):
+def build(cache, serato_html, djay_html=None):
     locked = json.loads(Path(__file__).with_name("sources.lock.json").read_text())
     manifest = json.loads((cache / "manifest.json").read_text())
     if manifest != locked["mixxx"]:
@@ -221,6 +221,12 @@ def build(cache, serato_html):
             raise ValueError("The benchmark snapshot differs from the reviewed lock file.")
         if read_serato(serato_html.read_text()) != benchmark:
             raise ValueError("The benchmark model rows differ from the reviewed lock file.")
+    djay = locked["djay"]
+    if not 200 <= djay["rowCount"] <= 512 or djay["rowCount"] != len(djay["rows"]) or len({canonical(row["name"]) for row in djay["rows"]}) != djay["rowCount"]:
+        raise ValueError("The locked djay inventory is incomplete or contains duplicate models.")
+    if djay_html is not None:
+        if hashlib.sha256(djay_html.read_bytes()).hexdigest() != djay["sha256"] or read_djay(djay_html.read_text()) != djay["rows"]:
+            raise ValueError("The djay inventory differs from the reviewed lock file.")
     models, definitions, profiles = {}, [], []
 
     def add_model(name, source, role="primary", benchmark_row=False):
@@ -336,6 +342,10 @@ def build(cache, serato_html):
         if current is None or (len(profile["inputs"]), len(profile["outputs"])) > (len(current["inputs"]), len(current["outputs"])):
             choices[key] = profile
     profiles = sorted(choices.values(), key=lambda profile: profile["id"].lower())
+    for entry in djay["rows"]:
+        model = add_model(entry["name"], entry["url"])
+        model["comparisonSupport"] = {"djay": {"sourceName": entry["sourceName"], "platforms": entry["platforms"],
+                                               "limitations": entry["limitations"], "source": entry["url"]}}
     for model in models.values():
         candidates = [profile for profile in profiles if profile["definition"] in model["definitions"]]
         profile = next((item for item in candidates if item["id"] == model.get("profile")), None)
@@ -410,9 +420,11 @@ def build(cache, serato_html):
     catalogue = {"schemaVersion": 1, "reviewed": "2026-11-17", "upstreamRevision": manifest["revision"],
                  "benchmarkSource": {"url": locked["benchmark"]["url"],
                                      "sha256": locked["benchmark"]["sha256"], "rowCount": len(benchmark)},
+                 "djaySource": {key: value for key, value in djay.items() if key != "rows"}, "djayRows": djay["rows"],
                  "benchmarkRows": benchmark, "manufacturerInventoryReviewed": INVENTORY_REVIEWED, "models": ordered, "definitions": definitions,
                  "releaseGate": {"catalogueCompletionScope": "Pinned software sources and the listed manufacturer additions. The market audit remains open.",
                                  "manufacturerAuditComplete": False, "catalogueComplete": all(all(canonical(name) in models for name in split_models(row["name"])) for row in benchmark)
+                     and all(canonical(row["name"]) in models for row in djay["rows"])
                      and {item["id"] for item in definitions if item["id"].endswith(".xml")}
                      == {Path(item["path"]).name for item in locked["mixxx"]["files"] if item["path"].endswith(".xml")}, "hardwareParityAccepted": False,
                                  "sourceReuseReviewAccepted": False,
@@ -427,10 +439,11 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--cache", type=Path, required=True)
     parser.add_argument("--serato", type=Path)
+    parser.add_argument("--djay", type=Path)
     parser.add_argument("--catalogue", type=Path, required=True)
     parser.add_argument("--runtime", type=Path, required=True)
     args = parser.parse_args()
-    catalogue, runtime = build(args.cache, args.serato)
+    catalogue, runtime = build(args.cache, args.serato, args.djay)
     runtime_text = encode_runtime(runtime)
     write_json(args.catalogue, catalogue)
     args.runtime.parent.mkdir(parents=True, exist_ok=True)

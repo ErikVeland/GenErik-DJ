@@ -20,6 +20,7 @@ def report(catalogue, runtime):
     lines = ["# Controller catalogue — R169", "", "Base inventory reviewed 17 November 2026. Later profile reviews appear in the request ledger. The pinned software inventory is complete. The wider market audit and controller feature parity remain open.", "",
              "## Boundary and counts", "",
              f"- {len(catalogue['benchmarkRows'])} published Serato iOS rows, expanded to {sum(model['benchmark'] for model in models)} distinct model records.",
+             f"- {len(catalogue.get('djayRows', []))} pinned djay hardware rows, with per-platform limitations kept as competitor evidence.",
              f"- All {len(source_definitions)} Mixxx definitions at `{catalogue['upstreamRevision']}`, including alternative MIDI, HID and bulk mappings.",
              "- All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.",
         "- Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.",

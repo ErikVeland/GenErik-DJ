@@ -13,7 +13,7 @@ from report import report
 from convert import control_record, convert_xml
 from curated import curated_profiles
 from fetch_reference import fetch, git_blob_hash
-from sources import canonical, split_models
+from sources import canonical, split_models, read_djay
 from reviewed import REVIEWED
 from dj2go2 import dj2go2_profiles, DJ2GO2_SOURCES
 from ns4fx import ns4fx_profiles, NS4FX_SOURCES
@@ -861,6 +861,43 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_djay_inventory_covers_every_pinned_row_without_inventing_runtime_support(self):
+        locked=json.loads((ROOT/"tools/controller_profiles/sources.lock.json").read_text())["djay"]
+        catalogue=json.loads((ROOT/"docs/coordination/controller-catalogue.json").read_text())
+        self.assertIn("djayRows",catalogue,"Include the complete current djay inventory, not only the Serato benchmark")
+        self.assertEqual(len(catalogue["djayRows"]),204)
+        self.assertEqual(catalogue["djayRows"],locked["rows"])
+        self.assertEqual(catalogue["djaySource"]["rowCount"],204)
+        self.assertEqual(sum(len(r["limitations"]) for r in catalogue["djayRows"]),57)
+        models={m["id"]:m for m in catalogue["models"]}
+        for row in locked["rows"]:
+            model=models[canonical(row["name"])]
+            self.assertIn(row["url"],model["sources"])
+            self.assertEqual(model["comparisonSupport"]["djay"],{"sourceName":row["sourceName"],"platforms":row["platforms"],"limitations":row["limitations"],"source":row["url"]})
+        cached=ROOT/"TestBuilds/r363/upstream/algoriddim-hardware.html"
+        if cached.exists():
+            self.assertEqual(hashlib.sha256(cached.read_bytes()).hexdigest(),locked["sha256"])
+            self.assertEqual(read_djay(cached.read_text()),locked["rows"])
+
+    def test_djay_replay_rejects_changed_bytes_even_when_product_rows_match(self):
+        cache=ROOT/"TestBuilds/r169/upstream"
+        source=ROOT/"TestBuilds/r363/upstream/algoriddim-hardware.html"
+        if not cache.exists() or not source.exists():self.skipTest("The optional pinned upstream cache is not available.")
+        with tempfile.TemporaryDirectory() as directory:
+            changed=Path(directory)/"changed.html"
+            changed.write_bytes(source.read_bytes()+b" ")
+            with self.assertRaises(ValueError):build(cache,None,changed)
+
+    def test_djay_parser_does_not_turn_badges_or_platform_notes_into_models(self):
+        products=''.join(f'<li data-hardware-target="mac ios"><a href="/hardware/unit-{i}">Maker Unit {i}</a><div>NEW</div></li>' for i in range(204))
+        note='<li data-hardware-target="midinote ios">Maker Unit 1: Screen on iOS</li>'
+        rows=read_djay(products+note)
+        self.assertEqual(len(rows),204)
+        self.assertEqual(rows[1]["name"],"Maker Unit 1")
+        self.assertEqual(rows[1]["limitations"],[{"platforms":["ios"],"text":"Screen on iOS"}])
+        for bad in [products+products,products[:100],products+'<li data-hardware-target="midinote ios">Unknown: Screen</li>',products.replace('mac ios','mac unknown',1)]:
+            with self.assertRaises(ValueError):read_djay(bad)
+
     def test_rmx_ignite_native_accessory_layout_preserves_documented_addresses_and_triplet_gaps(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="AlphaTheta RMX-IGNITE"),None)

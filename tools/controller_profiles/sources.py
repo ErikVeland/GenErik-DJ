@@ -1,6 +1,7 @@
 """Read controller inventories and preserve model and source identities."""
 from html.parser import HTMLParser
 import re
+from urllib.parse import urljoin
 
 SERATO_URL = "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
 BRANDS = {"Akai", "Allen & Heath", "AlphaTheta", "Denon", "Gemini", "Hercules", "Mixars",
@@ -46,6 +47,71 @@ def read_serato(html):
     return parser.models
 
 
+
+DJAY_URL = "https://www.algoriddim.com/hardware"
+DJAY_MODEL_NAMES = {
+    "Reloop Digital Jockey IE2": "Reloop Digital Jockey 2 Interface Edition",
+    "Reloop MIXAGE IE": "Reloop Mixage Interface Edition",
+}
+
+
+class DjayHardwareParser(HTMLParser):
+    """Keep product rows separate from per-platform limitation notes and NEW badges."""
+    def __init__(self):
+        super().__init__()
+        self.rows = []
+        self.notes = []
+        self.current = None
+        self.badge_depth = 0
+
+    def handle_starttag(self, tag, attributes):
+        attrs = dict(attributes)
+        if tag == "li" and attrs.get("data-hardware-target"):
+            self.current = {"text": [], "platforms": attrs["data-hardware-target"].split(), "url": None}
+            self.badge_depth = 0
+        elif self.current is not None:
+            if tag == "div": self.badge_depth += 1
+            if tag == "a" and self.current["url"] is None: self.current["url"] = attrs.get("href")
+
+    def handle_data(self, data):
+        if self.current is not None and self.badge_depth == 0: self.current["text"].append(data)
+
+    def handle_endtag(self, tag):
+        if self.current is None: return
+        if tag == "div": self.badge_depth = max(0, self.badge_depth - 1)
+        if tag == "li":
+            row = self.current
+            self.current = None
+            row["name"] = " ".join("".join(row.pop("text")).split()).rstrip(" *")
+            if "midinote" in row["platforms"]:
+                row["platforms"].remove("midinote")
+                self.notes.append(row)
+            else: self.rows.append(row)
+
+
+def read_djay(html):
+    """Read the published all-platform inventory without treating competitor support as our implementation."""
+    parser = DjayHardwareParser()
+    parser.feed(html)
+    platforms = {"mac", "win", "winArm", "ios", "android", "quest"}
+    if not 200 <= len(parser.rows) <= 512 or len({row["name"] for row in parser.rows}) != len(parser.rows):
+        raise ValueError("The djay inventory is incomplete or contains duplicate rows.")
+    rows = []
+    for row in parser.rows:
+        if not row["name"] or not row["platforms"] or not set(row["platforms"]) <= platforms:
+            raise ValueError("The djay inventory contains an invalid product row.")
+        rows.append({"name": DJAY_MODEL_NAMES.get(row["name"], row["name"]), "sourceName": row["name"],
+                     "platforms": row["platforms"], "url": urljoin(DJAY_URL, row["url"]) if row["url"] else DJAY_URL,
+                     "limitations": []})
+    for note in parser.notes:
+        matches = [row for row in rows if note["name"].startswith(row["sourceName"] + ": ")]
+        if len(matches) != 1 or not set(note["platforms"]) <= platforms:
+            raise ValueError("A djay limitation does not identify one published product.")
+        row = matches[0]
+        row["limitations"].append({"platforms": note["platforms"], "text": note["name"][len(row["sourceName"]) + 2:]})
+    return rows
+
+
 def canonical(name):
     value = name.lower().replace("native instruments", "ni")
     value = re.sub(r"\bpioneer dj\b", "pioneer", value)
@@ -83,5 +149,6 @@ def manufacturer(name):
               "Keith McMillen Instruments", "DJ-Tech", "M-Audio", "M-Vave", "Pioneer", "Traktor",
               "Hercules", "Numark", "Denon", "Reloop", "Vestax", "Behringer", "Novation", "Stanton",
               "Akai", "Arturia", "Korg", "Roland", "Gemini", "FaderFox", "Electrix", "MixVibes",
-              "Tascam", "Intech", "Icon", "Ion", "EKS", "Yaeltex", "MidiTech", "Kontrol DJ"]
+              "Tascam", "Intech", "Icon", "Ion", "EKS", "Yaeltex", "MidiTech", "Kontrol DJ",
+              "Casio", "Philips", "Phase SAS", "The Next Beat"]
     return next((brand for brand in brands if name.lower().startswith(brand.lower())), "Other")

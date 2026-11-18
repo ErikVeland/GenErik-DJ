@@ -566,6 +566,18 @@
           "finding": "Current manufacturer product page links the external Platter Play table. Its external motor-control addresses do not establish ordinary performance-pad input messages. The independent Traktor mapping9866 requires sign-in to download. No motor command, sibling input map or inaccessible mapping is imported."
         }
       ]
+    },
+    {
+      "request": "R363",
+      "reviewDate": "2026-11-19",
+      "documents": [
+        {
+          "url": "https://www.algoriddim.com/hardware",
+          "cache": "TestBuilds/r363/upstream/algoriddim-hardware.html",
+          "sha256": "db8bf667068cbcb278d49f5ee5794e5d6baccc528cdff917e41b00da232954a3",
+          "status": "Pinned204 hardware rows and57 platform limitations. Thirty-one missing model records added. Digital Jockey IE2/MIXAGE IE resolve to existing records. Runtime mappings remain byte-identical. Competitor evidence does not establish our support or theoretical completion."
+        }
+      ]
     }
   ]
 }
