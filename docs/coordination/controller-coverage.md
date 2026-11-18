@@ -5043,3 +5043,16 @@ The [Mixtrack Edge guide](https://djpromixerblog.com/2015/06/10/numark-mixtrack-
 Validation:228 Python checks and ten native tests passed, including the157-profile held-Cue corpus. Every native input wire occurs in the pinned model document. Both AFX documents agree. Native fixtures cover both Cue release forms, source ownership, mode/Shift cleanup, pad arguments, strict encoder values and inactive wires. Two real-WAV fixtures retained finite, synced playback after Cue cleanup. The first source-hold test exposed missing Edge Shift cleanup. That failed result remains preserved. The corrected profile adds explicit transition cleanup. The iPad framework compiled and its resource matches the source. All270 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r388/validation.json`.
 
 The catalogue has272 data recipes. Automatic core coverage remains196 of342 physical models, with146 without automatic core controls. Thirty-two records still need a first protocol implementation. Full modes, feedback/lifecycle, audio routing, theoretical completion and physical/iPad/A10X acceptance remain open.
+
+
+## R389 independent DJM-S3 manufacturer mixer
+
+Assumption: use the S3's own manufacturer Version1.00 table and operating manual. Keep hardware processing and external deck audio separate from optional app controls.
+
+The [manufacturer MIDI table](https://dwn.alza.cz/manual/61365) is readable as cached PDF text through a public retailer mirror. Direct PDF bytes and screenshots remained unavailable. No table byte hash or visual table review is claimed. An independent transcription remains labelled as such in ignored research storage. The [manufacturer operating manual](https://www.recordcase.de/media/1d/ba/18/1745910632/Pioneer-DJM-S3-User-Guide-EN.pdf) page21 was visually reviewed. It confirms default MIDI channel1 and MIDI BUTTON TYPE TOGGLE.
+
+The18-input manual profile uses two independent gain/three-band EQ/Color/linefader strips, direct CC70/71 Cue states and cross/master/headphone/blend controls. Repeated Cue reports set the state without toggling it. Source-selector Notes51-53 and55-57 reset only the corresponding strip's pickup. Physical CH1/2 map A/B. No DJM450/250/S9 alias, hardware setting, output or audio-routing command is inherited. AUX/microphone, curve/reverse, global Filter/parameter, complete modes/lifecycle/calibration and external deck outputs remain open.
+
+Validation:230 Python checks and11 focused native tests passed, including the157-profile held-Cue corpus and DJM450 regression checks. Native fixtures cover every mixer input, direct Cue idempotence, source/deck isolation, pickup reset, inactive wires and sibling aliases. A real-WAV fixture retained finite, synced app-started audio. The iPad framework compiled and its resource matches the source. All272 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r389/validation.json`.
+
+The catalogue has273 data recipes. Automatic core coverage remains196 of342 physical models, with146 without automatic core controls. Thirty-one records still need a first protocol implementation. Full theoretical support and physical/iPad/A10X acceptance remain open.

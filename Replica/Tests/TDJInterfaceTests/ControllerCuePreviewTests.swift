@@ -2572,3 +2572,16 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+
+@Test @MainActor func controllerCatalogueDJMS3DirectCueAndSourcePickupPreserveRealAudioSync() async throws {
+    try await withControllerCuePlayback("Pioneer DJM-S3",manual:true) {model,input in
+        input.onTargetAction?(.init(.playA,deck:.a),1)
+        cuePreviewPacket([0xB0,70,127,70,127,70,0,17,127,0x90,53,127,53,0],to:input)
+        let audio = model.playback.core.renderOffline(frames:4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

@@ -12791,72 +12791,6 @@
       }
     },
     {
-      "id": "pioneerdjms3",
-      "name": "Pioneer DJ DJM-S3",
-      "manufacturer": "Pioneer",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://www.algoriddim.com/hardware/djms3"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "djay": {
-          "sourceName": "Pioneer DJ DJM-S3",
-          "platforms": [
-            "mac",
-            "win"
-          ],
-          "limitations": [],
-          "source": "https://www.algoriddim.com/hardware/djms3"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
       "id": "pioneerdjms5",
       "name": "Pioneer DJ DJM-S5",
       "manufacturer": "Pioneer",
@@ -13625,6 +13559,96 @@
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
         "Manual default MIDI channel1/TOGGLE only. TRIGGER mode, physical taper/calibration, hardware/software audio ownership, external deck routing, source/assign/curve switches, master/Link Cue, booth, effects/X-PAD, microphone/clock, full output/lifecycle and physical/A10X acceptance remain open. No output, setting write, sibling protocol or audio route is inferred.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "pioneerdjms3",
+      "name": "Pioneer DJM-S3",
+      "manufacturer": "Pioneer",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://dwn.alza.cz/manual/61365",
+        "https://www.algoriddim.com/hardware/djms3"
+      ],
+      "definitions": [
+        "reviewed:djm-s3-independent-manufacturer-mixer"
+      ],
+      "implementation": "partial-midi-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer DJM-S3",
+      "automaticControls": false,
+      "comparisonSupport": {
+        "djay": {
+          "sourceName": "Pioneer DJ DJM-S3",
+          "platforms": [
+            "mac",
+            "win"
+          ],
+          "limitations": [],
+          "source": "https://www.algoriddim.com/hardware/djms3"
+        }
+      },
+      "controlActions": [
+        "crossfader",
+        "cueMix",
+        "cueStateA:a",
+        "cueStateB:b",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "levelA:a",
+        "levelB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "monitor"
+      ],
+      "inputBindingCount": 18,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual default MIDI channel1 and BUTTON TYPE TOGGLE, confirmed in the S3 operating manual. Physical CH1/2 map to native A/B. Configure audio separately and avoid duplicate hardware/software processing."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "partial",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "The source MIDI table was reviewed as cached text. Direct table PDF bytes/screenshots were unavailable. Hardware/software ownership, AUX/microphone, curve/reverse, global Filter/parameter, complete modes/lifecycle/calibration, external mixer outputs and physical/iPad/A10X acceptance remain open.",
         "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
@@ -333879,6 +333903,42 @@
         },
         {
           "reason": "Software overflow commands do not identify raw MIDI. Shift/FX alternatives, multifunction jog/touch/tempo modes and calibration, full feedback/lifecycle, USB audio pair order and physical/iPad/A10X acceptance remain open."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:djm-s3-independent-manufacturer-mixer",
+      "name": "Pioneer DJM-S3",
+      "transport": "midi",
+      "source": {
+        "url": "https://dwn.alza.cz/manual/61365",
+        "reviewDate": "2026-11-19",
+        "pages": [
+          1,
+          2
+        ],
+        "evidenceLimit": "Manufacturer Version1.00 table text is available through the public mirror's cached PDF view. Direct PDF bytes and screenshots were unavailable. No table byte hash or visual table claim is made.",
+        "relatedSources": [
+          {
+            "url": "https://www.recordcase.de/media/1d/ba/18/1745910632/Pioneer-DJM-S3-User-Guide-EN.pdf",
+            "sha256": "ed03661da8c4d33f7ed9651f4055947fb297b7c08340eab23acdb992a82a0150",
+            "pages": [
+              21
+            ]
+          }
+        ],
+        "review": "The independent S3 Version1.00 table explicitly qualifies two gain/three-band EQ/Color/linefader strips, CC70/71 Cue states and cross/master/headphone/blend controls. All18 inputs use0-127 CC values. The manufacturer operating manual page21 was visually reviewed and confirms default MIDI channel1 and BUTTON TYPE TOGGLE. Source-selector Note51-53/55-57 reports retire only the corresponding strip's pickup. No DJM450/250/S9 sibling protocol is inferred. Hardware maintains its own processing. This is a manual app mixer without external deck audio routing, setting writes, feedback or hardware FX emulation. AUX/microphone, curve/reverse, global Filter/parameter, complete mode/lifecycle/calibration and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 18,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "The source MIDI table was reviewed as cached text. Direct table PDF bytes/screenshots were unavailable. Hardware/software ownership, AUX/microphone, curve/reverse, global Filter/parameter, complete modes/lifecycle/calibration, external mixer outputs and physical/iPad/A10X acceptance remain open."
         }
       ]
     }

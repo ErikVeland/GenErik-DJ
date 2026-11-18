@@ -1070,3 +1070,11 @@ Edge retains normal transport, three cues, manual loops, PFL, two-band mixer and
 One shared Shift input retires owned holds and supports alternate releases without firing unsupported actions.
 Overflow commands137/142-144/164 do not become raw notes. Jog/tempo modes, feedback, audio and physical acceptance remain open.
 Both profiles stay manual. The earlier AFX sign-in audit remains specific to its historical source.
+
+
+DJM-S3 uses18 independent manufacturer-table CC inputs in a manual profile.
+Cached table text qualifies gain/EQ/Color/faders, direct Cue states and cross/master/headphone/blend.
+Direct table PDF bytes/screenshots were unavailable. No source byte hash or visual table claim is made.
+The operating manual page21 visually confirms MIDI1/TOGGLE defaults. Source notes reset only their strip's pickup.
+No DJM450/250/S9 alias, stored-setting write, hardware output or automatic audio route is inferred.
+Full modes/lifecycle, external deck outputs, analogue ownership and physical acceptance remain open.
