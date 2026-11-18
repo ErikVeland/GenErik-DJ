@@ -875,3 +875,12 @@ The12-input native mixer keeps dedicated volumes independent of held Marker modi
 Setup requests use only the paired physical output. Failure and shutdown send native exit when the channel is known. No scene write, reset or persistent programming is sent.
 Known native inputs and ordinary feedback stay blocked before confirmation or after failure/exit. Unpaired manual setup is rejected. Clearing learned mappings exits mode and requires fresh setup.
 Source refresh reconnects paired setup sessions even while readiness gates input. Full software layers, reply timeout/recovery, lifecycle and physical acceptance remain open.
+
+### nanoPAD2 independent native scenes (R344)
+
+`nanopad2.py` pins the independent project12 protocol and upstream cue/loop layout. It replaces the earlier four-input manual recipe with31 automatic logical bindings.
+`ControllerKorgNativeDecoder` shares bounded handshake framing through a closed model enum. nanoKONTROL2 retains project13 and its existing control table/API aliases.
+Native pad releases retain their original scene address. Scene barriers release owned contacts and preserve held Clear. Loop resize stays blocked during unsupported held-loop moves.
+Fifteen first-bank cues and14 third-bank loop controls are active. Later cues9–16, timed reloop, fourth-bank controls and XY/touch-scale stay inactive.
+The paired output sends exact Scene lamps after confirmation. Setup or live lamp failure disables that source and attempts native exit. No saved scenes are written.
+Full modes, reply timeout/recovery, lifecycle and physical acceptance remain open.

@@ -1893,3 +1893,21 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueNanoPad2NativeCueAndLoopKeepAudioAndSyncAfterAcknowledgedSetup() async throws {
+    try await withControllerCuePlayback("Korg nanoPAD2", prepareInput: { input in
+        input.receiveBytes([0xF0, 0x42, 0x50, 1, 10, 0x2D, 0x12, 1, 0, 0, 0, 0, 1, 0, 0xF7], source: 10)
+        input.receiveBytes([0xF0, 0x42, 0x4A, 0, 1, 0x12, 0, 0x40, 0, 3, 0xF7], source: 10)
+    }) { model, input in
+        model.pressPlay(deck: .a, vinylStop: false)
+        input.receiveBytes([0x91, 65, 127, 0x81, 65, 64], source: 10)
+        input.receiveBytes([0xBF, 57, 127, 57, 0, 57, 127, 57, 0, 0x91, 67, 127, 0x81, 67, 64], source: 10)
+        input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(model.playbackSnapshot?.a.loopEnabled == true)
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

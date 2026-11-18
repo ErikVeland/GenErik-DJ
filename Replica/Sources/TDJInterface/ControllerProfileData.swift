@@ -3,7 +3,14 @@ import TDJCore
 
 struct ControllerProfileData: Decodable, Sendable {
     enum InputProtocol: String, Codable, Sendable {
-        case smk25II, cdj101, ddjSR2, keyLabMKI, kontrolOne, midiFighterSpectra, p1Nano, sc5000M, denonPrimePlayer, nanoKontrol2Native
+        case smk25II, cdj101, ddjSR2, keyLabMKI, kontrolOne, midiFighterSpectra, p1Nano, sc5000M, denonPrimePlayer, nanoKontrol2Native, nanoPad2Native
+        var korgNativeModel: ControllerKorgNativeDecoder.Model? {
+            switch self {
+            case .nanoKontrol2Native: .nanoKontrol2
+            case .nanoPad2Native: .nanoPad2
+            default: nil
+            }
+        }
     }
     enum AudioOutput: String, Decodable, Sendable {
         case masterAndHeadphones
@@ -226,7 +233,7 @@ struct ControllerProfileData: Decodable, Sendable {
             }
     }
 
-    var requiresPairedSetup: Bool { hasDelayedStartup || inputProtocol == .nanoKontrol2Native }
+    var requiresPairedSetup: Bool { hasDelayedStartup || inputProtocol?.korgNativeModel != nil }
 
     var hasDelayedStartup: Bool { startupDelaysMilliseconds?.contains { $0 > 0 } == true }
 

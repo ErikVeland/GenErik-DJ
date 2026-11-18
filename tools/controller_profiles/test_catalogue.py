@@ -1000,6 +1000,21 @@ class GeneratedCatalogueTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             encode_runtime({"scope":"é"*(2*1024*1024)})
 
+    def test_nanopad2_uses_its_own_native_project_and_source_scene_controls(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next(r for r in runtime["profiles"] if r["id"]=="Korg nanoPAD2")
+        self.assertTrue(item["autoSelect"],"nanoPAD2 needs its own acknowledged native pad core")
+        self.assertEqual(item["inputProtocol"],"nanoPad2Native")
+        self.assertEqual(item["startup"],[[0xF0,0x42,0x50,0,0x2D,0xF7]])
+        self.assertEqual(len(item["inputs"]),31)
+        self.assertFalse(item["outputs"] or item["shutdown"])
+        self.assertEqual(len([i for i in item["inputs"] if i["action"].startswith("hotcue")]),15)
+        self.assertEqual(len([i for i in item["inputs"] if i["action"].startswith("fixedLoop")]),6)
+        from nanopad2 import PAD2_SPEC_SHA,PAD2_SOURCES
+        self.assertEqual(hashlib.sha256((ROOT/"TestBuilds/r344/upstream/nanoPAD2-MIDIimp.txt").read_bytes()).hexdigest(),PAD2_SPEC_SHA)
+        for filename,digest in PAD2_SOURCES:
+            self.assertEqual(hashlib.sha256((ROOT/"TestBuilds/r169/upstream/res/controllers"/filename).read_bytes()).hexdigest(),digest)
+
     def test_nanokontrol2_uses_documented_transient_native_mode_without_writing_scenes(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next(r for r in runtime["profiles"] if r["id"]=="Korg nanoKONTROL2")

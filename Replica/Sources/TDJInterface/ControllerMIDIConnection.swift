@@ -389,8 +389,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private var cdj101Decoders: [Int32: ControllerCDJ101Decoder] = [:]
     @ObservationIgnored private var sr2Decoders: [Int32: ControllerSR2Decoder] = [:]
     @ObservationIgnored private var kontrolOneDecoders: [Int32: ControllerKontrolOneDecoder] = [:]
-    @ObservationIgnored private var nanoKontrol2Decoders: [Int32: ControllerNanoKontrol2Decoder] = [:]
-    @ObservationIgnored private var nativeFactoryInputs: Set<Int32> = []
+    @ObservationIgnored private var korgNativeDecoders: [Int32: ControllerKorgNativeDecoder] = [:]
+    @ObservationIgnored private var nativeFactoryProtocols: [Int32: ControllerProfileData.InputProtocol] = [:]
     @ObservationIgnored private var sc5000MDecoders: [Int32: ControllerSC5000MDecoder] = [:]
     @ObservationIgnored private var spectraDecoders: [Int32: ControllerSpectraDecoder] = [:]
     @ObservationIgnored private var p1NanoDecoders: [Int32: ControllerP1NanoDecoder] = [:]
@@ -611,7 +611,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         sr2Decoders.removeAll()
         keyLabDecoders.removeAll()
         p1NanoDecoders.removeAll()
-        nanoKontrol2Decoders.removeAll()
+        korgNativeDecoders.removeAll()
         sc5000MDecoders.removeAll()
         spectraDecoders.removeAll()
         kontrolOneDecoders.removeAll()
@@ -737,14 +737,15 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             else { return nil }
             return source.id
         })
-        nativeFactoryInputs = Set(sources.compactMap { source in
+        nativeFactoryProtocols = Dictionary(uniqueKeysWithValues: sources.compactMap { source in
             guard let identity = source.identity,
-                ControllerFactoryProfile.matching(identity.names, automaticOnly: true)?.definition?.inputProtocol == .nanoKontrol2Native
+                let input = ControllerFactoryProfile.matching(identity.names, automaticOnly: true)?.definition?.inputProtocol,
+                input.korgNativeModel != nil
             else { return nil }
-            return source.id
+            return (source.id, input)
         })
         let timedDevices = Set(sources.compactMap { source -> UInt32? in
-            guard timedFactoryInputs.contains(source.id) || nativeFactoryInputs.contains(source.id),
+            guard timedFactoryInputs.contains(source.id) || nativeFactoryProtocols[source.id] != nil,
                 let device = source.identity?.device, device != 0 else { return nil }
             return device
         })
@@ -879,11 +880,11 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
      * Sends bounded mode messages only to the paired physical output.
      */
     @discardableResult private func sendFactorySetup(_ session: ControllerFactorySession, starting: Bool) -> Bool {
-        if session.profile.definition?.inputProtocol == .nanoKontrol2Native {
+        if let model = session.profile.definition?.inputProtocol?.korgNativeModel {
             if starting {
-                nanoKontrol2Decoders[session.source] = .init()
+                korgNativeDecoders[session.source] = .init(model: model)
                 status = "Waiting for controller setup."
-            } else if let message = nanoKontrol2Decoders[session.source]?.exitRequest {
+            } else if let message = korgNativeDecoders[session.source]?.exitRequest {
                 return sendFactoryMessage(message, session: session, starting: false)
             }
         }
@@ -968,7 +969,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     }
 
     private func failFactorySetup(_ session: ControllerFactorySession) {
-        if session.profile.definition?.inputProtocol == .nanoKontrol2Native {
+        if session.profile.definition?.inputProtocol?.korgNativeModel != nil {
             _ = sendFactorySetup(session, starting: false)
         }
         disconnectInput(session.source)
@@ -1023,8 +1024,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     func factoryOutputIsReady(_ id: Int32) -> Bool {
         guard timedFactoryOutputs.contains(id) else { return true }
         guard let session = factorySessions.first(where: { $0.destination == id }) else { return false }
-        if session.profile.definition?.inputProtocol == .nanoKontrol2Native {
-            return nanoKontrol2Decoders[session.source]?.isReady == true
+        if session.profile.definition?.inputProtocol?.korgNativeModel != nil {
+            return korgNativeDecoders[session.source]?.isReady == true
         }
         return factoryInputReadyTimes[session.source] != nil
     }
@@ -1056,7 +1057,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         shiftLayers[selected] = nil
         channelShiftLayers[selected] = nil
         persist()
-        if profile.definition?.inputProtocol == .nanoKontrol2Native,
+        if profile.definition?.inputProtocol?.korgNativeModel != nil,
             let session = factorySessions.first(where: { $0.source == selected && $0.profile == profile }) {
             if !sendFactorySetup(session, starting: true) { failFactorySetup(session) }
             return
@@ -1131,7 +1132,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     }
     func isInputActive(_ id: Int32) -> Bool {
         guard !timedFactoryInputs.contains(id) || factoryInputReadyTimes[id] != nil,
-            !nativeFactoryInputs.contains(id) || nanoKontrol2Decoders[id]?.isReady == true else { return false }
+            nativeFactoryProtocols[id] == nil || korgNativeDecoders[id]?.isReady == true else { return false }
         return activeInputIDs.contains(id) || factoryBindings[id] != nil
     }
     private func setFactoryDisabled(_ disabled: Bool, profile: ControllerFactoryProfile, source: Int32) {
@@ -1160,7 +1161,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         if let session = factorySessions.first(where: { $0.source == source }) {
             return session.profile.definition?.inputProtocol
         }
-        if nativeFactoryInputs.contains(source) { return .nanoKontrol2Native }
+        if let input = nativeFactoryProtocols[source] { return input }
         return manualInputProtocols[source]
     }
 
@@ -1176,7 +1177,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         sr2Decoders[source] = nil
         keyLabDecoders[source] = nil
         p1NanoDecoders[source] = nil
-        nanoKontrol2Decoders[source] = nil
+        korgNativeDecoders[source] = nil
         sc5000MDecoders[source] = nil
         spectraDecoders[source] = nil
         kontrolOneDecoders[source] = nil
@@ -1212,14 +1213,14 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         sr2Decoders[id] = nil
         keyLabDecoders[id] = nil
         p1NanoDecoders[id] = nil
-        nanoKontrol2Decoders[id] = nil
+        korgNativeDecoders[id] = nil
         sc5000MDecoders[id] = nil
         spectraDecoders[id] = nil
         kontrolOneDecoders[id] = nil
         bridgeDecoders[id] = .init()
         updatePollingInterval()
         if startingFactorySetup, let timedSession, factoryInputReadyTimes[id] == nil,
-            nanoKontrol2Decoders[id]?.isReady != true {
+            korgNativeDecoders[id]?.isReady != true {
             return beginFactorySetup(timedSession)
         }
         return true
@@ -1240,7 +1241,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         sr2Decoders[id] = nil
         keyLabDecoders[id] = nil
         p1NanoDecoders[id] = nil
-        nanoKontrol2Decoders[id] = nil
+        korgNativeDecoders[id] = nil
         sc5000MDecoders[id] = nil
         spectraDecoders[id] = nil
         kontrolOneDecoders[id] = nil
@@ -1999,8 +2000,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @discardableResult func receiveBytes(
         _ bytes: [UInt8], source: Int32, limit: Int = 256, timestamp: UInt64 = DispatchTime.now().uptimeNanoseconds
     ) -> Int? {
-        let nativeSetup = inputProtocol(for: source) == .nanoKontrol2Native
-            && factorySessions.contains { $0.source == source && $0.profile.definition?.inputProtocol == .nanoKontrol2Native }
+        let nativeSetup = inputProtocol(for: source)?.korgNativeModel != nil
+            && factorySessions.contains { $0.source == source && $0.profile.definition?.inputProtocol?.korgNativeModel != nil }
         guard isInputActive(source) || nativeSetup else { return 0 }
         if let ready = factoryInputReadyTimes[source], timestamp < ready { return 0 }
         guard bytes.count <= 4096, (0...256).contains(limit) else {
@@ -2071,10 +2072,10 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             }
             return events.count
         }
-        if inputProtocol(for: source) == .nanoKontrol2Native {
-            var decoder = nanoKontrol2Decoders[source, default: .init()]
+        if let model = inputProtocol(for: source)?.korgNativeModel {
+            var decoder = korgNativeDecoders[source, default: .init(model: model)]
             let events = decoder.append(bytes)
-            nanoKontrol2Decoders[source] = decoder
+            korgNativeDecoders[source] = decoder
             guard events.count <= limit else {
                 stop()
                 status = "Controller input overload. Reconnect to continue."
@@ -2088,6 +2089,10 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                         if let session = factorySessions.first(where: { $0.source == source }) { failFactorySetup(session) }
                         return nil
                     }
+                case .sceneChanged:
+                    flushPendingActions()
+                    releaseMomentaryActions(source: source, resetJogs: false)
+                    resetInputValueStates(inputBindings(source: source).filter { $0.action != .shift })
                 case .modeChanged(let ready):
                     releaseMomentaryActions(source: source, resetJogs: false)
                     shiftLayers[source] = nil
