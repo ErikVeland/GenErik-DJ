@@ -8391,46 +8391,68 @@
       "role": "dvs-only",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://downloads.support.alphatheta.com/midi-mapping/dj-mixers/DJM-S11/DJM-S11_MIDI_Message_v100_E.pdf"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:pioneerdjms11"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Pioneer DJM-S11",
+      "automaticControls": false,
+      "controlActions": [
+        "crossfader",
+        "cueMix",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "levelA:a",
+        "levelB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "monitor"
+      ],
+      "inputBindingCount": 16,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual MIDI mirror for a separate software audio path. Enable input separately; hardware mixer bypass and external deck routing remain unavailable."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "This manual MIDI mirror does not implement external hardware mixing, separate deck outputs or software mixer bypass. Use with a separate software audio path. Automatic selection stays off. Ambiguous browser/status rows, shared pad/touchscreen modes, fader-start triggers, headphone cue-fader ownership, microphone/hardware FX, lights, complete lifecycle, audio routing and physical acceptance remain open.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -8446,46 +8468,72 @@
       "role": "dvs-only",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://downloads.support.alphatheta.com/software_info/dj-mixers/DJM-S5/DJM-S5_MIDI_Message_v100_E.pdf"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:pioneerdjms5"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Pioneer DJM-S5",
+      "automaticControls": false,
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueMix",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "openGroup"
+      ],
+      "inputBindingCount": 23,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual MIDI mirror for a separate software audio path. Enable input separately; external hardware mixer routing and bypass remain unavailable."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Manual MIDI mirror only; use with a separate software audio path. External deck routing and hardware/software mixer bypass remain unavailable. Automatic selection stays off. Shared pads, FX/microphone, fader-starts, PFL cue-fader ownership, lights, full lifecycle and physical acceptance remain open. Shifted and FX-modified browsing remains inactive.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -8501,46 +8549,70 @@
       "role": "dvs-only",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://downloads.support.alphatheta.com/software_info/dj-mixers/DJM-S7/DJM-S7_MIDI_Message_v100_E.pdf"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:pioneerdjms7"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Pioneer DJM-S7",
+      "automaticControls": false,
+      "controlActions": [
+        "crossfader",
+        "cueMix",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "monitor"
+      ],
+      "inputBindingCount": 20,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual MIDI mirror for a separate software audio path. Enable input separately; external hardware mixer routing and bypass remain unavailable."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Manual MIDI mirror only; use with a separate software audio path. External deck routing and hardware/software mixer bypass remain unavailable. Automatic selection stays off. Shared pads, FX/microphone, fader-starts, PFL cue-fader ownership, lights, full lifecycle and physical acceptance remain open. S7 browser channel/status notation conflicts; no browser binding is inferred.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -8798,240 +8870,6 @@
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
         "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
-      "id": "pioneerms11",
-      "name": "Pioneer DJM-S11",
-      "manufacturer": "Pioneer",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://downloads.support.alphatheta.com/midi-mapping/dj-mixers/DJM-S11/DJM-S11_MIDI_Message_v100_E.pdf"
-      ],
-      "definitions": [
-        "manufacturer:pioneerms11"
-      ],
-      "implementation": "partial-midi-profile",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "profile": "Pioneer DJM-S11",
-      "automaticControls": false,
-      "controlActions": [
-        "crossfader",
-        "cueMix",
-        "filterKnobA:a",
-        "filterKnobB:b",
-        "gainA:a",
-        "gainB:b",
-        "highA:a",
-        "highB:b",
-        "levelA:a",
-        "levelB:b",
-        "lowA:a",
-        "lowB:b",
-        "master",
-        "midA:a",
-        "midB:b",
-        "monitor"
-      ],
-      "inputBindingCount": 16,
-      "feedbackBindingCount": 0,
-      "connection": "USB MIDI",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false,
-        "requiredHardwareMode": "Manual MIDI mirror for a separate software audio path. Enable input separately; hardware mixer bypass and external deck routing remain unavailable."
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "partial",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": true,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": true,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "documentedControlsComplete",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "This manual MIDI mirror does not implement external hardware mixing, separate deck outputs or software mixer bypass. Use with a separate software audio path. Automatic selection stays off. Ambiguous browser/status rows, shared pad/touchscreen modes, fader-start triggers, headphone cue-fader ownership, microphone/hardware FX, lights, complete lifecycle, audio routing and physical acceptance remain open.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
-      "id": "pioneerms5",
-      "name": "Pioneer DJM-S5",
-      "manufacturer": "Pioneer",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://downloads.support.alphatheta.com/software_info/dj-mixers/DJM-S5/DJM-S5_MIDI_Message_v100_E.pdf"
-      ],
-      "definitions": [
-        "manufacturer:pioneerms5"
-      ],
-      "implementation": "partial-midi-profile",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "profile": "Pioneer DJM-S5",
-      "automaticControls": false,
-      "controlActions": [
-        "browse",
-        "crossfader",
-        "cueMix",
-        "filterKnobA:a",
-        "filterKnobB:b",
-        "gainA:a",
-        "gainB:b",
-        "highA:a",
-        "highB:b",
-        "levelA:a",
-        "levelB:b",
-        "loadA:a",
-        "loadB:b",
-        "lowA:a",
-        "lowB:b",
-        "master",
-        "midA:a",
-        "midB:b",
-        "monitor",
-        "openGroup"
-      ],
-      "inputBindingCount": 23,
-      "feedbackBindingCount": 0,
-      "connection": "USB MIDI",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false,
-        "requiredHardwareMode": "Manual MIDI mirror for a separate software audio path. Enable input separately; external hardware mixer routing and bypass remain unavailable."
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "partial",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": true,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": true,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "documentedControlsComplete",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Manual MIDI mirror only; use with a separate software audio path. External deck routing and hardware/software mixer bypass remain unavailable. Automatic selection stays off. Shared pads, FX/microphone, fader-starts, PFL cue-fader ownership, lights, full lifecycle and physical acceptance remain open. Shifted and FX-modified browsing remains inactive.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
-      "id": "pioneerms7",
-      "name": "Pioneer DJM-S7",
-      "manufacturer": "Pioneer",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://downloads.support.alphatheta.com/software_info/dj-mixers/DJM-S7/DJM-S7_MIDI_Message_v100_E.pdf"
-      ],
-      "definitions": [
-        "manufacturer:pioneerms7"
-      ],
-      "implementation": "partial-midi-profile",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "profile": "Pioneer DJM-S7",
-      "automaticControls": false,
-      "controlActions": [
-        "crossfader",
-        "cueMix",
-        "filterKnobA:a",
-        "filterKnobB:b",
-        "gainA:a",
-        "gainB:b",
-        "highA:a",
-        "highB:b",
-        "levelA:a",
-        "levelB:b",
-        "loadA:a",
-        "loadB:b",
-        "lowA:a",
-        "lowB:b",
-        "master",
-        "midA:a",
-        "midB:b",
-        "monitor"
-      ],
-      "inputBindingCount": 20,
-      "feedbackBindingCount": 0,
-      "connection": "USB MIDI",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false,
-        "requiredHardwareMode": "Manual MIDI mirror for a separate software audio path. Enable input separately; external hardware mixer routing and bypass remain unavailable."
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "partial",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": true,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": true,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "documentedControlsComplete",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Manual MIDI mirror only; use with a separate software audio path. External deck routing and hardware/software mixer bypass remain unavailable. Automatic selection stays off. Shared pads, FX/microphone, fader-starts, PFL cue-fader ownership, lights, full lifecycle and physical acceptance remain open. S7 browser channel/status notation conflicts; no browser binding is inferred.",
-        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -319242,7 +319080,7 @@
       ]
     },
     {
-      "id": "manufacturer:pioneerms11",
+      "id": "manufacturer:pioneerdjms11",
       "name": "Pioneer DJM-S11",
       "transport": "midi",
       "source": {
@@ -319267,7 +319105,7 @@
       ]
     },
     {
-      "id": "manufacturer:pioneerms7",
+      "id": "manufacturer:pioneerdjms7",
       "name": "Pioneer DJM-S7",
       "transport": "midi",
       "source": {
@@ -319293,7 +319131,7 @@
       ]
     },
     {
-      "id": "manufacturer:pioneerms5",
+      "id": "manufacturer:pioneerdjms5",
       "name": "Pioneer DJM-S5",
       "transport": "midi",
       "source": {
@@ -319372,7 +319210,7 @@
     "theoreticalSupport": {
       "complete": false,
       "implementedModels": 0,
-      "targetModels": 309,
+      "targetModels": 306,
       "requiresPhysicalTestForEveryModel": false
     },
     "reason": "Documented implementation gaps block theoretical completion. Physical tests are separate evidence, not a per-model completion requirement."

@@ -861,6 +861,22 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_pioneer_brand_normalisation_preserves_complete_djm_model_tokens(self):
+        for model in ["DJM-S11","DJM-S7","DJM-S5","DJM-S9","DJM-A9","DJM-900NXS2"]:
+            expected = "pioneer" + model.lower().replace("-", "")
+            for brand in ["Pioneer", "Pioneer DJ", "AlphaTheta"]:
+                self.assertEqual(canonical(brand + " " + model), expected)
+        self.assertEqual(canonical("Pioneer DJ DDJ-FLX4"), canonical("Pioneer DDJ-FLX4"))
+
+    def test_pioneer_manual_mixers_link_to_single_existing_benchmark_records(self):
+        catalogue = json.loads((ROOT / "docs/coordination/controller-catalogue.json").read_text())
+        for model in ["DJM-S11","DJM-S7","DJM-S5"]:
+            records = [r for r in catalogue["models"] if r["name"].endswith(model)]
+            self.assertEqual(len(records), 1, "Brand normalisation must not create duplicate physical models")
+            self.assertEqual(records[0]["profile"], "Pioneer " + model)
+            self.assertEqual(records[0]["implementation"], "partial-midi-profile")
+            self.assertFalse(records[0]["zeroConfig"]["automaticControls"])
+
     def test_rane_one_mkii_public_template_does_not_infer_missing_play_motor_or_audio_support(self):
         from manufacturer_inventory import SOURCE_AUDITS
         self.assertIn("Rane ONE MKII", SOURCE_AUDITS, "The public MKII template needs an explicit source audit")

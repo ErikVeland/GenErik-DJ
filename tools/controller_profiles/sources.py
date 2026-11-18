@@ -47,7 +47,8 @@ def read_serato(html):
 
 
 def canonical(name):
-    value = name.lower().replace("native instruments", "ni").replace("pioneer dj", "pioneer")
+    value = name.lower().replace("native instruments", "ni")
+    value = re.sub(r"\bpioneer dj\b", "pioneer", value)
     value = re.sub(r"^denon dj\s+", "denon ", value)
     value = value.replace("+", " plus ").replace("novation dicers", "novation dicer")
     value = re.sub(r"^alphatheta\s+", "pioneer ", value)

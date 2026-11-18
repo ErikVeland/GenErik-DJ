@@ -3703,3 +3703,18 @@ All137 importer checks pass. Every runtime profile byte remains unchanged from `
 Expected failure, the template/hash and source-bound results remain in `TestBuilds/r308/`. The repository check retains twelve historical broken links.
 Review also found three duplicate Pioneer DJM catalogue records caused by brand normalisation. R309 will correct their model links without changing MIDI dispatch.
 Automatic core coverage stays161 physical models and71/122 benchmark models. Full theoretical feature parity remains unimplemented. No signed app, install or physical/A10X acceptance is claimed.
+
+## R309 Pioneer brand boundary and mixer catalogue links
+
+Root cause: replacing the text `pioneer dj` without a word boundary also removes `DJ` from `Pioneer DJM-S11`. The benchmark's `Pioneer DJ DJM-S11` reaches a different model ID. The three new mixer recipes therefore created duplicate records. The fix must apply only to the complete brand name and preserve DJM model tokens.
+
+- [x] Add failing canonical-name and catalogue-link regressions.
+- [x] Apply the word-boundary fix and regenerate. Confirm one S11/S7/S5 record each, connected to its manual recipe.
+- [x] Run importer/native/iPad framework checks. Compare all MIDI bindings and byte-exact bundled resources; keep failed evidence.
+
+The word-boundary fix removes only the three duplicate IDs and connects the three existing benchmark records to their manual profiles. No other model record changes.
+The catalogue returns to313 records and306 physical models. All189 runtime profiles retain identical MIDI inputs, outputs and lifecycle packets; only three definition identifiers change.
+All139 importer checks,8 focused native checks and iPad framework compilation pass. Bundled resource bytes match the source.
+Expected failures, model/runtime comparisons and source-bound results remain in `TestBuilds/r309/`. The repository check retains twelve historical broken links.
+Automatic core coverage remains161 physical models and71/122 benchmark models. Full theoretical feature parity, audio/lifecycle gaps and physical acceptance remain open.
+Source base: `df41760`. No signed app or install is claimed.

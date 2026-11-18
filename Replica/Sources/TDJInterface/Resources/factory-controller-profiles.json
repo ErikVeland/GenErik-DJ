@@ -117407,7 +117407,7 @@
         "DJM-S11",
         "Pioneer DJ DJM-S11"
       ],
-      "definition": "manufacturer:pioneerms11",
+      "definition": "manufacturer:pioneerdjms11",
       "inputs": [
         {
           "action": "gainA",
@@ -117590,7 +117590,7 @@
         "DJM-S5",
         "Pioneer DJ DJM-S5"
       ],
-      "definition": "manufacturer:pioneerms5",
+      "definition": "manufacturer:pioneerdjms5",
       "inputs": [
         {
           "action": "gainA",
@@ -117836,7 +117836,7 @@
         "DJM-S7",
         "Pioneer DJ DJM-S7"
       ],
-      "definition": "manufacturer:pioneerms7",
+      "definition": "manufacturer:pioneerdjms7",
       "inputs": [
         {
           "action": "gainA",
