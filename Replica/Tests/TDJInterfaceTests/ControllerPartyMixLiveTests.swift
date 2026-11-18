@@ -4,11 +4,13 @@ import Testing
 
 @testable import TDJInterface
 
-@MainActor private func withPartyLive(_ body: (ControllerMIDIConnection) throws -> Void) rethrows {
+@MainActor private func withPartyLive(
+    sender: @escaping ([UInt8], Int32) -> Bool = { _, _ in true }, _ body: (ControllerMIDIConnection) throws -> Void
+) rethrows {
     let suite = "party-live-\(UUID().uuidString)"
     let preferences = UserDefaults(suiteName: suite)!
     defer { preferences.removePersistentDomain(forName: suite) }
-    let input = ControllerMIDIConnection(preferences: preferences, factoryPacketSender: { _, _ in true })
+    let input = ControllerMIDIConnection(preferences: preferences, factoryPacketSender: sender)
     let name = "Party Mix Live"
     input.sources = [.init(id: 10, reference: 100, name: name, identity: .init(id: 10, device: 1, names: [name]))]
     input.destinations = [.init(id: 20, reference: 200, name: name, identity: .init(id: 20, device: 1, names: [name]))]
@@ -28,10 +30,10 @@ import Testing
         #expect(ControllerFactoryProfile.matching([name]) != profile)
     }
     let data = try #require(profile.definition)
-    #expect(data.inputs.count == 32 && data.outputs.count == 6)
-    #expect(data.inputModes == nil && !profile.hasAutomaticSplitOutput)
+    #expect(data.inputs.count == 48 && data.outputs.count == 6)
+    #expect(data.inputModes?.count == 2 && !profile.hasAutomaticSplitOutput)
     #expect(!data.startup.contains { $0.first == 0xF0 || $0[1] == 50 })
-    #expect(!data.inputs.contains { $0.action.hotcueSlot != nil || $0.kind == .pitch })
+    #expect(!data.inputs.contains { $0.kind == .pitch })
     let cue = try #require(profile.feedback(destination: 20).first { $0.action == .cuePreviewA })
     #expect(cue.message(value: 0) == [0x90, 1, 1])
     let pfl = try #require(profile.feedback(destination: 20).first { $0.action == .cueB })
@@ -46,7 +48,7 @@ import Testing
         partyLivePacket([0x90, 0, 127, 1, 127, 1, 0, 0x91, 2, 127, 0x9F, 2, 127, 3, 127, 7, 127], to: input)
         #expect(events.map(\.0) == [.playA, .cuePreviewA, .cuePreviewA, .syncB, .loadA, .loadB, .openGroup])
         events.removeAll()
-        partyLivePacket([0x9F, 0, 127, 50, 127, 0x94, 0, 127, 11, 127, 14, 127, 15, 127, 20, 127], to: input)
+        partyLivePacket([0x9F, 0, 127, 50, 127, 0x94, 11, 127, 15, 127, 20, 127], to: input)
         #expect(events.isEmpty)
     }
 }
@@ -83,5 +85,41 @@ import Testing
         events.removeAll()
         partyLivePacket([0xBF, 8, 127, 10, 127, 12, 127, 13, 127], to: input)
         #expect(Set(events) == Set([.crossfader, .master, .monitor, .cueMix]))
+    }
+}
+
+@Test @MainActor func controllerCataloguePartyMixLivePadModesGateDecksWithoutSendingUnqualifiedLights() {
+    var packets: [[UInt8]] = []
+    withPartyLive(sender: { bytes, _ in
+        packets.append(bytes); return true
+    }) { input in
+        packets.removeAll()
+        var events: [ControllerActionTarget] = []
+        input.onTargetAction = { target, _ in events.append(target) }
+        partyLivePacket([0x94, 20, 127, 0x84, 20, 0, 0x94, 11, 127, 20, 127, 0x84, 20, 0], to: input)
+        #expect(events == [.init(.hotcue1A, deck: .a)])
+        partyLivePacket([0x95, 23, 127, 0x85, 23, 0], to: input)
+        #expect(events.last == .init(.hotcue4B, deck: .b))
+        partyLivePacket([0x94, 14, 127, 20, 127, 0x84, 20, 0, 0x94, 15, 127, 20, 127], to: input)
+        #expect(events.map(\.action) == [.hotcue1A, .hotcue4B, .toggleFixedLoopA])
+        #expect(packets.isEmpty)
+    }
+}
+
+@Test @MainActor func controllerCataloguePartyMixLiveModeStateSurvivesDiscoveryAndResetsOnReconnect() {
+    withPartyLive { input in
+        var events: [ControllerActionTarget] = []
+        input.onTargetAction = { target, _ in events.append(target) }
+        partyLivePacket([0x94, 14, 127, 20, 127, 0x84, 20, 0], to: input)
+        input.reconcileFactoryProfiles()
+        partyLivePacket([0x94, 21, 127, 0x84, 21, 0], to: input)
+        #expect(events.map(\.action) == [.toggleFixedLoopA, .toggleFixedLoopA])
+        let sources = input.sources
+        input.sources = []
+        input.reconcileFactoryProfiles()
+        input.sources = sources
+        input.reconcileFactoryProfiles()
+        partyLivePacket([0x94, 20, 127], to: input)
+        #expect(events.last == .init(.hotcue1A, deck: .a))
     }
 }

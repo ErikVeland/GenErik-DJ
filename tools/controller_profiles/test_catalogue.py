@@ -986,15 +986,16 @@ class GeneratedCatalogueTests(unittest.TestCase):
             if path.exists():
                 self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
 
-    def test_party_mix_live_has_independent_core_without_inherited_pad_or_jog_setup(self):
+    def test_party_mix_live_has_independent_pads_without_inherited_jog_or_mode_output_setup(self):
         runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item = next((r for r in runtime["profiles"] if r["id"] == "Numark Party Mix Live"), None)
         self.assertIsNotNone(item, "Live needs an independently reviewed core recipe")
         self.assertTrue(item["autoSelect"])
-        self.assertEqual((len(item["inputs"]), len(item["outputs"])), (32, 6))
-        self.assertNotIn("inputModes", item)
+        self.assertEqual((len(item["inputs"]), len(item["outputs"])), (48, 6))
+        self.assertEqual(item["inputModes"], [{"channel":c,"initial":0,"numbers":[0,11,14,15]} for c in [4,5]])
         self.assertNotIn("audioOutput", item)
-        self.assertFalse(any(r["action"].startswith("hotcue") for r in item["inputs"]))
+        self.assertEqual(sum(r["action"].startswith("hotcue") for r in item["inputs"]), 8)
+        self.assertEqual([r["argument"] for r in item["inputs"] if r["action"].startswith("toggleFixedLoop")], [1,2,4,8]*2)
         self.assertEqual([(r["number"], r["inverted"]) for r in item["inputs"] if r["action"] in {"tempoA", "tempoB"}], [(9, False), (9, False)])
         self.assertTrue(all(r["encoding"] == "dj2go2Jog" and "argument" not in r for r in item["inputs"] if r["action"] in {"jogA", "jogB"}))
         from party_mix_live import LIVE_SCRIPT_SHA

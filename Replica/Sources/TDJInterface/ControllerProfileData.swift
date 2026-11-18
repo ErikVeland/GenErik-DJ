@@ -41,13 +41,15 @@ struct ControllerProfileData: Decodable, Sendable {
         let channel: UInt8
         let initial: UInt8
         let numbers: [UInt8]
-        let onValue: UInt8
-        let offValue: UInt8
+        let onValue: UInt8?
+        let offValue: UInt8?
 
         var isValid: Bool {
             channel < 16 && !numbers.isEmpty && numbers.count <= 16
                 && numbers.allSatisfy { $0 < 128 } && Set(numbers).count == numbers.count
-                && numbers.contains(initial) && onValue < 128 && offValue < 128
+                && numbers.contains(initial)
+                && ((onValue == nil && offValue == nil)
+                    || (onValue.map { $0 < 128 } == true && offValue.map { $0 < 128 } == true))
         }
     }
 

@@ -3718,3 +3718,21 @@ All139 importer checks,8 focused native checks and iPad framework compilation pa
 Expected failures, model/runtime comparisons and source-bound results remain in `TestBuilds/r309/`. The repository check retains twelve historical broken links.
 Automatic core coverage remains161 physical models and71/122 benchmark models. Full theoretical feature parity, audio/lifecycle gaps and physical acceptance remain open.
 Source base: `df41760`. No signed app or install is claimed.
+
+## R310 Input-only pad modes and Party Mix Live pads
+
+Assumption: the pinned Live-specific source already defines Cue/Loop/Sampler/FX mode inputs, but does not qualify mode-lamp output. Mode state must work without output. Existing recipes with both lamp values must keep their exact output behaviour. An incomplete lamp pair must remain invalid.
+
+- [x] Add failing schema, native mode/output and Live pad fixtures. Confirm the current code rejects input-only modes and lacks the16 pad bindings.
+- [x] Make `ControllerProfileData.InputMode` lamp values optional as a pair. Update state before checking output values. Keep existing paired feedback unchanged.
+- [x] Extend `party_mix_live.py` with mode0 Hot Cues and mode14 loops of1/2/4/8 beats on channels4/5. Other modes block both. Infer no Pad Mode hold address or lamp packet.
+- [x] Run importer and focused native tests, including reconnect, per-deck/source isolation, real-WAV loop playback and existing mode lights. Compile the iPad framework and compare all other recipes and bundle bytes.
+
+Party Mix Live now has48 inputs. Its16 new pad bindings provide four Hot Cues and four fixed loop lengths per deck.
+Omitting both mode-light values keeps input mode state active without output. Existing paired mode feedback remains unchanged; an incomplete pair is rejected.
+All20 focused native checks,139 importer checks and iPad framework compilation pass. Real-WAV playback verifies1/2/4/8-beat loop spans, finite audio and saved Sync.
+The initial playback fixture recalled a Hot Cue, then paused it with a Play toggle. The corrected fixture verifies the Hot Cue start before loop selection. Both failed logs are retained.
+Only Party Mix Live changes in the runtime catalogue; all188 other recipes remain unchanged. Compiled resource bytes match the source.
+Evidence remains in `TestBuilds/r310/`. The repository check retains twelve historical broken links. Counts stay189 data recipes,161 automatic core physical models and71/122 benchmark models.
+Sampler/FX actions, held Pad Mode, deletion, full output/lifecycle, calibration and audio routing remain open. No signed app, install or physical/A10X acceptance is claimed.
+Source base: `2e277a5`.

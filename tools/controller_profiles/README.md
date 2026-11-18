@@ -664,3 +664,11 @@ Source LED addresses remain separate from input addresses. Native PFL uses on 10
 Startup clears source 48–86, and shutdown clears eight owned outputs. The total is 47 messages.
 Both profiles were already automatic. This increment expands native core coverage without increasing automatic model counts.
 Source advanced modes, Tap, EQ kill, FX, animations, full browser/loop behaviour, audio routing and physical acceptance remain open.
+
+### Input-only pad modes (R310)
+
+An `inputModes` row can omit both `onValue` and `offValue` when only the input protocol is qualified.
+The mode state still changes before action dispatch. The connection sends no mode-light packet.
+Specify both values for reviewed mode feedback. An incomplete pair is invalid.
+Party Mix Live uses input-only modes for its Cue and Loop pads. Sampler and Effect mode selections block those actions.
+This does not supply cue deletion, held Pad Mode behaviour or automatic audio routing.

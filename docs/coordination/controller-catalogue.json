@@ -23367,6 +23367,14 @@
         "gainB:b",
         "highA:a",
         "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
         "jogA:a",
         "jogB:b",
         "jogTouchA:a",
@@ -23385,9 +23393,11 @@
         "syncA:a",
         "syncB:b",
         "tempoA:a",
-        "tempoB:b"
+        "tempoB:b",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopB:b"
       ],
-      "inputBindingCount": 32,
+      "inputBindingCount": 48,
       "feedbackBindingCount": 6,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -23417,7 +23427,7 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Shared pads and mode feedback need input-only mode ownership before native import. Held Pad Mode, cue deletion, Sampler/FX, party lights, on-beat Sync lamps, complete lifecycle and audio routing remain open. Browser handles1/127 only. Native jog calibration, direct iPad attachment and physical acceptance remain unverified. No Party Mix II setup, mode writes or calibration is inherited."
+        "Held Pad Mode, cue deletion, Sampler/FX actions, pad/mode lights, party lights, on-beat Sync lamps, complete lifecycle and audio routing remain open. Browser handles1/127 only. Native jog calibration, direct iPad attachment and physical acceptance remain unverified. No Party Mix II setup, mode writes or calibration is inherited."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -318931,9 +318941,9 @@
             "url": "https://pcdj.com/dj-controllers-numark-party-mix-live-and-numark-party-mix-ii-now-dex-3-supported/"
           }
         ],
-        "review": "Live-specific script by Tollen Francisco, revised13April2022, identifies USB15E4:003E. It is not a Party Mix II alias. Channels0/1 provide Play0, held Cue1, Sync2, PFL27, contact6, jogCC6, non-inverted pitchCC9 and gain/high/low/filter/levelCC23/24/25/26/28. Global channel15 provides Load2/3, Browse press7, CC0 browser and master/monitor/cue-mix/crossfaderCC10/12/13/8. Existing raw64-positive dj2go2Jog decoding exactly matches the source seven-bit jog sign rule. The source's15x jog multiplier and600 denominator are software calibration, not measured hardware counts; native calibration remains open. Browser implements the documented normal1/127 packets only; accelerated/unusual values remain inactive. Source Play/Cue lamps use127/on and1/dim-off; PFL uses NoteOff0. Sync output is an on-beat pulse in the source, so no steady Sync lamp is invented. Shared pads, mode/output ownership, held Pad Mode semantics, effects, party lights and full audio routing remain open. Transport lamp resets are reviewed; no inherited status SysEx, Pad Mode hold address or II-specific calibration is emitted. Manufacturer confirms iPadOS compatibility; direct attachment and response remain physically unverified. No downloaded code runs in the app."
+        "review": "Live-specific script by Tollen Francisco, revised13April2022, identifies USB15E4:003E. It is not a Party Mix II alias. Channels0/1 provide Play0, held Cue1, Sync2, PFL27, contact6, jogCC6, non-inverted pitchCC9 and gain/high/low/filter/levelCC23/24/25/26/28. Global channel15 provides Load2/3, Browse press7, CC0 browser and master/monitor/cue-mix/crossfaderCC10/12/13/8. Existing raw64-positive dj2go2Jog decoding exactly matches the source seven-bit jog sign rule. The source's15x jog multiplier and600 denominator are software calibration, not measured hardware counts; native calibration remains open. Browser implements the documented normal1/127 packets only; accelerated/unusual values remain inactive. Source Play/Cue lamps use127/on and1/dim-off; PFL uses NoteOff0. Sync output is an on-beat pulse in the source, so no steady Sync lamp is invented. The source initialises Cue mode independently on channels4/5. Note0 selects Cue,11 Sampler,14 Loop and15 Effect. Native input-only mode state gates four Hot Cues and1/2/4/8-beat loop pads20..23 without sending unqualified mode lights. Held Pad Mode semantics, cue deletion, Sampler/FX actions, party lights and full audio routing remain open. Transport lamp resets are reviewed; no inherited status SysEx, Pad Mode hold address or II-specific calibration is emitted. Manufacturer confirms iPadOS compatibility; direct attachment and response remain physically unverified. No downloaded code runs in the app."
       },
-      "implementedInputCount": 32,
+      "implementedInputCount": 48,
       "implementedOutputCount": 6,
       "sourceInputCount": null,
       "sourceOutputCount": null,
@@ -318942,7 +318952,7 @@
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
         },
         {
-          "reason": "Shared pads and mode feedback need input-only mode ownership before native import. Held Pad Mode, cue deletion, Sampler/FX, party lights, on-beat Sync lamps, complete lifecycle and audio routing remain open. Browser handles1/127 only. Native jog calibration, direct iPad attachment and physical acceptance remain unverified. No Party Mix II setup, mode writes or calibration is inherited."
+          "reason": "Held Pad Mode, cue deletion, Sampler/FX actions, pad/mode lights, party lights, on-beat Sync lamps, complete lifecycle and audio routing remain open. Browser handles1/127 only. Native jog calibration, direct iPad attachment and physical acceptance remain unverified. No Party Mix II setup, mode writes or calibration is inherited."
         }
       ]
     },

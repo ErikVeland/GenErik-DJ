@@ -78455,6 +78455,90 @@
           "targetDeck": "a"
         },
         {
+          "action": "hotcue1A",
+          "kind": "note",
+          "channel": 4,
+          "number": 20,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "requiredMode": 0
+        },
+        {
+          "action": "toggleFixedLoopA",
+          "kind": "note",
+          "channel": 4,
+          "number": 20,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "requiredMode": 14,
+          "argument": 1
+        },
+        {
+          "action": "hotcue2A",
+          "kind": "note",
+          "channel": 4,
+          "number": 21,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "requiredMode": 0
+        },
+        {
+          "action": "toggleFixedLoopA",
+          "kind": "note",
+          "channel": 4,
+          "number": 21,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "requiredMode": 14,
+          "argument": 2
+        },
+        {
+          "action": "hotcue3A",
+          "kind": "note",
+          "channel": 4,
+          "number": 22,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "requiredMode": 0
+        },
+        {
+          "action": "toggleFixedLoopA",
+          "kind": "note",
+          "channel": 4,
+          "number": 22,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "requiredMode": 14,
+          "argument": 4
+        },
+        {
+          "action": "hotcue4A",
+          "kind": "note",
+          "channel": 4,
+          "number": 23,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "requiredMode": 0
+        },
+        {
+          "action": "toggleFixedLoopA",
+          "kind": "note",
+          "channel": 4,
+          "number": 23,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "a",
+          "requiredMode": 14,
+          "argument": 8
+        },
+        {
           "action": "playB",
           "kind": "note",
           "channel": 1,
@@ -78570,6 +78654,90 @@
           "encoding": "dj2go2Jog",
           "inverted": false,
           "targetDeck": "b"
+        },
+        {
+          "action": "hotcue1B",
+          "kind": "note",
+          "channel": 5,
+          "number": 20,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "requiredMode": 0
+        },
+        {
+          "action": "toggleFixedLoopB",
+          "kind": "note",
+          "channel": 5,
+          "number": 20,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "requiredMode": 14,
+          "argument": 1
+        },
+        {
+          "action": "hotcue2B",
+          "kind": "note",
+          "channel": 5,
+          "number": 21,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "requiredMode": 0
+        },
+        {
+          "action": "toggleFixedLoopB",
+          "kind": "note",
+          "channel": 5,
+          "number": 21,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "requiredMode": 14,
+          "argument": 2
+        },
+        {
+          "action": "hotcue3B",
+          "kind": "note",
+          "channel": 5,
+          "number": 22,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "requiredMode": 0
+        },
+        {
+          "action": "toggleFixedLoopB",
+          "kind": "note",
+          "channel": 5,
+          "number": 22,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "requiredMode": 14,
+          "argument": 4
+        },
+        {
+          "action": "hotcue4B",
+          "kind": "note",
+          "channel": 5,
+          "number": 23,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "requiredMode": 0
+        },
+        {
+          "action": "toggleFixedLoopB",
+          "kind": "note",
+          "channel": 5,
+          "number": 23,
+          "encoding": "absolute",
+          "inverted": false,
+          "targetDeck": "b",
+          "requiredMode": 14,
+          "argument": 8
         },
         {
           "action": "crossfader",
@@ -78777,7 +78945,7 @@
         ]
       ],
       "autoSelect": true,
-      "scope": "Automatic normal transport, held Cue, fixed touch/jog, source pitch, two-band mixer/filter and normal browsing. Shared pads, calibration, full modes/lights and audio routing remain open.",
+      "scope": "Automatic normal transport, held Cue, fixed touch/jog, source pitch, two-band mixer/filter and normal browsing. Mode-gated Hot Cues and1/2/4/8-beat loops. Sampler/FX actions, calibration, full lights and audio routing remain open.",
       "source": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
       "excludedAliases": [
         "Party Mix",
@@ -78786,8 +78954,30 @@
         "Party Mix III",
         "Party Mix Pro"
       ],
+      "inputModes": [
+        {
+          "channel": 4,
+          "initial": 0,
+          "numbers": [
+            0,
+            11,
+            14,
+            15
+          ]
+        },
+        {
+          "channel": 5,
+          "initial": 0,
+          "numbers": [
+            0,
+            11,
+            14,
+            15
+          ]
+        }
+      ],
       "gaps": [
-        "Shared pads and mode feedback need input-only mode ownership before native import. Held Pad Mode, cue deletion, Sampler/FX, party lights, on-beat Sync lamps, complete lifecycle and audio routing remain open. Browser handles1/127 only. Native jog calibration, direct iPad attachment and physical acceptance remain unverified. No Party Mix II setup, mode writes or calibration is inherited."
+        "Held Pad Mode, cue deletion, Sampler/FX actions, pad/mode lights, party lights, on-beat Sync lamps, complete lifecycle and audio routing remain open. Browser handles1/127 only. Native jog calibration, direct iPad attachment and physical acceptance remain unverified. No Party Mix II setup, mode writes or calibration is inherited."
       ]
     },
     {

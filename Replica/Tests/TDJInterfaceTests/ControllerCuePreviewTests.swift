@@ -1241,3 +1241,27 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCataloguePartyMixLiveNativePadsSetExactLoopsAndKeepAudioAndSync() async throws {
+    try await withControllerCuePlayback("Party Mix Live") { model, input in
+        cuePreviewPacket([0x94, 20, 127, 0x84, 20, 0], to: input)
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        cuePreviewPacket([0x94, 14, 127], to: input)
+        for (pad, beats) in [(UInt8(20), 1.0), (21, 2), (22, 4), (23, 8)] {
+            cuePreviewPacket([0x94, pad, 127, 0x84, pad, 0], to: input)
+            let state = try #require(model.playbackSnapshot?.a)
+            let grid = try #require(model.timing(.a))
+            #expect(state.loopEnabled)
+            #expect(abs(state.loopEnd - state.loopStart - grid.span(beats: beats, from: state.loopStart)) <= 1)
+            #expect(state.synced)
+            let samples = model.playback.core.renderOffline(frames: 512)
+            #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
+            model.refreshPlayback()
+        }
+        let end = model.playbackSnapshot?.a.loopEnd
+        cuePreviewPacket([0x94, 11, 127, 20, 127, 0x84, 20, 0, 0x94, 15, 127, 21, 127], to: input)
+        #expect(model.playbackSnapshot?.a.loopEnd == end)
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}
