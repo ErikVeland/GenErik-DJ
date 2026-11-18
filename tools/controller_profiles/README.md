@@ -915,3 +915,6 @@ The [public-source audit](../../docs/coordination/controller-public-source-audit
 
 
 `hercules_mk4.py` replaces the generic MK4 import with a documented38-input manual core and eight transport/PFL lamps. Relative pitch and sensorless wheels retain signed magnitude. Normal K buttons use the native1/2/4/8 loop layout. The manufacturer guide and independent MK4-specific mapping govern the facts. Desktop driver/bridge access, native iPad USB, other modes, full lifecycle and audio routing remain open.
+
+
+`djm_a9.py` supplies30 manual A9 inputs from the current E10 table. Its CH2 CUE B/fader rows conflict with other controls. CH1/2 faders and all CUE B controls stay inactive. CUE A uses direct state in default TOGGLE mode. Separate app audio, C/D opt-in and manual channel1 selection remain explicit. No MIDI output or source/audio switch is inferred. Follow the current migrated support articles for exact document filenames.

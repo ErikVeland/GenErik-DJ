@@ -4488,3 +4488,24 @@ The [original MK4 guide](https://ts.hercules.com/download/sound/manuals/Mk4/DJ_C
 Validation:189 Python tests and eight focused native tests passed. Native fixtures cover held Cue/bend releases in both forms, repeat presses, fixed loop sizes, mixer pickup and direction, signed relative pitch/wheel magnitudes, source isolation, inactive controls and exact eight-lamp bytes. A real-WAV fixture retained audio and saved Sync. The iPad framework compiled and its resource matches the source. Only MK4 changed; all239 other data recipes remain identical. Two test-only callback adaptation errors remain in the preserved failed logs, followed by the passing run. The repository checker still reports12 historical missing-file links. Evidence: `TestBuilds/r356/validation.json`.
 
 The catalogue retains240 data recipes and188 automatic-core physical model records. Another124 lack automatic core controls. Full theoretical support remains open for all312 physical model records. No signed app, installation or physical/A10X acceptance is claimed.
+
+
+## R357 DJM-A9 manual mixer and migrated manufacturer documents
+
+Assumption: use the current manufacturer support links, not guessed old filenames. The six-page A9 E10 table contains conflicting CH2 CUE B/fader rows. CH2 CUE B is published as CC17, overlapping CH1 fader. CH2 fader is published as Note18, overlapping CH3 CUE B. Keep CH1/2 faders, all CUE B buttons and both candidate CC17/18 faders inactive. Use default-channel1 TOGGLE mode for direct CUE A state. Keep hardware/software audio ownership separate.
+
+- [x] Pin and visually inspect A9 pages2–4. Confirm the replacement fixture fails. Cross-check MIDI button mode against the manufacturer-authored manual.
+- [x] Add30 manual unambiguous mixer inputs, with four latched CUE A states and C/D opt-in. Infer no MIDI receive/output, source switch, stored setting or audio route.
+- [x] Check exact addresses, pickup/direction, direct state, conflicting/unsupported packet isolation and real-WAV audio/Sync. Run importer checks and iPad framework compilation. Compare earlier recipes.
+- [x] Record working SLAB and REV7 MIDI document links from the migrated support site for the next implementation steps.
+
+Success requires no inferred repair of contradictory manufacturer rows. Full mixer routing, protocol gaps and physical/A10X acceptance remain open.
+
+
+Added30 manual A9 inputs from the [current E10 MIDI table](https://downloads.support.alphatheta.com/midi-mapping/dj-mixers/DJM-A9/DJM-A9_MIDI_Message_List_E_10.pdf), SHA256`4bca4d93965d669e8a22bd58a9582ce2fdd23fc3cc29a576203f8e2df819c76f`. Visual review confirms the CH2 conflicts are in the document, not just its text extraction. CH1/2 faders and all CUE B controls remain inactive. Gain/EQ/Color controls retain four independent strips. C/D faders are unambiguous. Four CUE A buttons retain direct state in channel1 TOGGLE mode. Master, Headphones A and crossfader control the separate app mixer. The manufacturer-authored manual's web text confirms the MIDI defaults on page80. The current official manual download link returns404; no local PDF hash is claimed for that manual. MIDI receive/output and automatic audio routing remain unimplemented.
+
+Validation:190 Python tests and six focused native tests passed. Fixtures cover every mapped address, pickup, direction, explicit PFL state, source isolation, C/D opt-in and conflicting/unused packet rejection. A real-WAV host fixture retained audio and saved Sync. The iPad framework compiled and its resource matches the source. All240 earlier data recipes remain identical. The repository checker still reports12 historical missing-file links. Evidence: `TestBuilds/r357/validation.json`.
+
+The [public-source audit](controller-public-source-audit.json) records the migrated support articles and exact working SLAB/A9/REV7 filenames. SLAB and REV7 tables are downloaded for the next implementation steps. V5's current software section has no MIDI article in the checked list. The current X1850 guide documents MIDI settings without an address table. These are scoped findings, not claims that no other source exists.
+
+The catalogue now has241 data recipes. Automatic core coverage remains188 physical model records, with124 remaining. Full theoretical support remains open for all312 physical model records. No signed app, installation or physical/A10X acceptance is claimed.

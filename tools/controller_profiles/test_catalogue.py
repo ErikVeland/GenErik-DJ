@@ -861,6 +861,22 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_a9_manual_core_quarantines_conflicting_channel_two_rows_and_keeps_toggle_state(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item=next((r for r in runtime["profiles"] if r["id"]=="Pioneer DJM-A9"),None)
+        self.assertIsNotNone(item,"Add the independently downloaded A9 subset without repairing OEM table conflicts by guesswork")
+        self.assertFalse(item["autoSelect"])
+        self.assertEqual(len(item["inputs"]),30)
+        self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+        self.assertNotIn("audioOutput",item)
+        self.assertEqual({r["channel"] for r in item["inputs"]},{0})
+        self.assertFalse(any(r["action"] in {"levelA","levelB"} and r["targetDeck"] in {"a","b"} for r in item["inputs"]))
+        self.assertEqual([r["number"] for r in item["inputs"] if r["action"] in {"cueStateA","cueStateB"}],[10,11,12,13])
+        self.assertFalse(any(r["kind"]=="control" and r["number"] in {17,18} for r in item["inputs"]))
+        from djm_a9 import A9_REFERENCES
+        cached=ROOT/"TestBuilds/r357/upstream/djm-a9-midi-e10.pdf"
+        if cached.exists():self.assertEqual(hashlib.sha256(cached.read_bytes()).hexdigest(),A9_REFERENCES[item["id"]]["sha256"])
+
     def test_mk4_manual_core_uses_relative_pitch_and_independent_factory_addresses(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next(r for r in runtime["profiles"] if r["id"]=="Hercules DJ Console MK4")

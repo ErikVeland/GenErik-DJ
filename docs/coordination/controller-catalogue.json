@@ -8491,46 +8491,82 @@
       "role": "dvs-only",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://downloads.support.alphatheta.com/midi-mapping/dj-mixers/DJM-A9/DJM-A9_MIDI_Message_List_E_10.pdf"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:pioneerdjma9"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Pioneer DJM-A9",
+      "automaticControls": false,
+      "controlActions": [
+        "crossfader",
+        "cueMix",
+        "cueStateA:a",
+        "cueStateA:c",
+        "cueStateB:b",
+        "cueStateB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "levelA:c",
+        "levelB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor"
+      ],
+      "inputBindingCount": 30,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual MIDI channel1, BUTTON TYPE TOGGLE, separate app audio. Physical CH1-4 map to A-D. C/D require app opt-in. CH1/2 faders and CUE B remain inactive because of published table conflicts."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Manufacturer E10 CH2 CUE B CC17 overlaps CH1 fader; CH2 fader Note18 overlaps CH3 CUE B. Both candidate CC17/18 faders and all CUE B controls stay inactive pending independent wire evidence. Manual default channel1/TOGGLE only. TRIGGER mode, Headphones B, hardware/software audio ownership, external deck routing, source/assign/curve switches, FX/microphone/clock, full lifecycle/calibration and physical/A10X acceptance remain open. The mixer does not receive MIDI. No output, stored setting or audio route is inferred.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -323732,6 +323768,49 @@
         },
         {
           "reason": "Desktop driver/bridge and native iPad USB access remain open. Manual default channel1 only. Native relative tempo differs from the old custom sensitivity. Normal K buttons use a fixed1/2/4/8 loop layout. K-bank/Shift modes, shifted FX, Scratch/contact, source/audio switching, search, gain/master/headphone knobs, complete light ownership/setup/lifecycle/audio and physical/A10X acceptance remain open. No RMX/4-Mx protocol, blanket lamp reset, update query or stored setting is inferred."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneerdjma9",
+      "name": "Pioneer DJM-A9",
+      "transport": "midi",
+      "source": {
+        "url": "https://downloads.support.alphatheta.com/midi-mapping/dj-mixers/DJM-A9/DJM-A9_MIDI_Message_List_E_10.pdf",
+        "sha256": "4bca4d93965d669e8a22bd58a9582ce2fdd23fc3cc29a576203f8e2df819c76f",
+        "pages": [
+          2,
+          3,
+          4
+        ],
+        "relatedSources": [
+          {
+            "url": "https://support.alphatheta.com/en-US/articles/16006872025369"
+          },
+          {
+            "url": "https://manualzz.com/doc/79710198/pioneer-djm-a9-dj-mixer-owner-s-manual",
+            "page": 80,
+            "review": "Web-reviewed manufacturer-authored manual: MIDI channel1 and TOGGLE button transmission are the defaults. The current official manual article links an unavailable download. No local PDF hash is claimed for this secondary-hosted manual text."
+          },
+          {
+            "url": "https://virtualdj.com/manuals/hardware/pioneer/djma9/setup.html"
+          },
+          {
+            "url": "https://support.alphatheta.com/en-US/articles/15997858603545"
+          }
+        ],
+        "review": "The current E10 MIDI table was downloaded through the migrated support article and pages2-4 visually checked. CH2 CUE B is explicitly printed as CC17, colliding with CH1 fader CC17. CH2 fader is explicitly printed as Note18 with binary values, colliding with CH3 CUE B Note18. Do not silently repair these fields from sibling mixers or apparent address sequences. CH1/2 faders, both candidate CC17/18 faders and all CUE B buttons remain inactive. Independently unambiguous gain/EQ/Color controls cover four fixed native A-D strips. Only C/D faders remain mapped. CUE A notes10-13 use direct PFL state in default TOGGLE mode; TRIGGER mode needs another qualified contract. Headphones A blend/level, master and crossfader control the separate app mixer. Headphones B, source/assign/curve switches, microphone/FX, clock, dual-bus audio and native external mixer routing remain open. The hardware retains its own audio processing; use separate app audio to avoid unqualified double processing. No MIDI receive, feedback, setup, stored setting or audio route is inferred. Manual selection and C/D opt-in remain required. Physical/A10X acceptance remains open."
+      },
+      "implementedInputCount": 30,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manufacturer E10 CH2 CUE B CC17 overlaps CH1 fader; CH2 fader Note18 overlaps CH3 CUE B. Both candidate CC17/18 faders and all CUE B controls stay inactive pending independent wire evidence. Manual default channel1/TOGGLE only. TRIGGER mode, Headphones B, hardware/software audio ownership, external deck routing, source/assign/curve switches, FX/microphone/clock, full lifecycle/calibration and physical/A10X acceptance remain open. The mixer does not receive MIDI. No output, stored setting or audio route is inferred."
         }
       ]
     },

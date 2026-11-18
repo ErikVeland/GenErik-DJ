@@ -477,5 +477,52 @@
   "limits": [
     "Read-only public sources. No account request, message, firmware updater, driver installation or proprietary definition extraction.",
     "No SDK or private-access assumption. Public-source investigation and overall controller support remain incomplete."
+  ],
+  "updates": [
+    {
+      "request": "R357",
+      "reviewDate": "2026-11-19",
+      "finding": "The old Pioneer support sections redirect in the browser to the migrated AlphaTheta Help Center. Follow the current article links. The exact filename and case matter; failed older URLs do not establish an unavailable protocol. Browser reads work where direct web fetches return403.",
+      "documents": [
+        {
+          "model": "AlphaTheta SLAB",
+          "article": "https://support.alphatheta.com/en-US/articles/52774134882841?product=50303541909785",
+          "url": "https://downloads.support.alphatheta.com/midi-mapping/music-production/SLAB/SLAB_MIDI_Message_List_en.pdf",
+          "cache": "TestBuilds/r357/upstream/slab-midi-en.pdf",
+          "sha256": "aaba912538403e712fb73554a4e30fff8b467e115e91f9455718711fd1b29a0c",
+          "status": "Downloaded; implementation next."
+        },
+        {
+          "model": "Pioneer DJM-A9",
+          "article": "https://support.alphatheta.com/en-US/articles/16006872025369",
+          "url": "https://downloads.support.alphatheta.com/midi-mapping/dj-mixers/DJM-A9/DJM-A9_MIDI_Message_List_E_10.pdf",
+          "cache": "TestBuilds/r357/upstream/djm-a9-midi-e10.pdf",
+          "sha256": "4bca4d93965d669e8a22bd58a9582ce2fdd23fc3cc29a576203f8e2df819c76f",
+          "status": "Downloaded and visually reviewed. Thirty-input manual subset implemented; contradictory CH2 rows and overlapping controls remain inactive."
+        },
+        {
+          "model": "Pioneer DDJ-REV7",
+          "article": "https://support.alphatheta.com/en-US/articles/4414574284697",
+          "url": "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-REV7/DDJ-REV7_MIDI_message_List_E2.pdf",
+          "cache": "TestBuilds/r357/upstream/ddj-rev7-midi-e2.pdf",
+          "sha256": "a2d33045fc28017d48ba8e9409e0586d0f753ce426e7f955c0c56460b7dbf905",
+          "status": "Downloaded; implementation pending."
+        }
+      ],
+      "otherFindings": [
+        {
+          "model": "AlphaTheta DJM-V5",
+          "url": "https://support.alphatheta.com/en-US/products/50766108259865?section=24",
+          "finding": "Current software section lists rekordbox, Serato DJ Pro and operating-system articles, without a MIDI-compatible-software article. This scoped check does not prove no protocol exists."
+        },
+        {
+          "model": "Denon DJ X1850 PRIME",
+          "url": "https://cdn.inmusicbrands.com/denondj/X1850Prime/X1850%20PRIME%20-%20User%20Guide%20-%20v1.4.pdf",
+          "cache": "TestBuilds/r355/upstream/x1850-user-guide-v1.4.pdf",
+          "sha256": "ed7b8dc224f5cf6f011f2431fb723cd8282f10dae0e3952a467826be22d1398e",
+          "finding": "Manufacturer guide downloaded from the current public index. It documents MIDI clock/active-send settings, without a control-address wire table."
+        }
+      ]
+    }
   ]
 }
