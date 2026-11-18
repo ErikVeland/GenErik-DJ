@@ -628,6 +628,27 @@
         "42 manual controls with separate app audio. Pads/modes, utility-dependent loop activation, PFL channel fader, fader-start contacts, full hardware/audio/lifecycle/output and physical/A10X acceptance remain open.",
         "No vendor code, output, stored-setting or sibling protocol imported."
       ]
+    },
+    {
+      "request": "R368",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://github.com/heronarts/LX/blob/a950c548db00b1d3b72db3b5ac4a80f2b8519415/src/main/java/heronarts/lx/midi/surface/DJMV10.java",
+          "sha256": "e274c95db5223e6a757aa52c8882ca78c65e3e18c230863b6ba923fd7ee31a8a",
+          "review": "Read declared V10 constants, channel filter and Toggle requirement. Non-commercial LX source licence. Independently normalised protocol facts only. No executable source copied, run or bundled."
+        },
+        {
+          "url": "https://blt-guide.deepsymmetry.org/beat-link-trigger/next/_attachments/ExtendedOnAirV10.bls",
+          "sha256": "36f6fde121bb83330beefeff74f3ebd00a30090946f6965ad6ddc2700ea82b11",
+          "review": "Read public show contents.edn without executing. One trim/fader/master map serves V10 and LF. LF model choice hides crossfader/assign controls. V10 gain/level/master/crossfader independently corroborated."
+        }
+      ],
+      "limits": [
+        "V10 24 manual controls, LF nine independently qualified controls. Separate app audio only.",
+        "Hardware CH5/6, four-band mids, mode-dependent filters, full output/lifecycle/audio and physical/A10X acceptance remain open.",
+        "No LF EQ/PFL/headphone facts inferred from the separate V10 source. Distribution review remains open."
+      ]
     }
   ]
 }

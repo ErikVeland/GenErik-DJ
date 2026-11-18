@@ -942,3 +942,8 @@ The manual profile requires separate app audio. Hardware audio ownership and ext
 DJM-S9 uses its official Version1.00 table for42 manual mixer/browser/loop-size inputs.
 Its pad rows conflict with the channel header. Status9q and4BEAT LOOP utility choices remain unqualified.
 These messages stay inactive. Shared Shift guards normal browser/loop-size controls. Use separate app audio.
+
+V10 and V10-LF retain separate public evidence. V10 has24 manual controls; LF has nine.
+Only physical CH1-4 map to native A-D. CH5/6, four-band mids and mode-dependent filters remain inactive.
+LF reuses only the trim/fader/master facts that Beat Link Trigger explicitly shares.
+No downloaded LX or show code is copied, executed or bundled. Source-reuse review remains open.

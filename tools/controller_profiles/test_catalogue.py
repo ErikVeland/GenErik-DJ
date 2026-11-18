@@ -917,6 +917,25 @@ class GeneratedCatalogueTests(unittest.TestCase):
         for bad in [products+products,products[:100],products+'<li data-hardware-target="midinote ios">Unknown: Screen</li>',products.replace('mac ios','mac unknown',1)]:
             with self.assertRaises(ValueError):read_djay(bad)
 
+    def test_v10_and_lf_keep_independent_public_evidence_and_inactive_six_channel_features(self):
+        runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        by={r["id"]:r for r in runtime["profiles"]}
+        for name,count in [("Pioneer DJM-V10",24),("Pioneer DJM-V10-LF",9)]:
+            self.assertTrue(name in by,"Add public V10/LF facts without mapping six hardware strips onto four decks")
+            item=by[name]
+            self.assertFalse(item["autoSelect"])
+            self.assertEqual(len(item["inputs"]),count)
+            self.assertEqual(item["role"],"accessory")
+            self.assertEqual({r.get("targetDeck") for r in item["inputs"]},{None,"a","b","c","d"})
+            self.assertFalse(any(r["action"].startswith(("mid","filterKnob")) for r in item["inputs"]))
+            self.assertFalse(item["outputs"] or item["startup"] or item["shutdown"])
+            self.assertNotIn("audioOutput",item)
+        self.assertEqual({r["action"] for r in by["Pioneer DJM-V10-LF"]["inputs"]},{"gainA","gainB","levelA","levelB","master"})
+        from djm_v10 import V10_REFERENCES
+        for name,file in [("Pioneer DJM-V10","DJMV10.java"),("Pioneer DJM-V10-LF","ExtendedOnAirV10.bls")]:
+            cached=ROOT/"TestBuilds/r368/upstream"/file
+            if cached.exists():self.assertEqual(hashlib.sha256(cached.read_bytes()).hexdigest(),V10_REFERENCES[name]["sha256"])
+
     def test_djms9_manual_mixer_rejects_unqualified_pad_and_mode_channels(self):
         runtime=json.loads((ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item=next((r for r in runtime["profiles"] if r["id"]=="Pioneer DJM-S9"),None)

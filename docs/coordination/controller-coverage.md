@@ -4698,3 +4698,23 @@ The pad-channel header says8/9/10/11, but each pad row says8/8/10/11. Additional
 Validation:201 Python checks and six focused native tests passed, including the152-profile held-Cue corpus. The iPad framework compiled and its resource matches the source. All248 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r367/validation.json`.
 
 The catalogue has249 data recipes. Automatic core coverage remains191 of343 physical models, with152 without automatic core controls. Full theoretical support and physical/A10X acceptance remain open.
+
+## R368 Public DJM-V10 and V10-LF input facts
+
+Assumption: native four-deck controls cannot represent all six hardware channels or four-band EQ. Keep those limits explicit.
+
+- [x] Pin public LX facts and hash the published Beat Link Trigger show. Read both without executing downloaded code.
+- [x] Add24 manual V10 inputs and nine independently qualified LF inputs with separate app audio.
+- [x] Verify pickup, source isolation, explicit Cue state, deck opt-in and inactive six-channel/four-band controls.
+
+The pinned [LX V10 integration](https://github.com/heronarts/LX/blob/a950c548db00b1d3b72db3b5ac4a80f2b8519415/src/main/java/heronarts/lx/midi/surface/DJMV10.java) declares gain/high/low/level, CUE A and global master/headphones A/crossfader addresses. It requires MIDI Button Type Toggle. Its channel parameter initially selects channel1. This is not a claimed manufacturer default. Native normalisation retains7-bit values and pickup.
+
+The [Beat Link Trigger guide and published show](https://blt-guide.deepsymmetry.org/beat-link-trigger/next/Integration_ExtendedOnAirV10.html) independently qualify gain/level/master/crossfader. Its shared map serves both models. LF selection hides crossfader and assignment controls. The LF recipe uses only its directly qualified gain/level/master facts. It does not inherit the separate LX V10 EQ/PFL/headphone declarations.
+
+Physical CH1-4 map to A-D, with C/D opt-in. CH5/6 remain inactive. Four-band mid-high/mid-low cannot share one native mid control. Unipolar filter cutoff and LPF/HPF selection cannot become a bipolar Color knob. These controls, compression/send, second Cue bus, master isolator/filter, full hardware/software audio ownership, output/lifecycle and physical/A10X acceptance remain open. The profiles send no output, setting or audio-route command.
+
+LX has a non-commercial source licence. This implementation independently normalises protocol facts and copies no executable source. No downloaded Java or show code is executed or bundled. Source-reuse/distribution review remains open.
+
+Validation:202 Python checks and six focused native tests passed, including the152-profile held-Cue corpus. The iPad framework compiled and its resource matches the source. All249 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r368/validation.json`.
+
+The catalogue has251 data recipes. Automatic core coverage remains191 of343 physical models, with152 without automatic core controls. Full theoretical support and physical/A10X acceptance remain open.

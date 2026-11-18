@@ -13056,138 +13056,6 @@
       }
     },
     {
-      "id": "pioneerdjmv10",
-      "name": "Pioneer DJ DJM-V10",
-      "manufacturer": "Pioneer",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://www.algoriddim.com/hardware/djmv10"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "djay": {
-          "sourceName": "Pioneer DJ DJM-V10",
-          "platforms": [
-            "mac",
-            "win"
-          ],
-          "limitations": [],
-          "source": "https://www.algoriddim.com/hardware/djmv10"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
-      "id": "pioneerdjmv10lf",
-      "name": "Pioneer DJ DJM-V10-LF",
-      "manufacturer": "Pioneer",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://www.algoriddim.com/hardware/djmv10lf"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "djay": {
-          "sourceName": "Pioneer DJ DJM-V10-LF",
-          "platforms": [
-            "mac",
-            "win"
-          ],
-          "limitations": [],
-          "source": "https://www.algoriddim.com/hardware/djmv10lf"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
       "id": "pioneeropusquad",
       "name": "Pioneer DJ OPUS-QUAD",
       "manufacturer": "Pioneer",
@@ -13728,6 +13596,183 @@
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
         "The header says pad channels8/9/10/11 but rows say8/8/10/11. Mode status9q has no definition. Pads/modes stay inactive. Utility-dependent 4BEAT LOOP69/20, fader-start contacts, headphone channel Cuefader14, hardware/audio ownership, source/reverse/curve controls, microphone/FX/levers/sampler, full output/lifecycle/calibration and physical/A10X acceptance remain open. No setting, output, sibling protocol or audio route is inferred.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "pioneerdjmv10",
+      "name": "Pioneer DJM-V10",
+      "manufacturer": "Pioneer",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://raw.githubusercontent.com/heronarts/LX/a950c548db00b1d3b72db3b5ac4a80f2b8519415/src/main/java/heronarts/lx/midi/surface/DJMV10.java",
+        "https://www.algoriddim.com/hardware/djmv10"
+      ],
+      "definitions": [
+        "reviewed:djm-v10-public-facts"
+      ],
+      "implementation": "partial-midi-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer DJM-V10",
+      "automaticControls": false,
+      "comparisonSupport": {
+        "djay": {
+          "sourceName": "Pioneer DJ DJM-V10",
+          "platforms": [
+            "mac",
+            "win"
+          ],
+          "limitations": [],
+          "source": "https://www.algoriddim.com/hardware/djmv10"
+        }
+      },
+      "controlActions": [
+        "crossfader",
+        "cueMix",
+        "cueStateA:a",
+        "cueStateA:c",
+        "cueStateB:b",
+        "cueStateB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "monitor"
+      ],
+      "inputBindingCount": 24,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual MIDI channel1, MIDI ON, separate app audio. Physical CH1-4 map to A-D; CH5/6 remain inactive. C/D require app opt-in. Select My Settings MIDI Button Type Toggle."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "partial",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Manual separate app audio only. Physical CH5/6, full hardware/software audio ownership and external deck routing, taper/calibration, source/assign/curve controls, effects/microphone, full output/lifecycle and physical/A10X acceptance remain open. Four-band mid-high/mid-low, unipolar LPF/HPF filter, compression/send, CUE B and master isolator/filter remain inactive. LX declares protocol facts under a non-commercial source licence; no executable source is copied or bundled. Distribution review remains open.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "pioneerdjmv10lf",
+      "name": "Pioneer DJM-V10-LF",
+      "manufacturer": "Pioneer",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://blt-guide.deepsymmetry.org/beat-link-trigger/next/_attachments/ExtendedOnAirV10.bls",
+        "https://www.algoriddim.com/hardware/djmv10lf"
+      ],
+      "definitions": [
+        "reviewed:djm-v10-lf-public-facts"
+      ],
+      "implementation": "partial-midi-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer DJM-V10-LF",
+      "automaticControls": false,
+      "comparisonSupport": {
+        "djay": {
+          "sourceName": "Pioneer DJ DJM-V10-LF",
+          "platforms": [
+            "mac",
+            "win"
+          ],
+          "limitations": [],
+          "source": "https://www.algoriddim.com/hardware/djmv10lf"
+        }
+      },
+      "controlActions": [
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "master"
+      ],
+      "inputBindingCount": 9,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual MIDI channel1, MIDI ON, separate app audio. Physical CH1-4 map to A-D; CH5/6 remain inactive. C/D require app opt-in."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "partial",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Manual separate app audio only. Physical CH5/6, full hardware/software audio ownership and external deck routing, taper/calibration, source/assign/curve controls, effects/microphone, full output/lifecycle and physical/A10X acceptance remain open. LF EQ/filter/PFL/headphone wires are not independently qualified by this example and stay inactive. No crossfader exists on LF.",
         "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
@@ -332111,6 +332156,62 @@
         },
         {
           "reason": "The header says pad channels8/9/10/11 but rows say8/8/10/11. Mode status9q has no definition. Pads/modes stay inactive. Utility-dependent 4BEAT LOOP69/20, fader-start contacts, headphone channel Cuefader14, hardware/audio ownership, source/reverse/curve controls, microphone/FX/levers/sampler, full output/lifecycle/calibration and physical/A10X acceptance remain open. No setting, output, sibling protocol or audio route is inferred."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:djm-v10-public-facts",
+      "name": "Pioneer DJM-V10",
+      "transport": "midi",
+      "source": {
+        "url": "https://raw.githubusercontent.com/heronarts/LX/a950c548db00b1d3b72db3b5ac4a80f2b8519415/src/main/java/heronarts/lx/midi/surface/DJMV10.java",
+        "sha256": "e274c95db5223e6a757aa52c8882ca78c65e3e18c230863b6ba923fd7ee31a8a",
+        "revision": "a950c548db00b1d3b72db3b5ac4a80f2b8519415",
+        "relatedSources": [
+          {
+            "url": "https://blt-guide.deepsymmetry.org/beat-link-trigger/next/_attachments/ExtendedOnAirV10.bls",
+            "sha256": "36f6fde121bb83330beefeff74f3ebd00a30090946f6965ad6ddc2700ea82b11"
+          }
+        ],
+        "review": "Public LX declares channel1 as its initial channel and requires My Settings MIDI Button Type Toggle. Independently normalise declared gain/high/low/level, CUE A state and master/headphones A/crossfader addresses. Beat Link Trigger independently confirms gain/level/master/crossfader for all six strips, but native has only four decks. Physical CH1-4 map to A-D; CH5/6 stay inactive. Four-band mid-high/mid-low cannot share the single native mid control and remain inactive. Unipolar filter cutoff with LPF/HPF selection is not a bipolar Color knob and stays inactive. Compression/send, CUE B, master isolator/filter, source/assign/curve controls, FX, full lifecycle/output/audio ownership and physical/A10X acceptance remain open. Manual separate app audio only. No downloaded code is copied, executed or bundled. LX has a non-commercial source licence; this recipe contains independently normalised protocol facts only. Source-reuse/distribution review remains required."
+      },
+      "implementedInputCount": 24,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual separate app audio only. Physical CH5/6, full hardware/software audio ownership and external deck routing, taper/calibration, source/assign/curve controls, effects/microphone, full output/lifecycle and physical/A10X acceptance remain open. Four-band mid-high/mid-low, unipolar LPF/HPF filter, compression/send, CUE B and master isolator/filter remain inactive. LX declares protocol facts under a non-commercial source licence; no executable source is copied or bundled. Distribution review remains open."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:djm-v10-lf-public-facts",
+      "name": "Pioneer DJM-V10-LF",
+      "transport": "midi",
+      "source": {
+        "url": "https://blt-guide.deepsymmetry.org/beat-link-trigger/next/_attachments/ExtendedOnAirV10.bls",
+        "sha256": "36f6fde121bb83330beefeff74f3ebd00a30090946f6965ad6ddc2700ea82b11",
+        "relatedSources": [
+          {
+            "url": "https://blt-guide.deepsymmetry.org/beat-link-trigger/next/Integration_ExtendedOnAirV10.html"
+          }
+        ],
+        "review": "The public Beat Link Trigger show uses one explicit MIDI map for both V10 and V10-LF. Selecting LF hides the crossfader and assignment controls; the remaining trim/fader/master map stays shared. Independently normalise only those directly supported LF facts. Four native decks use physical CH1-4, with CH5/6 inactive. No LF EQ/filter/PFL/headphone protocol is inherited from the separate LX V10 declarations. Manual MIDI channel1 and separate app audio only. No example code is executed or bundled. Complete hardware/software audio ownership, other controls, output/lifecycle and physical/A10X acceptance remain open."
+      },
+      "implementedInputCount": 9,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual separate app audio only. Physical CH5/6, full hardware/software audio ownership and external deck routing, taper/calibration, source/assign/curve controls, effects/microphone, full output/lifecycle and physical/A10X acceptance remain open. LF EQ/filter/PFL/headphone wires are not independently qualified by this example and stay inactive. No crossfader exists on LF."
         }
       ]
     }

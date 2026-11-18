@@ -564,3 +564,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R366 | Implemented; hardware acceptance open | Add the independent DJM-900NXS2 MIDI mixer contract | Added32 manual inputs with CC Cue state, four strips and separate app audio. 200 Python/six native checks passed. iPad framework compiled. Full audio ownership and physical/A10X acceptance remain open. [Scope](controller-coverage.md#r366-independent-djm-900nxs2-mixer-contract). |
 
 | R367 | Implemented; hardware acceptance open | Add the independently documented DJM-S9 manual controls | Added42 manual mixer/browser/loop-size controls. Conflicting pad and utility-dependent messages remain inactive. 201 Python/six native checks passed. iPad framework compiled. [Scope](controller-coverage.md#r367-independent-djm-s9-manual-controls). |
+
+| R368 | Implemented; hardware acceptance open | Add evidence-bounded DJM-V10 and V10-LF manual controls | Added24 V10/nine LF manual inputs. Six-channel/four-band and LF-specific gaps remain explicit. 202 Python/six native checks passed. iPad framework compiled. [Scope](controller-coverage.md#r368-public-djm-v10-and-v10-lf-input-facts). |
