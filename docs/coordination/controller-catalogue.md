@@ -9,8 +9,8 @@ Reviewed 17 November 2026. The pinned software inventory is complete. The wider 
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 313 total catalogue records. 306 name physical models. The remainder identify software endpoints or protocol families.
-- 181 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 144 factory profiles select core controls automatically for 152 physical models.
+- 182 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 145 factory profiles select core controls automatically for 153 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -219,13 +219,13 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 36 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 146 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 147 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
 | partial-midi-profile | 39 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 68 | The pinned references contain no implemented mapping for this model. |
+| protocol-needed | 67 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -334,7 +334,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Numark Party Mix | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Party Mix II | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Party Mix III | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Numark Party Mix Live | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Numark Party Mix Live | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Party Mix Pro | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Scratch | dvs-only | Automatic core | Automatic split | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Rane MP2015 | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |

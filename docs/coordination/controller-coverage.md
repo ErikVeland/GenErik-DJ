@@ -3593,3 +3593,20 @@ All6 focused Swift checks,130 importer checks and iPad framework compilation pas
 The compiled resource matches the source. All180 earlier recipes remain unchanged. Expected failures and source-bound checks remain in `TestBuilds/r301/`.
 The repository check retains twelve historical broken links. The catalogue now has181 data recipes; automatic coverage stays158 physical models and69/122 benchmark models.
 Full theoretical feature parity remains unimplemented. Source base: `291a4f6`. No signed app, install or physical controller/A10X acceptance is claimed.
+
+## R302 Party Mix Live independent core
+
+Assumption: use the Live-specific PCDJ script, not Party Mix II aliases or calibration. Success requires a distinct automatic profile, source pitch direction and raw64-positive touch jog decoding, both Cue release forms, unchanged earlier recipes and matching iPad framework resources.
+
+- [x] Add failing catalogue and native protocol/playback checks.
+- [x] Pin the Live script and package. Add reviewed normal controls and transport lamps; keep shared pads and audio routing open.
+- [x] Run importer/native checks and iPad framework compilation. Preserve source-bound evidence.
+
+The Live-specific32-input recipe adds six transport/PFL lamps, filter and two-band mixer controls, touch contact and normal1/127 browsing.
+Source jog scaling remains software-specific; native calibration is unverified. Shared pads stay inactive because the native mode handler also writes lamps that this source does not qualify. No Party Mix II setup, hold address or calibration is inherited.
+
+All12 focused native checks,131 importer checks and iPad framework compilation pass. The real-WAV check retains saved Sync after Cue and touch release.
+An initial protocol fixture lacked the output port required for startup; the corrected fixture passes. Both failed logs remain in `TestBuilds/r302/`.
+All181 earlier recipes remain unchanged; the compiled resource matches the source. The repository check retains twelve historical broken links.
+The catalogue has182 data recipes and159 automatic core physical models, including70/122 benchmark models. Full theoretical feature parity remains unimplemented.
+Source base: `4aae3c4`. No signed app, install, physical attachment or A10X acceptance is claimed.

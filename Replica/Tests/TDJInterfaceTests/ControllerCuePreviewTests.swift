@@ -1179,3 +1179,19 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
         #expect(model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCataloguePartyMixLiveNativeTouchAndCueKeepSavedSync() async throws {
+    try await withControllerCuePlayback("Party Mix Live") { model, input in
+        cuePreviewPacket([0x90, 1, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80, 1, 127, 0x90, 6, 127, 0xB0, 6, 1], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x90, 6, 0, 0, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        let samples = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        #expect(model.playbackSnapshot?.a.synced == true)
+    }
+}

@@ -23188,46 +23188,82 @@
       "role": "primary",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:numark-party-mix-live"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Numark Party Mix Live",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "monitor",
+        "openGroup",
+        "playA:a",
+        "playB:b",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b"
+      ],
+      "inputBindingCount": 32,
+      "feedbackBindingCount": 6,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
         "acceptedOnA10X": false
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Shared pads and mode feedback need input-only mode ownership before native import. Held Pad Mode, cue deletion, Sampler/FX, party lights, on-beat Sync lamps, complete lifecycle and audio routing remain open. Browser handles1/127 only. Native jog calibration, direct iPad attachment and physical acceptance remain unverified. No Party Mix II setup, mode writes or calibration is inherited."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -318571,6 +318607,38 @@
         },
         {
           "reason": "Cold-start software-mode SysEx, periodic keepalive, shutdown, platter counter/timestamps, shared pads, display ports, complete bank state, loop edit variations and physical acceptance remain open. Cross-bank release aliases clear a held control when its release arrives; bank selection itself does not release it."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:numark-party-mix-live",
+      "name": "Numark Party Mix Live",
+      "transport": "midi",
+      "source": {
+        "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+        "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+        "archiveMember": "Applications/DEX4.app/Contents/Resources/controllers/Numark__PartyMix_Live.js",
+        "memberSha256": "77e24d324fa9743e11efbb4ed5f858a2bacf3d3050b794bd2e3664a022fe6581",
+        "relatedSources": [
+          {
+            "url": "https://www.numark.com/product/party-mix-live"
+          },
+          {
+            "url": "https://pcdj.com/dj-controllers-numark-party-mix-live-and-numark-party-mix-ii-now-dex-3-supported/"
+          }
+        ],
+        "review": "Live-specific script by Tollen Francisco, revised13April2022, identifies USB15E4:003E. It is not a Party Mix II alias. Channels0/1 provide Play0, held Cue1, Sync2, PFL27, contact6, jogCC6, non-inverted pitchCC9 and gain/high/low/filter/levelCC23/24/25/26/28. Global channel15 provides Load2/3, Browse press7, CC0 browser and master/monitor/cue-mix/crossfaderCC10/12/13/8. Existing raw64-positive dj2go2Jog decoding exactly matches the source seven-bit jog sign rule. The source's15x jog multiplier and600 denominator are software calibration, not measured hardware counts; native calibration remains open. Browser implements the documented normal1/127 packets only; accelerated/unusual values remain inactive. Source Play/Cue lamps use127/on and1/dim-off; PFL uses NoteOff0. Sync output is an on-beat pulse in the source, so no steady Sync lamp is invented. Shared pads, mode/output ownership, held Pad Mode semantics, effects, party lights and full audio routing remain open. Transport lamp resets are reviewed; no inherited status SysEx, Pad Mode hold address or II-specific calibration is emitted. Manufacturer confirms iPadOS compatibility; direct attachment and response remain physically unverified. No downloaded code runs in the app."
+      },
+      "implementedInputCount": 32,
+      "implementedOutputCount": 6,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Shared pads and mode feedback need input-only mode ownership before native import. Held Pad Mode, cue deletion, Sampler/FX, party lights, on-beat Sync lamps, complete lifecycle and audio routing remain open. Browser handles1/127 only. Native jog calibration, direct iPad attachment and physical acceptance remain unverified. No Party Mix II setup, mode writes or calibration is inherited."
         }
       ]
     },

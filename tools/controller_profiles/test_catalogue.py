@@ -861,6 +861,22 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_party_mix_live_has_independent_core_without_inherited_pad_or_jog_setup(self):
+        runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item = next((r for r in runtime["profiles"] if r["id"] == "Numark Party Mix Live"), None)
+        self.assertIsNotNone(item, "Live needs an independently reviewed core recipe")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual((len(item["inputs"]), len(item["outputs"])), (32, 6))
+        self.assertNotIn("inputModes", item)
+        self.assertNotIn("audioOutput", item)
+        self.assertFalse(any(r["action"].startswith("hotcue") for r in item["inputs"]))
+        self.assertEqual([(r["number"], r["inverted"]) for r in item["inputs"] if r["action"] in {"tempoA", "tempoB"}], [(9, False), (9, False)])
+        self.assertTrue(all(r["encoding"] == "dj2go2Jog" and "argument" not in r for r in item["inputs"] if r["action"] in {"jogA", "jogB"}))
+        from party_mix_live import LIVE_SCRIPT_SHA
+        path = ROOT / "TestBuilds/r301/upstream/controllers/Numark__PartyMix_Live.js"
+        if path.exists():
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), LIVE_SCRIPT_SHA)
+
     def test_rane_four_manual_transport_keeps_hardware_mixing_and_lcd_protocol_separate(self):
         runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         item = next((r for r in runtime["profiles"] if r["id"] == "Rane FOUR"), None)
