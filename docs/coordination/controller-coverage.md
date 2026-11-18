@@ -3319,3 +3319,35 @@ Only the two intended runtime recipes changed; the other 172 recipes remain unch
 The first importer run found the older expected audio-model set; the fixture now includes both qualified models. The failed log is preserved.
 The repository check retains twelve historical broken links. Source base: `949bc69`. Evidence: `TestBuilds/r291/`.
 No signed app, install, controller hardware test or A10X acceptance forms part of this increment.
+
+## R292 Mixtour Pro public-source core
+
+Assumption: reuse only unconditional normal-control records from the author's public Mixtour Pro SJ2 mapping.
+The file declares a missing `ReloopMixtourPro` app class. It does not establish cold-start negotiation or pad/deck mode ownership.
+Automatic selection therefore stays off. Manual profile application also requires the user to enable its MIDI input.
+
+Implementation plan and checks:
+
+- [x] Add failing fixtures for separate manual identity, four explicit targets, held Cue, pickup, inverted centre-64 browsing and source feedback values.
+- [x] Add `mixtour_pro.py`, pin the source hash and class boundary, then register its manual transport/mixer/browse subset.
+- [x] Keep shared conditional pads, loop-state combinations, shifted actions, FX, setup and audio routing inactive.
+- [x] Run importer checks, focused native protocol/playback checks and iPad framework compilation. Compare the bundle and all previous recipes.
+
+This does not copy the original Mixtour protocol. The public mapping has 744 control rows and four meter outputs, plus per-control output records.
+Only plain normal records enter the native recipe. No vendor code runs in the app.
+
+The manual recipe has 47 inputs and 12 steady output definitions. It sends no unverified startup packet.
+A/B transport lights retain source on6/off2; C/D retain on5/off1. PFL lights and meter output remain unmapped.
+The source's library source/back keys have no reviewed matching native action, so they also remain inactive.
+Manual input and light mappings load separately. The user must enable each path. Manual application does not run automatic lifecycle packets.
+
+All nine focused Swift checks, 123 importer checks and native iPad framework compilation pass.
+The compiled resource matches the source. All 174 earlier recipes remain unchanged.
+The source check caught the A/B versus C/D feedback difference. A focused failing comparison now covers that correction.
+A later native run caught a fixture's ordering assumption about two queued controls; it now checks each target independently.
+Both failed logs and the expected pre-implementation failures remain in `TestBuilds/r292/`.
+The repository check retains twelve historical broken links. Inline review followed the serial-work rule; no reviewer agent was started.
+The catalogue retains 313 records for 306 physical models and now has 175 data recipes plus five code profiles.
+Automatic core coverage stays at 147 factory physical models plus six other native models; the benchmark stays 65/122.
+Source base: `bd51935`. Source cache: `TestBuilds/r291/manufacturer/`. Validation: `TestBuilds/r292/`.
+No signed app, install, controller hardware test or A10X acceptance forms part of this increment.

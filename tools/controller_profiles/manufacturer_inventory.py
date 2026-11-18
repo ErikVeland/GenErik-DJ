@@ -1,9 +1,11 @@
 """Manufacturer sources and model records for the controller catalogue."""
+from mixtour_pro import MIXTOUR_PRO_AUDIT
 
 REVIEWED = "2026-11-17"
 DENON_ENGINE = "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services"
 RELOOP_COMPARISON = "https://www.reloop.com/djing-with-smart-devices-controllercomparisonchart"
 DRIVER_REQUIRED = {"Reloop Jockey 3 ME", "Reloop Digital Jockey 2 Master Edition"}
+
 SOURCE_AUDITS = {'Hercules DJControl Inpulse T7': {'source': {'url': 'https://drive.google.com/file/d/1ApFMGZpGgrtDCpAZ6vo4VdpAszKgEfnZ/view',
                                               'sha256': 'a6c14da8d8d8f660e4903a4070c92b9820f8dbf07e89583443b468b1004b93d3'},
                                    'discussion': 'https://community.algoriddim.com/t/hercules-inpulse-t7-support/20172/186',
@@ -30,6 +32,8 @@ SOURCE_AUDITS = {'Hercules DJControl Inpulse T7': {'source': {'url': 'https://dr
                                  'This custom version2 map predates firmware49.36. Its author reports '
                                  'incompatibility with that update. Current firmware and dispatch need '
                                  'independent qualification.']}}
+
+SOURCE_AUDITS["Reloop Mixtour Pro"] = MIXTOUR_PRO_AUDIT
 
 MODELS = [
     ('Hercules DJControl Inpulse T7', 'https://community.algoriddim.com/t/hercules-inpulse-t7-support/20172/186'),

@@ -861,6 +861,29 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_mixtour_pro_manual_core_omits_shared_conditional_pads_and_missing_class(self):
+        runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item = next((row for row in runtime["profiles"] if row["id"] == "Reloop Mixtour Pro"), None)
+        self.assertIsNotNone(item, "Mixtour Pro needs a separate manual recipe")
+        self.assertFalse(item["autoSelect"])
+        self.assertNotIn("audioOutput", item)
+        self.assertFalse(any(r["action"].startswith("hotcue") for r in item["inputs"]))
+        self.assertEqual([(r["channel"], r["onValue"], r["offValue"]) for r in item["outputs"] if r["action"] in {"playA", "playB"}],
+                         [(0, 6, 2), (1, 6, 2), (2, 5, 1), (3, 5, 1)])
+        self.assertEqual([(r["channel"], r["number"], r["targetDeck"]) for r in item["inputs"] if r["action"] in {"loadA", "loadB"}],
+                         [(4, 10, "a"), (5, 10, "b"), (6, 10, "c"), (7, 10, "d")])
+        from mixtour_pro import MIXTOUR_PRO_AUDIT
+        path = ROOT / "TestBuilds/r291/manufacturer/mixtour-pro-sj2.djayMidiMapping"
+        if path.exists():
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), MIXTOUR_PRO_AUDIT["source"]["sha256"])
+            data = plistlib.loads(path.read_bytes())
+            self.assertEqual((len(data["controls"]), len(data["outputs"]), data["customClassName"]), (744, 4, "ReloopMixtourPro"))
+            for deck in range(4):
+                play = next(r for r in data["controls"] if r.get("keyPath") == f"turntable{deck + 1}.playPause")
+                self.assertEqual((play["midiChannel"], play["midiData"], play["midiMessageType"]), (deck, 0, 1))
+                self.assertNotIn("condition", play)
+                self.assertEqual((play["output"]["midiMaxValue"], play["output"]["midiMinValue"]), (6, 2) if deck < 2 else (5, 1))
+
     def test_reloop_factory_files_number_master_and_monitor_outputs(self):
         runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         sources = {"Reloop Mixtour": "Traktor_Setup_Mixtour_V1.0.tsi", "Reloop Beatpad 2": "Traktor_Setup_BP2_FINALV1-1.tsi"}
