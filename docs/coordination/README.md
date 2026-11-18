@@ -1,5 +1,7 @@
 # Current work
 
+**R291 website:** The product, manual, support and legal pages are live at https://dj.generik.au on Glasscode. HTTPS and public-route checks pass. The site describes the development app. Fresh captures, final privacy reconciliation and full browser/device checks remain open. No app build ran. [Source and verification](website-r291.md).
+
 Use `main` in `/Users/veland/GenErik DJ` for every test build. Work serially on short-lived `feature/` branches and merge before building. Other chats and historical working folders remain inactive.
 
 The [project north star](../product-direction.md) guides every feature. Clean, continuous audio comes first. Immediate, fluid multi-touch control comes second. TDJ1 sets the standard for both. Features, analysis, polish and repository cleanup are subordinate to these priorities. Background work must yield before it compromises performance. [Performance acceptance](release-gates.md) requires actual A10X evidence and Erik's listening and touch checks.

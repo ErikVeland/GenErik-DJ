@@ -1,0 +1,80 @@
+[
+  {
+    "path": "/",
+    "status": 200,
+    "canonical": "https://dj.generik.au/"
+  },
+  {
+    "path": "/manual",
+    "status": 200,
+    "canonical": "https://dj.generik.au/manual"
+  },
+  {
+    "path": "/support",
+    "status": 200,
+    "canonical": "https://dj.generik.au/support"
+  },
+  {
+    "path": "/privacy",
+    "status": 200,
+    "canonical": "https://dj.generik.au/privacy"
+  },
+  {
+    "path": "/privacy/choices",
+    "status": 200,
+    "canonical": "https://dj.generik.au/privacy/choices"
+  },
+  {
+    "path": "/accessibility",
+    "status": 200,
+    "canonical": "https://dj.generik.au/accessibility"
+  },
+  {
+    "path": "/terms",
+    "status": 200,
+    "canonical": "https://dj.generik.au/terms"
+  },
+  {
+    "path": "/release-notes",
+    "status": 200,
+    "canonical": "https://dj.generik.au/release-notes"
+  },
+  {
+    "path": "/legal",
+    "status": 200,
+    "canonical": "https://dj.generik.au/legal"
+  },
+  {
+    "path": "/credits",
+    "status": 200,
+    "canonical": "https://dj.generik.au/credits"
+  },
+  {
+    "path": "/missing-r291",
+    "status": 404
+  },
+  {
+    "path": "/robots.txt",
+    "status": 200
+  },
+  {
+    "path": "/sitemap.xml",
+    "status": 200
+  },
+  {
+    "path": "/assets/social.jpg",
+    "status": 200
+  },
+  {
+    "path": "/assets/archivo-latin.woff2",
+    "status": 200
+  },
+  {
+    "path": "/assets/application-notices.txt",
+    "status": 200
+  },
+  {
+    "path": "/build.json",
+    "status": 200
+  }
+]

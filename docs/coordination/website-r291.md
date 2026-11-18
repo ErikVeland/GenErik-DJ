@@ -61,4 +61,28 @@ The STE linter is absent from the installed skill directory. Copy received a man
 Erik rejected abstract slogans and generic cautionary copy. The homepage now describes concrete controls and actions. Compatibility restrictions remain in support and the manual.
 
 The app purchase page privacy link now targets the canonical privacy route. No app build, simulator or device installation ran.
-Deployment verification follows after merging the source to main.
+## Published result
+
+Published https://dj.generik.au on 18 November 2026 from source `012c17e0a61fd6d6d00a8af197ebe2808ac595d3`.
+`https://dj.generik.au/build.json` reports that exact revision.
+The Glasscode Nginx host serves the site directly. Certbot has scheduled renewal.
+
+All ten public routes returned HTTP 200 at their exact canonical URLs.
+A missing route returned HTTP 404 and the designed error page.
+Sitemap, robots, social artwork, font, licence notices and source identity returned HTTP 200.
+HTTP, trailing-slash and index.html variants redirect to the canonical HTTPS route.
+A host-directed request for the legacy Glasscode hostname redirects to the canonical route. That hostname has no public DNS record and does not expose an indexed duplicate.
+All checked page responses include security headers and no Set-Cookie header.
+The live browser rendered the updated copy and reported no warning or error logs.
+Public route results are in `website/verification/public-routes.json`.
+
+The publication is a working prerelease website. It is not a claim that the app or website has passed the complete App Store release checklist.
+App Store Connect metadata fields were prepared in the website README but were not changed in App Store Connect.
+
+## Primary references
+
+- [Apple Standard EULA](https://www.apple.com/legal/internet-services/itunes/dev/stdeula/)
+- [Apple App Privacy Details](https://developer.apple.com/app-store/app-privacy-details/)
+- [Apple iPad privacy controls](https://support.apple.com/en-ie/guide/ipad/ipad9ae59af9/27/ipados/27)
+
+These references support the licence link and system-setting guidance. App-specific data statements come from the audited source, not assumptions about Apple services.
