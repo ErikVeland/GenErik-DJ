@@ -3513,3 +3513,31 @@ Expected failures and final evidence remain in `TestBuilds/r298/validation/`. Th
 The catalogue keeps179 data recipes. Automatic core coverage reaches156 physical models and67/122 benchmark models.
 Full theoretical feature parity remains unimplemented. No signed app, install, hardware test or A10X acceptance forms part of this increment.
 Source base: `075d416`. Source: [PCDJ Slate4 map](https://pcdj.com/dj-controllers-download-the-gemini-slate-4/).
+
+## R299 NDX500 source-backed player core
+
+Assumption: reuse PCDJ's explicitly supported NDX500 MIDI input contract. Do not alias NDX900 or Radius.
+The source uses63-minus-raw jog movement and browse value1 forward, all other seven-bit values backward.
+Native fixed touch mode replaces source software-only Scratch toggling. Startup configures source lights/display, with no input negotiation packet.
+Output stays disabled because a player may use a different hardware MIDI channel. No channel-zero feedback is guessed.
+
+Implementation plan and checks:
+
+- [x] Add failing source-specific decoder and player fixtures for centre, direction, isolation, held Cue/bend and default Sync.
+- [x] Add bounded typed decoders restricted to jog/browser actions, then register a separate automatic player input recipe.
+- [x] Keep source LCD, lights, full mode/lifecycle and audio routing open. Use existing physical endpoint/deck assignment.
+- [x] Run importer checks, focused core/native playback checks and iPad framework compilation. Compare earlier recipes and bundle bytes.
+
+The recipe has68 input bindings across the source's four hardware channels. Existing player assignment keeps separate physical units on separate native decks.
+No Sync button is invented. Normal physical loop In/Out actions use native boundaries; source combined-loop/edit variations remain open.
+Pitch uses standard MIDI14-bit normalisation and source inversion. The source's MSB read does not prove finer hardware resolution.
+The source's jog denominators600/300 are software scales. Native revolution calibration remains unverified.
+New decoders accept only seven-bit CC packets. Profile validation restricts them to jog and browser actions.
+
+All ten focused Swift checks,129 importer checks and native iPad framework compilation pass.
+The native WAV check preserves saved Sync through held Cue, bend and touch release. Two-player fixtures verify endpoint isolation and both release forms.
+The compiled resource matches the source. All179 earlier recipes remain unchanged.
+Expected failures and source-bound validation remain in `TestBuilds/r299/`. The repository check retains twelve historical broken links.
+The catalogue now has180 data recipes. Automatic core coverage reaches157 physical models and68/122 benchmark models.
+Full theoretical feature parity remains unimplemented. Output, complete modes/lifecycle, audio routing and physical acceptance remain open.
+Source base: `8d73bf3`. Source cache: `TestBuilds/r298/upstream/`. No signed app, install or A10X acceptance forms part of this increment.

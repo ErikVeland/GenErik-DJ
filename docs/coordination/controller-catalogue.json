@@ -22173,47 +22173,83 @@
       "role": "accessory",
       "benchmark": true,
       "sources": [
-        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained"
+        "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://pcdj.com/downloads/djcontrollers/Numark__NDX500.zip"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:numarkndx500"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "profile": "Numark NDX500",
+      "automaticControls": true,
+      "controlActions": [
+        "browse",
+        "cuePreviewA:a",
+        "hotcue1A:a",
+        "hotcue2A:a",
+        "hotcue3A:a",
+        "jogA:a",
+        "jogTouchA:a",
+        "keylockA:a",
+        "loadA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendUpA:a",
+        "playA:a",
+        "reloopA:a",
+        "tempoA:a"
+      ],
+      "inputBindingCount": 68,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "USB-MIDI. Native fixed touch scratch on source channels1..4. Scratch toggle, displays and hardware output remain inactive."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Output channel ownership, full LCD/text, lights, source software Scratch toggle, combined loop/edit variations, reverse/brake/record, pitch ranges, full lifecycle, audio routing and physical acceptance remain open. No Sync button is invented. Native default jog calibration is unverified. Pitch uses standard MIDI normalization; source MSB handling does not prove finer hardware resolution.",
+        "Output channel ownership, full LCD/text, lights, source software Scratch toggle, combined loop/edit variations, reverse/brake/record, pitch ranges, full lifecycle, audio routing and physical acceptance remain open. No Sync button is invented. Native default jog calibration is unverified. Pitch uses standard MIDI normalization; source MSB handling does not prove finer hardware resolution."
       ],
+      "playerSupport": {
+        "requiredHardwareMode": "USB-MIDI. Native fixed touch scratch on source channels1..4. Scratch toggle, displays and hardware output remain inactive.",
+        "midiInputImplemented": true,
+        "recognisedNames": [
+          "Numark NDX500",
+          "NDX500"
+        ],
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
@@ -318385,6 +318421,33 @@
         },
         {
           "reason": "Native fixed touch scratch keeps default calibration. Source Vinyl toggle, complete bank/contact handover, shifted cue clear, combined manual loops, saved loops, full pad/FX/sampler modes, complete feedback/lifecycle and audio routing remain open. Cross-bank release aliases prevent stuck Cue/contact after a changed-channel release. C/D require four-deck opt-in. Physical acceptance remains open."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:numarkndx500",
+      "name": "Numark NDX500",
+      "transport": "midi",
+      "source": {
+        "url": "https://pcdj.com/downloads/djcontrollers/Numark__NDX500.zip",
+        "sha256": "adff75f290d0db8a18f022f0d4baadd619eec2744f94fca8e5698af9934c72d8",
+        "relatedSources": [
+          {
+            "url": "https://pcdj.com/dj-controllers-numark-ndx500-now-dex-3-and-dex-3-re-dj-software-supported/"
+          },
+          {
+            "url": "https://www.numark.com/product/ndx500"
+          }
+        ],
+        "review": "PCDJ's supported source identifies USB15E4:0034 andMIDI transport. Independent native player assignment replaces its hard-coded software channel/deck association. Explicit source channels0..3 each supply Play6, held Cue5, direct Load3, Keylock21, held bends23/24, contact25, three cues11..13, loop In7/Out8/Reloop9 and folder2. The normal physical In/Out actions use native boundaries; source combined-loop/edit variations remain open. PlatterCC34 follows literal source63-minus-raw, not a guessed inverted centre64 encoder. BrowserCC33 follows literal source value1 forward, all other seven-bit values backward. Typed NDX500 decoders retain both rules and reject foreign/high-resolution packets. Standard pitch-bend input uses native linear14-bit normalization and source inversion; the source itself reads its MSB, so finer hardware resolution is not claimed. Native fixed touch scratch replaces software-only Scratch toggle16. Source scratch/bend denominators600/300 are app-specific, not a measured revolution resolution; default native calibration remains open. Source startup configures lamps/LCD without input negotiation. No feedback or lifecycle packet is emitted until active wire-channel ownership is qualified. Full LCD/text, light modes, record/brake/reverse, pitch ranges, full lifecycle/audio routing and physical acceptance remain open. NDX900 and Radius are not aliases. No downloaded code runs in the app."
+      },
+      "implementedInputCount": 68,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Output channel ownership, full LCD/text, lights, source software Scratch toggle, combined loop/edit variations, reverse/brake/record, pitch ranges, full lifecycle, audio routing and physical acceptance remain open. No Sync button is invented. Native default jog calibration is unverified. Pitch uses standard MIDI normalization; source MSB handling does not prove finer hardware resolution."
         }
       ]
     },

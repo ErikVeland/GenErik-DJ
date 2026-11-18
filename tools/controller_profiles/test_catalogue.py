@@ -861,6 +861,23 @@ class ConversionTests(unittest.TestCase):
 
 
 class GeneratedCatalogueTests(unittest.TestCase):
+    def test_ndx500_generation_keeps_source_player_channels_and_no_invented_sync_or_output(self):
+        runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
+        item = next((r for r in runtime["profiles"] if r["id"] == "Numark NDX500"), None)
+        self.assertIsNotNone(item, "NDX500 needs its own source-backed player recipe")
+        self.assertTrue(item["autoSelect"])
+        self.assertEqual(item["role"], "player")
+        self.assertEqual({r["channel"] for r in item["inputs"]}, {0, 1, 2, 3})
+        self.assertFalse(item["startup"] or item["shutdown"] or item["outputs"])
+        self.assertNotIn("audioOutput", item)
+        self.assertFalse(any(r["action"].startswith("sync") for r in item["inputs"]))
+        self.assertTrue(all(r["encoding"] == "ndx500Jog" for r in item["inputs"] if r["action"] == "jogA"))
+        from ndx500 import NDX500_SOURCES
+        for filename, digest in NDX500_SOURCES:
+            path = ROOT / "TestBuilds/r298/upstream" / filename
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
+
     def test_slate_models_keep_distinct_source_contracts_and_four_deck_channels(self):
         runtime = json.loads((ROOT / "Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json").read_text())
         by_name = {r["id"]: r for r in runtime["profiles"]}
