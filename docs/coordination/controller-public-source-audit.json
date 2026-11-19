@@ -1380,6 +1380,46 @@
         "Zone1 MIDI1/Toggle and editable touchscreen Zone2 MIDI2 are explicit required settings. Factory defaults are not claimed.",
         "The own chart qualifies each model independently. No source-selector or touchscreen operation is imported."
       ]
+    },
+    {
+      "request": "R396",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "model": "Pioneer DJM-T1",
+          "url": "https://downloads.support.alphatheta.com/manuals/dj-mixers/DJM-T1/DJM-T1_DRB1610_manual.pdf",
+          "cacheName": "djmt1-manual.pdf",
+          "sha256": "d26c7844ca00be4f601f2a16d6f6841d2ba382902af865cd42712820937fef45",
+          "pages": [
+            23,
+            24,
+            26,
+            27,
+            28,
+            29
+          ],
+          "review": "Current manufacturer manual pages28/29 were visually reviewed. Note C-1 is0; CC labels are decimal. It explicitly lists normal, Shift and Advanced Shift wires. The manual60-input native core retains selected mixer fields across all three layers, four base Hot Cues, base transport/loops, normal/Shift library controls and shifted/advanced release-only Cue aliases. Fourteen base transport/Sync/Cue/pad lamps have documented0/127 outputs. Generic Controller Mode must be ON, both mixer MIDI buttons enabled and MIDI channel1 selected. Hardware mode/configuration is manual. Dual crossfader attenuation outputs are not one physical-position wire and stay inactive. Native Hot Cue deletion, FX/sampler/LFO, Advanced Shift functions, complete mode/audio/lifecycle/calibration and physical/iPad/A10X acceptance remain open."
+        },
+        {
+          "model": "Pioneer MEP-7000",
+          "url": "https://downloads.support.alphatheta.com/manuals/dj-players/MEP-7000/MEP-7000_DRB1467B_manual.pdf",
+          "cacheName": "mep7000-manual.pdf",
+          "sha256": "415c872bf9e81175ba345cc3032f555b7bf3d0f6e099f8baa0cd180318485a79",
+          "pages": [
+            57,
+            58,
+            59,
+            60
+          ],
+          "review": "Manufacturer tables59/60 were visually reviewed. Its jog is absolute speed:64 stopped,65/63 approximately+/-0.06x,127/0 at+/-4x. This independently matches the existing cdjPlatterSpeed decoder, not a relative counter. Tempo is0 at minus and127 at plus with64 centre. Page58 fixes default A/centre channel1 and B channel2. Direct Load A/B, browse and encoder press are not grey mode-only rows. PC selection and Load establish computer control in Normal Style; Manipulator Style also sends these wires. Native automatically selects the26-input core when the named MIDI source is exposed. Source mode entry, full modes, search/memory, display/lamps, external audio and physical/iPad/A10X calibration/acceptance remain open. No SEP-C1 or CDJ sibling protocol is inherited."
+        }
+      ],
+      "limits": [
+        "T1 remains manual: Generic Controller Mode ON, mixer MIDI buttons enabled, MIDI1. Fourteen lamps are available through separate manual feedback opt-in; no automatic startup/shutdown is claimed.",
+        "T1 dual crossfader attenuation, native Hot Cue deletion, FX/sampler/LFO, other Shift/Advanced functions and full mode handling remain open.",
+        "MEP automatic app selection uses the independent default channel1/2 MIDI table. Hardware PC/Load entry, source mode changes, external audio, screens/lamps and physical calibration remain open.",
+        "Published legacy manufacturer support URLs for both manuals return404. The current model/manual-identifier locations supplied the pinned PDF bytes. The third-party MEP mirror returned403."
+      ]
     }
   ]
 }

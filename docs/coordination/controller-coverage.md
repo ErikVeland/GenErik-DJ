@@ -5176,3 +5176,26 @@ Touchscreen Frequency Mix/Sidechain Remix, editable TypeA–D, Sync Master, hard
 Validation:246 Python checks and11 native tests passed, including the158-profile automatic held-Cue corpus. Parameterised fixtures check every input, pickup, Cue states, source/deck isolation, C/D availability and inactive touchscreen packets. All32 mixer addresses on the separate Zone2 channel stay inactive. Real-WAV fixtures retain finite, synced app-started audio. The iPad framework compiled and its bundled resource matches the source. All282 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r395/validation.json`.
 
 The catalogue has284 recipes for552 physical models. Automatic core remains197, with355 without automatic core. First-protocol gaps fall from232 to230. Full theoretical support and physical acceptance remain open.
+
+
+## R396 independent T1 andMEP7000 controls
+
+Assumption: T1 remains a manual Generic Controller profile on MIDI1, with both mixer MIDI buttons enabled. Its selected native mixer controls retain the same function across all three wire layers. MEP7000 uses its documented default A/centre channel1 and B channel2 in PC control. Hardware mode entry and audio setup remain separate from automatic app profile selection.
+
+- [x] Pin and visually review both manufacturer charts and their setup limits.
+- [x] Add T1 controls with alternate Cue releases and bounded documented lamps. Add MEP loading, transport, jog-speed, pitch and loop controls.
+- [x] Verify source isolation, cleanup, all input families, feedback and real-WAV Sync.
+- [x] Run source/native checks, compile the iPad framework and preserve earlier recipes.
+
+
+Both current manufacturer PDF files were recovered from the current document host and byte-hashed. T1 chart pages28/29 and MEP7000 pages59/60 were visually reviewed. T1 uses note-name C-1=0 and decimal CC labels. MEP uses hexadecimal addresses and an absolute speed contract, independently matching the existing bounded speed decoder.
+
+T1 has60 manual inputs: base load/play/held Cue/Sync, four Hot Cues per deck, loop controls, normal/Shift library navigation and selected gain/EQ/level controls on all three wire layers. The same physical mixer fields deliberately retain their native function across layers. Alternate Cue releases at normal, Shift and Advanced addresses release existing ownership. Positive alternate Cue messages do not start a preview. Fourteen base transport/Sync/Cue/pad lamp mappings use the table's0/127 values through separate manual feedback opt-in. No automatic lamp startup/shutdown is claimed. Generic Controller Mode, the two mixer MIDI buttons and MIDI1 must be set by the user.
+
+The T1's two crossfader attenuation outputs do not establish one physical-position value, so neither is mapped as the native crossfader. The app has no MIDI Hot Cue delete action; shifted delete keys remain inactive. Other Shift/Advanced functions, sampler/FX/LFO, full mode handling and audio/lifecycle/calibration remain open.
+
+MEP7000 has26 automatically selected MIDI inputs on default A/centre1 and B2. It includes direct Load A/B, held Cue, Play, loop points/reloop, keylock, held bend, jog contact, absolute speed jogs, centred pitch and browse/open-group. The table explicitly specifies64 stopped,65/63 about+/-0.06x and127/0 at+/-4x. Its Load and browse rows are available in both Normal and Manipulator styles. Hardware PC/Load entry remains required. Source mode changes, search/memory/Jog Break modes, pitch range, displays/lamps and audio remain open. No SEP-C1 or CDJ sibling table is inherited.
+
+Validation:249 Python checks and12 native tests passed, including the159-profile automatic held-Cue corpus. Fixtures check all T1 mixer layers, alternate Note Off/zero releases, source ownership, all selected control families, MEP speed/pitch boundaries, loading, inactive modes, stop/disconnect cleanup and all fourteen lamp byte mappings. Two real-WAV tests retain finite, synced playback after alternate Cue and speed-touch/bend releases. The iPad framework compiled; its bundled resource matches the source. All284 earlier recipes remain identical. Failed fixture compilation and normalised-value assertions remain in the evidence history. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r396/validation.json`.
+
+The catalogue has286 recipes for552 physical models. Automatic core coverage increases to198, with354 without automatic core. First-protocol gaps fall from230 to228. Full theoretical support and physical/iPad/A10X acceptance remain open.

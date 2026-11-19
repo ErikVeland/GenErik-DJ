@@ -16750,68 +16750,6 @@
       }
     },
     {
-      "id": "pioneerdjmt1",
-      "name": "Pioneer DJ DJM-T1",
-      "manufacturer": "Pioneer",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://virtualdj.com/products/hardware.html?model=DJMT1"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "virtualDJ": {
-          "sourceName": "Pioneer DJ DJM-T1",
-          "category": "Clubmixers",
-          "source": "https://virtualdj.com/products/hardware.html?model=DJMT1"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
       "id": "pioneerdjmtour1",
       "name": "Pioneer DJ DJM-TOUR1",
       "manufacturer": "Pioneer",
@@ -16833,68 +16771,6 @@
           ],
           "limitations": [],
           "source": "https://www.algoriddim.com/hardware/djmtour1"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
-      "id": "pioneermep7000",
-      "name": "Pioneer DJ MEP-7000",
-      "manufacturer": "Pioneer",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://virtualdj.com/products/hardware.html?model=MEP7000"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "virtualDJ": {
-          "sourceName": "Pioneer DJ MEP-7000",
-          "category": "Rackmounts",
-          "source": "https://virtualdj.com/products/hardware.html?model=MEP7000"
         }
       },
       "controlActions": [],
@@ -18489,6 +18365,109 @@
       }
     },
     {
+      "id": "pioneerdjmt1",
+      "name": "Pioneer DJM-T1",
+      "manufacturer": "Pioneer",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://downloads.support.alphatheta.com/manuals/dj-mixers/DJM-T1/DJM-T1_DRB1610_manual.pdf",
+        "https://virtualdj.com/products/hardware.html?model=DJMT1"
+      ],
+      "definitions": [
+        "reviewed:djm-t1-independent-three-layer-core"
+      ],
+      "implementation": "partial-midi-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer DJM-T1",
+      "automaticControls": false,
+      "comparisonSupport": {
+        "virtualDJ": {
+          "sourceName": "Pioneer DJ DJM-T1",
+          "category": "Clubmixers",
+          "source": "https://virtualdj.com/products/hardware.html?model=DJMT1"
+        }
+      },
+      "controlActions": [
+        "browse",
+        "browseGroups",
+        "cueA:a",
+        "cueB:b",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopSizeA:a",
+        "loopSizeB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "openGroup",
+        "playA:a",
+        "playB:b",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 60,
+      "feedbackBindingCount": 14,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual MIDI channel1; Generic Controller Mode ON; both mixer CH1/CH2 MIDI buttons enabled. Use Hot Cue rather than Sampler mode. Advanced Shift requires firmware2.00. Configure audio separately and avoid duplicate hardware/software processing."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "partial",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Dual crossfader attenuation wires are not a qualified single position and stay inactive. Native Hot Cue delete, sampler/FX/LFO, other Shift/Advanced Shift functions, complete mode handling/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
       "id": "pioneerdjmv10",
       "name": "Pioneer DJM-V10",
       "manufacturer": "Pioneer",
@@ -18663,6 +18642,99 @@
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
         "Manual separate app audio only. Physical CH5/6, full hardware/software audio ownership and external deck routing, taper/calibration, source/assign/curve controls, effects/microphone, full output/lifecycle and physical/A10X acceptance remain open. LF EQ/filter/PFL/headphone wires are not independently qualified by this example and stay inactive. No crossfader exists on LF.",
         "Untranslated controls and script behaviour remain in the linked definition records."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "pioneermep7000",
+      "name": "Pioneer MEP-7000",
+      "manufacturer": "Pioneer",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://downloads.support.alphatheta.com/manuals/dj-players/MEP-7000/MEP-7000_DRB1467B_manual.pdf",
+        "https://virtualdj.com/products/hardware.html?model=MEP7000"
+      ],
+      "definitions": [
+        "reviewed:mep-7000-independent-speed-transport-core"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer MEP-7000",
+      "automaticControls": true,
+      "comparisonSupport": {
+        "virtualDJ": {
+          "sourceName": "Pioneer DJ MEP-7000",
+          "category": "Rackmounts",
+          "source": "https://virtualdj.com/products/hardware.html?model=MEP7000"
+        }
+      },
+      "controlActions": [
+        "browse",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "keylockA:a",
+        "keylockB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "tempoA:a",
+        "tempoB:b"
+      ],
+      "inputBindingCount": 26,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Default MIDI channels: A/centre1, B2. Normal Style: select PC then LOAD A/B for computer control. Manipulator Style also supplies these messages. Hardware Scratch/Jog Break selection and audio routing remain separate."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Source mode entry and changes, full search/memory/Jog Break modes, pitch-range feedback, lamps/screens, complete lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. No hardware output chart is published in this manual."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -352961,6 +353033,66 @@
         },
         {
           "reason": "Zone2 editable touchscreen messages must use the separate channel2. Zone1 Frequency Mix/Sidechain Remix and touchscreen controls, Sync Master, hardware FX/mic, curve/assignment, external deck audio, full modes/lifecycle/calibration and physical/iPad/A10X acceptance remain open. Native Filter knobs control the software filter."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:djm-t1-independent-three-layer-core",
+      "name": "Pioneer DJM-T1",
+      "transport": "midi",
+      "source": {
+        "url": "https://downloads.support.alphatheta.com/manuals/dj-mixers/DJM-T1/DJM-T1_DRB1610_manual.pdf",
+        "cacheName": "djmt1-manual.pdf",
+        "sha256": "d26c7844ca00be4f601f2a16d6f6841d2ba382902af865cd42712820937fef45",
+        "pages": [
+          23,
+          24,
+          26,
+          27,
+          28,
+          29
+        ],
+        "review": "Current manufacturer manual pages28/29 were visually reviewed. Note C-1 is0; CC labels are decimal. It explicitly lists normal, Shift and Advanced Shift wires. The manual60-input native core retains selected mixer fields across all three layers, four base Hot Cues, base transport/loops, normal/Shift library controls and shifted/advanced release-only Cue aliases. Fourteen base transport/Sync/Cue/pad lamps have documented0/127 outputs. Generic Controller Mode must be ON, both mixer MIDI buttons enabled and MIDI channel1 selected. Hardware mode/configuration is manual. Dual crossfader attenuation outputs are not one physical-position wire and stay inactive. Native Hot Cue deletion, FX/sampler/LFO, Advanced Shift functions, complete mode/audio/lifecycle/calibration and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 60,
+      "implementedOutputCount": 14,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Dual crossfader attenuation wires are not a qualified single position and stay inactive. Native Hot Cue delete, sampler/FX/LFO, other Shift/Advanced Shift functions, complete mode handling/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:mep-7000-independent-speed-transport-core",
+      "name": "Pioneer MEP-7000",
+      "transport": "midi",
+      "source": {
+        "url": "https://downloads.support.alphatheta.com/manuals/dj-players/MEP-7000/MEP-7000_DRB1467B_manual.pdf",
+        "cacheName": "mep7000-manual.pdf",
+        "sha256": "415c872bf9e81175ba345cc3032f555b7bf3d0f6e099f8baa0cd180318485a79",
+        "pages": [
+          57,
+          58,
+          59,
+          60
+        ],
+        "review": "Manufacturer tables59/60 were visually reviewed. Its jog is absolute speed:64 stopped,65/63 approximately+/-0.06x,127/0 at+/-4x. This independently matches the existing cdjPlatterSpeed decoder, not a relative counter. Tempo is0 at minus and127 at plus with64 centre. Page58 fixes default A/centre channel1 and B channel2. Direct Load A/B, browse and encoder press are not grey mode-only rows. PC selection and Load establish computer control in Normal Style; Manipulator Style also sends these wires. Native automatically selects the26-input core when the named MIDI source is exposed. Source mode entry, full modes, search/memory, display/lamps, external audio and physical/iPad/A10X calibration/acceptance remain open. No SEP-C1 or CDJ sibling protocol is inherited."
+      },
+      "implementedInputCount": 26,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Source mode entry and changes, full search/memory/Jog Break modes, pitch-range feedback, lamps/screens, complete lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. No hardware output chart is published in this manual."
         }
       ]
     }

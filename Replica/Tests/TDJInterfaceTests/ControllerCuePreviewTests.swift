@@ -2632,3 +2632,32 @@ func controllerCatalogueLegacyDJMDirectCueKeepsAppStartedRealAudioSynced(_ name:
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+
+@Test @MainActor func controllerCatalogueLegacyPioneerT1AlternateCueReleaseRestoresRealAudioSync() async throws {
+    try await withControllerCuePlayback("Pioneer DJM-T1",manual:true) {model,input in
+        cuePreviewPacket([0x90,11,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80,125,127,0x90,3,127,3,0],to:input)
+        let audio = model.playback.core.renderOffline(frames:4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test @MainActor func controllerCatalogueLegacyPioneerMEPSpeedTouchAndBendRestoreRealAudioSync() async throws {
+    try await withControllerCuePlayback("Pioneer MEP-7000") {model,input in
+        cuePreviewPacket([0x90,1,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80,1,127,0x90,0,127,0,0,32,127,0xB0,16,127],to:input)
+        _ = model.playback.core.renderOffline(frames:4096)
+        cuePreviewPacket([0xB0,16,64,0x80,32,127,0x90,20,127,20,0],to:input)
+        let audio = model.playback.core.renderOffline(frames:4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

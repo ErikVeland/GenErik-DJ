@@ -1092,3 +1092,6 @@ R394 adds independent900SRT32-input, original75028-input and250MK218-input manua
 
 
 R395 adds separate original2000 and2000NXS manufacturer facts in `djm2000_mixers.py`. Each manual profile has32 Zone1 mixer inputs, with required Zone1 MIDI1/Toggle and editable touchscreen Zone2 MIDI2. No source report or touchscreen action is inferred.246 source checks,11 native tests and iPad framework compilation pass. Earlier282 recipes remain identical.
+
+
+R396 adds `legacy_pioneer_transport.py`: T1 manual60-input/14-lamp mappings with three-layer mixer aliases and release-only alternate Cue; MEP7000 automatic26-input controls with independently qualified speed jogs, centred pitch and direct loading. T1 feedback needs separate manual opt-in and has no automatic startup/shutdown.249 source checks,12 native tests and iPad framework compilation pass. Earlier284 recipes remain identical.
