@@ -3919,7 +3919,7 @@ func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String
 
 
 @Test @MainActor func controllerBuiltinPioneerClearsDeleteWithoutMovingRealPlaybackOrSavedSync() async throws {
-    for name in ["DDJ-FLX4","DDJ-400","DDJ-FLX2"] {
+    for name in ["DDJ-FLX4","DDJ-400","DDJ-FLX2","DDJ-REV1","DDJ-REV5"] {
         try await withControllerCuePlayback(name) { model,input in
             let track=try #require(model.track(.a))
             model.performance.cues[track.id]=[0:.init(frame:0),1:.init(frame:100)]

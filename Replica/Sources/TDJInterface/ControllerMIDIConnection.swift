@@ -2039,6 +2039,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             binding(.monitor, kind: .control, channel: 6, number: 13, encoding: .paired14Bit),
             binding(.shift, kind: .note, channel: 6, number: 63),
         ]
+        profile += pioneerPairedHotcueClearBindings(source: source)
         return profile
     }
     static func ddjREV1Bindings(source: Int32) -> [ControllerBinding] {
@@ -2098,6 +2099,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             binding(.monitor, kind: .control, channel: 6, number: 13, encoding: .paired14Bit),
             binding(.shift, kind: .note, channel: 6, number: 63),
         ]
+        profile += pioneerPairedHotcueClearBindings(source: source)
         return profile
     }
     func bindingName(_ action: ControllerAction) -> String {

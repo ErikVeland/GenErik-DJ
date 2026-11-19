@@ -78,9 +78,9 @@ extension ControllerMIDIConnection {
     }
 
     /**
-     * Uses the independently documented FLX2, FLX4 and DDJ-400 Hot Cue channel pairs.
+     * Uses the independently documented FLX2, FLX4, DDJ-400, REV1 and REV5 Hot Cue channel pairs.
      */
-    private static func pioneerPairedHotcueClearBindings(source: Int32) -> [ControllerBinding] {
+    static func pioneerPairedHotcueClearBindings(source: Int32) -> [ControllerBinding] {
         func binding(
             _ action: ControllerAction, _ channel: UInt8, _ number: UInt8,
             layerIndependent: Bool, releaseOnly: Bool? = nil

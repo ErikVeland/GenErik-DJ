@@ -5800,6 +5800,35 @@
         }
       ],
       "result": "Reproduced five failed expectations across three tests: factory raw9 right-deck pads were ignored, raw8 left Shift pads incorrectly recalled right Hot Cues, and right pad feedback used raw8. Corrected only eight right-deck input channels and eight corresponding output channels from8 to9. Existing63 inputs/22 outputs and all other fields remain unchanged.451 source/38 native checks and iPad framework compilation pass. A new decoded-packet regression checks all eight right-pad recalls, inactive left Shift-to-right routing and exact right feedback packet bytes. An initial new test incorrectly inspected an optional target-deck override rather than the action deck; that failed run is preserved, and only the assertion was corrected. All405 JSON recipes and both resources remain byte-identical. No clear feature, protocol inheritance, hardware write or physical acceptance is claimed."
+    },
+    {
+      "request": "R489",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "model": "DDJ-REV1",
+          "url": "https://www.pioneerdj.com/-/media/pioneerdj/software-info/controller/ddj-rev1/ddj-rev1_midi_message_list_e1.pdf/",
+          "sha256": null,
+          "review": "Own E1 table web-reviewed: all eight Hot Cue pad normal/Shift pairs independently qualify raw7/9 and raw8/10, notes0..7. No local PDF hash or visual PDF proof is claimed."
+        },
+        {
+          "model": "DDJ-REV1",
+          "url": "https://support.serato.com/hc/en-us/articles/17935390907535-Pioneer-DJ-DDJ-REV1-Quickstart-Guide",
+          "review": "Own Hot Cue mode section explicitly identifies Shift+pad deletion."
+        },
+        {
+          "model": "DDJ-REV5",
+          "url": "https://www.pioneerdj.com/-/media/pioneerdj/software-info/controller/ddj-rev5/ddj-rev5_midi_message_list_e1.pdf",
+          "sha256": null,
+          "review": "Own E1 numeric rows independently qualify normal/Shift pad pairs. R488 records the introductory deck-label typo and unavailable local download. No local PDF hash or visual PDF proof is claimed."
+        },
+        {
+          "model": "DDJ-REV5",
+          "url": "https://support.serato.com/hc/en-us/articles/10173685541775-Pioneer-DJ-DDJ-REV5-Quickstart-Guide",
+          "review": "Own Hot Cue mode section explicitly identifies Shift+pad deletion. Its introductory REV1 name typo is not used as protocol evidence."
+        }
+      ],
+      "result": "Added16 clear bindings and32 paired negative aliases to each existing REV1/REV5 built-in, for105/111 inputs. Their own numeric tables and guide roles independently qualify reuse of the fixed paired-channel constructor. Existing fields/order, R488 corrected normal right-deck channel, feedback, setup and audio remain unchanged. All405 JSON recipes and both resources remain byte-identical.451 source/38 native checks and iPad framework compilation pass. Five built-in models now share exhaustive slot/deck/release/debounce/Shift/source/group/inactive-mode tests, with five real-WAV marker/position/active-playback/Sync checks. Missing-feature TDD records10 failed expectations across the two REV profiles. Complete modes/lifecycle/host and physical acceptance remain open."
     }
   ]
 }

@@ -6513,3 +6513,14 @@ The earlier built-in used raw8 for right-deck Hot Cues and lights. This ignored 
 The regression reproduces five failed expectations across three tests before the correction.451 source checks and38 focused native tests now pass. Decoded packets verify all eight right pads, no left-Shift recall of the right deck and exact right-lamp bytes. The first new assertion used an optional deck override instead of the action deck. Its failed run remains preserved. Existing three-model clear/WAV, factory lifecycle, feedback and catalogue gates pass. The iPad framework compiled. Its compact resource matches source and excludes the full review file. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r488/validation.json`.
 
 Counts remain405 JSON recipes plus five built-ins,556 physical models,250 automatic core models and115 protocol-needed records. Full theoretical support remains0/556. Complete modes/lifecycle/host, the manufacturer audit and physical/iPad/A10X acceptance remain open.
+
+
+## R489 — Independent REV1 and REV5 clears
+
+Each own manufacturer E1 table qualifies eight Hot Cue pairs per deck. Raw7/9 notes0..7 activate, while raw8/10 notes0..7 are the dedicated Shift opcodes. Each own Serato guide identifies the Shift role as deletion. The tables are web-reviewed. No local PDF hash or visual PDF proof is claimed. The REV5 source label errors remain recorded. No sibling model supplies either protocol.
+
+Each existing built-in gains16 clears and32 paired negative aliases. REV1 now has105 inputs, and REV5 has111. The existing shared constructor contains the independently qualified fixed layout. Earlier input fields/order, the corrected REV5 normal right channel, all feedback, recognition, setup and audio remain unchanged. All405 JSON recipes and both resources remain byte-identical.
+
+451 source checks and38 focused native tests pass. The five-model tests cover every slot/deck, both negative forms/directions, debounce, either app Shift state, source/group ownership and inactive other pad modes. The R488 right-deck routing regression remains active. Five real-WAV cases preserve marker neighbours/position, finite active playback and saved Sync. Missing-feature TDD records10 failed expectations across the two REV models. The iPad framework compiled. Its compact resource matches source and excludes the full review file. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r489/validation.json`.
+
+Counts remain405 JSON recipes plus five built-ins,556 physical models,250 automatic core models and115 protocol-needed records. Full theoretical support remains0/556. Complete modes/lifecycle/host, the manufacturer audit and physical/iPad/A10X acceptance remain open.
