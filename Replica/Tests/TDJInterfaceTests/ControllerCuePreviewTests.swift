@@ -2987,6 +2987,18 @@ func controllerCatalogueLegacyRaneMixerAndLoopsKeepRealAudioAndSavedSync(_ name:
     }
 }
 
+@Test @MainActor func controllerCatalogueMPD218KeepsSoftCueRealAudioAndSavedSync() async throws {
+    try await withControllerCuePlayback("Akai MPD218") { model, input in
+        input.receiveBytes([0x99, 45, 1], source: 10); input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x99, 52, 127, 52, 0, 0x89, 45, 127], source: 10); input.flushPendingActions()
+        input.receiveBytes([0x99, 44, 1, 44, 0, 0xB0, 3, 64], source: 10); input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
 @Test @MainActor func controllerCatalogueOrbitKeepsRealAudioAndSavedSync() async throws {
     try await withControllerCuePlayback("Numark Orbit") { model, input in
         input.receiveBytes([0x90, 45, 127], source: 10); input.flushPendingActions()

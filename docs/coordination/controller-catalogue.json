@@ -20132,68 +20132,6 @@
       }
     },
     {
-      "id": "akaimpd218",
-      "name": "AKAI MPD 218",
-      "manufacturer": "Akai",
-      "role": "accessory",
-      "benchmark": false,
-      "sources": [
-        "https://virtualdj.com/products/hardware.html?model=MPD218"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "virtualDJ": {
-          "sourceName": "AKAI MPD 218",
-          "category": "Addon Units (FX,Pads,..)",
-          "source": "https://virtualdj.com/products/hardware.html?model=MPD218"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
       "id": "akaimpd226",
       "name": "AKAI MPD 226",
       "manufacturer": "Akai",
@@ -20872,6 +20810,139 @@
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
         "Untranslated controls and script behaviour remain in the linked definition records."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "akaimpd218",
+      "name": "Akai MPD218",
+      "manufacturer": "Akai",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://cdn.inmusicbrands.com/akai/MPD218-FactoryPresets.zip",
+        "https://virtualdj.com/products/hardware.html?model=MPD218"
+      ],
+      "definitions": [
+        "reviewed:mpd218-chroma10-native"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Akai MPD218",
+      "automaticControls": true,
+      "comparisonSupport": {
+        "virtualDJ": {
+          "sourceName": "AKAI MPD 218",
+          "category": "Addon Units (FX,Pads,..)",
+          "source": "https://virtualdj.com/products/hardware.html?model=MPD218"
+        }
+      },
+      "controlActions": [
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "keylockA:a",
+        "keylockA:c",
+        "keylockB:b",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b"
+      ],
+      "inputBindingCount": 66,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Select unedited preset1 chroma10 with PROG SELECT+Pad1. Keep Note Repeat off. On iOS, hold Note Repeat while connecting, then release it. Pad and knob banks A/B/C target app A/B/C. Enable C separately. Move knobs to current app values for pickup."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Own manufacturer factory archive qualifies preset1 chroma10. Independently documented MPD218 file fields corroborate all48 Note-type momentary pads on channel10, Notes36..83, and18 ordinary CC knobs on channel1 with ranges0..127. No preset file or decoder code executes. Own Bitwig member independently identifies MPD218/MPD218 Port A and its channel10 pad stream. Native assigns Pad Banks A/B/C to app A/B/C. Each16-note bank gives eight Hot Cues, Play, held Cue, Sync, Load, Loop In/Out, Reloop and Key Lock. Six knobs per native deck assign gain/high/mid/low/level/filter. Pad and knob banks remain independent. A new mapped pad bank retires only its source and rearms pad buttons while preserving knob pickup. Both release forms retain old addresses. A standalone bank/preset-selector report is not qualified; held controls await original release or next mapped bank report. Use preset1, momentary notes and Note Repeat off. Other presets, toggle/program/bank types, pressure/repeat/tempo, preset lifecycle/recovery, LEDs, USB/OS/power and physical/iPad/A10X acceptance remain open. The guide requires holding Note Repeat during iOS connection, then releasing it. No stored preset, tempo, driver, firmware, source script, device reset, identity probe, output or audio route is written. MPD226/232 and MPK protocols stay separate."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -355452,6 +355523,69 @@
         },
         {
           "reason": "Manufacturer archive includes its Default MIDI JSON and installation instructions explicitly allowing a default device to skip editor programming. All64 pads use momentary mode, Notes36..51 on distinct channels1..4. Each exact pad wire and mode is checked against the own template. Editor guide qualifies distinct Numark ORBIT port names and the momentary mode. Native assigns one bank to each A/B/C/D deck. Notes36..43 are eight Hot Cues;44..51 are Play, held Cue, Sync, Load, Loop In, Loop Out, Reloop and Key Lock. C/D require app opt-in. This explicit native layout does not execute NEBUL4 Traktor actions. The next mapped positive pad on a changed channel retires only that source before its new action. NoteOff and NoteOn-zero keep the original bank. No standalone bank-selector message is qualified; a held control awaits its original release or next mapped bank report. Custom pad assignments/toggle mode, virtual knobs/accelerometer/shoulder controls, complete bank lifecycle/recovery, pad/ring feedback, wired/wireless receiver/OS/power and physical/iPad/A10X acceptance remain open. No saved preset, editor, application, driver, firmware, identity probe, LED colour or audio route is written."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:mpd218-chroma10-native",
+      "name": "Akai MPD218",
+      "transport": "midi",
+      "source": {
+        "url": "https://cdn.inmusicbrands.com/akai/MPD218-FactoryPresets.zip",
+        "sha256": "ef623408677661bb8a4321fee0842254a200351fbcc4bedd6955e7b5d4b9e598",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r432/upstream/mpd218-factory.zip",
+            "sha256": "ef623408677661bb8a4321fee0842254a200351fbcc4bedd6955e7b5d4b9e598"
+          },
+          {
+            "cachePath": "TestBuilds/r432/upstream/mpd218-factory/MPD218 - Factory Presets/Preset1-chroma10.mpd218",
+            "sha256": "6119dcfb3946f6e9a24aaf05b1b40f0e38403f2d37c28999327b43e6586959e6"
+          },
+          {
+            "cachePath": "TestBuilds/r432/upstream/mpd218-pinned.py",
+            "sha256": "508cd1640b1733fe2670301aeda609158e6db2b7cc9360a974bc2b07418c8668"
+          },
+          {
+            "cachePath": "TestBuilds/r432/upstream/mpd218-bitwig.zip",
+            "sha256": "8a927aa10cb07a2b5ce370fb0cf04c22462b92ebe283b9c3bd59eca0bfd74195"
+          },
+          {
+            "cachePath": "TestBuilds/r432/upstream/mpd-bitwig/MPD2 Series v1.0.2/MPD218.control.js",
+            "sha256": "40359f89cbfda0487b58c9a68b8d4a35347734a2471d0872be994d5ab470f2da"
+          },
+          {
+            "cachePath": "TestBuilds/r432/upstream/mpd218-guide.pdf",
+            "sha256": "72bf5f3ae6d3f2266b07875ba175f7b5da3d1653f6f5dc00c6b7d568d3be608b"
+          }
+        ],
+        "archiveMember": "MPD218 - Factory Presets/Preset1-chroma10.mpd218",
+        "relatedSources": [
+          {
+            "url": "https://www.akaipro.com/downloads-and-support/downloads/?product=MPD218"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/mungewell/mpd-utils/4d9dedf300ff1b87068559cc04c361af8b9bb298/mpd218.py"
+          },
+          {
+            "url": "https://cdn.inmusicbrands.com/akai/MPD218/MPD2Seriesv1.0.2.zip_1a67b95b5f13097447d8d3a771d8a77a.zip"
+          },
+          {
+            "url": "https://cdn.inmusicbrands.com/akai/attachments/MPD218/MPD218-UserGuide-v1.0.pdf"
+          }
+        ],
+        "review": "Own manufacturer factory archive qualifies preset1 chroma10. Independently documented MPD218 file fields corroborate all48 Note-type momentary pads on channel10, Notes36..83, and18 ordinary CC knobs on channel1 with ranges0..127. No preset file or decoder code executes. Own Bitwig member independently identifies MPD218/MPD218 Port A and its channel10 pad stream. Native assigns Pad Banks A/B/C to app A/B/C. Each16-note bank gives eight Hot Cues, Play, held Cue, Sync, Load, Loop In/Out, Reloop and Key Lock. Six knobs per native deck assign gain/high/mid/low/level/filter. Pad and knob banks remain independent. A new mapped pad bank retires only its source and rearms pad buttons while preserving knob pickup. Both release forms retain old addresses. A standalone bank/preset-selector report is not qualified; held controls await original release or next mapped bank report. Use preset1, momentary notes and Note Repeat off. Other presets, toggle/program/bank types, pressure/repeat/tempo, preset lifecycle/recovery, LEDs, USB/OS/power and physical/iPad/A10X acceptance remain open. The guide requires holding Note Repeat during iOS connection, then releasing it. No stored preset, tempo, driver, firmware, source script, device reset, identity probe, output or audio route is written. MPD226/232 and MPK protocols stay separate."
+      },
+      "implementedInputCount": 66,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Own manufacturer factory archive qualifies preset1 chroma10. Independently documented MPD218 file fields corroborate all48 Note-type momentary pads on channel10, Notes36..83, and18 ordinary CC knobs on channel1 with ranges0..127. No preset file or decoder code executes. Own Bitwig member independently identifies MPD218/MPD218 Port A and its channel10 pad stream. Native assigns Pad Banks A/B/C to app A/B/C. Each16-note bank gives eight Hot Cues, Play, held Cue, Sync, Load, Loop In/Out, Reloop and Key Lock. Six knobs per native deck assign gain/high/mid/low/level/filter. Pad and knob banks remain independent. A new mapped pad bank retires only its source and rearms pad buttons while preserving knob pickup. Both release forms retain old addresses. A standalone bank/preset-selector report is not qualified; held controls await original release or next mapped bank report. Use preset1, momentary notes and Note Repeat off. Other presets, toggle/program/bank types, pressure/repeat/tempo, preset lifecycle/recovery, LEDs, USB/OS/power and physical/iPad/A10X acceptance remain open. The guide requires holding Note Repeat during iOS connection, then releasing it. No stored preset, tempo, driver, firmware, source script, device reset, identity probe, output or audio route is written. MPD226/232 and MPK protocols stay separate."
         }
       ]
     },
