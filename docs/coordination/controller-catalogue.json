@@ -57226,15 +57226,20 @@
       "id": "reloopkut",
       "name": "Reloop KUT",
       "manufacturer": "Reloop",
-      "role": "primary",
+      "role": "accessory",
       "benchmark": false,
       "sources": [
+        "https://www.reloop.com/media/custom/upload/Reloop-236497_Reloop_IM.pdf",
         "https://virtualdj.com/products/hardware.html?model=RLKUT"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:reloop-kut-continuous"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Reloop KUT",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Reloop KUT",
@@ -57242,40 +57247,55 @@
           "source": "https://virtualdj.com/products/hardware.html?model=RLKUT"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "crossfader",
+        "cueMix",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "levelA:a",
+        "levelB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "monitor"
+      ],
+      "inputBindingCount": 14,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Enable this manual MIDI accessory profile and the hardware MIDI switch separately. It maps continuous controls only. Hardware mixing stays active. Separate app audio and hardware routing need qualification before combined use. No PFL, FX, fader-start, light or audio setup is sent."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Own manufacturer manual and distributor mirror are byte-identical. Visually reviewed English p7 MIDI chart explicitly gives Bn continuous0..127 controls. CH1 Gain/High/Mid/Low/Fader are CC01/02/03/04/05hex; CH2 CC07/08/09/0A/0Bhex; crossfader0D, Master10, headphone Level12/Mix13hex. Native14-input manual accessory accepts the documented n across MIDI channels1..16 without guessing a fixed factory channel. The narrow wildcard contract permits only unique absolute mixer CCs, manual accessory role and no button, mode, bank, protocol, setup, output or audio contract. Pickup and source boundaries remain native. Enable rear MIDI output separately. KUT hardware mixing remains active, so separate application audio and hardware routing must be qualified before combined use. Automatic selection/audio routing stays off. PFL Note01/03 edge/latch semantics, input-source switches, dynamic FX selection/parameters, mic/booth/curve controls, fader-start and full feedback/lifecycle/recovery remain inactive. Fader-start notes are not Play. The documented pickup-request SysEx is not sent because its complete effect/restoration is unqualified. No query, preset, driver, firmware or audio-route packet is sent. Full controller/audio/USB/OS/power and physical/iPad/A10X acceptance remain open. No RMX model is inherited.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -357056,6 +357076,46 @@
         },
         {
           "reason": "Own MIDIPLUS SmartPAD manual001/v1.2/May2019 documents default Clip mode, channel1 NoteOn90/NoteOff80, top row0..7, second row16..23 and bounds00..77hex. Independent pinned factory-hardware owner notes and preserved firsthand review confirm all eight rows, top-to-bottom16*y+x. The old owner notes reverse NoteOn/NoteOff status labels; the manufacturer status bytes are authoritative. Native reuses only app functions with these independent addresses. Sixty automatic non-momentary inputs provide A/B below and C/D above: Play, Sync, Load, PFL, Loop In/Out, Reloop and eight Hot Cues per quadrant. C/D require app opt-in. Four main Cue cells remain unmapped because mode buttons do not reliably send MIDI and Set mode shares CCs with encoders, leaving held-release ownership unqualified. Release pads before changing hardware mode. Mode1/channel2, Mode2/channel3, Set/encoder CCs, right-side scene buttons, other firmware, paging and full lifecycle remain inactive/unqualified. No Ableton handshake or host scroll offset is sent; use factory firmware/default Clip and close other controller hosts. The manufacturer requires NoteOff before a colour change; owner evidence distinguishes pre0.15 LED behaviour and a differing velocity palette. No guessed or single-packet colour output runs. Full feedback, mode/source ownership, saved state, USB/OS/power and physical/iPad/A10X acceptance remain open. SmartPAD II and replacement KIKPAD/CleverPad firmware are separate. No setup, reset, output, preset, driver, firmware or audio route is sent."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:reloop-kut-continuous",
+      "name": "Reloop KUT",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.reloop.com/media/custom/upload/Reloop-236497_Reloop_IM.pdf",
+        "sha256": "ae87d922ba873fd8f284cf575ab5ce131edf2b77a4f5aed7a84545c4492decb1",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r444/upstream/reloop-kut-primary.pdf",
+            "sha256": "ae87d922ba873fd8f284cf575ab5ce131edf2b77a4f5aed7a84545c4492decb1"
+          },
+          {
+            "cachePath": "TestBuilds/r444/upstream/reloop-kut-manual.pdf",
+            "sha256": "ae87d922ba873fd8f284cf575ab5ce131edf2b77a4f5aed7a84545c4492decb1"
+          }
+        ],
+        "relatedSources": [
+          {
+            "url": "https://www.reloop.com/reloop-kut"
+          },
+          {
+            "url": "https://s3.avecorp.com.au/wp-content/uploads/2018/01/30133455/Reloop-KUT-Manual.pdf"
+          }
+        ],
+        "review": "Own manufacturer manual and distributor mirror are byte-identical. Visually reviewed English p7 MIDI chart explicitly gives Bn continuous0..127 controls. CH1 Gain/High/Mid/Low/Fader are CC01/02/03/04/05hex; CH2 CC07/08/09/0A/0Bhex; crossfader0D, Master10, headphone Level12/Mix13hex. Native14-input manual accessory accepts the documented n across MIDI channels1..16 without guessing a fixed factory channel. The narrow wildcard contract permits only unique absolute mixer CCs, manual accessory role and no button, mode, bank, protocol, setup, output or audio contract. Pickup and source boundaries remain native. Enable rear MIDI output separately. KUT hardware mixing remains active, so separate application audio and hardware routing must be qualified before combined use. Automatic selection/audio routing stays off. PFL Note01/03 edge/latch semantics, input-source switches, dynamic FX selection/parameters, mic/booth/curve controls, fader-start and full feedback/lifecycle/recovery remain inactive. Fader-start notes are not Play. The documented pickup-request SysEx is not sent because its complete effect/restoration is unqualified. No query, preset, driver, firmware or audio-route packet is sent. Full controller/audio/USB/OS/power and physical/iPad/A10X acceptance remain open. No RMX model is inherited."
+      },
+      "implementedInputCount": 14,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Own manufacturer manual and distributor mirror are byte-identical. Visually reviewed English p7 MIDI chart explicitly gives Bn continuous0..127 controls. CH1 Gain/High/Mid/Low/Fader are CC01/02/03/04/05hex; CH2 CC07/08/09/0A/0Bhex; crossfader0D, Master10, headphone Level12/Mix13hex. Native14-input manual accessory accepts the documented n across MIDI channels1..16 without guessing a fixed factory channel. The narrow wildcard contract permits only unique absolute mixer CCs, manual accessory role and no button, mode, bank, protocol, setup, output or audio contract. Pickup and source boundaries remain native. Enable rear MIDI output separately. KUT hardware mixing remains active, so separate application audio and hardware routing must be qualified before combined use. Automatic selection/audio routing stays off. PFL Note01/03 edge/latch semantics, input-source switches, dynamic FX selection/parameters, mic/booth/curve controls, fader-start and full feedback/lifecycle/recovery remain inactive. Fader-start notes are not Play. The documented pickup-request SysEx is not sent because its complete effect/restoration is unqualified. No query, preset, driver, firmware or audio-route packet is sent. Full controller/audio/USB/OS/power and physical/iPad/A10X acceptance remain open. No RMX model is inherited."
         }
       ]
     },

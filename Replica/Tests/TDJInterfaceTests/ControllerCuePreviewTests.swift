@@ -3002,6 +3002,24 @@ func controllerCatalogueLegacyRaneMixerAndLoopsKeepRealAudioAndSavedSync(_ name:
     }
 }
 
+@Test @MainActor func controllerCatalogueKUTManualMIDILevelAndMasterKeepRealAudioSync() async throws {
+    try await withControllerCuePlayback("Reloop KUT", manual: true) { model, input in
+        model.pressPlay(deck: .a, vinylStop: false)
+        input.currentTargetValue = { model.controllerValue($0.action, targetDeck: $0.deck) }
+        for number: UInt8 in [5, 16] {
+            for value: UInt8 in [0, 127, 64] {
+                input.receiveBytes([0xBF, number, value], source: 10); input.flushPendingActions()
+            }
+        }
+        input.receiveBytes([0x9F, 7, 127, 7, 0], source: 10); input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(abs((model.controllerValue(.levelA) ?? -1) - 64.0 / 127) < 0.000001)
+        #expect(abs((model.controllerValue(.master) ?? -1) - 64.0 / 127) < 0.000001)
+    }
+}
+
 @Test @MainActor func controllerCatalogueSmartPADClipPlayAndInactiveModesKeepRealAudioSync() async throws {
     try await withControllerCuePlayback("SmartPAD") { model, input in
         input.receiveBytes([0x90, 112, 127, 112, 0, 113, 127, 113, 0, 0x91, 20, 127, 20, 0, 0xB0, 0, 127], source: 10)

@@ -164,6 +164,7 @@ struct ControllerProfileData: Decodable, Sendable {
 
     var isValid: Bool {
         let pairedGlobals = hasPairedUnbankedGlobals
+        let manualMixer = hasManualUnbankedMixer
         return (unbankedGlobalInputs != true || pairedGlobals)
             && (role == nil || role == "player" || role == "accessory") && !id.isEmpty && id.count <= 128
             && !aliases.isEmpty
@@ -191,7 +192,7 @@ struct ControllerProfileData: Decodable, Sendable {
                         ? $0.kind == .control && ($0.lowNumber.map { $0 < 128 } ?? ($0.number < 32))
                             && $0.lowNumber != $0.number
                         : $0.lowNumber == nil)
-                    && ($0.anyChannel != true || role == "player" || pairedGlobals)
+                    && ($0.anyChannel != true || role == "player" || pairedGlobals || manualMixer)
                     && ($0.requiresTouch != true || ($0.action.isJog && $0.encoding.isRelative))
                     && ($0.encoding != .unsignedCount || ($0.kind == .control && $0.action.isJog && $0.requiresTouch == true))
                     && (!$0.encoding.isContactGate
@@ -325,6 +326,28 @@ struct ControllerProfileData: Decodable, Sendable {
             && inputs.allSatisfy { $0.deckBank == nil || $0.action == .loadA || $0.action == .loadB }
             && !startup.isEmpty && !shutdown.isEmpty
             && outputs.allSatisfy { $0.action != .loadA && $0.action != .loadB }
+    }
+
+    /**
+     * Accepts manufacturer Bn controls only in an input-only manual mixer contract.
+     */
+    private var hasManualUnbankedMixer: Bool {
+        let actions: Set<ControllerAction> = [
+            .gainA, .gainB, .highA, .highB, .midA, .midB, .lowA, .lowB, .levelA, .levelB,
+            .crossfader, .master, .monitor, .cueMix,
+        ]
+        return !autoSelect && role == "accessory" && !inputs.isEmpty && inputs.count <= 32
+            && outputs.isEmpty && startup.isEmpty && shutdown.isEmpty && startupAbort == nil
+            && startupDelaysMilliseconds == nil && audioOutput == nil && inputProtocol == nil
+            && inputModes == nil && bankChanges == nil
+            && Set(inputs.map(\.number)).count == inputs.count
+            && inputs.allSatisfy {
+                $0.anyChannel == true && $0.channel == 0 && $0.kind == .control && $0.encoding == .absolute
+                    && actions.contains($0.action) && !$0.inverted && $0.shifted == nil
+                    && $0.requiredMode == nil && $0.shiftChannel == nil && $0.shiftInput == nil && $0.holdInput == nil
+                    && $0.releaseOnly == nil && $0.lowNumber == nil && $0.pulse == nil && $0.requiresTouch == nil
+                    && $0.directionStep == nil && $0.argument == nil && $0.deckBank == nil
+            }
     }
 
     /**

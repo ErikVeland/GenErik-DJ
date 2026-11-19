@@ -3859,6 +3859,45 @@
           "result": "Used only to locate the separate factory-owner documentation. Replacement firmware/code is not used, downloaded or executed."
         }
       ]
+    },
+    {
+      "request": "R444",
+      "sources": [
+        {
+          "model": "Reloop KUT",
+          "url": "https://www.reloop.com/media/custom/upload/Reloop-236497_Reloop_IM.pdf",
+          "sha256": "ae87d922ba873fd8f284cf575ab5ce131edf2b77a4f5aed7a84545c4492decb1",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r444/upstream/reloop-kut-primary.pdf",
+              "sha256": "ae87d922ba873fd8f284cf575ab5ce131edf2b77a4f5aed7a84545c4492decb1"
+            },
+            {
+              "cachePath": "TestBuilds/r444/upstream/reloop-kut-manual.pdf",
+              "sha256": "ae87d922ba873fd8f284cf575ab5ce131edf2b77a4f5aed7a84545c4492decb1"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://www.reloop.com/reloop-kut"
+            },
+            {
+              "url": "https://s3.avecorp.com.au/wp-content/uploads/2018/01/30133455/Reloop-KUT-Manual.pdf"
+            }
+          ],
+          "review": "Own manufacturer manual and distributor mirror are byte-identical. Visually reviewed English p7 MIDI chart explicitly gives Bn continuous0..127 controls. CH1 Gain/High/Mid/Low/Fader are CC01/02/03/04/05hex; CH2 CC07/08/09/0A/0Bhex; crossfader0D, Master10, headphone Level12/Mix13hex. Native14-input manual accessory accepts the documented n across MIDI channels1..16 without guessing a fixed factory channel. The narrow wildcard contract permits only unique absolute mixer CCs, manual accessory role and no button, mode, bank, protocol, setup, output or audio contract. Pickup and source boundaries remain native. Enable rear MIDI output separately. KUT hardware mixing remains active, so separate application audio and hardware routing must be qualified before combined use. Automatic selection/audio routing stays off. PFL Note01/03 edge/latch semantics, input-source switches, dynamic FX selection/parameters, mic/booth/curve controls, fader-start and full feedback/lifecycle/recovery remain inactive. Fader-start notes are not Play. The documented pickup-request SysEx is not sent because its complete effect/restoration is unqualified. No query, preset, driver, firmware or audio-route packet is sent. Full controller/audio/USB/OS/power and physical/iPad/A10X acceptance remain open. No RMX model is inherited."
+        }
+      ],
+      "result": "Independent14-input manual continuous mixer subset. Own manufacturer and distributor PDFs match exactly. Source Bn is accepted across16 MIDI channels only in a narrow manual accessory contract. No channel guessed or hardware query sent.360 source/11 native checks and framework compilation pass. All369 earlier recipes remain identical. Automatic/audio/PFL/FX/lifecycle and physical acceptance remain open.",
+      "otherCheckedSources": [
+        {
+          "model": "Vestax PAD ONE",
+          "url": "https://www.vestax.parts/file/ve-pad-one-manual-pdf/",
+          "cachePath": "TestBuilds/r444/upstream/pad-one-manual.pdf",
+          "sha256": "4eed453f10040b44037b0679a312a124482defa41644920e61e5b898301f6942",
+          "result": "Own20-page manual documents configurable bank channels/notes, pressure CCs, XY, Hold/Roll and physical factory reset. Its p17 generic MIDI note/scale chart does not establish factory pad assignments. No inferred bank defaults, reset or production profile added."
+        }
+      ]
     }
   ]
 }
