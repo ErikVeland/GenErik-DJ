@@ -3619,3 +3619,23 @@ func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String
         #expect(abs((model.controllerValue(.levelA) ?? -1)-8192.0/16383)<0.0001)
     }
 }
+
+
+@Test @MainActor func controllerCatalogueDJTechLegacyFactoryCueAndMixerKeepAudioSynced() async throws {
+    for (name,dragon) in [("DRAGON TWO",true),("4MIX",false)] {
+        try await withControllerCuePlayback(name,manual:true) {model,input in
+            let cue:UInt8=dragon ? 22:11,play:UInt8=dragon ? 23:12
+            input.receiveBytes([0x91,cue,1],source:10);input.flushPendingActions()
+            #expect(model.playbackSnapshot?.a.touchActive == true)
+            input.receiveBytes([0x83,dragon ? cue:75,127,0x91,play,127,play,0],source:10);input.flushPendingActions()
+            if dragon {
+                input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+                for value:UInt8 in [0,127,64] {input.receiveBytes([0xB1,9,value],source:10);input.flushPendingActions()}
+                #expect(abs((model.controllerValue(.levelA) ?? -1)-64.0/127)<0.0001)
+            }
+            let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        }
+    }
+}

@@ -4884,6 +4884,71 @@
         }
       ],
       "result": "Independent113-input manual DJ-808 normal subset from a pinned primary own-model XML/mapper and own manufacturer standalone guidance. The source PR is open/unmerged.411 source/13 native checks and iPad framework compilation pass. All396 earlier recipes remain identical. Direct iPad USB driver/bridge, complete modes/feedback/lifecycle/audio and physical acceptance remain open. No partial SysEx/keepalive or source code runs."
+    },
+    {
+      "request": "R470",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "model": "DJ-Tech DRAGON TWO",
+          "url": "https://www.dj-tech.com/bilder/djtech/Dragon2_Virtual-DJ_20120104.zip",
+          "sha256": "597ba6860512d17efc5cb0011fb38a00cbaca525755b43546c3217e9fcbe1c30",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r470/upstream/dragon-two.zip",
+              "sha256": "597ba6860512d17efc5cb0011fb38a00cbaca525755b43546c3217e9fcbe1c30"
+            },
+            {
+              "cachePath": "TestBuilds/r470/upstream/dragon/DRAGON2.xml",
+              "sha256": "8b70a63d9b384aa7f81f2c48e385e31675fa6abb66d8750df6568557321c05c5"
+            },
+            {
+              "cachePath": "TestBuilds/r470/upstream/dragon/DJ-Tech DRAGON2 mapping.xml",
+              "sha256": "29b3a1cc0f9720b4c3f171c9c0cfefc01ae7bb8e46574ae56a0035dee2dac42f"
+            }
+          ],
+          "definitionCache": "TestBuilds/r470/upstream/dragon/DRAGON2.xml",
+          "relatedSources": [
+            {
+              "url": "https://www.dj-tech.com/downloads/"
+            },
+            {
+              "url": "https://virtualdj.com/wiki/controllerdefinitionmidi.html"
+            }
+          ],
+          "review": "Own manufacturer download page independently links this factory device-definition and mapper archive. Both XML files parse strictly and are read as data only. Atomix channel attributes are zero-based; native uses explicit raw1..4 as written, not header comments saying channel1. The reviewed core requires manual selection and separately configured app audio. Normal positive commands use native transport, held main Cue, Sync, loops and four Hot Cues; positive shifted commands remain inactive. Explicit shifted negative aliases and opposite-bank negative aliases preserve release and rearm without inferring selector state. Four Shift channel reports retain two physical A/C and B/D identities. Output, USB identity/discovery, saved modes, complete lifecycle/recovery and exact USB/driver/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. No archive code, mapper action, setup, identity query, mode, preset, driver, firmware or audio-route write executes or ships. Own DRAGON2 definition is dated4January2012, mapper13December2011. Raw1..4 has Play23/held Cue22/Sync16/Load8/PFL9/In13/Out14/Reloop15/bends11/12 and Hot Cues17..20; source spelling PITCHBEND_DWON is preserved as wire evidence only. Shift24, explicit alternate Sync80/In77/Out78/Re79/bends75/76 and cue clears81..84 qualify negative guards only. Normal Play/Cue/Load/PFL have no alternate address invented. Six own absolute mixer controls per deck are gain8/high25/mid26/low27/filter28/level9. The profile requires four-deck MIDI mixing; physical two-deck/analogue source ownership remains unqualified. Source CUE uses cue_play and CUP uses a separate down/release expression; native held Cue is an intentional app transport assignment, not inherited source playback code. Channel-omitted cross22/cueMix24/browser15/selectors33..36, CHANGE_CENTER115, keylock, jog/pitch calibration, loop encoder format/direction, FX/sampler/filter-on state, feedback and complete modes remain inactive. Numeric globals are not assigned an invented factory channel."
+        },
+        {
+          "model": "DJ-Tech 4MIX",
+          "url": "https://www.dj-tech.com/bilder/djtech/4MIX_Virtual-DJ_20120521.zip",
+          "sha256": "8b7782f581a285b2780664666666bf1435946b0660ce8a0f9b0df7bf3aaf0ebe",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r470/upstream/4mix.zip",
+              "sha256": "8b7782f581a285b2780664666666bf1435946b0660ce8a0f9b0df7bf3aaf0ebe"
+            },
+            {
+              "cachePath": "TestBuilds/r470/upstream/4mix/4MIX Pitch.xml",
+              "sha256": "1f17fc1f514967fff538eead0c6cc0dd55b5140db2bfa1b435ba899030729064"
+            },
+            {
+              "cachePath": "TestBuilds/r470/upstream/4mix/DJ-Tech 4MIX Pitch mapping.xml",
+              "sha256": "7b4fd750edc2281181354f93de4ebe05284f9bf99c81eb4352f39006fbb6a267"
+            }
+          ],
+          "definitionCache": "TestBuilds/r470/upstream/4mix/4MIX Pitch.xml",
+          "relatedSources": [
+            {
+              "url": "https://www.dj-tech.com/downloads/"
+            },
+            {
+              "url": "https://virtualdj.com/wiki/controllerdefinitionmidi.html"
+            }
+          ],
+          "review": "Own manufacturer download page independently links this factory device-definition and mapper archive. Both XML files parse strictly and are read as data only. Atomix channel attributes are zero-based; native uses explicit raw1..4 as written, not header comments saying channel1. The reviewed core requires manual selection and separately configured app audio. Normal positive commands use native transport, held main Cue, Sync, loops and four Hot Cues; positive shifted commands remain inactive. Explicit shifted negative aliases and opposite-bank negative aliases preserve release and rearm without inferring selector state. Four Shift channel reports retain two physical A/C and B/D identities. Output, USB identity/discovery, saved modes, complete lifecycle/recovery and exact USB/driver/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. No archive code, mapper action, setup, identity query, mode, preset, driver, firmware or audio-route write executes or ships. Own 4MIX_PITCH definition/mapper dated21May2012 specifically names driver DJ-Tech 4-Mix Pitch. The manual recipe is this Pitch layout, not a claim about all hardware/software presets. Raw1..4 has Play12/held Cue11/Sync5/In2/Out3/Reloop4 and four Hot Cues6..9. Shift14, alternate Play76/Cue75/Beatlock69/LoopHalf66/LoopDouble67/Loop68 and delete70..73 qualify explicit negative guards only. A positive alternate clear/beatlock/loop action does not become a normal cue/sync/loop. CUP10/74 is not main held Cue. Source CUE cue_stop and native held Cue have the app transport contract. Channel-omitted four-strip mixer, Load/PFL, cross/headphone/master/booth, selectors58..61 and library rows stay inactive: no factory global channel is established. Jog and pitch use relative jog elements, not absolute faders; no fake tempo slider, wheel scale or Keylock is inferred. Filter/FX, sampler, feedback and complete modes remain open."
+        }
+      ],
+      "result": "Two independent manufacturer factory archives qualify manual Dragon Two220-input and 4MIX Pitch164-input explicit-channel cores.414 source/13 native checks and iPad framework compilation pass. All397 earlier recipes remain identical. Channel-omitted globals/mode reports are not assigned a guessed channel. Full modes, feedback/lifecycle/audio/host and physical acceptance remain open."
     }
   ]
 }
