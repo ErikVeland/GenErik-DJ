@@ -810,3 +810,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R489 | Implemented; complete modes/physical gaps open | Add independent REV1 and REV5 Hot Cue clear pairs | Added16 clears and32 negative aliases per model.451 source/38 native checks and iPad framework compilation pass. All405 JSON recipes remain byte-identical. [Scope](controller-coverage.md#r489-independent-rev1-and-rev5-clears). |
 
 | R490 | Implemented; full pages/physical gaps open | Add own-manufacturer FLX10 and DDJ-1000 first-page clear pairs | Added32 clears and64 negative aliases per model.454 source/60 native checks and iPad framework compilation pass.403 other recipes remain identical. [Scope](controller-coverage.md#r490-flx10-and-original-ddj-1000-first-page-clears). |
+
+| R491 | Audited; numeric mapping access/ambiguities remain open | Review additional public libraries and ELITE/SX1 leads | Pinned public resources without execution or protected-data decoding. ELITE owner download requires sign-in. All runtime/catalogue bytes remain identical. [Scope](controller-coverage.md#r491-additional-public-mapping-libraries-and-elitesx1-leads). |

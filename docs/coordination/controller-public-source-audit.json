@@ -5864,6 +5864,81 @@
         }
       ],
       "result": "Added32 first-page dedicated clear inputs and64 paired negative aliases per model. Original125/145 inputs remain exact prefixes, yielding221/241 inputs.403 other recipes remain identical. Feedback/setup/audio/aliases/bankChanges and all non-input fields except scope/gap notes remain unchanged. A bounded helper rejects unreviewed model/mode/fields, missing activation proof and positive clear collisions before mutating inputs.454 source/60 native checks and iPad framework compilation pass. Tests cover all64 clear wires, both negatives/directions, duplicate presses, either app Shift state, source/group isolation, C/D availability, inactive Page2/other-mode wires, prior bank/loop/jump/pickup/lifecycle/feedback and six pair-profile real-WAV cases. The separate five-built-in WAV regression also passes. Catalogue gates compare27626 inputs and205 automatic held-Cue recipes. Compact bundle2245269 bytes within unchanged limits; full review resource excluded. Missing-feature source failure and missing-helper error are preserved. No script, mode/configuration, output or audio-route write is added. Complete pages/modes/lifecycle/host and physical acceptance remain open."
+    },
+    {
+      "request": "R491",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "url": "https://you.dj/en/midi",
+          "cachePath": "TestBuilds/r491/upstream/youdj-midi.html",
+          "sha256": "c98bc1c240c8dd282e75111c3357e2c1d7fb95a858d153df93540fe32f647d32",
+          "bytes": 56275
+        },
+        {
+          "url": "https://youdj.online/",
+          "cachePath": "TestBuilds/r491/upstream/youdj-online.html",
+          "sha256": "6536dbb5c7f29878e38b43abc8aa9c4a461efdd8950519c752408004631e2a78",
+          "bytes": 103214
+        },
+        {
+          "url": "https://you.dj/build/assets/app-DsbP9Jus.js",
+          "cachePath": "TestBuilds/r491/upstream/youdj-public-app.js",
+          "sha256": "b0a30e96eee1fe0130e9c5e48d7af7e8b6edaf4ee27d45c4e823231349b97e41",
+          "bytes": 43447
+        },
+        {
+          "url": "https://youdj.online/_strings.js",
+          "cachePath": "TestBuilds/r491/upstream/youdj-strings.js",
+          "sha256": "a008b65228c918290ec1342ac3bbece2e1b87470ed3f6cf310937863604bc8f0",
+          "bytes": 49763
+        },
+        {
+          "url": "https://youdj.online/jquery.js",
+          "cachePath": "TestBuilds/r491/upstream/youdj-jquery.js",
+          "sha256": "92c268d9651a3f9dea742ece5e18a442fdf4a36bd19bf5a9c0866fa8d0c2cc7e",
+          "bytes": 710196
+        },
+        {
+          "url": "https://dj.beatport.com/",
+          "cachePath": "TestBuilds/r491/upstream/beatport-dj.html",
+          "sha256": "180483dca6794a39b45aac96768905684b192420b66e9ea3c1a96e83ccdf0f24",
+          "bytes": 4625
+        },
+        {
+          "url": "https://dj.beatport.com/static/js/main.d0341244.chunk.js",
+          "cachePath": "TestBuilds/r491/upstream/beatport-main.js",
+          "sha256": "909d6b2c478d67672186b38ca58cbd04d2e9f19dceb344f2fec0266ad6d69468",
+          "bytes": 745518
+        },
+        {
+          "url": "https://dj.beatport.com/jquery.js",
+          "cachePath": "TestBuilds/r491/upstream/beatport-public-core.js",
+          "sha256": "992c63a2ed982aa32f62c3013ca4a0e6ef49af1e00118dfaf2199944dddb5c71",
+          "bytes": 569898
+        },
+        {
+          "model": "Reloop ELITE",
+          "url": "https://community.algoriddim.com/t/crossfader-fusion-with-reloop-elite/26114",
+          "finding": "Primary owner nicefinga documents an internal software mixer mapping and links DJTT14205. The owner reports missing hardware meters and headphones in that configuration. No internal/audio ownership or factory MIDI addresses are inferred."
+        },
+        {
+          "model": "Reloop ELITE",
+          "url": "https://maps.djtechtools.com/mappings/14205",
+          "finding": "The v0.2.0 own-owner mapping is listed, but download explicitly requires sign-in. No bytes recovered and no authentication bypass or account creation attempted."
+        },
+        {
+          "model": "Reloop ELITE",
+          "url": "https://community.algoriddim.com/t/reloop-elite-midi-map/42670",
+          "finding": "The2026 owner/support thread records an FX mute issue and an August software fix. It provides no complete typed wire table or reusable map. A note-name mention without channel/encoding does not qualify a new input."
+        },
+        {
+          "model": "Next Beat SX1",
+          "url": "https://github.com/tooh/mixxx-controller-mappings",
+          "finding": "README still describes a personal incomplete mapping and links the owner forum. Pinned213-row XML mixes old/new wire alternatives and unresolved script handlers. The readme supports SX1 identity only. No arbitrary subset is promoted as factory support and no original/LX1 identity is inferred."
+        }
+      ],
+      "result": "Read public YouDJ and Beatport app indexes and directly referenced text resources as data only. YouDJ publicly states that its120-plus mappings are community supplied and need correction without hardware verification. Both public app cores contain obfuscated implementation rather than a standalone readable controller table. No deobfuscation, protected-data decoding, script execution, installation, account, MIDI/audio access or mapping import occurs. The marketing-site JS, translations and Beatport landing bundle do not provide a reusable numeric controller table. The ELITE download requires sign-in. Next Beat SX1 source ambiguities remain unresolved. All405 JSON recipes, both runtime resources and catalogue JSON remain byte-identical to R490. These are bounded source findings, not a claim that no manufacturer SDK or usable mapping exists elsewhere. Public-source implementation continues."
     }
   ]
 }
