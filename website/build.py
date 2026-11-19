@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build the complete static site without network access or runtime dependencies."""
 import hashlib
+from itertools import groupby
 import html
 import json
 import shutil
@@ -38,17 +39,29 @@ PROFILE_TYPES = {
 def controller_directory():
     source = ROOT.parent / 'docs/coordination/controller-catalogue.json'
     models = json.loads(source.read_text())['models']
+    makes = {'evolutionxsession': 'Evolution', 'mixmandm2': 'Mixman'}
+    def manufacturer(model):
+        if model['manufacturer'] == 'Other':
+            return makes.get(model['id'], 'Other')
+        return model['manufacturer']
+
     models = sorted((m for m in models if m['isPhysicalModel'] and m['implementation'] in PROFILE_TYPES),
-                    key=lambda m: (m['manufacturer'].casefold(), m['name'].casefold()))
+                    key=lambda m: (manufacturer(m).casefold(), m['name'].casefold()))
     assert models and len({m['id'] for m in models}) == len(models)
-    def esc(value):
-        return html.escape(str(value), quote=True)
-    rows = []
-    for model in models:
-        values = [model['manufacturer'], model['name'], PROFILE_TYPES[model['implementation']], model.get('connection') or 'See device documentation']
-        rows.append('<tr><td>' + esc(values[0]) + '</td><th scope="row">' + esc(values[1]) +
-                    '</th><td>' + esc(values[2]) + '</td><td>' + esc(values[3]) + '</td></tr>')
-    return ''.join(rows)
+    groups = []
+    for make, members in groupby(models, manufacturer):
+        items = []
+        for model in members:
+            name = ' '.join(f'<span class="model-word">{html.escape(word)}</span>'
+                            for word in model['name'].split())
+            mapping = PROFILE_TYPES[model['implementation']]
+            connection = html.escape(model.get('connection') or 'See device documentation')
+            items.append(f'<li><strong>{name}</strong> <span class="mapping">{mapping}</span> '
+                         f'<span>{connection}</span></li>')
+        groups.append(f'<section data-make="{html.escape(make, quote=True)}">'
+                      f'<h3>{html.escape(make)}</h3><ul>{"".join(items)}</ul></section>')
+    return len(models), ''.join(groups)
+
 
 def beta_link():
     url = CONFIG.get('testflight_url')
@@ -85,7 +98,8 @@ def build():
             schema.append({"@context":"https://schema.org", "@type":"BreadcrumbList", "itemListElement":[{"@type":"ListItem","position":1,"name":"GenErik DJ","item":origin+'/'},{"@type":"ListItem","position":2,"name":title,"item":canonical}]})
         body = (ROOT / 'content' / (source + '.html')).read_text().replace('{{platforms}}', html.escape(PLATFORMS))
         if source == 'controllers':
-            body = body.replace('{{controller_rows}}', controller_directory())
+            total, groups = controller_directory()
+            body = body.replace('{{controller_total}}', str(total)).replace('{{controller_groups}}', groups)
         if is_home:
             body = body.replace('{{testflight_link}}', beta_link())
         controllers_script = f'<script src="{js}" defer></script>' if source == 'controllers' else ''
