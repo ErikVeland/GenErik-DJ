@@ -4235,6 +4235,28 @@
         }
       ],
       "result": "Independent211-input default Mode1/Hold core and36 optional lamps.381 source/14 native checks and iPad framework compilation pass. All378 earlier recipes remain identical. Other stored modes, complete feedback/lifecycle/audio and physical acceptance remain open."
+    },
+    {
+      "request": "R456",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "url": "https://www.steinigke.de/download/11045060-Manual-88152-1.000-omnitronic-cmx-2000-2%2B1-channel-midi-controller-de_en.pdf",
+          "sha256": "8fa7ba7a7f6b20220bdc01f77a66742b736eab09d89a5f171e88a6f6b8a127ee",
+          "finding": "Own hardware ownership and function descriptions plus visually reviewed numeric MIDI pages60/61."
+        },
+        {
+          "url": "https://www.steinigke.de/download/11045060-Support-88193-1.0000-omnitronic-cmx-2000-2+1-kanal-midi-controller-Virtual-DJ-PRO-Mapping-de_en.zip",
+          "sha256": "4cf3bd380d72fae140d6dde7a23b12d43fc064887bb12eb3ab1b9f8623fb0ba3",
+          "finding": "Own public factory XML qualifies raw0/1 channels, global Load1/3, relative64 encoders and asymmetric right cue layout. Data only, no mapper execution or init writes."
+        },
+        {
+          "url": "https://www.steinigke.de/download/11045060-Support-89478-1.0000-omnitronic-cmx-2000-2+1-kanal-midi-controller-Serato-Scratch-Live-Mapping-de_en.zip",
+          "sha256": "28a7ac1cf0cc0828f256d04bfa871d283451baad82f0c9ca883f58d8d295084b",
+          "finding": "Separate factory Serato XML corroborates right zero-based cues B2/B3 at46/47 and binary-offset loop encoders. Right cues7/8 remain uncorroborated against the manual and inactive."
+        }
+      ],
+      "result": "Independent119-input manual native-bank core with a bounded shifted selector-release alias.383 source/32 native checks and iPad framework compilation pass. All379 earlier recipes remain identical. Automatic ownership, complete modes/feedback/lifecycle/audio and physical acceptance remain open."
     }
   ]
 }

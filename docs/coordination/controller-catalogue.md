@@ -11,7 +11,7 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 562 total catalogue records. 555 name physical models. The remainder identify software endpoints or protocol families.
-- 379 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 380 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 231 factory profiles select core controls automatically for 240 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - 309 physical models still lack automatic core controls.
@@ -228,8 +228,8 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 150 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 137 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 151 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 136 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -703,7 +703,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Numark V7 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20V7.midi.xml) |
 | Numark iDJ Live II | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20iDJ%20Live%20II.midi.xml) |
 | Numark iDJ3 | primary | automatic-core-profile | [Reference](https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg) |
-| OMNITRONIC CMX-2000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=CMX2000) |
+| OMNITRONIC CMX-2000 | primary | partial-midi-profile | [Reference](https://www.steinigke.de/download/11045060-Manual-88152-1.000-omnitronic-cmx-2000-2%2B1-channel-midi-controller-de_en.pdf) |
 | OMNITRONIC DDC-2000 | primary | automatic-core-profile | [Reference](https://www.steinigke.de/download/11045050-Manual-89188-1.100-omnitronic-ddc-2000-controller-incl-vdj-de_en.pdf) |
 | Dummy Device (Screens) | virtual | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Dummy%20Device%20Screen.hid.xml) |
 | Evolution X-Session | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Evolution_Xsession.midi.xml) |

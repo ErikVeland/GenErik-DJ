@@ -52570,12 +52570,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://www.steinigke.de/download/11045060-Manual-88152-1.000-omnitronic-cmx-2000-2%2B1-channel-midi-controller-de_en.pdf",
         "https://virtualdj.com/products/hardware.html?model=CMX2000"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:cmx2000-manual-native-banks"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "OMNITRONIC CMX-2000",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "OMNITRONIC CMX-2000",
@@ -52583,40 +52588,101 @@
           "source": "https://virtualdj.com/products/hardware.html?model=CMX2000"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "browseGroups",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "fixedJumpA:a",
+        "fixedJumpB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "hotcue5A:a",
+        "hotcue5B:b",
+        "hotcue6A:a",
+        "hotcue6B:b",
+        "hotcue7A:a",
+        "hotcue8A:a",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutOrExitA:a",
+        "loopOutOrExitB:b",
+        "loopSizeA:a",
+        "loopSizeB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 119,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual native layout only. Set both inputs USB, MIXER MIDI ON, Shift Lock OFF, fader reverse OFF and crossfader THRU OFF. Starts A/B on apply/reconnect. Deck buttons select A/C and B/D. C/D require app opt-in. Configure audio separately. Other source/curve/reverse modes remain unqualified."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Own manufacturer manual pp39/47/52..54/60..61 and separately supplied VirtualDJ/Serato factory XML read as data. Numeric tables visually reviewed. This manual native119-input layout requires both input selectors USB, MIXER MIDI ON, Shift Lock OFF, normal fader direction and crossfader THRU OFF. Fixed wire channels raw0/1 do not become four invented hardware MIDI pages. Native starts A/B on apply/reconnect; normal Deck25 on each channel selects A/C or B/D in software with one127 press per change. Shifted Deck75 positives stay inactive and both shifted release forms rearm only that source/bank. C/D require app opt-in. Normal Play38/Cue37/Sync35/Keylock30/PFL16/Loop28/In31/Out32/Bends26/27 have explicit shifted plus50 release guards. Out uses native loop-out-or-exit. Native fixed jumps are normal36=-4 and33=+4. Shared Load is raw0 Note1 left/3 right, routed through the corresponding native bank; shifted51/53 only release. Eight left Hot Cues use43/48/49/50/44/45/46/47 for slots1..8. On the right, the manual conflicts with VirtualDJ for slots3/4/7/8. Independent factory Serato B2/B3 controls46/47 corroborate right slots3/4. Right slots1..6 use43/48/46/47/44/45. Uncorroborated right slots7/8 at49/50 remain inactive. Shifted clears only rearm. Mixer CC gain14/high15/mid16/low17/filter18/level19 and shifted54..59 deliberately retain the same native bank-owned actions. LoopCC25 and BrowseCC3/43 use documented binary offset64. Native Shift browse steps groups; normal browse steps tracks and push2 opens a group, shifted52 only rearms it. Global master5/45, cueMix1/41, cueLevel2/42 and cross11/51 deliberately mirror native actions. No jog or tempo fader is invented. Full mixer source/reverse/THRU/curve/Shift Lock ownership, remaining pad/FX/sample/video/fader-start/filter-off/alternate-loop/seek modes, right cues7/8, bank lamps/full feedback/meters/initial positions/startup/shutdown/recovery, USB/OS/audio/DVS routing and physical/iPad/A10X acceptance remain open. No mapper executes and no source init/position query, preset, driver, firmware or audio-route command runs. The source init attribute is not blindly copied as SysEx. DDC-2000 and other OMNITRONIC protocols are not inherited.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -358146,6 +358212,62 @@
         },
         {
           "reason": "Own manufacturer manual pp33..39 and own factory VirtualDJ PRO archive read as data, without executing its mapper. The manual explicitly establishes factory Mode1/raw0..3 A/B/C/D and global0, with Hold Shift default. Each deck has normal NOTE Play24/Cue23/Sync18/Keylock16/PFL28/AutoLoop1/In4/Out5/Active6/Bends19/20, four Hot Cues8..11 and distinct shifted wires plus50. Shifted transport/Hot Cue positives stay inactive, except native fixed beat jumps58=-4 and59=+4. Delete7 is not invented as a held modifier. Factory XML resolves bank-owned Load34 on raw0/2 and35 on1/3, shifted release aliases84/85, binary-offset64 loopCC1/browserCC14/44, inverted14bit pitch bend and normal jogCC2 with150 counts/revolution. Native uses its own +/-8percent tempo range. Shifted loop movement, tempo-range buttons and jog search remain inactive. Touch38 has shifted release88. Normal jog/tempo/loop size and Mid5/Low6 are global-Shift guarded; Shift LowCC36 controls native filter. Gain3/High4/Level7 and shifted33/34/37 deliberately keep the same native actions. Factory XML corroborates manual hexadecimal global shifted columns: cross46, cueMix49 and cueLevel50, rather than conflicting decimal45/48/49. Both layers mirror these three actions. Browser14 steps native tracks, Shift44 steps native groups, normal push39 enters a group and shifted89 only rearms it. Thirty-six optional normal static lamps cover Play/Cue/Sync/Keylock/PFL/four Hot Cues. The manual does not list an AutoLoop lamp; none is invented. Deck17/67 both edges retire only their source-owned physical A/C or B/D pair. The source XML lists extra master/mic controls absent from the manual MIDI chart; these stay inactive. Other stored channel/Shift/sample/EQ settings, hardware configuration chords, complete scratch/seek/range/FX/sample/video/kill/loop-delete modes, full feedback/meters/lifecycle/recovery, exact USB naming/OS/power/audio/DVS routing and physical/iPad/A10X acceptance remain open. Own Mac generic Core Audio and4in/4out statements do not prove an iPad route. No setup, identity query, driver, firmware, preset, source-mode or audio-route write runs. Encore/Voxoa/other OMNITRONIC bytes are not inherited."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:cmx2000-manual-native-banks",
+      "name": "OMNITRONIC CMX-2000",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.steinigke.de/download/11045060-Manual-88152-1.000-omnitronic-cmx-2000-2%2B1-channel-midi-controller-de_en.pdf",
+        "sha256": "8fa7ba7a7f6b20220bdc01f77a66742b736eab09d89a5f171e88a6f6b8a127ee",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r456/upstream/cmx2000-manual.pdf",
+            "sha256": "8fa7ba7a7f6b20220bdc01f77a66742b736eab09d89a5f171e88a6f6b8a127ee"
+          },
+          {
+            "cachePath": "TestBuilds/r456/upstream/cmx2000-vdj.zip",
+            "sha256": "4cf3bd380d72fae140d6dde7a23b12d43fc064887bb12eb3ab1b9f8623fb0ba3"
+          },
+          {
+            "cachePath": "TestBuilds/r456/upstream/CMX-2000_Device.xml",
+            "sha256": "0e005a0b4e7d9bba54661a2e18aa477a1801f6eb9422d3e3cfcc438a07cd7e6a"
+          },
+          {
+            "cachePath": "TestBuilds/r456/upstream/CMX-2000_Mapping.xml",
+            "sha256": "7fce073cea0c08ab49d041f509582679d822f9d40fc7f4a4ea83481029c135c8"
+          },
+          {
+            "cachePath": "TestBuilds/r456/upstream/cmx2000-ssl.zip",
+            "sha256": "28a7ac1cf0cc0828f256d04bfa871d283451baad82f0c9ca883f58d8d295084b"
+          },
+          {
+            "cachePath": "TestBuilds/r456/upstream/CMX-2000_Serato_Scratch_Live.xml",
+            "sha256": "820d429b5fa8c999d588acb61b22ce97f1bc9f6ffaec4027cc510b58b540ba7d"
+          }
+        ],
+        "relatedSources": [
+          {
+            "url": "https://www.steinigke.de/download/11045060-Support-88193-1.0000-omnitronic-cmx-2000-2+1-kanal-midi-controller-Virtual-DJ-PRO-Mapping-de_en.zip"
+          },
+          {
+            "url": "https://www.steinigke.de/download/11045060-Support-89478-1.0000-omnitronic-cmx-2000-2+1-kanal-midi-controller-Serato-Scratch-Live-Mapping-de_en.zip"
+          }
+        ],
+        "review": "Own manufacturer manual pp39/47/52..54/60..61 and separately supplied VirtualDJ/Serato factory XML read as data. Numeric tables visually reviewed. This manual native119-input layout requires both input selectors USB, MIXER MIDI ON, Shift Lock OFF, normal fader direction and crossfader THRU OFF. Fixed wire channels raw0/1 do not become four invented hardware MIDI pages. Native starts A/B on apply/reconnect; normal Deck25 on each channel selects A/C or B/D in software with one127 press per change. Shifted Deck75 positives stay inactive and both shifted release forms rearm only that source/bank. C/D require app opt-in. Normal Play38/Cue37/Sync35/Keylock30/PFL16/Loop28/In31/Out32/Bends26/27 have explicit shifted plus50 release guards. Out uses native loop-out-or-exit. Native fixed jumps are normal36=-4 and33=+4. Shared Load is raw0 Note1 left/3 right, routed through the corresponding native bank; shifted51/53 only release. Eight left Hot Cues use43/48/49/50/44/45/46/47 for slots1..8. On the right, the manual conflicts with VirtualDJ for slots3/4/7/8. Independent factory Serato B2/B3 controls46/47 corroborate right slots3/4. Right slots1..6 use43/48/46/47/44/45. Uncorroborated right slots7/8 at49/50 remain inactive. Shifted clears only rearm. Mixer CC gain14/high15/mid16/low17/filter18/level19 and shifted54..59 deliberately retain the same native bank-owned actions. LoopCC25 and BrowseCC3/43 use documented binary offset64. Native Shift browse steps groups; normal browse steps tracks and push2 opens a group, shifted52 only rearms it. Global master5/45, cueMix1/41, cueLevel2/42 and cross11/51 deliberately mirror native actions. No jog or tempo fader is invented. Full mixer source/reverse/THRU/curve/Shift Lock ownership, remaining pad/FX/sample/video/fader-start/filter-off/alternate-loop/seek modes, right cues7/8, bank lamps/full feedback/meters/initial positions/startup/shutdown/recovery, USB/OS/audio/DVS routing and physical/iPad/A10X acceptance remain open. No mapper executes and no source init/position query, preset, driver, firmware or audio-route command runs. The source init attribute is not blindly copied as SysEx. DDC-2000 and other OMNITRONIC protocols are not inherited."
+      },
+      "implementedInputCount": 119,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Own manufacturer manual pp39/47/52..54/60..61 and separately supplied VirtualDJ/Serato factory XML read as data. Numeric tables visually reviewed. This manual native119-input layout requires both input selectors USB, MIXER MIDI ON, Shift Lock OFF, normal fader direction and crossfader THRU OFF. Fixed wire channels raw0/1 do not become four invented hardware MIDI pages. Native starts A/B on apply/reconnect; normal Deck25 on each channel selects A/C or B/D in software with one127 press per change. Shifted Deck75 positives stay inactive and both shifted release forms rearm only that source/bank. C/D require app opt-in. Normal Play38/Cue37/Sync35/Keylock30/PFL16/Loop28/In31/Out32/Bends26/27 have explicit shifted plus50 release guards. Out uses native loop-out-or-exit. Native fixed jumps are normal36=-4 and33=+4. Shared Load is raw0 Note1 left/3 right, routed through the corresponding native bank; shifted51/53 only release. Eight left Hot Cues use43/48/49/50/44/45/46/47 for slots1..8. On the right, the manual conflicts with VirtualDJ for slots3/4/7/8. Independent factory Serato B2/B3 controls46/47 corroborate right slots3/4. Right slots1..6 use43/48/46/47/44/45. Uncorroborated right slots7/8 at49/50 remain inactive. Shifted clears only rearm. Mixer CC gain14/high15/mid16/low17/filter18/level19 and shifted54..59 deliberately retain the same native bank-owned actions. LoopCC25 and BrowseCC3/43 use documented binary offset64. Native Shift browse steps groups; normal browse steps tracks and push2 opens a group, shifted52 only rearms it. Global master5/45, cueMix1/41, cueLevel2/42 and cross11/51 deliberately mirror native actions. No jog or tempo fader is invented. Full mixer source/reverse/THRU/curve/Shift Lock ownership, remaining pad/FX/sample/video/fader-start/filter-off/alternate-loop/seek modes, right cues7/8, bank lamps/full feedback/meters/initial positions/startup/shutdown/recovery, USB/OS/audio/DVS routing and physical/iPad/A10X acceptance remain open. No mapper executes and no source init/position query, preset, driver, firmware or audio-route command runs. The source init attribute is not blindly copied as SysEx. DDC-2000 and other OMNITRONIC protocols are not inherited."
         }
       ]
     },

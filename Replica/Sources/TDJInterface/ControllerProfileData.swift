@@ -104,6 +104,7 @@ struct ControllerProfileData: Decodable, Sendable {
         let decks: [DeckID]
         let releaseShiftChannels: [UInt8]?
         let deckBank: UInt8?
+        let releaseNumber: UInt8?
 
         var isValid: Bool {
             (kind == nil || kind == .note || kind == .control)
@@ -113,6 +114,7 @@ struct ControllerProfileData: Decodable, Sendable {
                     : (onValue.map { $0 < 128 && (kind == .control || $0 > 0) } ?? (kind == .control)))
                 && (kind != .control || releaseShiftChannels == nil)
                 && !decks.isEmpty && decks.count <= 4 && Set(decks).count == decks.count
+                && (releaseNumber.map { deckBank != nil && $0 < 128 && $0 != number } ?? true)
                 && (releaseShiftChannels.map {
                     $0.count <= 16 && $0.allSatisfy { $0 < 16 } && Set($0).count == $0.count
                 } ?? true)
@@ -277,8 +279,13 @@ struct ControllerProfileData: Decodable, Sendable {
                     let sameAddress = (change.kind ?? .note) == (previous.kind ?? .note)
                         && (change.channel == previous.channel || change.anyChannel == true || previous.anyChannel == true)
                         && change.number == previous.number
-                    return !sameAddress || (change.kind == .control && change.onValue != nil
+                    let aliasCollision = (change.kind ?? .note) == .note && (previous.kind ?? .note) == .note
+                        && (change.channel == previous.channel || change.anyChannel == true || previous.anyChannel == true)
+                        && (change.releaseNumber == previous.number || previous.releaseNumber == change.number
+                            || (change.releaseNumber != nil && change.releaseNumber == previous.releaseNumber))
+                    return !aliasCollision && (!sameAddress || (change.kind == .control && change.onValue != nil
                         && previous.onValue != nil && change.onValue != previous.onValue)
+                    )
                 }
             }
     }
@@ -290,6 +297,7 @@ struct ControllerProfileData: Decodable, Sendable {
         let selectors = (bankChanges ?? []).filter { $0.deckBank != nil }
         guard !selectors.isEmpty || inputs.contains(where: { $0.deckBank != nil }) else { return true }
         return ((!autoSelect && outputs.isEmpty) || hasAutomaticLoadBanks) && inputProtocol == nil && role == nil
+            && (!autoSelect || selectors.allSatisfy { $0.releaseNumber == nil })
             && Set(selectors.compactMap(\.deckBank)).count == selectors.count
             && selectors.allSatisfy { selector in inputs.contains { $0.deckBank == selector.deckBank } }
             && inputs.allSatisfy { input in
@@ -300,7 +308,10 @@ struct ControllerProfileData: Decodable, Sendable {
                     && selectors.contains { $0.deckBank == bank }
             }
             && selectors.allSatisfy { selector in
-                !inputs.contains { $0.kind == .note && $0.channel == selector.channel && $0.number == selector.number }
+                !inputs.contains {
+                    $0.kind == .note && $0.channel == selector.channel
+                        && ($0.number == selector.number || $0.number == selector.releaseNumber)
+                }
             }
     }
 

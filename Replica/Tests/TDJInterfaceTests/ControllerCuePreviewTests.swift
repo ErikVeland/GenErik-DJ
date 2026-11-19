@@ -3402,3 +3402,15 @@ func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueCMXShiftedCueAndBendReleasesKeepRealAudioSync() async throws {
+    try await withControllerCuePlayback("CMX-2000",manual:true) {model,input in
+        input.receiveBytes([0x90,37,1],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x90,9,127,0x80,87,127,0x90,9,0,38,127,38,0,26,127],source:10);input.flushPendingActions()
+        input.receiveBytes([0x90,76,0],source:10);input.flushPendingActions()
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
