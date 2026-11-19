@@ -55523,13 +55523,18 @@
       "benchmark": true,
       "sources": [
         "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://www.dropbox.com/sh/1ey5ubwtj0vsma6/AACiV_jwcVpyhIfMmLAA6BI0a?dl=1",
         "https://www.algoriddim.com/hardware/seventytwo",
         "https://virtualdj.com/products/hardware.html?model=RN72"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:rane72-djush-unconditional-core"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Rane SEVENTY-TWO",
+      "automaticControls": false,
       "comparisonSupport": {
         "djay": {
           "sourceName": "RANE SEVENTY-TWO",
@@ -55547,40 +55552,48 @@
           "source": "https://virtualdj.com/products/hardware.html?model=RN72"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "loadA:a",
+        "loadB:b",
+        "playA:a",
+        "playB:b",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 7,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual original SEVENTY-TWO exposed MIDI endpoint. Source channel5/6 parameter buttons provide native A/B Play and Sync. Channel16 Browse and A/B Load use the owner mapping. Configure audio separately. Pads, Cue, analogue mixer ownership, screens and MKII remain unqualified."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Primary mapping author Dj-Ush own2020 Seventy-Two video bKg_l15MP9E links a public free Dropbox folder containing Basic and Complete TSI data. No installer or mapper runs. The archive hashes both separate TSI files. Complete contains229 used rows and Basic10, each Generic MIDI. Bounded read-only TSI parsing and explicit CMAD condition-field review qualify seven unique unconditional native inputs. Human Ch05/06 NoteE2=raw4/5 Note40 Parameter Left Play/Pause; NoteF2=41 Parameter Sync, commandIDs100/125. Own comments establish the roles despite the copied Parameter Left comment on Sync. Ch16/raw15 NoteD-1=2 and D#-1=3 are A/B Load with command3076 and comment Push Scroll72. Browse raw15 CC0 has command3200, no inversion and encoderMode1 signed7F/01, not centre64. Its two used identical assignments are one native input. These selected rows have no modifier condition in either CMAD slot; pad/Memo/FX modifier rows are not silently flattened. Basic independently agrees on Load/Browse. Manual original Seventy-Two only, already exposed MIDI source and separate app audio. No standalone mixer gain/EQ/fader ownership or factory audio route is inferred. Sampler LevelCC45 targets source C/D decks, not A/B channel gain. Pads/Cue/loops, modifier states and source assignments, FX/sampler/shift, output colour/blink/reset/display/touchscreen/lifecycle/recovery, exact USB/channel/driver/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. SEVENTY-TWO MKII, Seventy, Performer, System One and Twelve protocols are not inherited. No full Cue/transport or zero-config claim is made. No upstream source code, TSI actions/settings, hardware-mode, query, reset, firmware, driver, output or audio-route writes execute or ship.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -360231,6 +360244,59 @@
       "unresolved": [
         {
           "reason": "Primary owner djtrinidad own-model XML and component mapper at3236e2380a1b24c662fc58777d266b21f9cc46ec identify CDMP-7000 Deck A and explicitly say the hardware exposes separate L/R units using the same file. Manual raw0 player core only. Separate endpoints remain manual target A; no unverified automatic endpoint identity, right-side mapping or hardware channel switch is inferred. Play02, held native Cue01, bend+/minus03/04, Select/Load0F and In10/Out11/Reloop12 are explicit. Note0B/0C are track-list previous/next pulses. PitchCC21 has an explicit invert option; copied FIX comment leaves physical polarity/range acceptance open. Native uses its existing +/-8percent range and pickup. JogCC20 uses value-minus64 and scratchEnable128 at33+1/3RPM; own earlier repository c4b2a1949e0623c8433471a8a6a42c582e57ba5f independently agrees on128. TouchNote18 uses native fixed touch scratch; hardware Vinyl button/state and source intermittent scratch bug are not imported. Relative count/calibration and live feel require hardware acceptance. The source MIDI0D is labelled Master Tempo and XML sync_leader despite an unused SyncButton object; it does not qualify native Sync toggle. LOCK1C is not proven Keylock. Memo08 is toggled in software with contradictory0x91 object and0x90 XML; all Hot Cues/clears stay inactive. Source duplicateNote25, empty FX keys/notes, LCD SysEx, reset loops, timers, slip/reverse/search, effects, full lamps and source lifecycle do not run. No analogue mixer control/audio route is inferred from the standalone mixer. README only reports CDJ-700 compatibility; no CDJ-700/CDJ650/CDMP2700/GMX/MDJ protocol or identity is inherited. Exact USB naming/channel choice/driver/OS/power/audio/DVS, full modes/lifecycle/recovery and physical/iPad/A10X acceptance remain open. Requires an existing CoreMIDI endpoint and separate app audio. No upstream source, mapper, driver, firmware, query, setup, hardware mode, preset, output or audio-route write executes or ships."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:rane72-djush-unconditional-core",
+      "name": "Rane SEVENTY-TWO",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.dropbox.com/sh/1ey5ubwtj0vsma6/AACiV_jwcVpyhIfMmLAA6BI0a?dl=1",
+        "sha256": "defe7060bef518d12154cedd8ba9c0ff268f160c6777a3f20035933b3a571100",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r476/upstream/rane72-djush.zip",
+            "sha256": "defe7060bef518d12154cedd8ba9c0ff268f160c6777a3f20035933b3a571100"
+          },
+          {
+            "cachePath": "TestBuilds/r476/upstream/rane72-data/Rane 72 Basic Mapping.tsi",
+            "sha256": "64a27c1bf42d61602836482453f25609145358f8a6f11bf5c6e4c1d52d2f6b0f"
+          },
+          {
+            "cachePath": "TestBuilds/r476/upstream/rane72-data/Rane 72 Complete Mapping.tsi",
+            "sha256": "99f205941da018cce1bd6eda84561abeadbadf08ab4547095ac4c60ca42e9c95"
+          },
+          {
+            "cachePath": "TestBuilds/r476/upstream/rane72-conditions.json",
+            "sha256": "28960d818a93dd5c0f23e0498db0b9396362b4a0870e41fc586a9a60c45eceeb"
+          },
+          {
+            "cachePath": "TestBuilds/r476/upstream/author-description.txt",
+            "sha256": "2897b9805cb67ff10137dbb1d7c6632eb8f6daac9f5ab84ad8063ec2471244df"
+          }
+        ],
+        "relatedSources": [
+          {
+            "url": "https://www.youtube.com/watch?v=bKg_l15MP9E"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/ivanz/TraktorMappingFileFormat/df5f544d10e3293b72b829841e654da0db71c4b0/Tools/TSI%20Mapping%20Template.bt",
+            "sha256": "2f8ae3942c26d7456e506eb445daa0b056ddbde2498ca65664eecf98d80c2386"
+          }
+        ],
+        "review": "Primary mapping author Dj-Ush own2020 Seventy-Two video bKg_l15MP9E links a public free Dropbox folder containing Basic and Complete TSI data. No installer or mapper runs. The archive hashes both separate TSI files. Complete contains229 used rows and Basic10, each Generic MIDI. Bounded read-only TSI parsing and explicit CMAD condition-field review qualify seven unique unconditional native inputs. Human Ch05/06 NoteE2=raw4/5 Note40 Parameter Left Play/Pause; NoteF2=41 Parameter Sync, commandIDs100/125. Own comments establish the roles despite the copied Parameter Left comment on Sync. Ch16/raw15 NoteD-1=2 and D#-1=3 are A/B Load with command3076 and comment Push Scroll72. Browse raw15 CC0 has command3200, no inversion and encoderMode1 signed7F/01, not centre64. Its two used identical assignments are one native input. These selected rows have no modifier condition in either CMAD slot; pad/Memo/FX modifier rows are not silently flattened. Basic independently agrees on Load/Browse. Manual original Seventy-Two only, already exposed MIDI source and separate app audio. No standalone mixer gain/EQ/fader ownership or factory audio route is inferred. Sampler LevelCC45 targets source C/D decks, not A/B channel gain. Pads/Cue/loops, modifier states and source assignments, FX/sampler/shift, output colour/blink/reset/display/touchscreen/lifecycle/recovery, exact USB/channel/driver/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. SEVENTY-TWO MKII, Seventy, Performer, System One and Twelve protocols are not inherited. No full Cue/transport or zero-config claim is made. No upstream source code, TSI actions/settings, hardware-mode, query, reset, firmware, driver, output or audio-route writes execute or ship."
+      },
+      "implementedInputCount": 7,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Primary mapping author Dj-Ush own2020 Seventy-Two video bKg_l15MP9E links a public free Dropbox folder containing Basic and Complete TSI data. No installer or mapper runs. The archive hashes both separate TSI files. Complete contains229 used rows and Basic10, each Generic MIDI. Bounded read-only TSI parsing and explicit CMAD condition-field review qualify seven unique unconditional native inputs. Human Ch05/06 NoteE2=raw4/5 Note40 Parameter Left Play/Pause; NoteF2=41 Parameter Sync, commandIDs100/125. Own comments establish the roles despite the copied Parameter Left comment on Sync. Ch16/raw15 NoteD-1=2 and D#-1=3 are A/B Load with command3076 and comment Push Scroll72. Browse raw15 CC0 has command3200, no inversion and encoderMode1 signed7F/01, not centre64. Its two used identical assignments are one native input. These selected rows have no modifier condition in either CMAD slot; pad/Memo/FX modifier rows are not silently flattened. Basic independently agrees on Load/Browse. Manual original Seventy-Two only, already exposed MIDI source and separate app audio. No standalone mixer gain/EQ/fader ownership or factory audio route is inferred. Sampler LevelCC45 targets source C/D decks, not A/B channel gain. Pads/Cue/loops, modifier states and source assignments, FX/sampler/shift, output colour/blink/reset/display/touchscreen/lifecycle/recovery, exact USB/channel/driver/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. SEVENTY-TWO MKII, Seventy, Performer, System One and Twelve protocols are not inherited. No full Cue/transport or zero-config claim is made. No upstream source code, TSI actions/settings, hardware-mode, query, reset, firmware, driver, output or audio-route writes execute or ship."
         }
       ]
     },

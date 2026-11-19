@@ -3721,3 +3721,17 @@ func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueRane72OwnerParameterPlayKeepsFiniteSyncedAudio() async throws {
+    try await withControllerCuePlayback("Rane SEVENTY-TWO",manual:true) {model,input in
+        cuePreviewPacket([0x94,40,127,40,0],to:input)
+        let first=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        let start=try #require(model.playbackSnapshot?.a.sourceFrame)
+        #expect(first.left.allSatisfy(\.isFinite) && first.right.allSatisfy(\.isFinite))
+        cuePreviewPacket([0xBF,0,1,0,127],to:input)
+        let second=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(second.left.allSatisfy(\.isFinite) && second.right.allSatisfy(\.isFinite))
+        #expect((model.playbackSnapshot?.a.sourceFrame ?? 0)>start)
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}

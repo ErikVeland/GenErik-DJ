@@ -780,3 +780,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R474 | Implemented; full controls/channel/audio/host gaps open | Add own DAP D2 core and distinct Cue Stop | Added33 manual own-manual inputs.422 source/23 native checks and iPad framework compilation pass. All400 earlier recipes remain identical. [Scope](controller-coverage.md#r474-own-dap-d2-core-and-distinct-cue-stop). |
 
 | R475 | Implemented; full modes/mixer/host gaps open | Add independent CDMP-7000 owner player core | Added13 manual raw0 player inputs.425 source/11 native checks and iPad framework compilation pass. All401 earlier recipes remain identical. [Scope](controller-coverage.md#r475-independent-cdmp-7000-owner-player-core). |
+
+| R476 | Implemented; full modes/Cue/mixer/host gaps open | Add independent original Seventy-Two unconditional input subset | Added seven manual own-author inputs.428 source/10 native checks and iPad framework compilation pass. All402 earlier recipes remain identical. [Scope](controller-coverage.md#r476-original-seventy-two-unconditional-owner-subset). |
