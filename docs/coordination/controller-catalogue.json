@@ -19884,68 +19884,6 @@
       }
     },
     {
-      "id": "akaiapcmini",
-      "name": "AKAI APC MINI",
-      "manufacturer": "Akai",
-      "role": "accessory",
-      "benchmark": false,
-      "sources": [
-        "https://virtualdj.com/products/hardware.html?model=APCMINI"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "virtualDJ": {
-          "sourceName": "AKAI APC MINI",
-          "category": "Addon Units (FX,Pads,..)",
-          "source": "https://virtualdj.com/products/hardware.html?model=APCMINI"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
       "id": "akaiapc20",
       "name": "AKAI APC20",
       "manufacturer": "Akai",
@@ -20061,6 +19999,147 @@
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
         "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "akaiapcmini",
+      "name": "Akai APC MINI",
+      "manufacturer": "Akai",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://raw.githubusercontent.com/TomasHubelbauer/akai-apc-mini/9f72aef49d663959a6033dcef67ca3784a40f672/README.md",
+        "https://virtualdj.com/products/hardware.html?model=APCMINI"
+      ],
+      "definitions": [
+        "reviewed:apc-mini-original-native"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Akai APC MINI",
+      "automaticControls": true,
+      "comparisonSupport": {
+        "virtualDJ": {
+          "sourceName": "AKAI APC MINI",
+          "category": "Addon Units (FX,Pads,..)",
+          "source": "https://virtualdj.com/products/hardware.html?model=APCMINI"
+        }
+      },
+      "controlActions": [
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "master",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "reloopB:d",
+        "shift",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d"
+      ],
+      "inputBindingCount": 74,
+      "feedbackBindingCount": 52,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Original APC mini USB MIDI. Native four-quadrant grid: A/B below and C/D above with app opt-in. Faders1-4: levels A-D;5-8: filters A-D;9: master. Move faders to current app values for pickup. Shift retires held controls and blocks normal actions; release it to resume."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Pinned hardware-owner capture/table and separately credited protocol diagram qualify original APC MINI channel1 grid Notes0..63, bottom row0..7/top56..63, nine full-range CC faders48..56 and ShiftNote98. NoteOn127 presses and NoteOff127 releases are explicit; native also preserves NoteOn-zero releases. Own USB property capture identifies APC MINI. Native uses its existing64-pad four-quadrant DJ layout, A/B below and opt-in C/D above. Faders1..4 set levels A-D,5..8 filters A-D and9 master, each with pickup. Native adds a global Shift guard: all normal pads/faders stay inactive during Shift; both Shift edges retire only that source and rearm its controls/pickup. Other outer buttons remain inactive. Own diagram qualifies52 static grid status lamps using green1/red3/yellow5/off0. No MK2 RGB channel/palette/setup is inherited. Native sends no startup/identity/fader-confirmation/preset/firmware/settings/audio packets. Paired shutdown attempts NoteOn0 for all64 grid lamps, without outer LEDs or an application reset. Complete outer controls, Shift functions, advanced light modes, startup state, lifecycle/recovery, USB/OS/power and physical/iPad/A10X acceptance remain open. Hardware-owner speculation about USB driver types is not used as a protocol fact."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -356307,6 +356386,57 @@
         },
         {
           "reason": "Separate maker Ableton and Traktor protocol documents independently specify banked arcade Notes36..99 on channel3, bank reports Notes0..3 on channel4 and the same LED override table. All64 numeric pad entries are checked against both own appendices; octave labels differ, so native uses explicit numeric notes. Four Banks is enabled by default; custom channels and disabled Hold/Toggle banks are separate modes. Native manual layout targets one bank per A/B/C/D deck. Bottom two rows supply eight Hot Cues, next row Play/held Cue/Sync/Load, top PFL/Loop In/Out/Reloop. C/D require app opt-in. Each positive bank report retires only its source and rearms its pads immediately. Late NoteOff/NoteOn-zero selector reports do not retire the new bank. Arcade releases retain their original addresses. Ableton channel6 duplicate CCs and channel4/5 rotation/tilt traffic stay inactive. Optional manual feedback provides52 static arcade overrides: green76, yellow80, red84 and black67. NoteOn0/NoteOff restores the configured default LED behaviour, so it is not used as a dark status value. Bank LED messages can force bank changes and are never emitted. Native sends no setup, bank selection, settings, utility, driver, firmware or audio route. Firmware-dependent names/defaults, side/motion controls, custom channels, disabled-bank modes, saved LED restoration, complete feedback/lifecycle/recovery, USB/OS/power and physical/iPad/A10X acceptance remain open. Manual feedback needs separate destination selection and opt-in. No Spectra,64,Pro or Twister contract is inherited."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:apc-mini-original-native",
+      "name": "Akai APC MINI",
+      "transport": "midi",
+      "source": {
+        "url": "https://raw.githubusercontent.com/TomasHubelbauer/akai-apc-mini/9f72aef49d663959a6033dcef67ca3784a40f672/README.md",
+        "sha256": "bc3a8b786e82f999d9b2a395fefb6be7e473c23713b6f3728925fb97a84df475",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r438/upstream/apc-mini-README.md",
+            "sha256": "bc3a8b786e82f999d9b2a395fefb6be7e473c23713b6f3728925fb97a84df475"
+          },
+          {
+            "cachePath": "TestBuilds/r438/upstream/apc-mini-apc_mini_midi.jpg",
+            "sha256": "50c9ce9e28fd8b6a1796a00118ea33bc1c462fb6f34f93f972db8cc8d72f8c4c"
+          },
+          {
+            "cachePath": "TestBuilds/r438/upstream/apc-mini-akai.csv",
+            "sha256": "93e17ae962310e4994d3fe30f853f0d130f971f04b791c4f7df3099b4aeb707f"
+          },
+          {
+            "cachePath": "TestBuilds/r438/upstream/apc-mini-guide.pdf",
+            "sha256": "ca3eb68e6dceec0956af8155cc335d7398b8ed0ad89ab04a21b9750aa9cb5165"
+          }
+        ],
+        "relatedSources": [
+          {
+            "url": "https://raw.githubusercontent.com/TomasHubelbauer/akai-apc-mini/9f72aef49d663959a6033dcef67ca3784a40f672/apc_mini_midi.jpg"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/TomasHubelbauer/akai-apc-mini/9f72aef49d663959a6033dcef67ca3784a40f672/akai.csv"
+          },
+          {
+            "url": "https://cdn.inmusicbrands.com/akai/apc-mini/APC%20mini%20-%20User%20Guide%20-%20v1.0.pdf_079659375431bb679d17071da25ad6af.pdf"
+          }
+        ],
+        "review": "Pinned hardware-owner capture/table and separately credited protocol diagram qualify original APC MINI channel1 grid Notes0..63, bottom row0..7/top56..63, nine full-range CC faders48..56 and ShiftNote98. NoteOn127 presses and NoteOff127 releases are explicit; native also preserves NoteOn-zero releases. Own USB property capture identifies APC MINI. Native uses its existing64-pad four-quadrant DJ layout, A/B below and opt-in C/D above. Faders1..4 set levels A-D,5..8 filters A-D and9 master, each with pickup. Native adds a global Shift guard: all normal pads/faders stay inactive during Shift; both Shift edges retire only that source and rearm its controls/pickup. Other outer buttons remain inactive. Own diagram qualifies52 static grid status lamps using green1/red3/yellow5/off0. No MK2 RGB channel/palette/setup is inherited. Native sends no startup/identity/fader-confirmation/preset/firmware/settings/audio packets. Paired shutdown attempts NoteOn0 for all64 grid lamps, without outer LEDs or an application reset. Complete outer controls, Shift functions, advanced light modes, startup state, lifecycle/recovery, USB/OS/power and physical/iPad/A10X acceptance remain open. Hardware-owner speculation about USB driver types is not used as a protocol fact."
+      },
+      "implementedInputCount": 74,
+      "implementedOutputCount": 52,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Pinned hardware-owner capture/table and separately credited protocol diagram qualify original APC MINI channel1 grid Notes0..63, bottom row0..7/top56..63, nine full-range CC faders48..56 and ShiftNote98. NoteOn127 presses and NoteOff127 releases are explicit; native also preserves NoteOn-zero releases. Own USB property capture identifies APC MINI. Native uses its existing64-pad four-quadrant DJ layout, A/B below and opt-in C/D above. Faders1..4 set levels A-D,5..8 filters A-D and9 master, each with pickup. Native adds a global Shift guard: all normal pads/faders stay inactive during Shift; both Shift edges retire only that source and rearm its controls/pickup. Other outer buttons remain inactive. Own diagram qualifies52 static grid status lamps using green1/red3/yellow5/off0. No MK2 RGB channel/palette/setup is inherited. Native sends no startup/identity/fader-confirmation/preset/firmware/settings/audio packets. Paired shutdown attempts NoteOn0 for all64 grid lamps, without outer LEDs or an application reset. Complete outer controls, Shift functions, advanced light modes, startup state, lifecycle/recovery, USB/OS/power and physical/iPad/A10X acceptance remain open. Hardware-owner speculation about USB driver types is not used as a protocol fact."
         }
       ]
     },

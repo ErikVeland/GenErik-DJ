@@ -3548,6 +3548,47 @@
         }
       ],
       "result": "Separate maker Ableton/Traktor tables qualify64 manual banked inputs and52 optional static arcade lamps. Positive bank reports retire only their source immediately; late releases cannot retire the new bank. Bank LED writes are excluded because they can change the bank. Other modes/motion/full lifecycle remain open."
+    },
+    {
+      "request": "R438",
+      "sources": [
+        {
+          "model": "Akai APC MINI",
+          "url": "https://raw.githubusercontent.com/TomasHubelbauer/akai-apc-mini/9f72aef49d663959a6033dcef67ca3784a40f672/README.md",
+          "sha256": "bc3a8b786e82f999d9b2a395fefb6be7e473c23713b6f3728925fb97a84df475",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r438/upstream/apc-mini-README.md",
+              "sha256": "bc3a8b786e82f999d9b2a395fefb6be7e473c23713b6f3728925fb97a84df475"
+            },
+            {
+              "cachePath": "TestBuilds/r438/upstream/apc-mini-apc_mini_midi.jpg",
+              "sha256": "50c9ce9e28fd8b6a1796a00118ea33bc1c462fb6f34f93f972db8cc8d72f8c4c"
+            },
+            {
+              "cachePath": "TestBuilds/r438/upstream/apc-mini-akai.csv",
+              "sha256": "93e17ae962310e4994d3fe30f853f0d130f971f04b791c4f7df3099b4aeb707f"
+            },
+            {
+              "cachePath": "TestBuilds/r438/upstream/apc-mini-guide.pdf",
+              "sha256": "ca3eb68e6dceec0956af8155cc335d7398b8ed0ad89ab04a21b9750aa9cb5165"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://raw.githubusercontent.com/TomasHubelbauer/akai-apc-mini/9f72aef49d663959a6033dcef67ca3784a40f672/apc_mini_midi.jpg"
+            },
+            {
+              "url": "https://raw.githubusercontent.com/TomasHubelbauer/akai-apc-mini/9f72aef49d663959a6033dcef67ca3784a40f672/akai.csv"
+            },
+            {
+              "url": "https://cdn.inmusicbrands.com/akai/apc-mini/APC%20mini%20-%20User%20Guide%20-%20v1.0.pdf_079659375431bb679d17071da25ad6af.pdf"
+            }
+          ],
+          "review": "Pinned hardware-owner capture/table and separately credited protocol diagram qualify original APC MINI channel1 grid Notes0..63, bottom row0..7/top56..63, nine full-range CC faders48..56 and ShiftNote98. NoteOn127 presses and NoteOff127 releases are explicit; native also preserves NoteOn-zero releases. Own USB property capture identifies APC MINI. Native uses its existing64-pad four-quadrant DJ layout, A/B below and opt-in C/D above. Faders1..4 set levels A-D,5..8 filters A-D and9 master, each with pickup. Native adds a global Shift guard: all normal pads/faders stay inactive during Shift; both Shift edges retire only that source and rearm its controls/pickup. Other outer buttons remain inactive. Own diagram qualifies52 static grid status lamps using green1/red3/yellow5/off0. No MK2 RGB channel/palette/setup is inherited. Native sends no startup/identity/fader-confirmation/preset/firmware/settings/audio packets. Paired shutdown attempts NoteOn0 for all64 grid lamps, without outer LEDs or an application reset. Complete outer controls, Shift functions, advanced light modes, startup state, lifecycle/recovery, USB/OS/power and physical/iPad/A10X acceptance remain open. Hardware-owner speculation about USB driver types is not used as a protocol fact."
+        }
+      ],
+      "result": "Own hardware-owner capture/table/diagram qualify74 automatic original APC mini inputs and52 static lamps. Native Shift guards normal actions and retires only its source on both edges. Nine faders retain pickup. Paired shutdown clears only the64-pad grid. No MK2 protocol is inherited."
     }
   ]
 }
