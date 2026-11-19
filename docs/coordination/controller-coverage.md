@@ -6555,3 +6555,14 @@ Each profile gains16 clears and32 paired negative aliases. Original47/66 inputs 
 456 source checks and69 native tests pass across a61-test main run and eight distinct entry/schema checks. Tests cover every clear, both negative forms/directions, debounce, either app Shift state, source/group isolation and inactive pad wires/channels. Existing entry recognition, startup, transport, mixer, feedback and CC-release validation pass. Eight pair-profile WAV cases and the separate five-built-in WAV regression preserve playback, marker neighbours/position and saved Sync. Earlier tests assumed no new guards and rejected an already-supported absolute CC negative. Only those stale assertions changed. Both failed runs remain preserved. No production schema changed.
 
 The iPad framework compiled. Its2,249,899-byte compact resource matches source and excludes the full review file. Existing limits remain unchanged. Catalogue gates compare27,722 inputs and205 automatic held-Cue recipes. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r492/validation.json`. Counts remain405 JSON recipes plus five built-ins,556 physical models,250 automatic core models and115 protocol-needed records. Full theoretical support remains0/556. Complete modes/host/Bluetooth/audio, the manufacturer audit and physical/iPad/A10X acceptance remain open.
+
+
+## R493 — Own DDJ-1000SRT pad channel correction
+
+The SRT own factory table assigns deck A/B/C/D pads to raw7/8/9/10. Printed page1 was visually reviewed. Numeric pad page4 confirms normal notes0..7. The earlier generator incorrectly used the original DDJ-1000 channel pattern7/9/11/13. This ignored SRT B/D inputs and routed SRT C pads to B.
+
+Only24 B/C/D input channel fields change. The SRT retains142 inputs and20 outputs. Every other field, feedback/setup/audio/alias, catalogue JSON and404 other recipes remains identical. The original DDJ-1000 remains separate. No clear action or other mode behaviour is added.
+
+The new packet regression reproduces57 failed expectations before the fix.457 source checks and18 native tests now pass. Checks cover all32 SRT positions, exact deck/slot routes, inactive raw11..15, original DDJ-1000 boundaries, Serato-family transport/loops/feedback and real-WAV loop/Sync regressions. The iPad framework compiled. Its2,249,891-byte compact resource matches source and excludes the full review file. Catalogue gates compare27,722 inputs and205 automatic held-Cue recipes. Existing limits remain unchanged. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r493/validation.json`.
+
+Counts remain405 JSON recipes plus five built-ins,556 physical models,250 automatic core models and115 protocol-needed records. Full theoretical support remains0/556. Complete modes/lifecycle/host, the manufacturer audit and physical/iPad/A10X acceptance remain open.

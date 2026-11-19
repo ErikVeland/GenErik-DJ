@@ -814,3 +814,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R491 | Audited; numeric mapping access/ambiguities remain open | Review additional public libraries and ELITE/SX1 leads | Pinned public resources without execution or protected-data decoding. ELITE owner download requires sign-in. All runtime/catalogue bytes remain identical. [Scope](controller-coverage.md#r491-additional-public-mapping-libraries-and-elitesx1-leads). |
 
 | R492 | Implemented; full modes/physical gaps open | Add independent DDJ-200 and DDJ-RB clears | Added16 clears and32 negative aliases per model.456 source/69 native checks and iPad framework compilation pass.403 other recipes remain identical. [Scope](controller-coverage.md#r492-independent-ddj-200-and-ddj-rb-clears). |
+
+| R493 | Corrected; physical acceptance open | Correct own DDJ-1000SRT pad channel assignment | Corrected24 input channel fields after57 failed regression expectations.457 source/18 native checks and iPad framework compilation pass.404 other recipes remain identical. [Scope](controller-coverage.md#r493-own-ddj-1000srt-pad-channel-correction). |

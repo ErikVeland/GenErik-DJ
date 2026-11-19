@@ -83,7 +83,7 @@ def ddj_profiles():
                 add(result, "filterKnob", 6, 23 + channel, "control", "paired14Bit", deck)
             add(result, "load", 6, 70 + channel, deck=deck)
             for slot in range(8):
-                add(result, f"hotcue{slot + 1}", 7 + (2 * channel if srt else channel), slot, deck=deck, feedback=original)
+                add(result, f"hotcue{slot + 1}", 7 + channel, slot, deck=deck, feedback=original)
             if large:
                 add(result, "openGroup", channel, 65)
             if rzx:

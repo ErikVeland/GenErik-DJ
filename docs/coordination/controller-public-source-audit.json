@@ -5978,6 +5978,23 @@
         }
       ],
       "result": "Added16 clears and32 paired negative aliases per model, yielding95 DDJ-200/114 RB inputs. Each own table independently qualifies its different layout: DDJ-200 uses normal raw7/9 and clear raw8/10 notes0..7; RB uses raw7/8 normal0..7 and clear8..15. Original47/66 inputs remain exact prefixes.403 other recipes, including R490 layouts, remain identical. Outputs/setup/audio/aliases remain unchanged.456 source/69 native checks and iPad framework compilation pass. Native main61 plus eight distinct entry/schema checks cover all pairs, both negative forms/directions, debounce, source/group, inactive pad wires/channels, recognition/setup/legacy input/feedback and eight pair-profile WAV cases. The separate five-built-in WAV regression also passes. Earlier source zero-guard and native invalid-CC-release assertions were stale. Existing schema intentionally allows absolute CC button negatives, independently tested by RMX2 validation. Only those assertions changed, with both failed runs preserved. No production schema change. Compact bundle2249899 bytes matches source, full review excluded, existing limits unchanged. Full modes/host/Bluetooth/audio and physical acceptance remain open."
+    },
+    {
+      "request": "R493",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "model": "DDJ-1000SRT",
+          "url": "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-1000SRT/DDJ-1000SRT_MIDI_Message_List_E1.pdf",
+          "sha256": "677eae60319d9fa3237b93694b603677aba210e08c11cc4a6a565379ce6a58ee",
+          "cachePath": "TestBuilds/r180/manufacturer/DDJ-1000SRT.pdf",
+          "visuallyReviewedPrintedPages": [
+            1
+          ],
+          "review": "Own channel assignment table explicitly identifies deck1/2/3/4 pads as raw7/8/9/10. Numeric pad page4 confirms normal notes0..7. This differs from the original DDJ-1000; no sibling equivalence is inferred."
+        }
+      ],
+      "result": "Reproduced57 failed native expectations across all32 factory pad positions and unsupported old channels. Corrected only24 B/C/D Hot Cue input channel fields. SRT remains142 inputs/20 outputs; every other field, output/setup/audio/alias and404 other recipes remains identical. Catalogue JSON remains byte-identical.457 source/18 native checks and iPad framework compilation pass. Tests verify all32 exact source/deck/slot routes, inactive raw11..15, original DDJ-1000 channel boundaries, Serato-family recognition/transport/loop/jump/feedback and real-WAV loop/Sync regressions. Catalogue gates compare27722 inputs and205 automatic held-Cue recipes. Compact resource2249891 bytes matches compiled bundle and full review file stays excluded. No clear feature or other mode behaviour is added. Complete modes/lifecycle/host and physical acceptance remain open."
     }
   ]
 }
