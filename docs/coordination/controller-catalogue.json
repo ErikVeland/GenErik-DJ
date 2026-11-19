@@ -28960,12 +28960,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://djdecks.be/index.php?module=docs&sub_help=djtech.php",
         "https://virtualdj.com/products/hardware.html?model=IMIX"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:imix-original-intact-normal-core"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "DJ-Tech I-MIX",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "DJ-Tech I-MIX",
@@ -28973,40 +28978,70 @@
           "source": "https://virtualdj.com/products/hardware.html?model=IMIX"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browseNext",
+        "browsePrevious",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "levelA:a",
+        "levelB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b"
+      ],
+      "inputBindingCount": 31,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual original i-Mix raw0 normal core only, through an already exposed CoreMIDI source. Other software tabs, stored mode/discovery, motion and full USB/OS support remain unqualified. Configure app audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Own-model djDecks DX1.02 publisher XML read as data from its public trial archive, without running the installer, mapper or embedded scripts. The file and descriptor identify i-Mix and its MIDI endpoint DJ-Tech i-Mix. The top-level name incorrectly says Kontrol One; it is not used as identity evidence. Own manufacturer combined i-Mix/Club Edition manual supplies the indexed note/CC table and front layouts. The normal publisher controls before the lower-case pitch tabs parse strictly without repair. Four later XML errors at lines627/655/656/695 are in unused jog tabs and are not imported. Every active wire is checked against an intact normal root object: raw0 A/B Play20/55, held native Cue13/48, In1/36, Out8/43, Reloop15/50, bend-/+14/22 and49/29, PFL17/24. Own absolute mixer CCs are A gain72/high69/mid70/low71/level67; B gain75/high76/mid74/low73/level66; global cross65. Both note releases retain native ownership. Four positive-only encoder note wires explicitly scroll the active playlist: Down82/80 and Up83/81, mapped to repeated native track browse pulses. No relative-CC encoder format is guessed. Manual selection only; automatic stored state/discovery and the complete source archive are not qualified. Cue/loop/pitch/jog/FX/software-tab modes, encoder-push keyboard selection, Sync versus one-off MatchBPM/PitchReset, Keylock versus alternate faceplate actions, Hot Cues/modifiers, kill/reset, pitch polarity/range and every output/lamp remain inactive. The source INPUT_OUTPUT tags alone do not qualify native feedback polarity/lifecycle. Source byte types are corroborated by the manufacturer table; the cached table is indexed web text, not a PDF hash, and JPEGs are page backgrounds rather than complete text rendering. Exact USB naming/OS/power/audio/DVS, full lifecycle/recovery and physical/iPad/A10X acceptance remain open. Requires an exposed CoreMIDI source and separate app audio. No firmware, driver, setup, query, preset, keyboard injection, source-mode or audio-route write runs. No Reload/MKII/Kontrol One protocol or software behaviour is inherited.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -359255,6 +359290,70 @@
         },
         {
           "reason": "Pinned primary owner project djcmd at0f8830a2d886450e81e07cd7b957d6ebe4a4856f. Its map explicitly labels twelve EQ CC numbers as probed from hardware and identifies strip order3/1/2/4. Native transcribes only those raw0 addresses: CH1 low9/mid10/high11, CH2 low14/mid15/high16, CH3 low20/mid21/high22 and CH4 low25/mid26/high27, assigning logical CH1..4 to A..D. The actual map rows and own decoder independently establish normal absolute EQ roles and increasing value direction. This is a manual7-bit coarse subset of the reported high-byte wires. The decoder has14-bit EQ paths but this map does not qualify the EQ low-byte addresses; no plus32 guess or14-bit claim is made. C/D require app opt-in and all knobs retain source-owned pickup. The owner labels other values unconfirmed by capture; none are used. The project is AI-assisted; its explicit hardware-probe statement is community evidence, not a manufacturer wire specification or native hardware test. Numark own v1.1 guide independently establishes normal EQ roles, PC-only MIDI source and Touch/TouchLock EQ-kill behaviour. Select PC and keep native normal EQ use separate from those unimplemented modes. Requires an already exposed CoreMIDI source or a separately qualified bridge. Direct iPad USB/driver, complete source/layer/Touch state, higher resolution, transport, pads, motors/platter calibration, screens/feedback, lifecycle/recovery, OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. No upstream code/map is bundled or executed; only these factual assignments are transcribed. No motor, heartbeat, init, firmware, driver, query, preset, touch, lamp, screen or audio-route packet is sent. NS7/NS7II bytes and identities are not inherited."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:imix-original-intact-normal-core",
+      "name": "DJ-Tech I-MIX",
+      "transport": "midi",
+      "source": {
+        "url": "https://djdecks.be/index.php?module=docs&sub_help=djtech.php",
+        "sha256": "7a992e3c26dd9e8c7f21c37075c032910c4f36b10ea91bff099a04039c2d5810",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r465/upstream/djdecks-dx.exe",
+            "sha256": "161621012b0b3389cb351d22845441179605171adcb2c16775499ed0344bfb8f"
+          },
+          {
+            "cachePath": "TestBuilds/r465/upstream/djdecks-data/devices/djtech_imix.xml",
+            "sha256": "7a992e3c26dd9e8c7f21c37075c032910c4f36b10ea91bff099a04039c2d5810"
+          },
+          {
+            "cachePath": "TestBuilds/r465/upstream/imix-manufacturer-table-web-excerpt.txt",
+            "sha256": "df4be0b5d9b3d57e286def4194032632fda213f96fa6c9681807f3bdda303933"
+          },
+          {
+            "cachePath": "TestBuilds/r465/upstream/imix-manual-2.jpg",
+            "sha256": "2686ae44230bfc8f992bfe895c2b34e0ee7c13208ddda5da24150f553a65a360"
+          },
+          {
+            "cachePath": "TestBuilds/r465/upstream/imix-manual-3.jpg",
+            "sha256": "6868333c46938ec6ebb6b9283d8b64ba1ba44a96926028cd0982fde2fa706c71"
+          },
+          {
+            "cachePath": "TestBuilds/r465/upstream/imix-manual-4.jpg",
+            "sha256": "d9299ea48382e4a94d2c2a21cbfc81a63ad76942d09fb9218edb42ee1b17a739"
+          },
+          {
+            "cachePath": "TestBuilds/r465/upstream/imix-manual-5.jpg",
+            "sha256": "6868333c46938ec6ebb6b9283d8b64ba1ba44a96926028cd0982fde2fa706c71"
+          }
+        ],
+        "relatedSources": [
+          {
+            "url": "https://djdecks.be/download/djDecksDX.exe",
+            "sha256": "161621012b0b3389cb351d22845441179605171adcb2c16775499ed0344bfb8f"
+          },
+          {
+            "url": "https://djdecks.be/index.php?module=docs&sub_help=midi_xml.php"
+          },
+          {
+            "url": "https://manuzoid.com/manuals/KbEr0-DJ-Tech%20i-mix%20club%20edition%20User%20manual"
+          }
+        ],
+        "review": "Own-model djDecks DX1.02 publisher XML read as data from its public trial archive, without running the installer, mapper or embedded scripts. The file and descriptor identify i-Mix and its MIDI endpoint DJ-Tech i-Mix. The top-level name incorrectly says Kontrol One; it is not used as identity evidence. Own manufacturer combined i-Mix/Club Edition manual supplies the indexed note/CC table and front layouts. The normal publisher controls before the lower-case pitch tabs parse strictly without repair. Four later XML errors at lines627/655/656/695 are in unused jog tabs and are not imported. Every active wire is checked against an intact normal root object: raw0 A/B Play20/55, held native Cue13/48, In1/36, Out8/43, Reloop15/50, bend-/+14/22 and49/29, PFL17/24. Own absolute mixer CCs are A gain72/high69/mid70/low71/level67; B gain75/high76/mid74/low73/level66; global cross65. Both note releases retain native ownership. Four positive-only encoder note wires explicitly scroll the active playlist: Down82/80 and Up83/81, mapped to repeated native track browse pulses. No relative-CC encoder format is guessed. Manual selection only; automatic stored state/discovery and the complete source archive are not qualified. Cue/loop/pitch/jog/FX/software-tab modes, encoder-push keyboard selection, Sync versus one-off MatchBPM/PitchReset, Keylock versus alternate faceplate actions, Hot Cues/modifiers, kill/reset, pitch polarity/range and every output/lamp remain inactive. The source INPUT_OUTPUT tags alone do not qualify native feedback polarity/lifecycle. Source byte types are corroborated by the manufacturer table; the cached table is indexed web text, not a PDF hash, and JPEGs are page backgrounds rather than complete text rendering. Exact USB naming/OS/power/audio/DVS, full lifecycle/recovery and physical/iPad/A10X acceptance remain open. Requires an exposed CoreMIDI source and separate app audio. No firmware, driver, setup, query, preset, keyboard injection, source-mode or audio-route write runs. No Reload/MKII/Kontrol One protocol or software behaviour is inherited."
+      },
+      "implementedInputCount": 31,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Own-model djDecks DX1.02 publisher XML read as data from its public trial archive, without running the installer, mapper or embedded scripts. The file and descriptor identify i-Mix and its MIDI endpoint DJ-Tech i-Mix. The top-level name incorrectly says Kontrol One; it is not used as identity evidence. Own manufacturer combined i-Mix/Club Edition manual supplies the indexed note/CC table and front layouts. The normal publisher controls before the lower-case pitch tabs parse strictly without repair. Four later XML errors at lines627/655/656/695 are in unused jog tabs and are not imported. Every active wire is checked against an intact normal root object: raw0 A/B Play20/55, held native Cue13/48, In1/36, Out8/43, Reloop15/50, bend-/+14/22 and49/29, PFL17/24. Own absolute mixer CCs are A gain72/high69/mid70/low71/level67; B gain75/high76/mid74/low73/level66; global cross65. Both note releases retain native ownership. Four positive-only encoder note wires explicitly scroll the active playlist: Down82/80 and Up83/81, mapped to repeated native track browse pulses. No relative-CC encoder format is guessed. Manual selection only; automatic stored state/discovery and the complete source archive are not qualified. Cue/loop/pitch/jog/FX/software-tab modes, encoder-push keyboard selection, Sync versus one-off MatchBPM/PitchReset, Keylock versus alternate faceplate actions, Hot Cues/modifiers, kill/reset, pitch polarity/range and every output/lamp remain inactive. The source INPUT_OUTPUT tags alone do not qualify native feedback polarity/lifecycle. Source byte types are corroborated by the manufacturer table; the cached table is indexed web text, not a PDF hash, and JPEGs are page backgrounds rather than complete text rendering. Exact USB naming/OS/power/audio/DVS, full lifecycle/recovery and physical/iPad/A10X acceptance remain open. Requires an exposed CoreMIDI source and separate app audio. No firmware, driver, setup, query, preset, keyboard injection, source-mode or audio-route write runs. No Reload/MKII/Kontrol One protocol or software behaviour is inherited."
         }
       ]
     },

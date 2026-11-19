@@ -3541,3 +3541,19 @@ func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String
         for action in [ControllerAction.lowA,.midA,.highA] {#expect(abs((model.controllerValue(action) ?? -1)-64.0/127)<0.0001)}
     }
 }
+
+
+@Test @MainActor func controllerCatalogueOriginalIMixCueBendsAndMixerKeepRealAudioSync() async throws {
+    try await withControllerCuePlayback("DJ-Tech I-MIX",manual:true) {model,input in
+        input.receiveBytes([0x90,13,1],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x80,13,127,0x90,20,127,20,0,14,127],source:10);input.flushPendingActions()
+        input.receiveBytes([0x90,14,0],source:10);input.flushPendingActions()
+        input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+        for value:UInt8 in [0,127,64] {input.receiveBytes([0xB0,67,value],source:10);input.flushPendingActions()}
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        #expect(abs((model.controllerValue(.levelA) ?? -1)-64.0/127)<0.0001)
+    }
+}
