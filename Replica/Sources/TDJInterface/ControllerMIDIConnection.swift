@@ -793,7 +793,9 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         shiftLayers[source] = nil
         channelShiftLayers[source] = nil
         resetInputValueStates(inputBindings(source: source))
-        if inputProtocol(for: source) == .launchControlTemplate || inputProtocol(for: source) == .launchControlXLTemplate {
+        if inputProtocol(for: source) == .apc64 {
+            status = ready ? "Controller ready." : "Select Session mode on APC64 to continue."
+        } else if inputProtocol(for: source) == .launchControlTemplate || inputProtocol(for: source) == .launchControlXLTemplate {
             status = ready ? "Controller template ready." : "Reading the controller template. Select a User template if setup does not finish."
         } else if inputProtocol(for: source) == .nanoKontrolScene {
             status = ready ? "Controller scene ready." : "Reading the controller scene. Reconnect if setup does not finish."
@@ -978,7 +980,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         guard let messages, !messages.isEmpty else { return true }
         for message in messages {
             guard sendFactoryMessage(message, session: session, starting: starting) else {
-                if starting { abortFactoryStartup(session) }
+                if starting || session.profile.definition?.inputProtocol == .apc64 { abortFactoryStartup(session) }
                 return false
             }
         }
@@ -986,7 +988,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     }
 
     /**
-     * Attempts the reviewed exit sequence after partial setup failure without enabling input.
+     * Attempts the reviewed exit after partial setup or APC64 shutdown failure.
      */
     private func abortFactoryStartup(_ session: ControllerFactorySession) {
         for message in session.profile.definition?.startupAbort ?? [] {

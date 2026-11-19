@@ -20,6 +20,9 @@ import Testing
     ]
     input.reconcileFactoryProfiles()
     if name == "AlphaTheta XDJ-AN" { input.receiveBytes([0xB0, 100, 127, 0xB1, 100, 127], source: 10) }
+    if name == "Akai APC64" {
+        input.receiveBytes([0xF0, 0x7E, 0, 6, 2, 0x47, 0x53, 0, 0x19, 1, 1, 0, 14, 0, 0xF7], source: 10)
+    }
     if name == "Novation Launch Control" { input.receiveBytes(launchControlTemplateFixture(), source: 10) }
     if name == "Novation Launch Control XL" { input.receiveBytes(launchControlXLTemplateFixture(), source: 10) }
     try body(input)
@@ -58,7 +61,7 @@ import Testing
             }
         }
     }
-    #expect(covered == 194)
+    #expect(covered == 195)
 }
 
 @Test @MainActor func controllerCataloguePioneerPlayerCueReassignmentReleasesThePreviousDeck() throws {

@@ -6,14 +6,14 @@ struct ControllerProfileData: Decodable, Sendable {
         case smk25II, cdj101, ddjSR2, keyLabMKI, kontrolOne, midiFighterSpectra, p1Nano, sc5000M, denonPrimePlayer,
             denonPrime4, nanoKontrol2Native, nanoPad2Native, nanoKontrolScene, xdjAN, launchControlDAW,
             launchControlTemplate, launchControlXLTemplate, mc1000, legacyUSBPlayer, legacySinglePlayer, orbit,
-            mpd218Chroma, mpd2Bitwig
+            mpd218Chroma, mpd2Bitwig, apc64
         var setupInputMode: ControllerSetupInputDecoder.Mode? {
             self == .launchControlXLTemplate
                 ? .launchControlXLTemplate
                 : self == .launchControlTemplate
                     ? .launchControlTemplate
                     : self == .launchControlDAW
-                        ? .launchControlDAW : self == .xdjAN ? .xdjAN : korgInputMode.map { .korg($0) }
+                        ? .launchControlDAW : self == .apc64 ? .apc64 : self == .xdjAN ? .xdjAN : korgInputMode.map { .korg($0) }
         }
         var preservesRawMappings: Bool {
             self == .nanoKontrolScene || self == .xdjAN || self == .launchControlTemplate
@@ -339,7 +339,7 @@ struct ControllerProfileData: Decodable, Sendable {
 
     private var validStartupAbort: Bool {
         guard let startupAbort else { return true }
-        return autoSelect && (inputProtocol == nil || (inputProtocol == .launchControlDAW && role == "accessory"))
+        return autoSelect && (inputProtocol == nil || ((inputProtocol == .launchControlDAW || inputProtocol == .apc64) && role == "accessory"))
             && !startup.isEmpty && !shutdown.isEmpty
             && !startupAbort.isEmpty && startupAbort.count <= 4
     }

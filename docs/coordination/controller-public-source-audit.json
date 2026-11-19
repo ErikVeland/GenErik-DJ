@@ -3589,6 +3589,98 @@
         }
       ],
       "result": "Own hardware-owner capture/table/diagram qualify74 automatic original APC mini inputs and52 static lamps. Native Shift guards normal actions and retires only its source on both edges. Nine faders retain pickup. Paired shutdown clears only the64-pad grid. No MK2 protocol is inherited."
+    },
+    {
+      "request": "R439",
+      "sources": [
+        {
+          "model": "Akai APC64",
+          "url": "https://raw.githubusercontent.com/bitwig/bitwig-extensions/35a3bc35f6e69da01137d1923f4c9f3636b21336/src/main/java/com/bitwig/extensions/controllers/akai/apc64/Apc64MidiProcessor.java",
+          "sha256": "cbb44dae3a61dbc78276ad064b659808d44e917fa05518fd91b5d64a5b6b8616",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r439/upstream/Apc64MidiProcessor.java",
+              "sha256": "cbb44dae3a61dbc78276ad064b659808d44e917fa05518fd91b5d64a5b6b8616"
+            },
+            {
+              "cachePath": "TestBuilds/r439/upstream/Apc64ExtensionDefinition.java",
+              "sha256": "7adfb03c338c5a78ab23292748a8bc408aea1e79178f432c713ec5d5041aaf7e"
+            },
+            {
+              "cachePath": "TestBuilds/r439/upstream/HardwareElements.java",
+              "sha256": "df4ec5815d1393e4855d45f54d1c8620e7b4c5e9c3b4e955a9f2298c578c12d5"
+            },
+            {
+              "cachePath": "TestBuilds/r439/upstream/Apc64CcAssignments.java",
+              "sha256": "441b80ed54e0b7bf56e9627c362bb2e0482f9686c9520c5cbf52b842171f1a65"
+            },
+            {
+              "cachePath": "TestBuilds/r439/upstream/PadMode.java",
+              "sha256": "d17291e98c91aecc43e636cf0f92503c581b7464e25b2c39a14f7425fa79f473"
+            },
+            {
+              "cachePath": "TestBuilds/r439/upstream/TouchSlider.java",
+              "sha256": "f7b553bdd228b9efa382e3da019de7f619e4480ed2167b9f647693811d01af54"
+            },
+            {
+              "cachePath": "TestBuilds/r439/upstream/ApcButton.java",
+              "sha256": "7cd079cb2f0dbace0b374fa4bbb66b540409994598de9a953f76c449786c08c8"
+            },
+            {
+              "cachePath": "TestBuilds/r439/upstream/RgbButton.java",
+              "sha256": "70ad076c0428a1b454289cd838aa2fadb9b10dbf67b4066ecf5cb0800885cd11"
+            },
+            {
+              "cachePath": "TestBuilds/r439/upstream/RgbLightState.java",
+              "sha256": "3d5cb14c7a86ca4d9daba4053ed4cc9de2f464c7f50734f1c700ede4e920635c"
+            },
+            {
+              "cachePath": "TestBuilds/r439/upstream/LedBehavior.java",
+              "sha256": "ecea25c0161012f727f67ea99b74140964666b02db84d7f7fa4204c794813853"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://raw.githubusercontent.com/bitwig/bitwig-extensions/35a3bc35f6e69da01137d1923f4c9f3636b21336/src/main/java/com/bitwig/extensions/controllers/akai/apc64/Apc64ExtensionDefinition.java",
+              "sha256": "7adfb03c338c5a78ab23292748a8bc408aea1e79178f432c713ec5d5041aaf7e"
+            },
+            {
+              "url": "https://raw.githubusercontent.com/bitwig/bitwig-extensions/35a3bc35f6e69da01137d1923f4c9f3636b21336/src/main/java/com/bitwig/extensions/controllers/akai/apc64/HardwareElements.java",
+              "sha256": "df4ec5815d1393e4855d45f54d1c8620e7b4c5e9c3b4e955a9f2298c578c12d5"
+            },
+            {
+              "url": "https://raw.githubusercontent.com/bitwig/bitwig-extensions/35a3bc35f6e69da01137d1923f4c9f3636b21336/src/main/java/com/bitwig/extensions/controllers/akai/apc64/Apc64CcAssignments.java",
+              "sha256": "441b80ed54e0b7bf56e9627c362bb2e0482f9686c9520c5cbf52b842171f1a65"
+            },
+            {
+              "url": "https://raw.githubusercontent.com/bitwig/bitwig-extensions/35a3bc35f6e69da01137d1923f4c9f3636b21336/src/main/java/com/bitwig/extensions/controllers/akai/apc64/PadMode.java",
+              "sha256": "d17291e98c91aecc43e636cf0f92503c581b7464e25b2c39a14f7425fa79f473"
+            },
+            {
+              "url": "https://raw.githubusercontent.com/bitwig/bitwig-extensions/35a3bc35f6e69da01137d1923f4c9f3636b21336/src/main/java/com/bitwig/extensions/controllers/akai/apc64/control/TouchSlider.java",
+              "sha256": "f7b553bdd228b9efa382e3da019de7f619e4480ed2167b9f647693811d01af54"
+            },
+            {
+              "url": "https://raw.githubusercontent.com/bitwig/bitwig-extensions/35a3bc35f6e69da01137d1923f4c9f3636b21336/src/main/java/com/bitwig/extensions/controllers/akai/apc/common/control/ApcButton.java",
+              "sha256": "7cd079cb2f0dbace0b374fa4bbb66b540409994598de9a953f76c449786c08c8"
+            },
+            {
+              "url": "https://raw.githubusercontent.com/bitwig/bitwig-extensions/35a3bc35f6e69da01137d1923f4c9f3636b21336/src/main/java/com/bitwig/extensions/controllers/akai/apc/common/control/RgbButton.java",
+              "sha256": "70ad076c0428a1b454289cd838aa2fadb9b10dbf67b4066ecf5cb0800885cd11"
+            },
+            {
+              "url": "https://raw.githubusercontent.com/bitwig/bitwig-extensions/35a3bc35f6e69da01137d1923f4c9f3636b21336/src/main/java/com/bitwig/extensions/controllers/akai/apc/common/led/RgbLightState.java",
+              "sha256": "3d5cb14c7a86ca4d9daba4053ed4cc9de2f464c7f50734f1c700ede4e920635c"
+            },
+            {
+              "url": "https://raw.githubusercontent.com/bitwig/bitwig-extensions/35a3bc35f6e69da01137d1923f4c9f3636b21336/src/main/java/com/bitwig/extensions/controllers/akai/apc/common/led/LedBehavior.java",
+              "sha256": "ecea25c0161012f727f67ea99b74140964666b02db84d7f7fa4204c794813853"
+            }
+          ],
+          "review": "Pinned Bitwig primary integration independently qualifies APC64 DAW/Notes port separation, Session mode0, own identity response family53/member1901, pad Notes0..63 on raw channel6, eight14-bit Pitch Bend strips on raw channels0..7 and ShiftNote120/channel0. Native accepts only the confirmed own device after the source normal-routing and Session setup plus identity request. DAW enable is sent only after own identity; readiness confirms local send success, not an undocumented acknowledgement. Other reported modes immediately retire only that source, block its pads/strips/feedback and request DAW exit. Returning to Session requires another successful local DAW-enable send. Fragmented/bounded SysEx and real-time bytes are handled separately from MIDI actions. Native uses the existing64-pad four-quadrant layout, A/B below and opt-in C/D above. Eight strips set levels A-D and filters A-D with pickup. Shift retires its source and guards all normal controls. Own static palette channel6 supports52 lamps with red5/yellow13/green21/off0. Shutdown clears those52 lamps and requests DAW exit; the exit is also attempted after any failed shutdown lamp or exit send. Partial startup abort requests exit. No initial-state guarantee, previous mode/LED restoration or persistence guarantee for source routing flag1B is claimed. Other modes, strip touch/position/colour feedback, outer controls, OLED text, sequencer/CV/DIN, complete lifecycle/recovery, USB/OS/power and physical/iPad/A10X acceptance remain open. No Bitwig code, preset dump, global-settings dump, driver, firmware or audio route executes. Original APC mini/MK2/APC20/APC40 contracts remain separate."
+        }
+      ],
+      "result": "Pinned primary Bitwig integration qualifies73 automatic identity/Session-gated inputs and52 static lamps. Native waits for own identity and successful DAW send, retires only its source on mode loss, and requires successful re-entry. Every failed shutdown write still attempts DAW exit. Other modes/screens/strip feedback/state restoration remain open."
     }
   ]
 }
