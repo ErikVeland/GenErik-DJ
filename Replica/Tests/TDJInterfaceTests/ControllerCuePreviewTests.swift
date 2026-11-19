@@ -3341,3 +3341,15 @@ func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueJockeyRemixShiftedCueAndBendKeepRealAudioSync() async throws {
+    try await withControllerCuePlayback("Reloop Jockey 3 Remix",manual:true) { model,input in
+        input.receiveBytes([0x90,25,1],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x80,88,127,0x90,26,127,26,0,41,127],source:10);input.flushPendingActions()
+        input.receiveBytes([0x90,104,0],source:10);input.flushPendingActions()
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
