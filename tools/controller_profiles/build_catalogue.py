@@ -8,7 +8,8 @@ from pathlib import Path
 
 from convert import convert_xml
 from curated import curated_profiles, REFERENCES
-from sources import canonical, manufacturer, read_serato, split_models
+from sources import canonical, manufacturer, read_serato, read_djay, split_models
+from virtualdj_inventory import read_virtualdj
 from reviewed import REVIEWED
 from support import theoretical_support, theoretical_gate
 from cdj import cdj_profiles, CDJ_REFERENCES, CLUB_PRIORITY, CDJ_GAPS
@@ -101,6 +102,99 @@ from umix_control2 import umix2_profiles, UMIX2_REFERENCES
 from original_umix_pro import original_umix_profiles, ORIGINAL_UMIX_REFERENCES
 from mixtour import mixtour_profiles, MIXTOUR_REFERENCES
 from beatpad2 import beatpad2_profiles, BEATPAD2_REFERENCES
+from mixtour_pro import mixtour_pro_profiles, MIXTOUR_PRO_REFERENCES
+from electrix_tweaker import tweaker_profiles, TWEAKER_REFERENCES
+from hercules_t7 import t7_profiles, T7_REFERENCES
+from buddy import buddy_profiles, BUDDY_REFERENCES
+from gemini_slate import slate_profiles, SLATE_REFERENCES
+from ndx500 import ndx500_profiles, NDX500_REFERENCES
+from rane_four import rane_four_profiles, FOUR_REFERENCES
+from party_mix_live import party_mix_live_profiles, LIVE_REFERENCES
+from g2v import g2v_profiles, G2V_REFERENCES
+from rmp4 import rmp4_profiles, RMP4_REFERENCES
+from idj3 import idj3_profiles, IDJ3_REFERENCES
+from studio2a import studio2a_profiles, STUDIO2A_REFERENCES
+from reloop_touch import touch_profiles, TOUCH_REFERENCES
+from rane_seventy import seventy_profiles, SEVENTY_REFERENCES
+from numark_nv import nv_profiles, NV_REFERENCES
+from faderfox_dj3 import dj3_profiles, DJ3_REFERENCES
+from reloop_rmx90 import rmx90_profiles, RMX90_REFERENCES
+from roland_dj505 import dj505_profiles, DJ505_REFERENCES
+from cmd_mm1 import mm1_profiles, MM1_REFERENCES
+from fixed_midi_mixers import fixed_mixer_profiles, FIXED_MIXER_REFERENCES
+from smk25ii import smk25_profiles, SMK25_REFERENCES
+from midi_fighter import fighter_profiles, FIGHTER_REFERENCES
+from launchpad_mini import mini_profiles, MINI_REFERENCES
+from launchpad_rgb import rgb_profiles, RGB_REFERENCES
+from cdj101 import cdj101_profiles, CDJ101_REFERENCES
+from ddj_sr2 import sr2_profiles, SR2_REFERENCES
+from keylab import keylab_profiles, KEYLAB_REFERENCES
+from kontrol_one import kontrol_one_profiles, KONTROL_ONE_REFERENCES
+from spectra import spectra_profiles, SPECTRA_REFERENCES
+from mixars_duo import duo_profiles, DUO_REFERENCES
+from p1nano import p1nano_profiles, P1_REFERENCES
+from ddm4000 import ddm4000_profiles, DDM_REFERENCES
+from scs3m import scs3m_profiles, SCS3M_REFERENCES
+from bcr2000 import bcr2000_profiles, BCR_REFERENCES
+from sc5000m import sc5000m_profiles, SC5000M_REFERENCES
+from prime_players import prime_player_profiles, PRIME_REFERENCES
+from rane_one_mk2 import rane_one_mk2_profiles, ONE2_REFERENCES
+from nanokontrol2 import nanokontrol2_profiles, NANO2_REFERENCES
+from nanopad2 import nanopad2_profiles, PAD2_REFERENCES
+from prime4 import prime4_profiles, PRIME4_REFERENCES
+from mp2015 import mp2015_profiles, MP2015_REFERENCES
+from rane_one import rane_one_profiles, ONE_REFERENCES
+from prime_all_in_one import prime_aio_profiles, PRIME_AIO_REFERENCES
+from fixed_engine_consoles import fixed_engine_profiles, ENGINE_FIXED_REFERENCES
+from rdj2_master import rdj2_master_profiles, MASTER_REFERENCES
+from sp404mk2 import sp404_profiles, SP404_REFERENCES
+from euphonia import euphonia_profiles, EUPHONIA_REFERENCES
+from numark_2026 import numark_2026_profiles, NUMARK_2026_REFERENCES
+from nanokontrol_scene import nanokontrol_scene_profiles, SCENE_REFERENCES
+from plx_crss12 import plx_crss12_profiles, CRSS_REFERENCES
+from hercules_mk4 import mk4_profiles, MK4_REFERENCES
+from djm_a9 import a9_profiles, A9_REFERENCES
+from slab import slab_profiles, SLAB_REFERENCES
+from djm_a7 import a7_profiles, A7_REFERENCES
+from xdj_an import an_profiles, AN_REFERENCES
+from rev7 import rev7_profiles, REV7_REFERENCES
+from rmx_ignite import ignite_profiles, IGNITE_REFERENCES
+from mix_ultra import ultra_profiles, ULTRA_REFERENCES
+from djm900nxs2 import nxs2_profiles, NXS2_REFERENCES
+from djm_s9 import s9_profiles, S9_REFERENCES
+from djm_v10 import v10_profiles, V10_REFERENCES
+from djm450 import djm450_profiles, DJM450_REFERENCES
+from air_plus import air_plus_profiles, AIR_PLUS_REFERENCES
+from dj4set import dj4set_profiles, DJ4SET_REFERENCES
+from original_ns6 import ns6_profiles, NS6_REFERENCES
+from original_mc6000 import original_mc6000_profiles, ORIGINAL_MC6000_REFERENCES
+from spin2_xwj1 import spin2_xwj1_profiles, SPIN2_REFERENCES
+from primo import primo_profiles, PRIMO_REFERENCES
+from beatmix_original import original_beatmix_profiles, BEATMIX_ORIGINAL_REFERENCES
+from vcm100 import vcm100_profiles, VCM100_REFERENCES
+from xwdj1 import xwdj1_profiles, XWDJ1_REFERENCES
+from inpulse200mk3 import inpulse200mk3_profiles, MK3_REFERENCES
+from hercules_t10 import t10_profiles, T10_REFERENCES
+from xone96 import xone96_profiles, XONE96_REFERENCES
+from xone_faders import xone_fader_profiles, XONE_FADER_REFERENCES
+from vms5 import vms5_profiles, VMS5_REFERENCES
+from vms41_traktor import vms41_traktor_profiles, VMS41_TRAKTOR_REFERENCES
+from promixer_public import promixer_public_profiles, PROMIXER_REFERENCES
+from djms3 import djms3_profiles, S3_REFERENCES
+from legacy_djay_docks import legacy_djay_dock_profiles, DOCK_REFERENCES
+from vci300_mkii import vci300_mkii_profiles, VCI300_MKII_REFERENCES
+from legacy_djm_mixers import legacy_djm_mixer_profiles, LEGACY_DJM_REFERENCES
+from more_legacy_djm_mixers import more_legacy_djm_profiles, MORE_LEGACY_DJM_REFERENCES
+from djm2000_mixers import djm2000_profiles, DJM2000_REFERENCES
+from legacy_pioneer_transport import legacy_pioneer_transport_profiles, LEGACY_PIONEER_TRANSPORT_REFERENCES
+from instinct_p8 import instinct_p8_profiles, P8_REFERENCES
+from universal_dj import universal_dj_profiles, UNIVERSAL_REFERENCES
+from wave_usb import wave_usb_profiles, WAVE_REFERENCES
+from mixdeck import mixdeck_profiles, MIXDECK_REFERENCES
+from mixon8 import mixon8_profiles, MIXON8_REFERENCES
+from stealth_control import stealth_profiles, STEALTH_REFERENCES
+from djm_s11 import s11_profiles, S11_REFERENCES
+from pioneer_manual_mixers import manual_mixer_profiles, MIXER_REFERENCES
 
 VMS_MODELS = {canonical("American Audio " + name) for name in ["VMS2", "VMS4", "VMS4.1", "VMS4.1 Traktor", "VMS5"]}
 VMS_AUDIO_GAP = "Integrated hardware mixing needs separate deck outputs. This audio route is not implemented."
@@ -127,6 +221,14 @@ def write_json(path, value):
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n")
 
 
+def encode_runtime(value):
+    """Keep the generated UTF-8 resource within the native loader's limit."""
+    text = json.dumps(value, ensure_ascii=False, separators=(",", ":")) + "\n"
+    if len(text.encode("utf-8")) > 4 * 1024 * 1024:
+        raise ValueError("The controller catalogue exceeds the 4 MiB limit.")
+    return text
+
+
 def aliases(name, identifiers):
     brand = manufacturer(name)
     names = [name, name[len(brand):].strip()] if brand != "Other" else [name]
@@ -139,7 +241,7 @@ def aliases(name, identifiers):
     return sorted({value for value in names if len(value) >= 4 and value.lower() not in GENERIC_NAMES})
 
 
-def build(cache, serato_html):
+def build(cache, serato_html, djay_html=None):
     locked = json.loads(Path(__file__).with_name("sources.lock.json").read_text())
     manifest = json.loads((cache / "manifest.json").read_text())
     if manifest != locked["mixxx"]:
@@ -151,6 +253,19 @@ def build(cache, serato_html):
             raise ValueError("The benchmark snapshot differs from the reviewed lock file.")
         if read_serato(serato_html.read_text()) != benchmark:
             raise ValueError("The benchmark model rows differ from the reviewed lock file.")
+    djay = locked["djay"]
+    if not 200 <= djay["rowCount"] <= 512 or djay["rowCount"] != len(djay["rows"]) or len({canonical(row["name"]) for row in djay["rows"]}) != djay["rowCount"]:
+        raise ValueError("The locked djay inventory is incomplete or contains duplicate models.")
+    if djay_html is not None:
+        if hashlib.sha256(djay_html.read_bytes()).hexdigest() != djay["sha256"] or read_djay(djay_html.read_text()) != djay["rows"]:
+            raise ValueError("The djay inventory differs from the reviewed lock file.")
+    virtualdj = locked["virtualdj"]
+    if not 400 <= virtualdj["rowCount"] <= 1024 or virtualdj["rowCount"] != len(virtualdj["rows"]) or len({row["url"] for row in virtualdj["rows"]}) != virtualdj["rowCount"]:
+        raise ValueError("The locked VirtualDJ inventory is incomplete or contains duplicate product URLs.")
+    virtualdj_html = Path(__file__).resolve().parents[2] / "TestBuilds/r392/upstream/virtualdj-hardware.html"
+    if virtualdj_html.exists():
+        if hashlib.sha256(virtualdj_html.read_bytes()).hexdigest() != virtualdj["sha256"] or read_virtualdj(virtualdj_html.read_text()) != virtualdj["rows"]:
+            raise ValueError("The cached VirtualDJ inventory does not match the pinned source.")
     models, definitions, profiles = {}, [], []
 
     def add_model(name, source, role="primary", benchmark_row=False):
@@ -182,7 +297,7 @@ def build(cache, serato_html):
                      profile=name, role="accessory" if name.startswith(("X1", "F1", "D2")) else "primary")
     add_model("Reloop Beatpad", "docs/coordination/beatpad-native.md").update(implementation="native-midi", profile="Beatpad")
 
-    reviewed = curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles() + numark_profiles() + mixtrack3_profiles() + platinum_profiles() + mixtrack2_profiles() + denon_profiles() + mc6000_profiles() + mc7000_profiles() + original_mixtrack_profiles() + party_mix_profiles() + t1_profiles() + pad_accessory_profiles() + party_mix2_profiles() + terminal_mix_profiles() + dj2go2_profiles() + ns4fx_profiles() + mixstream_profiles() + flx10_profiles() + ddj1000_profiles() + jogvision_profiles() + inpulse300mk2_profiles() + inpulse200mk2_profiles() + beatmix_profiles() + mc2000_profiles() + mixon4_profiles() + dicer_profiles() + ns6ii_profiles() + n4_profiles() + neon_profiles() + compact_profiles() + rp8000_profiles() + scratch_profiles() + vci300_profiles() + vci100mk2_profiles() + portable_profiles() + original200_profiles() + vci400_profiles() + cmd_micro_profiles() + idj_live2_profiles() + lc6000_profiles() + vci100_profiles() + xone_k_profiles() + ready_profiles() + mixer_one_profiles() + umix_pro2_profiles() + instinct_profiles() + hercules_compact_profiles() + bcd3000_profiles() + original_dj2go_profiles() + air_profiles() + sc2000_profiles() + mixage_profiles() + original300_profiles() + total_omni_profiles() + xsession_pro_profiles() + studio4a_profiles() + djc4_profiles() + mc3000_profiles() + rmx2_profiles() + p32_profiles() + kaoss_profiles() + firstmix_profiles() + discover_profiles() + discover_pro_profiles() + djm101_profiles() + rdj2_ie_profiles() + rdj2_controller_profiles() + radius_profiles() + original_dj2go2_profiles() + terminal_mix8_profiles() + quad_profiles() + imix_profiles() + mcx_profiles() + mix101_profiles() + tek2_profiles() + kdj_profiles() + umix2_profiles() + original_umix_profiles() + mixtour_profiles() + beatpad2_profiles()
+    reviewed = curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles() + numark_profiles() + mixtrack3_profiles() + platinum_profiles() + mixtrack2_profiles() + denon_profiles() + mc6000_profiles() + mc7000_profiles() + original_mixtrack_profiles() + party_mix_profiles() + t1_profiles() + pad_accessory_profiles() + party_mix2_profiles() + terminal_mix_profiles() + dj2go2_profiles() + ns4fx_profiles() + mixstream_profiles() + flx10_profiles() + ddj1000_profiles() + jogvision_profiles() + inpulse300mk2_profiles() + inpulse200mk2_profiles() + beatmix_profiles() + mc2000_profiles() + mixon4_profiles() + dicer_profiles() + ns6ii_profiles() + n4_profiles() + neon_profiles() + compact_profiles() + rp8000_profiles() + scratch_profiles() + vci300_profiles() + vci100mk2_profiles() + portable_profiles() + original200_profiles() + vci400_profiles() + cmd_micro_profiles() + idj_live2_profiles() + lc6000_profiles() + vci100_profiles() + xone_k_profiles() + ready_profiles() + mixer_one_profiles() + umix_pro2_profiles() + instinct_profiles() + hercules_compact_profiles() + bcd3000_profiles() + original_dj2go_profiles() + air_profiles() + sc2000_profiles() + mixage_profiles() + original300_profiles() + total_omni_profiles() + xsession_pro_profiles() + studio4a_profiles() + djc4_profiles() + mc3000_profiles() + rmx2_profiles() + p32_profiles() + kaoss_profiles() + firstmix_profiles() + discover_profiles() + discover_pro_profiles() + djm101_profiles() + rdj2_ie_profiles() + rdj2_controller_profiles() + radius_profiles() + original_dj2go2_profiles() + terminal_mix8_profiles() + quad_profiles() + imix_profiles() + mcx_profiles() + mix101_profiles() + tek2_profiles() + kdj_profiles() + umix2_profiles() + original_umix_profiles() + mixtour_profiles() + beatpad2_profiles() + mixtour_pro_profiles() + tweaker_profiles() + t7_profiles() + buddy_profiles() + slate_profiles() + ndx500_profiles() + rane_four_profiles() + party_mix_live_profiles() + mixdeck_profiles() + mixon8_profiles() + stealth_profiles() + s11_profiles() + manual_mixer_profiles() + g2v_profiles() + rmp4_profiles() + idj3_profiles() + studio2a_profiles() + touch_profiles() + seventy_profiles() + nv_profiles() + dj3_profiles() + rmx90_profiles() + dj505_profiles() + mm1_profiles() + fixed_mixer_profiles() + smk25_profiles() + fighter_profiles() + mini_profiles() + rgb_profiles() + cdj101_profiles() + sr2_profiles() + keylab_profiles() + kontrol_one_profiles() + spectra_profiles() + duo_profiles() + p1nano_profiles() + ddm4000_profiles() + scs3m_profiles() + bcr2000_profiles() + sc5000m_profiles() + prime_player_profiles() + rane_one_mk2_profiles() + nanokontrol2_profiles() + nanopad2_profiles() + prime4_profiles() + mp2015_profiles() + rane_one_profiles() + prime_aio_profiles() + fixed_engine_profiles() + rdj2_master_profiles() + sp404_profiles() + euphonia_profiles() + numark_2026_profiles() + nanokontrol_scene_profiles() + plx_crss12_profiles() + mk4_profiles() + a9_profiles() + slab_profiles() + a7_profiles() + an_profiles() + rev7_profiles() + ignite_profiles() + ultra_profiles() + nxs2_profiles() + s9_profiles() + v10_profiles() + djm450_profiles() + air_plus_profiles() + dj4set_profiles() + ns6_profiles() + original_mc6000_profiles() + spin2_xwj1_profiles() + primo_profiles() + original_beatmix_profiles() + vcm100_profiles() + xwdj1_profiles() + inpulse200mk3_profiles() + t10_profiles() + xone96_profiles() + xone_fader_profiles() + vms5_profiles() + vms41_traktor_profiles() + promixer_public_profiles() + djms3_profiles() + legacy_djay_dock_profiles() + vci300_mkii_profiles() + legacy_djm_mixer_profiles() + more_legacy_djm_profiles() + djm2000_profiles() + legacy_pioneer_transport_profiles() + instinct_p8_profiles() + universal_dj_profiles() + wave_usb_profiles()
     reviewed_ids = {canonical(item.get("catalogueName", item["id"])) for item in reviewed}
     for path in sorted((cache / "res/controllers").glob("*.xml")):
         reference = refs[path.name]
@@ -238,7 +353,7 @@ def build(cache, serato_html):
                          profile=item["id"], automaticControls=item["autoSelect"])
             model["definitions"].append(item["definition"])
         reference = REFERENCES.get(item["id"])
-        source = CDJ_REFERENCES.get(item["id"]) or PLAYER_REFERENCES.get(item["id"]) or controller_references().get(item["id"]) or ddj_references().get(item["id"]) or LEGACY_XDJ_REFERENCES.get(item["id"]) or entry_references().get(item["id"]) or OPUS_REFERENCES.get(item["id"]) or legacy_ddj_references().get(item["id"]) or S1_REFERENCES.get(item["id"]) or LEGACY_SYSTEM_REFERENCES.get(item["id"]) or numark_references().get(item["id"]) or mixtrack3_references().get(item["id"]) or PLATINUM_REFERENCES.get(item["id"]) or mixtrack2_references().get(item["id"]) or denon_references().get(item["id"]) or MC6000_REFERENCES.get(item["id"]) or MC7000_REFERENCES.get(item["id"]) or original_mixtrack_references().get(item["id"]) or PARTY_MIX_REFERENCES.get(item["id"]) or T1_REFERENCES.get(item["id"]) or PAD_REFERENCES.get(item["id"]) or PARTY2_REFERENCES.get(item["id"]) or terminal_mix_references().get(item["id"]) or DJ2GO2_REFERENCES.get(item["id"]) or NS4FX_REFERENCES.get(item["id"]) or MIXSTREAM_REFERENCES.get(item["id"]) or FLX10_REFERENCES.get(item["id"]) or DDJ1000_REFERENCES.get(item["id"]) or JOGVISION_REFERENCES.get(item["id"]) or MK2_REFERENCES.get(item["id"]) or INPULSE200_REFERENCES.get(item["id"]) or BEATMIX_REFERENCES.get(item["id"]) or MC2000_REFERENCES.get(item["id"]) or MIXON4_REFERENCES.get(item["id"]) or DICER_REFERENCES.get(item["id"]) or NS6II_REFERENCES.get(item["id"]) or N4_REFERENCES.get(item["id"]) or NEON_REFERENCES.get(item["id"]) or COMPACT_REFERENCES.get(item["id"]) or RP8000_REFERENCES.get(item["id"]) or SCRATCH_REFERENCES.get(item["id"]) or VCI300_REFERENCES.get(item["id"]) or VCI100MK2_REFERENCES.get(item["id"]) or PORTABLE_REFERENCES.get(item["id"]) or ORIGINAL200_REFERENCES.get(item["id"]) or VCI400_REFERENCES.get(item["id"]) or CMD_MICRO_REFERENCES.get(item["id"]) or IDJ2_REFERENCES.get(item["id"]) or LC6000_REFERENCES.get(item["id"]) or VCI100_REFERENCES.get(item["id"]) or XONE_REFERENCES.get(item["id"]) or READY_REFERENCES.get(item["id"]) or MIXER_ONE_REFERENCES.get(item["id"]) or UMIX_PRO2_REFERENCES.get(item["id"]) or INSTINCT_REFERENCES.get(item["id"]) or HERCULES_COMPACT_REFERENCES.get(item["id"]) or BCD3000_REFERENCES.get(item["id"]) or ORIGINAL_DJ2GO_REFERENCES.get(item["id"]) or AIR_REFERENCES.get(item["id"]) or SC2000_REFERENCES.get(item["id"]) or MIXAGE_REFERENCES.get(item["id"]) or ORIGINAL300_REFERENCES.get(item["id"]) or TOTAL_OMNI_REFERENCES.get(item["id"]) or XSESSION_REFERENCES.get(item["id"]) or STUDIO4A_REFERENCES.get(item["id"]) or DJC4_REFERENCES.get(item["id"]) or MC3000_REFERENCES.get(item["id"]) or RMX2_REFERENCES.get(item["id"]) or P32_REFERENCES.get(item["id"]) or KAOSS_REFERENCES.get(item["id"]) or FIRSTMIX_REFERENCES.get(item["id"]) or DISCOVER_REFERENCES.get(item["id"]) or DISCOVER_PRO_REFERENCES.get(item["id"]) or DJM101_REFERENCES.get(item["id"]) or RDJ2_IE_REFERENCES.get(item["id"]) or RDJ2_CONTROLLER_REFERENCES.get(item["id"]) or RADIUS_REFERENCES.get(item["id"]) or ORIGINAL_DJ2GO2_REFERENCES.get(item["id"]) or TM8_REFERENCES.get(item["id"]) or QUAD_REFERENCES.get(item["id"]) or IMIX_REFERENCES.get(item["id"]) or MCX_REFERENCES.get(item["id"]) or MIX101_REFERENCES.get(item["id"]) or TEK2_REFERENCES.get(item["id"]) or KDJ_REFERENCES.get(item["id"]) or UMIX2_REFERENCES.get(item["id"]) or ORIGINAL_UMIX_REFERENCES.get(item["id"]) or MIXTOUR_REFERENCES.get(item["id"]) or BEATPAD2_REFERENCES.get(item["id"]) or {"url": item["source"],
+        source = CDJ_REFERENCES.get(item["id"]) or PLAYER_REFERENCES.get(item["id"]) or controller_references().get(item["id"]) or ddj_references().get(item["id"]) or LEGACY_XDJ_REFERENCES.get(item["id"]) or entry_references().get(item["id"]) or OPUS_REFERENCES.get(item["id"]) or legacy_ddj_references().get(item["id"]) or S1_REFERENCES.get(item["id"]) or LEGACY_SYSTEM_REFERENCES.get(item["id"]) or numark_references().get(item["id"]) or mixtrack3_references().get(item["id"]) or PLATINUM_REFERENCES.get(item["id"]) or mixtrack2_references().get(item["id"]) or denon_references().get(item["id"]) or MC6000_REFERENCES.get(item["id"]) or MC7000_REFERENCES.get(item["id"]) or original_mixtrack_references().get(item["id"]) or PARTY_MIX_REFERENCES.get(item["id"]) or T1_REFERENCES.get(item["id"]) or PAD_REFERENCES.get(item["id"]) or PARTY2_REFERENCES.get(item["id"]) or terminal_mix_references().get(item["id"]) or DJ2GO2_REFERENCES.get(item["id"]) or NS4FX_REFERENCES.get(item["id"]) or MIXSTREAM_REFERENCES.get(item["id"]) or FLX10_REFERENCES.get(item["id"]) or DDJ1000_REFERENCES.get(item["id"]) or JOGVISION_REFERENCES.get(item["id"]) or MK2_REFERENCES.get(item["id"]) or INPULSE200_REFERENCES.get(item["id"]) or BEATMIX_REFERENCES.get(item["id"]) or MC2000_REFERENCES.get(item["id"]) or MIXON4_REFERENCES.get(item["id"]) or DICER_REFERENCES.get(item["id"]) or NS6II_REFERENCES.get(item["id"]) or N4_REFERENCES.get(item["id"]) or NEON_REFERENCES.get(item["id"]) or COMPACT_REFERENCES.get(item["id"]) or RP8000_REFERENCES.get(item["id"]) or SCRATCH_REFERENCES.get(item["id"]) or VCI300_REFERENCES.get(item["id"]) or VCI100MK2_REFERENCES.get(item["id"]) or PORTABLE_REFERENCES.get(item["id"]) or ORIGINAL200_REFERENCES.get(item["id"]) or VCI400_REFERENCES.get(item["id"]) or CMD_MICRO_REFERENCES.get(item["id"]) or IDJ2_REFERENCES.get(item["id"]) or LC6000_REFERENCES.get(item["id"]) or VCI100_REFERENCES.get(item["id"]) or XONE_REFERENCES.get(item["id"]) or READY_REFERENCES.get(item["id"]) or MIXER_ONE_REFERENCES.get(item["id"]) or UMIX_PRO2_REFERENCES.get(item["id"]) or INSTINCT_REFERENCES.get(item["id"]) or HERCULES_COMPACT_REFERENCES.get(item["id"]) or BCD3000_REFERENCES.get(item["id"]) or ORIGINAL_DJ2GO_REFERENCES.get(item["id"]) or AIR_REFERENCES.get(item["id"]) or SC2000_REFERENCES.get(item["id"]) or MIXAGE_REFERENCES.get(item["id"]) or ORIGINAL300_REFERENCES.get(item["id"]) or TOTAL_OMNI_REFERENCES.get(item["id"]) or XSESSION_REFERENCES.get(item["id"]) or STUDIO4A_REFERENCES.get(item["id"]) or DJC4_REFERENCES.get(item["id"]) or MC3000_REFERENCES.get(item["id"]) or RMX2_REFERENCES.get(item["id"]) or P32_REFERENCES.get(item["id"]) or KAOSS_REFERENCES.get(item["id"]) or FIRSTMIX_REFERENCES.get(item["id"]) or DISCOVER_REFERENCES.get(item["id"]) or DISCOVER_PRO_REFERENCES.get(item["id"]) or DJM101_REFERENCES.get(item["id"]) or RDJ2_IE_REFERENCES.get(item["id"]) or RDJ2_CONTROLLER_REFERENCES.get(item["id"]) or RADIUS_REFERENCES.get(item["id"]) or ORIGINAL_DJ2GO2_REFERENCES.get(item["id"]) or TM8_REFERENCES.get(item["id"]) or QUAD_REFERENCES.get(item["id"]) or IMIX_REFERENCES.get(item["id"]) or MCX_REFERENCES.get(item["id"]) or MIX101_REFERENCES.get(item["id"]) or TEK2_REFERENCES.get(item["id"]) or KDJ_REFERENCES.get(item["id"]) or UMIX2_REFERENCES.get(item["id"]) or ORIGINAL_UMIX_REFERENCES.get(item["id"]) or MIXTOUR_REFERENCES.get(item["id"]) or BEATPAD2_REFERENCES.get(item["id"]) or MIXTOUR_PRO_REFERENCES.get(item["id"]) or TWEAKER_REFERENCES.get(item["id"]) or T7_REFERENCES.get(item["id"]) or BUDDY_REFERENCES.get(item["id"]) or SLATE_REFERENCES.get(item["id"]) or NDX500_REFERENCES.get(item["id"]) or FOUR_REFERENCES.get(item["id"]) or LIVE_REFERENCES.get(item["id"]) or G2V_REFERENCES.get(item["id"]) or RMP4_REFERENCES.get(item["id"]) or IDJ3_REFERENCES.get(item["id"]) or STUDIO2A_REFERENCES.get(item["id"]) or TOUCH_REFERENCES.get(item["id"]) or SEVENTY_REFERENCES.get(item["id"]) or NV_REFERENCES.get(item["id"]) or DJ3_REFERENCES.get(item["id"]) or RMX90_REFERENCES.get(item["id"]) or DJ505_REFERENCES.get(item["id"]) or MM1_REFERENCES.get(item["id"]) or FIXED_MIXER_REFERENCES.get(item["id"]) or SMK25_REFERENCES.get(item["id"]) or FIGHTER_REFERENCES.get(item["id"]) or MINI_REFERENCES.get(item["id"]) or RGB_REFERENCES.get(item["id"]) or CDJ101_REFERENCES.get(item["id"]) or SR2_REFERENCES.get(item["id"]) or KEYLAB_REFERENCES.get(item["id"]) or KONTROL_ONE_REFERENCES.get(item["id"]) or SPECTRA_REFERENCES.get(item["id"]) or DUO_REFERENCES.get(item["id"]) or P1_REFERENCES.get(item["id"]) or DDM_REFERENCES.get(item["id"]) or SCS3M_REFERENCES.get(item["id"]) or BCR_REFERENCES.get(item["id"]) or SC5000M_REFERENCES.get(item["id"]) or PRIME_REFERENCES.get(item["id"]) or ONE2_REFERENCES.get(item["id"]) or NANO2_REFERENCES.get(item["id"]) or PAD2_REFERENCES.get(item["id"]) or PRIME4_REFERENCES.get(item["id"]) or MP2015_REFERENCES.get(item["id"]) or ONE_REFERENCES.get(item["id"]) or PRIME_AIO_REFERENCES.get(item["id"]) or ENGINE_FIXED_REFERENCES.get(item["id"]) or MASTER_REFERENCES.get(item["id"]) or SP404_REFERENCES.get(item["id"]) or EUPHONIA_REFERENCES.get(item["id"]) or NUMARK_2026_REFERENCES.get(item["id"]) or SCENE_REFERENCES.get(item["id"]) or CRSS_REFERENCES.get(item["id"]) or MK4_REFERENCES.get(item["id"]) or A9_REFERENCES.get(item["id"]) or SLAB_REFERENCES.get(item["id"]) or A7_REFERENCES.get(item["id"]) or AN_REFERENCES.get(item["id"]) or REV7_REFERENCES.get(item["id"]) or IGNITE_REFERENCES.get(item["id"]) or ULTRA_REFERENCES.get(item["id"]) or NXS2_REFERENCES.get(item["id"]) or S9_REFERENCES.get(item["id"]) or V10_REFERENCES.get(item["id"]) or DJM450_REFERENCES.get(item["id"]) or AIR_PLUS_REFERENCES.get(item["id"]) or DJ4SET_REFERENCES.get(item["id"]) or NS6_REFERENCES.get(item["id"]) or ORIGINAL_MC6000_REFERENCES.get(item["id"]) or SPIN2_REFERENCES.get(item["id"]) or PRIMO_REFERENCES.get(item["id"]) or BEATMIX_ORIGINAL_REFERENCES.get(item["id"]) or VCM100_REFERENCES.get(item["id"]) or XWDJ1_REFERENCES.get(item["id"]) or MK3_REFERENCES.get(item["id"]) or T10_REFERENCES.get(item["id"]) or XONE96_REFERENCES.get(item["id"]) or XONE_FADER_REFERENCES.get(item["id"]) or VMS5_REFERENCES.get(item["id"]) or VMS41_TRAKTOR_REFERENCES.get(item["id"]) or PROMIXER_REFERENCES.get(item["id"]) or S3_REFERENCES.get(item["id"]) or DOCK_REFERENCES.get(item["id"]) or VCI300_MKII_REFERENCES.get(item["id"]) or LEGACY_DJM_REFERENCES.get(item["id"]) or MORE_LEGACY_DJM_REFERENCES.get(item["id"]) or DJM2000_REFERENCES.get(item["id"]) or LEGACY_PIONEER_TRANSPORT_REFERENCES.get(item["id"]) or P8_REFERENCES.get(item["id"]) or UNIVERSAL_REFERENCES.get(item["id"]) or WAVE_REFERENCES.get(item["id"]) or MIXDECK_REFERENCES.get(item["id"]) or MIXON8_REFERENCES.get(item["id"]) or STEALTH_REFERENCES.get(item["id"]) or S11_REFERENCES.get(item["id"]) or MIXER_REFERENCES.get(item["id"]) or {"url": item["source"],
             "sha256": reference[1] if reference else "b1274a096816e795f0d35183527fc69a170d6d21a4f0e9151a1dae7810e3aee7"}
         definitions.append({"id": item["definition"], "name": item["id"], "transport": "midi",
                             "source": source,
@@ -247,6 +362,8 @@ def build(cache, serato_html):
                             "unresolved": [{"reason": gap} for gap in item.get("gaps", CDJ_GAPS)] if item.get("role") == "player" else
                             [{"reason": reason} for reason in [("Additional modes, FX, displays and input audio routing remain unimplemented." if item.get("audioOutput") else "Additional modes, FX, displays and audio routing remain unimplemented.")] + item.get("gaps", [])]})
     for name, pending in PENDING_DDJ.items():
+        if canonical(name) in reviewed_ids:
+            continue
         definition = "manufacturer:" + canonical(name)
         model = add_model(name, pending["source"]["url"])
         model["implementation"] = pending.get("implementation", "adapter-needed")
@@ -264,6 +381,16 @@ def build(cache, serato_html):
         if current is None or (len(profile["inputs"]), len(profile["outputs"])) > (len(current["inputs"]), len(current["outputs"])):
             choices[key] = profile
     profiles = sorted(choices.values(), key=lambda profile: profile["id"].lower())
+    for entry in djay["rows"]:
+        model = add_model(entry["name"], entry["url"])
+        model["comparisonSupport"] = {"djay": {"sourceName": entry["sourceName"], "platforms": entry["platforms"],
+                                               "limitations": entry["limitations"], "source": entry["url"]}}
+    for entry in virtualdj["rows"]:
+        if entry["role"] == "dvs-medium":
+            continue
+        model = add_model(entry["name"], entry["url"], entry["role"])
+        model.setdefault("comparisonSupport", {})["virtualDJ"] = {
+            "sourceName": entry["sourceName"], "category": entry["category"], "source": entry["url"]}
     for model in models.values():
         candidates = [profile for profile in profiles if profile["definition"] in model["definitions"]]
         profile = next((item for item in candidates if item["id"] == model.get("profile")), None)
@@ -277,6 +404,8 @@ def build(cache, serato_html):
         model["feedbackBindingCount"] = len(profile["outputs"]) if profile else None
         automatic = model["implementation"] in {"automatic-profile", "automatic-core-profile", "native-accessory", "native-midi"}
         model["connection"] = "Linux USB bridge" if model["implementation"] == "linux-bridge" else "USB MIDI" if profile or model["implementation"] == "automatic-profile" else "Existing native adapter" if automatic else "Protocol and iPad connection route require review"
+        if model["id"] in {canonical(name) for name in DOCK_REFERENCES}:
+            model["connection"] = "Manual exposed MIDI port only. Legacy dock authentication, CoreMIDI exposure and direct iPad connection remain unimplemented or unqualified."
         if model["id"] == canonical("Kontrol DJ KDJ500"):
             model["connection"] = "Native USB needs its driver and Konverter to produce MIDI. Direct iPad USB and a qualified bridge remain unimplemented."
         if model["id"] == canonical("Behringer BCD2000"):
@@ -314,7 +443,10 @@ def build(cache, serato_html):
             if model["id"] == canonical(name):
                 model["gaps"].append(pending["gap"])
         if model["implementation"] == "protocol-needed":
-            model["gaps"].append("No implemented protocol is present in the pinned references. Manufacturer protocol work is required.")
+            if model.get("comparisonSupport", {}).get("virtualDJ", {}).get("category") == "Sound cards":
+                model["gaps"].append("Audio interface or DVS kit. Native audio input/DVS routing and OS compatibility require review. A MIDI controller mapping is not implied.")
+            else:
+                model["gaps"].append("No implemented protocol is present in the pinned references. Manufacturer protocol work is required.")
         elif model["implementation"] == "adapter-needed":
             model["gaps"].append("A controller-specific protocol adapter is required.")
         elif model["implementation"] == "partial-midi-profile":
@@ -338,9 +470,13 @@ def build(cache, serato_html):
     catalogue = {"schemaVersion": 1, "reviewed": "2026-11-17", "upstreamRevision": manifest["revision"],
                  "benchmarkSource": {"url": locked["benchmark"]["url"],
                                      "sha256": locked["benchmark"]["sha256"], "rowCount": len(benchmark)},
+                 "djaySource": {key: value for key, value in djay.items() if key != "rows"}, "djayRows": djay["rows"],
+                 "virtualDJSource": {key: value for key, value in virtualdj.items() if key != "rows"}, "virtualDJRows": virtualdj["rows"],
                  "benchmarkRows": benchmark, "manufacturerInventoryReviewed": INVENTORY_REVIEWED, "models": ordered, "definitions": definitions,
-                 "releaseGate": {"catalogueCompletionScope": "Pinned software sources and the listed manufacturer additions. The market audit remains open.",
+                 "releaseGate": {"catalogueCompletionScope": "Pinned Serato, djay, VirtualDJ and Mixxx sources and listed manufacturer additions. Passive timecode media are source evidence, not digital devices. The wider manufacturer audit remains open.",
                                  "manufacturerAuditComplete": False, "catalogueComplete": all(all(canonical(name) in models for name in split_models(row["name"])) for row in benchmark)
+                     and all(canonical(row["name"]) in models for row in djay["rows"])
+                     and all(canonical(row["name"]) in models for row in virtualdj["rows"] if row["role"] != "dvs-medium")
                      and {item["id"] for item in definitions if item["id"].endswith(".xml")}
                      == {Path(item["path"]).name for item in locked["mixxx"]["files"] if item["path"].endswith(".xml")}, "hardwareParityAccepted": False,
                                  "sourceReuseReviewAccepted": False,
@@ -355,12 +491,15 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--cache", type=Path, required=True)
     parser.add_argument("--serato", type=Path)
+    parser.add_argument("--djay", type=Path)
     parser.add_argument("--catalogue", type=Path, required=True)
     parser.add_argument("--runtime", type=Path, required=True)
     args = parser.parse_args()
-    catalogue, runtime = build(args.cache, args.serato)
+    catalogue, runtime = build(args.cache, args.serato, args.djay)
+    runtime_text = encode_runtime(runtime)
     write_json(args.catalogue, catalogue)
-    write_json(args.runtime, runtime)
+    args.runtime.parent.mkdir(parents=True, exist_ok=True)
+    args.runtime.write_text(runtime_text, encoding="utf-8")
     print(json.dumps({"benchmarkRows": len(catalogue["benchmarkRows"]), "models": len(catalogue["models"]),
                       "definitions": len(catalogue["definitions"]), "runtimeProfiles": len(runtime["profiles"]),
                       "automaticControlCandidates": sum(profile["autoSelect"] for profile in runtime["profiles"]),

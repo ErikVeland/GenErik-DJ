@@ -22,7 +22,7 @@ PENDING_DDJ = {
     "Pioneer DDJ-SR2": {
         "source": {"url": BASE + "dj-controllers/DDJ-SR2/DDJ-SR2_MIDI_Message_E1.pdf",
                    "sha256": "d7a665835c7278838ba64b1dc4ee7d01a785045e3fe028597c87e104a084356f", "pages": [1, 2, 3, 4, 5, 6]},
-        "gap": "Load buttons use shared left/right packets. Implement deck-bank selection and safe initial bank state before automatic selection.",
+        "gap": "A separate manual core now tracks positive selector state and safely routes shared Load. Initial bank remains unknown because the table gives no cold query. Automatic selection, complete modes/output/lifecycle and physical acceptance remain open.",
     },
 }
 

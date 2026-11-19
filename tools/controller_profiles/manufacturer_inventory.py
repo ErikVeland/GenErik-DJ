@@ -1,9 +1,16 @@
 """Manufacturer sources and model records for the controller catalogue."""
+from numark_nv import NV_AUDIT
+from rane_seventy import SEVENTY_AUDITS
+from mixtour_pro import MIXTOUR_PRO_AUDIT
+from hercules_t7 import T7_PROTOCOL_SOURCES
+from buddy import BUDDY_AUDIT
+from mixon8 import MIXON8_SOURCE, MIXON8_SHA, MIXON8_DISCUSSION
 
 REVIEWED = "2026-11-17"
 DENON_ENGINE = "https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services"
 RELOOP_COMPARISON = "https://www.reloop.com/djing-with-smart-devices-controllercomparisonchart"
-DRIVER_REQUIRED = {"Reloop Jockey 3 ME", "Reloop Digital Jockey 2 Master Edition"}
+DRIVER_REQUIRED = {"Reloop Jockey 3 ME", "Reloop Digital Jockey 2 Master Edition", "Novation Launchpad"}
+
 SOURCE_AUDITS = {'Hercules DJControl Inpulse T7': {'source': {'url': 'https://drive.google.com/file/d/1ApFMGZpGgrtDCpAZ6vo4VdpAszKgEfnZ/view',
                                               'sha256': 'a6c14da8d8d8f660e4903a4070c92b9820f8dbf07e89583443b468b1004b93d3'},
                                    'discussion': 'https://community.algoriddim.com/t/hercules-inpulse-t7-support/20172/186',
@@ -30,6 +37,64 @@ SOURCE_AUDITS = {'Hercules DJControl Inpulse T7': {'source': {'url': 'https://dr
                                  'This custom version2 map predates firmware49.36. Its author reports '
                                  'incompatibility with that update. Current firmware and dispatch need '
                                  'independent qualification.']}}
+
+SOURCE_AUDITS["Novation Launchpad"] = {
+    "source": {"url": "https://manual.mixxx.org/2.7/en/hardware/controllers/novation_launchpad_mk1"},
+    "format": "Upstream hardware manual", "automaticSupportAdded": False,
+    "gaps": ["The original full-size Launchpad is not USB MIDI class compliant. Desktop drivers translate its signals. Direct iPad USB control and a qualified bridge remain unimplemented. MK2 and Mini controllers have separate contracts."],
+}
+
+SOURCE_AUDITS["Reloop Mixtour Pro"] = MIXTOUR_PRO_AUDIT
+SOURCE_AUDITS["Reloop Buddy"] = BUDDY_AUDIT
+SOURCE_AUDITS["Reloop Mixon 8 Pro"]["relatedSources"] = [{
+    "url": MIXON8_SOURCE, "sha256": MIXON8_SHA, "discussion": MIXON8_DISCUSSION,
+    "mappingVersion": 4, "inputRows": 898, "declaredCustomClass": "ReloopMixon8",
+}]
+SOURCE_AUDITS["Reloop Mixon 8 Pro"]["gaps"].append(
+    "A separate version4 owner map now supplies a reviewed83-input manual subset. Its reported shared-pad alias issue does not enter that recipe. Jog/pitch, EQ/level modes, feedback and custom-class lifecycle remain unqualified; automatic selection stays off.")
+
+SOURCE_AUDITS["Hercules DJControl Inpulse T7"]["relatedSources"] = T7_PROTOCOL_SOURCES
+SOURCE_AUDITS["Hercules DJControl Inpulse T7"]["gaps"] = [
+    "The djay XML omits its custom app class. An independently pinned public beta now documents the platter clock and motor commands. Native motor/velocity handover remains unimplemented; ordinary MIDI controls have a separate manual recipe."
+]
+
+SOURCE_AUDITS["Mixars PRIMO"] = {
+    "source": {"url": "https://mixars.com/wp-content/uploads/2022/11/primo-manual-en-fr-d-it-es.pdf",
+               "sha256": "9006025f242280f2f339991eb3004c4ef961b39c8466c915273a9586f3f3471c"},
+    "relatedSources": [{"url": "https://mixars.com/support-download/"}],
+    "format": "Manufacturer PDF", "reviewedPages": [45, 46, 47], "automaticSupportAdded": False,
+    "gaps": ["The printed channel key N assigns transport and pad modes overlapping Note1 (Cue/Hot Cue), Note7 (Vinyl/Roll) and Note11 (bend/Sampler). PFL omits its channel key. Do not silently replace N with P.",
+             "Shared global Load4/5 requires deck-bank state. SelectorCC34/Note8 values are unspecified. Relative jog/browser formats, pad mode ownership, button light values and lifecycle remain unqualified.",
+             "Firmware1.12 adds14-bit pitch, but the old table lists onlyCC9 without low-byte order. Later firmware1.16 does not supply a revised protocol chart. External mixer/audio ownership also requires review."]}
+SOURCE_AUDITS["Mixars PRIMO"]["gaps"].append(
+    "R377 adds a separate63-input manual subset. All earlier note collisions, missing relative formats, banked Load and pitch low-byte gaps remain inactive. No automatic support or full protocol completion is claimed.")
+
+
+SOURCE_AUDITS["Rane ONE MKII"] = {
+    "source": {"url": "https://drive.google.com/file/d/1yBQ4jeM7oBpswsmKOf5WhgFYFqGWDQxc/view",
+               "sha256": "c5af95945a0e66c23d5fde29f1ba12a3216443d8fa27a132a9ad7df20e099a00"},
+    "discussion": "https://community.algoriddim.com/t/modify-a-midi-map-from-one-controller-for-use-on-another/42455",
+    "format": "Apple property list", "mappingVersion": 3, "inputRows": 667, "headingRows": 11,
+    "outputRows": 2, "declaredCustomClass": "RaneOneMK2", "automaticSupportAdded": False,
+    "audioConfiguration": {"mixerMode": 1, "externalModeTurntableOutputChannels": [0,2],
+                           "externalModeSamplerOutputChannel": 4, "fxSendInputChannelOffsets": [8,10],
+                           "fxReturnChannelOffsets": [6,8]},
+    "gaps": ["Algoriddim staff shared this template4June2026. It declares USB1CC5:0026 and the absent RaneOneMK2 class. Its667 input-list rows include11 headings and no ordinary turntable1/2.playPause mapping. Normal Play input, platter/motor reports, startup and lifecycle are not established by this export.",
+             "Two explicit output rows are Play-button lamp states on notes0/channels0/1 with values4/12; they do not establish Play input or a motor protocol. Native external deck/sampler/FX audio routing and hardware/software mixer ownership remain unimplemented.",
+             "Original ONE, FOUR and SYSTEM ONE are not aliases. No motor command, transport address or automatic profile is inferred from another model. Complete theoretical support and physical acceptance remain open."]}
+
+SOURCE_AUDITS.update(SEVENTY_AUDITS)
+SOURCE_AUDITS["Numark NV"] = NV_AUDIT
+SOURCE_AUDITS["Akai Pro AFX"] = {
+    "source":{"url":"https://maps.djtechtools.com/mappings/4017",
+              "sha256":"e11c26da43d231a8b4d289e09278a401a2702dcbe30d4617e6d9ca14bb995c1a"},
+    "relatedSources":[{"url":"https://forum.djtechtools.com/t/akai-amx-afx-mapping-wanted/68926",
+                       "sha256":"fbcc83b1d393d0e75bf21d1ff0b9aa07d1829febbf496cf2c4b010c1ece061f7"}],
+    "format":"Public HTML source-access audit; no TSI file downloaded",
+    "publishedMappingVersion":"0.1.0","mappingDownloadRequiresSignIn":True,"automaticSupportAdded":False,
+    "gaps":["The author's public mapping page requires sign-in to download its TSI. The two-deck description leaves Manual/Slicer/Sample modes and other controls incomplete. No downloadable protocol file was obtained, and no runtime mapping is added.",
+            "The author discussion supplies LED colour values and reports deck-dependent commands, but no complete channel/address table. Colours and the AMX mapping do not qualify AFX input addresses, deck channels, setup or complete theoretical support. Source access and physical acceptance remain open."]}
+
 
 MODELS = [
     ('Hercules DJControl Inpulse T7', 'https://community.algoriddim.com/t/hercules-inpulse-t7-support/20172/186'),

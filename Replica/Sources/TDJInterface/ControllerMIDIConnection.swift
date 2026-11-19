@@ -5,8 +5,9 @@ import TDJCore
 
 enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     case playA, playB, syncA, syncB, keylockA, keylockB, cueA, cueB
-    case cueStateA, cueStateB
+    case cueStateA, cueStateB, keylockStateA, keylockStateB
     case syncDisableA, syncDisableB
+    case syncStateA, syncStateB
     case cueSetA, cueSetB, cueGotoA, cueGotoB
     case pitchBendDownA, pitchBendDownB, pitchBendUpA, pitchBendUpB
     case shift
@@ -55,7 +56,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
         let labels = [
             "play": "Play / Pause", "sync": "Sync", "keylock": "Key lock", "cue": "Headphone cue", "level": "Volume",
             "pitchBendDown": "Pitch bend down (hold)", "pitchBendUp": "Pitch bend up (hold)",
-            "cueState": "Headphone cue state", "syncDisable": "Turn Sync off", "loopEnable": "Enable loop", "loopDisable": "Disable loop", "loopOutOrExit": "Loop out / exit",
+            "keylockState": "Key lock state", "cueState": "Headphone cue state", "syncState": "Sync state", "syncDisable": "Turn Sync off", "loopEnable": "Enable loop", "loopDisable": "Disable loop", "loopOutOrExit": "Loop out / exit",
             "cueSet": "Set Cue point", "cueGoto": "Go to Cue point",
             "gain": "Gain", "low": "Low EQ", "mid": "Mid EQ", "high": "High EQ", "filter": "Filter",
             "filterToggle": "Filter on / off", "fx": "Effect amount", "fxToggle": "Effect on / off",
@@ -77,7 +78,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
         case .levelA, .levelB, .gainA, .gainB, .lowA, .lowB, .midA, .midB, .highA, .highB, .filterA, .filterB, .fxA,
             .fxB, .crossfader, .cueMix, .master, .monitor, .tempoA, .tempoB, .jogA, .jogB, .wheelJogA, .wheelJogB,
             .browse, .browseGroups, .filterKnobA, .filterKnobB, .seekA, .seekB, .loopSizeA, .loopSizeB,
-            .cueStateA, .cueStateB:
+            .cueStateA, .cueStateB, .keylockStateA, .keylockStateB, .syncStateA, .syncStateB:
             false
         default: true
         }
@@ -90,7 +91,8 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     }
     var isJog: Bool { self == .jogA || self == .jogB || self == .wheelJogA || self == .wheelJogB }
     var isCueState: Bool { self == .cueStateA || self == .cueStateB }
-    var isLearnable: Bool { ![.toggleFixedLoopA, .toggleFixedLoopB, .fixedLoopA, .fixedLoopB, .fixedJumpA, .fixedJumpB, .loopSizeA, .loopSizeB].contains(self) }
+    var isDirectState: Bool { isCueState || self == .keylockStateA || self == .keylockStateB || self == .syncStateA || self == .syncStateB }
+    var isLearnable: Bool { ![.syncStateA, .syncStateB, .keylockStateA, .keylockStateB, .toggleFixedLoopA, .toggleFixedLoopB, .fixedLoopA, .fixedLoopB, .fixedJumpA, .fixedJumpB, .loopSizeA, .loopSizeB].contains(self) }
     func assigned(to deck: DeckID) -> Self {
         Self(rawValue: String(rawValue.dropLast()) + (deck.leftSide ? "A" : "B")) ?? self
     }
@@ -143,10 +145,12 @@ struct ControllerBinding: Codable {
     var requiredMode: UInt8? = nil
     var shiftChannel: UInt8? = nil
     var shiftInput: UInt8? = nil
+    var holdInput: UInt8? = nil
     var lowNumber: UInt8? = nil
     var pulse: Bool? = nil
     var requiresTouch: Bool? = nil
     var directionStep: Double? = nil
+    var deckBank: UInt8? = nil
     var lowControllerNumber: UInt8? { mode.isPairedCC ? lowNumber ?? (number < 32 ? number + 32 : nil) : nil }
     var target: ControllerActionTarget { .init(action, deck: targetDeck, argument: argument) }
     var mode: ControllerMIDIEncoding { encoding ?? .absolute }
@@ -384,12 +388,30 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private var connectedPorts: [Int32: MIDIPortRef] = [:]
     @ObservationIgnored private var sourceIDsByEndpoint: [UInt32: Int32] = [:]
     @ObservationIgnored private var decoders: [Int32: ControllerMIDIDecoder] = [:]
+    @ObservationIgnored private var smk25Decoders: [Int32: ControllerSMK25Decoder] = [:]
+    @ObservationIgnored private var cdj101Decoders: [Int32: ControllerCDJ101Decoder] = [:]
+    @ObservationIgnored private var sr2Decoders: [Int32: ControllerSR2Decoder] = [:]
+    @ObservationIgnored private var kontrolOneDecoders: [Int32: ControllerKontrolOneDecoder] = [:]
+    @ObservationIgnored private var setupInputDecoders: [Int32: ControllerSetupInputDecoder] = [:]
+    @ObservationIgnored private var nativeFactoryProtocols: [Int32: ControllerProfileData.InputProtocol] = [:]
+    @ObservationIgnored private var sc5000MDecoders: [Int32: ControllerSC5000MDecoder] = [:]
+    @ObservationIgnored private var prime4Decoders: [Int32: ControllerPrime4Decoder] = [:]
+    @ObservationIgnored private var spectraDecoders: [Int32: ControllerSpectraDecoder] = [:]
+    @ObservationIgnored private var p1NanoDecoders: [Int32: ControllerP1NanoDecoder] = [:]
+    @ObservationIgnored private var keyLabDecoders: [Int32: ControllerKeyLabDecoder] = [:]
+    @ObservationIgnored private var manualFactoryProfiles: [Int32: ControllerFactoryProfile] = [:]
+    @ObservationIgnored private var manualInputProtocols: [Int32: ControllerProfileData.InputProtocol] = [:]
     @ObservationIgnored private var bridgeDecoders: [Int32: ControllerBridgeDecoder] = [:]
     @ObservationIgnored private var bridgeConnected = false
     @ObservationIgnored private var pendingFeedback: [UInt8]?
     @ObservationIgnored private var sentFeedback: [UInt8] = []
     @ObservationIgnored private var sentMIDIValues: [String: [UInt8]] = [:]
-    @ObservationIgnored private var activeMomentaryInputs: [ControllerActionTarget: Set<Int32>] = [:]
+    private struct MomentaryInput: Hashable {
+        let source: Int32
+        let group: UInt8
+        let input: UInt8?
+    }
+    @ObservationIgnored private var activeMomentaryInputs: [ControllerActionTarget: Set<MomentaryInput>] = [:]
     @ObservationIgnored private var lastMIDIOutputTime = 0.0
     @ObservationIgnored private var lastFeedbackTime = 0.0
     @ObservationIgnored private var needsBridgeHello = true
@@ -397,6 +419,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private var valueStates: [String: ControllerMIDIValueState] = [:]
     @ObservationIgnored private var takeoverStates: [String: ControllerMIDITakeoverState] = [:]
     @ObservationIgnored private var pendingValues: [ControllerActionTarget: Double] = [:]
+    @ObservationIgnored private var pendingInputOwners: [ControllerActionTarget: Int32] = [:]
+    @ObservationIgnored private var pendingJogSources: [ControllerActionTarget: [Int32: Double]] = [:]
     @ObservationIgnored private var pendingJogValues: [ControllerActionTarget: ControllerMIDIValue] = [:]
     @ObservationIgnored private var channelShiftLayers: [Int32: [UInt8: ControllerShiftLayerState]] = [:]
     @ObservationIgnored private var shiftLayers: [Int32: ControllerShiftLayerState] = [:]
@@ -406,10 +430,20 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private let inbox = ControllerMIDIInbox()
     @ObservationIgnored private let preferences: UserDefaults
     @ObservationIgnored private let factoryPacketSender: (([UInt8], Int32) -> Bool)?
+    private struct PendingFactorySetup {
+        let session: ControllerFactorySession
+        var sequence: ControllerMIDISetupSequence
+    }
+    @ObservationIgnored private let factorySetupClock: () -> UInt64
+    @ObservationIgnored private var pendingFactorySetups: [Int32: PendingFactorySetup] = [:]
+    @ObservationIgnored private var timedFactoryInputs: Set<Int32> = []
+    @ObservationIgnored private var timedFactoryOutputs: Set<Int32> = []
+    @ObservationIgnored private var factoryInputReadyTimes: [Int32: UInt64] = [:]
     @ObservationIgnored private let factoryInputConnector: ((Int32) -> Bool)?
     @ObservationIgnored private let deckAvailability: (() -> [DeckID])?
     @ObservationIgnored private var factorySessions: [ControllerFactorySession] = []
     @ObservationIgnored private var factoryPadModes: [Int32: ControllerPadModeState] = [:]
+    @ObservationIgnored private var deckBanks: [Int32: ControllerDeckBankState] = [:]
     @ObservationIgnored private var factoryBindings: [Int32: [ControllerBinding]] = [:]
     @ObservationIgnored private var factoryFeedback: [Int32: [ControllerFeedbackBinding]] = [:]
     @ObservationIgnored private var sentFactoryValues: [Int32: [String: [UInt8]]] = [:]
@@ -423,15 +457,19 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private var savedPlayerDecks: [Int32: DeckID] = [:]
     private static let storageKey = "controllers.midiBindings.v1"
     private static let activeInputsStorageKey = "controllers.midiActiveInputs.v1"
+    private static let manualProfilesStorageKey = "controllers.factory.manualProfiles.v1"
+    private static let inputProtocolsStorageKey = "controllers.midiInputProtocols.v1"
     private static let feedbackStorageKey = "controllers.midiFeedback.v1"
 
     init(
         preferences: UserDefaults = .standard, factoryPacketSender: (([UInt8], Int32) -> Bool)? = nil,
-        deckAvailability: (() -> [DeckID])? = nil, factoryInputConnector: ((Int32) -> Bool)? = nil
+        deckAvailability: (() -> [DeckID])? = nil, factoryInputConnector: ((Int32) -> Bool)? = nil,
+        factorySetupClock: @escaping () -> UInt64 = { DispatchTime.now().uptimeNanoseconds }
     ) {
         self.preferences = preferences
         self.factoryPacketSender = factoryPacketSender
         self.factoryInputConnector = factoryInputConnector
+        self.factorySetupClock = factorySetupClock
         self.deckAvailability = deckAvailability
         if let data = preferences.data(forKey: "controllers.factory.disabledPlayers"),
             let saved = try? JSONDecoder().decode(Set<Int32>.self, from: data)
@@ -459,6 +497,16 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             let saved = try? JSONDecoder().decode([ControllerBinding].self, from: data), saved.count <= 256
         {
             bindings = saved
+        }
+        if let data = preferences.data(forKey: Self.manualProfilesStorageKey), data.count <= 16_384,
+            let saved = try? JSONDecoder().decode([Int32: ControllerFactoryProfile].self, from: data), saved.count <= 64 {
+            manualFactoryProfiles = saved.filter { source, _ in bindings.contains { $0.source == source } }
+        }
+        if let data = preferences.data(forKey: Self.inputProtocolsStorageKey), data.count <= 4096,
+            let saved = try? JSONDecoder().decode([Int32: ControllerProfileData.InputProtocol].self, from: data),
+            saved.count <= 64
+        {
+            manualInputProtocols = saved.filter { source, _ in bindings.contains { $0.source == source } }
         }
         if let data = preferences.data(forKey: Self.activeInputsStorageKey),
             let saved = try? JSONDecoder().decode([Int32].self, from: data), saved.count <= 64
@@ -498,7 +546,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 inbox.append(
                     source: source,
                     bytes: count <= 4096
-                        ? Array(UnsafeBufferPointer(start: bytes, count: count)) : Array(repeating: 0, count: 4097))
+                        ? Array(UnsafeBufferPointer(start: bytes, count: count)) : Array(repeating: 0, count: 4097),
+                    timestamp: DispatchTime.now().uptimeNanoseconds)
                 packet = MIDIPacketNext(packet)
             }
         }
@@ -548,6 +597,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         RunLoop.main.add(timer, forMode: .common)
     }
     func stop() {
+        pendingFactorySetups.removeAll()
+        factoryInputReadyTimes.removeAll()
         for session in factorySessions { sendFactorySetup(session, starting: false) }
         releaseMomentaryActions()
         timer?.invalidate()
@@ -573,6 +624,16 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         connectedPorts.removeAll()
         sourceIDsByEndpoint.removeAll()
         decoders.removeAll()
+        smk25Decoders.removeAll()
+        cdj101Decoders.removeAll()
+        sr2Decoders.removeAll()
+        keyLabDecoders.removeAll()
+        p1NanoDecoders.removeAll()
+        setupInputDecoders.removeAll()
+        sc5000MDecoders.removeAll()
+        prime4Decoders.removeAll()
+        spectraDecoders.removeAll()
+        kontrolOneDecoders.removeAll()
         bridgeDecoders.removeAll()
         shiftLayers.removeAll()
         channelShiftLayers.removeAll()
@@ -585,6 +646,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         values.removeAll()
         valueStates.removeAll()
         takeoverStates.removeAll()
+        pendingInputOwners.removeAll()
+        pendingJogSources.removeAll()
         pendingValues.removeAll()
         pendingJogValues.removeAll()
         _ = inbox.take()
@@ -592,6 +655,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         factorySessions.removeAll()
         factoryBindings.removeAll()
         factoryPadModes.removeAll()
+        deckBanks.removeAll()
         factoryFeedback.removeAll()
         sentFactoryValues.removeAll()
         resetBridge()
@@ -662,7 +726,9 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 reconnectInputs()
             }
         }
-        for id in sourceIDs where isInputActive(id) { connectInput(id) }
+        for id in sourceIDs where isInputActive(id)
+            || factorySessions.contains(where: { $0.source == id && $0.profile.definition?.requiresPairedSetup == true })
+        { connectInput(id) }
         if let feedbackSelected, !destinations.contains(where: { $0.id == feedbackSelected }) {
             self.feedbackSelected = nil
             sentFeedback = []
@@ -684,12 +750,87 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         updatePollingInterval()
     }
 
+    /**
+     * Removes queued input from the controller that lost software ownership.
+     */
+    private func discardPendingInput(source: Int32) {
+        let targets = Set(pendingInputOwners.compactMap { $0.value == source ? $0.key : nil })
+            .union(pendingJogSources.compactMap { $0.value[source] != nil ? $0.key : nil })
+        for target in targets {
+            if var contributions = pendingJogSources[target] {
+                contributions[source] = nil
+                if let owner = contributions.keys.min() {
+                    let total = contributions.values.reduce(0,+)
+                    pendingJogSources[target] = contributions
+                    pendingInputOwners[target] = owner
+                    pendingJogValues[target] = .relative(total)
+                    pendingValues[target] = 0.5 + min(4,max(-4,total)) / 8
+                    continue
+                }
+            }
+            pendingInputOwners[target] = nil
+            pendingJogSources[target] = nil
+            pendingJogValues[target] = nil
+            pendingValues[target] = nil
+        }
+    }
+
+    private func setupInputModeChanged(_ ready: Bool, source: Int32) {
+        if !ready { discardPendingInput(source: source) }
+        releaseMomentaryActions(source: source, resetJogs: false)
+        shiftLayers[source] = nil
+        channelShiftLayers[source] = nil
+        resetInputValueStates(inputBindings(source: source))
+        if inputProtocol(for: source) == .nanoKontrolScene {
+            status = ready ? "Controller scene ready." : "Reading the controller scene. Reconnect if setup does not finish."
+        } else {
+            status = ready ? "Controller ready." : "Controller left its MIDI mode. Reconnect to continue."
+        }
+        if let destination = factorySessions.first(where: { $0.source == source })?.destination {
+            sentFactoryValues[destination] = nil
+        }
+    }
+
+    private func keepsRawSetupMappings(_ source: Int32, protocol input: ControllerProfileData.InputProtocol) -> Bool {
+        input.preservesRawMappings && bindings.contains { $0.source == source } && manualInputProtocols[source] != input
+    }
+
     func reconcileFactoryProfiles(reassigning: Set<Int32> = []) {
         factorySetupFailure = nil
+        timedFactoryInputs = Set(sources.compactMap { source in
+            guard let identity = source.identity,
+                let profile = ControllerFactoryProfile.matching(identity.names, automaticOnly: true),
+                profile.definition?.hasDelayedStartup == true
+            else { return nil }
+            return source.id
+        })
+        nativeFactoryProtocols = Dictionary(uniqueKeysWithValues: sources.compactMap { source in
+            guard let identity = source.identity,
+                let input = ControllerFactoryProfile.matching(identity.names, automaticOnly: true)?.definition?.inputProtocol,
+                input.setupInputMode != nil
+            else { return nil }
+            guard !keepsRawSetupMappings(source.id, protocol: input) else { return nil }
+            return (source.id, input)
+        })
+        let timedDevices = Set(sources.compactMap { source -> UInt32? in
+            guard timedFactoryInputs.contains(source.id) || nativeFactoryProtocols[source.id] != nil,
+                let device = source.identity?.device, device != 0 else { return nil }
+            return device
+        })
+        timedFactoryOutputs = Set(destinations.compactMap { destination in
+            guard let identity = destination.identity else { return nil }
+            let profile = ControllerFactoryProfile.matching(identity.names, automaticOnly: true)
+            return timedDevices.contains(identity.device)
+                || (profile?.definition?.requiresPairedSetup == true && profile?.definition?.inputProtocol?.preservesRawMappings != true)
+                ? destination.id : nil
+        })
         let discovered = ControllerFactorySession.discover(
             sources: sources.compactMap(\.identity), destinations: destinations.compactMap(\.identity),
             disabled: disabledFactoryProfiles
-        ).filter { !$0.profile.isPlayer || !disabledPlayerSources.contains($0.source) }
+        ).filter { session in
+            (!session.profile.isPlayer || !disabledPlayerSources.contains(session.source))
+                && (session.profile.definition?.inputProtocol.map { !keepsRawSetupMappings(session.source, protocol: $0) } ?? true)
+        }
         let current = Dictionary(
             uniqueKeysWithValues: factorySessions.compactMap { session -> (Int32, DeckID)? in
                 guard let deck = session.playerDeck, !reassigning.contains(session.source) else { return nil }
@@ -712,7 +853,10 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         }
         let starting = candidates.filter { !factorySessions.contains($0) }
         let sessions = candidates
-        guard sessions != factorySessions else { return }
+        guard sessions != factorySessions else {
+            advanceFactorySetups()
+            return
+        }
         var padModes: [Int32: ControllerPadModeState] = [:]
         for session in sessions {
             guard let modes = session.profile.definition?.inputModes else { continue }
@@ -766,8 +910,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                             layerIndependent: binding.layerIndependent, anyChannel: binding.anyChannel,
                             argument: binding.argument, releaseOnly: binding.releaseOnly,
                             requiredMode: binding.requiredMode, shiftChannel: binding.shiftChannel,
-                            shiftInput: binding.shiftInput, lowNumber: binding.lowNumber, pulse: binding.pulse,
-                            requiresTouch: binding.requiresTouch, directionStep: binding.directionStep)
+                            shiftInput: binding.shiftInput, holdInput: binding.holdInput, lowNumber: binding.lowNumber, pulse: binding.pulse,
+                            requiresTouch: binding.requiresTouch, directionStep: binding.directionStep, deckBank: binding.deckBank)
                     } ?? session.profile.bindings(source: session.source, playerDeck: session.playerDeck)
                 return (session.source, profile)
             })
@@ -787,9 +931,13 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 return (destination, profile)
             })
         for session in sessions {
-            let connected = factoryInputConnector?(session.source) ?? (!enabled || connectInput(session.source))
+            let connected = factoryInputConnector?(session.source)
+                ?? (!enabled || connectInput(session.source, startingFactorySetup: false))
             if !connected { factorySetupFailure = "The controller input could not connect. Check the connection." }
-            guard connected && (!starting.contains(session) || sendFactorySetup(session, starting: true)) else {
+            let needsSetup = starting.contains(session)
+                || (session.profile.definition?.hasDelayedStartup == true
+                    && factoryInputReadyTimes[session.source] == nil && pendingFactorySetups[session.source] == nil)
+            guard connected && (!needsSetup || beginFactorySetup(session)) else {
                 disconnectInput(session.source)
                 factoryBindings[session.source] = nil
                 factoryPadModes[session.source] = nil
@@ -804,21 +952,110 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
      * Sends bounded mode messages only to the paired physical output.
      */
     @discardableResult private func sendFactorySetup(_ session: ControllerFactorySession, starting: Bool) -> Bool {
-        let messages = starting ? session.profile.definition?.startup : session.profile.definition?.shutdown
-        guard let messages, !messages.isEmpty else { return true }
-        guard let id = session.destination, let destination = destinations.first(where: { $0.id == id }) else { return false }
-        for message in messages {
-            let sent = factoryPacketSender?(message, id)
-                ?? (outputPort != 0 && sendMIDIMessage(message, destination: destination.reference))
-            guard sent else {
-                let operation = starting ? "start" : "stop"
-                let failure = "The controller MIDI mode could not \(operation). Check the output connection."
-                factorySetupFailure = failure
-                status = failure
-                return false
+        if let model = session.profile.definition?.inputProtocol?.setupInputMode {
+            if starting {
+                setupInputDecoders[session.source] = .init(mode: model)
+                status = "Waiting for controller setup."
+            } else if let message = setupInputDecoders[session.source]?.exitRequest {
+                return sendFactoryMessage(message, session: session, starting: false)
             }
         }
+        let messages = starting ? session.profile.definition?.startup : session.profile.definition?.shutdown
+        guard let messages, !messages.isEmpty else { return true }
+        for message in messages {
+            guard sendFactoryMessage(message, session: session, starting: starting) else { return false }
+        }
         return true
+    }
+
+    private func sendFactoryMessage(_ message: [UInt8], session: ControllerFactorySession, starting: Bool) -> Bool {
+        guard let id = session.destination, let destination = destinations.first(where: { $0.id == id }) else { return false }
+        let sent = factoryPacketSender?(message, id)
+            ?? (outputPort != 0 && sendMIDIMessage(message, destination: destination.reference, duringSetup: true))
+        if !sent {
+            let operation = starting ? "start" : "stop"
+            let failure = "The controller MIDI mode could not \(operation). Check the output connection."
+            factorySetupFailure = failure
+            status = failure
+        }
+        return sent
+    }
+
+    private func beginFactorySetup(_ session: ControllerFactorySession) -> Bool {
+        guard let definition = session.profile.definition, definition.hasDelayedStartup else {
+            return sendFactorySetup(session, starting: true)
+        }
+        if pendingFactorySetups[session.source]?.session == session || factoryInputReadyTimes[session.source] != nil {
+            return true
+        }
+        guard pendingFactorySetups.count < 16,
+            let sequence = ControllerMIDISetupSequence(steps: definition.startupSteps, startingAt: factorySetupClock())
+        else {
+            failFactorySetup(session)
+            return false
+        }
+        releaseMomentaryActions(source: session.source)
+        decoders[session.source] = nil
+        if let destination = session.destination { sentFactoryValues[destination] = nil }
+        pendingFactorySetups[session.source] = .init(session: session, sequence: sequence)
+        status = "Preparing controller."
+        advanceFactorySetups()
+        return pendingFactorySetups[session.source] != nil || factoryInputReadyTimes[session.source] != nil
+    }
+
+    /**
+     * Advances bounded startup work on the input polling loop, using actual send completion times.
+     */
+    func advanceFactorySetups() {
+        var budget = 64
+        for source in pendingFactorySetups.keys.sorted() {
+            guard var pending = pendingFactorySetups[source] else { continue }
+            guard factorySessions.contains(pending.session) else {
+                pendingFactorySetups[source] = nil
+                continue
+            }
+            var failed = false
+            while budget > 0, let message = pending.sequence.nextMessage(at: factorySetupClock()) {
+                budget -= 1
+                guard sendFactoryMessage(message, session: pending.session, starting: true),
+                    pending.sequence.didSend(at: factorySetupClock())
+                else {
+                    failFactorySetup(pending.session)
+                    failed = true
+                    break
+                }
+            }
+            if failed { continue }
+            if pending.sequence.isComplete(at: factorySetupClock()) {
+                decoders[source] = nil
+                shiftLayers[source] = nil
+                channelShiftLayers[source] = nil
+                resetInputValueStates(inputBindings(source: source))
+                factoryInputReadyTimes[source] = pending.sequence.readyAfter
+                pendingFactorySetups[source] = nil
+                if factorySetupFailure == nil { status = "Controller ready." }
+            } else {
+                pendingFactorySetups[source] = pending
+            }
+        }
+    }
+
+    private func failFactorySetup(_ session: ControllerFactorySession) {
+        if session.profile.definition?.inputProtocol?.setupInputMode != nil {
+            _ = sendFactorySetup(session, starting: false)
+        }
+        disconnectInput(session.source)
+        factoryBindings[session.source] = nil
+        factoryPadModes[session.source] = nil
+        factorySessions.removeAll { $0 == session }
+        if let destination = session.destination {
+            factoryFeedback[destination] = nil
+            sentFactoryValues[destination] = nil
+        }
+        if factorySetupFailure == nil {
+            factorySetupFailure = "Controller setup failed. Check its MIDI connections."
+        }
+        status = factorySetupFailure ?? "Controller setup failed."
     }
 
     var availablePlayerDecks: [DeckID] {
@@ -850,22 +1087,63 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
 
     private func inputBindings(source: Int32) -> [ControllerBinding] {
         let custom = bindings.filter { $0.source == source }
-        return custom.isEmpty ? factoryBindings[source, default: []] : custom
+        let raw = custom.isEmpty ? factoryBindings[source, default: []] : custom
+        guard let banks = deckBanks[source] else { return raw }
+        return raw.map { binding in
+            guard let bank = binding.deckBank else { return binding }
+            var result = binding
+            result.targetDeck = banks.deck(for: bank)
+            result.action = binding.action.assigned(to: banks.deck(for: bank))
+            return result
+        }
+    }
+
+    /**
+     * Keeps ordinary feedback out of incomplete or failed paired mode setup.
+     */
+    func factoryOutputIsReady(_ id: Int32) -> Bool {
+        guard timedFactoryOutputs.contains(id) else { return true }
+        guard let session = factorySessions.first(where: { $0.destination == id }) else { return false }
+        if session.profile.definition?.inputProtocol?.setupInputMode != nil {
+            return setupInputDecoders[session.source]?.isReady == true
+        }
+        return factoryInputReadyTimes[session.source] != nil
     }
 
     private func factoryFeedbackIsEnabled(_ destination: Int32) -> Bool {
         guard factoryFeedback[destination] != nil,
             let session = factorySessions.first(where: { $0.destination == destination }) else { return false }
-        return !disabledFactoryFeedback.contains(session.profile)
+        return !disabledFactoryFeedback.contains(session.profile) && factoryOutputIsReady(destination)
     }
 
     func applyFactoryProfile(_ profile: ControllerFactoryProfile) {
         guard !originalZ1Bridge, let selected else { return }
+        let adoptsSceneProfile = profile.definition?.inputProtocol?.preservesRawMappings == true
+            && !factorySessions.contains(where: { $0.source == selected && $0.profile == profile })
+        let availableScenePair = adoptsSceneProfile && ControllerFactorySession.discover(
+            sources: sources.compactMap(\.identity), destinations: destinations.compactMap(\.identity), disabled: []
+        ).contains { $0.source == selected && $0.profile == profile && $0.destination != nil }
+        guard profile.definition?.requiresPairedSetup != true
+            || factorySessions.contains(where: { $0.source == selected && $0.profile == profile })
+            || availableScenePair
+        else {
+            status = "Controller setup needs a paired MIDI input and output."
+            return
+        }
+        let replacement = profile.bindings(source: selected, playerDeck: playerDeck(source: selected))
+        guard bindings.filter({ $0.source != selected }).count + replacement.count <= 256 else {
+            status = "The controller mapping is full. Remove a mapping before applying this profile."
+            return
+        }
         releaseMomentaryActions(source: selected)
+        manualFactoryProfiles[selected] = profile
+        setManualInputProtocol(profile.definition?.inputProtocol, source: selected)
         bindings.removeAll { $0.source == selected }
-        bindings.append(contentsOf: profile.bindings(source: selected, playerDeck: playerDeck(source: selected)))
+        bindings.append(contentsOf: replacement)
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
+        pendingInputOwners.removeAll()
+        pendingJogSources.removeAll()
         pendingValues.removeAll()
         pendingJogValues.removeAll()
         learning = nil
@@ -873,6 +1151,16 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         shiftLayers[selected] = nil
         channelShiftLayers[selected] = nil
         persist()
+        if adoptsSceneProfile {
+            setFactoryDisabled(false, profile: profile, source: selected)
+            reconcileFactoryProfiles()
+            return
+        }
+        if profile.definition?.inputProtocol?.setupInputMode != nil,
+            let session = factorySessions.first(where: { $0.source == selected && $0.profile == profile }) {
+            if !sendFactorySetup(session, starting: true) { failFactorySetup(session) }
+            return
+        }
         status = "Loaded the \(profile.rawValue) factory profile."
     }
 
@@ -941,7 +1229,11 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             learningShifted = false
         }
     }
-    func isInputActive(_ id: Int32) -> Bool { activeInputIDs.contains(id) || factoryBindings[id] != nil }
+    func isInputActive(_ id: Int32) -> Bool {
+        guard !timedFactoryInputs.contains(id) || factoryInputReadyTimes[id] != nil,
+            nativeFactoryProtocols[id] == nil || setupInputDecoders[id]?.isReady == true else { return false }
+        return activeInputIDs.contains(id) || factoryBindings[id] != nil
+    }
     private func setFactoryDisabled(_ disabled: Bool, profile: ControllerFactoryProfile, source: Int32) {
         if profile.isPlayer {
             if disabled {
@@ -964,13 +1256,46 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         let data = try? JSONEncoder().encode(activeInputIDs.sorted())
         preferences.set(data, forKey: Self.activeInputsStorageKey)
     }
+    private func inputProtocol(for source: Int32) -> ControllerProfileData.InputProtocol? {
+        if let session = factorySessions.first(where: { $0.source == source }) {
+            return session.profile.definition?.inputProtocol
+        }
+        if let input = nativeFactoryProtocols[source] { return input }
+        return manualInputProtocols[source]
+    }
+
+    /**
+     * Resets manual protocol state and reconnects only when the required input port changes.
+     */
+    private func setManualInputProtocol(_ input: ControllerProfileData.InputProtocol?, source: Int32) {
+        deckBanks[source] = nil
+        let wasConnected = connectedEndpoints[source] != nil
+        manualInputProtocols[source] = input
+        decoders[source] = nil
+        smk25Decoders[source] = nil
+        cdj101Decoders[source] = nil
+        sr2Decoders[source] = nil
+        keyLabDecoders[source] = nil
+        p1NanoDecoders[source] = nil
+        setupInputDecoders[source] = nil
+        sc5000MDecoders[source] = nil
+        prime4Decoders[source] = nil
+        spectraDecoders[source] = nil
+        kontrolOneDecoders[source] = nil
+        if wasConnected, connectedPorts[source] != inputPort(for: source) {
+            disconnectInput(source)
+            connectInput(source)
+        }
+    }
+
     private func inputPort(for id: Int32) -> MIDIPortRef {
-        if factoryBindings[id] != nil || (originalZ1Bridge && id == selected) { return port }
+        if factoryBindings[id] != nil || inputProtocol(for: id) != nil || (originalZ1Bridge && id == selected) { return port }
         return protocolPort != 0 ? protocolPort : port
     }
-    @discardableResult private func connectInput(_ id: Int32) -> Bool {
+    @discardableResult private func connectInput(_ id: Int32, startingFactorySetup: Bool = true) -> Bool {
         if connectedEndpoints[id] != nil { return true }
-        guard enabled, isInputActive(id),
+        let timedSession = factorySessions.first { $0.source == id && $0.profile.definition?.requiresPairedSetup == true }
+        guard enabled, isInputActive(id) || timedSession != nil,
             let source = sources.first(where: { $0.id == id })
         else { return false }
         let inputPort = inputPort(for: id)
@@ -984,11 +1309,27 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         connectedPorts[id] = inputPort
         sourceIDsByEndpoint[source.reference] = id
         decoders[id] = .init()
+        smk25Decoders[id] = nil
+        cdj101Decoders[id] = nil
+        sr2Decoders[id] = nil
+        keyLabDecoders[id] = nil
+        p1NanoDecoders[id] = nil
+        setupInputDecoders[id] = nil
+        sc5000MDecoders[id] = nil
+        prime4Decoders[id] = nil
+        spectraDecoders[id] = nil
+        kontrolOneDecoders[id] = nil
         bridgeDecoders[id] = .init()
         updatePollingInterval()
+        if startingFactorySetup, let timedSession, factoryInputReadyTimes[id] == nil,
+            setupInputDecoders[id]?.isReady != true {
+            return beginFactorySetup(timedSession)
+        }
         return true
     }
     private func disconnectInput(_ id: Int32) {
+        pendingFactorySetups[id] = nil
+        factoryInputReadyTimes[id] = nil
         let endpoint = connectedEndpoints.removeValue(forKey: id)
         if let endpoint {
             if let connectedPort = connectedPorts.removeValue(forKey: id) {
@@ -997,20 +1338,35 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             sourceIDsByEndpoint[endpoint] = nil
         }
         decoders[id] = nil
+        smk25Decoders[id] = nil
+        cdj101Decoders[id] = nil
+        sr2Decoders[id] = nil
+        keyLabDecoders[id] = nil
+        p1NanoDecoders[id] = nil
+        setupInputDecoders[id] = nil
+        sc5000MDecoders[id] = nil
+        prime4Decoders[id] = nil
+        spectraDecoders[id] = nil
+        kontrolOneDecoders[id] = nil
         bridgeDecoders[id] = nil
         shiftLayers[id] = nil
         channelShiftLayers[id] = nil
         values = values.filter { !$0.key.hasPrefix("\(id)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(id)-") }
         takeoverStates = takeoverStates.filter { !$0.key.hasPrefix("\(id)-") }
+        pendingInputOwners.removeAll()
+        pendingJogSources.removeAll()
         pendingValues.removeAll()
         pendingJogValues.removeAll()
         releaseMomentaryActions(source: id, resetJogs: endpoint != nil || playerDeck(source: id) != nil)
+        deckBanks[id] = nil
         updatePollingInterval()
     }
     private func reconnectInputs() {
         for id in Array(connectedEndpoints.keys) { disconnectInput(id) }
-        for source in sources where isInputActive(source.id) { connectInput(source.id) }
+        for source in sources where isInputActive(source.id)
+            || factorySessions.contains(where: { $0.source == source.id && $0.profile.definition?.requiresPairedSetup == true })
+        { connectInput(source.id) }
     }
     func setBridgeMode(_ enabled: Bool) {
         originalZ1Bridge = enabled
@@ -1394,8 +1750,11 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             }
         }
     }
-    private func sendMIDIMessage(_ bytes: [UInt8], destination: MIDIEndpointRef) -> Bool {
+    private func sendMIDIMessage(_ bytes: [UInt8], destination: MIDIEndpointRef, duringSetup: Bool = false) -> Bool {
         guard ControllerProfileData.validSetupMessage(bytes) else { return false }
+        if !duringSetup, let output = destinations.first(where: { $0.reference == destination }), !factoryOutputIsReady(output.id) {
+            return false
+        }
         var list = MIDIPacketList()
         let start = MIDIPacketListInit(&list)
         _ = bytes.withUnsafeBufferPointer {
@@ -1408,15 +1767,19 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     }
     func clearBindings() {
         guard let selected else { return }
+        releaseMomentaryActions(source: selected)
         if let session = factorySessions.first(where: { $0.source == selected }) {
             customFactoryInputs[factoryInputKey(session)] = nil
             preferences.set(try? JSONEncoder().encode(customFactoryInputs), forKey: "controllers.factory.customInputs")
             setFactoryDisabled(true, profile: session.profile, source: selected)
             reconcileFactoryProfiles()
         }
+        setManualInputProtocol(nil, source: selected)
         bindings.removeAll { $0.source == selected }
         values.removeAll()
         valueStates.removeAll()
+        pendingInputOwners.removeAll()
+        pendingJogSources.removeAll()
         pendingValues.removeAll()
         pendingJogValues.removeAll()
         learning = nil
@@ -1432,10 +1795,13 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         }
         releaseMomentaryActions(source: selected)
         let profile = Self.ddjFLX4Bindings(source: selected)
+        setManualInputProtocol(nil, source: selected)
         bindings.removeAll { $0.source == selected }
         bindings.append(contentsOf: profile)
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
+        pendingInputOwners.removeAll()
+        pendingJogSources.removeAll()
         pendingValues.removeAll()
         pendingJogValues.removeAll()
         learning = nil
@@ -1453,10 +1819,13 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         }
         releaseMomentaryActions(source: selected)
         let profile = Self.ddjFLX10Bindings(source: selected)
+        setManualInputProtocol(nil, source: selected)
         bindings.removeAll { $0.source == selected }
         bindings.append(contentsOf: profile)
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
+        pendingInputOwners.removeAll()
+        pendingJogSources.removeAll()
         pendingValues.removeAll()
         pendingJogValues.removeAll()
         learning = nil
@@ -1473,10 +1842,13 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         }
         releaseMomentaryActions(source: selected)
         let profile = Self.ddj1000Bindings(source: selected)
+        setManualInputProtocol(nil, source: selected)
         bindings.removeAll { $0.source == selected }
         bindings.append(contentsOf: profile)
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
+        pendingInputOwners.removeAll()
+        pendingJogSources.removeAll()
         pendingValues.removeAll()
         pendingJogValues.removeAll()
         learning = nil
@@ -1499,10 +1871,13 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         }
         releaseMomentaryActions(source: selected)
         let profile = Self.ddjREV1Bindings(source: selected)
+        setManualInputProtocol(nil, source: selected)
         bindings.removeAll { $0.source == selected }
         bindings.append(contentsOf: profile)
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
+        pendingInputOwners.removeAll()
+        pendingJogSources.removeAll()
         pendingValues.removeAll()
         pendingJogValues.removeAll()
         learning = nil
@@ -1520,10 +1895,13 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         }
         releaseMomentaryActions(source: selected)
         let profile = Self.ddjREV5Bindings(source: selected)
+        setManualInputProtocol(nil, source: selected)
         bindings.removeAll { $0.source == selected }
         bindings.append(contentsOf: profile)
         values = values.filter { !$0.key.hasPrefix("\(selected)-") }
         valueStates = valueStates.filter { !$0.key.hasPrefix("\(selected)-") }
+        pendingInputOwners.removeAll()
+        pendingJogSources.removeAll()
         pendingValues.removeAll()
         pendingJogValues.removeAll()
         learning = nil
@@ -1683,6 +2061,14 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         bindingCount = bindings.count
         takeoverStates.removeAll()
         if let data = try? JSONEncoder().encode(bindings) { preferences.set(data, forKey: Self.storageKey) }
+        manualFactoryProfiles = manualFactoryProfiles.filter { source, _ in bindings.contains { $0.source == source } }
+        if let data = try? JSONEncoder().encode(manualFactoryProfiles) {
+            preferences.set(data, forKey: Self.manualProfilesStorageKey)
+        }
+        manualInputProtocols = manualInputProtocols.filter { source, _ in bindings.contains { $0.source == source } }
+        if let data = try? JSONEncoder().encode(manualInputProtocols) {
+            preferences.set(data, forKey: Self.inputProtocolsStorageKey)
+        }
         rememberFactoryOverrides()
     }
     private func releaseMomentaryActions(source: Int32? = nil, resetJogs: Bool = true, decks: Set<DeckID>? = nil) {
@@ -1690,7 +2076,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             if let decks, !decks.contains(target.deck ?? target.action.deck) { continue }
             guard var inputs = activeMomentaryInputs[target] else { continue }
             let wasActive = !inputs.isEmpty
-            if let source { inputs.remove(source) } else { inputs.removeAll() }
+            if let source { inputs = inputs.filter { $0.source != source } } else { inputs.removeAll() }
             activeMomentaryInputs[target] = inputs.isEmpty ? nil : inputs
             if wasActive && inputs.isEmpty { sendAction(target, value: 0) }
         }
@@ -1729,6 +2115,252 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     private func factoryInputKey(_ session: ControllerFactorySession) -> String {
         session.profile.rawValue + (session.profile.isPlayer ? "#\(session.source)" : "")
     }
+
+    /**
+     * Applies a bounded byte frame through the active factory protocol or the ordinary MIDI decoder.
+     */
+    @discardableResult func receiveBytes(
+        _ bytes: [UInt8], source: Int32, limit: Int = 256, timestamp: UInt64 = DispatchTime.now().uptimeNanoseconds
+    ) -> Int? {
+        let nativeSetup = inputProtocol(for: source)?.setupInputMode != nil
+            && factorySessions.contains { $0.source == source && $0.profile.definition?.inputProtocol?.setupInputMode != nil }
+        guard isInputActive(source) || nativeSetup else { return 0 }
+        if let ready = factoryInputReadyTimes[source], timestamp < ready { return 0 }
+        guard bytes.count <= 4096, (0...256).contains(limit) else {
+            stop()
+            status = "Controller input overload. Reconnect to continue."
+            return nil
+        }
+        if inputProtocol(for: source) == .smk25II {
+            var decoder = smk25Decoders[source, default: .init()]
+            let events = decoder.append(bytes)
+            smk25Decoders[source] = decoder
+            guard events.count <= limit else {
+                stop()
+                status = "Controller input overload. Reconnect to continue."
+                return nil
+            }
+            for event in events {
+                switch event {
+                case .message(let message): receive(message, source: source)
+                case .deckChanged:
+                    flushPendingActions()
+                    releaseMomentaryActions(source: source, decks: Set(DeckID.primary))
+                    resetInputValueStates(inputBindings(source: source).filter { $0.targetDeck != nil })
+                }
+            }
+            return events.count
+        }
+        if inputProtocol(for: source) == .ddjSR2 {
+            var decoder = sr2Decoders[source, default: .init()]
+            let events = decoder.append(bytes)
+            sr2Decoders[source] = decoder
+            guard events.count <= limit else {
+                stop()
+                status = "Controller input overload. Reconnect to continue."
+                return nil
+            }
+            for event in events {
+                switch event {
+                case .message(let message): receive(message, source: source)
+                case .bankChanged(let left):
+                    let decks: Set<DeckID> = left ? [.a, .c] : [.b, .d]
+                    flushPendingActions()
+                    releaseMomentaryActions(source: source, decks: decks)
+                    resetInputValueStates(inputBindings(source: source).filter {
+                        $0.targetDeck.map { decks.contains($0) } == true
+                    })
+                }
+            }
+            return events.count
+        }
+        if inputProtocol(for: source) == .p1Nano {
+            var decoder = p1NanoDecoders[source, default: .init()]
+            let events = decoder.append(bytes)
+            p1NanoDecoders[source] = decoder
+            guard events.count <= limit else {
+                stop()
+                status = "Controller input overload. Reconnect to continue."
+                return nil
+            }
+            for event in events {
+                switch event {
+                case .message(let message): receive(message, source: source)
+                case .controlsChanged:
+                    flushPendingActions()
+                    releaseMomentaryActions(source: source)
+                    resetInputValueStates(inputBindings(source: source))
+                }
+            }
+            return events.count
+        }
+        if let model = inputProtocol(for: source)?.setupInputMode {
+            var decoder = setupInputDecoders[source, default: .init(mode: model)]
+            let events = decoder.append(bytes)
+            setupInputDecoders[source] = decoder
+            guard events.count <= limit else {
+                stop()
+                status = "Controller input overload. Reconnect to continue."
+                return nil
+            }
+            for event in events {
+                switch event {
+                case .request(let message):
+                    guard let session = factorySessions.first(where: { $0.source == source }),
+                        sendFactoryMessage(message, session: session, starting: true) else {
+                        if let session = factorySessions.first(where: { $0.source == source }) { failFactorySetup(session) }
+                        return nil
+                    }
+                case .sceneChanged:
+                    flushPendingActions()
+                    releaseMomentaryActions(source: source, resetJogs: false)
+                    resetInputValueStates(inputBindings(source: source).filter { $0.action != .shift })
+                case .modeChanged(let ready): setupInputModeChanged(ready, source: source)
+                case .message(let message): receive(message, source: source)
+                }
+            }
+            if let request = setupInputDecoders[source]?.pendingRequest {
+                guard let session = factorySessions.first(where: { $0.source == source }),
+                    sendFactoryMessage(request, session: session, starting: true) else {
+                    if let session = factorySessions.first(where: { $0.source == source }) { failFactorySetup(session) }
+                    return nil
+                }
+                if setupInputDecoders[source]?.didSendPendingRequest(request) == true {
+                    setupInputModeChanged(true, source: source)
+                }
+            }
+            return events.count
+        }
+        if inputProtocol(for: source) == .denonPrime4 {
+            var decoder = prime4Decoders[source, default: .init()]
+            let events = decoder.append(bytes)
+            prime4Decoders[source] = decoder
+            guard events.count <= limit else {
+                stop()
+                status = "Controller input overload. Reconnect to continue."
+                return nil
+            }
+            for event in events {
+                switch event {
+                case .message(let message): receive(message, source: source)
+                case .controlsChanged(let left):
+                    let decks: Set<DeckID> = left ? [.a, .c] : [.b, .d]
+                    flushPendingActions()
+                    releaseMomentaryActions(source: source, resetJogs: false, decks: decks)
+                    resetInputValueStates(inputBindings(source: source).filter {
+                        $0.action != .shift && $0.targetDeck.map { decks.contains($0) } == true
+                    })
+                }
+            }
+            return events.count
+        }
+        if inputProtocol(for: source) == .sc5000M || inputProtocol(for: source) == .denonPrimePlayer {
+            var decoder = sc5000MDecoders[source, default: .init()]
+            let events = decoder.append(bytes)
+            sc5000MDecoders[source] = decoder
+            guard events.count <= limit else {
+                stop()
+                status = "Controller input overload. Reconnect to continue."
+                return nil
+            }
+            for event in events {
+                switch event {
+                case .message(let message): receive(message, source: source)
+                case .deckChanged, .padModeChanged:
+                    flushPendingActions()
+                    releaseMomentaryActions(source: source, resetJogs: false)
+                    resetInputValueStates(inputBindings(source: source).filter { $0.action != .shift })
+                }
+            }
+            return events.count
+        }
+        if inputProtocol(for: source) == .midiFighterSpectra {
+            var decoder = spectraDecoders[source, default: .init()]
+            let events = decoder.append(bytes)
+            spectraDecoders[source] = decoder
+            guard events.count <= limit else {
+                stop()
+                status = "Controller input overload. Reconnect to continue."
+                return nil
+            }
+            for event in events {
+                switch event {
+                case .message(let message): receive(message, source: source)
+                case .deckChanged, .bankChanged:
+                    flushPendingActions()
+                    releaseMomentaryActions(source: source, resetJogs: false)
+                    resetInputValueStates(inputBindings(source: source).filter {
+                        event == .bankChanged || $0.channel < 4
+                    })
+                }
+            }
+            return events.count
+        }
+        if inputProtocol(for: source) == .kontrolOne {
+            var decoder = kontrolOneDecoders[source, default: .init()]
+            let events = decoder.append(bytes)
+            kontrolOneDecoders[source] = decoder
+            guard events.count <= limit else {
+                stop()
+                status = "Controller input overload. Reconnect to continue."
+                return nil
+            }
+            for event in events {
+                switch event {
+                case .message(let message): receive(message, source: source)
+                case .deckChanged:
+                    flushPendingActions()
+                    releaseMomentaryActions(source: source)
+                    resetInputValueStates(inputBindings(source: source).filter { $0.action != .shift })
+                }
+            }
+            return events.count
+        }
+        if inputProtocol(for: source) == .keyLabMKI {
+            var decoder = keyLabDecoders[source, default: .init()]
+            let events = decoder.append(bytes, timestamp: timestamp)
+            keyLabDecoders[source] = decoder
+            guard events.count <= limit else {
+                stop()
+                status = "Controller input overload. Reconnect to continue."
+                return nil
+            }
+            for event in events {
+                switch event {
+                case .message(let message): receive(message, source: source)
+                case .deckChanged:
+                    flushPendingActions()
+                    releaseMomentaryActions(source: source)
+                    resetInputValueStates(inputBindings(source: source).filter { $0.channel < 4 })
+                case .padLayerChanged:
+                    flushPendingActions()
+                    releaseMomentaryActions(source: source, resetJogs: false)
+                    resetInputValueStates(inputBindings(source: source).filter {
+                        $0.kind == .note && (64...71).contains($0.number)
+                    })
+                }
+            }
+            return events.count
+        }
+        let messages: [ControllerMIDIMessage]
+        if inputProtocol(for: source) == .cdj101 {
+            var decoder = cdj101Decoders[source, default: .init()]
+            messages = decoder.append(bytes, timestamp: timestamp)
+            cdj101Decoders[source] = decoder
+        } else {
+            var decoder = decoders[source, default: .init()]
+            messages = decoder.append(bytes)
+            decoders[source] = decoder
+        }
+        guard messages.count <= limit else {
+            stop()
+            status = "Controller input overload. Reconnect to continue."
+            return nil
+        }
+        for message in messages { receive(message, source: source) }
+        return messages.count
+    }
+
     private func drain() {
         let (frames, overflow, refresh) = inbox.take()
         if overflow {
@@ -1737,9 +2369,11 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             return
         }
         if refresh { refreshSources() }
+        advanceFactorySetups()
         var processed = 0
         for frame in frames {
             guard let sourceID = sourceIDsByEndpoint[frame.source] else { continue }
+            if let ready = factoryInputReadyTimes[sourceID], frame.timestamp < ready { continue }
             if originalZ1Bridge, sourceID == selected {
                 guard case .bytes(let bytes) = frame.payload else { continue }
                 var decoder = bridgeDecoders[sourceID, default: .init()]
@@ -1757,10 +2391,12 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             let messages: [ControllerMIDIMessage]
             switch frame.payload {
             case .bytes(let bytes):
-                var decoder = decoders[sourceID, default: .init()]
-                messages = decoder.append(bytes)
-                decoders[sourceID] = decoder
-            case .messages(let input): messages = input
+                guard let count = receiveBytes(bytes, source: sourceID, limit: 256 - processed, timestamp: frame.timestamp) else { return }
+                processed += count
+                continue
+            case .messages(let input):
+                guard inputProtocol(for: sourceID) == nil else { continue }
+                messages = input
             }
             processed += messages.count
             guard processed <= 256 else {
@@ -1781,6 +2417,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     func flushPendingActions() {
         let pending = pendingValues
         let jogs = pendingJogValues
+        pendingInputOwners.removeAll(keepingCapacity: true)
+        pendingJogSources.removeAll(keepingCapacity: true)
         pendingValues.removeAll(keepingCapacity: true)
         pendingJogValues.removeAll(keepingCapacity: true)
         for (target, value) in pending { sendAction(target, value: value, jog: jogs[target]) }
@@ -1905,7 +2543,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             if binding.requiresTouch == true {
                 let touch = ControllerActionTarget(
                     binding.action.deck == .a ? .jogTouchA : .jogTouchB, deck: binding.targetDeck)
-                guard activeMomentaryInputs[touch]?.contains(sourceID) == true else { continue }
+                guard activeMomentaryInputs[touch]?.contains(where: { $0.source == sourceID && $0.group == message.group }) == true else { continue }
             }
             var value: Double
             switch decoded {
@@ -1969,14 +2607,19 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 sendAction(binding.target, value: value)
                 continue
             }
-            if binding.action.isCueState {
+            if binding.action.isDirectState {
                 sendAction(binding.target, value: value)
                 continue
             }
             if binding.action.isMomentary {
                 var inputs = activeMomentaryInputs[binding.target, default: []]
                 let wasActive = !inputs.isEmpty
-                if value > 0 { inputs.insert(sourceID) } else { inputs.remove(sourceID) }
+                let owner = MomentaryInput(source: sourceID, group: message.group, input: binding.holdInput)
+                if value > 0 {
+                    inputs.insert(owner)
+                } else {
+                    inputs.remove(owner)
+                }
                 activeMomentaryInputs[binding.target] = inputs.isEmpty ? nil : inputs
                 if value > 0 && !wasActive {
                     sendAction(binding.target, value: value)
@@ -2025,12 +2668,16 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                         let previous: Double
                         if case .relative(let counts) = pendingJogValues[binding.target] { previous = counts }
                         else { previous = 0 }
-                        let total = previous + (binding.inverted == true ? -delta : delta)
+                        let signedDelta = binding.inverted == true ? -delta : delta
+                        let total = previous + signedDelta
+                        pendingJogSources[binding.target, default: [:]][sourceID, default: 0] += signedDelta
                         pendingJogValues[binding.target] = .relative(total)
                     case .absolute:
+                        pendingJogSources[binding.target] = nil
                         pendingJogValues[binding.target] = .absolute(value)
                     }
                 }
+                pendingInputOwners[binding.target] = sourceID
                 pendingValues[binding.target] = value
             }
         }
@@ -2048,10 +2695,11 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
 
     private func receiveFactoryPadMode(_ message: ControllerMIDIMessage, source: Int32) {
         guard let mode = factoryPadModes[source]?.receive(message),
+            let onValue = mode.onValue, let offValue = mode.offValue,
             let session = factorySessions.first(where: { $0.source == source }),
             let id = session.destination, let destination = destinations.first(where: { $0.id == id }) else { return }
         for number in mode.numbers {
-            let packet = [0x90 | mode.channel, number, number == message.number ? mode.onValue : mode.offValue]
+            let packet = [0x90 | mode.channel, number, number == message.number ? onValue : offValue]
             let sent = factoryPacketSender?(packet, id)
                 ?? (outputPort != 0 && sendMIDIMessage(packet, destination: destination.reference))
             if !sent {
@@ -2066,16 +2714,28 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
      */
     private func receiveFactoryBankChange(_ message: ControllerMIDIMessage, source: Int32) {
         guard message.group == 0, message.maximum <= 127,
-            let session = factorySessions.first(where: { $0.source == source }),
-            let change = session.profile.definition?.bankChanges?.first(where: {
+            let profile = manualFactoryProfiles[source] ?? factorySessions.first(where: { $0.source == source })?.profile,
+            let change = profile.definition?.bankChanges?.first(where: {
                 ($0.kind ?? .note) == message.kind && $0.channel == message.channel && $0.number == message.number
-                    && (message.isNoteOff ? $0.releaseShiftChannels != nil
+                    && (message.isNoteOff ? ($0.releaseShiftChannels != nil || $0.deckBank != nil)
                         : $0.onValue.map { Int($0) == message.value } ?? true)
             })
         else { return }
+        let previousBindings = change.deckBank != nil ? inputBindings(source: source) : []
+        var nextBankState: ControllerDeckBankState?
+        if change.deckBank != nil {
+            var state = deckBanks[source, default: .init()]
+            let changed = state.receive(message, selector: change)
+            guard changed else {
+                deckBanks[source] = state
+                return
+            }
+            nextBankState = state
+        }
         let decks = Set(change.decks)
         flushPendingActions()
         releaseMomentaryActions(source: source, decks: decks)
+        if let nextBankState { deckBanks[source] = nextBankState }
         let bindings = inputBindings(source: source)
         let layered = bindings.map { ($0, isShiftActive($0)) }
         if message.isNoteOff, let channels = change.releaseShiftChannels {
@@ -2091,11 +2751,13 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             }
         }
         let scoped = bindings.filter { binding in
+            if let bank = change.deckBank { return binding.deckBank == bank }
             if let deck = binding.targetDeck { return decks.contains(deck) }
             return (binding.action.rawValue.hasSuffix("A") || binding.action.rawValue.hasSuffix("B"))
                 && decks.contains(binding.action.deck)
         }
-        resetInputValueStates(scoped + layered.filter { isShiftActive($0.0) != $0.1 }.map { $0.0 })
+        let previousBank = change.deckBank.map { bank in previousBindings.filter { $0.deckBank == bank } } ?? []
+        resetInputValueStates(scoped + previousBank + layered.filter { isShiftActive($0.0) != $0.1 }.map { $0.0 })
     }
 
     private func resetInputValueStates(_ scoped: [ControllerBinding]) {
@@ -2120,6 +2782,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             let deck = target.deck ?? target.action.deck
             let jogs = pendingValues.keys.filter { $0.action.isJog && ($0.deck ?? $0.action.deck) == deck }
             for key in jogs {
+                pendingInputOwners[key] = nil
+                pendingJogSources[key] = nil
                 if let pending = pendingValues.removeValue(forKey: key) {
                     sendAction(key, value: pending, jog: pendingJogValues.removeValue(forKey: key))
                 }
@@ -2134,6 +2798,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         if target.action == .loadA || target.action == .loadB || target.action == .openGroup {
             for encoder in [ControllerAction.browse, .browseGroups] {
                 let key = ControllerActionTarget(encoder)
+                pendingInputOwners[key] = nil
+                pendingJogSources[key] = nil
                 if let pending = pendingValues.removeValue(forKey: key) { sendAction(key, value: pending) }
             }
         }

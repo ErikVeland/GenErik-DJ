@@ -1,0 +1,1561 @@
+{
+  "request": "R355",
+  "reviewDate": "2026-11-19",
+  "sources": [
+    {
+      "url": "https://www.rane.com/downloads/",
+      "indexURL": "https://www.rane.com/page-data/sq/d/3542786296.json",
+      "finding": "The checked public product index lists drivers, firmware and user guides. No SDK or MIDI wire-specification download is listed. This is a scoped finding, not proof that private or other documents do not exist.",
+      "products": [
+        {
+          "model": "Rane System One",
+          "downloads": [
+            {
+              "description": "SYSTEM ONE User Guide (Engine DJ 5.3)",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/engine/53/SYSTEM%20ONE%20-%20User%20Guide%20-%20v5.3.0.pdf"
+            },
+            {
+              "description": "Engine DJ OS Updates ",
+              "type": "Firmware Update",
+              "url": "https://enginedj.com/downloads"
+            },
+            {
+              "description": "Engine DJ Desktop Software ",
+              "type": "Music Preparation Software",
+              "url": "https://enginedj.com/downloads"
+            },
+            {
+              "description": "Download Latest Version",
+              "type": "Serato DJ Pro",
+              "url": "https://serato.com/dj/pro/downloads"
+            },
+            {
+              "description": "SYSTEM ONE DRIVER - WINDOWS V1.0.9",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/systemone/Install Rane SYSTEM ONE 1.0.9.exe"
+            }
+          ]
+        },
+        {
+          "model": "MP2015",
+          "downloads": [
+            {
+              "description": "Control Panel for Mac macOS 10.9.5 - 11.4 (Big Sur) v2.5.0.56",
+              "type": "Driver",
+              "url": "http://cdn.inmusicbrands.com/rane/RaneControlPanel_2.5.0.56.zip"
+            },
+            {
+              "description": "Control Panel for Mac macOS 10.7.5 - 10.9 v2.4.0",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/mp2015/RaneControlPanel240.zip"
+            },
+            {
+              "description": "Control Panel for Windows (including the ASIO/MIDI driver) v2.4.0",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/mp2015/RaneControlPanelSetup240.zip"
+            },
+            {
+              "description": "MP2015 Mixer Manual",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/rane/mp2015/mp2015_manual.pdf"
+            },
+            {
+              "description": "MP2015 Mixer White Paper",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/rane/mp2015/mp2015_white_paper.pdf"
+            },
+            {
+              "description": "MP2015 Mixer Data Sheet",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/rane/mp2015/mp2015_data.pdf"
+            }
+          ]
+        },
+        {
+          "model": "Seventy A-Trak",
+          "downloads": [
+            {
+              "description": "SEVENTY A-TRAK Control Panel/Driver - macOS v1.0.5",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy-atrak/Rane Seventy A-Trak Device Settings 1.0.5.dmg"
+            },
+            {
+              "description": "SEVENTY A-TRAK Control Panel/Driver - Windows v1.0.4",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy-atrak/Install Rane Seventy A-Trak 1.0.4.exe"
+            },
+            {
+              "description": "SEVENTY A-TRAK User Guide v1.1",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy-atrak/Seventy%20A-Trak%20Edition%20-%20User%20Guide%20-%20v1.1.pdf"
+            }
+          ]
+        },
+        {
+          "model": "Seventy-Two MKII",
+          "downloads": [
+            {
+              "description": "Seventy-Two Control Panel \u2013 macOS v1.1.2",
+              "type": "Editor",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy-two/MacRaneSeventy-Two_1.1.2.dmg"
+            },
+            {
+              "description": "Seventy-Two MKII Firmware Update - macOS v1.6",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy-twoMKII/Rane%20Seventy-Two%20Firmware%20Updater_For%20Firmware%201.6.0.dmg"
+            },
+            {
+              "description": "Seventy-Two MKII Firmware Update - Windows v1.6",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy-twoMKII/Win%20-%20Rane%20Seventy-Two%20Firmware%201.6.0.47.exe"
+            },
+            {
+              "description": "Seventy-Two MKII Windows Driver v1.0.8",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/Install_Rane_Seventy-Two_1.0.8.exe"
+            },
+            {
+              "description": "Seventy-Two MKII User Guide v1.4",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy-twoMKII/Seventy-Two_MKII-UserGuide-v1.4.pdf"
+            }
+          ]
+        },
+        {
+          "model": "Seventy-Two",
+          "downloads": [
+            {
+              "description": "Seventy-Two Control Panel \u2013 macOS v1.1.2",
+              "type": "Editor",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy-two/MacRaneSeventy-Two_1.1.2.dmg"
+            },
+            {
+              "description": "Seventy-Two Firmware Update - macOS v1.6",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy-twoMKII/Rane%20Seventy-Two%20Firmware%20Updater_For%20Firmware%201.6.0.dmg"
+            },
+            {
+              "description": "Seventy-Two Firmware Update - Windows v1.6",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy-twoMKII/Win%20-%20Rane%20Seventy-Two%20Firmware%201.6.0.47.exe"
+            },
+            {
+              "description": "Seventy-Two Windows Driver v1.0.8",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/Install_Rane_Seventy-Two_1.0.8.exe"
+            },
+            {
+              "description": "Seventy-Two User Guide v1.4",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy-twoMKII/Seventy-Two_MKII-UserGuide-v1.4.pdf"
+            }
+          ]
+        },
+        {
+          "model": "Seventy",
+          "downloads": [
+            {
+              "description": "SEVENTY Firmware Update \u2013 macOS v1.1.0.127 (Latest Version)",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy/Rane%20Seventy%20Firmware%20Updater%20For%20Firmware%201.1.0.127%20%28Updater%201.0.1%29.dmg"
+            },
+            {
+              "description": "SEVENTY Firmware Update \u2013 Windows v1.1.0.127 (Latest Version)",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy/Install%20Rane%20Seventy%20Firmware%20Updater%20For%20Firmware%201.1.0.127%20%28Updater%201.0.0%29.exe"
+            },
+            {
+              "description": "Seventy Control Panel/Driver - macOS v1.0.5",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy/Rane Seventy Device Settings 1.0.5.dmg"
+            },
+            {
+              "description": "Seventy Control Panel/Driver - Windows v1.0.6",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy/Install_Rane_Seventy_1.0.6.exe"
+            },
+            {
+              "description": "Seventy User Guide v1.3",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/rane/seventy/Seventy_User_Guide_v1-3_zyx.pdf"
+            }
+          ]
+        },
+        {
+          "model": "Twelve MKII",
+          "downloads": [
+            {
+              "description": "Twelve MKII User Guide v1.1",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/rane/twelveMKII/Twelve_MKII-UserGuide-v1.1.pdf"
+            }
+          ]
+        },
+        {
+          "model": "Twelve",
+          "downloads": [
+            {
+              "description": "Twelve User Guide v1.2",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/rane/twelve/Twelve-UserGuide-v1.2.pdf"
+            }
+          ]
+        },
+        {
+          "model": "Rane Four",
+          "downloads": [
+            {
+              "description": "FOUR Drivers - Windows v1.0.10",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/four/Install%20Rane%20FOUR%201.0.10.exe"
+            },
+            {
+              "description": "FOUR Firmware Update \u2013 macOS 1.8.0.18 (Latest Version)",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/Software/RD/RANE%20FOUR%20Firmware%20Updater%20For%20Firmware%201.8.0.18.dmg"
+            },
+            {
+              "description": "FOUR Firmware Update - Windows 1.8.0.18 (Latest Version)",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/Software/RD/Install%20RANE%20FOUR%20Firmware%20Updater%20For%20Firmware%201.8.0.18.exe"
+            },
+            {
+              "description": "FOUR Firmware Release Notes 1.8.0.18 (Latest Version)",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20FOUR%20Firmware%20-%20Release%20Note%20History%20v1.8.0.18.pdf"
+            },
+            {
+              "description": "FOUR Firmware Update \u2013 macOS v1.7.0.8",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/four/RANE%20FOUR%20Firmware%20Updater%20For%20Firmware%201.7.0.8%20%28Updater%201.1.6%29.dmg"
+            },
+            {
+              "description": "FOUR Firmware Update - Windows v1.7.0.8",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/four/Install%20RANE%20FOUR%20Firmware%20Updater%20For%20Firmware%201.7.0.8%20%28Updater%201.1.6%29.exe"
+            },
+            {
+              "description": "FOUR Firmware Release Notes v1.7.0.8",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/four/RANE%20FOUR%20Firmware%20_%201.7.0.8_Release%20Notes.pdf"
+            },
+            {
+              "description": "FOUR Drivers - macOS v1.0.3",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/four/RANE%20FOUR%20DRIVERS/RANE%20FOUR%201.0.3.dmg"
+            },
+            {
+              "description": "FOUR Firmware Update - macOS v1.6.0.2",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/four/RANE%20FOUR%20Firmware%20Updater%20-%20v1.6.0.2.dmg"
+            },
+            {
+              "description": "FOUR Firmware Update - Windows v1.6.0.2",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/four/RANE%20FOUR%20Firmware%20Updater%20-%20v1.6.0.2.exe"
+            },
+            {
+              "description": "FOUR Firmware Release Notes v1.6.0.2",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/four/Release%20Notes%20-%20RANE%20FOUR%20Firmware%20v1.6.0.2.pdf"
+            },
+            {
+              "description": "FOUR Firmware Update - macOS v1.5.0.2",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/four/RANE%20FOUR%20Firmware%20Updater%20-%20v1.5.0.2.dmg"
+            },
+            {
+              "description": "FOUR Firmware Update - Windows v1.5.0.2",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/four/RANE%20FOUR%20Firmware%20Updater%20-%20v1.5.0.2.exe"
+            },
+            {
+              "description": "FOUR Firmware Release Notes v1.5.0.2",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/four/Release%20Notes%20-%20RANE%20FOUR%20Firmware%20v1.5.0.2.pdf"
+            },
+            {
+              "description": "FOUR - User Guide v1.3",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/Software/RD/FOUR%20-%20User%20Guide%20-%20v1.3.pdf"
+            }
+          ]
+        },
+        {
+          "model": "Rane Performer",
+          "downloads": [
+            {
+              "description": "PERFORMER Drivers - macOS v1.0.1",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/performer/Rane%20PERFORMER%201.0.1.dmg"
+            },
+            {
+              "description": "PERFORMER Drivers - Windows v1.0.7",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%201.0.7.exe"
+            },
+            {
+              "description": "PERFORMER Drivers - Windows v1.0.6",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%201.0.6.exe"
+            },
+            {
+              "description": "PERFORMER Drivers - Windows v1.0.2",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%201.0.2.exe"
+            },
+            {
+              "description": "PERFORMER Firmware Update \u2013 macOS v1.3.0.13 (Latest Version)",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.3.0.13.dmg"
+            },
+            {
+              "description": "PERFORMER Firmware Update \u2013 Windows v1.3.0.13 (Latest Version)",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/Software/RD/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.3.0.13.exe"
+            },
+            {
+              "description": "PERFORMER Firmware Release Notes v1.3.0.13",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20PERFORMER%20Firmware%20-%20Release%20Note%20History%20v1.3.0.13.pdf"
+            },
+            {
+              "description": "PERFORMER Firmware Update \u2013 macOS v1.2.0.10",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/performer/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.2.0.10%20%28Updater%201.0.5%29.dmg"
+            },
+            {
+              "description": "PERFORMER Firmware Update \u2013 Windows v1.2.0.10",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.2.0.10%20%28Updater%201.0.4%29.exe"
+            },
+            {
+              "description": "PERFORMER Firmware Release Notes v1.2.0.10",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/performer/Release%20Notes%20-%20Rane%20PERFORMER%20Firmware%20v1.2.0.10.pdf"
+            },
+            {
+              "description": "PERFORMER Firmware Update \u2013 macOS v1.1.0.13",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/performer/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.1.0.13%20%28Updater%201.0.3%29.dmg"
+            },
+            {
+              "description": "PERFORMER Firmware Update \u2013 Windows v1.1.0.13",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.1.0.13%20%28Updater%201.0.3%29.exe"
+            },
+            {
+              "description": "PERFORMER User Guide v1.5",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/Software/RD/PERFORMER%20-%20User%20Guide%20-%20v1.5.pdf"
+            }
+          ]
+        },
+        {
+          "model": "Rane One MKII",
+          "downloads": [
+            {
+              "description": " ONE MKII Firmware Update \u2013 macOS v1.2.0.2 (Latest Version)",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/one-mkii/FW1202/Rane%20ONE%20MKII%20Firmware%20Updater%20For%20Firmware%201.2.0.2%20%28Updater%201.0.2%29%201.dmg"
+            },
+            {
+              "description": " ONE MKII Firmware Update \u2013 Windows v1.2.0.2 (Latest Version) ",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/one-mkii/FW1202/Install%20Rane%20ONE%20MKII%20Firmware%20Updater%20For%20Firmware%201.2.0.2%20%28Updater%201.0.2%29.exe"
+            },
+            {
+              "description": "RANE ONE MKII Firmware Release Notes v1.2.0.2",
+              "type": "Firmware Update",
+              "url": "https://cdn.inmusicbrands.com/rane/one-mkii/FW1202/RANE%20ONE%20MKII%20Firmware%20_%201.2.0.2%20Release%20Notes.pdf"
+            },
+            {
+              "description": "RANE ONE MKII User Guide",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/rane/one-mkii/ONE%20MKII%20-%20User%20Guide%20-%20v1.1.pdf"
+            },
+            {
+              "description": "RANE ONE MKII Drivers - macOS v1.0.2 ",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/one-mkii/Rane%20ONE%20MKII%201.0.2.dmg"
+            },
+            {
+              "description": "RANE ONE MKII Drivers - Windows v1.0.4",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/one-mkii/Install%20Rane%20ONE%20MKII%201.0.4.exe"
+            }
+          ]
+        },
+        {
+          "model": "Rane One",
+          "downloads": [
+            {
+              "description": "ONE User Guide v1.5",
+              "type": "User Manual",
+              "url": "https://cdn.inmusicbrands.com/rane/one/RANE-ONE-User-Guide-v1_5.pdf"
+            },
+            {
+              "description": "Control Panel for macOS v1.0.1",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/one/Rane%20ONE%201.0.1.dmg"
+            },
+            {
+              "description": "Control Panel for Windows v1.0.1",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/one/Install%20Rane%20ONE%201.0.1.exe"
+            }
+          ]
+        },
+        {
+          "model": "SL4",
+          "downloads": [
+            {
+              "description": "SL 4 CoreAudio Driver for macOS 10.11.4 - 10.14 v2.0.1f1",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/sl4/SL4-2.0.1f1.zip"
+            },
+            {
+              "description": "SL4 CoreAudio Driver for macOS 10.7.5 - 10.10.5 v1.0.3f1",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/sl4/SL4-1.0.3f1.zip"
+            },
+            {
+              "description": "SL4 ASIO Driver for Win 7-SP1 - Win 10 1.0.3f2",
+              "type": "Driver",
+              "url": "https://cdn.inmusicbrands.com/rane/legacy-product-downloads/RaneAsioSl4Ver1.0.3f2.zip"
+            },
+            {
+              "description": "SL4 Owners Manual for Serato DJ",
+              "type": "User Manual",
+              "url": "https://www.ranecommercial.com/legacy/pdf/sl4_manual_dj.pdf"
+            },
+            {
+              "description": "SL4 Data Sheet",
+              "type": "User Manual",
+              "url": "https://www.ranecommercial.com/legacy/pdf/sl4_data.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://www.denondj.com/downloads",
+      "finding": "The current public download page links LC6000 and several legacy MIDI specifications. It lists X1800/X1850 guides and firmware, without a separate X1800/X1850 MIDI wire table. Existing independent profiles retain their own sources."
+    }
+  ],
+  "checkedGuides": [
+    {
+      "model": "Rane PERFORMER",
+      "version": "1.5",
+      "file": "performer-guide-v1.5.pdf",
+      "finding": "MIDI/audio operating instructions and internal hardware FX appendix. No MIDI address, handshake, motor or display wire table found."
+    },
+    {
+      "model": "Rane SEVENTY-TWO MKII",
+      "version": "1.4",
+      "file": "seventy-two-mk2-guide-v1.4.pdf",
+      "finding": "MIDI remapping instructions and specifications appendix. No MIDI address, handshake or display wire table found. The index also links this file from original SEVENTY-TWO, which does not qualify shared wire protocols."
+    },
+    {
+      "model": "Rane TWELVE MKII",
+      "version": "1.1",
+      "file": "twelve-mk2-guide-v1.1.pdf",
+      "finding": "USB MIDI/DVS operating instructions and specifications appendix. No MIDI address or motor/platter wire table found."
+    }
+  ],
+  "cachedFileSHA256": {
+    "rane-downloads-page-data.json": "06299547b4f96c91988279f447e6ac3ecf1c2ced42717c99fb2653387ee44a61",
+    "rane-query-2568188990.json": "2d89cb3acf8640986d99caae0360c9055995c3cd3728312ccec1bc3215c36915",
+    "rane-query-3542786296.json": "7f996b145a508b420bae3318dc455558c02b53d4d994179dea3c420e731e3e9c",
+    "rane-downloads-component.js": "f03c23ecde1d29d7b4f54078482976109839e470414161502c67edcea511aae1",
+    "performer-guide-v1.5.pdf": "13b9c3ff4dffe95d0fd0460a28af40d8d2115f91cbc513b784e7e8b8651cf97f",
+    "seventy-two-mk2-guide-v1.4.pdf": "83f6edbb759424e7d742abe5db0bf51b17674b40044d1097768b40e21c8ef4d4",
+    "twelve-mk2-guide-v1.1.pdf": "6ad794ab8fcc99d6ce5d7b3399a9ac4eb90b1989c11aaeac7f1a4390d7af438e",
+    "denon-downloads.html": "4a367b19976fe0c34935ff5564adf5ba6d4409534b537881780827bf5107f664"
+  },
+  "limits": [
+    "Read-only public sources. No account request, message, firmware updater, driver installation or proprietary definition extraction.",
+    "No SDK or private-access assumption. Public-source investigation and overall controller support remain incomplete."
+  ],
+  "updates": [
+    {
+      "request": "R357",
+      "reviewDate": "2026-11-19",
+      "finding": "The old Pioneer support sections redirect in the browser to the migrated AlphaTheta Help Center. Follow the current article links. The exact filename and case matter; failed older URLs do not establish an unavailable protocol. Browser reads work where direct web fetches return403.",
+      "documents": [
+        {
+          "model": "AlphaTheta SLAB",
+          "article": "https://support.alphatheta.com/en-US/articles/52774134882841?product=50303541909785",
+          "url": "https://downloads.support.alphatheta.com/midi-mapping/music-production/SLAB/SLAB_MIDI_Message_List_en.pdf",
+          "cache": "TestBuilds/r357/upstream/slab-midi-en.pdf",
+          "sha256": "aaba912538403e712fb73554a4e30fff8b467e115e91f9455718711fd1b29a0c",
+          "status": "R358:139 automatic fixed native DJ bindings across all eight normal pad pages, with source-local page/Shift cleanup. Full Serato semantics/output/lifecycle and physical acceptance remain open."
+        },
+        {
+          "model": "Pioneer DJM-A9",
+          "article": "https://support.alphatheta.com/en-US/articles/16006872025369",
+          "url": "https://downloads.support.alphatheta.com/midi-mapping/dj-mixers/DJM-A9/DJM-A9_MIDI_Message_List_E_10.pdf",
+          "cache": "TestBuilds/r357/upstream/djm-a9-midi-e10.pdf",
+          "sha256": "4bca4d93965d669e8a22bd58a9582ce2fdd23fc3cc29a576203f8e2df819c76f",
+          "status": "Downloaded and visually reviewed. Thirty-input manual subset implemented; contradictory CH2 rows and overlapping controls remain inactive."
+        },
+        {
+          "model": "Pioneer DDJ-REV7",
+          "article": "https://support.alphatheta.com/en-US/articles/4414574284697",
+          "url": "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-REV7/DDJ-REV7_MIDI_message_List_E2.pdf",
+          "cache": "TestBuilds/r357/upstream/ddj-rev7-midi-e2.pdf",
+          "sha256": "a2d33045fc28017d48ba8e9409e0586d0f753ce426e7f955c0c56460b7dbf905",
+          "status": "All seven E2 pages visually checked. R361 implements70 manual MIDI inputs with explicit bank metadata. Motor/platter, Silent Cue, full output/lifecycle/audio and physical acceptance remain open. No motor or output command is inferred."
+        }
+      ],
+      "otherFindings": [
+        {
+          "model": "AlphaTheta DJM-V5",
+          "url": "https://support.alphatheta.com/en-US/products/50766108259865?section=24",
+          "finding": "The current software section still lists no MIDI-compatible-software article. Manufacturer FAQ50837244561049 confirms MIDI transmission and no MIDI receive. Its MIDI-list link redirects to the same section without a wire table. One EN100 filename probe returned404. No sibling wire map is inferred."
+        },
+        {
+          "model": "Denon DJ X1850 PRIME",
+          "url": "https://cdn.inmusicbrands.com/denondj/X1850Prime/X1850%20PRIME%20-%20User%20Guide%20-%20v1.4.pdf",
+          "cache": "TestBuilds/r355/upstream/x1850-user-guide-v1.4.pdf",
+          "sha256": "ed7b8dc224f5cf6f011f2431fb723cd8282f10dae0e3952a467826be22d1398e",
+          "finding": "Manufacturer guide downloaded from the current public index. It documents MIDI clock/active-send settings, without a control-address wire table."
+        }
+      ]
+    },
+    {
+      "request": "R359",
+      "reviewDate": "2026-11-19",
+      "documents": [
+        {
+          "model": "AlphaTheta DJM-A7",
+          "article": "https://support.alphatheta.com/en-US/articles/53214453591428",
+          "url": "https://downloads.support.alphatheta.com/software_info/dj-mixers/DJM-A7/djm-A7_midi_message_list_EN_100.pdf",
+          "cache": "TestBuilds/r359/upstream/djm-a7-midi-en100.pdf",
+          "sha256": "c3ccdb2f61be9f94ce6c6b22027736184d1a24709121c8952d1c8f95b979caee",
+          "status": "All three pages visually checked. Thirty-two manual TOGGLE/channel1 inputs implemented, including four unambiguous faders. This independent table does not repair A9 source conflicts."
+        },
+        {
+          "model": "AlphaTheta XDJ-AN",
+          "article": "https://support.alphatheta.com/en-US/articles/53214453591205?product=51352009960347",
+          "url": "https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-AN/XDJ-AN_MIDI_Massage_List_E1.pdf",
+          "cache": "TestBuilds/r360/upstream/xdj-an-midi-e1.pdf",
+          "sha256": "8862a83688206ffe0bf7736a0235f1318b07185b467444a6bad2d49e7733c4bd",
+          "status": "All three E1 pages visually checked. R360 adds99 inputs and ten binary lamps behind independent deck PC-mode notifications and a successful paired mixer-mode send. Cold notifications, device acknowledgement, audio routing and physical/A10X acceptance remain open."
+        }
+      ]
+    },
+    {
+      "request": "R361",
+      "reviewDate": "2026-11-19",
+      "documents": [
+        {
+          "model": "AlphaTheta RMX-IGNITE",
+          "article": "https://support.alphatheta.com/en-US/articles/53214453590764",
+          "url": "https://downloads.support.alphatheta.com/firmwares/dj-effectors/RMX-IGNITE/RMX-IGNITE_midi_message_list_en.pdf",
+          "cache": "TestBuilds/r361/upstream/rmx-ignite-midi-en.pdf",
+          "sha256": "11d27b45729126db68c927c7234597d8400806381ac6a81fcf3f074811ae9bc1",
+          "status": "Both wire pages visually checked. R362 adds22 manual native deck-A accessory inputs. Hardware FX/sampler emulation, triplet/dotted loops, full audio ownership and physical/A10X acceptance remain open. No output, bypass or stored-setting write is inferred."
+        }
+      ],
+      "otherFindings": [
+        {
+          "model": "Reloop RP-8000 MK2",
+          "url": "https://www.reloop.com/media/custom/upload/Reloop-rp-8000_mk2_platter_play_mode.pdf",
+          "finding": "Current manufacturer product page links the external Platter Play table. Its external motor-control addresses do not establish ordinary performance-pad input messages. The independent Traktor mapping9866 requires sign-in to download. No motor command, sibling input map or inaccessible mapping is imported."
+        }
+      ]
+    },
+    {
+      "request": "R363",
+      "reviewDate": "2026-11-19",
+      "documents": [
+        {
+          "url": "https://www.algoriddim.com/hardware",
+          "cache": "TestBuilds/r363/upstream/algoriddim-hardware.html",
+          "sha256": "db8bf667068cbcb278d49f5ee5794e5d6baccc528cdff917e41b00da232954a3",
+          "status": "Pinned204 hardware rows and57 platform limitations. Thirty-one missing model records added. Digital Jockey IE2/MIXAGE IE resolve to existing records. Runtime mappings remain byte-identical. Competitor evidence does not establish our support or theoretical completion."
+        }
+      ]
+    },
+    {
+      "request": "R364",
+      "reviewDate": "2026-11-19",
+      "documents": [
+        {
+          "model": "Hercules DJControl Mix Ultra",
+          "url": "https://github.com/v6ry876z77-bit/yt-dj-mix/blob/93a097e7641512bd026b9d1b5d129b2e5f009f87/mixultra-midi.md",
+          "sha256": "a06dcddf1c98baed578a1b907e0864c9cc5b0cf1a4ead25dce26af6e4c757a8f",
+          "status": "Corroborated with independent firmware analysis and captured mapping, all pinned in mix_ultra.py. R364 adds48 normal automatic inputs. Shift-side conflict uses a source-wide OR guard. Sync/PFL, other modes/service overlap, pairing/output/audio and physical acceptance remain open. No firmware, patch or executable mapping code is imported."
+        }
+      ]
+    },
+    {
+      "request": "R366",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://impact-even.com/wp-content/uploads/2022/03/pioneer_djm900nexus2_midimessages.pdf",
+          "sha256": "48fc203ca395e6449311f021ec61119e0401e26e0389c9f0aadf4209bebe0a0c",
+          "review": "Manufacturer-authored Version1.00. All four pages visually reviewed. Rental-company mirror because the old manufacturer software page returns403."
+        },
+        {
+          "url": "https://c3.zzounds.com/media/DJM-900NXS2_manual_EN-0703f22a06f23c5041e63da3db269aa6.pdf",
+          "review": "Web-reviewed manufacturer manual page20 confirms channel1 and TOGGLE defaults. Local download403, no local manual hash claimed."
+        }
+      ],
+      "limits": [
+        "Manual separate app audio only. Hardware processing, external mixer routing, full protocol/lifecycle/output and physical/A10X acceptance remain open.",
+        "CC114 collision between X-PAD touch and Beat FX ON/OFF stays inactive. No sibling wire facts or setting/output writes."
+      ]
+    },
+    {
+      "request": "R367",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://support.alphatheta.com/en-US/articles/4405086271129",
+          "review": "Current manufacturer software article supplies the migrated MIDI PDF. Requires other-software utility setting and power cycle when changing software."
+        },
+        {
+          "url": "https://downloads.support.alphatheta.com/midi-mapping/dj-mixers/DJM-S9/DJM-S9_List_of_MIDI_Message_E.pdf",
+          "sha256": "ff942101be3328acf0b9fa90d54c15f5a02a9d8efc494ca5a8142fe308e4badd",
+          "review": "All four Version1.00 wire pages visually reviewed. Header pad channels8/9/10/11 conflict with rows8/8/10/11. Additional mode status9q is undefined. 4BEAT LOOP69/20 depends on incompletely specified utility preference."
+        }
+      ],
+      "limits": [
+        "42 manual controls with separate app audio. Pads/modes, utility-dependent loop activation, PFL channel fader, fader-start contacts, full hardware/audio/lifecycle/output and physical/A10X acceptance remain open.",
+        "No vendor code, output, stored-setting or sibling protocol imported."
+      ]
+    },
+    {
+      "request": "R368",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://github.com/heronarts/LX/blob/a950c548db00b1d3b72db3b5ac4a80f2b8519415/src/main/java/heronarts/lx/midi/surface/DJMV10.java",
+          "sha256": "e274c95db5223e6a757aa52c8882ca78c65e3e18c230863b6ba923fd7ee31a8a",
+          "review": "Read declared V10 constants, channel filter and Toggle requirement. Non-commercial LX source licence. Independently normalised protocol facts only. No executable source copied, run or bundled."
+        },
+        {
+          "url": "https://blt-guide.deepsymmetry.org/beat-link-trigger/next/_attachments/ExtendedOnAirV10.bls",
+          "sha256": "36f6fde121bb83330beefeff74f3ebd00a30090946f6965ad6ddc2700ea82b11",
+          "review": "Read public show contents.edn without executing. One trim/fader/master map serves V10 and LF. LF model choice hides crossfader/assign controls. V10 gain/level/master/crossfader independently corroborated."
+        }
+      ],
+      "limits": [
+        "V10 24 manual controls, LF nine independently qualified controls. Separate app audio only.",
+        "Hardware CH5/6, four-band mids, mode-dependent filters, full output/lifecycle/audio and physical/A10X acceptance remain open.",
+        "No LF EQ/PFL/headphone facts inferred from the separate V10 source. Distribution review remains open."
+      ]
+    },
+    {
+      "request": "R369",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://www.recordcase.de/media/pdf/84/26/2c/Pioneer-DJM-450-Addendum-EN.pdf",
+          "sha256": "eca0374d463ab83b30716a775b584579485eef1f6033a5abf0063d5150d75c49",
+          "review": "All three manufacturer-authored Version1.00 pages visually reviewed. Two independent strips, CC70/71 Cue states and four global controls."
+        }
+      ],
+      "limits": [
+        "18 manual inputs. Explicit channel1/TOGGLE selection, no factory defaults inferred. Separate app audio.",
+        "Full hardware/audio ownership/output/lifecycle and physical/A10X acceptance remain open.",
+        "S3 manufacturer manual article4404659821465 links a MIDI addendum that returns404. Alza mirror61365 requires human verification. No challenge bypass attempted. S3 mapping remains open."
+      ]
+    },
+    {
+      "request": "R370",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://support.alphatheta.com/en-US/articles/4404631697945",
+          "review": "Current article explicitly names DDJ-FLX6/DDJ-FLX6-GT and supplies one shared E1 table. Requires utility mode for other DJ software and power cycle between software."
+        },
+        {
+          "url": "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-FLX6/DDJ-FLX6_MIDI_message_List_E1.pdf",
+          "sha256": "a12861c81f1550c35ae446a311951ade2a51cecfc2fd07081f5c405a4f3cfbc2",
+          "review": "Current download is byte-identical to the previously reviewed pinned E1 table. Reuse existing inputs/outputs/lifecycle exactly under a distinct GT profile."
+        }
+      ],
+      "limits": [
+        "Automatic core after the user selects the required hardware mode. No mode negotiation or stored-setting write.",
+        "Merge FX/Jog Cutter, full modes/feedback/lifecycle/audio and physical/A10X acceptance remain open. No clone or generic alias."
+      ]
+    },
+    {
+      "request": "R371",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://ts.hercules.com/download/sound/manuals/DJ_Air%2B/DJAIR%2B_Spec_MIDI.pdf",
+          "sha256": "bc214fc30440d5aa8ed40ea2e788ce1141c04cf657a2a9c3064b171032f8d4a5",
+          "review": "All eight pages visually reviewed. Distinct transport/Hot Cue/contact/signed jog packets, explicit14-bit low bytes, literal EQ/gain polarity,16 owned binary outputs and split audio layout."
+        },
+        {
+          "url": "https://ts.hercules.com/download/sound/TDJS/current/TP2_DJ_AirPlus.zip",
+          "sha256": "d6128274aae24bbe7cd6df6fafd0d371c61726cbbe52ab29e4e1231161f20dac",
+          "member": "AIR+-TP2_Config_MAC_v268.pdf",
+          "memberSHA256": "4f5284aff77697e6484a1e43a22043a5dfb6a6a0938fbd00a35ed0379bae99cf",
+          "review": "Page1 visually reviewed. MIDI channel1,14-bit and headphones3/4 are marked defaults. Other guide text reviewed for physical controls. Downloaded TSI files not executed or bundled."
+        },
+        {
+          "url": "https://github.com/mixxxdj/mixxx/wiki/Hercules-Djcontrol-Air-Plus",
+          "review": "Developer wiki confirms class-compliant USB MIDI/audio and master1/2, headphones3/4."
+        }
+      ],
+      "limits": [
+        "Default core47 inputs/16 owned lamps. Generic jog sensitivity and physical EQ/pitch taper/range remain uncalibrated.",
+        "FX/loops/sample/pressure, filter reassignment, HP Cue/Mix, Vinyl/Air, full lifecycle/audio device acceptance and A10X performance remain open.",
+        "No Update_All_Controls query/reset, setting, firmware or driver command. Status-only bank recovery remains open."
+      ]
+    },
+    {
+      "request": "R372",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+          "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+          "member": "Applications/DEX4.app/Contents/Resources/controllers/Hercules__DJ_Control_Air+.js",
+          "memberSHA256": "39ba734e1fcd15b7c7930fc829f611ede3bca36357f7ac421f872981876a5bd8",
+          "review": "Read-only comparison with the already preserved public installer member. No installation or downloaded code execution. Explicit normal EQ/gain setters contradict manufacturer CW/CCW wording. Both CC102/104 and103/105 share765-position touch-aware jog handling."
+        }
+      ],
+      "limits": [
+        "Retain factory raw64 reverse boundary over the independent mapping off-by-one.",
+        "Use only protocol facts. No proprietary executable source copied or bundled. Distribution review and physical calibration remain open."
+      ]
+    },
+    {
+      "request": "R373",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://ts.hercules.com/download/sound/manuals/4Set/01_Eng_DJ4Set.pdf",
+          "sha256": "38fc31cec1597c245693389bc87fcb3c2770b7cceda6cf844f5b9518022d672e",
+          "review": "All eight appendix pages31-38 visually reviewed. Manual text confirms default channels1/2, four-deck mode and7-bit pitch. Note banks A/B on first channel, C/D on second; all CC sets on first. Separate virtual driver MIDI contract."
+        },
+        {
+          "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+          "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+          "member": "Applications/DEX4.app/Contents/Resources/controllers/Hercules__DJ4set.js",
+          "memberSHA256": "b5316177a990f043630cacac171da920d708e26f0a74c57cda3b0c2bcd6bde7d",
+          "review": "Read-only comparison. Corroborates250-position normal/scratch handlers, note-channel banks and normal EQ/master/blend/crossfader polarity. No installer or downloaded code run."
+        }
+      ],
+      "limits": [
+        "82 manual inputs and16 separately selected steady lamps. Desktop-driver/external-bridge MIDI required. Direct iPad USB/audio access remains unqualified.",
+        "No automatic audio, settings/query/reset/driver command, inferred sibling protocol or bundled executable source. Full pages/lifecycle/calibration and physical/A10X acceptance remain open."
+      ]
+    },
+    {
+      "request": "R374",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+          "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+          "member": "Applications/DEX4.app/Contents/Resources/controllers/Numark__NS6.js",
+          "memberSHA256": "c6c3b21dcbdafd73e6802d43619af04466abd742a5a3259effc7e3ed063d6d42",
+          "review": "Read-only original NS6 handlers. Deck channels1-4, shared global0, cyclic CC0/32 and32 steady CC outputs. No installer or source code executed."
+        },
+        {
+          "url": "https://www.numark.com/product/ns6",
+          "review": "Manufacturer specifies3600 positions per revolution, legacy desktop MIDI driver and PC source selection. No direct iPad USB/audio claim."
+        }
+      ],
+      "limits": [
+        "99 manual inputs and32 separately selected lamp recipes. Desktop-driver/bridge MIDI and separate app audio required. No NS6II inheritance.",
+        "No TEST-labelled platter mode, layer-setting write, driver installation or automatic audio. Full features/lifecycle/calibration and physical/A10X acceptance remain open."
+      ]
+    },
+    {
+      "request": "R375",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://cdn.inmusicbrands.com/denondj/legacy/dnmc6000/DN-MC6000_ownersmanual.pdf",
+          "sha256": "2f7d75c1973fdc752699ab4dc90f3fcf5bbe316b51f57b060687194815d2b45f",
+          "review": "Printed pages19-21 visually reviewed. Independent original MC6000 channel diagram, input messages and output trigger identifiers. Mac needs no separate driver. Manual PC MIX, channel block1-4 and source selectors remain explicit."
+        },
+        {
+          "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+          "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+          "member": "Applications/DEX4.app/Contents/Resources/controllers/Denon__MC6000.js",
+          "memberSHA256": "bf2c260eaf1ede588d7fd40998d40d8e954bcdfdac39694011303acdf14f049d",
+          "review": "Read-only original model jog handler gives2000 positions per revolution. Native does not copy its touch toggle, nonzero browser fallback or mixer assignment."
+        }
+      ],
+      "limits": [
+        "112 manual inputs and40 separately selected steady lamp recipes. Explicit native mixer CH1-4 to A-D order, deck A/C/B/D channels and shared channel1 controls.",
+        "No MK2 inheritance, fader query, settings, dimmers/meters, driver or downloaded executable source. Full audio ownership/calibration and physical/A10X acceptance remain open."
+      ]
+    },
+    {
+      "request": "R376",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://gist.github.com/samba2/5af83e947297ab99a4745a5be3e13d55/a8c441c832affebb59415abdc80872967bc8c0e6",
+          "revision": "a8c441c832affebb59415abdc80872967bc8c0e6",
+          "files": [
+            {
+              "name": "Casio-XW-J1-scripts.js",
+              "sha256": "83599154b1356378bd0335cdbc2ac256694b6511991ccd30ee5c979cd6ea8b5b"
+            },
+            {
+              "name": "Casio_MIDI_In.midi.xml",
+              "sha256": "770fce8365eb28a6cc542046fba4aa5a55735685ddbbe98d3517e191d6b7959e"
+            }
+          ],
+          "review": "The author explicitly names both Spin2 and XW-J1. Only independently translated input facts are used. Conflicting mixer/EQ/pitch rows, undefined Hot Cue1 handler, source startup clear and feedback lists remain inactive.375 positions per revolution is explicitly an author estimate and remains provisional."
+        }
+      ],
+      "limits": [
+        "Two distinct manual30-input native layouts. No original Spin, Typhoon or XW-DJ1 inheritance. Fixed touch scratch replaces software Scratch toggle.",
+        "No direct USB/audio or full mode/lifecycle claim. Separate app audio and exposed MIDI port required. Physical/A10X and source reuse/distribution review remain open.",
+        "Public SDK searches continue without user-supplied files. Rane Twelve FAQ confirms generic MIDI, but no wire/motor contract was recovered. Checked Seventy-Two DJTT mapping requires sign-in. Neither is treated as an implemented profile."
+      ]
+    },
+    {
+      "request": "R377",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://mixars.com/wp-content/uploads/2022/11/primo-manual-en-fr-d-it-es.pdf",
+          "sha256": "9006025f242280f2f339991eb3004c4ef961b39c8466c915273a9586f3f3471c",
+          "review": "Fresh download matches the earlier hash. All three MIDI appendix pages44-46 visually reviewed.63 unambiguous manual inputs retain N/P/G buses. Earlier Cue/mode, bend/mode, PFL/pad, unknown relative format and pitch low-byte limits remain inactive."
+        },
+        {
+          "url": "https://mixars.com/support-download/",
+          "review": "Firmware1.12 added14-bit pitch. No revised low-byte chart or executed firmware is used."
+        },
+        {
+          "url": "https://www.reloop.com/media/catalog/product/pdf/2/4/5/245272_Reloop_IM.pdf",
+          "sha256": "5bd775ba05aeba459d28c9f193967ef22b0f6b9438b0b6986fca95f764ce3172",
+          "review": "Current28-page manufacturer RMX-95 manual confirms MIDI on/off and EQ CONTROL off for MIDI-only EQ. It does not supply an address table in extracted text. No RMX-90 inheritance or automatic software mixer/audio ownership is inferred."
+        },
+        {
+          "url": "https://www.reloop.com/media/custom/upload/Reloop-RMX-95_Adapter_Guide.pdf",
+          "sha256": "312235f06c7a19f601bd74df22458766de1b299b5b662147df2544df2de91667",
+          "review": "Public iOS adapter diagram preserved. It does not establish our software audio routing."
+        },
+        {
+          "url": "https://www.reloop.com/media/catalog/product/pdf/2/3/8/238128_Reloop_IM.pdf",
+          "sha256": "663726c17c3b1f1edc3675ba7de75d9d44a649d07ab25d51ab4a31d1fa4d0ad2",
+          "review": "Public ELITE manual preserved. Its hex table configures USB output sources, not a complete control map. No setup write or profile is inferred."
+        }
+      ],
+      "limits": [
+        "63 PRIMO manual inputs, no output, query or automatic audio. FILTER texture selection and separate app audio required.",
+        "Cue/pad/PFL collisions, unknown jog/browser formats and banked Load remain inactive. Physical/A10X and full theoretical support remain open."
+      ]
+    },
+    {
+      "request": "R378",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://www.reloop.com/media/catalog/product/pdf/2/2/5/225067_Reloop_IM.pdf",
+          "sha256": "099af480f3932e39d4112cd88f414828f35ea8f8c447cd4f38126eaaceb994ca",
+          "review": "Printed MIDI chart page20 visually reviewed. Original BeatMix differs from Beatmix2/4. Its channel and pitch-cell ambiguities require the separate factory TSI cross-check."
+        },
+        {
+          "url": "https://www.reloop.com/media/custom/upload/225067/225067%20Mapping%201.0%202D%20Traktor%201.2.7%2B%20FW%201.1.4%2B%20Win.zip",
+          "sha256": "e65e3361a71716b8ccf6560486d3688eb4d24a2ae84f3d06b65485bb7492ee25",
+          "member": "Beatmix_V1_(2-Deck)-WIN.tsi",
+          "memberSHA256": "7ac250dc0b18f5b63580790a5bd4fd262e25d0b17e4c6f313a2d2159bf8b27f8",
+          "review": "Manufacturer requires firmware1.1.4+. Read-only182 used mapping rows resolve right Low to channel2 CC69, global bus to channel5 and pitch pairs118+54/118+70. Used jog36/42 and browser24 select3F/41 encoder mode0. No controller source executed."
+        },
+        {
+          "url": "https://github.com/ivanz/TraktorMappingFileFormat/wiki/File-Format-Specification",
+          "review": "Primary reverse-engineering reference for bounded XML/base64, big-endian frames, used binding IDs and per-signal encoder mode. Independent inspector extracts facts only and does not create runtime mappings. Unknown fields remain uninterpreted."
+        }
+      ],
+      "limits": [
+        "50 automatic original BeatMix inputs. Firmware1.1.4+ and Scratch mode required. Seven-bit pitch MSBs only until arrival order is established.",
+        "No generic-template inference, old manual global bus4, Beatmix2/4 alias, output, reset/query, firmware or automatic audio command. Full modes/lifecycle/calibration and physical/A10X acceptance remain open."
+      ]
+    },
+    {
+      "request": "R379",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://www.kevinchant.com/uploads/7/1/0/8/7108231/vsm-vcm-100.pdf",
+          "sha256": "69b1c3066fdb1653bf0f547dd323838a2dc681f0fa3df310ba66c16a8cdeb59b",
+          "review": "Preserved manufacturer service note pages6,15,16,19,20 visually reviewed. Both PGM decks share default MIDI channel1 or power-on-selected channel2. Rear modes A/B/C retain core wires. Large level rotaries are volumes, not jogs. Generic Vestax PC-CONTROLLER identity requires manual model selection. Mode-A centre notes include a conflicting trim-B decimal/hex value and remain inactive."
+        },
+        {
+          "url": "https://www.kevinchant.com/uploads/7/1/0/8/7108231/vsm-vfx-1.pdf",
+          "review": "Preserved manufacturer service note reviewed as a complete contact sheet. PCB, schematics and parts do not qualify MIDI wire addresses. No VFX-1 recipe inferred."
+        },
+        {
+          "url": "https://www.kevinchant.com/uploads/7/1/0/8/7108231/sm-vci-300mk2.pdf",
+          "review": "Preserved manufacturer service note reviewed as a complete contact sheet. No MIDI map recovered. No original VCI-300 startup or wire protocol inherited."
+        }
+      ],
+      "limits": [
+        "72 manual VCM-100 inputs across two documented MIDI channel choices. No generic endpoint alias, centre note, balance, search, CUP/Preview, output, mode write, driver or audio command.",
+        "Native CuePause/Fine use held Cue/bend semantics. Tempo direction, hardware taper, iPad USB/audio, complete lifecycle and physical/A10X acceptance remain open."
+      ]
+    },
+    {
+      "request": "R380",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://www.casio.com/content/dam/casio/global/support/manuals/electronic-musical-instruments/pdf/008-en/w/Web_XWDJ1-E-2A_EN.pdf",
+          "sha256": "aed8a4d8f404b65fe61a1945f162fe022af32763fa64d2c9800b25677ebe0fa8",
+          "review": "Manufacturer English tutorial printed16/PDF18 visually reviewed. Shared Shift is Note46 on channel1. XW-DJ1 has distinct transport/cue wires and manufacturer300-position raw-minus64 jogs on channel3. Both fader orientations have their own CC16 buses. Outputs specify on127/off0."
+        },
+        {
+          "url": "https://support.casio.com/storage/common/support/download_files/en/008/manuals/XW-DJ1_TRAKTOR_setting_manual_en.pdf",
+          "sha256": "f10a308a891ff1d5b9b534fb37842c49b01b0537ef2086e34e2b4ed911c08375",
+          "review": "Manufacturer setup PDF pages3/5 visually reviewed. Qualifies XW-DJ1 MIDI and CoreAudio names, no Mac driver, master1/2 and headphones3/4. Documents shifted Load, fixed key, loop In/Out and jog browser. No TSI downloaded or executed."
+        }
+      ],
+      "limits": [
+        "41 automatic native inputs/14 steady lamps. Native SET stores Cue instead of source CUP release-play. Normal loop and Shift behaviour retain the stated native scope.",
+        "No XW-J1/Spin2 inheritance or generic Casio alias. Complete FX, hot-cue deletion, fast search, modes/lifecycle and physical iPad USB/Lightning/audio/calibration/A10X acceptance remain open."
+      ]
+    },
+    {
+      "request": "R381",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://community.algoriddim.com/t/rane-seventy-a-trak-signature-edition-midi-mapping/17493",
+          "review": "The mapping author and support discussion use SEVENTY A-Trak Edition and SEVENTY A-Trak Signature Edition for the same model/export. Existing pinned export and both inventory source names are retained under one canonical physical record."
+        }
+      ],
+      "limits": [
+        "Only duplicate inventory identity and a manual selection alias change. No sibling protocol, MIDI/address/control, automatic selection or audio change.",
+        "342 physical models,195 automatic core models and147 without automatic core. Full theoretical and physical acceptance remain open."
+      ]
+    },
+    {
+      "request": "R382",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://ts.hercules.com/download/djuced/6.8/DJUCED_6.8.1.dmg",
+          "sha256": "a76200de7cc2fced9b765d83edd02c8a07aa302d77c87c81ddf2f4c91330e2a2",
+          "member": "DJUCED.app/Contents/Resources/midi/DJControl Inpulse 200 Mk3.djm",
+          "memberSHA256": "2a0f05ea95b8a643d5d0735255cd86d28b109debb21c678ba888f2672cb6624b",
+          "review": "Read-only mounted image, expanded package,172-control/172-action XML inspected as user-visible MIDI facts. No software installed or executed. Independent MK3 normal High/Mid, shifted gain,512-count jogs, inverted7-bit pitch and separate sampler volumes qualify native boundaries. Image unmounted after inspection."
+        },
+        {
+          "url": "https://ts.hercules.com/download/sound/manuals/DJC_Inpulse_200_MK3/DJControl_Inpulse_200_MK3_User_Manual_-_21_Languages.pdf",
+          "sha256": "9a45c2ec9a9598f364caa63be1d1d3a8349dc8adf6617fd5f9c2279f4446958c",
+          "review": "PDF pages22/49 visually reviewed. Confirms physical three-band EQ/Shift gain and class-compliant USB Audio/MIDI. It does not establish physical A10X acceptance."
+        },
+        {
+          "url": "https://www.djuced.com/kb/hercules-djcontrol-inpulse-200-mk3-2026-mapping-and-manual/",
+          "review": "Manufacturer guide qualifies master1/2 and headphones3/4. Master/headphone knobs are hardware driven. Normal EQ and Shift gain agree with the factory facts."
+        },
+        {
+          "url": "https://github.com/suitux/Backspn/tree/e0e7048e970af5d623e63a3557b1545369ce2a08/crates/control/profiles",
+          "review": "Public recursive file index checked. Its model-specific MIDI profiles cover models already implemented here. No additional missing model protocol was established. No downloaded code executed or bundled."
+        }
+      ],
+      "limits": [
+        "65 automatic inputs/18 normal lamps and documented split audio. No physical Shift note or sibling alias inferred.",
+        "Source output-only master messages, conflicting shifted B-Cue output, sampler volume, source reset and startup remain inactive. Complete modes, calibration and physical/iPad USB/audio/A10X acceptance remain open."
+      ]
+    },
+    {
+      "request": "R383",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://ts.hercules.com/download/djuced/6.8/DJUCED_6.8.1.dmg",
+          "sha256": "a76200de7cc2fced9b765d83edd02c8a07aa302d77c87c81ddf2f4c91330e2a2",
+          "member": "DJUCED.app/Contents/Resources/midi/DJControl T10.djm",
+          "memberSHA256": "a934c2747ae15b614133313aca2f40c199a883b913e733a129c05c7326ffe10d",
+          "review": "Separate439-control/454-action manufacturer MIDI document. Native85-input manual subset uses qualified wire facts only. Physical Shift is explicitly Note4 for each side. No MK3/T7 protocol inheritance, application/mapping execution or source startup/reset."
+        },
+        {
+          "url": "https://ts.hercules.com/download/sound/manuals/DJC_T10/HERCULES_DJC_T10_USER_MANUAL_-_EN_FR_DE_NL_IT_ES_PT_PL_JP_CNM_KO.pdf",
+          "sha256": "3a81264c2b9fe97f2d89f3761664cd3417b325aceefc5075e1c1473512d70012",
+          "review": "PDF26 visually reviewed. Motorisation cannot be disabled. Stopping the platter stops track playback. Generic mapping alone does not qualify coupled motor/platter transport. No stationary mode is invented."
+        }
+      ],
+      "limits": [
+        "Manual supplemental mixer/pads/loops/library only. Native current-size loop press differs from source fixed4.",
+        "Play, main Cue, tempo, all platters/wheels, RPM/motor modes, startup, output, settings and automatic audio remain inactive. Complete motor protocol and physical/iPad acceptance remain open."
+      ]
+    },
+    {
+      "request": "R384",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://support.allen-heath.com/hc/en-gb/articles/43084536824849-Xone-96-MIDI-Implementation",
+          "review": "Current primary HTML table reviewed through web reader. Default MIDI16, main faderCC0-3, CueNotes0-3 and crossCC5. Note0/127 and CC0-127 explicit. Native curl returned403. Local facts are independent transcription, not a source-page copy."
+        },
+        {
+          "url": "https://support.allen-heath.com/hc/en-gb/articles/43053562464017-Xone-96-User-Guide",
+          "review": "Main Cue states are hardware owned and can be changed remotely through MIDI. Native feedback remains disabled. Main channel faders also send MIDI. Auxiliary A/B faders remain analogue."
+        },
+        {
+          "url": "https://www.allen-heath.com/hardware/xone-series/xone96/resources/",
+          "review": "Manufacturer explicitly confirms class-compliant CoreAudio/CoreMIDI for macOS, iPadOS and iOS. No device driver required. External app deck routing and physical acceptance are separate."
+        }
+      ],
+      "limits": [
+        "Nine manual inputs on default channel16. No automatic ownership, hardware Cue/filter write, output or audio command.",
+        "Auxiliary channels, PHONES2, VCF/MUTE/source actions, external deck routing and physical/iPad/A10X acceptance remain open."
+      ]
+    },
+    {
+      "request": "R385",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://virtualdj.com/forums/264850/VirtualDJ_Plugins/Mapping_the_XONE:PX5_Mixer.html",
+          "review": "Definition author publishes working PX5 XML with faderCC0-3/crossCC4. Software C/A/B/D ordering remains an author choice. Incomplete selector discussions and unqualified Cue semantics do not become native mappings."
+        },
+        {
+          "url": "https://cardinia.net/products/pro/",
+          "sha256": "d8e08cc67c0305a63fb6d65eee0c1e79f1e5b11921520a9cbfddff233de4b998",
+          "review": "Hardware developers independently qualify PX5 MIDI channel16 and channel faderCC0-3 for their working on-air product. No firmware or network protocol copied."
+        },
+        {
+          "url": "https://support.allen-heath.com/hc/en-gb/articles/39821017822865-Xone-24C-User-Guide",
+          "review": "Current primary table fixes MIDI16, crossCC4/CH1CC5/CH2CC6 with0-127 ranges. VCFCC7 has126-0 mild-to-wild semantics. Prose button claims do not supply note addresses, so those remain inactive."
+        }
+      ],
+      "limits": [
+        "Five PX5 and three24C manual faders only. No automatic control/audio claim.",
+        "Analogue ownership, unqualified Cue/filter/FX/insert controls, external deck routing and physical/iPad/A10X acceptance remain open."
+      ]
+    },
+    {
+      "request": "R386",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://www.adj.eu/mwdownloads/download/link/id/786",
+          "sha256": "cc50266fdaa55be9e45294a80af59d374aa7670a90a63e25efa8815a9e3a0c9a",
+          "member": "VMS5 Traktor mapping V1.0.tsi",
+          "memberSHA256": "bf27354a27324bc1ab213d6d940b3f8b2c90c3cc402906b3426a7e89beececc5",
+          "review": "Public manufacturer TSI inspected as bounded MIDI facts only.302 used bindings. Confirms shared A/C and B/D wires and correct left pitch-bend-up target. No mapping or command executes."
+        },
+        {
+          "url": "https://www.adj.eu/mwdownloads/download/link/id/787",
+          "sha256": "62d4e41dacab2ed2ed81d08d4d78e52adda7ff8ff385b8e2eace557f37804295",
+          "pages": [
+            11,
+            12,
+            18
+          ],
+          "review": "Independent deck assignment and held Cue behaviour. Page18 visually reviewed: default Pre EQ plus software EQ duplicates processing. Post EQ and deliberate mixer ownership required."
+        },
+        {
+          "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+          "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+          "member": "AmericanAudio__VMS50.js",
+          "memberSHA256": "cceee68749e8485b5d4c33011c89365ca984973437b38078573ba24760cb79c2",
+          "review": "Read-only public mapping facts qualify fixed C/A/B/D mixer strips, cyclic16384 wrap and2730 source jog scale. No DEX code or installer executes. Source left bend target error is corrected by the manufacturer TSI."
+        }
+      ],
+      "limits": [
+        "Manual40-input subset. Initial and reconnected banks are A/B. No output, setup, query, motor, audio route or automatic ownership.",
+        "Manufacturer2000-point claim conflicts with source2730 calibration. Shift, Vinyl/keylock, PFL, FX/sampler, library encoder, complete lifecycle, external mixer outputs and physical/iPad/A10X acceptance remain open."
+      ]
+    },
+    {
+      "request": "R387",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://www.adj.com/collections/vms4-1-traktor-parts",
+          "review": "Manufacturer separately lists the Traktor-edition MIDI table and manual. The table retains generic transport labels, which remain unresolved."
+        },
+        {
+          "url": "https://www.adj.com/cdn/shop/files/3f2ef6d86a8275636284f11557be4fdcf27bff1a_vms4_1_traktor_midi_table.pdf?v=5359426295610137759",
+          "sha256": "dc207f113d1735899a769ba18536994a98f6578eeaa1af189358d817c1f8703c",
+          "pages": [
+            2,
+            6,
+            7,
+            8,
+            9
+          ],
+          "review": "Pages6-8 visually reviewed. All MIDI channel1. Four five-CC mixer strips, normal crossfader31, master28, Cue mix34 and Cue gain35 retain explicit0-127 ranges. Native manually assigns physical CH1-4 to A-D."
+        },
+        {
+          "url": "https://akeneo-asset-proxy.adj-group.workers.dev/dl/files/VMS599__DL__001.pdf",
+          "sha256": "9f55cc053272c38369833b18a53d20bc0385ad4fecc12807f212d1d3d656833e",
+          "review": "Traktor faceplate has A/C and B/D selection, Play/Cue and Shift. Generic table labels do not reconcile sufficiently for transport. Default Pre EQ duplicates software EQ. No ordinary VMS4 or VMS5 transport is inherited."
+        }
+      ],
+      "limits": [
+        "Manual24-CC mixer subset. No outputs, setup, hardware write or automatic audio ownership.",
+        "Transport/banks, Shift, jog format/calibration, library encoders, full lifecycle, external mixer outputs and physical/iPad/A10X acceptance remain open."
+      ]
+    },
+    {
+      "request": "R388",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://djpromixer.com/downloads/",
+          "review": "Developer public download page links the unencrypted installer. The MIDI Learn guide documents user creation, editing and sharing of mapping files. No program installation, activation or network-sharing service runs."
+        },
+        {
+          "url": "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+          "sha256": "0557173bb5cb8bce866bbd439bd10140d8c281fd550486541dc4ddfff46edbec",
+          "members": [
+            {
+              "path": "Devices/AKAI AFX Mode 1.xml",
+              "sha256": "1e99bbd92f883ab727986aab19902298e1ecdcbf2b79c26d4296bd5d46f247ca"
+            },
+            {
+              "path": "Devices/AKAI AFX Mode 2.xml",
+              "sha256": "5d2e6e53fa046801a37708b8cd60087dbf83f02997eda8e3e8b045b50bb0ccd2"
+            },
+            {
+              "path": "Devices/NUMARK MIXTRACK-EDGE.xml",
+              "sha256": "8384c6959823ec9572cc36fe1a8db31aac98892a6de6a4549c7dba475ead411e"
+            }
+          ],
+          "review": "Read135 visible mapping/licence documents with a read-only archive library. No encrypted file, script, executable or activation runs. Independent MIDI facts only. No source XML or third-party application code is bundled."
+        },
+        {
+          "url": "https://djpromixerblog.com/2015/06/13/akai-afx/",
+          "review": "Developer documents six Cue pads plus store/delete, eight fixed loops1/4-32, loop/transport pads, browse/load and the MIDI-only Akai Pro AFX0 endpoint. Both XML modes agree on the44 native pad/transport/library inputs. Software EQ/level aliases101-108 remain inactive."
+        },
+        {
+          "url": "https://djpromixerblog.com/2015/06/10/numark-mixtrack-edge-2/",
+          "review": "Developer documents normal/Shift and FX layers. Native51-input manual subset retains normal transport, three cues, manual loops, PFL, two-band mixer and strict1/127 library steps. Duplicate Shift38 rows become one held input. Software overflow notes137/142-144/164 remain inactive."
+        }
+      ],
+      "limits": [
+        "The older AFX DJTT sign-in audit remains historical source-specific evidence. The new public XML independently adds a manual subset without claiming access to that other mapping.",
+        "No automatic core increase. Unqualified Shift/FX/deck modes, tactile/jog/tempo calibration, full feedback/lifecycle, audio ownership and physical/iPad/A10X acceptance remain open.",
+        "Archive parser and dependencies remain ignored research tools. No ProMixer program, installer, mapping action or network-sharing service runs."
+      ]
+    },
+    {
+      "request": "R389",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://dwn.alza.cz/manual/61365",
+          "title": "DJM-S3 List of MIDI messages Version1.00",
+          "review": "Cached manufacturer PDF text independently qualifies both mixer strips, direct CC70/71 Cue state, source-selector notes and four global mixer controls. Two pages reviewed as cached text. Direct PDF bytes/screenshots remained unavailable. No table SHA or visual review claim is made."
+        },
+        {
+          "url": "https://www.recordcase.de/media/1d/ba/18/1745910632/Pioneer-DJM-S3-User-Guide-EN.pdf",
+          "sha256": "ed03661da8c4d33f7ed9651f4055947fb297b7c08340eab23acdb992a82a0150",
+          "pages": [
+            21
+          ],
+          "review": "Manufacturer operating manual page21 visually confirms default MIDI channel1 and MIDI BUTTON TYPE TOGGLE. No hardware setting write runs."
+        }
+      ],
+      "limits": [
+        "Manual18-input S3 subset. Cached table text is usable, but source table byte hash and visual table verification are unavailable.",
+        "No inherited sibling protocol, hardware command, output or automatic audio route. Analogue ownership, AUX/microphone, curve/reverse, global Filter/parameter, full modes/lifecycle/calibration, external deck outputs and physical/iPad/A10X acceptance remain open."
+      ]
+    },
+    {
+      "request": "R390",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://help.algoriddim.com/topic/subscription/purchased-older-version",
+          "finding": "Current primary support page publicly links the legacy Mac archive. No app installation, launch, activation or account was required."
+        },
+        {
+          "url": "https://download.algoriddim.com/djay/202010171657/djay_Pro_2.2.9.zip",
+          "sha256": "a3c00db3030859bdb71c74368ac5adcc85d62a06790e31a635fa6c8f663775ee",
+          "finding": "115 visible editable MIDI/licence documents extracted read-only. Independent iDJ2GO and M1X DJ wire facts qualify two21-input manual profiles. No source code, artwork or preset document is bundled."
+        },
+        {
+          "url": "https://support.alphatheta.com/en-US/articles/50837244561049",
+          "finding": "Current V5 FAQ confirms MIDI output only and links legacy section50767330408729 for the MIDI list. The redirected software section exposes only rekordbox, Serato and OS articles. All50 results of the current V5 MIDI search were reviewed. No usable V5 table was recovered."
+        }
+      ],
+      "limits": [
+        "Legacy dock authentication, CoreMIDI exposure, audio ownership and complete modes/lifecycle/calibration remain open. Philips private custom class is not inspected or reproduced.",
+        "VCI300 preset names only the original VCI300. It does not establish MKII compatibility. VFX1 two-page public brochure contains no wire addresses."
+      ]
+    },
+    {
+      "request": "R391",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://manual.mixxx.org/2.4/en_gb/hardware/controllers/vestax_vci_300",
+          "sha256": "db1c1ef0247057ef6d76364904fb2cee14a6ad29d3ed3133990e236f23f2d73f",
+          "finding": "The official software-project manual explicitly states unchanged MKII MIDI mapping. Distinct native MKII automatic profile reuses the reviewed original MIDI contract. Independent manufacturer table, full modes/audio/calibration and physical acceptance remain open."
+        },
+        {
+          "url": "https://github.com/tooh/mixxx-controller-mappings/tree/fde78e35e0fcf83f5024f740bbfaf7941a60c8a2",
+          "finding": "Public SX1 XML213 rows includes original legacy-wire alternatives and unresolved THENEXTBEAT handlers. Its declared companion script defines only TheNextBeatSX1 initialisation. The other script contains candidate wheel handlers but is not referenced by the XML. The manufacturer distinguishes wired SX1 from the catalogue original/LX1 product. No sibling identity, startup or conflicting controls are imported."
+        },
+        {
+          "url": "https://deathcamel58.github.io/denon-reverse-engineering/controller-assignments.html",
+          "finding": "Public test-app manifest lists JP11 and JP11S against one JP11 assignment patch. Only archive text inspected. No script runs, remount, service restart, firmware modification or installation occurs. This alone is not independent USB host/MIDI calibration proof."
+        }
+      ],
+      "limits": [
+        "No downloaded executable/controller script runs. Reuse covers explicitly documented VCI300MKII MIDI only.",
+        "Next Beat SX1 partial map does not establish original/LX1 identity or a complete host implementation."
+      ]
+    },
+    {
+      "request": "R392",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://virtualdj.com/products/hardware.html?view=all",
+          "sha256": "1ce489bb5b31b849f26d67cf7aadaea9b11c8ae25b4aec240c07a18fb0ac9d27",
+          "finding": "All487 product entries pinned. Explicit identity resolution adds210 records. Two passive timecode media excluded from digital-device model count.18 audio/DVS entries do not imply MIDI controls.552 physical models now tracked. Runtime remains byte-identical."
+        },
+        {
+          "url": "https://virtualdj.com/download/mac",
+          "sha256": "3c7eeb996ee6806f53f77c25de420a3f4ccbe5fecf379e006bb3d743ea177979",
+          "version": "8.5.9307",
+          "finding": "Official public package expanded without installation or execution. controllers2.dat is an unencrypted ZIP with588 PNG images and one skin ZIP. controllers.dat is not readable XML or a standard ZIP. No binary definition extraction or decompilation attempted."
+        },
+        {
+          "url": "https://www.vestax.parts/file/ve-vfx-1-manual-pdf/",
+          "sha256": "5e3435c4de9ad51619b0b9b450c7a67c3f4fe584d2dc0ee2771b544e3b58ab2c",
+          "finding": "Actual14-page scanned owner guide visually reviewed as a contact sheet. Hardware/software effects descriptions do not provide MIDI addresses. Separate from earlier brochure and service schematic."
+        },
+        {
+          "url": "https://support.native-instruments.com/support/solutions/articles/69000879390-third-party-traktor-ready-controllers-with-enhanced-traktor-integration",
+          "finding": "Primary source lists Twelve MK2. Published Traktor_Pro_4_Controller_Mappings/Rane/Rane_-_Rane_Twelve_MK2.zip returns404. One checked legacy Pro2 location also404. No TSI bytes recovered."
+        },
+        {
+          "url": "https://github.com/mixxxdj/mixxx/issues/12886",
+          "finding": "Public Phase integration work reports an encrypted wake-up message and per-software key requirement. Public experimental decoder does not provide an integration key or direct iPad HID support."
+        }
+      ],
+      "limits": [
+        "Inventory is competitor evidence only. None of the210 new records receives an invented runtime profile or automatic claim.",
+        "Current catalogue includes487 VirtualDJ,204 djay and pinned Serato/Mixxx rows. Wider manufacturer audit remains open.",
+        "No downloaded program, installer, mapping action or firmware runs. No account or restricted download access is bypassed."
+      ]
+    },
+    {
+      "request": "R393",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "url": "https://progresionaudiovisual.com/sites/default/files/2024-05/DJM-900nexus_OperatingInstructions070511.pdf",
+          "sha256": "c512d1285b8fcff62d066ca6f64a8dad6fcb51484f54206305e652d1a47244cd",
+          "pages": [
+            21,
+            22,
+            23
+          ],
+          "finding": "Manufacturer hexadecimal table pages21/22 visually reviewed.32 native mixer inputs qualified. Settings table states default MIDI1/Toggle."
+        },
+        {
+          "url": "https://www.appliancesonline.com.au/public/manuals/Pioneer-DJM850-4Ch-High-End-Digital-Mixer-User-Manual.pdf",
+          "sha256": "c4ae8dd35829cf90757a53c288d8552963ce5d468a47f7ba57a4087a3022bbe0",
+          "pages": [
+            22,
+            23,
+            24
+          ],
+          "finding": "Independent manufacturer decimal table pages22/23 visually reviewed.32 selected mixer fields agree independently. Settings table states default MIDI1/Toggle. K/S/W variants explicitly share this manual."
+        },
+        {
+          "url": "https://www.proacousticsusa.com/media/wysiwyg/PDFs/DJM-750MK2_addendum_MIDI_Message_EN.pdf",
+          "sha256": "c3cb2018984ea93e6e676644c0d5a63ce45a8ffabf9ddc229abb390aa35ce784",
+          "pages": [
+            1,
+            2,
+            3
+          ],
+          "finding": "All three manufacturer addendum pages visually reviewed.32 selected mixer fields and sixteen source-selector notes qualified, including Return AUX. Factory utility defaults are not established by this addendum."
+        }
+      ],
+      "limits": [
+        "Manual software mixer layouts only. No automatic selection, hardware write/output, external deck audio route or complete mode/lifecycle/calibration claim.",
+        "No cross-model protocol inference. The same32 fields are independently verified in each cited document.",
+        "250MK2 addendum cached text is readable, but its linked PDF download returns403. No source bytes, screenshot or profile implementation is claimed for it."
+      ]
+    },
+    {
+      "request": "R394",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "model": "Pioneer DJM-900SRT",
+          "url": "https://www.djcenter.ee/images/kasutusjuhendid/Pioneer-DJM-900SRT.pdf",
+          "cacheName": "djm900srt-manual.pdf",
+          "sha256": "0a105556c267a2c9254fe5f8d1e36aff93942338485fe4260733a017091b16c0",
+          "pages": [
+            22,
+            23,
+            24
+          ],
+          "review": "Manufacturer chart pages22/23 were visually reviewed. Decimal CC addresses qualify32 native mixer fields. Physical strips explicitly select USB decks3/1/2/4 and target native C/A/B/D. All sixteen selector notes reset only their strip pickup. Page24 specifies default MIDI channel1 and TGL. Enable generic MIDI with ON/OFF(UTILITY) and close Serato. No NXS/NXS2 mode is inherited. Hardware FX, mic, assignment/curve, fader starts, external deck audio, complete modes/lifecycle/calibration and physical/iPad/A10X acceptance remain open."
+        },
+        {
+          "model": "Pioneer DJM-750",
+          "url": "https://cdn-docs.av-iq.com/instructions/DJM-750_OperatingInstructions042613.pdf",
+          "cacheName": "djm750-manual.pdf",
+          "sha256": "bc53dc62005fb4d99536bbbd242c5267e5a23bcfe013ad155d0bba3405c15d68",
+          "pages": [
+            19,
+            20,
+            21
+          ],
+          "review": "Manufacturer decimal chart pages19/20 were visually reviewed. It qualifies28 selected inputs with no per-strip Color knob or source-selector report. Physical CH1-4 target native A-D by an explicit app layout. Page21 specifies default MIDI channel1 and TGL. The global Boost Color FX control is not four strip filters and stays inactive. No750MK2 field is inherited. Hardware FX, mic, assignment/curve, fader starts, external deck audio, complete modes/lifecycle/calibration and physical/iPad/A10X acceptance remain open."
+        },
+        {
+          "model": "Pioneer DJM-250MK2",
+          "url": "https://manuals.plus/m/e7d4bd85474a10aedc2c4ddd9809d56bd9707b753a45cf73bd7b831a2da23594",
+          "reviewDate": "2026-11-19",
+          "pages": [
+            1,
+            2
+          ],
+          "evidenceLimit": "Manufacturer Version1.00 table was reviewed as cached extracted text. Direct table PDF bytes and screenshots were unavailable. No table byte hash or visual table claim is made.",
+          "relatedSources": [
+            {
+              "url": "https://downloads.support.alphatheta.com/manuals/dj-mixers/DJM-250MK2/DJM-250MK2_DRI1443B_manual.pdf",
+              "cacheName": "djm250mk2-manual.pdf",
+              "sha256": "3de1a6bcad2c169345161af75def4b4e67da27befee995b7ac339bdfa3522afb",
+              "pages": [
+                19
+              ]
+            },
+            {
+              "url": "https://support.alphatheta.com/en-US/articles/4404659792025",
+              "review": "Manufacturer lists the2Mar2017 MIDI addendum. Its linked legacy download returns404."
+            }
+          ],
+          "review": "The independently readable hexadecimal250MK2 chart qualifies18 selected native inputs and six source-selector notes. Operating manual page19 was visually reviewed and confirms default MIDI1/TOGGLE. Physical CH1/2 target native A/B. Selector on127 reports reset only their strip pickup. No original250,450 or S3 protocol is inferred. AUX/mic, global Filter/parameter, assignment/curve/reverse, external deck audio, full lifecycle/calibration and physical/iPad/A10X acceptance remain open."
+        }
+      ],
+      "limits": [
+        "Manual profiles only. No automatic selection, hardware writes, full mode/audio/lifecycle/calibration or device acceptance claim.",
+        "The250MK2 source table remains cached text without PDF bytes/screenshots. Its separate operating manual bytes and settings page are verified.",
+        "Original750 has no per-strip Color inputs. SRT keeps its own documented USB deck3/1/2/4 order."
+      ]
+    },
+    {
+      "request": "R395",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "model": "Pioneer DJM-2000",
+          "url": "https://static.bhphoto.com/lit_files/88476.pdf",
+          "cacheName": "djm2000-manual.pdf",
+          "sha256": "f617eb68e798b0376bf65cfa995b52811a56abfd3f79608a993db68ba5268c12",
+          "pages": [
+            19,
+            20,
+            25
+          ],
+          "review": "Manufacturer hexadecimal control-panel chart pages19/20 were visually reviewed. They independently qualify32 selected mixer inputs, including direct Cue CC46-49hex. Page25 specifies separate Zone1/Zone2 MIDI channels and Toggle/Trigger settings. Require Zone1 channel1/Toggle and Zone2 channel2 to separate editable touchscreen MIDI. No factory-default, NXS compatibility or undocumented source report is inferred. Touchscreen Frequency Mix/Sidechain Remix, editable TypeA-D, hardware FX/mic, full lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open."
+        },
+        {
+          "model": "Pioneer DJM-2000NXS",
+          "url": "https://www.dimmer.fr/wp-content/uploads/2022/01/Pioneer-DJM-2000-Nexus-Manual-DE-EN-FR.pdf",
+          "cacheName": "djm2000nxs-manual.pdf",
+          "sha256": "b796ebc63db572fd56096b0e7aa3ad2ad0c26b45b8ded9ee76c498775c39e548",
+          "pages": [
+            20,
+            21,
+            27
+          ],
+          "review": "Independent manufacturer hexadecimal control-panel chart pages20/21 were visually reviewed. It separately qualifies32 selected mixer inputs. Page27 documents Zone1/Zone2 channel and Toggle/Trigger settings. Require Zone1 channel1/Toggle and Zone2 channel2; do not infer factory defaults. The cover explicitly names2000NXS and2000nexus. Touchscreen Sync Master/MIDI, Frequency Mix/Sidechain Remix, editable TypeA-D, hardware FX/mic, full lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. No TOUR1 or original2000 mode is inherited."
+        }
+      ],
+      "limits": [
+        "Independent32-input manual app mixers. No automatic selection, external audio, hardware write or full modes/lifecycle/calibration claim.",
+        "Zone1 MIDI1/Toggle and editable touchscreen Zone2 MIDI2 are explicit required settings. Factory defaults are not claimed.",
+        "The own chart qualifies each model independently. No source-selector or touchscreen operation is imported."
+      ]
+    },
+    {
+      "request": "R396",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "model": "Pioneer DJM-T1",
+          "url": "https://downloads.support.alphatheta.com/manuals/dj-mixers/DJM-T1/DJM-T1_DRB1610_manual.pdf",
+          "cacheName": "djmt1-manual.pdf",
+          "sha256": "d26c7844ca00be4f601f2a16d6f6841d2ba382902af865cd42712820937fef45",
+          "pages": [
+            23,
+            24,
+            26,
+            27,
+            28,
+            29
+          ],
+          "review": "Current manufacturer manual pages28/29 were visually reviewed. Note C-1 is0; CC labels are decimal. It explicitly lists normal, Shift and Advanced Shift wires. The manual60-input native core retains selected mixer fields across all three layers, four base Hot Cues, base transport/loops, normal/Shift library controls and shifted/advanced release-only Cue aliases. Fourteen base transport/Sync/Cue/pad lamps have documented0/127 outputs. Generic Controller Mode must be ON, both mixer MIDI buttons enabled and MIDI channel1 selected. Hardware mode/configuration is manual. Dual crossfader attenuation outputs are not one physical-position wire and stay inactive. Native Hot Cue deletion, FX/sampler/LFO, Advanced Shift functions, complete mode/audio/lifecycle/calibration and physical/iPad/A10X acceptance remain open."
+        },
+        {
+          "model": "Pioneer MEP-7000",
+          "url": "https://downloads.support.alphatheta.com/manuals/dj-players/MEP-7000/MEP-7000_DRB1467B_manual.pdf",
+          "cacheName": "mep7000-manual.pdf",
+          "sha256": "415c872bf9e81175ba345cc3032f555b7bf3d0f6e099f8baa0cd180318485a79",
+          "pages": [
+            57,
+            58,
+            59,
+            60
+          ],
+          "review": "Manufacturer tables59/60 were visually reviewed. Its jog is absolute speed:64 stopped,65/63 approximately+/-0.06x,127/0 at+/-4x. This independently matches the existing cdjPlatterSpeed decoder, not a relative counter. Tempo is0 at minus and127 at plus with64 centre. Page58 fixes default A/centre channel1 and B channel2. Direct Load A/B, browse and encoder press are not grey mode-only rows. PC selection and Load establish computer control in Normal Style; Manipulator Style also sends these wires. Native automatically selects the26-input core when the named MIDI source is exposed. Source mode entry, full modes, search/memory, display/lamps, external audio and physical/iPad/A10X calibration/acceptance remain open. No SEP-C1 or CDJ sibling protocol is inherited."
+        }
+      ],
+      "limits": [
+        "T1 remains manual: Generic Controller Mode ON, mixer MIDI buttons enabled, MIDI1. Fourteen lamps are available through separate manual feedback opt-in; no automatic startup/shutdown is claimed.",
+        "T1 dual crossfader attenuation, native Hot Cue deletion, FX/sampler/LFO, other Shift/Advanced functions and full mode handling remain open.",
+        "MEP automatic app selection uses the independent default channel1/2 MIDI table. Hardware PC/Load entry, source mode changes, external audio, screens/lamps and physical calibration remain open.",
+        "Published legacy manufacturer support URLs for both manuals return404. The current model/manual-identifier locations supplied the pinned PDF bytes. The third-party MEP mirror returned403."
+      ]
+    },
+    {
+      "request": "R397",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "model": "Hercules DJControl Instinct P8",
+          "url": "https://ts.hercules.com/download/sound/MIDI_Mapping/DJ_InstinctP8/DJControl_Instinct_P8_MIDI_Command_List.pdf",
+          "sha256": "7b94d78365244f8f77e3354ee18572d60ed95a185a4bab92e231e9b650f08b7d",
+          "pages": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "relatedSources": [
+            {
+              "url": "https://ts.hercules.com/download/djuced/6.8/DJUCED_6.8.1.dmg",
+              "sha256": "a76200de7cc2fced9b765d83edd02c8a07aa302d77c87c81ddf2f4c91330e2a2",
+              "member": "DJControl InstinctP8.djm",
+              "memberSHA256": "96f8e201cb49b47cdc09efb5b4ece662834759ba0cdd08953ab07adb0f406045",
+              "memberVersion": "1.7"
+            },
+            {
+              "url": "https://ts.hercules.com/faqs/eng/her_eng_00492.pdf"
+            }
+          ],
+          "review": "All six pages of the independent P8 Version1.1 manufacturer MIDI chart were visually reviewed. Current public DJUCED6.8.1 factory XML, read without execution, fixes channel0,256-count wheel/contact streams, separate touch notes, four cue keys per side, native loop-button/encoder functions and shifted mixer targets C/D. The manufacturer gives EQ0 full clockwise and127 full anticlockwise; native inverts EQ. Positive alternate transport stays inactive; release-only aliases retain ownership. Shift press/release retires only the corresponding A/C or B/D contacts/pickup. Mode press retires all four. Native uses a fine pitch position delta of count/1024 on the separate Shift-wheel wire; exact source-software range equivalence is not claimed. All four normal loop-encoder pages deliberately use native loop size; source conditional FX/loop-move functions remain open. Cue pads use documented blue125; transport/PFL use127, all off0. Startup/shutdown clear only22 selected lamp addresses. No All Controls query, mode SysEx, audio route, original Instinct/Wave/Universal protocol or full modes/lifecycle/calibration/device acceptance is inferred."
+        }
+      ],
+      "limits": [
+        "Independent P8 core. No original Instinct or other Hercules model is an alias.",
+        "Native Shift pitch is count/1024 of the bounded native pitch position, not a source-software curve-equivalence claim. All normal loop encoder pages deliberately control native loop size.",
+        "Source conditional FX/loop-move, Hot Cue deletion, held roll/sampler, HP buttons, complete modes/feedback/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open.",
+        "Universal DJ older manufacturer table conflicts with current factory/DEX mixer rows and has impossible128+ MIDI values. Those source differences need separate qualification. Wave has a distinct factory setup sequence; its bytes alone do not establish full lifecycle/mode semantics. Neither profile is added by this request."
+      ]
+    },
+    {
+      "request": "R398",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "model": "Hercules Universal DJ",
+          "url": "https://ts.hercules.com/download/sound/MIDI_Mapping/UniversalDJ/DJay_Pro_Hercules_Universal_DJ.zip",
+          "cacheName": "universal-djay.zip",
+          "sha256": "5ea31750f3032576d713afa0ec9b1e7d8f879ea3173f97e538bb5b79b3602dfc",
+          "member": "Hercules UniversalDJ.djayMidiMapping",
+          "memberSHA256": "eaf80b23b1a2bad34be5a3f710996c20e8aa4a6554b2e191d3834644b8d888a2",
+          "relatedSources": [
+            {
+              "url": "https://ts.hercules.com/download/sound/TDJS/current/TP2_Uni_DJ.zip",
+              "cacheName": "universal-traktor.zip",
+              "sha256": "b15cec7ae21b414431acc63723f615b2d9f77b7a614972a6f5f2265af92b7be9",
+              "members": {
+                "DJ_Uni_TP2_v271(MAC).tsi": "a4212f1e9d491a8b0c5f15d099e02e4c9b82b6e762d669691eb4e00dd616c684",
+                "DJ_Uni_TP2_v271(PC).tsi": "aecd87c936e532fe04316b85fadb566a11e539b6a35a841f165ce38d9ef1a716"
+              }
+            },
+            {
+              "url": "https://ts.hercules.com/download/djuced/6.8/DJUCED_6.8.1.dmg",
+              "sha256": "a76200de7cc2fced9b765d83edd02c8a07aa302d77c87c81ddf2f4c91330e2a2",
+              "member": "DJControlUniversal.djm",
+              "memberSHA256": "2bef8dc759848f85ecd94ffd04f8f1098c70f937d4034ae2277414c3497861e7",
+              "memberVersion": "4.1"
+            },
+            {
+              "url": "https://ts.hercules.com/download/sound/manuals/Universal_DJ/Universal_DJ-MIDI_controls.pdf",
+              "sha256": "427f6bbcb0e90645c9db3d047acdf8ecd93467ef802d29bd98e64d56445f8260",
+              "evidenceLimit": "Older table conflicts with current primary mappings on mixer rows and prints impossible128+ MIDI values. It is not the authority for those rows."
+            },
+            {
+              "url": "https://ts.hercules.com/faqs/eng/her_eng_00471.pdf"
+            },
+            {
+              "url": "https://support.hercules.com/en/product/universaldj-en/"
+            }
+          ],
+          "review": "Manufacturer support directly publishes both djay and Traktor archives. Their independently readable mappings agree with current DJUCED factory facts: A level57/high59/mid60/low61, B level58/high62/mid63/low64, global cross65. These override conflicting older PDF mixer rows and impossible128+ values. Used Mac/PC TSI bindings explicitly qualify pitch MSB/LSB1/33,2/34 and55/71,56/72, all inverted; no plus32 guess is used. Pinned factory XML independently qualifies512-count separate wheel/contact streams, eight cue keys, fixed loops and0/127 lamp bounds. The native layout fixes two decks, source-local touch, per-side Shift cleanup, eight Hot Cues, selected manual/fixed loops and gain encoders. Normal EQ polarity follows the manufacturer printed physical direction; physical response remains unverified. Thirty selected lamps clear in60 total lifecycle messages. No state query, software installation/execution, generic USB alias, Bluetooth/tablet transport, automatic audio route, full modes/lifecycle/calibration or physical/iPad/A10X acceptance is inferred."
+        }
+      ],
+      "limits": [
+        "The manufacturer directly publishes independent djay and Traktor archives. Their used bindings resolve the older PDF mixer-address conflicts. Current factory output bounds qualify0/127 instead of impossible128.",
+        "Both pitch-pair families are explicitly present in used Mac and PC TSI bindings; pair low bytes are not inferred from a general rule.",
+        "Native keeps a fixed A/B layout. Bluetooth/tablet, source-software C/D, complete modes/audio/lifecycle/calibration and physical/iPad/A10X acceptance remain open.",
+        "No software, source mapping action, driver, firmware or downloaded script was executed. Only wire facts, source metadata and bounded settings were read."
+      ]
+    },
+    {
+      "request": "R399",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "model": "Hercules DJControlWave",
+          "url": "https://ts.hercules.com/download/sound/MIDI_Mapping/DJWave/DJCWaveDJAYPro.ZIP",
+          "cacheName": "wave-djay.zip",
+          "sha256": "cfd8c66371ca3a300855d4a1c9ad32b92fde200a6b6ca1c0f6c281f3eb15c313",
+          "members": {
+            "DJControlWave.djayMidiMapping": "0dc7f3a7a973212a6efaf217723d336e4a22263da346616b1dafbf7fb3e145c4",
+            "DJControlWave2.djayMidiMapping": "3802e2fbf533a2d9fc7949f64d65a4ba0b084a314a297c64c4e97a170d453c88"
+          },
+          "relatedSources": [
+            {
+              "url": "https://ts.hercules.com/download/sound/MIDI_Mapping/DJWave/DJCWave_VDJ7.zip",
+              "cacheName": "wave-vdj7.zip",
+              "sha256": "5b30423ba18d9bf8c7a6d567d81851cb912d84aab704f1ef6d67803890a75469",
+              "member": "Hercules DJControlWave definition.xml",
+              "memberSHA256": "67ea59a86ae61b9e5e4a2c80b6784a753f8ddfad8b14cb2ea85d425d9a76be2f"
+            },
+            {
+              "url": "https://ts.hercules.com/download/sound/TDJS/current/TP2_DJ_Wave.zip",
+              "cacheName": "wave-traktor.zip",
+              "sha256": "2f7e74f1e0353dc1b1427d9c6e56a63678286424055a03ba54ca7cd73b095159",
+              "evidenceLimit": "Archive is pinned as an additional manufacturer source; no unreviewed TSI binding or setup command is imported."
+            },
+            {
+              "url": "https://ts.hercules.com/download/djuced/6.8/DJUCED_6.8.1.dmg",
+              "sha256": "a76200de7cc2fced9b765d83edd02c8a07aa302d77c87c81ddf2f4c91330e2a2",
+              "member": "DJControlWave.djm",
+              "memberSHA256": "76578fcb2e233bd6c85740a647592e57acce4975bc8da2f68ae4b63ab2c228d0",
+              "memberVersion": "3.2"
+            },
+            {
+              "url": "https://support.hercules.com/en/product/djcontrolwave-en/"
+            }
+          ],
+          "review": "The manufacturer directly publishes separate djay and VirtualDJ mappings. Both djay plist members explicitly map MODE notes16/34 to the same application modifier, normal Play13/31 to Shift Load, loop encoder presses17/35 to Shift library controls, and inverted pitch2/3. The manufacturer VirtualDJ device definition explicitly gives512 full-turn counts for all four wheel/contact CC streams. Current DJUCED uses720, so512 is the selected primary-definition calibration and physical equivalence remains unresolved. Native composes both MODE contacts without clearing the other when one releases. MODE presses retire source-owned deck contacts; no guessed release-all-Shift override is used. Forty-two selected inputs and fourteen0/127 transport/loop/cue-pad lamps are qualified. The djay PFL rows point both decks to the same unrelated channel4 CC9 template, so no PFL wire is imported. Current factory ring/setup bytes, state query, spinning rings, meters, EQ kill lamps, FX/sampler, cue deletion, full mode/lifecycle/audio/calibration and Bluetooth/tablet/physical/iPad/A10X acceptance remain open. No downloaded action, installer or script is executed."
+        }
+      ],
+      "limits": [
+        "Both MODE keys use the common modifier explicitly declared in the manufacturer djay mappings. Native Shift is composed per source. The source-specific DJUCED right-MODE headphone layer is not imported.",
+        "The manufacturer VirtualDJ device definition explicitly states512 counts per turn. Current DJUCED specifies720. Native selects512; physical calibration remains open.",
+        "No ambiguous channel4 CC9 PFL template, ring/setup bytes, query, meter or EQ-kill feedback is imported. Fourteen selected lamps clear without SysEx.",
+        "Bluetooth/tablet, complete modes/audio/lifecycle/calibration and physical/iPad/A10X acceptance remain open."
+      ]
+    }
+  ]
+}

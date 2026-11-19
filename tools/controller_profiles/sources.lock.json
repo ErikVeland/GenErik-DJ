@@ -2975,5 +2975,6181 @@
       "git_blob": "4003763d595633acb554efb832cb7c630e10d57a",
       "sha256": "a766917f1c0cb36d0c694c348a641600d28efa2c0f21363ddb8fc8baf07e30b7"
     }
-  ]
+  ],
+  "djay": {
+    "url": "https://www.algoriddim.com/hardware",
+    "reviewed": "2026-11-19",
+    "sha256": "db8bf667068cbcb278d49f5ee5794e5d6baccc528cdff917e41b00da232954a3",
+    "rowCount": 204,
+    "rows": [
+      {
+        "name": "Allen & Heath Xone:23C",
+        "sourceName": "Allen & Heath Xone:23C",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Allen & Heath Xone:24C",
+        "sourceName": "Allen & Heath Xone:24C",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware/xone24c",
+        "limitations": []
+      },
+      {
+        "name": "Allen & Heath Xone:96",
+        "sourceName": "Allen & Heath Xone:96",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/xone96",
+        "limitations": []
+      },
+      {
+        "name": "Allen & Heath Xone:K3",
+        "sourceName": "Allen & Heath Xone:K3",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/xonek3",
+        "limitations": []
+      },
+      {
+        "name": "Allen & Heath Xone:PX5",
+        "sourceName": "Allen & Heath Xone:PX5",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware/xonepx5",
+        "limitations": [
+          {
+            "platforms": [
+              "winArm"
+            ],
+            "text": "No DVS support on Windows Arm devices"
+          }
+        ]
+      },
+      {
+        "name": "AlphaTheta CDJ-1500X",
+        "sourceName": "AlphaTheta CDJ-1500X",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/cdj1500x",
+        "limitations": []
+      },
+      {
+        "name": "AlphaTheta CDJ-3000X",
+        "sourceName": "AlphaTheta CDJ-3000X",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/cdj3000x",
+        "limitations": []
+      },
+      {
+        "name": "AlphaTheta DDJ-FLX2",
+        "sourceName": "AlphaTheta DDJ-FLX2",
+        "platforms": [
+          "mac",
+          "ios",
+          "android",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware#ddjflx2",
+        "limitations": []
+      },
+      {
+        "name": "AlphaTheta DDJ-GRV6",
+        "sourceName": "AlphaTheta DDJ-GRV6",
+        "platforms": [
+          "mac",
+          "ios",
+          "android",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ddjgrv6",
+        "limitations": []
+      },
+      {
+        "name": "AlphaTheta DJM-A7",
+        "sourceName": "AlphaTheta DJM-A7",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/djma7",
+        "limitations": []
+      },
+      {
+        "name": "AlphaTheta DJM-V5",
+        "sourceName": "AlphaTheta DJM-V5",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/djmv5",
+        "limitations": []
+      },
+      {
+        "name": "AlphaTheta OMNIS-DUO",
+        "sourceName": "AlphaTheta OMNIS-DUO",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware/omnisduo",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "ios",
+              "win"
+            ],
+            "text": "Screen on iOS"
+          }
+        ]
+      },
+      {
+        "name": "AlphaTheta XDJ-AN",
+        "sourceName": "AlphaTheta XDJ-AN",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/xdjan",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "ios",
+              "win"
+            ],
+            "text": "Screen on iOS"
+          }
+        ]
+      },
+      {
+        "name": "AlphaTheta XDJ-AZ",
+        "sourceName": "AlphaTheta XDJ-AZ",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware/xdjaz",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "ios",
+              "win"
+            ],
+            "text": "Screen on iOS"
+          }
+        ]
+      },
+      {
+        "name": "Casio XW-DJ1",
+        "sourceName": "Casio XW-DJ1",
+        "platforms": [
+          "mac",
+          "ios",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Casio XW-J1",
+        "sourceName": "Casio XW-J1",
+        "platforms": [
+          "mac",
+          "ios"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Denon DJ DN-SC2000",
+        "sourceName": "Denon DJ DN-SC2000",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Denon DJ LC6000 PRIME",
+        "sourceName": "Denon DJ LC6000 PRIME",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware/lc6000",
+        "limitations": []
+      },
+      {
+        "name": "Denon DJ MC2000",
+        "sourceName": "Denon DJ MC2000",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Denon DJ MC4000",
+        "sourceName": "Denon DJ MC4000",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/mc4000",
+        "limitations": []
+      },
+      {
+        "name": "Denon DJ MC6000",
+        "sourceName": "Denon DJ MC6000",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": [
+          {
+            "platforms": [
+              "winArm"
+            ],
+            "text": "No DVS support on Windows Arm devices"
+          },
+          {
+            "platforms": [
+              "quest"
+            ],
+            "text": "Deck 3/4"
+          }
+        ]
+      },
+      {
+        "name": "Denon DJ MC6000MK2",
+        "sourceName": "Denon DJ MC6000MK2",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Denon DJ MC7000",
+        "sourceName": "Denon DJ MC7000",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/mc7000",
+        "limitations": [
+          {
+            "platforms": [
+              "quest"
+            ],
+            "text": "Deck 3/4"
+          }
+        ]
+      },
+      {
+        "name": "Denon DJ MCX8000",
+        "sourceName": "Denon DJ MCX8000",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/mcx8000",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "ios",
+              "win"
+            ],
+            "text": "Screens"
+          },
+          {
+            "platforms": [
+              "quest"
+            ],
+            "text": "Screens, Deck 3/4"
+          }
+        ]
+      },
+      {
+        "name": "Denon DJ PRIME 4",
+        "sourceName": "Denon DJ PRIME 4",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/prime4",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "ios",
+              "win"
+            ],
+            "text": "Main screen"
+          },
+          {
+            "platforms": [
+              "quest"
+            ],
+            "text": "Main screen, Deck 3/4"
+          }
+        ]
+      },
+      {
+        "name": "Denon DJ PRIME 4+",
+        "sourceName": "Denon DJ PRIME 4+",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/prime41",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "ios",
+              "win"
+            ],
+            "text": "Screen"
+          },
+          {
+            "platforms": [
+              "quest"
+            ],
+            "text": "Screen, Deck 3 / 4"
+          }
+        ]
+      },
+      {
+        "name": "Denon DJ PRIME GO",
+        "sourceName": "Denon DJ PRIME GO",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/primego",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "ios",
+              "win"
+            ],
+            "text": "Screen"
+          }
+        ]
+      },
+      {
+        "name": "Denon DJ PRIME GO+",
+        "sourceName": "Denon DJ PRIME GO+",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/primego1",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "ios",
+              "win"
+            ],
+            "text": "Screen"
+          }
+        ]
+      },
+      {
+        "name": "Denon DJ SC5000 PRIME",
+        "sourceName": "Denon DJ SC5000 PRIME",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/sc5000prime",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "ios",
+              "win"
+            ],
+            "text": "Main and jog screens"
+          }
+        ]
+      },
+      {
+        "name": "Denon DJ SC6000M PRIME",
+        "sourceName": "Denon DJ SC6000M PRIME",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/sc6000mprime",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "ios",
+              "win"
+            ],
+            "text": "Main and jog screens"
+          }
+        ]
+      },
+      {
+        "name": "Denon DJ SC6000 PRIME",
+        "sourceName": "Denon DJ SC6000 PRIME",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/sc6000prime",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "ios",
+              "win"
+            ],
+            "text": "Main and jog screens"
+          }
+        ]
+      },
+      {
+        "name": "Denon DJ SC LIVE 2",
+        "sourceName": "Denon DJ SC LIVE 2",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/sclive2",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "ios",
+              "win"
+            ],
+            "text": "Screen"
+          }
+        ]
+      },
+      {
+        "name": "Denon DJ SC LIVE 4",
+        "sourceName": "Denon DJ SC LIVE 4",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/sclive4",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "ios",
+              "win"
+            ],
+            "text": "Screen"
+          },
+          {
+            "platforms": [
+              "quest"
+            ],
+            "text": "Screen, Deck 3/4"
+          }
+        ]
+      },
+      {
+        "name": "Denon DJ X1850 Prime",
+        "sourceName": "Denon DJ X1850 Prime",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/x1850prime",
+        "limitations": []
+      },
+      {
+        "name": "Hercules DJ 4Set",
+        "sourceName": "Hercules DJ 4Set",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Hercules DJ Console 4-Mx",
+        "sourceName": "Hercules DJ Console 4-Mx",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Hercules DJ Console MK2",
+        "sourceName": "Hercules DJ Console MK2",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Hercules DJ Console MK4",
+        "sourceName": "Hercules DJ Console MK4",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Hercules DJ Console RMX",
+        "sourceName": "Hercules DJ Console RMX",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Hercules DJConsole RMX2",
+        "sourceName": "Hercules DJConsole RMX2",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Hercules DJControl AIR",
+        "sourceName": "Hercules DJControl AIR",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Hercules DJControl AIR+",
+        "sourceName": "Hercules DJControl AIR+",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Hercules DJControl Inpulse 200",
+        "sourceName": "Hercules DJControl Inpulse 200",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Hercules DJControl Inpulse 200 MK2",
+        "sourceName": "Hercules DJControl Inpulse 200 MK2",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/djcontrolinpulse200mk2",
+        "limitations": []
+      },
+      {
+        "name": "Hercules DJControl Inpulse 200 MK3",
+        "sourceName": "Hercules DJControl Inpulse 200 MK3",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware/djcontrolinpulse200mk3",
+        "limitations": []
+      },
+      {
+        "name": "Hercules DJControl Inpulse 300",
+        "sourceName": "Hercules DJControl Inpulse 300",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Hercules DJControl Inpulse 300 MK2",
+        "sourceName": "Hercules DJControl Inpulse 300 MK2",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/djcontrolinpulse300mk2",
+        "limitations": []
+      },
+      {
+        "name": "Hercules DJControl Inpulse 500",
+        "sourceName": "Hercules DJControl Inpulse 500",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/djcontrolinpulse500",
+        "limitations": []
+      },
+      {
+        "name": "Hercules DJControl Inpulse T7",
+        "sourceName": "Hercules DJControl Inpulse T7",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/djcontrolinpulset7",
+        "limitations": []
+      },
+      {
+        "name": "Hercules DJControl Instinct",
+        "sourceName": "Hercules DJControl Instinct",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Hercules DJControl Mix",
+        "sourceName": "Hercules DJControl Mix",
+        "platforms": [
+          "mac",
+          "ios",
+          "android",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware#djcontrolmix",
+        "limitations": []
+      },
+      {
+        "name": "Hercules DJControl Mix Ultra",
+        "sourceName": "Hercules DJControl Mix Ultra",
+        "platforms": [
+          "mac",
+          "ios",
+          "android",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware#djcontrolmixultra",
+        "limitations": []
+      },
+      {
+        "name": "Hercules DJ Control MP3",
+        "sourceName": "Hercules DJ Control MP3",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Hercules DJ Control MP3 e2",
+        "sourceName": "Hercules DJ Control MP3 e2",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Hercules DJControl Starlight",
+        "sourceName": "Hercules DJControl Starlight",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/djcontrolstarlight",
+        "limitations": []
+      },
+      {
+        "name": "Hercules DJ Control Steel",
+        "sourceName": "Hercules DJ Control Steel",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Hercules DJControl T10",
+        "sourceName": "Hercules DJControl T10",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/djcontrolt10",
+        "limitations": []
+      },
+      {
+        "name": "Ion Discover DJ",
+        "sourceName": "Ion Discover DJ",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Ion iDJ2GO",
+        "sourceName": "Ion iDJ2GO",
+        "platforms": [
+          "ios"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "M-Audio X-Session Pro",
+        "sourceName": "M-Audio X-Session Pro",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Native Instruments Traktor Kontrol S2 MK3",
+        "sourceName": "Native Instruments Traktor Kontrol S2 MK3",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Native Instruments Traktor Kontrol S3",
+        "sourceName": "Native Instruments Traktor Kontrol S3",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/traktorkontrols3",
+        "limitations": [
+          {
+            "platforms": [
+              "quest"
+            ],
+            "text": "Deck 3/4"
+          }
+        ]
+      },
+      {
+        "name": "Novation Dicer",
+        "sourceName": "Novation Dicer",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Novation Launchpad MK2",
+        "sourceName": "Novation Launchpad MK2",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/launchpadmk2",
+        "limitations": []
+      },
+      {
+        "name": "Numark DJ2GO",
+        "sourceName": "Numark DJ2GO",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Numark DJ2GO2",
+        "sourceName": "Numark DJ2GO2",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/dj2go2",
+        "limitations": []
+      },
+      {
+        "name": "Numark DJ2GO2 Touch",
+        "sourceName": "Numark DJ2GO2 Touch",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/dj2go2touch",
+        "limitations": []
+      },
+      {
+        "name": "Numark iDJ Live II",
+        "sourceName": "Numark iDJ Live II",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/idjlive2",
+        "limitations": []
+      },
+      {
+        "name": "Numark Mixdeck Quad",
+        "sourceName": "Numark Mixdeck Quad",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/mixdeckquad",
+        "limitations": []
+      },
+      {
+        "name": "Numark Mixstream Pro",
+        "sourceName": "Numark Mixstream Pro",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/mixstreampro",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "ios",
+              "win"
+            ],
+            "text": "Screen"
+          }
+        ]
+      },
+      {
+        "name": "Numark Mixstream Pro+",
+        "sourceName": "Numark Mixstream Pro+",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/mixstreampro1",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "ios",
+              "win"
+            ],
+            "text": "Screen"
+          }
+        ]
+      },
+      {
+        "name": "Numark Mixstream Pro GO",
+        "sourceName": "Numark Mixstream Pro GO",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/mixstreamprogo",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "ios",
+              "win"
+            ],
+            "text": "Screen"
+          }
+        ]
+      },
+      {
+        "name": "Numark Mixtrack",
+        "sourceName": "Numark Mixtrack",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Numark Mixtrack 3",
+        "sourceName": "Numark Mixtrack 3",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware/mixtrack3",
+        "limitations": []
+      },
+      {
+        "name": "Numark Mixtrack Edge",
+        "sourceName": "Numark Mixtrack Edge",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/mixtrackedge",
+        "limitations": []
+      },
+      {
+        "name": "Numark MixTrack Go",
+        "sourceName": "Numark MixTrack Go",
+        "platforms": [
+          "mac",
+          "ios",
+          "android",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware#mixtrackgo",
+        "limitations": []
+      },
+      {
+        "name": "Numark Mixtrack II",
+        "sourceName": "Numark Mixtrack II",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/mixtrackii",
+        "limitations": []
+      },
+      {
+        "name": "Numark Mixtrack Platinum",
+        "sourceName": "Numark Mixtrack Platinum",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/mixtrackplatinum",
+        "limitations": []
+      },
+      {
+        "name": "Numark Mixtrack Platinum FX",
+        "sourceName": "Numark Mixtrack Platinum FX",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/mixtrackplatinumfx",
+        "limitations": []
+      },
+      {
+        "name": "Numark Mixtrack Pro",
+        "sourceName": "Numark Mixtrack Pro",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/mixtrackpro",
+        "limitations": []
+      },
+      {
+        "name": "Numark Mixtrack Pro 3",
+        "sourceName": "Numark Mixtrack Pro 3",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/mixtrackpro3",
+        "limitations": []
+      },
+      {
+        "name": "Numark Mixtrack Pro FX",
+        "sourceName": "Numark Mixtrack Pro FX",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/mixtrackprofx",
+        "limitations": []
+      },
+      {
+        "name": "Numark Mixtrack Pro II",
+        "sourceName": "Numark Mixtrack Pro II",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/mixtrackproii",
+        "limitations": []
+      },
+      {
+        "name": "Numark Mixtrack Quad",
+        "sourceName": "Numark Mixtrack Quad",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/mixtrackquad",
+        "limitations": [
+          {
+            "platforms": [
+              "quest"
+            ],
+            "text": "Deck 3/4"
+          }
+        ]
+      },
+      {
+        "name": "Numark N4",
+        "sourceName": "Numark N4",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/n4",
+        "limitations": []
+      },
+      {
+        "name": "Numark NS4FX",
+        "sourceName": "Numark NS4FX",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ns4fx",
+        "limitations": [
+          {
+            "platforms": [
+              "quest"
+            ],
+            "text": "Deck 3/4"
+          }
+        ]
+      },
+      {
+        "name": "Numark NS6",
+        "sourceName": "Numark NS6",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ns6",
+        "limitations": []
+      },
+      {
+        "name": "Numark NS6II",
+        "sourceName": "Numark NS6II",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ns6ii",
+        "limitations": [
+          {
+            "platforms": [
+              "quest"
+            ],
+            "text": "Deck 3/4"
+          }
+        ]
+      },
+      {
+        "name": "Numark Omni Control",
+        "sourceName": "Numark Omni Control",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Numark Party Mix",
+        "sourceName": "Numark Party Mix",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/partymix",
+        "limitations": []
+      },
+      {
+        "name": "Numark Party Mix II",
+        "sourceName": "Numark Party Mix II",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware/partymixii",
+        "limitations": []
+      },
+      {
+        "name": "Numark Party Mix III",
+        "sourceName": "Numark Party Mix III",
+        "platforms": [
+          "mac",
+          "ios",
+          "android",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware#partymix3",
+        "limitations": []
+      },
+      {
+        "name": "Numark Party Mix Live",
+        "sourceName": "Numark Party Mix Live",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware/partymixlive",
+        "limitations": []
+      },
+      {
+        "name": "Numark Party Mix Pro",
+        "sourceName": "Numark Party Mix Pro",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware/partymixpro",
+        "limitations": []
+      },
+      {
+        "name": "Numark Scratch",
+        "sourceName": "Numark Scratch",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/scratch",
+        "limitations": []
+      },
+      {
+        "name": "Numark Stealth Control",
+        "sourceName": "Numark Stealth Control",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/stealthcontrol",
+        "limitations": []
+      },
+      {
+        "name": "Numark Total Control",
+        "sourceName": "Numark Total Control",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/totalcontrol",
+        "limitations": []
+      },
+      {
+        "name": "Phase SAS Phase",
+        "sourceName": "Phase SAS Phase",
+        "platforms": [
+          "mac",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware#phase",
+        "limitations": []
+      },
+      {
+        "name": "Philips M1X-DJ",
+        "sourceName": "Philips M1X-DJ",
+        "platforms": [
+          "ios"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ CDJ-2000",
+        "sourceName": "Pioneer DJ CDJ-2000",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/cdj2000",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ CDJ-2000NXS",
+        "sourceName": "Pioneer DJ CDJ-2000NXS",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/cdj2000nxs",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ CDJ-2000NXS2",
+        "sourceName": "Pioneer DJ CDJ-2000NXS2",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/cdj2000nxs2",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ CDJ-3000",
+        "sourceName": "Pioneer DJ CDJ-3000",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/cdj3000",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ CDJ-350",
+        "sourceName": "Pioneer DJ CDJ-350",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/cdj350",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ CDJ-400",
+        "sourceName": "Pioneer DJ CDJ-400",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/cdj400",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ CDJ-850",
+        "sourceName": "Pioneer DJ CDJ-850",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/cdj850",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ CDJ-900",
+        "sourceName": "Pioneer DJ CDJ-900",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/cdj900",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ CDJ-900NXS",
+        "sourceName": "Pioneer DJ CDJ-900NXS",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/cdj900nxs",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ CDJ-TOUR1",
+        "sourceName": "Pioneer DJ CDJ-TOUR1",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/cdjtour1",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DDJ-1000",
+        "sourceName": "Pioneer DJ DDJ-1000",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ddj1000",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DDJ-1000SRT",
+        "sourceName": "Pioneer DJ DDJ-1000SRT",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ddj1000srt",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DDJ-200",
+        "sourceName": "Pioneer DJ DDJ-200",
+        "platforms": [
+          "mac",
+          "ios",
+          "android",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware#ddj200",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DDJ-400",
+        "sourceName": "Pioneer DJ DDJ-400",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ddj400",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DDJ-800",
+        "sourceName": "Pioneer DJ DDJ-800",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ddj800",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "win"
+            ],
+            "text": "Jog wheel screens, Color FX except filter, Beat FX"
+          }
+        ]
+      },
+      {
+        "name": "Pioneer DJ DDJ-ERGO",
+        "sourceName": "Pioneer DJ DDJ-ERGO",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DDJ-FLX10",
+        "sourceName": "Pioneer DJ DDJ-FLX10",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ddjflx10",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "ios",
+              "win"
+            ],
+            "text": "Jog wheel screens on iOS"
+          },
+          {
+            "platforms": [],
+            "text": "Jog wheel screens on iOS, No DVS support on Windows Arm devices"
+          }
+        ]
+      },
+      {
+        "name": "Pioneer DJ DDJ-FLX4",
+        "sourceName": "Pioneer DJ DDJ-FLX4",
+        "platforms": [
+          "mac",
+          "ios",
+          "android",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware#ddjflx4",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DDJ-FLX6",
+        "sourceName": "Pioneer DJ DDJ-FLX6",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ddjflx6",
+        "limitations": [
+          {
+            "platforms": [
+              "quest"
+            ],
+            "text": "Deck 3/4"
+          }
+        ]
+      },
+      {
+        "name": "Pioneer DJ DDJ-FLX6-GT",
+        "sourceName": "Pioneer DJ DDJ-FLX6-GT",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ddjflx6gt",
+        "limitations": [
+          {
+            "platforms": [
+              "quest"
+            ],
+            "text": "Deck 3/4"
+          }
+        ]
+      },
+      {
+        "name": "Pioneer DJ DDJ-RB",
+        "sourceName": "Pioneer DJ DDJ-RB",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ddjrb",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DDJ-REV1",
+        "sourceName": "Pioneer DJ DDJ-REV1",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ddjrev1",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DDJ-REV5",
+        "sourceName": "Pioneer DJ DDJ-REV5",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ddjrev5",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DDJ-REV7",
+        "sourceName": "Pioneer DJ DDJ-REV7",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ddjrev7",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "ios",
+              "win"
+            ],
+            "text": "Jog wheel screens on iOS"
+          }
+        ]
+      },
+      {
+        "name": "Pioneer DJ DDJ-RR",
+        "sourceName": "Pioneer DJ DDJ-RR",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ddjrr",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "win"
+            ],
+            "text": "Booth output"
+          }
+        ]
+      },
+      {
+        "name": "Pioneer DJ DDJ-RX",
+        "sourceName": "Pioneer DJ DDJ-RX",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ddjrx",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "ios",
+              "win"
+            ],
+            "text": "Booth output"
+          },
+          {
+            "platforms": [
+              "winArm"
+            ],
+            "text": "Booth output, No DVS support on Windows Arm devices"
+          },
+          {
+            "platforms": [
+              "quest"
+            ],
+            "text": "Booth output, Deck 3/4"
+          }
+        ]
+      },
+      {
+        "name": "Pioneer DJ DDJ-SB",
+        "sourceName": "Pioneer DJ DDJ-SB",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ddjsb",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DDJ-SB2",
+        "sourceName": "Pioneer DJ DDJ-SB2",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ddjsb2",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DDJ-SB3",
+        "sourceName": "Pioneer DJ DDJ-SB3",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ddjsb3",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DDJ-SP1",
+        "sourceName": "Pioneer DJ DDJ-SP1",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ddjsp1",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DDJ-SR",
+        "sourceName": "Pioneer DJ DDJ-SR",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ddjsr",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DDJ-SR2",
+        "sourceName": "Pioneer DJ DDJ-SR2",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ddjsr2",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DDJ-SX",
+        "sourceName": "Pioneer DJ DDJ-SX",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ddjsx",
+        "limitations": [
+          {
+            "platforms": [
+              "winArm"
+            ],
+            "text": "No DVS support on Windows Arm devices"
+          },
+          {
+            "platforms": [
+              "quest"
+            ],
+            "text": "Deck 3/4"
+          }
+        ]
+      },
+      {
+        "name": "Pioneer DJ DDJ-SX2",
+        "sourceName": "Pioneer DJ DDJ-SX2",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ddjsx2",
+        "limitations": [
+          {
+            "platforms": [
+              "winArm"
+            ],
+            "text": "No DVS support on Windows Arm devices"
+          },
+          {
+            "platforms": [
+              "quest"
+            ],
+            "text": "Deck 3/4"
+          }
+        ]
+      },
+      {
+        "name": "Pioneer DJ DDJ-SX3",
+        "sourceName": "Pioneer DJ DDJ-SX3",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ddjsx3",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DDJ-SZ",
+        "sourceName": "Pioneer DJ DDJ-SZ",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ddjsz",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DDJ-SZ2",
+        "sourceName": "Pioneer DJ DDJ-SZ2",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ddjsz2",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DDJ-WeGO",
+        "sourceName": "Pioneer DJ DDJ-WeGO",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DDJ-WeGO2",
+        "sourceName": "Pioneer DJ DDJ-WeGO2",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DDJ-WeGO3",
+        "sourceName": "Pioneer DJ DDJ-WeGO3",
+        "platforms": [
+          "mac",
+          "ios",
+          "android",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DDJ-WeGO4",
+        "sourceName": "Pioneer DJ DDJ-WeGO4",
+        "platforms": [
+          "mac",
+          "ios",
+          "android",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DDJ-XP1",
+        "sourceName": "Pioneer DJ DDJ-XP1",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ddjxp1",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "ios",
+              "win"
+            ],
+            "text": "FX level strips"
+          },
+          {
+            "platforms": [],
+            "text": "FX level strips, FX level strips"
+          }
+        ]
+      },
+      {
+        "name": "Pioneer DJ DDJ-XP2",
+        "sourceName": "Pioneer DJ DDJ-XP2",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ddjxp2",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "ios",
+              "win"
+            ],
+            "text": "FX level strips"
+          },
+          {
+            "platforms": [
+              "winArm"
+            ],
+            "text": "FX level strips, FX level strips"
+          }
+        ]
+      },
+      {
+        "name": "Pioneer DJ DJM-450",
+        "sourceName": "Pioneer DJ DJM-450",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DJM-900NXS2",
+        "sourceName": "Pioneer DJ DJM-900NXS2",
+        "platforms": [
+          "mac",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware/djm900nxs2",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DJM-A9",
+        "sourceName": "Pioneer DJ DJM-A9",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/djma9",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DJM-S11",
+        "sourceName": "Pioneer DJ DJM-S11",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/djms11",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "ios",
+              "win"
+            ],
+            "text": "Waveform display on iOS (note: on iOS the mixer requires latest firmware to connect)"
+          }
+        ]
+      },
+      {
+        "name": "Pioneer DJ DJM-S3",
+        "sourceName": "Pioneer DJ DJM-S3",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/djms3",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DJM-S5",
+        "sourceName": "Pioneer DJ DJM-S5",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/djms5",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DJM-S7",
+        "sourceName": "Pioneer DJ DJM-S7",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/djms7",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DJM-S9",
+        "sourceName": "Pioneer DJ DJM-S9",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/djms9",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DJM-TOUR1",
+        "sourceName": "Pioneer DJ DJM-TOUR1",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/djmtour1",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DJM-V10",
+        "sourceName": "Pioneer DJ DJM-V10",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/djmv10",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ DJM-V10-LF",
+        "sourceName": "Pioneer DJ DJM-V10-LF",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/djmv10lf",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ Opus Quad",
+        "sourceName": "Pioneer DJ Opus Quad",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware/opusquad",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "ios",
+              "win"
+            ],
+            "text": "Screen on iOS"
+          }
+        ]
+      },
+      {
+        "name": "Pioneer DJ PLX-CRSS12",
+        "sourceName": "Pioneer DJ PLX-CRSS12",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/plxcrss12",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ XDJ-1000",
+        "sourceName": "Pioneer DJ XDJ-1000",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/xdj1000",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ XDJ-1000MK2",
+        "sourceName": "Pioneer DJ XDJ-1000MK2",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/xdj1000mk2",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ XDJ-700",
+        "sourceName": "Pioneer DJ XDJ-700",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/xdj700",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ XDJ-RX",
+        "sourceName": "Pioneer DJ XDJ-RX",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/xdjrx",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ XDJ-RX2",
+        "sourceName": "Pioneer DJ XDJ-RX2",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/xdjrx2",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "win"
+            ],
+            "text": "Main screen, performance pad LEDs"
+          }
+        ]
+      },
+      {
+        "name": "Pioneer DJ XDJ-RX3",
+        "sourceName": "Pioneer DJ XDJ-RX3",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/xdjrx3",
+        "limitations": []
+      },
+      {
+        "name": "Pioneer DJ XDJ-XZ",
+        "sourceName": "Pioneer DJ XDJ-XZ",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/xdjxz",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "win"
+            ],
+            "text": "Main screen"
+          }
+        ]
+      },
+      {
+        "name": "RANE FOUR",
+        "sourceName": "RANE FOUR",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/four",
+        "limitations": []
+      },
+      {
+        "name": "RANE MP2015",
+        "sourceName": "RANE MP2015",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/mp2015",
+        "limitations": []
+      },
+      {
+        "name": "RANE ONE",
+        "sourceName": "RANE ONE",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "RANE ONE MKII",
+        "sourceName": "RANE ONE MKII",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware/onemkii",
+        "limitations": []
+      },
+      {
+        "name": "RANE PERFORMER",
+        "sourceName": "RANE PERFORMER",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/performer",
+        "limitations": [
+          {
+            "platforms": [
+              "mac",
+              "win"
+            ],
+            "text": "Display modes, playlist titles and icons, Neural Mix support for waveforms on jog wheels"
+          }
+        ]
+      },
+      {
+        "name": "RANE SEVENTY",
+        "sourceName": "RANE SEVENTY",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "RANE SEVENTY A-TRAK SIGNATURE EDITION",
+        "sourceName": "RANE SEVENTY A-TRAK SIGNATURE EDITION",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/seventyatraksignatureedition",
+        "limitations": []
+      },
+      {
+        "name": "RANE SEVENTY-TWO",
+        "sourceName": "RANE SEVENTY-TWO",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/seventytwo",
+        "limitations": []
+      },
+      {
+        "name": "RANE SEVENTY-TWO MKII",
+        "sourceName": "RANE SEVENTY-TWO MKII",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/seventytwomkii",
+        "limitations": []
+      },
+      {
+        "name": "RANE SYSTEM ONE",
+        "sourceName": "RANE SYSTEM ONE",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/systemone",
+        "limitations": []
+      },
+      {
+        "name": "RANE TWELVE MKII",
+        "sourceName": "RANE TWELVE MKII",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware/twelvemkii",
+        "limitations": []
+      },
+      {
+        "name": "Reloop BeatMix",
+        "sourceName": "Reloop BeatMix",
+        "platforms": [
+          "mac",
+          "ios",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/beatmix",
+        "limitations": []
+      },
+      {
+        "name": "Reloop BeatMix 2",
+        "sourceName": "Reloop BeatMix 2",
+        "platforms": [
+          "mac",
+          "ios"
+        ],
+        "url": "https://www.algoriddim.com/hardware/beatmix2",
+        "limitations": []
+      },
+      {
+        "name": "Reloop BeatMix 4",
+        "sourceName": "Reloop BeatMix 4",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/beatmix4",
+        "limitations": [
+          {
+            "platforms": [
+              "quest"
+            ],
+            "text": "Deck 3/4"
+          }
+        ]
+      },
+      {
+        "name": "Reloop Beatpad",
+        "sourceName": "Reloop Beatpad",
+        "platforms": [
+          "mac",
+          "ios",
+          "android",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/beatpad",
+        "limitations": []
+      },
+      {
+        "name": "Reloop Beatpad 2",
+        "sourceName": "Reloop Beatpad 2",
+        "platforms": [
+          "mac",
+          "ios",
+          "android",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware#beatpad2",
+        "limitations": []
+      },
+      {
+        "name": "Reloop Buddy",
+        "sourceName": "Reloop Buddy",
+        "platforms": [
+          "mac",
+          "ios",
+          "android",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware#buddy",
+        "limitations": []
+      },
+      {
+        "name": "Reloop Digital Jockey 2 Interface Edition",
+        "sourceName": "Reloop Digital Jockey IE2",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Reloop ELITE",
+        "sourceName": "Reloop ELITE",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware/elite",
+        "limitations": [
+          {
+            "platforms": [
+              "winArm"
+            ],
+            "text": "No DVS support on Windows Arm devices"
+          }
+        ]
+      },
+      {
+        "name": "Reloop Flux",
+        "sourceName": "Reloop Flux",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/flux",
+        "limitations": []
+      },
+      {
+        "name": "Reloop Flux Go",
+        "sourceName": "Reloop Flux Go",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware/fluxgo",
+        "limitations": []
+      },
+      {
+        "name": "Reloop Mixage Interface Edition",
+        "sourceName": "Reloop MIXAGE IE",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Reloop Mixon 4",
+        "sourceName": "Reloop Mixon 4",
+        "platforms": [
+          "mac",
+          "ios",
+          "android",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/mixon4",
+        "limitations": [
+          {
+            "platforms": [
+              "quest"
+            ],
+            "text": "Deck 3/4"
+          }
+        ]
+      },
+      {
+        "name": "Reloop Mixon 8 Pro",
+        "sourceName": "Reloop Mixon 8 Pro",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware#mixon8-pro",
+        "limitations": [
+          {
+            "platforms": [
+              "quest"
+            ],
+            "text": "Deck 3/4"
+          }
+        ]
+      },
+      {
+        "name": "Reloop MIXTOUR",
+        "sourceName": "Reloop MIXTOUR",
+        "platforms": [
+          "mac",
+          "ios",
+          "android",
+          "win",
+          "winArm",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/mixtour",
+        "limitations": []
+      },
+      {
+        "name": "Reloop Mixtour Pro",
+        "sourceName": "Reloop Mixtour Pro",
+        "platforms": [
+          "mac",
+          "ios",
+          "android",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware#mixtour-pro",
+        "limitations": [
+          {
+            "platforms": [
+              "quest"
+            ],
+            "text": "Deck 3/4"
+          }
+        ]
+      },
+      {
+        "name": "Reloop PTB-2",
+        "sourceName": "Reloop PTB-2",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ptb-2",
+        "limitations": []
+      },
+      {
+        "name": "Reloop Ready",
+        "sourceName": "Reloop Ready",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware/ready",
+        "limitations": []
+      },
+      {
+        "name": "Reloop RMX-95",
+        "sourceName": "Reloop RMX-95",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware/rmx95",
+        "limitations": [
+          {
+            "platforms": [
+              "winArm"
+            ],
+            "text": "No DVS support on Windows Arm devices"
+          }
+        ]
+      },
+      {
+        "name": "Reloop RP-8000",
+        "sourceName": "Reloop RP-8000",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware/rp8000",
+        "limitations": []
+      },
+      {
+        "name": "Reloop RP-8000 MK2",
+        "sourceName": "Reloop RP-8000 MK2",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware/rp8000mk2",
+        "limitations": []
+      },
+      {
+        "name": "Reloop Terminal Mix 2",
+        "sourceName": "Reloop Terminal Mix 2",
+        "platforms": [
+          "mac",
+          "win"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Reloop Terminal Mix 4",
+        "sourceName": "Reloop Terminal Mix 4",
+        "platforms": [
+          "mac",
+          "win",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "The Next Beat by Ti\u00ebsto",
+        "sourceName": "The Next Beat by Ti\u00ebsto",
+        "platforms": [
+          "mac",
+          "ios",
+          "win",
+          "winArm"
+        ],
+        "url": "https://www.algoriddim.com/hardware/bytisto",
+        "limitations": []
+      },
+      {
+        "name": "Vestax Spin",
+        "sourceName": "Vestax Spin",
+        "platforms": [
+          "mac",
+          "ios",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Vestax Spin2",
+        "sourceName": "Vestax Spin2",
+        "platforms": [
+          "mac",
+          "ios",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Vestax VCI-100",
+        "sourceName": "Vestax VCI-100",
+        "platforms": [
+          "mac",
+          "ios"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Vestax VCI-100MKII",
+        "sourceName": "Vestax VCI-100MKII",
+        "platforms": [
+          "mac",
+          "ios"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Vestax VCI-300",
+        "sourceName": "Vestax VCI-300",
+        "platforms": [
+          "mac",
+          "ios",
+          "quest"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Vestax VCI-300MKII",
+        "sourceName": "Vestax VCI-300MKII",
+        "platforms": [
+          "mac",
+          "ios"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Vestax VCI-400",
+        "sourceName": "Vestax VCI-400",
+        "platforms": [
+          "mac",
+          "ios"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      },
+      {
+        "name": "Vestax VCM-100",
+        "sourceName": "Vestax VCM-100",
+        "platforms": [
+          "mac",
+          "ios"
+        ],
+        "url": "https://www.algoriddim.com/hardware",
+        "limitations": []
+      }
+    ]
+  },
+  "virtualdj": {
+    "url": "https://virtualdj.com/products/hardware.html?view=all",
+    "sha256": "1ce489bb5b31b849f26d67cf7aadaea9b11c8ae25b4aec240c07a18fb0ac9d27",
+    "reviewed": "2026-11-19",
+    "rowCount": 487,
+    "rows": [
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJFLX2",
+        "sourceName": "AlphaTheta DDJ-FLX2",
+        "name": "AlphaTheta DDJ-FLX2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=XDJAZ",
+        "sourceName": "AlphaTheta XDJ-AZ",
+        "name": "AlphaTheta XDJ-AZ",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=PIFLX10",
+        "sourceName": "Pioneer DJ DDJ-FLX10",
+        "name": "Pioneer DJ DDJ-FLX10",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RNONEMK2",
+        "sourceName": "Rane One MKII",
+        "name": "Rane One MKII",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=rnstmone",
+        "sourceName": "Rane System One",
+        "name": "Rane System One",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RNFOUR",
+        "sourceName": "Rane Four",
+        "name": "Rane Four",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RNPERF",
+        "sourceName": "Rane Performer",
+        "name": "Rane Performer",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TEMPUS",
+        "sourceName": "Akiyama TEMPUS",
+        "name": "Akiyama TEMPUS",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=PULSAR",
+        "sourceName": "Akiyama PULSAR",
+        "name": "Akiyama PULSAR",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=QUARK",
+        "sourceName": "Akiyama QUARC",
+        "name": "Akiyama QUARC",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=SYNCRON",
+        "sourceName": "Akiyama SYNCRON",
+        "name": "Akiyama SYNCRON",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TTWO",
+        "sourceName": "Akiyama TTWO",
+        "name": "Akiyama TTWO",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=QUATTRO",
+        "sourceName": "Akiyama QUATTRO",
+        "name": "Akiyama QUATTRO",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=QUARKSC",
+        "sourceName": "Akiyama QUARK SC",
+        "name": "Akiyama QUARK SC",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=XONE4D",
+        "sourceName": "Allen & Heath XONE 4D",
+        "name": "Allen & Heath XONE 4D",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=OMNISDUO",
+        "sourceName": "AlphaTheta OMNIS DUO",
+        "name": "AlphaTheta OMNIS DUO",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJGRV6",
+        "sourceName": "AlphaTheta DDJ-GRV6",
+        "name": "AlphaTheta DDJ-GRV6",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=VERSADECKM",
+        "sourceName": "American Audio VERSADECK",
+        "name": "American Audio VERSADECK",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=AAEncore2000",
+        "sourceName": "American Audio ENCORE 2000",
+        "name": "American Audio ENCORE 2000",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=AAVMS2",
+        "sourceName": "American Audio VMS2",
+        "name": "American Audio VMS2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=AAVMS4",
+        "sourceName": "American Audio VMS4.1",
+        "name": "American Audio VMS4.1",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=AAVMS5",
+        "sourceName": "American Audio VMS5",
+        "name": "American Audio VMS5",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=ELMC1",
+        "sourceName": "American Audio ELMC-1",
+        "name": "American Audio ELMC-1",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJINN",
+        "sourceName": "Audiophony DJINN",
+        "name": "Audiophony DJINN",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJAZZ",
+        "sourceName": "Audiophony DJAZZ",
+        "name": "Audiophony DJAZZ",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJAM",
+        "sourceName": "Audiophony DJAM",
+        "name": "Audiophony DJAM",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=BCD2000",
+        "sourceName": "Behringer BCD-2000",
+        "name": "Behringer BCD-2000",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=BeCMDSTUDIO",
+        "sourceName": "Behringer CMD STUDIO 4a",
+        "name": "Behringer CMD STUDIO 4a",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=BeSTUDIO2a",
+        "sourceName": "Behringer CMD STUDIO 2a",
+        "name": "Behringer CMD STUDIO 2a",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=BeCMDMICRO",
+        "sourceName": "Behringer CMD MICRO",
+        "name": "Behringer CMD MICRO",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=BeCMDDV1",
+        "sourceName": "Behringer CMD DV-1",
+        "name": "Behringer CMD DV-1",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=BCD3000",
+        "sourceName": "Behringer BCD-3000",
+        "name": "Behringer BCD-3000",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=ABMA1",
+        "sourceName": "BeyondMusic (BMI) ABMA1",
+        "name": "BeyondMusic (BMI) ABMA1",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=ABMA1T",
+        "sourceName": "BeyondMusic (BMI) REMIX PRO",
+        "name": "BeyondMusic (BMI) REMIX PRO",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=ABMA2",
+        "sourceName": "BeyondMusic (BMI) ABMA2",
+        "name": "BeyondMusic (BMI) ABMA2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=ABMA3",
+        "sourceName": "BeyondMusic (BMI) ABMA3",
+        "name": "BeyondMusic (BMI) ABMA3",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=ABMA4",
+        "sourceName": "BeyondMusic (BMI) ABMA4",
+        "name": "BeyondMusic (BMI) ABMA4",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MC7000",
+        "sourceName": "Denon DJ MC7000",
+        "name": "Denon DJ MC7000",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MCX8000",
+        "sourceName": "Denon DJ MCX-8000",
+        "name": "Denon DJ MCX-8000",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MC2000",
+        "sourceName": "Denon DJ MC2000",
+        "name": "Denon DJ MC2000",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=HS5500",
+        "sourceName": "Denon DJ HS5500",
+        "name": "Denon DJ HS5500",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MC3000",
+        "sourceName": "Denon DJ MC3000",
+        "name": "Denon DJ MC3000",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MC4000",
+        "sourceName": "Denon DJ MC4000",
+        "name": "Denon DJ MC4000",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MC6000MK2",
+        "sourceName": "Denon DJ MC6000 MKII",
+        "name": "Denon DJ MC6000 MKII",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MC6000",
+        "sourceName": "Denon DJ MC6000",
+        "name": "Denon DJ MC6000",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DNLIVE4",
+        "sourceName": "Denon DJ SC LIVE 4",
+        "name": "Denon DJ SC LIVE 4",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DNLIVE2",
+        "sourceName": "Denon DJ SC LIVE 2",
+        "name": "Denon DJ SC LIVE 2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=PRIMEGO",
+        "sourceName": "Denon DJ Prime GO",
+        "name": "Denon DJ Prime GO",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=PRIMEGOP",
+        "sourceName": "Denon DJ Prime GO Plus",
+        "name": "Denon DJ Prime GO Plus",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DNPRIME4",
+        "sourceName": "Denon DJ PRIME 4",
+        "name": "Denon DJ PRIME 4",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DNPRIME2",
+        "sourceName": "Denon DJ PRIME 2",
+        "name": "Denon DJ PRIME 2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=IMIXRELOAD",
+        "sourceName": "DJ-Tech I-MIX RELOAD",
+        "name": "DJ-Tech I-MIX RELOAD",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RELOADED",
+        "sourceName": "DJ-Tech RELOADED",
+        "name": "DJ-Tech RELOADED",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=IMIXRELOADMKII",
+        "sourceName": "DJ-Tech I-MIX RELOAD MKII",
+        "name": "DJ-Tech I-MIX RELOAD MKII",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MYSCRATCH",
+        "sourceName": "DJ-Tech MY SCRATCH",
+        "name": "DJ-Tech MY SCRATCH",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=IMIX",
+        "sourceName": "DJ-Tech I-MIX",
+        "name": "DJ-Tech I-MIX",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DRAGON2",
+        "sourceName": "DJ-Tech DRAGON TWO",
+        "name": "DJ-Tech DRAGON TWO",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=4MIX",
+        "sourceName": "DJ-Tech 4MIX",
+        "name": "DJ-Tech 4MIX",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=GMSLATE4",
+        "sourceName": "Gemini SLATE4",
+        "name": "Gemini SLATE4",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=GMSLATE",
+        "sourceName": "Gemini SLATE 2",
+        "name": "Gemini SLATE 2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=GEMINI1",
+        "sourceName": "Gemini CTRL-ONE",
+        "name": "Gemini CTRL-ONE",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=GEMINI2",
+        "sourceName": "Gemini CNTRL-2",
+        "name": "Gemini CNTRL-2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=GEMINI_G4V",
+        "sourceName": "Gemini G4V",
+        "name": "Gemini G4V",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=GEMINI6",
+        "sourceName": "Gemini CTRL-SIX",
+        "name": "Gemini CTRL-SIX",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=GEMINI_G2V",
+        "sourceName": "Gemini G2V",
+        "name": "Gemini G2V",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=GEMINI7",
+        "sourceName": "Gemini CNTRL-7",
+        "name": "Gemini CNTRL-7",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=GCDMP7000",
+        "sourceName": "Gemini CDMP-7000",
+        "name": "Gemini CDMP-7000",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=FIRSTMIX",
+        "sourceName": "Gemini FIRSTMIX",
+        "name": "Gemini FIRSTMIX",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=FIRSTMIXPRO",
+        "sourceName": "Gemini FIRSTMIX PRO",
+        "name": "Gemini FIRSTMIX PRO",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=GMGMX",
+        "sourceName": "Gemini GMX",
+        "name": "Gemini GMX",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=FIRSTMIXIO",
+        "sourceName": "Gemini FirstMix IO",
+        "name": "Gemini FirstMix IO",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=GMGMXDRIVE",
+        "sourceName": "Gemini GMX DRIVE",
+        "name": "Gemini GMX DRIVE",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=GMSDJ4K",
+        "sourceName": "Gemini SDJ-4000",
+        "name": "Gemini SDJ-4000",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=HCINP300K2",
+        "sourceName": "Hercules INPULSE 300 MK2",
+        "name": "Hercules DJControl Inpulse 300 MK2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=HCT10",
+        "sourceName": "Hercules DJCONTROL T10",
+        "name": "Hercules DJCONTROL T10",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=HCINP500",
+        "sourceName": "Hercules INPULSE 500",
+        "name": "Hercules DJControl Inpulse 500",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=HCINP2003",
+        "sourceName": "Hercules Inpulse 200 MK3",
+        "name": "Hercules DJControl Inpulse 200 MK3",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=HDJCMIX",
+        "sourceName": "Hercules DJCONTROL MIX",
+        "name": "Hercules DJCONTROL MIX",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=HCINP2002",
+        "sourceName": "Hercules INPULSE 200 MK2",
+        "name": "Hercules DJControl Inpulse 200 MK2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=HCINPT7",
+        "sourceName": "Hercules Inpulse T7",
+        "name": "Hercules DJControl Inpulse T7",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=HDJCMIXU",
+        "sourceName": "Hercules DJ CONTROL MIX ULTRA",
+        "name": "Hercules DJ CONTROL MIX ULTRA",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJCONSOLE",
+        "sourceName": "Hercules DJCONSOLE",
+        "name": "Hercules DJCONSOLE",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=HCINP300",
+        "sourceName": "Hercules Inpulse 300",
+        "name": "Hercules DJControl Inpulse 300",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJCAIRPLUS",
+        "sourceName": "Hercules DJCONTROL AIRPLUS",
+        "name": "Hercules DJCONTROL AIRPLUS",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJCINSTINCT",
+        "sourceName": "Hercules DJCONTROL INSTINCT",
+        "name": "Hercules DJCONTROL INSTINCT",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=HCINSP8",
+        "sourceName": "Hercules Instinct P8",
+        "name": "Hercules DJControl Instinct P8",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=HCP32",
+        "sourceName": "Hercules P32 DJ",
+        "name": "Hercules P32 DJ",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=HCUNIV",
+        "sourceName": "Hercules UNIVERSAL DJ",
+        "name": "Hercules Universal DJ",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=HCWAVE",
+        "sourceName": "Hercules DJCONTROL WAVE",
+        "name": "Hercules DJControlWave",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=HDJCJVIS",
+        "sourceName": "Hercules JOGVISION",
+        "name": "Hercules DJControl Jogvision",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJCMK4",
+        "sourceName": "Hercules DJCONSOLE MK4",
+        "name": "Hercules DJCONSOLE MK4",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJCRMX",
+        "sourceName": "Hercules DJCONSOLE RMX",
+        "name": "Hercules DJCONSOLE RMX",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJCMK2",
+        "sourceName": "Hercules DJCONSOLE MK2",
+        "name": "Hercules DJCONSOLE MK2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=HCSTRLT",
+        "sourceName": "Hercules StarLight",
+        "name": "Hercules DJControl Starlight",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=HCINP200",
+        "sourceName": "Hercules Inpulse 200",
+        "name": "Hercules DJControl Inpulse 200",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJCAIR",
+        "sourceName": "Hercules DJCONTROL AIR",
+        "name": "Hercules DJCONTROL AIR",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJC4SET",
+        "sourceName": "Hercules DJ 4SET",
+        "name": "Hercules DJ 4SET",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJCSTEEL",
+        "sourceName": "Hercules DJCONTROL STEEL",
+        "name": "Hercules DJCONTROL STEEL",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJC4MX",
+        "sourceName": "Hercules DJCONSOLE 4-Mx",
+        "name": "Hercules DJCONSOLE 4-Mx",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJCMP3E2",
+        "sourceName": "Hercules DJCONTROL MP3 E2",
+        "name": "Hercules DJCONTROL MP3 E2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJCMP3",
+        "sourceName": "Hercules DJCONTROL MP3",
+        "name": "Hercules DJCONTROL MP3",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=HDJCCPCT",
+        "sourceName": "Hercules DJCONTROL COMPACT",
+        "name": "Hercules DJCONTROL COMPACT",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RMX2",
+        "sourceName": "Hercules DJCONSOLE RMX2",
+        "name": "Hercules DJCONSOLE RMX2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=IONLIVE",
+        "sourceName": "ION DJ LIVE",
+        "name": "ION DJ LIVE",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=ICUE",
+        "sourceName": "ION ICUE",
+        "name": "ION ICUE",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=IONDJ2GO",
+        "sourceName": "ION DJ2GO",
+        "name": "ION DJ2GO",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=IONDISCDJPRO",
+        "sourceName": "ION DISCOVER DJ PRO",
+        "name": "ION DISCOVER DJ PRO",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=IONDISCDJ",
+        "sourceName": "ION DISCOVER DJ",
+        "name": "ION DISCOVER DJ",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=JBSKT3S",
+        "sourceName": "JB Systems DJ KONTROL3S",
+        "name": "JB Systems DJ KONTROL3S",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=JBSDJKTRL3",
+        "sourceName": "JB Systems DJ KONTROL3",
+        "name": "JB Systems DJ KONTROL3",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=JBSDJKTRL1",
+        "sourceName": "JB Systems DJ KONTROL1",
+        "name": "JB Systems DJ KONTROL1",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=JBSDJKTRL2",
+        "sourceName": "JB Systems DJ KONTROL2",
+        "name": "JB Systems DJ KONTROL2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=JBKTRL4",
+        "sourceName": "JB Systems DJ KONTROL4",
+        "name": "JB Systems DJ KONTROL4",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=KAOSSDJ",
+        "sourceName": "Korg KAOSS DJ",
+        "name": "Korg KAOSS DJ",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MXPRIMO",
+        "sourceName": "Mixars Primo",
+        "name": "Mixars Primo",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=UMIXCTRLPRO",
+        "sourceName": "Mixvibes MIXVIBES UMIX CONTROL PRO",
+        "name": "MixVibes U-Mix Control Pro",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TRAKTORS4MK2",
+        "sourceName": "Native Instruments KONTROL S4 MK2",
+        "name": "Native Instruments Traktor Kontrol S4 MK2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TRAKTORS2",
+        "sourceName": "Native Instruments KONTROL S2",
+        "name": "Native Instruments Traktor Kontrol S2 Mk1",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TRAKTORS2MK2",
+        "sourceName": "Native Instruments KONTROL S2 MK2",
+        "name": "Native Instruments Traktor Kontrol S2 MK2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TRAKTORX1MK2",
+        "sourceName": "Native Instruments KONTROL X1 MK2",
+        "name": "Native Instruments Traktor Kontrol X1 MK2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TRAKTORS2MK3",
+        "sourceName": "Native Instruments Kontrol S2 MK3",
+        "name": "Native Instruments Traktor Kontrol S2 MK3",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TRAKTORS5",
+        "sourceName": "Native Instruments KONTROL S5",
+        "name": "Native Instruments Traktor Kontrol S5",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TRAKTORX1MK3",
+        "sourceName": "Native Instruments Kontrol X1 MK3",
+        "name": "Native Instruments Traktor Kontrol X1 MK3",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TRAKTORS3",
+        "sourceName": "Native Instruments Kontrol S3",
+        "name": "Native Instruments Traktor Kontrol S3",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TRAKTORS8",
+        "sourceName": "Native Instruments Kontrol S8",
+        "name": "Native Instruments Traktor Kontrol S8",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TRAKTORMX2",
+        "sourceName": "Native Instruments Traktor MX2",
+        "name": "Native Instruments Traktor MX2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TWITCH",
+        "sourceName": "Novation TWITCH",
+        "name": "Novation TWITCH",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MIXDECKQUAD",
+        "sourceName": "Numark MIXDECK QUAD",
+        "name": "Numark MIXDECK QUAD",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MIXDECK",
+        "sourceName": "Numark MIXDECK",
+        "name": "Numark MIXDECK",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MIXTRACKEDGE",
+        "sourceName": "Numark MIXTRACK EDGE",
+        "name": "Numark MIXTRACK EDGE",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MIXTRACK",
+        "sourceName": "Numark MIXTRACK",
+        "name": "Numark MIXTRACK",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MIXTRACKPRO",
+        "sourceName": "Numark MIXTRACK PRO",
+        "name": "Numark MIXTRACK PRO",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJ2GO2",
+        "sourceName": "Numark DJ2GO2",
+        "name": "Numark DJ2GO2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NMNS6II",
+        "sourceName": "Numark NS6 II",
+        "name": "Numark NS6 II",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TOTALCONTROL",
+        "sourceName": "Numark TOTAL CONTROL",
+        "name": "Numark TOTAL CONTROL",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NMMXTPL",
+        "sourceName": "Numark MIXTRACK PLATINUM",
+        "name": "Numark MIXTRACK PLATINUM",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NMPARTY",
+        "sourceName": "Numark PARTY MIX",
+        "name": "Numark PARTY MIX",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=STEALTHCONTROL",
+        "sourceName": "Numark STEALTH CONTROL",
+        "name": "Numark STEALTH CONTROL",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=OMNICONTROL",
+        "sourceName": "Numark OMNI CONTROL",
+        "name": "Numark OMNI CONTROL",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NMNVII",
+        "sourceName": "Numark NV II",
+        "name": "Numark NV II",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NS7",
+        "sourceName": "Numark NS7",
+        "name": "Numark NS7",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NS7III",
+        "sourceName": "Numark NS7 III",
+        "name": "Numark NS7 III",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NS6",
+        "sourceName": "Numark NS6",
+        "name": "Numark NS6",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=N4",
+        "sourceName": "Numark N4",
+        "name": "Numark N4",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MIXTRACKQUAD",
+        "sourceName": "Numark MIXTRACK QUAD",
+        "name": "Numark MIXTRACK QUAD",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NMMXTP3",
+        "sourceName": "Numark MIXTRACK PRO 3",
+        "name": "Numark MIXTRACK PRO 3",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MIXTRACKPROII",
+        "sourceName": "Numark MIXTRACK PRO II",
+        "name": "Numark MIXTRACK PRO II",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MIXTRACKII",
+        "sourceName": "Numark MIXTRACK II",
+        "name": "Numark MIXTRACK II",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=IDJ32",
+        "sourceName": "Numark IDJ3",
+        "name": "Numark IDJ3",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJ2GO2T",
+        "sourceName": "Numark DJ2GO2 TOUCH",
+        "name": "Numark DJ2GO2 TOUCH",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NMMXT3",
+        "sourceName": "Numark MIXTRACK 3",
+        "name": "Numark MIXTRACK 3",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=IDJLIVEII",
+        "sourceName": "Numark IDJ LIVE II",
+        "name": "Numark IDJ LIVE II",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NS7II",
+        "sourceName": "Numark NS7 II",
+        "name": "Numark NS7 II",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NMNV",
+        "sourceName": "Numark NV",
+        "name": "Numark NV",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MIXDECKEXPRESS",
+        "sourceName": "Numark MIXDECK EXPRESS",
+        "name": "Numark MIXDECK EXPRESS",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NMPMPRO",
+        "sourceName": "Numark PartyMix Pro",
+        "name": "Numark PartyMix Pro",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=4TRAK",
+        "sourceName": "Numark 4TRAK",
+        "name": "Numark 4TRAK",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJ2GO",
+        "sourceName": "Numark DJ2GO",
+        "name": "Numark DJ2GO",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NMMXTPROFX",
+        "sourceName": "Numark Mixtrack Pro FX",
+        "name": "Numark Mixtrack Pro FX",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NMMXSTRGO",
+        "sourceName": "Numark Mixstream Pro GO",
+        "name": "Numark Mixstream Pro GO",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NMMXTPLFX",
+        "sourceName": "Numark Mixtrack Platinum FX",
+        "name": "Numark Mixtrack Platinum FX",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NMPARTYLV",
+        "sourceName": "Numark PARTY MIX LIVE",
+        "name": "Numark PARTY MIX LIVE",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NMPARTYII",
+        "sourceName": "Numark PARTY MIX MKII",
+        "name": "Numark Party Mix II",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MXTRCKGO",
+        "sourceName": "Numark MIXTRACK GO",
+        "name": "Numark MIXTRACK GO",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NMPARTY3",
+        "sourceName": "Numark PARTYMIX MK3",
+        "name": "Numark Party Mix III",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NMMXSTRPR",
+        "sourceName": "Numark Mixstream Pro",
+        "name": "Numark Mixstream Pro",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NMNS4FX",
+        "sourceName": "Numark NS4FX",
+        "name": "Numark NS4FX",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NBSX1",
+        "sourceName": "The Next Beat SX1",
+        "name": "The Next Beat SX1",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TNB",
+        "sourceName": "The Next Beat",
+        "name": "The Next Beat by Ti\u00ebsto",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MPX10",
+        "sourceName": "CITRONIC MPX10",
+        "name": "CITRONIC MPX10",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DAPKONTROLD2",
+        "sourceName": "DAP KONTROL D2",
+        "name": "DAP KONTROL D2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=SMX22",
+        "sourceName": "SKP SMX-2200",
+        "name": "SKP SMX-2200",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=VDC2000",
+        "sourceName": "Vistron VDC-2000",
+        "name": "Vistron VDC-2000",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=XSESSION",
+        "sourceName": "M-AUDIO XSESSION",
+        "name": "M-AUDIO XSESSION",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=VDC100S",
+        "sourceName": "Vistron VDC-100S",
+        "name": "Vistron VDC-100S",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=VDC100",
+        "sourceName": "Vistron VDC-100",
+        "name": "Vistron VDC-100",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=XSESSIONPRO",
+        "sourceName": "M-AUDIO XSESSION PRO",
+        "name": "M-AUDIO XSESSION PRO",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDC2000",
+        "sourceName": "OMNITRONIC DDC-2000",
+        "name": "OMNITRONIC DDC-2000",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=ME701",
+        "sourceName": "YAHORNG ME701",
+        "name": "YAHORNG ME701",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=ME705SC",
+        "sourceName": "YAHORNG ME705",
+        "name": "YAHORNG ME705",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=IDANCESCRATCH",
+        "sourceName": "IDANCE SCRATCH",
+        "name": "IDANCE SCRATCH",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MC1000",
+        "sourceName": "ZOMO MC-1000",
+        "name": "ZOMO MC-1000",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=XP5",
+        "sourceName": "EKS XP5",
+        "name": "EKS XP5",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=ME100",
+        "sourceName": "YAHORNG ME100",
+        "name": "YAHORNG ME100",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=ME120SC",
+        "sourceName": "YAHORNG ME120SC",
+        "name": "YAHORNG ME120SC",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=XPONENT",
+        "sourceName": "M-AUDIO XPONENT",
+        "name": "M-AUDIO XPONENT",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=ME800",
+        "sourceName": "YAHORNG ME800",
+        "name": "YAHORNG ME800",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=ME702SC",
+        "sourceName": "YAHORNG ME702SC",
+        "name": "YAHORNG ME702SC",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DMX101",
+        "sourceName": "HANPIN DMX-101",
+        "name": "HANPIN DMX-101",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=PIDDJ200",
+        "sourceName": "Pioneer DJ DDJ-200",
+        "name": "Pioneer DJ DDJ-200",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJ800",
+        "sourceName": "Pioneer DJ DDJ-800",
+        "name": "Pioneer DJ DDJ-800",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=XDJR1",
+        "sourceName": "Pioneer DJ XDJ-R1",
+        "name": "Pioneer DJ XDJ-R1",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJSZ",
+        "sourceName": "Pioneer DJ DDJ-SZ",
+        "name": "Pioneer DJ DDJ-SZ",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=PIXDJRR",
+        "sourceName": "Pioneer DJ XDJ-RR",
+        "name": "Pioneer DJ XDJ-RR",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=XDJAERO",
+        "sourceName": "Pioneer DJ XDJ-AERO",
+        "name": "Pioneer DJ XDJ-AERO",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJSR2",
+        "sourceName": "Pioneer DJ DDJ-SR2",
+        "name": "Pioneer DJ DDJ-SR2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJSZ2",
+        "sourceName": "Pioneer DJ DDJ-SZ2",
+        "name": "Pioneer DJ DDJ-SZ2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=XDJRX",
+        "sourceName": "Pioneer DJ XDJ-RX",
+        "name": "Pioneer DJ XDJ-RX",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=PIDDJ400",
+        "sourceName": "Pioneer DJ DDJ-400",
+        "name": "Pioneer DJ DDJ-400",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJ1000",
+        "sourceName": "Pioneer DJ DDJ-1000",
+        "name": "Pioneer DJ DDJ-1000",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=XDJRX2",
+        "sourceName": "Pioneer DJ XDJ-RX2",
+        "name": "Pioneer DJ XDJ-RX2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJSB3",
+        "sourceName": "Pioneer DJ DDJ-SB3",
+        "name": "Pioneer DJ DDJ-SB3",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJSX3",
+        "sourceName": "Pioneer DJ DDJ-SX3",
+        "name": "Pioneer DJ DDJ-SX3",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJRZX",
+        "sourceName": "Pioneer DJ DDJ-RZX",
+        "name": "Pioneer DJ DDJ-RZX",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJSR",
+        "sourceName": "Pioneer DJ DDJ-SR",
+        "name": "Pioneer DJ DDJ-SR",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=XDJXZ",
+        "sourceName": "Pioneer DJ XDJ-XZ",
+        "name": "Pioneer DJ XDJ-XZ",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=WEGO4",
+        "sourceName": "Pioneer DJ DDJ-WEGO4",
+        "name": "Pioneer DJ DDJ-WEGO4",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJWEGO2",
+        "sourceName": "Pioneer DJ DDJ-WEGO2",
+        "name": "Pioneer DJ DDJ-WEGO2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJWEGO",
+        "sourceName": "Pioneer DJ DDJ-WEGO",
+        "name": "Pioneer DJ DDJ-WEGO",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJSX",
+        "sourceName": "Pioneer DJ DDJ-SX",
+        "name": "Pioneer DJ DDJ-SX",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJRB",
+        "sourceName": "Pioneer DJ DDJ-RB",
+        "name": "Pioneer DJ DDJ-RB",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJRR",
+        "sourceName": "Pioneer DJ DDJ-RR",
+        "name": "Pioneer DJ DDJ-RR",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJRX",
+        "sourceName": "Pioneer DJ DDJ-RX",
+        "name": "Pioneer DJ DDJ-RX",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJ1KSRT",
+        "sourceName": "Pioneer DJ DDJ-1000SRT",
+        "name": "Pioneer DJ DDJ-1000SRT",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJRZ",
+        "sourceName": "Pioneer DJ DDJ-RZ",
+        "name": "Pioneer DJ DDJ-RZ",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJS1",
+        "sourceName": "Pioneer DJ DDJ-S1",
+        "name": "Pioneer DJ DDJ-S1",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJERGO",
+        "sourceName": "Pioneer DJ DDJ-ERGO",
+        "name": "Pioneer DJ DDJ-ERGO",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=WEGO3",
+        "sourceName": "Pioneer DJ DDJ-WEGO3",
+        "name": "Pioneer DJ DDJ-WEGO3",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJSB2",
+        "sourceName": "Pioneer DJ DDJ-SB2",
+        "name": "Pioneer DJ DDJ-SB2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJSX2",
+        "sourceName": "Pioneer DJ DDJ-SX2",
+        "name": "Pioneer DJ DDJ-SX2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJSB",
+        "sourceName": "Pioneer DJ DDJ-SB",
+        "name": "Pioneer DJ DDJ-SB",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=PIFLX4",
+        "sourceName": "Pioneer DJ DDJ-FLX4",
+        "name": "Pioneer DJ DDJ-FLX4",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=XDJRX3",
+        "sourceName": "Pioneer DJ XDJ-RX3",
+        "name": "Pioneer DJ XDJ-RX3",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJREV7",
+        "sourceName": "Pioneer DJ DDJ-REV7",
+        "name": "Pioneer DJ DDJ-REV7",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJREV1",
+        "sourceName": "Pioneer DJ DDJ-REV1",
+        "name": "Pioneer DJ DDJ-REV1",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJREV5",
+        "sourceName": "Pioneer DJ DDJ-REV5",
+        "name": "Pioneer DJ DDJ-REV5",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=OPUSQUAD",
+        "sourceName": "Pioneer DJ OPUS QUAD",
+        "name": "Pioneer DJ OPUS QUAD",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJFLX6",
+        "sourceName": "Pioneer DJ DDJ-FLX6",
+        "name": "Pioneer DJ DDJ-FLX6",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RNONE",
+        "sourceName": "Rane ONE",
+        "name": "Rane ONE",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RLMIXON8PRO",
+        "sourceName": "Reloop Mixon 8 Pro",
+        "name": "Reloop Mixon 8 Pro",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RLREADY",
+        "sourceName": "Reloop READY",
+        "name": "Reloop READY",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RLBUDDY",
+        "sourceName": "Reloop Buddy",
+        "name": "Reloop Buddy",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=BEATMIX",
+        "sourceName": "Reloop BEATMIX",
+        "name": "Reloop BEATMIX",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TM8",
+        "sourceName": "Reloop TERMINAL MIX 8",
+        "name": "Reloop TERMINAL MIX 8",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=REBTPD2",
+        "sourceName": "Reloop BEATPAD 2",
+        "name": "Reloop BEATPAD 2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TM2",
+        "sourceName": "Reloop TERMINAL MIX 2",
+        "name": "Reloop TERMINAL MIX 2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MIXON4",
+        "sourceName": "Reloop MIXON4",
+        "name": "Reloop MIXON4",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=BTMIX4",
+        "sourceName": "Reloop BEATMIX 4",
+        "name": "Reloop BEATMIX 4",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DIGITALJOCKEY2CE",
+        "sourceName": "Reloop DIGITAL JOCKEY 2 CE",
+        "name": "Reloop Digital Jockey 2 Controller",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TM4",
+        "sourceName": "Reloop TERMINAL MIX 4",
+        "name": "Reloop TERMINAL MIX 4",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=BTMIX2",
+        "sourceName": "Reloop BEATMIX 2",
+        "name": "Reloop BEATMIX 2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=BEATPAD",
+        "sourceName": "Reloop BEATPAD",
+        "name": "Reloop BEATPAD",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DIGITALJOCKEY",
+        "sourceName": "Reloop DIGITAL JOCKEY",
+        "name": "Reloop DIGITAL JOCKEY",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RTOUCH",
+        "sourceName": "Reloop TOUCH",
+        "name": "Reloop TOUCH",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DIGITALJOCKEY2",
+        "sourceName": "Reloop DIGITAL JOCKEY 2 IE",
+        "name": "Reloop Digital Jockey 2 Interface Edition",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DIGITALJOCKEY2ME",
+        "sourceName": "Reloop DIGITAL JOCKEY 2 ME",
+        "name": "Reloop Digital Jockey 2 Master Edition",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DIGITALJOCKEY3ME",
+        "sourceName": "Reloop DIGITAL JOCKEY 3 ME",
+        "name": "Reloop Jockey 3 ME",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=JOCKEY3REMIX",
+        "sourceName": "Reloop JOCKEY 3 REMIX",
+        "name": "Reloop JOCKEY 3 REMIX",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MIXAGECE",
+        "sourceName": "Reloop MIXAGE CE",
+        "name": "Reloop Mixage Controller Edition",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MIXAGE",
+        "sourceName": "Reloop MIXAGE IE",
+        "name": "Reloop Mixage Interface Edition",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MIXAGEMK2",
+        "sourceName": "Reloop MIXAGE IE MK2",
+        "name": "Reloop Mixage Interface Edition MK2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=ROL202",
+        "sourceName": "Roland DJ-202",
+        "name": "Roland DJ-202",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=ROL707M",
+        "sourceName": "Roland DJ-707M",
+        "name": "Roland DJ-707M",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=ROL505",
+        "sourceName": "Roland DJ-505",
+        "name": "Roland DJ-505",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=ROL808",
+        "sourceName": "Roland DJ-808",
+        "name": "Roland DJ-808",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=SCS4DJ",
+        "sourceName": "Stanton SCS.4DJ",
+        "name": "Stanton SCS.4DJ",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJC4",
+        "sourceName": "Stanton DJC.4",
+        "name": "Stanton DJC.4",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DMC2000",
+        "sourceName": "Synq DMC-2000",
+        "name": "Synq DMC-2000",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=SPIN",
+        "sourceName": "Vestax SPIN",
+        "name": "Vestax SPIN",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=VSPIN2",
+        "sourceName": "Vestax SPIN2",
+        "name": "Vestax SPIN2",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TYPHOON",
+        "sourceName": "Vestax TYPHOON",
+        "name": "Vestax TYPHOON",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=VCI100",
+        "sourceName": "Vestax VCI-100",
+        "name": "Vestax VCI-100",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=VCI100MK2",
+        "sourceName": "Vestax VCI-100MKII",
+        "name": "Vestax VCI-100MKII",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=VCI300",
+        "sourceName": "Vestax VCI-300",
+        "name": "Vestax VCI-300",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=VCI380",
+        "sourceName": "Vestax VCI-380",
+        "name": "Vestax VCI-380",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=VCI400",
+        "sourceName": "Vestax VCI-400",
+        "name": "Vestax VCI-400",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=VCM100",
+        "sourceName": "Vestax VCM-100",
+        "name": "Vestax VCM-100",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=VTVEGA",
+        "sourceName": "Vieta DJ VEGA",
+        "name": "Vieta DJ VEGA",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=VTORION",
+        "sourceName": "Vieta DJ ORION",
+        "name": "Vieta DJ ORION",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=VTJUNO",
+        "sourceName": "Vieta DJ JUNO",
+        "name": "Vieta DJ JUNO",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=VTANDRM",
+        "sourceName": "Vieta DJ Andromeda",
+        "name": "Vieta DJ Andromeda",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=APEX200",
+        "sourceName": "Vonyx APEX 200",
+        "name": "Vonyx APEX 200",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=VXLP3",
+        "sourceName": "Vonyx LOOP 300",
+        "name": "Vonyx LOOP 300",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=VXLP2",
+        "sourceName": "Vonyx LOOP 200",
+        "name": "Vonyx LOOP 200",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=VXSPN2",
+        "sourceName": "Vonyx Spin 200",
+        "name": "Vonyx Spin 200",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=C60",
+        "sourceName": "Voxoa C60",
+        "name": "Voxoa C60",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=C50",
+        "sourceName": "Voxoa C50",
+        "name": "Voxoa C50",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=S70",
+        "sourceName": "Voxoa S70",
+        "name": "Voxoa S70",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=W1311",
+        "sourceName": "Welljoint MD1311",
+        "name": "Welljoint MD1311",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MIDI8S",
+        "sourceName": "Welljoint MIDI 8S",
+        "name": "Welljoint MIDI 8S",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MIDI10",
+        "sourceName": "Welljoint MIDI 10",
+        "name": "Welljoint MIDI 10",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MIDI16",
+        "sourceName": "Welljoint MIDI 16",
+        "name": "Welljoint MIDI 16",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MIDI4",
+        "sourceName": "Welljoint MIDI 4",
+        "name": "Welljoint MIDI 4",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MIDI18",
+        "sourceName": "Welljoint MIDI 18",
+        "name": "Welljoint MIDI 18",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=COMBOMIDI",
+        "sourceName": "Welljoint COMBO MIDI",
+        "name": "Welljoint COMBO MIDI",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=WJ1302",
+        "sourceName": "Welljoint MIDI 1302",
+        "name": "Welljoint MIDI 1302",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=FFKTRL",
+        "sourceName": "Welljoint FFKTRL",
+        "name": "Welljoint FFKTRL",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=W1310",
+        "sourceName": "Welljoint MD1310",
+        "name": "Welljoint MD1310",
+        "category": "All-in-one",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DNSC5000",
+        "sourceName": "Denon DJ SC5000",
+        "name": "Denon DJ SC5000 PRIME",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=CDJ3000",
+        "sourceName": "Pioneer DJ CDJ-3000",
+        "name": "Pioneer DJ CDJ-3000",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=XONE2D",
+        "sourceName": "Allen & Heath XONE 2D",
+        "name": "Allen & Heath XONE 2D",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=XONE1D",
+        "sourceName": "Allen & Heath XONE 1D",
+        "name": "Allen & Heath XONE 1D",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=CDJ3000X",
+        "sourceName": "AlphaTheta CDJ-3000X",
+        "name": "AlphaTheta CDJ-3000X",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=CDJ1500X",
+        "sourceName": "AlphaTheta CDJ-1500X",
+        "name": "AlphaTheta CDJ-1500X",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RADIUS1000",
+        "sourceName": "American Audio RADIUS 1000",
+        "name": "American Audio RADIUS 1000",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RADIUS2000",
+        "sourceName": "American Audio RADIUS 2000",
+        "name": "American Audio RADIUS 2000",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RADIUS3000",
+        "sourceName": "American Audio RADIUS 3000",
+        "name": "American Audio RADIUS 3000",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=CDMP700",
+        "sourceName": "Audiophony PLAY",
+        "name": "Audiophony PLAY",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=CDX6",
+        "sourceName": "Audiophony CDX6",
+        "name": "Audiophony CDX6",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=S1200",
+        "sourceName": "Denon DJ S1200",
+        "name": "Denon DJ S1200",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=SC2000",
+        "sourceName": "Denon DJ SC2000",
+        "name": "Denon DN SC2000",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=SC2900",
+        "sourceName": "Denon DJ SC2900",
+        "name": "Denon DJ SC2900",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=S3700",
+        "sourceName": "Denon DJ S3700",
+        "name": "Denon DJ S3700",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=SC3900",
+        "sourceName": "Denon DJ S3900",
+        "name": "Denon DJ S3900",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DNSC5000M",
+        "sourceName": "Denon DJ SC5000M",
+        "name": "Denon DJ SC5000M PRIME",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DNLC6000",
+        "sourceName": "Denon DJ LC6000",
+        "name": "Denon DJ LC6000 PRIME",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DNSC6000",
+        "sourceName": "Denon DJ SC6000",
+        "name": "Denon DJ SC6000 PRIME",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DNSC6000M",
+        "sourceName": "Denon DJ SC6000M",
+        "name": "Denon DJ SC6000M PRIME",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=VTT101",
+        "sourceName": "DJ-Tech VVT-101",
+        "name": "DJ-Tech VTT-101",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=CDJ101",
+        "sourceName": "DJ-Tech CDJ-101",
+        "name": "DJ-Tech CDJ-101",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=KONTROL1",
+        "sourceName": "DJ-Tech KONTROL ONE",
+        "name": "DJ-Tech KONTROL ONE",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=GMDJ500",
+        "sourceName": "Gemini MDJ-500",
+        "name": "Gemini MDJ-500",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=GMMDJ1K",
+        "sourceName": "Gemini MDJ-1000",
+        "name": "Gemini MDJ-1000",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=GCDJ650",
+        "sourceName": "Gemini CDJ650",
+        "name": "Gemini CDJ650",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=GCDJ700",
+        "sourceName": "Gemini CDJ700",
+        "name": "Gemini CDJ700",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=GMDJ600",
+        "sourceName": "Gemini MDJ-600",
+        "name": "Gemini MDJ-600",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TRAKTORD2",
+        "sourceName": "Native Instruments Kontrol D2",
+        "name": "Native Instruments Traktor Kontrol D2",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=V7",
+        "sourceName": "Numark V7",
+        "name": "Numark V7",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=ICDX",
+        "sourceName": "Numark ICDX",
+        "name": "Numark ICDX",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NDX900",
+        "sourceName": "Numark NDX 900",
+        "name": "Numark NDX 900",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NMNDX5H",
+        "sourceName": "Numark NDX 500",
+        "name": "Numark NDX 500",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NDX800",
+        "sourceName": "Numark NDX 800",
+        "name": "Numark NDX 800",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MPCDX3",
+        "sourceName": "CITRONIC MPCD-X3",
+        "name": "CITRONIC MPCD-X3",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=XP10",
+        "sourceName": "EKS XP10",
+        "name": "EKS XP10",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=OTUSRAW",
+        "sourceName": "EKS OTUS RAW",
+        "name": "EKS OTUS RAW",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=OTUS",
+        "sourceName": "EKS OTUS",
+        "name": "EKS OTUS",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=PHASE",
+        "sourceName": "Phase",
+        "name": "Phase SAS Phase",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=PLXCRSS12",
+        "sourceName": "Pioneer DJ PLX-CRSS12",
+        "name": "Pioneer DJ PLX-CRSS12",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=CDJ2000NEXUS",
+        "sourceName": "Pioneer DJ CDJ-2000NXS",
+        "name": "Pioneer DJ CDJ-2000NXS",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=CDJ2000",
+        "sourceName": "Pioneer DJ CDJ-2000",
+        "name": "Pioneer DJ CDJ-2000",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=CDJ900",
+        "sourceName": "Pioneer DJ CDJ-900",
+        "name": "Pioneer DJ CDJ-900",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=XDJ1000MK2",
+        "sourceName": "Pioneer DJ XDJ-1000MK2",
+        "name": "Pioneer DJ XDJ-1000MK2",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=CDJ2000NXS2",
+        "sourceName": "Pioneer DJ CDJ-2000NXS2",
+        "name": "Pioneer DJ CDJ-2000NXS2",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=CDJ850",
+        "sourceName": "Pioneer DJ CDJ-850",
+        "name": "Pioneer DJ CDJ-850",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=CDJ400",
+        "sourceName": "Pioneer DJ CDJ-400",
+        "name": "Pioneer DJ CDJ-400",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=CDJ350",
+        "sourceName": "Pioneer DJ CDJ-350",
+        "name": "Pioneer DJ CDJ-350",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=CDJ900NEXUS",
+        "sourceName": "Pioneer DJ CDJ-900NXS",
+        "name": "Pioneer DJ CDJ-900NXS",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=XDJ1000",
+        "sourceName": "Pioneer DJ XDJ-1000",
+        "name": "Pioneer DJ XDJ-1000",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=XDJ700",
+        "sourceName": "Pioneer DJ XDJ-700",
+        "name": "Pioneer DJ XDJ-700",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RN12",
+        "sourceName": "Rane Twelve",
+        "name": "Rane Twelve",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RN12MK2",
+        "sourceName": "Rane TWELVE MKII",
+        "name": "Rane TWELVE MKII",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RLRMP4",
+        "sourceName": "Reloop RMP-4",
+        "name": "Reloop RMP-4",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RP8000",
+        "sourceName": "Reloop RP-8000",
+        "name": "Reloop RP-8000",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RMP3A",
+        "sourceName": "Reloop RMP-3",
+        "name": "Reloop RMP-3",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RMP25A",
+        "sourceName": "Reloop RMP-2.5a",
+        "name": "Reloop RMP-2.5a",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=CONTOUR",
+        "sourceName": "Reloop CONTOUR",
+        "name": "Reloop CONTOUR",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RP8000MK2",
+        "sourceName": "Reloop RP-8000MK2",
+        "name": "Reloop RP-8000MK2",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=SCS1D",
+        "sourceName": "Stanton SCS.1d",
+        "name": "Stanton SCS.1d",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=CMP800",
+        "sourceName": "Stanton CMP.800",
+        "name": "Stanton CMP.800",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DASCRATCH",
+        "sourceName": "Stanton SCS.3d",
+        "name": "Stanton SCS.3d",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DMC1000",
+        "sourceName": "Synq DMC-1000",
+        "name": "Synq DMC-1000",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=VXSPN1",
+        "sourceName": "Vonyx Spin 100",
+        "name": "Vonyx Spin 100",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=VXSPN12",
+        "sourceName": "Vonyx Spin 120",
+        "name": "Vonyx Spin 120",
+        "category": "Deck controllers (cd player/turntable)",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DNX1800",
+        "sourceName": "Denon DJ X1800 Prime",
+        "name": "Denon DJ X1800 Prime",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJMS9",
+        "sourceName": "Pioneer DJ DJM-S9",
+        "name": "Pioneer DJ DJM-S9",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJMS11",
+        "sourceName": "Pioneer DJ DJM-S11",
+        "name": "Pioneer DJ DJM-S11",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=AH43C",
+        "sourceName": "Allen & Heath XONE 43C",
+        "name": "Allen & Heath XONE 43C",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=XONE96",
+        "sourceName": "Allen & Heath XONE 96",
+        "name": "Allen & Heath XONE 96",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=AH23C",
+        "sourceName": "Allen & Heath XONE 23C",
+        "name": "Allen & Heath XONE 23C",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=AA14MXR",
+        "sourceName": "American Audio 14MXR",
+        "name": "American Audio 14MXR",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=AA10MXR",
+        "sourceName": "American Audio 10MXR",
+        "name": "American Audio 10MXR",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=AADV2",
+        "sourceName": "American Audio DV2",
+        "name": "American Audio DV2",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DN-X1600",
+        "sourceName": "Denon DJ X1600",
+        "name": "Denon DJ X1600",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DNX1850",
+        "sourceName": "Denon DJ X1850",
+        "name": "Denon DJ X1850 PRIME",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=GMPMX20",
+        "sourceName": "Gemini PMX20",
+        "name": "Gemini PMX20",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=GMPMX10",
+        "sourceName": "Gemini PMX10",
+        "name": "Gemini PMX10",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MXRSDUOMKII",
+        "sourceName": "Mixars DUO MKII",
+        "name": "Mixars DUO MKII",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MXRSQUATTRO",
+        "sourceName": "Mixars QUATTRO",
+        "name": "Mixars QUATTRO",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TRAKTORZ2",
+        "sourceName": "Native Instruments KONTROL Z2",
+        "name": "Native Instruments Traktor Kontrol Z2",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NMSCRATCH",
+        "sourceName": "Numark SCRATCH",
+        "name": "Numark SCRATCH",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=CMX2000",
+        "sourceName": "OMNITRONIC CMX-2000",
+        "name": "OMNITRONIC CMX-2000",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJM900SRT",
+        "sourceName": "Pioneer DJ DJM-900SRT",
+        "name": "Pioneer DJ DJM-900SRT",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJM450",
+        "sourceName": "Pioneer DJ DJM-450",
+        "name": "Pioneer DJ DJM-450",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=pidjm2knxs",
+        "sourceName": "Pioneer DJ DJM-2000NXS",
+        "name": "Pioneer DJ DJM-2000NXS",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJMS3",
+        "sourceName": "Pioneer DJ DJM-S3",
+        "name": "Pioneer DJ DJM-S3",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJM900NXS",
+        "sourceName": "Pioneer DJ DJM-900NXS",
+        "name": "Pioneer DJ DJM-900NXS",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJM850",
+        "sourceName": "Pioneer DJ DJM-850",
+        "name": "Pioneer DJ DJM-850",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJM750",
+        "sourceName": "Pioneer DJ DJM-750",
+        "name": "Pioneer DJ DJM-750",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=PIDJM2K",
+        "sourceName": "Pioneer DJ DJM-2000",
+        "name": "Pioneer DJ DJM-2000",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJMT1",
+        "sourceName": "Pioneer DJ DJM-T1",
+        "name": "Pioneer DJ DJM-T1",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJM900NXS2",
+        "sourceName": "Pioneer DJ DJM-900NXS2",
+        "name": "Pioneer DJ DJM-900NXS2",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJM250M2",
+        "sourceName": "Pioneer DJ DJM-250MK2",
+        "name": "Pioneer DJ DJM-250MK2",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJMS5",
+        "sourceName": "Pioneer DJ DJM-S5",
+        "name": "Pioneer DJ DJM-S5",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJMS7",
+        "sourceName": "Pioneer DJ DJM-S7",
+        "name": "Pioneer DJ DJM-S7",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJMV10",
+        "sourceName": "Pioneer DJ DJM-V10",
+        "name": "Pioneer DJ DJM-V10",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJM750MK2",
+        "sourceName": "Pioneer DJ DJM-750MK2",
+        "name": "Pioneer DJ DJM-750MK2",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJMA9",
+        "sourceName": "Pioneer DJ DJM-A9",
+        "name": "Pioneer DJ DJM-A9",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RN72MKII",
+        "sourceName": "Rane SEVENTY TWO MKII",
+        "name": "Rane SEVENTY TWO MKII",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RN70",
+        "sourceName": "Rane SEVENTY",
+        "name": "Rane SEVENTY",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RANE62",
+        "sourceName": "Rane SIXTY TWO",
+        "name": "Rane SIXTY TWO",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RN57MK2",
+        "sourceName": "Rane TTM57 MKII",
+        "name": "Rane TTM57 MKII",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MP2015",
+        "sourceName": "Rane MP2015",
+        "name": "Rane MP2015",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RN72",
+        "sourceName": "Rane Seventy Two",
+        "name": "Rane Seventy Two",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RANE64",
+        "sourceName": "Rane SIXTY FOUR",
+        "name": "Rane SIXTY FOUR",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RLRMX90",
+        "sourceName": "Reloop RMX90",
+        "name": "Reloop RMX-90 DVS",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RLKUT",
+        "sourceName": "Reloop KUT",
+        "name": "Reloop KUT",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RLELITE",
+        "sourceName": "Reloop Elite",
+        "name": "Reloop Elite",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RLRMX95",
+        "sourceName": "Reloop RMX-95",
+        "name": "Reloop RMX-95",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=M70",
+        "sourceName": "Voxoa M70",
+        "name": "Voxoa M70",
+        "category": "Clubmixers",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=REMXTOURPRO",
+        "sourceName": "Reloop Mixtour Pro",
+        "name": "Reloop Mixtour Pro",
+        "category": "Mini Mixers",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=AKAMX",
+        "sourceName": "AKAI AMX",
+        "name": "Akai Pro AMX",
+        "category": "Mini Mixers",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=AH24C",
+        "sourceName": "Allen & Heath Xone 24C",
+        "name": "Allen & Heath Xone 24C",
+        "category": "Mini Mixers",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=BeCMDMM1",
+        "sourceName": "Behringer CMD MM-1",
+        "name": "Behringer CMD MM-1",
+        "category": "Mini Mixers",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DJTMIX101",
+        "sourceName": "DJ-Tech MIX-101",
+        "name": "DJ-Tech MIX-101",
+        "category": "Mini Mixers",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TRAKTORZ1",
+        "sourceName": "Native Instruments KONTROL Z1",
+        "name": "Native Instruments Traktor Kontrol Z1",
+        "category": "Mini Mixers",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TRAKTORZ1MK2",
+        "sourceName": "Native Instruments Kontrol Z1 MK2",
+        "name": "Native Instruments Traktor Kontrol Z1 MK2",
+        "category": "Mini Mixers",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=PHOTON",
+        "sourceName": "PHOTON FADER",
+        "name": "PHOTON FADER",
+        "category": "Mini Mixers",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=REMXTOUR",
+        "sourceName": "Reloop MIXTOUR",
+        "name": "Reloop MIXTOUR",
+        "category": "Mini Mixers",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=SCS1M",
+        "sourceName": "Stanton SCS.1m",
+        "name": "Stanton SCS.1m",
+        "category": "Mini Mixers",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=SCS3m",
+        "sourceName": "Stanton SCS.3m",
+        "name": "Stanton SCS.3m",
+        "category": "Mini Mixers",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DICER",
+        "sourceName": "Novation DICER",
+        "name": "Novation DICER",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=APC64",
+        "sourceName": "AKAI APC64",
+        "name": "AKAI APC64",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=APCMINI2",
+        "sourceName": "AKAI APC MINI MK2",
+        "name": "AKAI APC MINI MK2",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=LPD8MK2",
+        "sourceName": "AKAI LPD8 MK2",
+        "name": "AKAI LPD8 MK2",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=APCMINI",
+        "sourceName": "AKAI APC MINI",
+        "name": "AKAI APC MINI",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=AKAPC20",
+        "sourceName": "AKAI APC20",
+        "name": "AKAI APC20",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=AKAFX",
+        "sourceName": "AKAI AFX",
+        "name": "Akai Pro AFX",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MPD232",
+        "sourceName": "AKAI MPD 232",
+        "name": "AKAI MPD 232",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MPD226",
+        "sourceName": "AKAI MPD 226",
+        "name": "AKAI MPD 226",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=AKAIAPC40",
+        "sourceName": "AKAI APC40",
+        "name": "AKAI APC40",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MPD218",
+        "sourceName": "AKAI MPD 218",
+        "name": "AKAI MPD 218",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=APC40II",
+        "sourceName": "AKAI APC40 MKII",
+        "name": "AKAI APC40 MKII",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=XONEK2",
+        "sourceName": "Allen & Heath XONE K2",
+        "name": "Allen & Heath XONE K2",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=XONEK3",
+        "sourceName": "Allen & Heath XONE K3",
+        "name": "Allen & Heath XONE K3",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=BeCMDPL1",
+        "sourceName": "Behringer CMD PL-1",
+        "name": "Behringer CMD PL-1",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=BeCMDDC1",
+        "sourceName": "Behringer CMD DC-1",
+        "name": "Behringer CMD DC-1",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=BeCMDLC1",
+        "sourceName": "Behringer CMD LC-1",
+        "name": "Behringer CMD LC-1",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DNHC1000S",
+        "sourceName": "Denon DJ HC1000S",
+        "name": "Denon DJ HC1000S",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=KGNKTRL2",
+        "sourceName": "Korg NanoKontrol2",
+        "name": "Korg NanoKontrol2",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NANOPAD",
+        "sourceName": "Korg NanoPAD",
+        "name": "Korg NanoPAD",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NANOPAD2",
+        "sourceName": "Korg NanoPAD2",
+        "name": "Korg NanoPAD2",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TRAKTORF1",
+        "sourceName": "Native Instruments KONTROL F1",
+        "name": "Native Instruments Traktor Kontrol F1",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TRAKTORX1",
+        "sourceName": "Native Instruments KONTROL X1",
+        "name": "Native Instruments Traktor Kontrol X1",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NLMINIMK3",
+        "sourceName": "Novation LAUNCHPAD MINI MK3",
+        "name": "Novation LAUNCHPAD MINI MK3",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=LAUNCHPADPRO",
+        "sourceName": "Novation Launchpad Pro",
+        "name": "Novation Launchpad Pro",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=LAUNCHPAD2",
+        "sourceName": "Novation LAUNCHPAD MKII",
+        "name": "Novation LAUNCHPAD MKII",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=LAUNCHPADS",
+        "sourceName": "Novation LAUNCHPAD S",
+        "name": "Novation LAUNCHPAD S",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=LAUNCHPAD",
+        "sourceName": "Novation LAUNCHPAD",
+        "name": "Novation LAUNCHPAD",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=LAUNCHPADMINI",
+        "sourceName": "Novation LAUNCHPAD MINI",
+        "name": "Novation LAUNCHPAD MINI",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=LAUNCHCTRL",
+        "sourceName": "Novation LAUNCH CONTROL",
+        "name": "Novation LAUNCH CONTROL",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=LAUNCHPADX",
+        "sourceName": "Novation Launchpad X",
+        "name": "Novation Launchpad X",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=LAUNCHCTRLXL",
+        "sourceName": "Novation Launch Control XL",
+        "name": "Novation Launch Control XL",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NOVLCXL3",
+        "sourceName": "Novation LaunchControl XL 3",
+        "name": "Novation LaunchControl XL 3",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NMDASHL",
+        "sourceName": "Numark DASHBOARD",
+        "name": "Numark DASHBOARD",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NSFX",
+        "sourceName": "Numark NSFX",
+        "name": "Numark NSFX",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=ORBIT",
+        "sourceName": "Numark ORBIT",
+        "name": "Numark ORBIT",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=FIGHTERTW",
+        "sourceName": "Midi Fighter Twister",
+        "name": "DJ TechTools MIDI Fighter Twister",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=FIGHTER3D",
+        "sourceName": "Midi Fighter 3D",
+        "name": "DJ TechTools MIDI Fighter 3D",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=SMPAD",
+        "sourceName": "MIDIPLUS SMARTPAD",
+        "name": "MIDIPLUS SMARTPAD",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJXP2",
+        "sourceName": "Pioneer DJ DDJ-XP2",
+        "name": "Pioneer DJ DDJ-XP2",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJXP1",
+        "sourceName": "Pioneer DJ DDJ-XP1",
+        "name": "Pioneer DJ DDJ-XP1",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DDJSP1",
+        "sourceName": "Pioneer DJ DDJ-SP1",
+        "name": "Pioneer DJ DDJ-SP1",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RLNEON",
+        "sourceName": "Reloop NEON",
+        "name": "Reloop NEON",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=PAD1",
+        "sourceName": "Vestax PAD ONE",
+        "name": "Vestax PAD ONE",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=VFX1",
+        "sourceName": "Vestax VFX-1",
+        "name": "Vestax VFX-1",
+        "category": "Addon Units (FX,Pads,..)",
+        "role": "accessory"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=ADJDP2",
+        "sourceName": "American Audio DP2",
+        "name": "American Audio DP2",
+        "category": "Rackmounts",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=AA19MXR",
+        "sourceName": "American Audio 19MXR",
+        "name": "American Audio 19MXR",
+        "category": "Rackmounts",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=HD2500",
+        "sourceName": "Denon DJ HD2500",
+        "name": "Denon DJ HD2500",
+        "category": "Rackmounts",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=HC5000",
+        "sourceName": "Denon DJ HC5000",
+        "name": "Denon DJ HC5000",
+        "category": "Rackmounts",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=HC4500",
+        "sourceName": "Denon DJ HC4500",
+        "name": "Denon DJ HC4500",
+        "category": "Rackmounts",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=GCDMP2700",
+        "sourceName": "Gemini CDMP-2700",
+        "name": "Gemini CDMP-2700",
+        "category": "Rackmounts",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MIXVVFX",
+        "sourceName": "Mixvibes VFX CONTROL",
+        "name": "Mixvibes VFX CONTROL",
+        "category": "Rackmounts",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DMC2",
+        "sourceName": "Numark DMC2",
+        "name": "Numark DMC2",
+        "category": "Rackmounts",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DAC3",
+        "sourceName": "PCDJ DAC3",
+        "name": "PCDJ DAC3",
+        "category": "Rackmounts",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=PDJ22",
+        "sourceName": "HANPIN PDJ",
+        "name": "HANPIN PDJ",
+        "category": "Rackmounts",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MEP7000",
+        "sourceName": "Pioneer DJ MEP-7000",
+        "name": "Pioneer DJ MEP-7000",
+        "category": "Rackmounts",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=PCM-1",
+        "sourceName": "Synq PCM-1",
+        "name": "Synq PCM-1",
+        "category": "Rackmounts",
+        "role": "primary"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RLFLUX",
+        "sourceName": "Reloop FLUX",
+        "name": "Reloop FLUX",
+        "category": "Sound cards",
+        "role": "dvs-only"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=DNDS1",
+        "sourceName": "Denon DJ DS1",
+        "name": "Denon DJ DS1",
+        "category": "Sound cards",
+        "role": "dvs-only"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TRIM",
+        "sourceName": "Hercules DeeJay Trim Scratch Kit",
+        "name": "Hercules DeeJay Trim Scratch Kit",
+        "category": "Sound cards",
+        "role": "dvs-only"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TRAKTORAUDIO2",
+        "sourceName": "Native Instruments TRAKTOR AUDIO 2",
+        "name": "Native Instruments TRAKTOR AUDIO 2",
+        "category": "Sound cards",
+        "role": "dvs-only"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TRAKTORAUDIO2MK2",
+        "sourceName": "Native Instruments AUDIO KONTROL1",
+        "name": "Native Instruments AUDIO KONTROL1",
+        "category": "Sound cards",
+        "role": "dvs-only"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TRAKTORAUDIO10",
+        "sourceName": "Native Instruments TRAKTOR AUDIO 10",
+        "name": "Native Instruments TRAKTOR AUDIO 10",
+        "category": "Sound cards",
+        "role": "dvs-only"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TRAKTORAUDIO6",
+        "sourceName": "Native Instruments TRAKTOR AUDIO 6",
+        "name": "Native Instruments TRAKTOR AUDIO 6",
+        "category": "Sound cards",
+        "role": "dvs-only"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=AUDIO8DJ",
+        "sourceName": "Native Instruments AUDIO 8DJ",
+        "name": "Native Instruments AUDIO 8DJ",
+        "category": "Sound cards",
+        "role": "dvs-only"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=AUDIO4DJ",
+        "sourceName": "Native Instruments AUDIO 4DJ",
+        "name": "Native Instruments AUDIO 4DJ",
+        "category": "Sound cards",
+        "role": "dvs-only"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=AUDIO2DJ",
+        "sourceName": "Native Instruments AUDIO 2DJ",
+        "name": "Native Instruments AUDIO 2DJ",
+        "category": "Sound cards",
+        "role": "dvs-only"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NUMARKDJIO",
+        "sourceName": "Numark DJ IO",
+        "name": "Numark DJ IO",
+        "category": "Sound cards",
+        "role": "dvs-only"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=NMDJIO2",
+        "sourceName": "Numark DJ IO2",
+        "name": "Numark DJ IO2",
+        "category": "Sound cards",
+        "role": "dvs-only"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=MAYA44USB",
+        "sourceName": "ESI MAYA 44USB",
+        "name": "ESI MAYA 44USB",
+        "category": "Sound cards",
+        "role": "dvs-only"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=CONECTIV",
+        "sourceName": "M-AUDIO CONNECTIV",
+        "name": "M-AUDIO CONNECTIV",
+        "category": "Sound cards",
+        "role": "dvs-only"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RANESL4",
+        "sourceName": "Rane SL4",
+        "name": "Rane SL4",
+        "category": "Sound cards",
+        "role": "dvs-only"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RANESL2",
+        "sourceName": "Rane SL2",
+        "name": "Rane SL2",
+        "category": "Sound cards",
+        "role": "dvs-only"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RANESL3",
+        "sourceName": "Rane SL3",
+        "name": "Rane SL3",
+        "category": "Sound cards",
+        "role": "dvs-only"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=RSPIN2",
+        "sourceName": "Reloop SPIN2",
+        "name": "Reloop SPIN2",
+        "category": "Sound cards",
+        "role": "dvs-only"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TIMECODECD",
+        "sourceName": "VirtualDJ Timecode CD",
+        "name": "VirtualDJ Timecode CD",
+        "category": "Timecode vinyls",
+        "role": "dvs-medium"
+      },
+      {
+        "url": "https://virtualdj.com/products/hardware.html?model=TIMECODEVINYL",
+        "sourceName": "VirtualDJ Timecode Vinyl",
+        "name": "VirtualDJ Timecode Vinyl",
+        "category": "Timecode vinyls",
+        "role": "dvs-medium"
+      }
+    ]
+  }
 }

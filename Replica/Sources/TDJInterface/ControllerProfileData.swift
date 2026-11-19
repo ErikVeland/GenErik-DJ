@@ -2,6 +2,24 @@ import Foundation
 import TDJCore
 
 struct ControllerProfileData: Decodable, Sendable {
+    enum InputProtocol: String, Codable, Sendable {
+        case smk25II, cdj101, ddjSR2, keyLabMKI, kontrolOne, midiFighterSpectra, p1Nano, sc5000M, denonPrimePlayer,
+            denonPrime4, nanoKontrol2Native, nanoPad2Native, nanoKontrolScene, xdjAN
+        var setupInputMode: ControllerSetupInputDecoder.Mode? {
+            self == .xdjAN ? .xdjAN : korgInputMode.map { .korg($0) }
+        }
+        var preservesRawMappings: Bool { self == .nanoKontrolScene || self == .xdjAN }
+        var korgNativeModel: ControllerKorgNativeDecoder.Model? {
+            switch self {
+            case .nanoKontrol2Native: .nanoKontrol2
+            case .nanoPad2Native: .nanoPad2
+            default: nil
+            }
+        }
+        var korgInputMode: ControllerKorgInputDecoder.Mode? {
+            self == .nanoKontrolScene ? .originalNanoKontrol : korgNativeModel.map { .native($0) }
+        }
+    }
     enum AudioOutput: String, Decodable, Sendable {
         case masterAndHeadphones
     }
@@ -20,11 +38,13 @@ struct ControllerProfileData: Decodable, Sendable {
         let requiredMode: UInt8?
         let shifted: Bool?
         let shiftInput: UInt8?
+        let holdInput: UInt8?
         let shiftChannel: UInt8?
         let lowNumber: UInt8?
         let pulse: Bool?
         let requiresTouch: Bool?
         let directionStep: Double?
+        let deckBank: UInt8?
 
         func binding(source: Int32) -> ControllerBinding {
             .init(
@@ -32,8 +52,9 @@ struct ControllerProfileData: Decodable, Sendable {
                 parameter: nil, noteNumber: nil, action: action, encoding: encoding,
                 inverted: inverted, shifted: shifted ?? false, targetDeck: targetDeck, layerIndependent: shifted == nil,
                 anyChannel: anyChannel, argument: argument, releaseOnly: releaseOnly, requiredMode: requiredMode,
-                shiftChannel: shiftChannel, shiftInput: shiftInput, lowNumber: lowNumber, pulse: pulse,
-                requiresTouch: requiresTouch, directionStep: directionStep)
+                shiftChannel: shiftChannel, shiftInput: shiftInput, holdInput: holdInput, lowNumber: lowNumber,
+                pulse: pulse,
+                requiresTouch: requiresTouch, directionStep: directionStep, deckBank: deckBank)
         }
     }
 
@@ -41,13 +62,15 @@ struct ControllerProfileData: Decodable, Sendable {
         let channel: UInt8
         let initial: UInt8
         let numbers: [UInt8]
-        let onValue: UInt8
-        let offValue: UInt8
+        let onValue: UInt8?
+        let offValue: UInt8?
 
         var isValid: Bool {
             channel < 16 && !numbers.isEmpty && numbers.count <= 16
                 && numbers.allSatisfy { $0 < 128 } && Set(numbers).count == numbers.count
-                && numbers.contains(initial) && onValue < 128 && offValue < 128
+                && numbers.contains(initial)
+                && ((onValue == nil && offValue == nil)
+                    || (onValue.map { $0 < 128 } == true && offValue.map { $0 < 128 } == true))
         }
     }
 
@@ -58,6 +81,7 @@ struct ControllerProfileData: Decodable, Sendable {
         let onValue: UInt8?
         let decks: [DeckID]
         let releaseShiftChannels: [UInt8]?
+        let deckBank: UInt8?
 
         var isValid: Bool {
             (kind == nil || kind == .note || kind == .control)
@@ -67,6 +91,10 @@ struct ControllerProfileData: Decodable, Sendable {
                 && !decks.isEmpty && decks.count <= 4 && Set(decks).count == decks.count
                 && (releaseShiftChannels.map {
                     $0.count <= 16 && $0.allSatisfy { $0 < 16 } && Set($0).count == $0.count
+                } ?? true)
+                && (deckBank.map { bank in
+                    bank < 2 && (kind == nil || kind == .note) && onValue == 127
+                        && releaseShiftChannels == nil && decks == (bank == 0 ? [.a, .c] : [.b, .d])
                 } ?? true)
         }
     }
@@ -96,6 +124,7 @@ struct ControllerProfileData: Decodable, Sendable {
     let inputs: [Input]
     let outputs: [Output]
     let startup: [[UInt8]]
+    let startupDelaysMilliseconds: [UInt16]?
     let shutdown: [[UInt8]]
     let autoSelect: Bool
     let scope: String
@@ -105,6 +134,7 @@ struct ControllerProfileData: Decodable, Sendable {
     let bankChanges: [BankChange]?
     let audioOutput: AudioOutput?
     let portAliases: [String]?
+    let inputProtocol: InputProtocol?
 
     var isValid: Bool {
         (role == nil || role == "player" || role == "accessory") && !id.isEmpty && id.count <= 128 && !aliases.isEmpty
@@ -114,7 +144,8 @@ struct ControllerProfileData: Decodable, Sendable {
                 ?? true)
             && (excludedAliases?.count ?? 0) <= 24
             && (excludedAliases ?? []).allSatisfy { !$0.isEmpty && $0.count <= 128 }
-            && validInputModes && validBankChanges && (audioOutput == nil || autoSelect)
+            && validInputModes && validBankChanges && validDeckBanks && validStartupTiming
+            && (audioOutput == nil || autoSelect)
             && inputs.allSatisfy { input in
                 guard let channel = input.shiftChannel else { return true }
                 return channel < 16 && inputs.contains { $0.action == .shift && $0.shiftChannel == channel }
@@ -136,6 +167,17 @@ struct ControllerProfileData: Decodable, Sendable {
                     && (!$0.encoding.isContactGate
                         || ($0.kind == .note && [.jogTouchA, .jogTouchB].contains($0.action)))
                     && ($0.encoding != .lc6000Jog || $0.action.isJog)
+                    && ($0.encoding != .ndx500Jog || ($0.kind == .control && $0.action.isJog))
+                    && ($0.encoding != .ndx500Browse || ($0.kind == .control && $0.action == .browse))
+                    && ($0.encoding != .g2vBrowse || ($0.kind == .control && $0.action == .browse))
+                    && ($0.encoding != .smcMixerEncoder
+                        || ($0.kind == .control && [.gainA, .gainB, .master, .monitor, .cueMix].contains($0.action)))
+                    && ($0.encoding != .iconVelocity
+                        || ($0.kind == .control && [.gainA, .gainB, .filterKnobA, .filterKnobB].contains($0.action)))
+                    && ($0.encoding != .p1NanoEncoder
+                        || (inputProtocol == .p1Nano && $0.kind == .control && (16...20).contains($0.number)
+                            && [.gainA, .gainB, .highA, .highB, .midA, .midB, .lowA, .lowB, .filterKnobA, .filterKnobB]
+                                .contains($0.action)))
                     && ($0.encoding != .noteStep || ($0.kind == .note && $0.action.isJog))
                     && ($0.encoding != .rot64Fast || ($0.kind == .control && [.master, .monitor].contains($0.action)))
                     && ($0.encoding != .readyTempo || [.tempoA, .tempoB].contains($0.action))
@@ -149,12 +191,14 @@ struct ControllerProfileData: Decodable, Sendable {
                         || ($0.kind == .note && $0.encoding == .absolute && $0.action.isButton
                             && !$0.action.isMomentary && $0.action != .shift && $0.releaseOnly != true))
                     && ($0.shiftInput == nil
-                        || ($0.shiftInput! < 16 && $0.action == .shift && $0.kind == .note))
+                        || ($0.shiftInput! < 16 && $0.action == .shift
+                            && ($0.kind == .note || ($0.kind == .control && $0.shiftChannel == nil))))
+                    && ($0.holdInput == nil || ($0.holdInput! < 128 && $0.action.isMomentary))
                     && ($0.encoding != .centredPitch || ($0.kind == .pitch && $0.number == 0))
                     && (![.mixstreamJog, .cyclic14BitJog, .vci100MK2Tempo, .lc6000Jog, .readyTempo, .airTempo].contains(
                         $0.encoding)
                         || $0.lowNumber != nil)
-                    && Self.validDirectionStep($0)
+                    && validDirectionStep($0)
                     && Self.validArgument($0)
                     && (![
                         .centreDetent, .binaryStep, .binaryDirection, .signedStep, .dj2go2Jog, .mc7000Jog, .denonJog,
@@ -173,17 +217,20 @@ struct ControllerProfileData: Decodable, Sendable {
     }
 
     /**
-     * Limits source-specific normalised direction steps to reviewed tempo and cue-blend encoders.
+     * Limits normalised direction steps to reviewed encoder actions and protocol addresses.
      */
-    private static func validDirectionStep(_ input: Input) -> Bool {
+    private func validDirectionStep(_ input: Input) -> Bool {
         guard let step = input.directionStep else { return true }
         return step.isFinite && step > 0 && step <= 0.1 && input.kind == .control
-            && input.encoding == .twosComplement && [.tempoA, .tempoB, .cueMix].contains(input.action)
+            && input.encoding == .twosComplement
+            && ([.tempoA, .tempoB, .cueMix].contains(input.action)
+                || (inputProtocol == .kontrolOne && (52...55).contains(input.number)
+                    && [.gainA, .gainB, .highA, .highB, .midA, .midB, .lowA, .lowB].contains(input.action)))
     }
 
     private var validBankChanges: Bool {
         let changes = bankChanges ?? []
-        return changes.count <= 16 && (changes.isEmpty || role != "player")
+        return changes.count <= 32 && (changes.isEmpty || role != "player")
             && changes.allSatisfy { $0.isValid }
             && changes.allSatisfy { change in
                 (change.releaseShiftChannels ?? []).allSatisfy { channel in
@@ -191,6 +238,27 @@ struct ControllerProfileData: Decodable, Sendable {
                 }
             }
             && Set(changes.map { "\(($0.kind ?? .note).rawValue):\($0.channel):\($0.number)" }).count == changes.count
+    }
+
+    /**
+     * Limits software bank routing to explicit manual side selectors without unqualified light feedback.
+     */
+    private var validDeckBanks: Bool {
+        let selectors = (bankChanges ?? []).filter { $0.deckBank != nil }
+        guard !selectors.isEmpty || inputs.contains(where: { $0.deckBank != nil }) else { return true }
+        return !autoSelect && outputs.isEmpty && inputProtocol == nil && role == nil
+            && Set(selectors.compactMap(\.deckBank)).count == selectors.count
+            && selectors.allSatisfy { selector in inputs.contains { $0.deckBank == selector.deckBank } }
+            && inputs.allSatisfy { input in
+                guard let bank = input.deckBank else { return true }
+                return bank < 2 && input.targetDeck == (bank == 0 ? .a : .b)
+                    && input.action.rawValue.hasSuffix(bank == 0 ? "A" : "B")
+                    && input.anyChannel != true
+                    && selectors.contains { $0.deckBank == bank }
+            }
+            && selectors.allSatisfy { selector in
+                !inputs.contains { $0.kind == .note && $0.channel == selector.channel && $0.number == selector.number }
+            }
     }
 
     private var validInputModes: Bool {
@@ -205,13 +273,22 @@ struct ControllerProfileData: Decodable, Sendable {
             }
     }
 
-    static func validSetupMessage(_ bytes: [UInt8]) -> Bool {
-        if bytes.count == 3 {
-            return (0x80...0xEF).contains(bytes[0]) && bytes[1] < 128 && bytes[2] < 128
+    var requiresPairedSetup: Bool { hasDelayedStartup || inputProtocol?.setupInputMode != nil }
+
+    var hasDelayedStartup: Bool { startupDelaysMilliseconds?.contains { $0 > 0 } == true }
+
+    var startupSteps: [ControllerMIDISetupStep] {
+        zip(startup, startupDelaysMilliseconds ?? []).map {
+            .init(message: $0.0, delayMilliseconds: $0.1)
         }
-        return (4...128).contains(bytes.count) && bytes.first == 0xF0 && bytes.last == 0xF7
-            && bytes.dropFirst().dropLast().allSatisfy { $0 < 128 }
     }
+
+    private var validStartupTiming: Bool {
+        guard let delays = startupDelaysMilliseconds else { return true }
+        return delays.count == startup.count && ControllerMIDISetupSequence(steps: startupSteps, startingAt: 0) != nil
+    }
+
+    static func validSetupMessage(_ bytes: [UInt8]) -> Bool { ControllerMIDISetupStep.validMessage(bytes) }
 
     private static func validArgument(_ input: Input) -> Bool {
         switch input.action {

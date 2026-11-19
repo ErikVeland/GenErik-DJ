@@ -112,6 +112,13 @@ import Testing
         ])
     }
     #expect(try ControllerProfileCatalogue.decode(data([valid])).profiles.count == 1)
+    let inputOnly: [String: Any] = ["channel": 4, "initial": 0, "numbers": [0, 13]]
+    #expect(try ControllerProfileCatalogue.decode(data([inputOnly])).profiles.count == 1)
+    for key in ["onValue", "offValue"] {
+        var incomplete = valid
+        incomplete[key] = nil
+        #expect(throws: (any Error).self) { try ControllerProfileCatalogue.decode(data([incomplete])) }
+    }
     for (key, value): (String, Any) in [
         ("channel", 16), ("initial", 1), ("numbers", [0, 0]), ("onValue", 128), ("offValue", 128),
     ] {

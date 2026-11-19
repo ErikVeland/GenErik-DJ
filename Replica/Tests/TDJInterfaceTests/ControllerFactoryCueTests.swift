@@ -10,7 +10,7 @@ import Testing
     defer { preferences.removePersistentDomain(forName: suite) }
     let input = ControllerMIDIConnection(
         preferences: preferences, factoryPacketSender: { _, _ in true },
-        deckAvailability: { DeckID.allCases })
+        deckAvailability: { DeckID.allCases }, factoryInputConnector: { _ in true })
     let ports = ControllerFactoryProfile.matching([name])?.definition?.portAliases?.prefix(1).map { $0 } ?? []
     input.sources = [
         .init(id: 10, reference: 100, name: name, identity: .init(id: 10, device: 1, names: [name], portNames: ports))
@@ -19,6 +19,7 @@ import Testing
         .init(id: 20, reference: 200, name: name, identity: .init(id: 20, device: 1, names: [name], portNames: ports))
     ]
     input.reconcileFactoryProfiles()
+    if name == "AlphaTheta XDJ-AN" { input.receiveBytes([0xB0, 100, 127, 0xB1, 100, 127], source: 10) }
     try body(input)
 }
 
@@ -55,7 +56,7 @@ import Testing
             }
         }
     }
-    #expect(covered == 129)
+    #expect(covered == 162)
 }
 
 @Test @MainActor func controllerCataloguePioneerPlayerCueReassignmentReleasesThePreviousDeck() throws {

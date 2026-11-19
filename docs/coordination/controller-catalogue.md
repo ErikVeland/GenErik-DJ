@@ -1,17 +1,21 @@
 # Controller catalogue — R169
 
-Reviewed 17 November 2026. The pinned software inventory is complete. The wider market audit and controller feature parity remain open.
+Base inventory reviewed 17 November 2026. Later profile reviews appear in the request ledger. The pinned software inventory is complete. The wider market audit and controller feature parity remain open.
 
 ## Boundary and counts
 
 - 121 published Serato iOS rows, expanded to 122 distinct model records.
+- 204 pinned djay hardware rows, with per-platform limitations kept as competitor evidence.
+- 487 pinned VirtualDJ products, including two passive timecode media outside the digital-device count. Product listings remain competitor evidence.
 - All 164 Mixxx definitions at `20f2c218ae1b762ac39fd76ff408c8428056f4f7`, including alternative MIDI, HID and bulk mappings.
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
-- 313 total catalogue records. 306 name physical models. The remainder identify software endpoints or protocol families.
-- 174 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 139 factory profiles select core controls automatically for 147 physical models.
+- 559 total catalogue records. 552 name physical models. The remainder identify software endpoints or protocol families.
+- 289 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 187 factory profiles select core controls automatically for 195 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
+- 351 physical models still lack automatic core controls.
+- 552 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
 These counts do not establish hardware acceptance, complete pad modes, motor support, screens, audio routing or feature parity.
@@ -36,7 +40,7 @@ Other models have no claimed popularity rank. Within that tier, finish documente
 ## Club and XDJ players — R176/R177
 
 The club-player order balances established models and recent releases. It is an implementation order, not a measured global sales ranking.
-All 17 players select core controls automatically after the hardware enters its PC or USB-MIDI mode.
+All 20 players select core controls automatically after the hardware enters its PC or USB-MIDI mode.
 Connected players receive separate A/B assignments. Saved endpoint identities retain their assignments. C/D require the existing four-deck trial.
 HID, screens, lights and automatic routing across multiple player audio interfaces remain unimplemented.
 
@@ -218,14 +222,14 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 
 | State | Records | Meaning |
 | --- | ---: | --- |
-| adapter-needed | 36 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 141 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| adapter-needed | 17 | A referenced HID, bulk or script protocol needs an adapter. |
+| automatic-core-profile | 189 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 37 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 75 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 104 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 225 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -250,8 +254,8 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | AlphaTheta OMNIS-DUO | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | AlphaTheta DDJ-GRV6 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | AlphaTheta DJM-V5 | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| AlphaTheta Euphonia | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| AlphaTheta SLAB | accessory | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| AlphaTheta Euphonia | dvs-only | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| AlphaTheta SLAB | accessory | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | AlphaTheta XDJ-AZ | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Pioneer DJ DDJ-200 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Pioneer DJ DDJ-400 | primary | Automatic core | Automatic split | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
@@ -260,7 +264,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Pioneer DJ DDJ-FLX6 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Pioneer DJ DDJ-REV1 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Pioneer DJ DDJ-REV5 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Pioneer DJ DDJ-REV7 | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Pioneer DJ DDJ-REV7 | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Pioneer DJ DDJ-S1 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Pioneer DJ DDJ-SB | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Pioneer DJ DDJ-SB2 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
@@ -272,13 +276,13 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Pioneer DJ DDJ-WeGO | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Pioneer DJ DDJ-WeGO3 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Pioneer DJ DDJ-XP2 | accessory | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Pioneer DJ DJM-A9 | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Pioneer DJ DJM-S11 | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Pioneer DJ DJM-S5 | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Pioneer DJ DJM-S7 | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Pioneer DJ DJM-A9 | dvs-only | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Pioneer DJ DJM-S11 | dvs-only | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Pioneer DJ DJM-S5 | dvs-only | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Pioneer DJ DJM-S7 | dvs-only | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Pioneer DJ OPUS-QUAD | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Pioneer DJ PLX-CRSS12 | accessory | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Akai Pro AFX | accessory | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Pioneer DJ PLX-CRSS12 | accessory | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Akai Pro AFX | accessory | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Allen & Heath Xone:K1 | accessory | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Denon DJ DS1 | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Denon DJ LC6000 PRIME | accessory | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
@@ -286,37 +290,37 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Denon DJ MC4000 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Denon DJ MC6000MK2 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Denon DJ MC7000 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Denon DJ MCX8000 | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Denon DJ PRIME 4 | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Denon DJ PRIME 4+ | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Denon DJ SC Live 2 | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Denon DJ SC Live 4 | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Denon DJ MCX8000 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Denon DJ PRIME 4 | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Denon DJ PRIME 4+ | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Denon DJ SC Live 2 | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Denon DJ SC Live 4 | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Denon DJ X1800 PRIME | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Denon DJ X1850 PRIME | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Gemini Slate | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Gemini Slate 4 | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Gemini Slate | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Gemini Slate 4 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Hercules DJControl Inpulse 200 | primary | Automatic core | Automatic split | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Hercules DJControl Inpulse 200 MK2 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Hercules DJControl Inpulse 200 MK3 | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Hercules DJControl Inpulse 200 MK3 | primary | Automatic core | Automatic split | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Hercules DJControl Inpulse 300 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Hercules DJControl Inpulse 300 MK2 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Hercules DJControl Inpulse 500 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Hercules DJControl Inpulse T7 | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Hercules DJControl Inpulse T7 | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Hercules DJControl Starlight | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Hercules DJControl T10 | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Mixars DUO | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Mixars DUO MKII | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Mixars PRIMO | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Hercules DJControl T10 | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Mixars DUO | dvs-only | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Mixars DUO MKII | dvs-only | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Mixars PRIMO | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Novation Dicers | accessory | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark DJ2GO2 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark DJ2GO2 Touch | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Dashboard | accessory | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Numark MixDeck Express | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Numark MixDeck Quad | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Numark MixTrack Go | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Numark MixDeck Express | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Numark MixDeck Quad | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Numark MixTrack Go | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Mixstream Pro | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Mixstream Pro + | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Numark Mixstream Pro Go | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Numark Mixstream Pro Go | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Mixtrack Platinum | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Mixtrack Platinum FX | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Mixtrack Pro | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
@@ -325,23 +329,23 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Numark Mixtrack Pro II | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Mixtrack Quad | primary | Automatic core | Automatic split | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark N4 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Numark NDX500 | accessory | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Numark NDX500 | accessory | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark NS4FX | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark NS6II | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark NSFX | accessory | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Numark NV | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Numark NV | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark NVII | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Party Mix | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Party Mix II | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Numark Party Mix III | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Numark Party Mix Live | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Numark Party Mix III | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Numark Party Mix Live | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Party Mix Pro | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Scratch | dvs-only | Automatic core | Automatic split | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Rane MP2015 | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Rane ONE | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Rane ONE MKII | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Rane SEVENTY | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Rane SEVENTY A-Trak Edition | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Rane MP2015 | dvs-only | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Rane ONE | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Rane ONE MKII | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Rane SEVENTY | dvs-only | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Rane SEVENTY A-Trak Edition | dvs-only | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Rane SEVENTY-TWO | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Rane SEVENTY-TWO MKII | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Rane SYSTEM ONE | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
@@ -353,16 +357,16 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Reloop Flux | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Reloop Flux Go | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Reloop Mixon 4 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Reloop Mixon 8 Pro | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Reloop Mixon 8 Pro | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Reloop NEON | accessory | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Reloop RMX-90 DVS | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Reloop RMX-90 DVS | dvs-only | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Reloop RP-8000 | accessory | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Reloop RP8000 MK2 | accessory | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Reloop Ready | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Reloop Terminal Mix 2 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Reloop Terminal Mix 4 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Reloop Terminal Mix 8 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Roland SP-404MKII | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Roland SP-404MKII | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Vestax Typhoon | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Vestax VCI-100 mk II | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Vestax VCI-300 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
@@ -388,19 +392,20 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Pioneer CDJ-400 | primary | automatic-core-profile | [Reference](https://www.m3-eventtechnik.at/sites/default/files/dateien/verleih/cdj-400_manual_en_fr_de_nl_it_es_rupdf.pdf) |
 | Pioneer CDJ-TOUR1 | primary | automatic-core-profile | [Reference](https://www.l-e.sk/amfile/file/download/file/7038/product/14628/) |
 | Pioneer XDJ-RR | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-RR/XDJ-RR_List_of_MIDI_Message_ver101_e.pdf) |
-| AlphaTheta DJM-A7 | primary | protocol-needed | [Reference](https://alphatheta.com/en/product/dj-mixer/djm-a7/black/) |
-| AlphaTheta RMX-IGNITE | primary | protocol-needed | [Reference](https://alphatheta.com/en/product/effector/rmx-ignite/black/) |
-| AlphaTheta XDJ-AN | primary | protocol-needed | [Reference](https://alphatheta.com/en/product/all-in-one-dj-system/xdj-an/black/) |
+| AlphaTheta DJM-A7 | primary | partial-midi-profile | [Reference](https://alphatheta.com/en/product/dj-mixer/djm-a7/black/) |
+| AlphaTheta RMX-IGNITE | primary | partial-midi-profile | [Reference](https://alphatheta.com/en/product/effector/rmx-ignite/black/) |
+| AlphaTheta XDJ-AN | primary | automatic-core-profile | [Reference](https://alphatheta.com/en/product/all-in-one-dj-system/xdj-an/black/) |
 | Pioneer CDJ HID | protocol-family | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer%20CDJ%20HID.hid.xml) |
 | Pioneer DDJ-1000 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-1000/DDJ-1000_MIDI_Message_List_E1.pdf) |
 | Pioneer DDJ-1000SRT | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/firmwares/dj-controllers/DDJ-1000SRT/DDJ-1000SRT_MIDI_Message_List_E1.pdf) |
 | Pioneer DDJ-800 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-800/DDJ-800_MIDI_Message_List_E1.pdf) |
+| Pioneer DDJ-FLX6-GT | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-FLX6/DDJ-FLX6_MIDI_message_List_E1.pdf) |
 | Pioneer DDJ-RB | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-RB/DDJ-RB_MIDI_Message_List_E.pdf) |
 | Pioneer DDJ-RR | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-RR/DDJ-RR_MIDI_Message_List_E.pdf) |
 | Pioneer DDJ-RX | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-RX/DDJ-RX_List_of_MIDI_Message_E.pdf) |
 | Pioneer DDJ-RZ | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-RZ/DDJ-RZ_MIDI_Message_List_E.pdf) |
 | Pioneer DDJ-RZX | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-RZX/DDJ-RZX_MIDI_Message_List_E.pdf) |
-| Pioneer DDJ-SR2 | primary | adapter-needed | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-SR2/DDJ-SR2_MIDI_Message_E1.pdf) |
+| Pioneer DDJ-SR2 | primary | partial-midi-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-SR2/DDJ-SR2_MIDI_Message_E1.pdf) |
 | Pioneer DDJ-SX3 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-SX3/DDJ-SX3_MIDI_Message_List_E1.pdf) |
 | Pioneer DDJ-SZ | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-SZ/DDJ-SZ_MIDI_Message_List_E.pdf) |
 | Pioneer DDJ-SZ2 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-SZ2/DDJ-SZ2_MIDI_Message_v100_E.pdf) |
@@ -408,56 +413,175 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Pioneer DDJ-WeGO2 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-WeGO2/DDJWeGO2ListofMIDIMessageVirtualDJE.pdf) |
 | Pioneer DDJ-WeGO4 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-WeGO4/DDJ-WeGO4_List_of_MIDI_Message_E.pdf) |
 | Pioneer DDJ-XP1 | accessory | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-XP1/DDJ-XP1_List_of_MIDI_Message_E1.pdf) |
+| Pioneer DJ DJM-TOUR1 | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware/djmtour1) |
+| Pioneer DJM-2000 | accessory | partial-midi-profile | [Reference](https://static.bhphoto.com/lit_files/88476.pdf) |
+| Pioneer DJM-2000NXS | accessory | partial-midi-profile | [Reference](https://www.dimmer.fr/wp-content/uploads/2022/01/Pioneer-DJM-2000-Nexus-Manual-DE-EN-FR.pdf) |
+| Pioneer DJM-250MK2 | accessory | partial-midi-profile | [Reference](https://manuals.plus/m/e7d4bd85474a10aedc2c4ddd9809d56bd9707b753a45cf73bd7b831a2da23594) |
+| Pioneer DJM-450 | accessory | partial-midi-profile | [Reference](https://www.recordcase.de/media/pdf/84/26/2c/Pioneer-DJM-450-Addendum-EN.pdf) |
+| Pioneer DJM-750 | accessory | partial-midi-profile | [Reference](https://cdn-docs.av-iq.com/instructions/DJM-750_OperatingInstructions042613.pdf) |
+| Pioneer DJM-750MK2 | accessory | partial-midi-profile | [Reference](https://www.proacousticsusa.com/media/wysiwyg/PDFs/DJM-750MK2_addendum_MIDI_Message_EN.pdf) |
+| Pioneer DJM-850 | accessory | partial-midi-profile | [Reference](https://www.appliancesonline.com.au/public/manuals/Pioneer-DJM850-4Ch-High-End-Digital-Mixer-User-Manual.pdf) |
+| Pioneer DJM-900NXS | accessory | partial-midi-profile | [Reference](https://progresionaudiovisual.com/sites/default/files/2024-05/DJM-900nexus_OperatingInstructions070511.pdf) |
+| Pioneer DJM-900NXS2 | accessory | partial-midi-profile | [Reference](https://impact-even.com/wp-content/uploads/2022/03/pioneer_djm900nexus2_midimessages.pdf) |
+| Pioneer DJM-900SRT | accessory | partial-midi-profile | [Reference](https://www.djcenter.ee/images/kasutusjuhendid/Pioneer-DJM-900SRT.pdf) |
+| Pioneer DJM-S3 | accessory | partial-midi-profile | [Reference](https://dwn.alza.cz/manual/61365) |
+| Pioneer DJM-S9 | accessory | partial-midi-profile | [Reference](https://downloads.support.alphatheta.com/midi-mapping/dj-mixers/DJM-S9/DJM-S9_List_of_MIDI_Message_E.pdf) |
+| Pioneer DJM-T1 | primary | partial-midi-profile | [Reference](https://downloads.support.alphatheta.com/manuals/dj-mixers/DJM-T1/DJM-T1_DRB1610_manual.pdf) |
+| Pioneer DJM-V10 | accessory | partial-midi-profile | [Reference](https://raw.githubusercontent.com/heronarts/LX/a950c548db00b1d3b72db3b5ac4a80f2b8519415/src/main/java/heronarts/lx/midi/surface/DJMV10.java) |
+| Pioneer DJM-V10-LF | accessory | partial-midi-profile | [Reference](https://blt-guide.deepsymmetry.org/beat-link-trigger/next/_attachments/ExtendedOnAirV10.bls) |
+| Pioneer MEP-7000 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/manuals/dj-players/MEP-7000/MEP-7000_DRB1467B_manual.pdf) |
 | Pioneer XDJ-AERO | primary | automatic-core-profile | [Reference](https://www.recordcase.de/media/94/f5/e0/1745829305/Pioneer-XDJ-AERO-Manual-EN.pdf) |
 | Pioneer XDJ-R1 | primary | automatic-core-profile | [Reference](https://www.uns.nu/pdf/Pioneer_XDJ-R1_Manual.pdf) |
 | Pioneer XDJ-RX | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-RX/XDJ-RX_List_of_MIDI_Message_E.pdf) |
 | Pioneer XDJ-RX2 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-RX2/XDJ-RX2_List_of_MIDI_Message_E3.pdf) |
 | Pioneer XDJ-RX3 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-RX3/XDJ-RX3_MIDI_Message_List_E1.pdf) |
 | Pioneer XDJ-XZ | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-XZ/XDJ-XZ_MIDI_Message_List_E1.pdf) |
+| AKAI APC MINI | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=APCMINI) |
+| AKAI APC MINI MK2 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=APCMINI2) |
+| AKAI APC20 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AKAPC20) |
+| AKAI APC40 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AKAIAPC40) |
+| AKAI APC40 MKII | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=APC40II) |
+| AKAI APC64 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=APC64) |
+| AKAI LPD8 MK2 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=LPD8MK2) |
+| AKAI MPD 218 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MPD218) |
+| AKAI MPD 226 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MPD226) |
+| AKAI MPD 232 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MPD232) |
 | Akai LPD8 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Akai-LPD8-RK.midi.xml) |
 | Akai MPD24 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Akai%20MPD24.midi.xml) |
+| Akai Pro AMX | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AKAMX) |
+| Akiyama PULSAR | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=PULSAR) |
+| Akiyama QUARC | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=QUARK) |
+| Akiyama QUARK SC | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=QUARKSC) |
+| Akiyama QUATTRO | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=QUATTRO) |
+| Akiyama SYNCRON | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=SYNCRON) |
+| Akiyama TEMPUS | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=TEMPUS) |
+| Akiyama TTWO | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=TTWO) |
+| Allen & Heath XONE 1D | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=XONE1D) |
+| Allen & Heath XONE 2D | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=XONE2D) |
+| Allen & Heath XONE 43C | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AH43C) |
+| Allen & Heath XONE 4D | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=XONE4D) |
+| Allen & Heath Xone:23C | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware) |
+| Allen & Heath Xone:24C | primary | partial-midi-profile | [Reference](https://support.allen-heath.com/hc/en-gb/articles/39821017822865-Xone-24C-User-Guide) |
+| Allen & Heath Xone:96 | primary | partial-midi-profile | [Reference](https://support.allen-heath.com/hc/en-gb/articles/43084536824849-Xone-96-MIDI-Implementation) |
 | Allen & Heath Xone:K2 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Allen%20and%20Heath%20Xone%20K2.midi.xml) |
 | Allen & Heath Xone:K3 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Allen%20and%20Heath%20Xone%20K2.midi.xml) |
+| Allen & Heath Xone:PX5 | primary | partial-midi-profile | [Reference](https://virtualdj.com/forums/264850/VirtualDJ_Plugins/Mapping_the_XONE:PX5_Mixer.html) |
+| American Audio 10MXR | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AA10MXR) |
+| American Audio 14MXR | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AA14MXR) |
+| American Audio 19MXR | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AA19MXR) |
+| American Audio DP2 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ADJDP2) |
+| American Audio DV2 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AADV2) |
+| American Audio ELMC-1 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ELMC1) |
+| American Audio ENCORE 2000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AAEncore2000) |
+| American Audio RADIUS 1000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RADIUS1000) |
+| American Audio RADIUS 3000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RADIUS3000) |
 | American Audio Radius 2000 CH1 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/American%20Audio%20RADIUS%202000%20CH1.midi.xml) |
+| American Audio VERSADECK | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=VERSADECKM) |
 | American Audio VMS2 | primary | partial-midi-profile | [Reference](https://cdn-docs.av-iq.com/other/VMS2_User%20Manual.pdf) |
 | American Audio VMS4 | primary | partial-midi-profile | [Reference](https://manual.mixxx.org/2.5/en/hardware/controllers/american_audio_vms4) |
 | American Audio VMS4.1 | primary | partial-midi-profile | [Reference](https://manual.mixxx.org/2.5/en/hardware/controllers/american_audio_vms4) |
-| American Audio VMS4.1 Traktor | primary | protocol-needed | [Reference](https://www.adj.eu/vms4-1-traktor) |
-| American Audio VMS5 | primary | protocol-needed | [Reference](https://www.adj.com/products/vms5) |
-| Arturia KeyLab Mk 1 | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/ArturiaKeyLab.midi.xml) |
+| American Audio VMS4.1 Traktor | primary | partial-midi-profile | [Reference](https://www.adj.eu/vms4-1-traktor) |
+| American Audio VMS5 | primary | partial-midi-profile | [Reference](https://www.adj.com/products/vms5) |
+| Arturia KeyLab Mk 1 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/ArturiaKeyLab.midi.xml) |
+| Audiophony CDX6 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=CDX6) |
+| Audiophony DJAM | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DJAM) |
+| Audiophony DJAZZ | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DJAZZ) |
+| Audiophony DJINN | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DJINN) |
+| Audiophony PLAY | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=CDMP700) |
 | Behringer BCD2000 | primary | partial-midi-profile | [Reference](https://github.com/anyc/snd-bcd2000) |
 | Behringer BCD3000 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20BCD3000%20Advanced.midi.xml) |
-| Behringer BCR2000 | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20BCR2000.midi.xml) |
-| Behringer CMD MM-1 | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMD%20MM1.midi.xml) |
+| Behringer BCR2000 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20BCR2000.midi.xml) |
+| Behringer CMD DC-1 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=BeCMDDC1) |
+| Behringer CMD DV-1 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=BeCMDDV1) |
+| Behringer CMD LC-1 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=BeCMDLC1) |
+| Behringer CMD MM-1 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMD%20MM1.midi.xml) |
 | Behringer CMD Micro | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMD%20Micro.midi.xml) |
+| Behringer CMD PL-1 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=BeCMDPL1) |
+| Behringer CMD STUDIO 2a | primary | automatic-core-profile | [Reference](https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg) |
 | Behringer CMD STUDIO 4a | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMDStudio4a.midi.xml) |
-| Behringer DDM4000 | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20DDM4000.midi.xml) |
-| DJ TechTools MIDI Fighter | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJTechTools%20MIDI%20Fighter.midi.xml) |
-| DJ TechTools MIDI Fighter Spectra | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ%20TechTools%20MIDI%20Fighter%20Spectra.midi.xml) |
-| DJ TechTools MIDI Fighter Twister | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ%20TechTools%20MIDI%20Fighter%20Twister.midi.xml) |
-| DJ-Tech CDJ-101 | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20CDJ-101.midi.xml) |
+| Behringer DDM4000 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20DDM4000.midi.xml) |
+| BeyondMusic (BMI) ABMA1 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ABMA1) |
+| BeyondMusic (BMI) ABMA2 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ABMA2) |
+| BeyondMusic (BMI) ABMA3 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ABMA3) |
+| BeyondMusic (BMI) ABMA4 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ABMA4) |
+| BeyondMusic (BMI) REMIX PRO | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ABMA1T) |
+| Casio XW-DJ1 | primary | automatic-core-profile | [Reference](https://www.casio.com/content/dam/casio/global/support/manuals/electronic-musical-instruments/pdf/008-en/w/Web_XWDJ1-E-2A_EN.pdf) |
+| Casio XW-J1 | primary | partial-midi-profile | [Reference](https://gist.github.com/samba2/5af83e947297ab99a4745a5be3e13d55/a8c441c832affebb59415abdc80872967bc8c0e6) |
+| CITRONIC MPCD-X3 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MPCDX3) |
+| CITRONIC MPX10 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MPX10) |
+| DAP KONTROL D2 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DAPKONTROLD2) |
+| DJ TechTools MIDI Fighter | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJTechTools%20MIDI%20Fighter.midi.xml) |
+| DJ TechTools MIDI Fighter 3D | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=FIGHTER3D) |
+| DJ TechTools MIDI Fighter Spectra | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ%20TechTools%20MIDI%20Fighter%20Spectra.midi.xml) |
+| DJ TechTools MIDI Fighter Twister | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ%20TechTools%20MIDI%20Fighter%20Twister.midi.xml) |
+| DJ-Tech 4MIX | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=4MIX) |
+| DJ-Tech CDJ-101 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20CDJ-101.midi.xml) |
 | DJ-Tech DJM-101 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20DJM-101.midi.xml) |
-| DJ-Tech Kontrol One | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Kontrol%20One.midi.xml) |
+| DJ-Tech DRAGON TWO | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DRAGON2) |
+| DJ-Tech I-MIX | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=IMIX) |
+| DJ-Tech I-MIX RELOAD MKII | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=IMIXRELOADMKII) |
+| DJ-Tech Kontrol One | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Kontrol%20One.midi.xml) |
 | DJ-Tech MIX-101 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Mix-101.midi.xml) |
+| DJ-Tech MY SCRATCH | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MYSCRATCH) |
 | DJ-Tech Mixer One | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20Mixer%20One.midi.xml) |
+| DJ-Tech RELOADED | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RELOADED) |
 | DJ-Tech VTT-101 | primary | protocol-needed | [Reference](https://asset.conrad.com/media10/add/160267/c1/-/gl/000092385ML01/mode-demploi-092385-mini-controleur-usb-dj-tech-vtt101.pdf) |
 | DJ-Tech i-Mix Reload | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20i-Mix%20Reload.midi.xml) |
-| Denon DJ PRIME 2 | primary | protocol-needed | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
-| Denon DJ PRIME GO | primary | protocol-needed | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
+| Denon DJ HC1000S | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DNHC1000S) |
+| Denon DJ HC4500 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=HC4500) |
+| Denon DJ HC5000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=HC5000) |
+| Denon DJ HD2500 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=HD2500) |
+| Denon DJ MC6000 | primary | partial-midi-profile | [Reference](https://cdn.inmusicbrands.com/denondj/legacy/dnmc6000/DN-MC6000_ownersmanual.pdf) |
+| Denon DJ PRIME 2 | primary | partial-midi-profile | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
+| Denon DJ PRIME GO | primary | automatic-core-profile | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
 | Denon DJ PRIME GO+ | primary | protocol-needed | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
-| Denon DJ SC5000 PRIME | primary | protocol-needed | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
-| Denon DJ SC5000M PRIME | primary | protocol-needed | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
-| Denon DJ SC6000 PRIME | primary | protocol-needed | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
-| Denon DJ SC6000M PRIME | primary | protocol-needed | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
+| Denon DJ S1200 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=S1200) |
+| Denon DJ S3700 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=S3700) |
+| Denon DJ S3900 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=SC3900) |
+| Denon DJ SC2900 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=SC2900) |
+| Denon DJ SC5000 PRIME | primary | partial-midi-profile | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
+| Denon DJ SC5000M PRIME | primary | partial-midi-profile | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
+| Denon DJ SC6000 PRIME | primary | partial-midi-profile | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
+| Denon DJ SC6000M PRIME | primary | partial-midi-profile | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
+| Denon DJ X1600 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DN-X1600) |
 | Denon DN SC2000 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon%20DN%20SC2000.midi.xml) |
 | Denon HS5500 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon%20DN%20HS5500.midi.xml) |
 | Denon MC3000 | primary | partial-midi-profile | [Reference](https://cdn.inmusicbrands.com/denondj/legacy/mc3000/MC3000EM_ENG_IM_v00.pdf) |
+| EKS OTUS RAW | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=OTUSRAW) |
 | EKS Otus HID | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/EKS%20Otus.hid.xml) |
-| Electrix Tweaker | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Electrix%20Tweaker.midi.xml) |
+| EKS XP10 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=XP10) |
+| EKS XP5 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=XP5) |
+| ESI MAYA 44USB | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MAYA44USB) |
+| Electrix Tweaker | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Electrix%20Tweaker.midi.xml) |
 | FaderFox DJ2 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/FaderFoxDJ2.midi.xml) |
+| Faderfox DJ3 | primary | automatic-core-profile | [Reference](https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg) |
+| Gemini CDJ650 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GCDJ650) |
+| Gemini CDJ700 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GCDJ700) |
+| Gemini CDMP-2700 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GCDMP2700) |
+| Gemini CDMP-7000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GCDMP7000) |
 | Gemini CDMP-7000 L | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Gemini%20CDMP-7000%20L%20audio.midi.xml) |
 | Gemini CDMP-7000 R | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Gemini%20CDMP-7000%20R%20audio.midi.xml) |
+| Gemini CNTRL-2 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GEMINI2) |
+| Gemini CNTRL-7 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GEMINI7) |
+| Gemini CTRL-ONE | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GEMINI1) |
+| Gemini CTRL-SIX | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GEMINI6) |
+| Gemini FIRSTMIX PRO | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=FIRSTMIXPRO) |
 | Gemini FirstMix | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Gemini%20FirstMix.midi.xml) |
+| Gemini FirstMix IO | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=FIRSTMIXIO) |
+| Gemini G2V | primary | automatic-core-profile | [Reference](https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg) |
+| Gemini G4V | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GEMINI_G4V) |
+| Gemini GMX | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GMGMX) |
+| Gemini GMX DRIVE | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GMGMXDRIVE) |
+| Gemini MDJ-1000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GMMDJ1K) |
+| Gemini MDJ-500 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GMDJ500) |
+| Gemini MDJ-600 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GMDJ600) |
+| Gemini PMX10 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GMPMX10) |
+| Gemini PMX20 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GMPMX20) |
+| Gemini SDJ-4000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GMSDJ4K) |
+| Gemini SLATE 2 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GMSLATE) |
+| HANPIN DMX-101 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DMX101) |
+| HANPIN PDJ | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=PDJ22) |
+| Hercules DJ 4Set | primary | partial-midi-profile | [Reference](https://ts.hercules.com/download/sound/manuals/4Set/01_Eng_DJ4Set.pdf) |
 | Hercules DJ Console 4-Mx | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Console%204-Mx.midi.xml) |
 | Hercules DJ Console MK1 | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Console%20Mk1.hid.xml) |
 | Hercules DJ Console MK2 HID | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Console%20Mk2.hid.xml) |
@@ -472,28 +596,58 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Hercules DJ Control MP3 LE | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Control%20MP3%20e2.bulk.xml) |
 | Hercules DJ Control MP3 e2 | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Control%20MP3%20e2.bulk.xml) |
 | Hercules DJ Control Steel | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJ%20Control%20Steel.midi.xml) |
+| Hercules DJCONSOLE | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DJCONSOLE) |
+| Hercules DJControl AIR+ | primary | automatic-core-profile | [Reference](https://ts.hercules.com/download/sound/manuals/DJ_Air%2B/DJAIR%2B_Spec_MIDI.pdf) |
 | Hercules DJControl Compact | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20Compact.midi.xml) |
+| Hercules DJControl Instinct P8 | primary | automatic-core-profile | [Reference](https://ts.hercules.com/download/sound/MIDI_Mapping/DJ_InstinctP8/DJControl_Instinct_P8_MIDI_Command_List.pdf) |
 | Hercules DJControl Jogvision | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Jogvision.midi.xml) |
 | Hercules DJControl MIX | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20MIX.midi.xml) |
+| Hercules DJControl Mix Ultra | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/v6ry876z77-bit/yt-dj-mix/93a097e7641512bd026b9d1b5d129b2e5f009f87/mixultra-midi.md) |
+| Hercules DJControlWave | primary | automatic-core-profile | [Reference](https://ts.hercules.com/download/sound/MIDI_Mapping/DJWave/DJCWaveDJAYPro.ZIP) |
+| Hercules DeeJay Trim Scratch Kit | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=TRIM) |
 | Hercules P32 DJ | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20P32%20DJ.midi.xml) |
-| Icon P1-Nano MIDI 1 | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Icon-P1Nano.midi.xml) |
-| Icon iControls | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Icon-iControls.midi.xml) |
+| Hercules Universal DJ | primary | automatic-core-profile | [Reference](https://ts.hercules.com/download/sound/MIDI_Mapping/UniversalDJ/DJay_Pro_Hercules_Universal_DJ.zip) |
+| Icon P1-Nano MIDI 1 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Icon-P1Nano.midi.xml) |
+| Icon iControls | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Icon-iControls.midi.xml) |
 | Intech TEK2 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Intech%20TEK2.midi.xml) |
+| ION DJ LIVE | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=IONLIVE) |
+| ION DJ2GO | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=IONDJ2GO) |
+| ION ICUE | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ICUE) |
 | Ion Discover DJ | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Ion%20Discover%20DJ.midi.xml) |
 | Ion Discover DJ Pro | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Ion-Discover-DJ-Pro.midi.xml) |
+| Ion iDJ2GO | primary | partial-midi-profile | [Reference](https://download.algoriddim.com/djay/202010171657/djay_Pro_2.2.9.zip) |
+| JB Systems DJ KONTROL1 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=JBSDJKTRL1) |
+| JB Systems DJ KONTROL2 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=JBSDJKTRL2) |
+| JB Systems DJ KONTROL3 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=JBSDJKTRL3) |
+| JB Systems DJ KONTROL3S | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=JBSKT3S) |
+| JB Systems DJ KONTROL4 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=JBKTRL4) |
 | Keith McMillen Instruments QuNeo | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/KANE_QuNeo.midi.xml) |
 | Kontrol DJ KDJ500 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Kontrol%20Dj%20KDJ500.midi.xml) |
 | Korg KAOSS DJ | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg-KAOSS-DJ.midi.xml) |
-| Korg nanoKONTROL | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg%20nanoKONTROL.midi.xml) |
-| Korg nanoKONTROL2 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg%20nanoKONTROL%202.midi.xml) |
-| Korg nanoPAD2 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg%20nanoPAD2.midi.xml) |
+| Korg NanoPAD | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=NANOPAD) |
+| Korg nanoKONTROL | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg%20nanoKONTROL.midi.xml) |
+| Korg nanoKONTROL2 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg%20nanoKONTROL%202.midi.xml) |
+| Korg nanoPAD2 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg%20nanoPAD2.midi.xml) |
+| M-AUDIO CONNECTIV | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=CONECTIV) |
+| M-AUDIO XPONENT | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=XPONENT) |
+| M-AUDIO XSESSION | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=XSESSION) |
 | M-Audio X-Session Pro | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/M-Audio_Xsession_pro.midi.xml) |
-| M-Vave SMC-Mixer | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MVave-SMC-Mixer.midi.xml) |
-| M-Vave SMK-25 II | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MVave-SMK-25-II.midi.xml) |
+| M-Vave SMC-Mixer | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MVave-SMC-Mixer.midi.xml) |
+| M-Vave SMK-25 II | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MVave-SMK-25-II.midi.xml) |
 | MidiTech MidiControl | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MidiTech-MidiControl.midi.xml) |
+| MIDIPLUS SMARTPAD | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=SMPAD) |
 | MixVibes U-Mix Control 2 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MixVibes%20U-Mix%20Control%202.midi.xml) |
 | MixVibes U-Mix Control Pro | primary | automatic-core-profile | [Reference](https://media.djmania.net/manuales/pdf/U-MIX_CONTROL_PRO_1.5.1_user_manual_0.pdf) |
 | MixVibes U-Mix Control Pro 2 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MixVibes%20U-Mix%20Control%20Pro%202.midi.xml) |
+| Mixvibes VFX CONTROL | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MIXVVFX) |
+| Mixars QUATTRO | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MXRSQUATTRO) |
+| Native Instruments AUDIO 2DJ | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AUDIO2DJ) |
+| Native Instruments AUDIO 4DJ | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AUDIO4DJ) |
+| Native Instruments AUDIO 8DJ | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AUDIO8DJ) |
+| Native Instruments AUDIO KONTROL1 | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=TRAKTORAUDIO2MK2) |
+| Native Instruments TRAKTOR AUDIO 10 | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=TRAKTORAUDIO10) |
+| Native Instruments TRAKTOR AUDIO 2 | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=TRAKTORAUDIO2) |
+| Native Instruments TRAKTOR AUDIO 6 | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=TRAKTORAUDIO6) |
 | Native Instruments Traktor Kontrol D2 | accessory | linux-bridge | [Reference](../../docs/coordination/controller-coverage.md) |
 | Native Instruments Traktor Kontrol F1 | accessory | linux-bridge | [Reference](../../docs/coordination/controller-coverage.md) |
 | Native Instruments Traktor Kontrol S2 Mk1 | primary | linux-bridge | [Reference](../../docs/coordination/controller-coverage.md) |
@@ -512,57 +666,153 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Native Instruments Traktor Kontrol Z1 Mk2 | primary | linux-bridge | [Reference](../../docs/coordination/controller-coverage.md) |
 | Native Instruments Traktor Kontrol Z2 | primary | linux-bridge | [Reference](../../docs/coordination/controller-coverage.md) |
 | Native Instruments Traktor MX2 | primary | linux-bridge | [Reference](../../docs/coordination/controller-coverage.md) |
+| Novation LAUNCH CONTROL | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=LAUNCHCTRL) |
+| Novation LAUNCHPAD S | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=LAUNCHPADS) |
+| Novation Launch Control XL | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=LAUNCHCTRLXL) |
+| Novation LaunchControl XL 3 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=NOVLCXL3) |
 | Novation Launchpad | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Launchpad.midi.xml) |
-| Novation Launchpad MK2 | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Launchpad%20MK2.midi.xml) |
-| Novation Launchpad Mini | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation-Launchpad-Mini.midi.xml) |
-| Novation Launchpad Mini MK3 | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Launchpad%20Mini%20MK3.midi.xml) |
+| Novation Launchpad MK2 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Launchpad%20MK2.midi.xml) |
+| Novation Launchpad Mini | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation-Launchpad-Mini.midi.xml) |
+| Novation Launchpad Mini MK3 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Launchpad%20Mini%20MK3.midi.xml) |
+| Novation Launchpad Pro | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=LAUNCHPADPRO) |
+| Novation Launchpad X | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=LAUNCHPADX) |
+| Novation TWITCH | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=TWITCH) |
+| Numark 4TRAK | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=4TRAK) |
+| Numark DJ IO | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=NUMARKDJIO) |
+| Numark DJ IO2 | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=NMDJIO2) |
 | Numark DJ2Go | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20DJ2Go.midi.xml) |
+| Numark DMC2 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DMC2) |
+| Numark ICDX | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ICDX) |
+| Numark MIXDECK | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MIXDECK) |
 | Numark MIXTRACK | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20MIXTRACK.midi.xml) |
 | Numark Mixtrack 3 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-3.midi.xml) |
+| Numark Mixtrack Edge | primary | partial-midi-profile | [Reference](https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe) |
 | Numark Mixtrack II | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%202.midi.xml) |
+| Numark NDX 800 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=NDX800) |
+| Numark NDX 900 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=NDX900) |
+| Numark NS6 | primary | partial-midi-profile | [Reference](https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg) |
 | Numark NS7 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20NS7.midi.xml) |
+| Numark NS7 II | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=NS7II) |
+| Numark NS7 III | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=NS7III) |
+| Numark ORBIT | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ORBIT) |
 | Numark Omni Control | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Omni%20Control.midi.xml) |
-| Numark Stealth Control | primary | protocol-needed | [Reference](https://www.numark.com/product/stealthcontrol) |
+| Numark Stealth Control | primary | automatic-core-profile | [Reference](https://www.numark.com/product/stealthcontrol) |
 | Numark Total Control | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Total%20Control.midi.xml) |
 | Numark V7 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20V7.midi.xml) |
 | Numark iDJ Live II | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20iDJ%20Live%20II.midi.xml) |
+| Numark iDJ3 | primary | automatic-core-profile | [Reference](https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg) |
+| OMNITRONIC CMX-2000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=CMX2000) |
+| OMNITRONIC DDC-2000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DDC2000) |
 | Dummy Device (Screens) | virtual | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Dummy%20Device%20Screen.hid.xml) |
 | Evolution X-Session | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Evolution_Xsession.midi.xml) |
 | MIDI Keyboard | protocol-family | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Midi-Keyboard.midi.xml) |
 | MIDI for light | virtual | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Midi_for_light.midi.xml) |
 | Mixman DM2 (Linux) | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Mixman%20DM2%20%28Linux%29.midi.xml) |
 | Nintendo Wii Remote | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Nintendo%20Wiimote.hid.xml) |
+| PHOTON FADER | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=PHOTON) |
 | Sony SixxAxis | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Sony%20SixxAxis.hid.xml) |
 | Soundless joyMIDI | virtual | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Soundless_joyMIDI.midi.xml) |
 | TrakProDJ iPad | virtual | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/TrakProDJ%20iPad.midi.xml) |
 | Wireless DJ App | virtual | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Wireless%20DJ%20App.midi.xml) |
-| Rane FOUR | primary | protocol-needed | [Reference](https://support.rane.com/en/support/solutions/articles/69000828752-rane-four-frequently-asked-questions) |
+| PCDJ DAC3 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DAC3) |
+| Phase SAS Phase | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware#phase) |
+| Philips M1X-DJ | primary | partial-midi-profile | [Reference](https://download.algoriddim.com/djay/202010171657/djay_Pro_2.2.9.zip) |
+| Rane FOUR | primary | partial-midi-profile | [Reference](https://support.rane.com/en/support/solutions/articles/69000828752-rane-four-frequently-asked-questions) |
 | Rane PERFORMER | primary | protocol-needed | [Reference](https://www.rane.com/downloads/?product=Rane+Performer) |
+| Rane SIXTY FOUR | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RANE64) |
+| Rane SIXTY TWO | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RANE62) |
+| Rane SL2 | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RANESL2) |
+| Rane SL3 | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RANESL3) |
+| Rane SL4 | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RANESL4) |
+| Rane TTM57 MKII | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RN57MK2) |
+| Reloop BeatMix | primary | automatic-core-profile | [Reference](https://www.reloop.com/media/catalog/product/pdf/2/2/5/225067_Reloop_IM.pdf) |
 | Reloop Beatmix 2 MK2 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Beatmix-2-4-MK2.midi.xml) |
 | Reloop Beatmix 4 MK2 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Beatmix-2-4-MK2.midi.xml) |
 | Reloop Beatpad | primary | native-midi | [Reference](../../docs/coordination/beatpad-native.md) |
 | Reloop Beatpad 2 | primary | automatic-core-profile | [Reference](https://www.reloop.com/djing-with-smart-devices-controllercomparisonchart) |
-| Reloop Buddy | primary | protocol-needed | [Reference](https://www.reloop.com/reloop-buddy) |
+| Reloop Buddy | primary | partial-midi-profile | [Reference](https://www.reloop.com/reloop-buddy) |
+| Reloop CONTOUR | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=CONTOUR) |
+| Reloop DIGITAL JOCKEY | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DIGITALJOCKEY) |
 | Reloop Digital Jockey 2 Controller | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop%20Digital%20Jockey%202%20Controller%20Edition.midi.xml) |
 | Reloop Digital Jockey 2 Interface Edition | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Digital-Jockey-2-IE.midi.xml) |
-| Reloop Digital Jockey 2 Master Edition | primary | protocol-needed | [Reference](https://www.reloop.com/reloop-digital-jockey-2-master-edition) |
+| Reloop Digital Jockey 2 Master Edition | primary | partial-midi-profile | [Reference](https://www.reloop.com/reloop-digital-jockey-2-master-edition) |
+| Reloop JOCKEY 3 REMIX | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=JOCKEY3REMIX) |
 | Reloop Jockey 3 ME | primary | partial-midi-profile | [Reference](https://manual.mixxx.org/2.5/en/hardware/controllers/reloop_jockey_3_master_edition) |
+| Reloop KUT | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RLKUT) |
 | Reloop Mixage Controller Edition | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Mixage.midi.xml) |
 | Reloop Mixage Interface Edition | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Mixage.midi.xml) |
 | Reloop Mixage Interface Edition MK2 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Mixage.midi.xml) |
 | Reloop Mixtour | primary | automatic-core-profile | [Reference](https://www.reloop.com/djing-with-smart-devices-controllercomparisonchart) |
-| Reloop Mixtour Pro | primary | protocol-needed | [Reference](https://www.reloop.com/reloop-mixtour-pro) |
-| Roland DJ-505 | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Roland_DJ-505.midi.xml) |
+| Reloop Mixtour Pro | primary | partial-midi-profile | [Reference](https://www.reloop.com/reloop-mixtour-pro) |
+| Reloop PTB-2 | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware/ptb-2) |
+| Reloop RMP-2.5a | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RMP25A) |
+| Reloop RMP-3 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RMP3A) |
+| Reloop RMP-4 | primary | automatic-core-profile | [Reference](https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg) |
+| Reloop RMX-95 | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware/rmx95) |
+| Reloop SPIN2 | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RSPIN2) |
+| Reloop TOUCH | primary | partial-midi-profile | [Reference](https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg) |
+| Roland DJ-202 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ROL202) |
+| Roland DJ-505 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Roland_DJ-505.midi.xml) |
+| Roland DJ-707M | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ROL707M) |
+| Roland DJ-808 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ROL808) |
+| SKP SMX-2200 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=SMX22) |
+| Stanton CMP.800 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=CMP800) |
 | Stanton DJC.4 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton-DJC-4.midi.xml) |
 | Stanton SCS.1d (unfinished) | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton%20SCS.1d.midi.xml) |
 | Stanton SCS.1m | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton%20SCS.1m.midi.xml) |
 | Stanton SCS.3d (alternate) | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton%20SCS.3d%20Alternate.midi.xml) |
-| Stanton SCS.3m | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton%20SCS.3m.midi.xml) |
+| Stanton SCS.3m | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton%20SCS.3m.midi.xml) |
+| Stanton SCS.4DJ | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=SCS4DJ) |
+| Synq DMC-1000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DMC1000) |
+| Synq DMC-2000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DMC2000) |
+| Synq PCM-1 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=PCM-1) |
 | Tascam US-428 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/us428.midi.xml) |
+| The Next Beat SX1 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=NBSX1) |
+| The Next Beat by Tiësto | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware/bytisto) |
+| Vestax PAD ONE | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=PAD1) |
 | Vestax Spin | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20Spin.midi.xml) |
+| Vestax Spin2 | primary | partial-midi-profile | [Reference](https://gist.github.com/samba2/5af83e947297ab99a4745a5be3e13d55/a8c441c832affebb59415abdc80872967bc8c0e6) |
 | Vestax VCI-100 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-100-3DEX.midi.xml) |
+| Vestax VCI-300MKII | primary | automatic-core-profile | [Reference](https://manual.mixxx.org/2.4/en_gb/hardware/controllers/vestax_vci_300) |
+| Vestax VCI-380 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=VCI380) |
 | Vestax VCI-400 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-400.midi.xml) |
+| Vestax VCM-100 | primary | partial-midi-profile | [Reference](https://www.kevinchant.com/uploads/7/1/0/8/7108231/vsm-vcm-100.pdf) |
+| Vieta DJ Andromeda | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=VTANDRM) |
+| Vieta DJ JUNO | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=VTJUNO) |
+| Vieta DJ ORION | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=VTORION) |
+| Vieta DJ VEGA | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=VTVEGA) |
+| Vistron VDC-100 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=VDC100) |
+| Vistron VDC-100S | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=VDC100S) |
+| Vistron VDC-2000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=VDC2000) |
+| Vonyx APEX 200 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=APEX200) |
+| Vonyx LOOP 200 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=VXLP2) |
+| Vonyx LOOP 300 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=VXLP3) |
+| Vonyx Spin 100 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=VXSPN1) |
+| Vonyx Spin 120 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=VXSPN12) |
+| Vonyx Spin 200 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=VXSPN2) |
+| Voxoa C50 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=C50) |
+| Voxoa C60 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=C60) |
+| Voxoa M70 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=M70) |
+| Voxoa S70 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=S70) |
+| Welljoint COMBO MIDI | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=COMBOMIDI) |
+| Welljoint FFKTRL | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=FFKTRL) |
+| Welljoint MD1310 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=W1310) |
+| Welljoint MD1311 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=W1311) |
+| Welljoint MIDI 10 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MIDI10) |
+| Welljoint MIDI 1302 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=WJ1302) |
+| Welljoint MIDI 16 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MIDI16) |
+| Welljoint MIDI 18 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MIDI18) |
+| Welljoint MIDI 4 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MIDI4) |
+| Welljoint MIDI 8S | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MIDI8S) |
 | Yaeltex MiniMixxx | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Yaeltex%20MiniMixxx.midi.xml) |
+| YAHORNG ME100 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ME100) |
+| YAHORNG ME120SC | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ME120SC) |
+| YAHORNG ME701 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ME701) |
+| YAHORNG ME702SC | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ME702SC) |
+| YAHORNG ME705 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ME705SC) |
+| YAHORNG ME800 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ME800) |
+| ZOMO MC-1000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MC1000) |
+| IDANCE SCRATCH | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=IDANCESCRATCH) |
 
 ## Provenance and reproduction
 

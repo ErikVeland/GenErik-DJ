@@ -664,3 +664,443 @@ Source LED addresses remain separate from input addresses. Native PFL uses on 10
 Startup clears source 48–86, and shutdown clears eight owned outputs. The total is 47 messages.
 Both profiles were already automatic. This increment expands native core coverage without increasing automatic model counts.
 Source advanced modes, Tap, EQ kill, FX, animations, full browser/loop behaviour, audio routing and physical acceptance remain open.
+
+### Input-only pad modes (R310)
+
+An `inputModes` row can omit both `onValue` and `offValue` when only the input protocol is qualified.
+The mode state still changes before action dispatch. The connection sends no mode-light packet.
+Specify both values for reviewed mode feedback. An incomplete pair is invalid.
+Party Mix Live uses input-only modes for its Cue and Loop pads. Sampler and Effect mode selections block those actions.
+This does not supply cue deletion, held Pad Mode behaviour or automatic audio routing.
+
+### Runtime resource size (R319)
+
+The native loader accepts at most 4 MiB of UTF-8 JSON. Keep this limit unchanged.
+The generator writes compact runtime JSON and checks its byte count before it writes either output.
+Oversized output fails generation. The review catalogue retains its readable format.
+R319 caught a 4,196,910-byte resource that caused the native loader to reject all data profiles.
+Compact JSON reduced it to 2,235,212 bytes without changing the earlier profile data.
+Importer size checks and native catalogue-load checks cover this boundary.
+
+### RMX-90 DVS manual mixer (R320)
+
+`reloop_rmx90.py` records32 factory mixer/PFL inputs. Set MIDI on, MIDI CH1 and MIDI TYPE TRIGGER before manual selection.
+Use a separate software audio path. External deck routing and hardware/software mixer bypass remain unavailable.
+The recipe does not send pickup SysEx or infer FX encoder decoding, lamp output or sibling RMX addresses.
+
+### DJ-505 manual normal controls (R321)
+
+`roland_dj505.py` records normal four-target controls from the pinned Mixxx XML and script.
+Its explicit low-byte addresses differ from the usual plus32 pairs. The pinned Mixxx rate formula confirms pitch direction.
+The manual recipe sends no partial software-mode SysEx or keepalive. Shared Load ownership, crossfader calibration, jogs, pads, TR-S and full routing remain open.
+
+### CMD MM-1 automatic mixer core (R322)
+
+`cmd_mm1.py` records31 default controls across496 explicit bindings for all16 configurable MIDI channels.
+Only named MM-1 endpoints select the recipe. The fixed strip order is C/A/B/D, with EQ/filter roles and headphone PFL.
+Shift and Ctrl have independent guard identities. Either blocks normal deck and browser actions.
+Dynamic software layers, lamp/meter output and physical acceptance remain open. No generic CMD alias or audio route is inferred.
+
+### Fixed SMC-Mixer and iControls mixer cores (R323)
+
+`fixed_midi_mixers.py` keeps the two default USB-MIDI contracts separate. Both use C/A/B/D physical strip order.
+SMC-Mixer encoders use the literal raw65 decrement rule. iControls encoders retain signed counts divided by100.
+The native decoders reject foreign message kinds and values. Only the reviewed continuous mixer actions can use them.
+Shared transport and software modes remain inactive. No unqualified lamp, reset or audio packet is emitted.
+The generated report states the automatic-core and complete-theoretical remainders separately.
+
+### SMK-25 II vendor input (R324)
+
+`smk25ii.py` declares `inputProtocol: smk25II`. Its bindings describe logical messages after `ControllerSMK25Decoder` conversion.
+The decoder accepts complete7-byte vendor messages and the source's standard strips. It retains fragments and A/B selection per source.
+Channel9 sampler notes cannot trigger deck cues. A bank change releases owned contacts and resets only deck pickup.
+Factory inputs already use the byte port. Ordinary controllers retain their existing decoder. Frame limits apply before action dispatch.
+Firmware-immediate pad releases do not establish physical hold duration. Samplers, recording, Bluetooth, output/lifecycle and physical acceptance remain open.
+
+### Independent MIDI Fighter default cores (R325)
+
+`midi_fighter.py` keeps Classic Default pads separate from the Twister normal mixer.
+Classic uses the actual source initialiser's C/A/B/D rows. Its manufacturer map independently confirms the default notes.
+Twister retains CC switch kinds, six independent Shift guards and shifted headphone level. Fixed A/B targets replace software-selected deck banks.
+Other hardware modes, full output/lifecycle and physical acceptance remain open. No firmware or persistent preset is written.
+
+### Original Launchpad Mini pages (R326)
+
+`launchpad_mini.py` keeps the original Mini's reset/buffer setup and fixed A/B/C/D page-A Play/cue rows.
+All eight page selectors guard the shared grid. Page-H individual library/load controls stay on their source page.
+CC111 guards cue deletion. Note104 page selection stays distinct from CC104.
+The source loop pads toggle on press and conditionally on release. They remain inactive until a native action preserves that behaviour.
+Other pages, full lights/lifecycle and physical acceptance remain open. No other Launchpad model inherits these addresses.
+
+### MK2 and Mini MK3 Launchpad cores (R327)
+
+`launchpad_rgb.py` preserves the initial fixed A/B tall layout from each pinned script.
+The independent manufacturer tables qualify the grid, MIDI message kinds, mode commands and Mini MK3 MIDI interface.
+MK2 selects Session layout. Mini MK3 selects Programmer mode only on its MIDI port, then returns to Live on disconnect.
+Both modifiers guard normal deck controls. Halve/double and individual library controls remain independent, as the source requires.
+The eight core lamps retain source palette values. Per-size loop lamps and RGB cue colours need richer feedback state.
+Dynamic layouts, conditional Load, alternate modes, full feedback and physical acceptance remain open.
+The original full-size Launchpad requires desktop drivers and a qualified iPad bridge. It cannot use these class-compliant contracts.
+
+### CDJ-101 timed player input (R328)
+
+`cdj101.py` declares `inputProtocol: cdj101`. `ControllerCDJ101Decoder` normalises browser direction and short-click Load.
+Only raw65 moves forward. Every other seven-bit browser value moves back, as the source specifies.
+An owned push release before200 ms emits logical Note126. Repeated presses cannot restart that interval.
+The callback records arrival time before queuing input. A delayed main-thread drain retains the original interval.
+Input state resets on disconnect. Output expansion passes the existing frame limit before dispatch.
+Native player assignment separates software decks from wire channels1/2. Source143 ticks at45 RPM becomes193.05 effective native ticks.
+Full spinback/Shift/outer-wheel behaviour, output ownership, complete lifecycle and physical acceptance remain open.
+
+### Manual vendor input protocols (R329)
+
+Manual application retains the closed `inputProtocol` tag against that source ID, alongside its saved bindings.
+SMK-25 II and CDJ-101 use the byte input port on unnamed endpoints. Known factory identities retain their own wire protocol.
+A profile change resets fragments, bank/click state and held contacts. Ordinary and legacy profile replacements clear the manual tag.
+Restoration checks metadata size, source count and binding ownership. Hardware startup/output remains separate from manual input conversion.
+
+### DDJ-SR2 manual normal core (R330)
+
+`ddj_sr2.py` declares the independent manufacturer table and `inputProtocol: ddjSR2`.
+`ControllerSR2Decoder` starts with unknown Load ownership on each side. Positive selector state qualifies A/C or B/D.
+Current-selector release, external input or invalid selection clears that side. Selector boundaries release owned contacts and pickup without clearing physical Shift.
+Only shared Note70/71 can produce logical Load126. The raw deck TRANS-parameter Note126 and shifted Load remain inactive.
+The manual recipe retains all28 explicit14-bit pairs and distinct shifted release aliases. Normal pad addresses remain separate from other hardware pages.
+The pending-source inventory cannot override a reviewed recipe. The missing cold query keeps automatic selection off.
+Full Vinyl/Shift/pad/FX modes, output/lifecycle/routing, calibration and physical acceptance remain open.
+
+### Original KeyLab 88 input (R331)
+
+`keylab.py` names the original88-key profile explicitly. The generic source inventory record does not qualify smaller or later keyboard variants.
+`ControllerKeyLabDecoder` validates bounded broadcast MMC and emits native pulses. MMC does not provide physical hold duration.
+Ordinary piano notes, mod-wheel CC1 and alternate CC transport assignments remain inactive.
+Sound/Multi uses the pinned275 ms timing. Released snapshots choose the two cue layouts or the inactive sampler layer.
+Selected controls use logical channels0..3. Fixed C/A/B/D faders and globals use logical channel4.
+Deck/layout changes release owned contacts and reset affected pickup/debounce. Source-specific state resets on reconnect.
+The explicit XML input dispatch takes priority over conflicting component MIDI fields. No output or persistent preset is written.
+Complete menus, extra cues, samplers/recording, delayed display/lights, calibration and physical acceptance remain open.
+
+### Kontrol One native base (R332)
+
+`kontrol_one.py` keeps independent wire addresses and a fixed native base layout.
+`ControllerKontrolOneDecoder` marks hardware channel changes before dispatch. Boundaries release owned contacts and reset non-modifier pickup/debounce.
+Seven physical modifiers retain separate identities across channels. Jog and knob directions use separate source rules.
+The actual scratch arrays select150 ticks and45 RPM. The unused header scratch value is not used.
+Labelled Sync, native normalised knob steps and direct loop controls replace source custom/timed software behaviours.
+The direction-step guard admits gain/EQ only at reviewed Kontrol One knob addresses. Other profiles retain the existing limit.
+Complete banks/Shift latches, kills, source loop editing, dynamic output ownership and physical acceptance remain open.
+
+### MIDI Fighter Spectra default banks (R333)
+
+`spectra.py` pins the manufacturer guide and independent XML/script. Startup selects the hotcue bank with channel4 Note1 velocity127.
+`ControllerSpectraDecoder` keeps selected-deck cues separate from fixed C/A/B/D filter switches. Bank/deck boundaries release owned contacts and reset cue input state.
+Only positive selectors change the deck. Stale bank releases cannot clear another current bank. Normal Note Off always releases.
+Logical cue channels cannot be injected by raw input. Duplicate momentary CCs and unimplemented marker/sampler/stem addresses stay inactive.
+Automatic startup requires one paired output and fails closed. No persistent preset is written.
+Custom settings, EQ kills, full RGB/ground feedback, lifecycle and physical acceptance remain open.
+
+### DUO and DUO MKII manual performance inputs (R334)
+
+`mixars_duo.py` uses the manufacturer table that the MKII product page also links. The two model identities remain separate.
+Manual profiles provide both cue banks, Sync, native loop push and fixed A/B Load. Distinct shifted release aliases preserve normal rearm.
+Sampler, fader-start, mixer/PFL and unspecified relative encoders remain inactive. Fader-start Note0 must never become Play.
+The documented non-Serato hardware mixer route needs separate deck outputs. This route is not implemented, so automatic selection stays off.
+No output, lifecycle or PRIMO/QUATTRO compatibility is inferred. Physical USB/driver/audio acceptance remains open.
+
+### P1-Nano MIDI1 manual input (R335)
+
+`p1nano.py` follows the independent XML/script groups for A/B/C/D, with the source's documented DAW1 Bitwig configuration.
+`ControllerP1NanoDecoder` retains selected transport, latched Flip, full14-bit faders and independent knob parameter selection.
+The `p1NanoEncoder` codec preserves source counts in0.01 normalised units. Neutral0/64 does not adjust a value. The codec is bounded and unavailable to MIDI learning.
+Profile validation admits it only for reviewed P1-Nano gain/EQ/filter addresses. Raw logical channels, master-fader guesses and custom touchscreen traffic remain inactive.
+Deck/control changes release owned contacts and reset pickup/debounce. Reconnect resets decoder modes; the manual protocol tag remains bounded and persistent.
+Source captions differ from executable lane groups. Motor/display output, complete lifecycle and physical acceptance remain open. Automatic selection stays off.
+
+### DDM4000 manual MIDI mixer (R336)
+
+`ddm4000.py` retains four independent source strips and a fixed native crossfader. Hardware sections must use MIDI mode on channel1.
+PFL input uses Notes63/73/83/93. Four separate light mappings use same-number CCs with127/0 values.
+The source helper staggers component initialisation at40 ms; it does not enforce that interval between every live light message. Full source light initialisation remains open.
+MIDI CC light echoes, hardware trim, microphone, sampler, curve/reverse and assignment inputs cannot become unrelated actions.
+The DDM4000 requires a DIN MIDI interface and separate audio routing. It has no USB MIDI or digital audio interface. Automatic selection stays off.
+Full modes/output/lifecycle and physical acceptance remain open.
+
+### Timed factory setup and SCS.3m (R338)
+
+`scs3m.py` adds fixed native A/B mixer controls behind transient flat/absolute mode setup.
+`startupDelaysMilliseconds` is optional. Its count must match startup messages, with at most1,000 ms per step and5,000 ms total.
+`ControllerMIDISetupSequence` measures each wait from actual send completion. The input polling loop advances at most64 packets per call across at most16 pending sources.
+Known timed inputs and ordinary output remain inactive until setup finishes. Failure/disconnect cancels pending work. Explicit discovery can retry.
+Queued input before the hardware-ready deadline cannot dispatch. Manual application requires an established automatic paired session.
+SCS.3m uses nine packets and five20 ms waits. Full software modes, meters/lights, shutdown/lifecycle and physical acceptance remain open.
+
+### BCR2000 factory preset and direct state (R339)
+
+`bcr2000.py` selects factory preset1 with the exact two-byte Program Change. It never writes a preset or factory reset.
+Twelve normal inputs retain fixed group2 EQ/filter, explicit keylock state and a shared global Shift guard. Ten CC outputs retain parameter/keylock feedback.
+Direct keylock state uses the existing explicit playback setter. It bypasses pickup and positive-edge toggling. MIDI learning does not expose this action.
+Global CC Shift bindings can share a bounded `shiftInput` identity. Channel-specific CC identity stays invalid.
+Setup validation now requires two bytes for Program Change/channel pressure and three for other supported channel messages.
+Complete modes, Shift-lamp synchronisation, lifecycle and physical acceptance remain open.
+
+### SC5000M captured Computer-mode input (R340)
+
+`sc5000m.py` pins the public author captures, working mapping/proxy and iOS investigation independently of the LC6000 specification.
+`ControllerSC5000MDecoder` retains fresh-press LAYER selection, shared Shift, per-deck pad modes and original release ownership.
+The manual111-binding core supports normal transport/loops/browser, Hot Cue1–8 and source-sized auto-loop pads. Roll/Slicer pads stay inactive.
+Motor/platter counters, pitch bend and absent Note40 touch never become jog or tempo input. No motor or screen command is sent.
+The closed manual protocol tag persists with bindings. Deck, mode, fragments and held state reset on replacement/reconnect.
+Motor/hand inference, platter/pitch calibration, screen/touch bulk protocol, complete output/lifecycle/audio and physical acceptance remain open.
+
+### Separate Prime player normal contracts (R341)
+
+`prime_players.py` pins separate JP13/JP14/JP07 factory assignment files for SC6000, SC6000M and SC5000.
+Each manual79-input profile uses a separate `denonPrimePlayer` tag with the bounded common transport decoder. SC5000M's stored tag and111-input recipe stay unchanged.
+Tests check each factory component/address independently. Model-specific jog sensitivity, motor/touch, pitch LED direction and parameter addresses are excluded.
+Firmware assignments establish normal addresses, not a complete host SDK. Cold-start Computer-mode setup, other pad modes, output/displays/audio and physical acceptance remain open.
+
+### RANE ONE MKII corroborated manual subset (R342)
+
+`rane_one_mk2.py` pins an independent owner archive and compares26 unconditional rows with the earlier staff export.
+The45-binding manual subset retains Load, Sync/explicit off, keylock, bends, normal loops and source-valued browsing.
+Global Shift guards normal controls. Shifted releases rearm known actions. The dedicated Sync-off message remains explicit and layer-independent.
+Absent normal Play/main Cue/motor handling, pitch pairing, external mixer audio and conditional custom-class dispatch stay inactive.
+The public exports do not include the RaneOneMK2 class. Complete output/lifecycle/audio and physical acceptance remain open. No source code or mapping executes in the app.
+
+### nanoKONTROL2 transient native mode (R343)
+
+`nanokontrol2.py` pins Korg's published protocol and the independent upstream functional addresses.
+Search validates the model/echo and discovers its global channel. A matching native acknowledgement enables fixed channel16 input and four PFL lamps.
+The12-input native mixer keeps dedicated volumes independent of held Marker modifiers. PFL buttons become logical notes, so their first presses work.
+Setup requests use only the paired physical output. Failure and shutdown send native exit when the channel is known. No scene write, reset or persistent programming is sent.
+Known native inputs and ordinary feedback stay blocked before confirmation or after failure/exit. Unpaired manual setup is rejected. Clearing learned mappings exits mode and requires fresh setup.
+Source refresh reconnects paired setup sessions even while readiness gates input. Full software layers, reply timeout/recovery, lifecycle and physical acceptance remain open.
+
+### nanoPAD2 independent native scenes (R344)
+
+`nanopad2.py` pins the independent project12 protocol and upstream cue/loop layout. It replaces the earlier four-input manual recipe with31 automatic logical bindings.
+`ControllerKorgNativeDecoder` shares bounded handshake framing through a closed model enum. nanoKONTROL2 retains project13 and its existing control table/API aliases.
+Native pad releases retain their original scene address. Scene barriers release owned contacts and preserve held Clear. Loop resize stays blocked during unsupported held-loop moves.
+Fifteen first-bank cues and14 third-bank loop controls are active. Later cues9–16, timed reloop, fourth-bank controls and XY/touch-scale stay inactive.
+The paired output sends exact Scene lamps after confirmation. Setup or live lamp failure disables that source and attempts native exit. No saved scenes are written.
+Full modes, reply timeout/recovery, lifecycle and physical acceptance remain open.
+
+PRIME4 and4+ retain separate manual profiles from the public owner mapping. A source-local adapter owns software deck selection, pad modes and original button releases. Logical channels and Load addresses cannot be injected through raw sibling channels. Mixer ownership, jog/screens, complete lifecycle and audio stay open. Public repository metadata explicitly names both models; it is not a manufacturer SDK. The XML omits some unneeded toggle-button release mappings, so source checks distinguish exported rows from native standard release handling.
+Manual profile replacement must fit the existing256-binding saved-set limit before it changes any state. An over-capacity request retains every existing mapping. Automatic factory recipes retain their separate512-input bound.
+
+MP2015 uses its manufacturer table, with explicit port MIDI enable and channel1 setup. The mixer saves those settings; native setup does not change them. Optional PFL lights use NoteOn0/127, with four independent addresses. Fixed mixer control requires separate audio to avoid double EQ/level processing. Hardware filter types, source routing and complete USB audio/lifecycle remain open.
+
+Original RANE ONE uses a separate public owner export with Play0 and RaneOne class metadata. ONE MKII's explicit Sync-off3 and loop-out-or-double55 do not apply to the original export. Numbered cue targets do not establish held main Cue. Keep motor/platter/setup, full pitch, custom pads and mixer/audio ownership open. Neither model selects automatically.
+
+Original PRIME GO and PRIME2 use independent JP11/JC16 assignments. Public GO owner exports without custom classes corroborate its fixed Computer-mode core. Use one inverted14-bit tempo pair31/75 per deck; do not import two independent speed controls from the later export. PRIME2 keeps manual selection, separate held Shift identities and unqualified tempo/browse. Neither profile activates pads, jogs, Color FX or screens, or infers GO+ compatibility. Automatic GO input does not establish automatic audio routing or physical acceptance.
+
+SC Live2, SC Live4 and Mixstream Pro Go retain separate JP20/JP21/NH10 manual profiles. SC Live globals use cue-mix18/headphone19/master20; Mixstream Go uses9/10/15. SC Live2 alone has explicit inverted paired tempo. SC Live4 exposes only its fixed mixer until Layer31/cold Load ownership is qualified. NH09 is not Pro+ and NH10's copied MIXSTREAM PRO object name alone does not establish identity. Internal MCU setup, host USB gadget mode and a complete host SDK are separate evidence claims.
+
+Digital Jockey2 Master Edition uses its own manufacturer appendix. Strip the USB-MIDI CIN prefix when reading its tables. Channel0 carries both decks with a60-address offset. Separate Shift inputs guard normal controls and standard release aliases rearm buttons. Normal PREVIEW means deck PFL, while main Cue uses18/54. TraxCC13 uses binary-offset64. Do not inherit Interface Edition pitch polarity, jog calibration, shifted layers or lamps. The desktop-driver requirement blocks a native iPad USB claim. Full driver/bridge, modes/output/lifecycle/audio and physical acceptance remain open.
+
+SP-404MKII uses the ordinary DJ-mode chart in the current manufacturer manual, independently agreed by version4. CC22 is direct saved Sync state, CC23 is direct PFL state, and CC24/25 are held pitch bends. Preserve channel0/1 and the single channel0 crossfader. Direct Sync state bypasses pickup and edge priming, with repeat-idempotent on/off. State actions stay outside ordinary button learning. This subset does not use the separate proprietary Serato control screen, state-valued Play20, return-to-start21, BPM steps, sample/Chromatic/FX/Looper modes or output packets. Selection remains manual with separate audio and physical acceptance open.
+
+Euphonia uses its independent E10 table on the current AlphaTheta support host. All four strips use wire channel0 with non-uniform CC numbers, including CH4 Mid5C/Low52. PFL notes0A–0D are latched state, not momentary software toggles. Keep direct state, ordinary mixer pickup and C/D opt-in separate. The table describes input to the computer and does not establish feedback. Manual app mixer control requires separate audio with hardware/software ownership unresolved. Source selectors, isolator/send/FX, display/settings, automatic audio and all outputs remain inactive.
+
+MixTrack Go and Party Mix III use separate pinned2026 public mappings. Shared fixed fields must agree within each model's XML and handlers. Go alone wires Sync/PFL/jog/touch with an approximate242-count jog estimate. Party Mix III adds independently wired EQ, while its copied/unwired Sync/PFL/jog, right mode constant, volume28 and shared pads stay inactive. Identity/status startup requests are transient. Do not copy the source's delayed lamp routine, software modes or paused scrub multipliers. Both use exact shifted release aliases and inverted paired tempo. Native linear14-bit normalisation does not claim the source's exact8192-centre curve. Bluetooth MIDI disables controller audio, so no split-output route is automatic. Full lifecycle/audio and physical acceptance remain open.
+
+
+## Original nanoKONTROL and PLX-CRSS12 accessories
+
+`nanokontrol_scene.py` defines the original nanoKONTROL's32 read-only scene-aware mixer bindings. The separate model04 decoder queries current assignments without changing saved scenes. Existing saved raw mappings remain active until explicit replacement. This model never uses nanoKONTROL2 native mode.
+
+`plx_crss12.py` defines68 automatic PLX-CRSS12 MIDI accessory bindings from the E1 manufacturer table. PAD MODE1 supplies eight Hot Cues per hardware-selected deck. Shift aliases only rearm normal cues. The extra while-held5–8 rows have conflicting channel/status columns and stay inactive. Turntable transport, pitch, motor/platter, display, feedback colours, DVS/audio and full lifecycle remain open. No output or setting write is inferred.
+
+The [public-source audit](../../docs/coordination/controller-public-source-audit.json) records scoped Rane/Denon SDK and protocol searches. An unavailable protocol remains a gap.
+
+
+`hercules_mk4.py` replaces the generic MK4 import with a documented38-input manual core and eight transport/PFL lamps. Relative pitch and sensorless wheels retain signed magnitude. Normal K buttons use the native1/2/4/8 loop layout. The manufacturer guide and independent MK4-specific mapping govern the facts. Desktop driver/bridge access, native iPad USB, other modes, full lifecycle and audio routing remain open.
+
+
+`djm_a9.py` supplies30 manual A9 inputs from the current E10 table. Its CH2 CUE B/fader rows conflict with other controls. CH1/2 faders and all CUE B controls stay inactive. CUE A uses direct state in default TOGGLE mode. Separate app audio, C/D opt-in and manual channel1 selection remain explicit. No MIDI output or source/audio switch is inferred. Follow the current migrated support articles for exact document filenames.
+
+
+`slab.py` defines139 automatic general-MIDI bindings for an explicit fixed DJ layout. All eight normal pad pages have native cue, loop, jump or transport functions. The upper/lower physical halves address fixed deck pairs. Page presses retire old holds; both Shift transitions retire holds and gate the layout. Shifted pads and aftertouch remain inactive. Encoders and DIAL browsing use1/65 signed-bit direction. Mode1 strip uses channel7 CC14/46. This does not emulate Serato Studio. Output colours, screens, other modes, full lifecycle and audio routing remain open.
+
+
+`djm_a7.py` defines32 manual inputs from the independent A7 EN100 table, including all four faders. PFL requires channel1/TOGGLE. Use a separate app audio path until hardware/software mixer ownership is implemented. No factory button-type default, MIDI output, stored setting or audio route is inferred. The A7 table does not repair A9's conflicting rows.
+
+`xdj_an.py` defines99 XDJ-AN inputs and ten binary lamps from the independent E1 table. Both decks must enter Software Control before a paired-output command selects MIDI Control. Input readiness follows local send success, without claiming device acknowledgement. Source-local mode loss releases holds and cancels owned queued movement. Saved raw mappings remain active until explicit replacement. The separate Core decoder owns setup state. Other modes, jog calibration, full feedback, audio routing, cold notifications and physical/A10X acceptance remain open.
+
+`rev7.py` defines70 manual DDJ-REV7 E2 inputs. It keeps both Hot Cue banks separate and requires Utility LOOP options OFF. Motor/platter34/41, Silent Cue, state-coded loop35, other modes and all output remain inactive. Manual profile IDs retain bank-change rules across reloads. The metadata stays bounded and does not infer an applied profile from endpoint names. Mode presses retire old holds. Mode-button releases preserve new holds, including the corrected XDJ-AN pad-mode metadata.
+
+`rmx_ignite.py` defines22 manual native deck-A accessory inputs on MIDI channel1. Sample A-D become Hot Cues1-4. Six straight roll buttons choose latched native loops. Triplet/dotted lengths stay inactive. The layout provides level/EQ/filter/effect amount, held bends, Sync and browsing through a separate app audio path. Hardware FX/sampler behaviour remains independent. The clock does not control app transport. No output, bypass, stored setting or audio route is inferred.
+
+The source lock also pins204 rows and57 platform limitations from the19 November2026 djay hardware page. `read_djay` separates product rows, NEW badges and limitation rows. Two explicit naming variants resolve to existing records. Other models retain independent records. `comparisonSupport.djay` stores competitor evidence. It does not set our runtime or theoretical-support flags. Use `build_catalogue.py --djay PATH` to verify the optional HTML snapshot against the pinned hash and rows. Fresh checkout regeneration uses the locked facts without requiring the ignored cache.
+
+`mix_ultra.py` defines48 automatic normal Mix Ultra inputs from three pinned independent owner sources and manufacturer semantics. Cue uses set/return/stop. Qualified level/pitch/crossfader pairs use14-bit values. Other absolute controls use their seven-bit MSBs. Conflicting physical Shift-side attribution uses a source-wide OR guard. Both Shift transitions retire contacts. Sync/PFL, other pad modes, service-mode overlap, full feedback, pairing/audio and physical acceptance remain open. No firmware patch, executable map or setting/output write is imported.
+
+DJM-900NXS2 uses an independent Version1.00 table. Its default TOGGLE PFL states use CC70-73.
+All four faders are explicitly CC17-20. This does not repair another model’s conflicting table.
+The manual profile requires separate app audio. Hardware audio ownership and external deck routing remain open.
+
+DJM-S9 uses its official Version1.00 table for42 manual mixer/browser/loop-size inputs.
+Its pad rows conflict with the channel header. Status9q and4BEAT LOOP utility choices remain unqualified.
+These messages stay inactive. Shared Shift guards normal browser/loop-size controls. Use separate app audio.
+
+V10 and V10-LF retain separate public evidence. V10 has24 manual controls; LF has nine.
+Only physical CH1-4 map to native A-D. CH5/6, four-band mids and mode-dependent filters remain inactive.
+LF reuses only the trim/fader/master facts that Beat Link Trigger explicitly shares.
+No downloaded LX or show code is copied, executed or bundled. Source-reuse review remains open.
+
+DJM-450 has18 manual inputs from its independently reviewed three-page Version1.00 table.
+Use explicit channel1/TOGGLE and separate app audio. No factory defaults or sibling wires are inferred.
+
+The current manufacturer article explicitly shares the FLX6 E1 table with FLX6-GT.
+GT reuses the existing core through a distinct automatic profile. Hardware utility mode remains user-selected.
+The exact current PDF hash matches the earlier review. No clone, generic alias or mode-setting command is added.
+
+AIR+ uses its own manufacturer packet table, default channel1/14-bit setup and master1/2-headphones3/4 route.
+Both normal and scratch streams retain the independently specified765-count scale. Normal motion becomes scratch during contact.
+The dedicated scratch stream requires contact. Four Hot Cues per side retain velocity edges.
+Physical and reported Shift inputs use source-local OR guards with independent side scopes.
+Sixteen owned lamps clear individually. Update_All_Controls stays unused. Independent AIR+-specific DEX facts resolve normal EQ/gain polarity over the conflicting table wording.
+Physical polarity/taper/jog acceptance remains open.
+
+4Set uses its own manual virtual-MIDI contract: A/B notes on channel1, C/D notes on channel2, all CC on channel1.
+Default7-bit pitch stays separate from the documented alternate low-bit format. Both jog streams use250 counts.
+Sixteen steady lamp recipes require separate manual feedback selection. Driver/bridge, native iPad USB/audio and full modes remain open.
+No deck, Shift, jog-lock/sensitivity, curve or update-all-controls command is sent.
+
+Original NS6 uses99 manual inputs and32 CC lamp recipes from its own public mapping.
+Existing cyclic14BitJog decoding retains explicit CC0/32 pairs,16384 wrap and3600 positions per revolution.
+Deck channels2-5 stay separate from shared channel1 mixer/browse controls. Side reports retire counters and holds.
+Use the exposed desktop-driver/bridge MIDI port and separate app audio. No NS6II inheritance or TEST platter setup runs.
+
+Original DN-MC6000 uses112 manual inputs and40 separately selected CC-trigger lamp recipes.
+PC MIX, MIDI/USB source selectors and explicit MIDI block1-4 are required. Deck channel order is A/C/B/D.
+The native layout explicitly assigns physical mixer CH1-4 to A-D. Global Load A/B stays on channel1.
+Raw64 contact uses release-aware gates. Model-specific2000-count jog facts reuse the existing Denon decoder.
+PAN is not inferred as cue/master blend. No fader query, meter, dimmer or setting command is sent.
+
+Spin2 and XW-J1 have distinct30-input manual layouts from one explicitly shared, pinned author mapping.
+Transport, PFL, Hot Cues2/3, loop/size, touch jogs, browsing, Shift-Load and channel5 crossfader retain qualified wires.
+The375-count scale is the author's estimate and remains provisional. Fixed native touch scratch replaces the software toggle.
+Conflicting mixer/EQ/pitch rows, undefined Hot Cue1 and output/lifecycle lists stay inactive. No downloaded code runs.
+
+PRIMO uses63 unambiguous manual inputs from its own manufacturer appendix.
+N transport/mixer channels1-4, P loop channels5-8 and G channel16 stay separate.
+Earlier Cue/mode, bend/mode, PFL/pad, relative-format and pitch low-byte gaps remain inactive.
+FILTER texture selection and separate app audio are explicit. No button-light values, banked Load or encoder formats are guessed.
+
+`tsi_facts.py PATH` reads a local TSI file and prints used binding facts as JSON.
+It bounds XML/base64, frames, arrays and strings. It rejects malformed or ambiguous structures and document declarations.
+It does not execute, rewrite or import the mapping. Unknown fields stay uninterpreted. Generic MIDI templates do not qualify unused device controls.
+The independent format reference is [TraktorMappingFileFormat](https://github.com/ivanz/TraktorMappingFileFormat/wiki/File-Format-Specification).
+
+Original BeatMix uses50 automatic core inputs from its own manual and factory TSI for firmware1.1.4+.
+The used bindings correct right Low to channel2/CC69 and global controls to channel5.
+Qualified Scratch-mode jogs and browsing use3F/41. Normal jog templates remain inactive.
+Pitch retains the qualified54/70 MSBs. Full14-bit arrival order, output, audio routing and physical calibration remain open.
+Same-wire linefaders and global sound controls stay usable during Shift. No Beatmix2/4 protocol is inherited.
+
+VCM-100 uses72 manual inputs across documented MIDI channel1 and optional channel2.
+Both PGM decks share the selected channel. Rear modes A/B/C share normal core packets.
+Level rotaries control deck volume. Mode-A centre notes, balance, search, CUP/Preview and output remain inactive.
+The generic Vestax PC-CONTROLLER identity cannot safely identify this model. Select the profile manually and configure app audio separately.
+Optional `holdInput` identities0-127 keep independent momentary controls separate within each source, MIDI group and action target.
+VCM-100 assigns one identity per channel choice. Unspecified identities retain existing cross-channel aliases and Shift releases.
+Only momentary actions can use this field. It does not create a MIDI channel, wire address or automatic identity match.
+
+XW-DJ1 uses its own manufacturer41-input automatic core and14 steady lamps. It does not inherit XW-J1 or Spin2.
+Shared channel1 Note46 is Shift. Channel3 CC16/17 jogs explicitly use raw-minus64 and300 positions per revolution.
+Both documented crossfader buses are accepted. Normal transport, three cues, loop/size, contact, filter and sound controls retain their wires.
+Shift-Play loads, Shift-Sync uses native keylock, outer Shift-loop buttons set boundaries and shifted jogs browse.
+Native SET stores Cue. CUP release-play, hot-cue deletion, three-slot FX and fast search remain open.
+The manufacturer qualifies master1/2 and headphones3/4 on its exposed wired route. Physical iPad USB/Lightning/audio acceptance remains open.
+
+Canonical inventory names treat Rane SEVENTY A-Trak Edition and SEVENTY A-TRAK SIGNATURE EDITION as one physical model.
+The Serato benchmark identity, djay source name/platforms and existing manual profile remain on that record.
+Standard SEVENTY and both SEVENTY-TWO generations remain separate. This name reconciliation does not add automatic support.
+
+Inpulse 200 MK3 uses its independent manufacturer factory XML from the public DJUCED6.8.1 package.
+The65-input automatic core and18 normal lamps retain source channels and explicit512-count multi-step jogs.
+CC5 is normal High, CC4 is normal Mid and shifted CC5 is gain. Shifted volume controls target samplers and remain inactive.
+No physical Shift wire is inferred. Factory hardware channels separate normal/shifted controls. Qualified alternate releases preserve native holds.
+Master/headphone knobs stay under hardware control. Output-only MASTER_VOL_L/R and conflicting shifted B-Cue feedback remain inactive.
+No installer, downloaded script, mapping action, source reset, query or firmware runs. Exact software modes and physical iPad acceptance remain open.
+
+T10 uses85 manual supplemental controls from its own439-control factory MIDI document.
+Physical Shift Note4, mixer/EQ, eight cues, loops, keylock and library controls retain independent deck/shift/pad channels.
+The manufacturer states that motorisation cannot be disabled. No stationary-platter mode is invented.
+Play, main Cue, tempo, platter/wheel, RPM/motor modes, startup/shutdown, output and automatic audio stay inactive.
+No motor packet, downloaded mapping action or hardware write runs. Use app touch transport and separate audio.
+The manual subset does not establish a complete T10 integration. Full modes/lifecycle and physical acceptance remain open.
+
+Xone:96 uses nine manual inputs on default MIDI channel16: four linefaders, direct main Cue states and the crossfader.
+Physical CH1-4 map A-D. C/D require the existing four-deck option. Source-selector reports rearm only their deck's pickup.
+MIDI output to Cue/filter changes real hardware state, so feedback and hardware writes remain disabled.
+Analogue gain/four-band EQ/filter/headphone controls, auxiliary Cue/PHONES2 and external deck routing remain outside this subset.
+The manufacturer confirms class-compliant iPadOS/iOS USB. Configure app audio separately. Physical acceptance remains open.
+
+PX5 and24C use distinct manual fader subsets on MIDI channel16.
+PX5 uses channel fadersCC0-3 and crossfaderCC4. Native explicitly maps physical CH1-4 to A-D.
+24C uses channel fadersCC5/6 and crossfaderCC4. Shared frequencyCC7 and unqualified button notes stay inactive.
+No Xone96/23C alias, analogue EQ/gain/headphone control, hardware write or automatic audio route is inferred.
+Use deliberate manual ownership and separate app audio. Complete external mixer routing and physical acceptance remain open.
+
+
+VMS5 uses its own public manufacturer TSI and independent DEX wire facts. The manual subset has40 inputs.
+Explicit source-local software banks route shared transport, tempo and cyclic jogs to A/C and B/D.
+One press changes a bank once. Releases rearm it. Changes retire owned holds and reset both banks' pickup/counters.
+Fixed C/A/B/D mixer strips retain their targets and pickup. C/D require the app option.
+Initial/reconnected banks are A/B. Post EQ and deliberate analogue/software mixer ownership are required.
+The source2730-count jog scale conflicts with a manufacturer2000-point claim. Calibration remains provisional.
+Unqualified Shift, Vinyl/keylock, PFL, FX/pads, library encoder and hardware output stay inactive.
+No downloaded code, query, installer, firmware or audio command runs. Full modes and physical acceptance remain open.
+
+
+VMS4.1 Traktor has an independent24-input manual mixer subset from its separately listed manufacturer MIDI table.
+MIDI channel1 carries four gain/EQ/linefader strips, master28, normal crossfader31, Cue mix34 and Cue gain35.
+Native explicitly assigns physical MIDILOG1-4 to A-D. Pickup and four-deck gating retain existing app controls.
+Generic transport labels conflict with the Traktor faceplate. No sibling transport/bank/jog/Shift or hardware write is inherited.
+Use Post EQ for software EQ and deliberate analogue/software ownership. External audio and physical acceptance remain open.
+
+
+Public ProMixer XML adds independent manual AFX44-input and Mixtrack Edge51-input subsets.
+Only MIDI address facts are transcribed. No source XML, executable, installer or mapping action is bundled or run.
+AFX retains six Cue pads, eight fixed loops1/4-32, loop/transport pads and strict browse/load on A/B.
+Known mode reports retire owned holds. Generated EQ/level aliases101-108 and unqualified tactile/FX/C-D modes stay inactive.
+Edge retains normal transport, three cues, manual loops, PFL, two-band mixer and strict1/127 browse.
+One shared Shift input retires owned holds and supports alternate releases without firing unsupported actions.
+Overflow commands137/142-144/164 do not become raw notes. Jog/tempo modes, feedback, audio and physical acceptance remain open.
+Both profiles stay manual. The earlier AFX sign-in audit remains specific to its historical source.
+
+
+DJM-S3 uses18 independent manufacturer-table CC inputs in a manual profile.
+Cached table text qualifies gain/EQ/Color/faders, direct Cue states and cross/master/headphone/blend.
+Direct table PDF bytes/screenshots were unavailable. No source byte hash or visual table claim is made.
+The operating manual page21 visually confirms MIDI1/TOGGLE defaults. Source notes reset only their strip's pickup.
+No DJM450/250/S9 alias, stored-setting write, hardware output or automatic audio route is inferred.
+Full modes/lifecycle, external deck outputs, analogue ownership and physical acceptance remain open.
+
+R390 adds `legacy_djay_docks.py` and two distinct21-input manual profiles from pinned public factory presets. They require exposed MIDI ports. Original30-pin/Lightning authentication and audio remain open. Unqualified rotary streams, private custom classes and hardware writes stay inactive.232 source checks, nine native tests and the iPad framework pass. Earlier273 recipes remain identical.
+
+R391 adds `vci300_mkii.py`. The official versioned Mixxx manual explicitly states unchanged MIDI mapping. The distinct MKII profile reuses the reviewed61 inputs/24 lamps and existing lifecycle bytes.234 source checks,12 native tests and the iPad framework pass. Audio and hardware-specific calibration remain open. The original profile and all earlier recipes remain identical.
+
+R392 pins all487 public VirtualDJ product entries in `sources.lock.json`. `virtualdj_inventory.py` retains product URLs/categories and explicit name resolutions. Two passive timecode media stay outside digital-device model counts. The18 audio interfaces/DVS kits do not become MIDI controllers. The catalogue adds210 records and now tracks552 physical models. All276 runtime recipes remain byte-identical.237 source checks pass. Wider manufacturer coverage, all238 first-protocol gaps and complete feature parity remain open.
+
+R393 adds `legacy_djm_mixers.py` with independent900NXS,850 and750MK2 manufacturer references. Each manual profile has32 absolute inputs and direct Cue states. Only750MK2 has its documented source-selector pickup resets.240 source checks, eight native tests and the iPad framework pass. Earlier276 recipes remain identical. Hardware processing, full modes and external audio remain separate.
+
+
+R394 adds independent900SRT32-input, original75028-input and250MK218-input manual mixers in `more_legacy_djm_mixers.py`. A small shared field builder retains each caller's explicitly reviewed strip layout and Color presence. SRT uses C/A/B/D. Original750 has no strip Color or inherited MK2 selector.250MK2 table evidence remains cached text without table bytes/screenshots; its own operating manual is pinned.243 source checks, ten native tests and iPad framework compilation pass. Earlier279 recipes remain identical.
+
+
+R395 adds separate original2000 and2000NXS manufacturer facts in `djm2000_mixers.py`. Each manual profile has32 Zone1 mixer inputs, with required Zone1 MIDI1/Toggle and editable touchscreen Zone2 MIDI2. No source report or touchscreen action is inferred.246 source checks,11 native tests and iPad framework compilation pass. Earlier282 recipes remain identical.
+
+
+R396 adds `legacy_pioneer_transport.py`: T1 manual60-input/14-lamp mappings with three-layer mixer aliases and release-only alternate Cue; MEP7000 automatic26-input controls with independently qualified speed jogs, centred pitch and direct loading. T1 feedback needs separate manual opt-in and has no automatic startup/shutdown.249 source checks,12 native tests and iPad framework compilation pass. Earlier284 recipes remain identical.
+
+
+R397 adds independent `instinct_p8.py` facts:86 inputs,256-count wheel/contact streams, native count/1024 Shift pitch, four cue pads per side, loops, A/B plus opt-in Shift C/D mixer fields and22 bounded lamps. Both Shift edges use the existing per-side cleanup contract.252 source checks,11 native tests and iPad framework compilation pass. Earlier286 recipes remain identical.
+
+
+R398 adds `universal_dj.py`:111 inputs and30 lamps from independently reconciled manufacturer djay/Traktor archives and current factory XML. Explicit pitch pairs1/33,2/34 and55/71,56/72 stay separate. Current mixer consensus resolves the older PDF errors. The fixed A/B USB core keeps Bluetooth/tablet and automatic audio open.255 source checks,11 native tests and iPad framework compilation pass. Earlier287 recipes remain identical.
+
+
+R399 adds `wave_usb.py`:42 inputs and14 lamps, composed MODE Shift from both manufacturer djay mappings, Shift loading/browse and512-count contact/wheel jogs from the manufacturer VirtualDJ definition. Current DJUCED720 calibration, ambiguous PFL, ring/setup and Bluetooth/tablet remain open.258 source checks, ten native tests and iPad framework compilation pass. Earlier288 recipes remain identical.

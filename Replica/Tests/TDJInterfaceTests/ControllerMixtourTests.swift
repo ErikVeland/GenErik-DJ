@@ -28,7 +28,7 @@ import Testing
     #expect(profile.rawValue == "Reloop Mixtour")
     #expect(ControllerFactoryProfile.matching(["Mixtour Pro"], automaticOnly: true) == nil)
     #expect(ControllerFactoryProfile.matching(["Mixtour", "Mixtour Pro"], automaticOnly: true) == nil)
-    #expect(!profile.hasAutomaticSplitOutput)
+    #expect(profile.hasAutomaticSplitOutput)
     let bindings = profile.bindings(source: 10)
     #expect(!bindings.contains { $0.action.isJog || $0.action == .tempoA || $0.action == .tempoB })
     let play = try #require(profile.feedback(destination: 20).first { $0.action == .playA })

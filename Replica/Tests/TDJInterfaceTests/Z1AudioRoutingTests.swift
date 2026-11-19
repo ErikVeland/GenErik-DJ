@@ -55,6 +55,7 @@ private let speaker = AudioOutputDevice(name: "iPad Speaker", wired: false)
     "Traktor Kontrol Z1", "Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct",
     "Behringer BCD3000", "Hercules DJ Control AIR", "Behringer CMD STUDIO 4a", "Stanton DJC.4", "Hercules P32 DJ",
     "Korg KAOSS DJ", "Reloop Digital Jockey 2 Interface Edition", "Numark Mixtrack Quad", "MixVibes U-Mix Control Pro",
+    "Reloop Mixtour", "Reloop Beatpad 2", "Behringer CMD STUDIO 2a",
 ])
 @MainActor func documentedControllerAudioRoutingRecoveryPreservesTransportWithoutSpeakerLeak(deviceName: String) throws
 {
@@ -105,6 +106,7 @@ private let speaker = AudioOutputDevice(name: "iPad Speaker", wired: false)
     "Traktor Kontrol Z1", "Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct",
     "Behringer BCD3000", "Hercules DJ Control AIR", "Behringer CMD STUDIO 4a", "Stanton DJC.4", "Hercules P32 DJ",
     "Korg KAOSS DJ", "Reloop Digital Jockey 2 Interface Edition", "Numark Mixtrack Quad", "MixVibes U-Mix Control Pro",
+    "Reloop Mixtour", "Reloop Beatpad 2", "Behringer CMD STUDIO 2a",
 ])
 @MainActor func documentedControllerAudioRoutingRepeatedDetectionDoesNotAlterSamples(deviceName: String) throws {
     let device = AudioOutputDevice(name: deviceName, wired: true)

@@ -14,11 +14,14 @@ def report(catalogue, runtime):
     profiles = runtime["profiles"]
     code_profiles = counts["automatic-profile"]
     automatic_models = [model for model in models if model["isPhysicalModel"] and model["zeroConfig"]["automaticControls"]]
+    physical_models = [model for model in models if model["isPhysicalModel"]]
     native_models = sum(model["implementation"] in {"native-accessory", "native-midi"} for model in automatic_models)
     player_count = sum("playerSupport" in model for model in models)
-    lines = ["# Controller catalogue — R169", "", "Reviewed 17 November 2026. The pinned software inventory is complete. The wider market audit and controller feature parity remain open.", "",
+    lines = ["# Controller catalogue — R169", "", "Base inventory reviewed 17 November 2026. Later profile reviews appear in the request ledger. The pinned software inventory is complete. The wider market audit and controller feature parity remain open.", "",
              "## Boundary and counts", "",
              f"- {len(catalogue['benchmarkRows'])} published Serato iOS rows, expanded to {sum(model['benchmark'] for model in models)} distinct model records.",
+             f"- {len(catalogue.get('djayRows', []))} pinned djay hardware rows, with per-platform limitations kept as competitor evidence.",
+             f"- {len(catalogue.get('virtualDJRows', []))} pinned VirtualDJ products, including two passive timecode media outside the digital-device count. Product listings remain competitor evidence.",
              f"- All {len(source_definitions)} Mixxx definitions at `{catalogue['upstreamRevision']}`, including alternative MIDI, HID and bulk mappings.",
              "- All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.",
         "- Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.",
@@ -26,6 +29,8 @@ def report(catalogue, runtime):
              f"- {len(profiles)} bundled data recipes, plus {code_profiles} existing code profiles. Most data recipes cover only part of the hardware.",
              f"- {sum(item['autoSelect'] for item in profiles) + code_profiles} factory profiles select core controls automatically for {len(automatic_models) - native_models} physical models.",
              f"- Existing native adapters provide automatic core controls for {native_models} other models.",
+             f"- {len(physical_models) - len(automatic_models)} physical models still lack automatic core controls.",
+             f"- {sum(not model.get('theoreticalSupport', {}).get('complete', False) for model in physical_models)} physical models still need complete theoretical support.",
              f"- Every one of the {sum(item['sourceInputCount'] for item in source_definitions):,} source input rows and {sum(item['sourceOutputCount'] for item in source_definitions):,} output rows has a conversion disposition.", "",
              "These counts do not establish hardware acceptance, complete pad modes, motor support, screens, audio routing or feature parity.",
              "Serato’s advertised total includes controllers, mixers, turntables, standalone units and accessories. It is not a count of full-feature controller mappings.", "",

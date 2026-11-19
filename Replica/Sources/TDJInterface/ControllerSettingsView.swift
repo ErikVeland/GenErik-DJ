@@ -15,6 +15,7 @@ struct ControllerSettingsView: View {
     @State private var originalZ1Attached = false
     @State private var connectedLights: [String] = []
     #if os(iOS)
+        @State private var connectingWirelessController = false
         @State private var importingPatternKits = false
         @State private var patternKitMessage: String?
     #endif
@@ -99,6 +100,20 @@ struct ControllerSettingsView: View {
             }
         }
         #if os(iOS)
+            .sheet(isPresented: $connectingWirelessController, onDismiss: {
+                if input.enabled { input.refreshSources() }
+            }) {
+                NavigationStack {
+                    ControllerBluetoothMIDIView()
+                        .navigationTitle("Wireless controllers")
+                        .navigationBarTitleDisplayMode(.inline)
+                        .toolbar {
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button("Done") { connectingWirelessController = false }
+                            }
+                        }
+                }
+            }
             .fileImporter(isPresented: $importingPatternKits, allowedContentTypes: [.json]) { result in
                 Task {
                     do {
@@ -149,6 +164,11 @@ struct ControllerSettingsView: View {
     private var midiSettings: some View {
         VStack(alignment: .leading, spacing: 12) {
             Toggle("MIDI input", isOn: Binding(get: { input.enabled }, set: enable))
+            #if os(iOS)
+                if input.enabled {
+                    Button("Connect wireless controller…") { connectingWirelessController = true }
+                }
+            #endif
             if input.enabled && input.sources.isEmpty {
                 Text("No MIDI inputs connected.").font(.caption).foregroundStyle(.secondary)
             }

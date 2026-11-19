@@ -4,12 +4,13 @@ import Testing
 
 @testable import TDJInterface
 
-@MainActor private func withVCI300(_ body: (ControllerMIDIConnection) throws -> Void) rethrows {
+@MainActor private func withVCI300(_ name: String = "VCI-300", _ body: (ControllerMIDIConnection) throws -> Void)
+    rethrows
+{
     let suite = "vci300-\(UUID().uuidString)"
     let preferences = UserDefaults(suiteName: suite)!
     defer { preferences.removePersistentDomain(forName: suite) }
     let input = ControllerMIDIConnection(preferences: preferences, factoryPacketSender: { _, _ in true })
-    let name = "VCI-300"
     input.sources = [.init(id: 10, reference: 100, name: name, identity: .init(id: 10, device: 1, names: [name]))]
     input.destinations = [.init(id: 20, reference: 200, name: name, identity: .init(id: 20, device: 1, names: [name]))]
     input.reconcileFactoryProfiles()
@@ -27,7 +28,7 @@ import Testing
     let data = try #require(profile.definition)
     #expect(data.inputs.count == 61 && data.outputs.count == 24)
     #expect(data.startup.count == 5 && data.shutdown.count == 5)
-    #expect(ControllerFactoryProfile.matching(["VCI-300MKII"], automaticOnly: true) == nil)
+    #expect(ControllerFactoryProfile.matching(["VCI-300MKII"], automaticOnly: true) != profile)
     #expect(data.outputs.first { $0.action == .playA }?.number == 114)
     #expect(data.outputs.first { $0.action == .cueB }?.number == 49)
     withVCI300 { input in
@@ -144,7 +145,8 @@ import Testing
     #expect(throws: Error.self) { try ControllerProfileCatalogue.decode(data) }
 }
 
-@Test @MainActor func controllerCatalogueVCI300NativeTouchStopsWithTheWheelAndPreservesSync() async throws {
+@Test(arguments: ["VCI-300", "VCI-300MKII"]) @MainActor
+func controllerCatalogueVCI300NativeTouchStopsWithTheWheelAndPreservesSync(_ name: String) async throws {
     var base = URL(fileURLWithPath: #filePath)
     for _ in 0..<4 { base.deleteLastPathComponent() }
     let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
@@ -164,13 +166,13 @@ import Testing
     }
     input.sources = [
         .init(
-            id: 10, reference: 100, name: "VCI-300",
-            identity: .init(id: 10, device: 1, names: ["VCI-300"]))
+            id: 10, reference: 100, name: name,
+            identity: .init(id: 10, device: 1, names: [name]))
     ]
     input.destinations = [
         .init(
-            id: 20, reference: 200, name: "VCI-300",
-            identity: .init(id: 20, device: 1, names: ["VCI-300"]))
+            id: 20, reference: 200, name: name,
+            identity: .init(id: 20, device: 1, names: [name]))
     ]
     input.reconcileFactoryProfiles()
     #expect(input.isInputActive(10))
@@ -189,4 +191,59 @@ import Testing
     model.refreshPlayback()
     #expect(model.playbackSnapshot?.a.touchActive == false)
     #expect(model.playbackSnapshot?.a.synced == sync)
+}
+
+@Test @MainActor func controllerCatalogueVCI300MKIIDistinctIdentityRetainsHeldCueAndReconnectCleanup() throws {
+    let original = try #require(ControllerFactoryProfile.matching(["VCI-300"], automaticOnly: true))
+    let mkii = try #require(ControllerFactoryProfile.matching(["VCI-300 MKII"], automaticOnly: true))
+    #expect(mkii != original && mkii.definition?.inputs.count == 61 && mkii.definition?.outputs.count == 24)
+    #expect(mkii.definition?.audioOutput == nil)
+    for alias in ["VCI-300MKII", "VCI-300 MKII", "VCI-300MK2", "Vestax VCI-300 MKII"] {
+        #expect(ControllerFactoryProfile.matching([alias], automaticOnly: true) == mkii)
+    }
+    withVCI300("VCI-300MKII") { input in
+        #expect(input.isInputActive(10) && mkii.bindings(source: 10).count == 61)
+        var events: [(ControllerActionTarget, Double)] = []
+        input.onTargetAction = { target, value in if !target.action.isJog { events.append((target, value)) } }
+        for (number, deck): (UInt8, DeckID) in [(36, .a), (55, .b)] {
+            for off: UInt8 in [0x80, 0x90] {
+                events.removeAll()
+                vciPacket([0x90, number, 127, number, 127, off, number, off == 0x80 ? 127 : 0], to: input)
+                #expect(events.map(\.1) == [1, 0] && events.allSatisfy { $0.0.deck == deck })
+            }
+        }
+        events.removeAll()
+        vciPacket([0x90, 36, 127, 55, 127], to: input)
+        let sources = input.sources
+        input.sources = []
+        input.reconcileFactoryProfiles()
+        #expect(events.map(\.1) == [1, 1, 0, 0])
+        input.sources = sources
+        input.reconcileFactoryProfiles()
+        events.removeAll()
+        vciPacket([0x90, 36, 127, 36, 0], to: input)
+        #expect(events.map(\.1) == [1, 0])
+    }
+}
+
+@Test @MainActor func controllerCatalogueVCI300MKIIPairedCountersAndPitchRetainIndependentNativeCodecs() {
+    withVCI300("VCI-300MKII") { input in
+        input.currentTargetValue = { _ in 0.5 }
+        var jogs: [(ControllerActionTarget, ControllerMIDIValue)] = []
+        var tempos: [(ControllerActionTarget, Double)] = []
+        input.onJogAction = { jogs.append(($0, $1)) }
+        input.onTargetAction = { target, value in
+            if target.action == .tempoA || target.action == .tempoB { tempos.append((target, value)) }
+        }
+        vciPacket([0xB0, 28, 127, 60, 127, 29, 0, 61, 1, 28, 0, 60, 0, 29, 0, 61, 0], to: input)
+        #expect(jogs.count == 2)
+        #expect(jogs.first { $0.0.deck == .a }?.1 == .relative(1))
+        #expect(jogs.first { $0.0.deck == .b }?.1 == .relative(-1))
+        #expect(jogs.allSatisfy { $0.0.argument == 1600 })
+        vciPacket([0xB0, 13, 64, 45, 0, 19, 64, 51, 0], to: input)
+        vciPacket([0xB0, 13, 127, 45, 96, 19, 0, 51, 0], to: input)
+        #expect(tempos.count == 4)
+        #expect(tempos.last { $0.0.deck == .a }?.1 == 1)
+        #expect(tempos.last { $0.0.deck == .b }?.1 == 0)
+    }
 }

@@ -4,7 +4,7 @@ import Testing
 
 @testable import TDJInterface
 
-private let pioneerSystemNames = ["XDJ-AZ", "XDJ-RX3", "XDJ-XZ", "DDJ-FLX6", "DDJ-800", "DDJ-SB3"]
+private let pioneerSystemNames = ["XDJ-AZ", "XDJ-RX3", "XDJ-XZ", "DDJ-FLX6", "DDJ-FLX6-GT", "DDJ-800", "DDJ-SB3"]
 
 @MainActor private func withPioneerSystem(
     _ name: String, decks: (() -> [DeckID])? = nil,
@@ -33,7 +33,7 @@ private let pioneerSystemNames = ["XDJ-AZ", "XDJ-RX3", "XDJ-XZ", "DDJ-FLX6", "DD
         #expect(profile.bindings(source: 10).allSatisfy { $0.anyChannel != true })
         #expect(profile.definition?.startup.isEmpty == true)
     }
-    for name in ["DDJ-FLX6-GT", "DDJ-SB2 clone", "DDJ-800SRT", "XDJ-AZ clone", "XDJ-RX4"] {
+    for name in ["DDJ-FLX6-GT clone", "DDJ-SB2 clone", "DDJ-800SRT", "XDJ-AZ clone", "XDJ-RX4"] {
         #expect(ControllerFactoryProfile.matching([name], automaticOnly: true) == nil)
     }
     #expect(ControllerFactoryProfile.matching(["XDJ-AZ", "XDJ-XZ"], automaticOnly: true) == nil)
