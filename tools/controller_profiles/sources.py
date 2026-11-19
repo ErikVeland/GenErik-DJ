@@ -133,6 +133,7 @@ def canonical(name):
 
 def split_models(name):
     shared = {
+        "Reloop CONTOUR": ["Reloop Contour Controller Edition", "Reloop Contour Interface Edition"],
         "Reloop Mixage": ["Reloop Mixage Interface Edition", "Reloop Mixage Interface Edition MK2", "Reloop Mixage Controller Edition"],
         "Allen&Heath Xone K1/K2/K3": ["Allen & Heath Xone:K1", "Allen & Heath Xone:K2", "Allen & Heath Xone:K3"],
         "American Audio VMS4/4.1": ["American Audio VMS4", "American Audio VMS4.1"],

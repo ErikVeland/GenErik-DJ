@@ -2734,6 +2734,57 @@
         }
       ],
       "result": "Separate primary tables override copied PCDJ errors. 14/19MXR Controller inputs use raw2/3 while lamps remain raw0. 10MXR keeps its separate raw0/1 manual hardware-mixer contract and Sync54. 14/19 use Sync55. Alternate positive commands and hardware/route writes remain inactive. Full modes/audio/USB/physical acceptance remain open."
+    },
+    {
+      "request": "R423",
+      "sources": [
+        {
+          "model": "Reloop CONTOUR",
+          "url": "https://www.reloop.com/media/catalog/product/pdf/2/2/3/223397_Reloop_IM.pdf",
+          "sha256": "9a0c35e02ceb00fe232e9049114301378ab92aaba1c7f21b1c0600c7dab336d5",
+          "files": [
+            {
+              "edition": "Controller Edition",
+              "url": "https://www.reloop.com/media/catalog/product/pdf/2/2/3/223397_Reloop_IM.pdf",
+              "cachePath": "TestBuilds/r423/upstream/contour-ce.pdf",
+              "sha256": "9a0c35e02ceb00fe232e9049114301378ab92aaba1c7f21b1c0600c7dab336d5",
+              "reviewedPages": [
+                14,
+                15,
+                16
+              ]
+            },
+            {
+              "edition": "Interface Edition",
+              "url": "https://www.reloop.com/media/catalog/product/pdf/2/2/3/223396_Reloop_IM.pdf",
+              "cachePath": "TestBuilds/r423/upstream/contour-ie.pdf",
+              "sha256": "7c107a78d1d046414fc7cec312c3dbe697e11b6c49cbf29a7ec5de681e38847a",
+              "reviewedPages": [
+                38,
+                39,
+                40
+              ]
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://www.reloop.com/reloop-contour-controller-edition"
+            },
+            {
+              "url": "https://www.reloop.com/reloop-contour-interface-edition"
+            },
+            {
+              "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+              "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+              "archiveMember": "Applications/DEX4.app/Contents/Resources/controllers/Reloop__Contour_CE_IE.js",
+              "memberSHA256": "33d9ad6cff1b57b0933a85e1a9337675b2af7ac8428d4ca7bee2184c698f3ad5",
+              "review": "Read-only corroboration of channel0..3 targets and source scratch scale150. Primary charts override copied software-role assumptions."
+            }
+          ],
+          "review": "Separate manufacturer charts independently qualify the same default-channel input and lamp addresses for both editions. Native channels0..3 target A/B/C/D. Normal notes use Shift +64 release-only aliases; alternate positive commands remain inactive. Play39/Cue38/Sync40, eight independently addressed Hot Cues, Load9, native beat jumps20/21, Loop18/Reloop19, binary-offset loop-size22/browser9 and filter45 are explicit native controls. Normal47 and Scratch48 wheel/contact families use owned touch and source scale150; primary reports raw40±N. Other wheel modes, no-touch direction notes, modified positive commands and physical scale remain unqualified. Deck-selection notes5..8 retire owned holds across all targets; normal wheel-mode32..35 reports retire only their deck, and releases preserve fresh contacts. Note8 is a shifted deck selector, never Key Lock; there is no pitch slider or primary pitch-bend input. Shifted filter/pan CC109/110 are not treated as headphone/master knobs. No source software, startup, channel changer, stored setting or audio command runs."
+        }
+      ],
+      "result": "Separate CE and IE manufacturer charts qualify one shared default-channel wire recipe and two edition inventory rows. The generic VirtualDJ family reference is retained on both rows. Normal and Scratch contact/jog, eight Hot Cues per deck and Shift release aliases are implemented. Copied Key Lock/pitch/global-role assumptions are rejected. Full modes/audio/host/calibration and physical acceptance remain open."
     }
   ]
 }

@@ -16,16 +16,18 @@ class VirtualDJInventoryTests(unittest.TestCase):
         self.assertEqual(len({r['url'] for r in source['rows']}), 487)
         self.assertEqual(sum(r['role'] == 'dvs-medium' for r in source['rows']), 2)
         catalogue = json.loads((ROOT / 'docs/coordination/controller-catalogue.json').read_text())
-        from sources import canonical
+        from sources import canonical, split_models
         by = {m['id']: m for m in catalogue['models']}
         for row in source['rows']:
             if row['role'] == 'dvs-medium':
                 self.assertNotIn(canonical(row['name']), by)
                 continue
-            self.assertTrue(canonical(row['name']) in by, row['sourceName'])
-            evidence = by[canonical(row['name'])]['comparisonSupport']['virtualDJ']
-            self.assertEqual(evidence['sourceName'], row['sourceName'])
-            self.assertEqual(evidence['category'], row['category'])
+            names = split_models(row['name']) if row['name'] == 'Reloop CONTOUR' else [row['name']]
+            for name in names:
+                self.assertTrue(canonical(name) in by, name)
+                evidence = by[canonical(name)]['comparisonSupport']['virtualDJ']
+                self.assertEqual(evidence['sourceName'], row['sourceName'])
+                self.assertEqual(evidence['category'], row['category'])
         for name in ['AlphaTheta DJM-V5', 'Roland DJ-808', 'Numark NS7 III']:
             model = by[canonical(name)]
             self.assertEqual(model['implementation'], 'protocol-needed')

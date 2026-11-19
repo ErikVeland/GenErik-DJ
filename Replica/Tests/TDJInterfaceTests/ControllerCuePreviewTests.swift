@@ -2987,6 +2987,18 @@ func controllerCatalogueLegacyRaneMixerAndLoopsKeepRealAudioAndSavedSync(_ name:
     }
 }
 
+@Test(arguments: ["Reloop Contour Controller Edition", "Reloop Contour Interface Edition"]) @MainActor
+func controllerCatalogueContourKeepsRealAudioAndSavedSync(_ name: String) async throws {
+    try await withControllerCuePlayback(name) { model, input in
+        cuePreviewPacket([0x90, 38, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x91, 6, 127, 0x90, 39, 127, 39, 0], source: 10); input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
 @Test(arguments: ["American Audio 10MXR", "American Audio 14MXR", "American Audio 19MXR"]) @MainActor
 func controllerCatalogueMXRKeepsRealAudioAndSavedSync(_ name: String) async throws {
     try await withControllerCuePlayback(name, manual: name == "American Audio 10MXR") { model, input in

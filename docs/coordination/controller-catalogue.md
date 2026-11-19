@@ -10,12 +10,12 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 164 Mixxx definitions at `20f2c218ae1b762ac39fd76ff408c8428056f4f7`, including alternative MIDI, HID and bulk mappings.
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
-- 561 total catalogue records. 554 name physical models. The remainder identify software endpoints or protocol families.
-- 338 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 213 factory profiles select core controls automatically for 221 physical models.
+- 562 total catalogue records. 555 name physical models. The remainder identify software endpoints or protocol families.
+- 339 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 214 factory profiles select core controls automatically for 223 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
-- 327 physical models still lack automatic core controls.
-- 554 physical models still need complete theoretical support.
+- 326 physical models still lack automatic core controls.
+- 555 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
 These counts do not establish hardware acceptance, complete pad modes, motor support, screens, audio routing or feature parity.
@@ -223,13 +223,13 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 17 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 215 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 217 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
 | partial-midi-profile | 127 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 178 | The pinned references contain no implemented mapping for this model. |
+| protocol-needed | 177 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -733,7 +733,8 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Reloop Beatpad | primary | native-midi | [Reference](../../docs/coordination/beatpad-native.md) |
 | Reloop Beatpad 2 | primary | automatic-core-profile | [Reference](https://www.reloop.com/djing-with-smart-devices-controllercomparisonchart) |
 | Reloop Buddy | primary | partial-midi-profile | [Reference](https://www.reloop.com/reloop-buddy) |
-| Reloop CONTOUR | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=CONTOUR) |
+| Reloop Contour Controller Edition | primary | automatic-core-profile | [Reference](https://www.reloop.com/media/catalog/product/pdf/2/2/3/223397_Reloop_IM.pdf) |
+| Reloop Contour Interface Edition | primary | automatic-core-profile | [Reference](https://www.reloop.com/media/catalog/product/pdf/2/2/3/223397_Reloop_IM.pdf) |
 | Reloop DIGITAL JOCKEY | primary | partial-midi-profile | [Reference](https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe) |
 | Reloop Digital Jockey 2 Controller | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop%20Digital%20Jockey%202%20Controller%20Edition.midi.xml) |
 | Reloop Digital Jockey 2 Interface Edition | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Digital-Jockey-2-IE.midi.xml) |
