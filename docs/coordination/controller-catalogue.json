@@ -42673,17 +42673,22 @@
     },
     {
       "id": "novationtwitch",
-      "name": "Novation TWITCH",
+      "name": "Novation Twitch",
       "manufacturer": "Novation",
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://fael-downloads-prod.focusrite.com/customer/dev/s3fs-public/novation/downloads/25322/twitch-programmers-reference2.pdf",
         "https://virtualdj.com/products/hardware.html?model=TWITCH"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:novation-twitch-basic-core"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Novation Twitch",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Novation TWITCH",
@@ -42691,40 +42696,147 @@
           "source": "https://virtualdj.com/products/hardware.html?model=TWITCH"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "browseGroups",
+        "crossfader",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "filterToggleA:a",
+        "filterToggleA:c",
+        "filterToggleB:b",
+        "filterToggleB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "jogA:a",
+        "jogA:c",
+        "jogB:b",
+        "jogB:d",
+        "jogTouchA:a",
+        "jogTouchA:c",
+        "jogTouchB:b",
+        "jogTouchB:d",
+        "jumpBackA:a",
+        "jumpBackA:c",
+        "jumpBackB:b",
+        "jumpBackB:d",
+        "jumpForwardA:a",
+        "jumpForwardA:c",
+        "jumpForwardB:b",
+        "jumpForwardB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "openGroup",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "seekA:a",
+        "seekA:c",
+        "seekB:b",
+        "seekB:d",
+        "shift",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d",
+        "tempoA:a",
+        "tempoA:c",
+        "tempoB:b",
+        "tempoB:d",
+        "tempoResetA:a",
+        "tempoResetA:c",
+        "tempoResetB:b",
+        "tempoResetB:d"
+      ],
+      "inputBindingCount": 139,
+      "feedbackBindingCount": 44,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Basic MIDI, established by the documented reset through the paired output. Close other DJ software. A/C and B/D select the shared Load targets; C/D require four-deck opt-in. Hot Cues and Loop select firmware pad pages. Shift is composed across both sides. Configure audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Advanced ITCH mode/arbitration, source-specific FX/Freeze/BeatGrid/sampler, complete Shift/UI/feedback/lifecycle/audio and physical/iPad/A10X acceptance remain open. Native fixed loops use0.25/0.5/1/2/4/8/16/32 beats; Back/Fwd use native beat jumps. The selected127 software SWIPE scale and relative pitch range require physical calibration. No private arbitration, audio route, direct-monitor control, all-LED-off or advanced-mode write is sent."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -353416,6 +353528,41 @@
         },
         {
           "reason": "Bluetooth/tablet transport, ring animation/setup, meters, EQ kill lamps, source-specific right-MODE headphone functions, PFL wire ambiguity, FX/sampler, Hot Cue delete, complete modes/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. The manufacturer VirtualDJ512 calibration differs from current DJUCED720. No state query or SysEx is sent."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:novation-twitch-basic-core",
+      "name": "Novation Twitch",
+      "transport": "midi",
+      "source": {
+        "url": "https://fael-downloads-prod.focusrite.com/customer/dev/s3fs-public/novation/downloads/25322/twitch-programmers-reference2.pdf",
+        "cacheName": "twitch-programmers-reference.pdf",
+        "sha256": "466f07f6feb7192f2db720734397c71656a85a19da72bd0d6cfc3c4d62d26fdf",
+        "relatedSources": [
+          {
+            "url": "https://downloads.novationmusic.com/novation/novation-miscellaneous/twitch"
+          },
+          {
+            "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+            "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+            "member": "Applications/DEX4.app/Contents/Resources/controllers/Novation__Twitch.js",
+            "memberSHA256": "0505e8b0ff0147dd75c746556086479e15a778a6e8bd5b1164079366df2b59f6",
+            "evidenceLimit": "Independent software-selected127 scratch scale only. No script or source action is copied or executed."
+          }
+        ],
+        "review": "Manufacturer programmer reference pages4/5,9/10,12/13 and16 were visually checked. Basic reset B7/00/00 initialises the controller and reports visible analogue controls. Basic deck channels are wire7/8/9/10. Selector notes0 on7/8 choose A/C and B/D; shared load notes82/83 stay on7. Firmware pages the other deck inputs and all selected feedback. Positive strip-note71 velocities encode finger position, so every positive value is contact. SWIPE CC53 is signed twos complement; DROP52 is absolute. Native chooses beat jumps for Back/Fwd, eight fixed loop lengths, composed Shift and127 software scrub scaling; these are app layout/calibration choices, not manufacturer physical turn calibration. PCDJ DEX public mapping independently uses127 software scratch scaling. Automatic software banking is limited to load actions with paired bounded reset setup and no load feedback. Advanced ITCH arbitration is expressly outside this public guide. No software action/script is copied or executed. Complete arbitration, modes, audio, pitch/strip calibration and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 139,
+      "implementedOutputCount": 44,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Advanced ITCH mode/arbitration, source-specific FX/Freeze/BeatGrid/sampler, complete Shift/UI/feedback/lifecycle/audio and physical/iPad/A10X acceptance remain open. Native fixed loops use0.25/0.5/1/2/4/8/16/32 beats; Back/Fwd use native beat jumps. The selected127 software SWIPE scale and relative pitch range require physical calibration. No private arbitration, audio route, direct-monitor control, all-LED-off or advanced-mode write is sent."
         }
       ]
     }

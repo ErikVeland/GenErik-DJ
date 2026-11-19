@@ -1556,6 +1556,44 @@
         "No ambiguous channel4 CC9 PFL template, ring/setup bytes, query, meter or EQ-kill feedback is imported. Fourteen selected lamps clear without SysEx.",
         "Bluetooth/tablet, complete modes/audio/lifecycle/calibration and physical/iPad/A10X acceptance remain open."
       ]
+    },
+    {
+      "request": "R400",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "model": "Novation Twitch",
+          "url": "https://fael-downloads-prod.focusrite.com/customer/dev/s3fs-public/novation/downloads/25322/twitch-programmers-reference2.pdf",
+          "cacheName": "twitch-programmers-reference.pdf",
+          "sha256": "466f07f6feb7192f2db720734397c71656a85a19da72bd0d6cfc3c4d62d26fdf",
+          "relatedSources": [
+            {
+              "url": "https://downloads.novationmusic.com/novation/novation-miscellaneous/twitch"
+            },
+            {
+              "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+              "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+              "member": "Applications/DEX4.app/Contents/Resources/controllers/Novation__Twitch.js",
+              "memberSHA256": "0505e8b0ff0147dd75c746556086479e15a778a6e8bd5b1164079366df2b59f6",
+              "evidenceLimit": "Independent software-selected127 scratch scale only. No script or source action is copied or executed."
+            }
+          ],
+          "review": "Manufacturer programmer reference pages4/5,9/10,12/13 and16 were visually checked. Basic reset B7/00/00 initialises the controller and reports visible analogue controls. Basic deck channels are wire7/8/9/10. Selector notes0 on7/8 choose A/C and B/D; shared load notes82/83 stay on7. Firmware pages the other deck inputs and all selected feedback. Positive strip-note71 velocities encode finger position, so every positive value is contact. SWIPE CC53 is signed twos complement; DROP52 is absolute. Native chooses beat jumps for Back/Fwd, eight fixed loop lengths, composed Shift and127 software scrub scaling; these are app layout/calibration choices, not manufacturer physical turn calibration. PCDJ DEX public mapping independently uses127 software scratch scaling. Automatic software banking is limited to load actions with paired bounded reset setup and no load feedback. Advanced ITCH arbitration is expressly outside this public guide. No software action/script is copied or executed. Complete arbitration, modes, audio, pitch/strip calibration and physical/iPad/A10X acceptance remain open."
+        },
+        {
+          "model": "Roland DJ-707M",
+          "url": "https://static.roland.com/assets/media/pdf/DJ-707M_MIDI_Imple_Chart_jpn01_W.pdf",
+          "sha256": "1e36cb927bb1248f09cb0404575b81c35b850d0f29995ee5f195ee1333e2400e",
+          "finding": "Public model-specific MIDI chart recovered. This does not establish the iPad MIDI transport."
+        },
+        {
+          "model": "Roland DJ-707M",
+          "url": "https://static.roland.com/assets/media/pdf/DJ-707M_eng01_W.pdf",
+          "sha256": "0207dab3084c6f52b0ecd05aeb99f40c6ec094ddb94a1332a66741fbe62facbb",
+          "finding": "Owner manual page22 limits iOS Generic PC-B to audio playback and explicitly excludes DJ software. Standalone MIDI uses PC-A. No Generic PC-B controller claim or inherited platter calibration is added."
+        }
+      ],
+      "result": "Twitch adds139 automatic Basic inputs and44 static lamps. Automatic dynamic banking is restricted to paired load-only profiles. Public-source discovery continues without assuming private SDK access. DJ-707M iPad transport remains open."
     }
   ]
 }

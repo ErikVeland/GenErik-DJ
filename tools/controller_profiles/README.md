@@ -1104,3 +1104,6 @@ R398 adds `universal_dj.py`:111 inputs and30 lamps from independently reconciled
 
 
 R399 adds `wave_usb.py`:42 inputs and14 lamps, composed MODE Shift from both manufacturer djay mappings, Shift loading/browse and512-count contact/wheel jogs from the manufacturer VirtualDJ definition. Current DJUCED720 calibration, ambiguous PFL, ring/setup and Bluetooth/tablet remain open.258 source checks, ten native tests and iPad framework compilation pass. Earlier288 recipes remain identical.
+
+
+R400 adds independent `twitch_basic.py` facts from the public Novation programmer guide:139 Basic inputs,44 static lamp mappings, source-local A/C and B/D loads, contact-gated signed SWIPE and absolute DROP. Automatic software banking is limited to paired load-only profiles. Advanced arbitration, full modes/audio and physical calibration remain open.261 source checks,19 native tests and iPad framework compilation pass. Earlier289 recipes remain identical.

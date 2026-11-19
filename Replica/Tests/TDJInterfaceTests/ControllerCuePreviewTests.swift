@@ -2709,3 +2709,18 @@ func controllerCatalogueLegacyDJMDirectCueKeepsAppStartedRealAudioSynced(_ name:
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueTwitchBasicStripAndBankCleanupRestoreRealAudioSync() async throws {
+    try await withControllerCuePlayback("Twitch") { model,input in
+        cuePreviewPacket([0x97,22,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x87,22,127,0x97,23,127,23,0,71,1,0xB7,53,3],to:input)
+        _ = model.playback.core.renderOffline(frames:4096)
+        cuePreviewPacket([0x97,0,127,0,0],to:input)
+        let audio = model.playback.core.renderOffline(frames:4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

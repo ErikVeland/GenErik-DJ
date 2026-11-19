@@ -241,12 +241,12 @@ struct ControllerProfileData: Decodable, Sendable {
     }
 
     /**
-     * Limits software bank routing to explicit manual side selectors without unqualified light feedback.
+     * Limits automatic bank routing to paired load-only profiles with static feedback.
      */
     private var validDeckBanks: Bool {
         let selectors = (bankChanges ?? []).filter { $0.deckBank != nil }
         guard !selectors.isEmpty || inputs.contains(where: { $0.deckBank != nil }) else { return true }
-        return !autoSelect && outputs.isEmpty && inputProtocol == nil && role == nil
+        return ((!autoSelect && outputs.isEmpty) || hasAutomaticLoadBanks) && inputProtocol == nil && role == nil
             && Set(selectors.compactMap(\.deckBank)).count == selectors.count
             && selectors.allSatisfy { selector in inputs.contains { $0.deckBank == selector.deckBank } }
             && inputs.allSatisfy { input in
@@ -273,7 +273,14 @@ struct ControllerProfileData: Decodable, Sendable {
             }
     }
 
-    var requiresPairedSetup: Bool { hasDelayedStartup || inputProtocol?.setupInputMode != nil }
+    private var hasAutomaticLoadBanks: Bool {
+        autoSelect && inputs.contains { $0.deckBank != nil }
+            && inputs.allSatisfy { $0.deckBank == nil || $0.action == .loadA || $0.action == .loadB }
+            && !startup.isEmpty && !shutdown.isEmpty
+            && outputs.allSatisfy { $0.action != .loadA && $0.action != .loadB }
+    }
+
+    var requiresPairedSetup: Bool { hasDelayedStartup || inputProtocol?.setupInputMode != nil || hasAutomaticLoadBanks }
 
     var hasDelayedStartup: Bool { startupDelaysMilliseconds?.contains { $0 > 0 } == true }
 

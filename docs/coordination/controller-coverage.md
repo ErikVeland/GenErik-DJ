@@ -5260,3 +5260,24 @@ The manufacturer VirtualDJ device definition explicitly gives512 full-turn count
 Validation:258 Python checks and ten native tests passed, including the162-profile automatic held-Cue corpus. Fixtures check both MODE press/release orders and release forms, Shift loading on both decks, contact/wheel separation and signed64, source ownership, pickup, Shift-independent mixer/pitch, cue/loop/library families, lamp bytes and stop cleanup. A real-WAV fixture retains finite, synced playback after Cue and contact mode cleanup. The iPad framework compiled and its bundled resource matches the source. All288 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r399/validation.json`.
 
 The catalogue has289 recipes for552 physical models. Automatic core coverage increases to201, with351 without automatic core. First-protocol gaps fall from226 to225. Bluetooth/tablet transport, ring animation, full modes/lifecycle/audio/calibration, full theoretical support and physical/iPad/A10X acceptance remain open.
+
+
+## R400 Twitch basic MIDI and bounded load-bank routing
+
+Assumption: the published Basic-mode reset establishes A/B bank state. Reuse the existing source-local bank engine for the two shared load buttons. Automatic banking is limited to load actions, paired bounded startup/shutdown and unbanked feedback. Other automatic banked actions remain invalid.
+
+- [x] Pin and visually review the manufacturer Basic-mode, page, contact and lifecycle contracts.
+- [x] Add schema guards and fixtures for automatic load-only bank routing.
+- [x] Add selected native Basic controls, source-local contact and bounded feedback.
+- [x] Verify both load banks, source/deck isolation, pickup, cleanup and real-WAV Sync.
+- [x] Run source/native checks, compile the iPad framework and preserve earlier recipes.
+
+The manufacturer programmer guide qualifies Basic reset, four firmware MIDI pages, the two fixed-channel Load buttons, touch contact, SWIPE/DROP and selected lamp values. The139-input core uses44 static lamps. The existing bank engine now permits automatic dynamic targets only for Load, with bounded paired startup/shutdown and no Load feedback. Other automatic banked actions still fail catalogue validation. A missing output or failed reset blocks input. Reconnection resets software A/B state and sends the documented Basic reset; physical reset/bank equivalence remains unverified.
+
+All positive contact velocities are accepted because they encode strip position. SWIPE is signed CC53 and stops on release, Shift, pad page or deck selection. DROP is absolute CC52. Firmware retains four-deck lamp pages; no feedback follows the software Load bank. Native chooses composed Shift, beat jumps, eight fixed loop lengths and127 software scrub scaling. These are explicit app choices. They do not establish source-software feature parity or physical calibration. No direct-monitor, advanced-mode, private arbitration, audio-route or all-LED-off write is sent.
+
+Validation:261 Python checks and19 native tests passed, including163 automatic held-Cue profiles. Tests cover schema rejection, paired reset failures, both load selectors and release forms, source isolation, four-deck opt-in, reconnect, transport, cue and loop pads, relative tempo, every positive strip-contact range, signed SWIPE, DROP, pickup, composed Shift, page cleanup, exact shutdown and finite synced real-WAV playback. The iPad framework compiled and its bundled resource matches the source. All289 earlier recipes remain identical. The first native run retained two fixture-callback failures; the corrected fixture passes. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r400/validation.json`.
+
+The catalogue has290 recipes for552 physical models:202 automatic core and350 without automatic core. First-protocol gaps fall to224. Full theoretical support remains0/552. Advanced arbitration, full modes/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open.
+
+The public Roland707M MIDI chart was also recovered. Its owner manual explicitly excludes DJ software from the iOS Generic PC-B playback path; MIDI control uses PC-A. The public chart therefore does not close its iPad transport gap.
