@@ -170,3 +170,64 @@ import Testing
     other["invalidatingSelectors"] = [["channel": 4, "number": 0]]
     #expect(throws: (any Error).self) { try ControllerProfileCatalogue.decode(data([unknown, other])) }
 }
+
+@Test @MainActor func controllerCatalogueManualPadModesInitialiseRestoreAndSurviveOtherDiscovery() throws {
+    let suite = "manual-pad-modes-\(UUID().uuidString)"
+    let preferences = UserDefaults(suiteName: suite)!
+    defer { preferences.removePersistentDomain(forName: suite) }
+    let p = try #require(ControllerFactoryProfile.matching(["Vestax VCI-380"]))
+    func connection() -> ControllerMIDIConnection {
+        let input = ControllerMIDIConnection(preferences: preferences, factoryInputConnector: { _ in true })
+        input.sources = [
+            .init(
+                id: 10, reference: 10, name: "Manual bridge",
+                identity: .init(id: 10, device: 10, names: ["Manual bridge"]))
+        ]
+        input.reconcileFactoryProfiles()
+        return input
+    }
+    let input = connection(); input.select(10); input.applyFactoryProfile(p)
+    var events: [ControllerActionTarget] = []; input.onTargetAction = { target, _ in events.append(target) }
+    func packet(_ bytes: [UInt8], to target: ControllerMIDIConnection) {
+        target.receiveBytes(bytes, source: 10); target.flushPendingActions()
+    }
+    packet([0x97, 60, 127, 60, 0], to: input); #expect(events.isEmpty)
+    packet([0x97, 56, 127, 56, 0, 60, 127, 60, 0], to: input)
+    #expect(events == [.init(.hotcue1A, deck: .a)])
+    input.sources.append(
+        .init(
+            id: 11, reference: 11, name: "Mixtrack Pro FX",
+            identity: .init(id: 11, device: 11, names: ["Mixtrack Pro FX"])))
+    input.reconcileFactoryProfiles(); events.removeAll()
+    packet([0x97, 60, 127, 60, 0], to: input); #expect(events == [.init(.hotcue1A, deck: .a)])
+    let restored = connection(); var restoredEvents: [ControllerActionTarget] = []
+    restored.onTargetAction = { target, _ in restoredEvents.append(target) }
+    packet([0x97, 60, 127, 60, 0], to: restored); #expect(restoredEvents.isEmpty)
+    packet([0x97, 56, 127, 56, 0, 60, 127, 60, 0], to: restored)
+    #expect(restoredEvents == [.init(.hotcue1A, deck: .a)])
+    restoredEvents.removeAll(); packet([0x99, 56, 127, 56, 0, 0x97, 60, 127, 60, 0], to: restored);
+    #expect(restoredEvents.isEmpty)
+}
+
+@Test @MainActor func controllerCatalogueManualPadModesResetOnMissingSourceAndUseDocumentedInitialMode() throws {
+    let suite = "manual-pad-reset-\(UUID().uuidString)"; let preferences = UserDefaults(suiteName: suite)!
+    defer { preferences.removePersistentDomain(forName: suite) }
+    let input = ControllerMIDIConnection(preferences: preferences, factoryInputConnector: { _ in true })
+    let source = ControllerMIDIConnection.Source(
+        id: 10, reference: 10, name: "Manual bridge", identity: .init(id: 10, device: 10, names: ["Manual bridge"]))
+    input.sources = [source]; input.select(10)
+    let p = try #require(ControllerFactoryProfile.matching(["Vestax VCI-380"]))
+    input.applyFactoryProfile(p)
+    var events: [ControllerActionTarget] = []; input.onTargetAction = { target, _ in events.append(target) }
+    input.receiveBytes([0x97, 56, 127, 56, 0, 60, 127, 60, 0], source: 10); input.flushPendingActions()
+    #expect(events == [.init(.hotcue1A, deck: .a)])
+    input.sources = []; input.reconcileFactoryProfiles()
+    input.sources = [source]; input.reconcileFactoryProfiles(); events.removeAll()
+    input.receiveBytes([0x97, 60, 127, 60, 0], source: 10); input.flushPendingActions(); #expect(events.isEmpty)
+    input.receiveBytes([0x97, 56, 127, 56, 0, 60, 127, 60, 0], source: 10); input.flushPendingActions()
+    #expect(events == [.init(.hotcue1A, deck: .a)])
+    let proFX = try #require(ControllerFactoryProfile.matching(["Mixtrack Pro FX"]))
+    input.select(10); input.applyFactoryProfile(proFX); events.removeAll()
+    input.receiveBytes([0x94, 20, 127, 20, 0], source: 10); input.flushPendingActions()
+    #expect(events == [.init(.hotcue1A, deck: .a)])
+}

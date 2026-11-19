@@ -4041,6 +4041,28 @@
         }
       ],
       "result": "Independent manual144-input four-deck factory-channel Track core with32 optional lamps.369 source/10 native checks and iPad framework compilation pass. All374 earlier recipes remain identical. Full modes/audio/lifecycle and physical acceptance remain open."
+    },
+    {
+      "request": "R449",
+      "sources": [
+        {
+          "url": "https://static.roland.com/assets/media/pdf/DJ-707M_MIDI_Imple_Chart_jpn01_W.pdf",
+          "cachePath": "TestBuilds/r449/upstream/dj707m-midi-jpn.pdf",
+          "sha256": "1e36cb927bb1248f09cb0404575b81c35b850d0f29995ee5f195ee1333e2400e",
+          "finding": "Own three-page v1.02 chart includes numeric deck/pad/mixer assignments. Japanese headers, English function names. No sibling wire protocol is inherited."
+        },
+        {
+          "url": "https://static.roland.com/assets/media/pdf/DJ-707M_eng01_W.pdf",
+          "cachePath": "TestBuilds/r449/upstream/dj707m-manual.pdf",
+          "sha256": "0207dab3084c6f52b0ecd05aeb99f40c6ec094ddb94a1332a66741fbe62facbb",
+          "finding": "Own p22 iOS workflow uses PC-B Generic, explicitly excludes DJ software, and states controller MIDI leaves PC-A. No direct iPad controller route or public software mode/driver compatibility is inferred."
+        },
+        {
+          "url": "https://www.denondj.com/downloads",
+          "finding": "Fresh public index check: X1850 lists driver, firmware and user guide. The nearby MIDI Specification heading belongs to LC6000, not X1850. No X1850 MIDI chart is inferred from that heading."
+        }
+      ],
+      "result": "Manual pad-mode guards fixed and verified with26 native tests and iPad framework compilation.375 runtime recipes remain unchanged. DJ-707M protocol facts found, direct iPad route remains unqualified."
     }
   ]
 }

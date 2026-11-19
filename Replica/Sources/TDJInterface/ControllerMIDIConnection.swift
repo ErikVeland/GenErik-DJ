@@ -507,6 +507,9 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         if let data = preferences.data(forKey: Self.manualProfilesStorageKey), data.count <= 16_384,
             let saved = try? JSONDecoder().decode([Int32: ControllerFactoryProfile].self, from: data), saved.count <= 64 {
             manualFactoryProfiles = saved.filter { source, _ in bindings.contains { $0.source == source } }
+            for (source, profile) in manualFactoryProfiles {
+                factoryPadModes[source] = profile.definition?.inputModes.map { .init(modes: $0) }
+            }
         }
         if let data = preferences.data(forKey: Self.inputProtocolsStorageKey), data.count <= 4096,
             let saved = try? JSONDecoder().decode([Int32: ControllerProfileData.InputProtocol].self, from: data),
@@ -813,6 +816,14 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
 
     func reconcileFactoryProfiles(reassigning: Set<Int32> = []) {
         factorySetupFailure = nil
+        let presentSources = Set(sources.map(\.id))
+        for (source, profile) in manualFactoryProfiles {
+            guard presentSources.contains(source), let modes = profile.definition?.inputModes else {
+                factoryPadModes[source] = nil
+                continue
+            }
+            if factoryPadModes[source] == nil { factoryPadModes[source] = .init(modes: modes) }
+        }
         timedFactoryInputs = Set(sources.compactMap { source in
             guard let identity = source.identity,
                 let profile = ControllerFactoryProfile.matching(identity.names, automaticOnly: true),
@@ -873,7 +884,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             advanceFactorySetups()
             return
         }
-        var padModes: [Int32: ControllerPadModeState] = [:]
+        var padModes = factoryPadModes.filter { manualFactoryProfiles[$0.key] != nil && presentSources.contains($0.key) }
         for session in sessions {
             guard let modes = session.profile.definition?.inputModes else { continue }
             padModes[session.source] = factorySessions.contains(session)
@@ -1166,6 +1177,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         }
         releaseMomentaryActions(source: selected)
         manualFactoryProfiles[selected] = profile
+        factoryPadModes[selected] = profile.definition?.inputModes.map { .init(modes: $0) }
         setManualInputProtocol(profile.definition?.inputProtocol, source: selected)
         bindings.removeAll { $0.source == selected }
         bindings.append(contentsOf: replacement)
