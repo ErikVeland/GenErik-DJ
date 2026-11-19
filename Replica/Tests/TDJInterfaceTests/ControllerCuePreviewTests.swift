@@ -2987,6 +2987,19 @@ func controllerCatalogueLegacyRaneMixerAndLoopsKeepRealAudioAndSavedSync(_ name:
     }
 }
 
+@Test(arguments: ["Audiophony CDX6", "CITRONIC MPCD-X3", "Stanton CMP.800", "Synq DMC-1000"]) @MainActor
+func controllerCatalogueLegacySinglePlayerKeepsRealAudioAndSavedSync(_ name: String) async throws {
+    try await withControllerCuePlayback(name, manual: !name.hasPrefix("Synq")) { model, input in
+        input.receiveBytes([0x90, 46, 127], source: 10); input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x90, 69, 127, 0x80, 69, 127], source: 10); input.flushPendingActions()
+        input.receiveBytes([0x90, 2, 127, 2, 0], source: 10); input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
 @Test(arguments: ["Numark NDX800", "Numark NDX900"]) @MainActor
 func controllerCatalogueNDXLegacyKeepsRealAudioAndSavedSync(_ name: String) async throws {
     try await withControllerCuePlayback(name) { model, input in

@@ -399,6 +399,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private var spectraDecoders: [Int32: ControllerSpectraDecoder] = [:]
     @ObservationIgnored private var p1NanoDecoders: [Int32: ControllerP1NanoDecoder] = [:]
     @ObservationIgnored private var legacyUSBPlayerDecoders: [Int32: ControllerLegacyUSBPlayerDecoder] = [:]
+    @ObservationIgnored private var legacySinglePlayerDecoders: [Int32: ControllerLegacySinglePlayerDecoder] = [:]
     @ObservationIgnored private var mc1000Decoders: [Int32: ControllerMC1000Decoder] = [:]
     @ObservationIgnored private var keyLabDecoders: [Int32: ControllerKeyLabDecoder] = [:]
     @ObservationIgnored private var manualFactoryProfiles: [Int32: ControllerFactoryProfile] = [:]
@@ -632,6 +633,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         keyLabDecoders.removeAll()
         p1NanoDecoders.removeAll()
         legacyUSBPlayerDecoders.removeAll()
+        legacySinglePlayerDecoders.removeAll()
         mc1000Decoders.removeAll()
         setupInputDecoders.removeAll()
         sc5000MDecoders.removeAll()
@@ -1297,6 +1299,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         keyLabDecoders[source] = nil
         p1NanoDecoders[source] = nil
         legacyUSBPlayerDecoders[source] = nil
+        legacySinglePlayerDecoders[source] = nil
         mc1000Decoders[source] = nil
         setupInputDecoders[source] = nil
         sc5000MDecoders[source] = nil
@@ -1336,6 +1339,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         keyLabDecoders[id] = nil
         p1NanoDecoders[id] = nil
         legacyUSBPlayerDecoders[id] = nil
+        legacySinglePlayerDecoders[id] = nil
         mc1000Decoders[id] = nil
         setupInputDecoders[id] = nil
         sc5000MDecoders[id] = nil
@@ -1367,6 +1371,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         keyLabDecoders[id] = nil
         p1NanoDecoders[id] = nil
         legacyUSBPlayerDecoders[id] = nil
+        legacySinglePlayerDecoders[id] = nil
         mc1000Decoders[id] = nil
         setupInputDecoders[id] = nil
         sc5000MDecoders[id] = nil
@@ -2195,6 +2200,26 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                     resetInputValueStates(inputBindings(source: source).filter {
                         $0.targetDeck.map { decks.contains($0) } == true
                     })
+                }
+            }
+            return events.count
+        }
+        if inputProtocol(for: source) == .legacySinglePlayer {
+            var decoder = legacySinglePlayerDecoders[source, default: .init()]
+            let events = decoder.append(bytes)
+            legacySinglePlayerDecoders[source] = decoder
+            guard events.count <= limit else {
+                stop()
+                status = "Controller input overload. Reconnect to continue."
+                return nil
+            }
+            for event in events {
+                switch event {
+                case .message(let message): receive(message, source: source)
+                case .controlsChanged:
+                    flushPendingActions()
+                    releaseMomentaryActions(source: source, decks: [.a, .b])
+                    resetInputValueStates(inputBindings(source: source))
                 }
             }
             return events.count
