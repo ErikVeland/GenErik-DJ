@@ -1,0 +1,22 @@
+{
+  "notes": "R425: Keep control labels on one line in all layouts. Give grid editing the full header width and scroll the bar only when needed. Preserve full help, error and purchase text. Check both iPad orientations, narrow panes, audio and touch.",
+  "sourceCommit": "82f66c1ec1b2ee1e0368eef1790c4005c1ae51c9",
+  "sourceSHA256": "a498497e86128af4fa0d99a5416d2381bd8ad2c13a6034aa01f9274da7baef60",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 332.6,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-227.log",
+  "build": 227,
+  "app": "TestBuilds/ipad/227/GenErikDJ.app",
+  "appSHA256": "5269043d6eb0beedf406c95cccdc034ec2008388bc17ee64e9b0b5a3acc04a2e",
+  "state": "ready",
+  "createdUTC": "2026-11-19T08:16:33.074316+00:00",
+  "installAttempts": [
+    {
+      "date": "2026-11-19",
+      "result": "connection_timeout",
+      "detail": "The iPad connection timed out. The saved signed app remains ready. No successful installation or launch was reported."
+    }
+  ]
+}

@@ -16,7 +16,10 @@ The waveform geometry and the audio engine are unchanged.
 ## Verification
 
 Source review and whitespace checks passed before the signed build.
-The signed incremental iPad build, installation and Erik's acceptance are pending.
+Build 227 compiled from committed main at `82f66c1ec` in 332.6 seconds.
+Runtime framework checks and deep strict signing passed.
+The iPad connection timed out during installation. The signed app remains saved for deployment without a rebuild.
+No device launch or rendered layout acceptance is claimed. Erik's acceptance remains open.
 Check RESET, TAP MODE, DONE, Sync, effects, mixer labels, browser titles and Settings in both iPad orientations.
 Also check narrow panes and the four-deck layout when that trial is enabled.
 Phone front, Duo inside and Mac layouts share the source rule, but their rendered acceptance remains open.
