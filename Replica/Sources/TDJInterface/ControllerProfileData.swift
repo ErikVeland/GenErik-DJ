@@ -252,7 +252,14 @@ struct ControllerProfileData: Decodable, Sendable {
                     inputs.contains { $0.action == .shift && $0.shiftChannel == channel }
                 }
             }
-            && Set(changes.map { "\(($0.kind ?? .note).rawValue):\($0.channel):\($0.number)" }).count == changes.count
+            && changes.enumerated().allSatisfy { index, change in
+                changes.prefix(index).allSatisfy { previous in
+                    let sameAddress = (change.kind ?? .note) == (previous.kind ?? .note)
+                        && change.channel == previous.channel && change.number == previous.number
+                    return !sameAddress || (change.kind == .control && change.onValue != nil
+                        && previous.onValue != nil && change.onValue != previous.onValue)
+                }
+            }
     }
 
     /**
@@ -352,7 +359,7 @@ struct ControllerProfileData: Decodable, Sendable {
             return input.argument.map { input.encoding.isRelative && ControllerCountJogMotion.validResolution($0) }
                 ?? true
         case .loopSizeA, .loopSizeB:
-            return input.kind == .control && [.twosComplement, .binaryStep, .binaryDirection, .zeroForward].contains(input.encoding)
+            return input.kind == .control && [.twosComplement, .binaryStep, .binaryDirection, .zeroForward, .signedStep].contains(input.encoding)
                 && input.argument == nil
         case .loopA, .loopB:
             return input.argument.map { PerformancePreparation.loopSizes.contains($0) } ?? true

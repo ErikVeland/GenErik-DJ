@@ -11,10 +11,10 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 561 total catalogue records. 554 name physical models. The remainder identify software endpoints or protocol families.
-- 317 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 203 factory profiles select core controls automatically for 211 physical models.
+- 320 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 204 factory profiles select core controls automatically for 212 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
-- 337 physical models still lack automatic core controls.
+- 336 physical models still lack automatic core controls.
 - 554 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -223,13 +223,13 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 17 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 205 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 206 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 116 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 199 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 118 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 196 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -334,7 +334,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Numark NS6II | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark NSFX | accessory | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark NV | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Numark NVII | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Numark NVII | primary | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Party Mix | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Party Mix II | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Numark Party Mix III | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
@@ -469,7 +469,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | American Audio 10MXR | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AA10MXR) |
 | American Audio 14MXR | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AA14MXR) |
 | American Audio 19MXR | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AA19MXR) |
-| American Audio DP2 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ADJDP2) |
+| American Audio DP2 | primary | automatic-core-profile | [Reference](https://assets.centryngroup.com/dl/files/DP2__DL__003.zip) |
 | American Audio DV2 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AADV2) |
 | American Audio ELMC-1 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ELMC1) |
 | American Audio ENCORE 2000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AAEncore2000) |
@@ -534,7 +534,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Denon DJ MC6000 | primary | partial-midi-profile | [Reference](https://cdn.inmusicbrands.com/denondj/legacy/dnmc6000/DN-MC6000_ownersmanual.pdf) |
 | Denon DJ PRIME 2 | primary | partial-midi-profile | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
 | Denon DJ PRIME GO | primary | automatic-core-profile | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
-| Denon DJ PRIME GO+ | primary | protocol-needed | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
+| Denon DJ PRIME GO+ | primary | partial-midi-profile | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
 | Denon DJ S1200 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=S1200) |
 | Denon DJ S3700 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=S3700) |
 | Denon DJ S3900 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=SC3900) |

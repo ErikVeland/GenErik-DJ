@@ -2257,6 +2257,60 @@
         }
       ],
       "result": "Independent automatic HC1000S244-input/48-lamp and HC450096-input/42-lamp cores.296 source/13 native checks and iPad framework compilation pass. All315 earlier recipes remain identical. Full modes/calibration/feedback/lifecycle/audio/OS and physical acceptance remain open."
+    },
+    {
+      "request": "R416",
+      "bundle": {
+        "url": "https://downloads.ultramixer.com/downloads/_releases/UltraMixer/current/UltraMixer-6.4.11-ec74c38-Release-64Bit-mac-INTEL.zip",
+        "sha256": "43b6fb3678741f5a49dc23724f0126020bfbfa9f3788a3fefa6f45ec07a549ad",
+        "jarSHA256": "142fee363d155284ef4d103d0a98e62e8e2193982dc5a7e245d8122e4c3b462f",
+        "mappingDocuments": 100,
+        "inspection": "Only document resources were read. No installer, app, Java class, script or mapping action executed. Embedded artwork was not used as protocol evidence."
+      },
+      "sources": [
+        {
+          "model": "Numark NVII",
+          "url": "https://downloads.ultramixer.com/downloads/_releases/UltraMixer/current/UltraMixer-6.4.11-ec74c38-Release-64Bit-mac-INTEL.zip",
+          "sha256": "43b6fb3678741f5a49dc23724f0126020bfbfa9f3788a3fefa6f45ec07a549ad",
+          "cacheMember": "documents/res/midi/midimaps/Numark-NV2.xml",
+          "memberSHA256": "3a07f44ff1f15a6fdcc0d9bffcd28aa8298311df6017506f09d78dc4e6cf3203",
+          "review": "Own named UltraMixer6.4.11 NV2 factory document qualifies channel1..4 Play33/Cue32/Sync31/Load5/bends16/17, channel0 mixer/PFL and explicit CC29/30 side selectors with values0/1. Its input/output body is identical to its separate NV file, but native does not infer startup or alias NV. Native normal transport uses two independent physical Shift identities across A/C and B/D channel aliases. Either Shift edge retires only source-owned holds; selector reports retire their own side and pickup. Pitch, jog/contact, conditional pads/FX/loops/library, complete screens/state/lifecycle/audio and physical acceptance remain open. Manual selection is required. No source action or vendor program runs."
+        },
+        {
+          "model": "Denon DJ PRIME GO+",
+          "url": "https://downloads.ultramixer.com/downloads/_releases/UltraMixer/current/UltraMixer-6.4.11-ec74c38-Release-64Bit-mac-INTEL.zip",
+          "sha256": "43b6fb3678741f5a49dc23724f0126020bfbfa9f3788a3fefa6f45ec07a549ad",
+          "cacheMember": "documents/res/midi/midimaps/Denon-DJ-Prime-Go-Plus.xml",
+          "memberSHA256": "adc225afa7c3f49e10de0bf8160b09ba09e867e12e0166cdb6471c77828a4d9c",
+          "review": "Own named factory document qualifies a manual normal fixed A/B transport/mixer subset, explicit Shift15/8, signed1/127 loop-size and browse values. Its body is identical to the separately named GO document and its USB identifier is copied across several unrelated files. Native therefore ignores the identifier and does not infer original GO startup, USB host/audio mode, paired pitch, displays, complete modes or lifecycle. The same document labels CC12 master volume while original-model firmware facts use another role, so CC12/13 remain inactive rather than inheriting sibling globals. No setup, stored setting, source action, hardware/audio route or output packet executes. Physical/iPad/A10X acceptance remains open."
+        },
+        {
+          "model": "American Audio DP2",
+          "url": "https://assets.centryngroup.com/dl/files/DP2__DL__003.zip",
+          "sha256": "d1b4aed053f954008eab66945e2db733a36d616466d691abd3ff08a3b6bb844a",
+          "cacheMember": "dp2-factory/Devices/American Audio DP2 definition.xml",
+          "member": "vdj6_dp2_midi/American_Audio_DP2.exe / Devices/American Audio DP2 definition.xml",
+          "memberSHA256": "48e9bd2ef22af5889855ac1f11162e256438382cd0c42458cca74fe6a8f6fd7a",
+          "relatedSources": [
+            {
+              "url": "https://www.adj.com/products/dp2"
+            },
+            {
+              "url": "https://assets.centryngroup.com/dl/files/DP2__DL__007.pdf",
+              "sha256": "8295dd3afa97fdc9f8f37368b7b9a7b8b8d71b17ec964227d083bfc37173cf27",
+              "visuallyReviewedPages": [
+                12
+              ]
+            },
+            {
+              "member": "Mappers/American Audio DP2 mapping.xml",
+              "sha256": "ef03c6d2aa7d5e451b01e5117203e8e6b376be058892fb02d942d01b0829d54c"
+            }
+          ],
+          "review": "Own manufacturer public MIDI chart and distributed Atomix device definition independently qualify default channels0/1, separate hardware Shift channels3/4, two physical Shift identities, channel2 globals, binary65/63 browser, inverted pitch position and LED note addresses. Native uses normal controls only; alternate positive commands stay inactive and release-only guards preserve held releases across both families. Manufacturer HIGH CC20, LOW21 and MIC_VOLUME19 versus deck-B MASTER_VOLUME19 override conflicting UltraMixer EQ/master labels. No mid EQ or gain is invented. Pitch follows app range; unknown jog calibration, FX/sampler and complete mode/state/lifecycle/audio/OS behaviour remain open. The USB-MIDI core selects automatically by explicit DP2 names, with separate app audio. No installer, source action, firmware, preset or hardware setting runs."
+        }
+      ],
+      "result": "Independent77-input NVII and45-input GO+ manual subsets, plus108-input/18-lamp automatic DP2 core.298 source/12 native checks and iPad framework compilation pass. All317 earlier recipes remain identical. Full theoretical, audio/OS and physical acceptance remain open."
     }
   ]
 }

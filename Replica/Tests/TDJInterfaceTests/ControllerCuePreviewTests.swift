@@ -2937,3 +2937,17 @@ func controllerCatalogueLegacyHCManufacturerPressureKeepsRealAudioAndSavedSync(_
         if name=="Denon DJ HC1000S"{#expect(model.playbackSnapshot?.a.loopEnabled == true)}
     }
 }
+
+@Test(arguments:["Numark NVII","Denon DJ PRIME GO+","American Audio DP2"]) @MainActor
+func controllerCatalogueRecoveredPublicTransportKeepsRealAudioAndSavedSync(_ name:String)async throws{
+    try await withControllerCuePlayback(name,manual:name != "American Audio DP2"){model,input in
+        let channel:UInt8=name=="Numark NVII" ? 1:name=="Denon DJ PRIME GO+" ? 2:0
+        let cue:UInt8=name=="Numark NVII" ? 32:name=="Denon DJ PRIME GO+" ? 9:25
+        let play:UInt8=name=="Numark NVII" ? 33:name=="Denon DJ PRIME GO+" ? 10:26
+        cuePreviewPacket([0x90+channel,cue,127],to:input);#expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80+channel,cue,127,0x90+channel,play,127,play,0],to:input)
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
