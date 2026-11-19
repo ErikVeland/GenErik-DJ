@@ -6610,3 +6610,14 @@ The publisher's retired download has a public20160211201610 archive capture. The
 Ten readable C scripts name models already in the catalogue, plus IL Remote. The default MIDI template has461 rows, with every status/data/res0/res1 field zero. It does not establish any controller's factory addresses. No wire is inferred from the template or compiled application.
 
 Runtime resources, catalogue JSON and app source/tests remain identical. No new tests or framework build were required for this documentation-only review. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r497/validation.json`. Counts remain406 data recipes plus five built-ins,556 physical models,250 automatic core models and114 protocol-needed records. Public-source implementation continues.
+
+
+## R498 — Public Cross DJ and UltraMixer resources
+
+The public Mixvibes forum provides Cross DJ Free3.4.0 without an account. Its189,410,322-byte archive has201 visible files and no standalone MIDI mapping document. Only app metadata and the bundled SQLite database were extracted. Read-only schema inspection identifies library and sample tables. No compiled mapping extraction, app launch or audio playback occurs.
+
+UltraMixer's current public Mac link provides6.4.11 ec74c38. Its508,573,841-byte ZIP, package and payload were read as archives. The package's trailing-data warning is preserved. The Java archive was opened as ordinary ZIP data.103 plain MIDI XML, INI and schema documents are hashed. No Java class, native library, installer, source script or app runs or is decompiled.
+
+The readable mapping filenames cover already-catalogued models. The endpoint identifier INI names XP10, Otus Raw and the original DJ Console, but supplies no numeric wire protocol. Generic and overlapping name expressions do not establish exclusive hardware recognition. No sibling protocol, conditional control or positive trigger is inferred. These sources do not qualify a new automatic profile. The documents remain available for later model-specific reviews.
+
+Runtime resources, catalogue JSON and app source/tests remain identical. No new tests or framework build were required for this documentation-only review. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r498/validation.json`. Counts remain406 data recipes plus five built-ins,556 physical models,250 automatic core models and114 protocol-needed records. Full protocol, manufacturer inventory and physical/iPad/A10X acceptance work remain open.

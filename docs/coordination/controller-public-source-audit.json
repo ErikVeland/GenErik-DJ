@@ -6182,6 +6182,42 @@
         }
       ],
       "result": "Read-only public-source audit only. No source, runtime resource, catalogue JSON, native test, hardware setting, output or audio route changes. Counts stay406 data recipes plus five built-ins,556 physical models,250 automatic core and114 protocol-needed. No new unit/native/framework run was required for documentation only. Repository checking retains12 historical missing-file links. Public-source work continues."
+    },
+    {
+      "request": "R498",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "url": "https://forum.mixvibes.com/downloads.php?df_id=785&view=detail",
+          "downloadURL": "https://forum.mixvibes.com/downloads.php?hotlink_id&df_id=785&modcp=0&cat_id=97&submit=1&view=load",
+          "sha256": "758e387f27fc472d5f2b1f4f4ee6d18fad87a6644cbf66c2962663230fc4ed56",
+          "bytes": 189410322,
+          "cachePath": "TestBuilds/r498/upstream/Cross-DJ-Free-3.4.0.dmg",
+          "finding": "Publisher offers Cross DJ Free3.4.0 publicly without an account. Trusted archive listing shows201 files and no standalone MIDI/mapping document. Only Info.plist and main.crossdb are extracted. SQLite is opened immutable/read-only and schema names identify music/library/sample tables, not controller mappings. No application, installer, preset or audio runs. No compiled mapping extraction is attempted."
+        },
+        {
+          "url": "https://ultramixer.com/downloads/",
+          "downloadURL": "https://downloads.ultramixer.com/downloads/_releases/UltraMixer/current/UltraMixer-6.4.11-ec74c38-Release-64Bit-mac-INTEL.zip",
+          "sha256": "43b6fb3678741f5a49dc23724f0126020bfbfa9f3788a3fefa6f45ec07a549ad",
+          "bytes": 508573841,
+          "files": [
+            {
+              "cachePath": "TestBuilds/r498/upstream/UltraMixer-6.4.11-mac.zip",
+              "sha256": "43b6fb3678741f5a49dc23724f0126020bfbfa9f3788a3fefa6f45ec07a549ad"
+            },
+            {
+              "cachePath": "TestBuilds/r498/upstream/ultramixer-documents/UltraMixer6.app/Contents/Java/UltraMixer.jar",
+              "sha256": "142fee363d155284ef4d103d0a98e62e8e2193982dc5a7e245d8122e4c3b462f"
+            },
+            {
+              "cachePath": "TestBuilds/r498/upstream/ultramixer-midi-manifest.json",
+              "sha256": "95d4b37e7cd90dfd6466b3fd5444e0762095e8c9b4f82ef8367a42ba26e6cde7"
+            }
+          ],
+          "finding": "Current publisher link resolves to6.4.11 ec74c38. Trusted archive reader opens ZIP/pkg/payload as data and extracts only the app metadata and Java archive. The package reports trailing data, preserved in its listing. The Java archive is read as ordinary ZIP data.103 plain MIDI XML/INI/XSD documents are hashed separately. No Java class, native library, script, installer or application is loaded, executed or decompiled. Visible mapping filenames cover already-catalogued models. The identifier INI names EKS XP10/Otus Raw and original Hercules DJ Console, but supplies no numeric control protocol. Generic/overlapping endpoint regular expressions do not qualify native automatic recognition or sibling wire inheritance. Empty mappings and conditional/edge-specific XML rows are not converted into speculative support."
+        }
+      ],
+      "result": "Read-only public-source audit only. No native/runtime/source/test, catalogue JSON, hardware setting, output or audio-route change. Counts remain406 data recipes plus five built-ins,556 physical models,250 automatic core models and114 protocol-needed records. No new unit/native/framework run is required for documentation only. Repository checking retains12 historical missing-file links. Additional numeric evidence is cached for subsequent model-specific reviews. Full protocol, manufacturer inventory and physical acceptance work remain open."
     }
   ]
 }
