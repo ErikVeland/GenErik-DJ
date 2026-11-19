@@ -11,7 +11,7 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 561 total catalogue records. 554 name physical models. The remainder identify software endpoints or protocol families.
-- 324 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 326 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 208 factory profiles select core controls automatically for 216 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - 332 physical models still lack automatic core controls.
@@ -228,8 +228,8 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 118 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 192 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 120 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 190 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -543,7 +543,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Denon DJ SC5000M PRIME | primary | partial-midi-profile | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
 | Denon DJ SC6000 PRIME | primary | partial-midi-profile | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
 | Denon DJ SC6000M PRIME | primary | partial-midi-profile | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
-| Denon DJ X1600 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DN-X1600) |
+| Denon DJ X1600 | primary | partial-midi-profile | [Reference](https://cdn.inmusicbrands.com/denondj/legacy/dnx1600/dnx1600-ownersmanual.zip) |
 | Denon DN SC2000 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon%20DN%20SC2000.midi.xml) |
 | Denon HS5500 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon%20DN%20HS5500.midi.xml) |
 | Denon MC3000 | primary | partial-midi-profile | [Reference](https://cdn.inmusicbrands.com/denondj/legacy/mc3000/MC3000EM_ENG_IM_v00.pdf) |
@@ -767,7 +767,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Stanton SCS.4DJ | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=SCS4DJ) |
 | Synq DMC-1000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DMC1000) |
 | Synq DMC-2000 | primary | automatic-core-profile | [Reference](https://synq-audio.com/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1466605574.pdf&name=DMC-2000_Manual_v2.0) |
-| Synq PCM-1 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=PCM-1) |
+| Synq PCM-1 | primary | partial-midi-profile | [Reference](https://synq-audio.com/de/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1438589424.zip&name=PCM-1_MIDIMAP_Traktor_Pro) |
 | Tascam US-428 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/us428.midi.xml) |
 | The Next Beat SX1 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=NBSX1) |
 | The Next Beat by Tiësto | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware/bytisto) |

@@ -2962,3 +2962,15 @@ func controllerCatalogueDenonLegacyPlayerKeepsRealAudioSavedSyncAndModeRelease(_
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test(arguments:["Denon DJ X1600","Synq PCM-1"]) @MainActor
+func controllerCatalogueLegacyLayerNativeTransportKeepsRealAudioAndSavedSync(_ name:String)async throws{
+    try await withControllerCuePlayback(name,manual:true){model,input in
+        let cue:UInt8=name=="Denon DJ X1600" ? 69:25;let play:UInt8=name=="Denon DJ X1600" ? 68:26
+        cuePreviewPacket([0x90,cue,64],to:input);#expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80,cue,64,0x90,play,64,play,0],to:input)
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}

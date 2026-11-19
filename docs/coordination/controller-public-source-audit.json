@@ -2398,6 +2398,62 @@
         }
       ],
       "result": "Four independent automatic normal-MIDI single-player cores: SC2900/SC390021 inputs each, S370016 and S120010. Player-local mode reports follow the currently assigned deck.300 source/19 native checks and iPad framework compilation pass. All320 earlier recipes remain identical. Full motion/motor/Hybrid/DVS/modes/feedback/audio/OS and physical acceptance remain open."
+    },
+    {
+      "request": "R418",
+      "sources": [
+        {
+          "model": "Denon DJ X1600",
+          "url": "https://cdn.inmusicbrands.com/denondj/legacy/dnx1600/dnx1600-ownersmanual.zip",
+          "sha256": "98a68fc29fa8f24453bc7c163cae56add0eaefa3cfc40536030f957576ea55ec",
+          "cacheName": "x1600-manual.zip",
+          "member": "DN-X1600_ownersmanual_english.pdf",
+          "memberSHA256": "cd131b07988d02c1d02fd0505852174edebeb6bc93bab0f56664898901dc0f78",
+          "visuallyReviewedPages": [
+            24
+          ],
+          "review": "Own manufacturer manual printed18 explains the enabled MIDI layer and hardware EQ/fader lock on return. Printed20/PDF24 independently qualifies four three-band/fader strips, Cue note buttons, crossfader/master, strip layer reports70..73, preset74, page76 and four distinct parameter/function address pages. Native assigns each page to A/B/C/D: FUNC1/2/3/4 are Play/held Cue/Sync/Load; PARAM1 browse/push group; PARAM2 loop-size/push Auto Loop. Those are explicit native assignments, not claimed factory software actions. Per-strip layer reports reset their own strip; preset/page reports retire owned holds across all four. Manual MIDI channel1 and enabled hardware MIDI layers are required. No gain, headphone globals, hardware bus/FX/mic/booth/feedback writes, X1800/X1850 compatibility or automatic audio route is inferred. Full modes/lifecycle/audio/OS and physical acceptance remain open."
+        },
+        {
+          "model": "Synq PCM-1",
+          "url": "https://synq-audio.com/de/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1438589424.zip&name=PCM-1_MIDIMAP_Traktor_Pro",
+          "sha256": "e039bf8ac16eccc5f97ad0b2f0ebda2baf9ba18d90d95b3a279c7c07a5da4d78",
+          "cacheName": "pcm1-traktor.zip",
+          "member": "Traktor Settings for PCM1.tsi",
+          "memberSHA256": "a32965bbcc64db327a974cd1f3aa2e3edc25b86106c5f633b05b966f47ff0aba",
+          "usedRows": 156,
+          "inputRows": 94,
+          "relatedSources": [
+            {
+              "url": "https://synq-audio.com/de/pcm-1"
+            },
+            {
+              "url": "https://synq-audio.com/de/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1418208092.pdf&name=PCM-1_Manual_v1.0",
+              "sha256": "38fb14f694f5c1ddf9b83699ed33362ae062600609281376a029015535e70ed3"
+            },
+            {
+              "url": "https://synq-audio.com/de/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1466781040.pdf&name=PCM-1_FAQ_MIDI_problem",
+              "sha256": "43e259edeb376db81d9744d57ac95577fba3513d25cffc12c9995ee1ca418ed6"
+            }
+          ],
+          "review": "Own manufacturer-distributed TSI has156 used rows,94 inputs. Normal transport and mixer channels1/2, globals3, pitch18 inverted, level22, high19/mid20/low21, monitor3/cueMix2 and binary65/63 library come from separate used input definitions. Native normal buttons keep Play26/held Cue25/Sync56/key lock57/PFL53/Load61 and held bends59/60. Shift55 guards normal positives, retires source-owned holds on the documented factory-mapping full-value path and has only the independently used alternate Cue25 release aliases on raw channels3/4. No DP2 inheritance: its manufacturer EQ addresses differ. Generic USB Audio Device names prevent automatic qualification. Unresolved crossfader/master, gain encoder calibration, jog/contact, sampler/FX/loops, full modes/feedback/lifecycle/audio/OS and physical acceptance remain open. No TSI action, program, driver, preset or hardware/audio write executes."
+        }
+      ],
+      "otherProtocolFindings": [
+        {
+          "model": "Denon DJ X1800 PRIME",
+          "url": "https://cdn.inmusicbrands.com/denondj/X1800/X1800%20Prime%20-%20User%20Guide%20-%20v1.7.pdf",
+          "sha256": "f380205ec6950152fccfdea06199a47c33d1ed84c6d23fa962464e8ff4209caa",
+          "review": "Reviewed user guide explains operation and MIDI clock but provides no control-address chart. Remains a separate protocol gap; no X1600 inheritance."
+        },
+        {
+          "model": "Denon DJ X1850 PRIME",
+          "url": "https://cdn.inmusicbrands.com/denondj/X1850Prime/X1850%20PRIME%20-%20User%20Guide%20-%20v1.4.pdf",
+          "sha256": "ed7b8dc224f5cf6f011f2431fb723cd8282f10dae0e3952a467826be22d1398e",
+          "review": "Reviewed user guide provides no control-address chart. Remains a separate protocol gap; no X1600 or X1800 byte inheritance."
+        }
+      ],
+      "result": "Independent54-input X1600 native MIDI-layer layout and50-input PCM-1 factory subset, both manual with separate audio.303 source/12 native checks and iPad framework compilation pass. All324 earlier recipes remain identical. Full modes/audio/OS and physical acceptance remain open."
     }
   ]
 }

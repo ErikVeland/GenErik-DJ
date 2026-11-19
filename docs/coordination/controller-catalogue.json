@@ -31284,12 +31284,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://cdn.inmusicbrands.com/denondj/legacy/dnx1600/dnx1600-ownersmanual.zip",
         "https://virtualdj.com/products/hardware.html?model=DN-X1600"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:denon-x1600-native-midi-layers"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Denon DJ X1600",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Denon DJ X1600",
@@ -31297,40 +31302,89 @@
           "source": "https://virtualdj.com/products/hardware.html?model=DN-X1600"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "loopSizeA:a",
+        "loopSizeA:c",
+        "loopSizeB:b",
+        "loopSizeB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "openGroup",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d"
+      ],
+      "inputBindingCount": 54,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual MIDI channel1 with hardware MIDI layers enabled. PARAM/FUNC pages1/2/3/4 control native A/B/C/D. FUNC1/2/3/4: Play/held Cue/Sync/Load. PARAM1 browses/groups; PARAM2 changes/toggles loops. Enable C/D and configure audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Hardware layer selection, analogue/audio ownership, remaining parameter/FX/mic/booth/headphone controls, full modes/feedback/state/lifecycle/OS and physical/iPad/A10X acceptance remain open. No hardware or audio write.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -59000,12 +59054,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://synq-audio.com/de/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1438589424.zip&name=PCM-1_MIDIMAP_Traktor_Pro",
         "https://virtualdj.com/products/hardware.html?model=PCM-1"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:synq-pcm1-factory-tsi-core"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Synq PCM-1",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Synq PCM-1",
@@ -59013,40 +59072,72 @@
           "source": "https://virtualdj.com/products/hardware.html?model=PCM-1"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "highA:a",
+        "highB:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b"
+      ],
+      "inputBindingCount": 50,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual PCM-1 normal MIDI. Deck channels1/2 and library/headphone channel3 follow its own factory mapping. Native alternate positive commands stay inactive. Configure audio separately; generic USB Audio Device names do not select automatically."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Generic endpoint identity, complete alternate Shift/modes, unresolved crossfader/master, gain/jog/contact calibration, loops/sampler/FX, full feedback/state/lifecycle/audio/OS and physical/iPad/A10X acceptance remain open. No source action or hardware/audio write.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -352461,6 +352552,48 @@
       "unresolved": [
         {
           "reason": "Hybrid/DVS, unqualified jog/contact/pitch calibration, motors, remaining Shift/FX/modes, complete feedback/displays/state/lifecycle/audio/OS and physical/iPad/A10X acceptance remain open. No setup, preset, firmware, motor or audio write."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:denon-x1600-native-midi-layers",
+      "name": "Denon DJ X1600",
+      "transport": "midi",
+      "source": {
+        "url": "https://cdn.inmusicbrands.com/denondj/legacy/dnx1600/dnx1600-ownersmanual.zip",
+        "sha256": "b1274a096816e795f0d35183527fc69a170d6d21a4f0e9151a1dae7810e3aee7"
+      },
+      "implementedInputCount": 54,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Hardware layer selection, analogue/audio ownership, remaining parameter/FX/mic/booth/headphone controls, full modes/feedback/state/lifecycle/OS and physical/iPad/A10X acceptance remain open. No hardware or audio write."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:synq-pcm1-factory-tsi-core",
+      "name": "Synq PCM-1",
+      "transport": "midi",
+      "source": {
+        "url": "https://synq-audio.com/de/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1438589424.zip&name=PCM-1_MIDIMAP_Traktor_Pro",
+        "sha256": "b1274a096816e795f0d35183527fc69a170d6d21a4f0e9151a1dae7810e3aee7"
+      },
+      "implementedInputCount": 50,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Generic endpoint identity, complete alternate Shift/modes, unresolved crossfader/master, gain/jog/contact calibration, loops/sampler/FX, full feedback/state/lifecycle/audio/OS and physical/iPad/A10X acceptance remain open. No source action or hardware/audio write."
         }
       ]
     },
