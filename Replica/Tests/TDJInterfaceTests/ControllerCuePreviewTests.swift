@@ -3002,6 +3002,16 @@ func controllerCatalogueLegacyRaneMixerAndLoopsKeepRealAudioAndSavedSync(_ name:
     }
 }
 
+@Test @MainActor func controllerCatalogueSmartPADClipPlayAndInactiveModesKeepRealAudioSync() async throws {
+    try await withControllerCuePlayback("SmartPAD") { model, input in
+        input.receiveBytes([0x90, 112, 127, 112, 0, 113, 127, 113, 0, 0x91, 20, 127, 20, 0, 0xB0, 0, 127], source: 10)
+        input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
 @Test @MainActor func controllerCatalogueMixarsQuattroManualPlayLoopAndComposedShiftKeepRealAudioSync() async throws {
     try await withControllerCuePlayback("Mixars QUATTRO", manual: true) { model, input in
         input.receiveBytes([0x90, 32, 127, 0x94, 27, 127, 27, 0], source: 10); input.flushPendingActions()

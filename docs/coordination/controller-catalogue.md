@@ -11,10 +11,10 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 562 total catalogue records. 555 name physical models. The remainder identify software endpoints or protocol families.
-- 368 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 226 factory profiles select core controls automatically for 235 physical models.
+- 369 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 227 factory profiles select core controls automatically for 236 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
-- 314 physical models still lack automatic core controls.
+- 313 physical models still lack automatic core controls.
 - 555 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -223,13 +223,13 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 17 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 229 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 230 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
 | partial-midi-profile | 144 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 148 | The pinned references contain no implemented mapping for this model. |
+| protocol-needed | 147 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -635,7 +635,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | M-Vave SMC-Mixer | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MVave-SMC-Mixer.midi.xml) |
 | M-Vave SMK-25 II | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MVave-SMK-25-II.midi.xml) |
 | MidiTech MidiControl | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MidiTech-MidiControl.midi.xml) |
-| MIDIPLUS SMARTPAD | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=SMPAD) |
+| MIDIPLUS SMARTPAD | accessory | automatic-core-profile | [Reference](https://www.midiplus.com.tw/cn/MIDIPLUS-Download-detail/0/Manual_Of_SmartPAD_EN/) |
 | MixVibes U-Mix Control 2 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MixVibes%20U-Mix%20Control%202.midi.xml) |
 | MixVibes U-Mix Control Pro | primary | automatic-core-profile | [Reference](https://media.djmania.net/manuales/pdf/U-MIX_CONTROL_PRO_1.5.1_user_manual_0.pdf) |
 | MixVibes U-Mix Control Pro 2 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MixVibes%20U-Mix%20Control%20Pro%202.midi.xml) |

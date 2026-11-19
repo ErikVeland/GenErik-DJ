@@ -3804,6 +3804,61 @@
         "DenonX1850": "Public address search again found setup/user-guide material without numeric wire data. No X1600 protocol is inherited.",
         "historicalMixxx": "Pinned Mixxx1.11 tree568d9ce04722d8c36389cd1f14a24c2f85d11eaf lists105 current/unused MIDI/HID definitions. Initial comparison found no independent new NS7II/III table; original NS7 is not inherited."
       }
+    },
+    {
+      "request": "R443",
+      "sources": [
+        {
+          "model": "MIDIPLUS SMARTPAD",
+          "url": "https://www.midiplus.com.tw/cn/MIDIPLUS-Download-detail/0/Manual_Of_SmartPAD_EN/",
+          "sha256": "7e515ff39d0a1fe08fce82d9c459f7b9fd295a8127fe3e9a12a0a2640ab3d844",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r443/upstream/smartpad-manual.pdf",
+              "sha256": "7e515ff39d0a1fe08fce82d9c459f7b9fd295a8127fe3e9a12a0a2640ab3d844"
+            },
+            {
+              "cachePath": "TestBuilds/r443/upstream/smartpad-owner-README.md",
+              "sha256": "d59ec13abb034986486770e5666c3d258a510174e3e3cbe175ee40ff1d71a6eb"
+            },
+            {
+              "cachePath": "TestBuilds/r443/upstream/smartpad-owner-notes.txt",
+              "sha256": "d6a85377bb4a26ba987feffae36a17841862e745ba7b4d885e943946bdcc6f15"
+            },
+            {
+              "cachePath": "TestBuilds/r443/upstream/smartpad-owner-review.txt",
+              "sha256": "e4c3528dbc0b212cbc69611006850225e6a2c442bd9dac36169e1a8a87abbd07"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://raw.githubusercontent.com/s0len0id/smartpad-tester/00f456de31492c35fa2808d2e1b46bf069ca516b/notes/smartpad.txt"
+            },
+            {
+              "url": "https://raw.githubusercontent.com/s0len0id/smartpad-tester/00f456de31492c35fa2808d2e1b46bf069ca516b/README.md"
+            },
+            {
+              "url": "https://raw.githubusercontent.com/s0len0id/smartpad-tester/00f456de31492c35fa2808d2e1b46bf069ca516b/notes/amazon-review.txt"
+            },
+            {
+              "url": "https://www.midiplus.com/html/smartpad.html"
+            }
+          ],
+          "review": "Own MIDIPLUS SmartPAD manual001/v1.2/May2019 documents default Clip mode, channel1 NoteOn90/NoteOff80, top row0..7, second row16..23 and bounds00..77hex. Independent pinned factory-hardware owner notes and preserved firsthand review confirm all eight rows, top-to-bottom16*y+x. The old owner notes reverse NoteOn/NoteOff status labels; the manufacturer status bytes are authoritative. Native reuses only app functions with these independent addresses. Sixty automatic non-momentary inputs provide A/B below and C/D above: Play, Sync, Load, PFL, Loop In/Out, Reloop and eight Hot Cues per quadrant. C/D require app opt-in. Four main Cue cells remain unmapped because mode buttons do not reliably send MIDI and Set mode shares CCs with encoders, leaving held-release ownership unqualified. Release pads before changing hardware mode. Mode1/channel2, Mode2/channel3, Set/encoder CCs, right-side scene buttons, other firmware, paging and full lifecycle remain inactive/unqualified. No Ableton handshake or host scroll offset is sent; use factory firmware/default Clip and close other controller hosts. The manufacturer requires NoteOff before a colour change; owner evidence distinguishes pre0.15 LED behaviour and a differing velocity palette. No guessed or single-packet colour output runs. Full feedback, mode/source ownership, saved state, USB/OS/power and physical/iPad/A10X acceptance remain open. SmartPAD II and replacement KIKPAD/CleverPad firmware are separate. No setup, reset, output, preset, driver, firmware or audio route is sent."
+        }
+      ],
+      "result": "Independent60-input automatic default Clip grid from own manual and pinned factory-owner spatial notes. Main Cue cells and all hardware writes stay inactive because unreported mode switches/Set CC collisions and firmware-specific colour requirements remain open.358 source/9 native checks and framework compilation pass. All368 earlier recipes remain identical. Full modes/paging/outputs/lifecycle and physical acceptance remain open.",
+      "otherCheckedSources": [
+        {
+          "model": "Roland DJ-707M",
+          "url": "https://www.roland.com/global/support/by_product/dj-707m/owners_manuals/cbaa2f91-486d-4490-9b79-9b8ad4b534ce/",
+          "result": "Manufacturer chart listing found. Page timed out and checked mirror returned403. No chart contents or DJ-808/505 compatibility inferred."
+        },
+        {
+          "url": "https://github.com/TheKikGen/kikpad",
+          "result": "Used only to locate the separate factory-owner documentation. Replacement firmware/code is not used, downloaded or executed."
+        }
+      ]
     }
   ]
 }

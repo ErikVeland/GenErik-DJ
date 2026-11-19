@@ -5927,3 +5927,17 @@ Validation:356 source checks and10 focused native tests passed. Every active wir
 Additional public Rane SDK/Performer, Denon X1850 and NS7II/III searches yielded no usable own wire table in the checked results. This does not establish that no other source exists. The pinned Mixxx1.11 historical tree is saved for comparison. Original NS7/X1600 protocols are not inherited.
 
 The catalogue has368 recipes and562 records for555 physical models. Automatic core stays241, with314 without it. First-protocol gaps decrease to148. Full theoretical support remains0/555. Physical/iPad/A10X acceptance remains open.
+
+## R443 — Independent SmartPAD default Clip grid
+
+MIDIPLUS’s own manual001/v1.2/May2019 qualifies default Clip mode, raw channel0 NoteOn/NoteOff, the first two row addresses and full00..77hex bounds. Independently pinned factory-hardware owner notes and a preserved firsthand review confirm the complete eight-row layout, top-to-bottom16*y+x. The older notes reverse the NoteOn/NoteOff status labels. The manufacturer’s explicit bytes remain authoritative. No Launchpad or APC protocol is inherited.
+
+The native60-input accessory grid reuses only app assignments. A/B occupy the lower quadrants. C/D occupy the upper quadrants with app opt-in. Each quadrant provides Play, Sync, Load, PFL, Loop In/Out, Reloop and eight Hot Cues. It selects automatically for the specific SmartPAD endpoint without paired output or setup.
+
+The four main Cue cells stay inactive. Mode buttons do not reliably send MIDI, and Set mode shares messages with encoders. These gaps prevent a reviewed held-contact handover. Release pads before a hardware mode change. Mode1/2, Set/encoder CCs, scene buttons, host paging, other firmware and full lifecycle remain inactive/unqualified. No Ableton handshake enables arrow paging. Use factory firmware/default Clip and close other controller hosts.
+
+The manufacturer requires a NoteOff before a colour change. Owner evidence distinguishes older firmware behaviour and a differing velocity palette. Output stays inactive. Full mode/source ownership, saved state, feedback, USB/OS/power and physical/iPad/A10X acceptance remain open. SmartPAD II and replacement KIKPAD/CleverPad firmware are separate. No setup, reset, preset, driver, firmware or audio route is sent.
+
+Validation:358 source checks and nine focused native tests passed. Native checks cover all60 coordinates/functions, eight Hot Cues per deck, positive velocities, both release forms, separate sources, disconnect without repeated Play, C/D opt-in and inactive Cue cells/other modes/encoders/scenes/unmapped addresses. Real-WAV Play and unsupported-mode reports keep finite synced audio. All three catalogue gates and197 automatic held-Cue recipes pass. The iPad framework compiled and its bundled resource matches the source. All368 earlier recipes remain identical. Initial missing-profile failures remain in evidence. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r443/validation.json`.
+
+The catalogue has369 recipes and562 records for555 physical models. It has242 automatic core models and313 without automatic core. First-protocol gaps decrease to147. Full theoretical support remains0/555. Physical/iPad/A10X acceptance remains open.
