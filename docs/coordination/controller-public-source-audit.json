@@ -2454,6 +2454,67 @@
         }
       ],
       "result": "Independent54-input X1600 native MIDI-layer layout and50-input PCM-1 factory subset, both manual with separate audio.303 source/12 native checks and iPad framework compilation pass. All324 earlier recipes remain identical. Full modes/audio/OS and physical acceptance remain open."
+    },
+    {
+      "request": "R419",
+      "sources": [
+        {
+          "model": "Rane SIXTY TWO",
+          "url": "https://www.ranecommercial.com/legacy/pdf/sixtytwo_manual_dj.pdf",
+          "sha256": "f44874c5435959181ae5676c3904291a570e5f8cdfcd19fdff090c17b59e9afe",
+          "cacheName": "sixtytwo-manual.pdf",
+          "pages": [
+            29,
+            32,
+            33,
+            34,
+            35
+          ],
+          "visuallyReviewedPages": [
+            35
+          ],
+          "review": "Own manufacturer manual independently separates read-only mixer MIDI output, writable software controls and mixer-input configuration addresses. Native uses default MIDI Layer1, two six-control strips, four globals, five Hot Cues per deck, distinct manual/auto loop buttons and encoders and library. The manual explicitly gives different MIDI addresses for Cue versus Sample and Auto versus Manual loop controls. Software-owned Hot Cue/Loop lamps use primary-full velocity64 and off0. Hardware-only Cue/FX, input settings and mixer-control LEDs are not written. Source selector CC116/117 values1..4 reset only owned strip pickup. Other layers use non-sequential channels1/3/4/5/6 and are not silently aliased. Complete modes/feedback/audio/OS and physical acceptance remain open."
+        },
+        {
+          "model": "Rane SIXTY FOUR",
+          "url": "https://cdn.inmusicbrands.com/rane/pdf/sixtyfour_manual_dj.pdf",
+          "sha256": "15f81f7976e454c22136464a4804e3a2415f234d067023bb85d8928dbf9ca992",
+          "cacheName": "sixtyfour-manual.pdf",
+          "pages": [
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ],
+          "visuallyReviewedPages": [
+            38
+          ],
+          "review": "Own manufacturer table independently qualifies four fixed targets in physical C/A/B/D strip order, dedicated alternate bank addresses and default MIDI Layer1. Native keeps31 unambiguous Hot Cues, four Sync/load/loop/library sets, four six-control mixer strips and globals. Note16 is duplicated as Deck3 Trigger6 and FX joystick east, so it stays inactive, including feedback. CC122/123 overlap crossfader-assign and layer reports and stay inactive. Source selector CC116..119 values1..4 reset C/A/B/D strip pickup respectively. Only software-owned Hot Cue/Sync/Loop notes receive primary-full64/off0. No mixer setting, contour/reverse, hardware Cue/FX/LED, sibling byte, startup or audio write is inferred. Other layers, full modes/feedback/lifecycle/audio/OS and physical acceptance remain open."
+        },
+        {
+          "model": "Rane TTM57 MKII",
+          "url": "https://cdn.inmusicbrands.com/rane/pdf/ttm57mk2_manual.pdf",
+          "sha256": "4518a534c438a039dd858ffdf3251b656480cabba7b3dbd540164cb2df9d8078",
+          "cacheName": "ttm57mk2-manual.pdf",
+          "pages": [
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28
+          ],
+          "visuallyReviewedPages": [
+            27
+          ],
+          "review": "Own manufacturer table independently qualifies deck mixer channels1/2, loop channels5/6, general channel15 and library/crossfader channel16. Encoders explicitly use65/63 single steps. Native has two six-control strips, master/headphone/cue mix/crossfader, loop size/toggle and library browse/load/group. USB Port Active channel15 CC32 values1/4/5 reset only owned pickup. The same pad addresses represent different Cues/Samples functions, with pad mode reported by channel15 CC58; these pads and their LEDs remain inactive until the mode contract is implemented. No default pad mode, original TTM57 compatibility, driver, setup, source action, mixer preference, firmware or audio route is inferred. Full modes/feedback/lifecycle/audio/OS and physical acceptance remain open."
+        }
+      ],
+      "result": "Independent manual44-input/14-lamp Sixty-Two,83-input/39-lamp Sixty-Four and24-input TTM57mkII subsets.305 source/11 native checks and iPad framework compilation pass. All326 earlier recipes remain identical. Source pickup and relative loop encoder counts are covered. No private SDK or hardware mixer/audio write. Complete modes/feedback/lifecycle/audio/OS and physical acceptance remain open."
     }
   ]
 }

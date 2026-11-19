@@ -2974,3 +2974,15 @@ func controllerCatalogueLegacyLayerNativeTransportKeepsRealAudioAndSavedSync(_ n
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test(arguments:["Rane SIXTY TWO","Rane SIXTY FOUR","Rane TTM57 MKII"]) @MainActor
+func controllerCatalogueLegacyRaneMixerAndLoopsKeepRealAudioAndSavedSync(_ name:String)async throws{
+    try await withControllerCuePlayback(name,manual:true){model,input in
+        model.pressPlay(deck:.a,vinylStop:false)
+        if name=="Rane TTM57 MKII"{cuePreviewPacket([0x94,50,127,50,0,0xBE,32,4],to:input)}
+        else{cuePreviewPacket([0x90,name=="Rane SIXTY TWO" ? 29:28,127,name=="Rane SIXTY TWO" ? 29:28,0,0xB0,name=="Rane SIXTY TWO" ? 116:117,2],to:input)}
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.loopEnabled == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}

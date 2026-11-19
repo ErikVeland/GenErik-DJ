@@ -364,7 +364,7 @@ struct ControllerProfileData: Decodable, Sendable {
             return input.argument.map { input.encoding.isRelative && ControllerCountJogMotion.validResolution($0) }
                 ?? true
         case .loopSizeA, .loopSizeB:
-            return input.kind == .control && [.twosComplement, .binaryStep, .binaryDirection, .zeroForward, .signedStep].contains(input.encoding)
+            return input.kind == .control && [.twosComplement, .binaryOffset, .binaryStep, .binaryDirection, .zeroForward, .signedStep].contains(input.encoding)
                 && input.argument == nil
         case .loopA, .loopB:
             return input.argument.map { PerformancePreparation.loopSizes.contains($0) } ?? true

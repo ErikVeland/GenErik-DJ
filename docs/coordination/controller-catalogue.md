@@ -11,7 +11,7 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 561 total catalogue records. 554 name physical models. The remainder identify software endpoints or protocol families.
-- 326 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 329 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 208 factory profiles select core controls automatically for 216 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - 332 physical models still lack automatic core controls.
@@ -228,8 +228,8 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 120 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 190 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 123 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 187 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -721,12 +721,12 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Philips M1X-DJ | primary | partial-midi-profile | [Reference](https://download.algoriddim.com/djay/202010171657/djay_Pro_2.2.9.zip) |
 | Rane FOUR | primary | partial-midi-profile | [Reference](https://support.rane.com/en/support/solutions/articles/69000828752-rane-four-frequently-asked-questions) |
 | Rane PERFORMER | primary | protocol-needed | [Reference](https://www.rane.com/downloads/?product=Rane+Performer) |
-| Rane SIXTY FOUR | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RANE64) |
-| Rane SIXTY TWO | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RANE62) |
+| Rane SIXTY FOUR | primary | partial-midi-profile | [Reference](https://cdn.inmusicbrands.com/rane/pdf/sixtyfour_manual_dj.pdf) |
+| Rane SIXTY TWO | primary | partial-midi-profile | [Reference](https://www.ranecommercial.com/legacy/pdf/sixtytwo_manual_dj.pdf) |
 | Rane SL2 | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RANESL2) |
 | Rane SL3 | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RANESL3) |
 | Rane SL4 | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RANESL4) |
-| Rane TTM57 MKII | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RN57MK2) |
+| Rane TTM57 MKII | primary | partial-midi-profile | [Reference](https://cdn.inmusicbrands.com/rane/pdf/ttm57mk2_manual.pdf) |
 | Reloop BeatMix | primary | automatic-core-profile | [Reference](https://www.reloop.com/media/catalog/product/pdf/2/2/5/225067_Reloop_IM.pdf) |
 | Reloop Beatmix 2 MK2 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Beatmix-2-4-MK2.midi.xml) |
 | Reloop Beatmix 4 MK2 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Beatmix-2-4-MK2.midi.xml) |
