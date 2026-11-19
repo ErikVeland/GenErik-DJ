@@ -11,10 +11,10 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 562 total catalogue records. 555 name physical models. The remainder identify software endpoints or protocol families.
-- 365 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 224 factory profiles select core controls automatically for 233 physical models.
+- 366 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 225 factory profiles select core controls automatically for 234 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
-- 316 physical models still lack automatic core controls.
+- 315 physical models still lack automatic core controls.
 - 555 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -223,13 +223,13 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 17 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 227 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 228 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
 | partial-midi-profile | 143 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 151 | The pinned references contain no implemented mapping for this model. |
+| protocol-needed | 150 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -436,9 +436,9 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Pioneer XDJ-RX2 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-RX2/XDJ-RX2_List_of_MIDI_Message_E3.pdf) |
 | Pioneer XDJ-RX3 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-RX3/XDJ-RX3_MIDI_Message_List_E1.pdf) |
 | Pioneer XDJ-XZ | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-XZ/XDJ-XZ_MIDI_Message_List_E1.pdf) |
-| AKAI APC20 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AKAPC20) |
 | Akai APC MINI | accessory | automatic-core-profile | [Reference](https://raw.githubusercontent.com/TomasHubelbauer/akai-apc-mini/9f72aef49d663959a6033dcef67ca3784a40f672/README.md) |
 | Akai APC mini MK2 | accessory | automatic-core-profile | [Reference](https://cdn.inmusicbrands.com/akai/attachments/APC%20mini%20mk2%20-%20Communication%20Protocol%20-%20v1.0.pdf) |
+| Akai APC20 | accessory | automatic-core-profile | [Reference](https://raw.githubusercontent.com/ArtGateOne/ma2apc20/3941b87148b2602f76571d750004a09599eff39f/ma2apc20/ma2apc20.js) |
 | Akai APC40 | accessory | automatic-core-profile | [Reference](https://cdn.inmusicbrands.com/akai/apc40/APC40_Communications_Protocol_rev_1.pdf_1db97c1fdba23bacf47df0f9bf64e913.pdf) |
 | Akai APC40 MKII | accessory | automatic-core-profile | [Reference](https://cdn.inmusicbrands.com/akai/attachments/apc40II/APC40Mk2_Communications_Protocol_v1.2.pdf) |
 | Akai APC64 | accessory | automatic-core-profile | [Reference](https://raw.githubusercontent.com/bitwig/bitwig-extensions/35a3bc35f6e69da01137d1923f4c9f3636b21336/src/main/java/com/bitwig/extensions/controllers/akai/apc64/Apc64MidiProcessor.java) |

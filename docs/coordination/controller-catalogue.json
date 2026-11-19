@@ -19884,68 +19884,6 @@
       }
     },
     {
-      "id": "akaiapc20",
-      "name": "AKAI APC20",
-      "manufacturer": "Akai",
-      "role": "accessory",
-      "benchmark": false,
-      "sources": [
-        "https://virtualdj.com/products/hardware.html?model=AKAPC20"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "virtualDJ": {
-          "sourceName": "AKAI APC20",
-          "category": "Addon Units (FX,Pads,..)",
-          "source": "https://virtualdj.com/products/hardware.html?model=AKAPC20"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
       "id": "akaiapcmini",
       "name": "Akai APC MINI",
       "manufacturer": "Akai",
@@ -20219,6 +20157,132 @@
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
         "This is a native app grid/fader layout, separate from Ableton. Other Session channels, Drum/Note modes, full mode negotiation, remaining track/scene buttons, pressure/expression, user colour/state restoration, full feedback/lifecycle and physical/iPad/A10X acceptance remain open. Port-name variants and required iPad power need physical qualification. No DAW script, audio route or persistent template is written."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "akaiapc20",
+      "name": "Akai APC20",
+      "manufacturer": "Akai",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://raw.githubusercontent.com/ArtGateOne/ma2apc20/3941b87148b2602f76571d750004a09599eff39f/ma2apc20/ma2apc20.js",
+        "https://virtualdj.com/products/hardware.html?model=AKAPC20"
+      ],
+      "definitions": [
+        "reviewed:apc20-mode2-native"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Akai APC20",
+      "automaticControls": true,
+      "comparisonSupport": {
+        "virtualDJ": {
+          "sourceName": "AKAI APC20",
+          "category": "Addon Units (FX,Pads,..)",
+          "source": "https://virtualdj.com/products/hardware.html?model=AKAPC20"
+        }
+      },
+      "controlActions": [
+        "browse",
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
+        "browsePreviousGroup",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "master",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "shift"
+      ],
+      "inputBindingCount": 63,
+      "feedbackBindingCount": 48,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Use APC20 USB MIDI with its power adapter and close other controller software. Native selects mode2 and requests default mode at shutdown. Each adjacent column pair targets A/B/C/D; enable C/D separately. First four pad rows: eight Hot Cues. Last row: Play/Cue. Paired faders: level/filter; Solo buttons: PFL. Master stays global. Shift blocks normal controls. Previous state is not restored."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Own pinned hardware-owner integration explicitly selects APC20 mode2 with product7B/command60/value42, then handles per-channel Notes53..57, Solo49, CC7 faders, masterCC14 and signed encoderCC47. Independently authored QLC+ APC20 input profile corroborates every active wire, including Shift81/channel1 and the four navigation keys Note51/channels5..8. A separate firsthand APC20 write-up documents the matching command and default mode40. Native paired setup selects the exact source mode2; shutdown/partial-startup abort requests default mode40. No acknowledgement or previous-state restoration is claimed. Native assigns each adjacent column pair to A/B/C/D. Notes53..56 provide eight Hot Cues per pair; Note57 is Play on the left/Cue on the right. Each adjacent fader pair is level/filter for that deck; master stays global. Solo buttons on either column set that native deck PFL. Navigation is pulse-based, and the encoder accepts only strict1/127 steps. Shift retires only its source and guards all normal inputs. Forty grid plus eight PFL lamps use independently observed on values1/3 and off0. Colour names are not inferred from APC40. Source lighting-console actions and its nonlinear fader curve do not run. Other34 QLC+ controls, full encoder magnitude/calibration, other hardware modes, persistence of the mode selection, saved LED/mode restoration, complete feedback/lifecycle/recovery, USB/OS/power and physical/iPad/A10X acceptance remain open. Native sends no identity query, preset/global-settings dump, driver, firmware or audio route. APC40/APC64/APC mini protocols remain separate."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -356617,6 +356681,64 @@
         },
         {
           "reason": "Pinned Bitwig primary integration independently qualifies APC64 DAW/Notes port separation, Session mode0, own identity response family53/member1901, pad Notes0..63 on raw channel6, eight14-bit Pitch Bend strips on raw channels0..7 and ShiftNote120/channel0. Native accepts only the confirmed own device after the source normal-routing and Session setup plus identity request. DAW enable is sent only after own identity; readiness confirms local send success, not an undocumented acknowledgement. Other reported modes immediately retire only that source, block its pads/strips/feedback and request DAW exit. Returning to Session requires another successful local DAW-enable send. Fragmented/bounded SysEx and real-time bytes are handled separately from MIDI actions. Native uses the existing64-pad four-quadrant layout, A/B below and opt-in C/D above. Eight strips set levels A-D and filters A-D with pickup. Shift retires its source and guards all normal controls. Own static palette channel6 supports52 lamps with red5/yellow13/green21/off0. Shutdown clears those52 lamps and requests DAW exit; the exit is also attempted after any failed shutdown lamp or exit send. Partial startup abort requests exit. No initial-state guarantee, previous mode/LED restoration or persistence guarantee for source routing flag1B is claimed. Other modes, strip touch/position/colour feedback, outer controls, OLED text, sequencer/CV/DIN, complete lifecycle/recovery, USB/OS/power and physical/iPad/A10X acceptance remain open. No Bitwig code, preset dump, global-settings dump, driver, firmware or audio route executes. Original APC mini/MK2/APC20/APC40 contracts remain separate."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:apc20-mode2-native",
+      "name": "Akai APC20",
+      "transport": "midi",
+      "source": {
+        "url": "https://raw.githubusercontent.com/ArtGateOne/ma2apc20/3941b87148b2602f76571d750004a09599eff39f/ma2apc20/ma2apc20.js",
+        "sha256": "0fa61faf65ba9f1ff19288cc596074052f1ad1f3bc59f24e70038f999bd5866a",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r439/upstream/apc20-owner.js",
+            "sha256": "0fa61faf65ba9f1ff19288cc596074052f1ad1f3bc59f24e70038f999bd5866a"
+          },
+          {
+            "cachePath": "TestBuilds/r439/upstream/apc20-owner-README.md",
+            "sha256": "c2286d4f9f76947654b6faa16c2a9cecd8db8429064fa9250fc696f07f73c2f2"
+          },
+          {
+            "cachePath": "TestBuilds/r439/upstream/APC20.qxi",
+            "sha256": "4e051dfb72e1c55faaa02a15bceaaedd906fdb7cd96a33cc8ab103d6605292ce"
+          },
+          {
+            "cachePath": "TestBuilds/r440/upstream/apc20-mode-reference.html",
+            "sha256": "2bfac5e71545b86697c1e801bc3c39edb74e159c0a34277da37ae251492931f3"
+          },
+          {
+            "cachePath": "TestBuilds/r440/upstream/apc20-guide.pdf",
+            "sha256": "8bcf571ab3b7bdbc7df84a3c072cf20e9a30092d34d8d70b2e0407c79ab1a7f3"
+          }
+        ],
+        "relatedSources": [
+          {
+            "url": "https://raw.githubusercontent.com/ArtGateOne/ma2apc20/3941b87148b2602f76571d750004a09599eff39f/README.md"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/mcallegari/qlcplus/29929e877fb8a8466666ca8005b4ea57db27444f/resources/inputprofiles/Akai-APC20.qxi"
+          },
+          {
+            "url": "https://audiodestrukt.wordpress.com/2012/11/26/hacking-on-the-apc-20/"
+          },
+          {
+            "url": "https://cdn.inmusicbrands.com/akai/attachments/legacy1/apc20___quickstart_guide___reva_00.pdf"
+          }
+        ],
+        "review": "Own pinned hardware-owner integration explicitly selects APC20 mode2 with product7B/command60/value42, then handles per-channel Notes53..57, Solo49, CC7 faders, masterCC14 and signed encoderCC47. Independently authored QLC+ APC20 input profile corroborates every active wire, including Shift81/channel1 and the four navigation keys Note51/channels5..8. A separate firsthand APC20 write-up documents the matching command and default mode40. Native paired setup selects the exact source mode2; shutdown/partial-startup abort requests default mode40. No acknowledgement or previous-state restoration is claimed. Native assigns each adjacent column pair to A/B/C/D. Notes53..56 provide eight Hot Cues per pair; Note57 is Play on the left/Cue on the right. Each adjacent fader pair is level/filter for that deck; master stays global. Solo buttons on either column set that native deck PFL. Navigation is pulse-based, and the encoder accepts only strict1/127 steps. Shift retires only its source and guards all normal inputs. Forty grid plus eight PFL lamps use independently observed on values1/3 and off0. Colour names are not inferred from APC40. Source lighting-console actions and its nonlinear fader curve do not run. Other34 QLC+ controls, full encoder magnitude/calibration, other hardware modes, persistence of the mode selection, saved LED/mode restoration, complete feedback/lifecycle/recovery, USB/OS/power and physical/iPad/A10X acceptance remain open. Native sends no identity query, preset/global-settings dump, driver, firmware or audio route. APC40/APC64/APC mini protocols remain separate."
+      },
+      "implementedInputCount": 63,
+      "implementedOutputCount": 48,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Own pinned hardware-owner integration explicitly selects APC20 mode2 with product7B/command60/value42, then handles per-channel Notes53..57, Solo49, CC7 faders, masterCC14 and signed encoderCC47. Independently authored QLC+ APC20 input profile corroborates every active wire, including Shift81/channel1 and the four navigation keys Note51/channels5..8. A separate firsthand APC20 write-up documents the matching command and default mode40. Native paired setup selects the exact source mode2; shutdown/partial-startup abort requests default mode40. No acknowledgement or previous-state restoration is claimed. Native assigns each adjacent column pair to A/B/C/D. Notes53..56 provide eight Hot Cues per pair; Note57 is Play on the left/Cue on the right. Each adjacent fader pair is level/filter for that deck; master stays global. Solo buttons on either column set that native deck PFL. Navigation is pulse-based, and the encoder accepts only strict1/127 steps. Shift retires only its source and guards all normal inputs. Forty grid plus eight PFL lamps use independently observed on values1/3 and off0. Colour names are not inferred from APC40. Source lighting-console actions and its nonlinear fader curve do not run. Other34 QLC+ controls, full encoder magnitude/calibration, other hardware modes, persistence of the mode selection, saved LED/mode restoration, complete feedback/lifecycle/recovery, USB/OS/power and physical/iPad/A10X acceptance remain open. Native sends no identity query, preset/global-settings dump, driver, firmware or audio route. APC40/APC64/APC mini protocols remain separate."
         }
       ]
     },

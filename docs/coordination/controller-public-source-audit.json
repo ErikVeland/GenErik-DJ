@@ -3681,6 +3681,54 @@
         }
       ],
       "result": "Pinned primary Bitwig integration qualifies73 automatic identity/Session-gated inputs and52 static lamps. Native waits for own identity and successful DAW send, retires only its source on mode loss, and requires successful re-entry. Every failed shutdown write still attempts DAW exit. Other modes/screens/strip feedback/state restoration remain open."
+    },
+    {
+      "request": "R440",
+      "sources": [
+        {
+          "model": "Akai APC20",
+          "url": "https://raw.githubusercontent.com/ArtGateOne/ma2apc20/3941b87148b2602f76571d750004a09599eff39f/ma2apc20/ma2apc20.js",
+          "sha256": "0fa61faf65ba9f1ff19288cc596074052f1ad1f3bc59f24e70038f999bd5866a",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r439/upstream/apc20-owner.js",
+              "sha256": "0fa61faf65ba9f1ff19288cc596074052f1ad1f3bc59f24e70038f999bd5866a"
+            },
+            {
+              "cachePath": "TestBuilds/r439/upstream/apc20-owner-README.md",
+              "sha256": "c2286d4f9f76947654b6faa16c2a9cecd8db8429064fa9250fc696f07f73c2f2"
+            },
+            {
+              "cachePath": "TestBuilds/r439/upstream/APC20.qxi",
+              "sha256": "4e051dfb72e1c55faaa02a15bceaaedd906fdb7cd96a33cc8ab103d6605292ce"
+            },
+            {
+              "cachePath": "TestBuilds/r440/upstream/apc20-mode-reference.html",
+              "sha256": "2bfac5e71545b86697c1e801bc3c39edb74e159c0a34277da37ae251492931f3"
+            },
+            {
+              "cachePath": "TestBuilds/r440/upstream/apc20-guide.pdf",
+              "sha256": "8bcf571ab3b7bdbc7df84a3c072cf20e9a30092d34d8d70b2e0407c79ab1a7f3"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://raw.githubusercontent.com/ArtGateOne/ma2apc20/3941b87148b2602f76571d750004a09599eff39f/README.md"
+            },
+            {
+              "url": "https://raw.githubusercontent.com/mcallegari/qlcplus/29929e877fb8a8466666ca8005b4ea57db27444f/resources/inputprofiles/Akai-APC20.qxi"
+            },
+            {
+              "url": "https://audiodestrukt.wordpress.com/2012/11/26/hacking-on-the-apc-20/"
+            },
+            {
+              "url": "https://cdn.inmusicbrands.com/akai/attachments/legacy1/apc20___quickstart_guide___reva_00.pdf"
+            }
+          ],
+          "review": "Own pinned hardware-owner integration explicitly selects APC20 mode2 with product7B/command60/value42, then handles per-channel Notes53..57, Solo49, CC7 faders, masterCC14 and signed encoderCC47. Independently authored QLC+ APC20 input profile corroborates every active wire, including Shift81/channel1 and the four navigation keys Note51/channels5..8. A separate firsthand APC20 write-up documents the matching command and default mode40. Native paired setup selects the exact source mode2; shutdown/partial-startup abort requests default mode40. No acknowledgement or previous-state restoration is claimed. Native assigns each adjacent column pair to A/B/C/D. Notes53..56 provide eight Hot Cues per pair; Note57 is Play on the left/Cue on the right. Each adjacent fader pair is level/filter for that deck; master stays global. Solo buttons on either column set that native deck PFL. Navigation is pulse-based, and the encoder accepts only strict1/127 steps. Shift retires only its source and guards all normal inputs. Forty grid plus eight PFL lamps use independently observed on values1/3 and off0. Colour names are not inferred from APC40. Source lighting-console actions and its nonlinear fader curve do not run. Other34 QLC+ controls, full encoder magnitude/calibration, other hardware modes, persistence of the mode selection, saved LED/mode restoration, complete feedback/lifecycle/recovery, USB/OS/power and physical/iPad/A10X acceptance remain open. Native sends no identity query, preset/global-settings dump, driver, firmware or audio route. APC40/APC64/APC mini protocols remain separate."
+        }
+      ],
+      "result": "Own hardware-owner mode2 code and independent QLC+ table qualify63 automatic native inputs/48 lamps. Firsthand APC20 mode documentation qualifies the default40 exit. Every active wire is checked against the97-control table. Other34 controls, other modes, full encoder magnitudes and state restoration remain open."
     }
   ]
 }

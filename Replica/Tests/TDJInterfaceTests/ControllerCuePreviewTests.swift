@@ -3002,6 +3002,19 @@ func controllerCatalogueLegacyRaneMixerAndLoopsKeepRealAudioAndSavedSync(_ name:
     }
 }
 
+@Test @MainActor func controllerCatalogueAPC20ShiftReleasesSoftCueAndKeepsRealAudioSync() async throws {
+    try await withControllerCuePlayback("APC20") { model, input in
+        input.receiveBytes([0x91, 57, 1], source: 10); input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x90, 81, 127], source: 10); input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        input.receiveBytes([0x81, 57, 127, 0x80, 81, 127, 0x90, 57, 127, 57, 0, 0xB0, 7, 64], source: 10); input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
 @Test @MainActor func controllerCatalogueAPC64ModeLossReleasesSoftCueThenSessionRestoresRealAudioSync() async throws {
     try await withControllerCuePlayback("APC64", ports: ["APC64 DAW (APC64)"], prepareInput: { input in
         input.receiveBytes([0xF0, 0x7E, 0, 6, 2, 0x47, 0x53, 0, 0x19, 1, 1, 0, 14, 0, 0xF7], source: 10)
