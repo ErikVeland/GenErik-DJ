@@ -216,4 +216,3 @@ func controllerCatalogueReviewedClearBothNegativeWiresRearmOnlyTheirOwnRole(name
         }
     }
 }
-
