@@ -1,0 +1,18 @@
+"""Independent G4V normal mixer facts from the primary owner chart."""
+from curated import add, profile
+
+G4V_MIXER_REFERENCES={'Gemini G4V': {'url': 'https://forum.djtechtools.com/t/midi-out-issues-with-traktor-2/74377', 'sha256': '7a2349f6d0f42e4e9d98055523c605c657d735c309633bfad8a39ae84c7b93f4', 'files': [{'cachePath': 'TestBuilds/r467/upstream/g4v-map.jpg', 'sha256': '7a2349f6d0f42e4e9d98055523c605c657d735c309633bfad8a39ae84c7b93f4'}, {'cachePath': 'TestBuilds/r467/upstream/g4v-table.jpg', 'sha256': 'e429dcfb6773c5b617fc700462794dba31cff1cb0891da8f76fbb33c9812d4b0'}, {'cachePath': 'TestBuilds/r467/upstream/g4v-deck-b.tsi', 'sha256': 'df77724f9a3d44fc1c661e1b9cbdc3817e39efd0b1fbdc57bf3427bb8ccdb802'}], 'relatedSources': [{'url': 'https://us1.discourse-cdn.com/flex001/uploads/techtools/original/3X/8/6/86ec19eecad2c41fb0a06963fad8720622efb248.jpeg'}, {'url': 'https://us1.discourse-cdn.com/flex001/uploads/techtools/original/3X/b/9/b9a64a01048f6aca76092aade627b66d55a5d564.jpeg'}, {'url': 'https://www.geminisound.com/blogs/kb/g2v-g4v-traktor-setup-guide-legacy-kb'}], 'review': 'Primary owner khan.cross published the G4V MIDI chart on29June2016 in the DJ TechTools controller-mapping discussion. The image identifies its creation on18April2016 with Traktor2.10.013. Visually reviewed all four physical strips in order3/1/2/4. Their fixed MIDI channel4/raw3 absolute knobs/faders are CH1..4 gainCC1..4, mid5..8, high9..12, low13..16, filter17..20 and level21..24. Logical CH1..4 map to native A..D, with C/D opt-in and per-source pickup. The separately attached manufacturer-branded G2V/G4V Traktor layout establishes the normal one-to-one mixer functions. These are owner-reported protocol facts, not a manufacturer numeric specification or native hardware test. The separately recovered Deck-B TSI concerns player/FX/pad commands and is not used to infer missing mixer addresses, state, polarity or sibling support. Native imports only24 normal seven-bit mixer positions on an already exposed MIDI port. Manual selection is required; no automatic USB identity, stored-state discovery or audio ownership is claimed. Deck switching/modifiers, transport/Cue, pads/loops/FX, pitch/jog/touch calibration, globals/crossfader, feedback/meters, full lifecycle/recovery and exact USB/driver/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. No G2V or Slate map is inherited. No source mapping executes or ships, and no setup/query/preset/driver/firmware/output/audio-route packet runs.'}}
+
+
+def g4v_mixer_profiles():
+    """Keep the reported fixed mixer addresses outside unqualified player modes."""
+    ref=G4V_MIXER_REFERENCES['Gemini G4V']
+    p=profile('Gemini G4V',ref['url'])
+    p.update(autoSelect=False,role='accessory',definition='reviewed:g4v-owner-chart-normal-mixer',
+        aliases=['Gemini G4V','G4V','G4V Audio'],excludedAliases=['Gemini G2V','G2V','G2V Audio','Gemini Slate 4','Slate 4'],
+        hardwareMode='Select this manual mixer subset on an exposed G4V MIDI source. Use channel4/raw3 normal knobs and faders. Physical CH1..4 map A..D; C/D require app opt-in. Configure app audio separately. Player/deck-switch modes remain unsupported.',
+        scope='Manual24-input normal four-strip mixer: gain, three-band EQ, filter and level with source-owned pickup. Owner-reported seven-bit protocol facts only. No automatic identity, player modes, outputs or audio route.',
+        gaps=[ref['review']])
+    for index,deck in enumerate('abcd'):
+        for action,base in [('gain',1),('high',9),('mid',5),('low',13),('filterKnob',17),('level',21)]:add(p,action,3,base+index,'control',deck=deck)
+    return [p]
