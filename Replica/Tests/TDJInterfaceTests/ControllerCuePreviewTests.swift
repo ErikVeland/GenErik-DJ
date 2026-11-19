@@ -2987,6 +2987,21 @@ func controllerCatalogueLegacyRaneMixerAndLoopsKeepRealAudioAndSavedSync(_ name:
     }
 }
 
+@Test(arguments: ["Denon DJ HD2500", "Stanton SCS.4DJ", "Gemini FirstMix I/O"]) @MainActor
+func controllerCatalogueLegacyStandaloneKeepsRealAudioAndSavedSync(_ name: String) async throws {
+    try await withControllerCuePlayback(name, manual: name == "Denon DJ HD2500") { model, input in
+        let cue: UInt8 = name == "Denon DJ HD2500" ? 66 : name == "Stanton SCS.4DJ" ? 38 : 6
+        let play: UInt8 = name == "Denon DJ HD2500" ? 67 : name == "Stanton SCS.4DJ" ? 36 : 7
+        let pressure: UInt8 = name == "Denon DJ HD2500" ? 64 : 127
+        cuePreviewPacket([0x90, cue, pressure], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80, cue, pressure, 0x90, play, pressure, play, 0], to: input)
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
 @Test(arguments: ["Reloop Contour Controller Edition", "Reloop Contour Interface Edition"]) @MainActor
 func controllerCatalogueContourKeepsRealAudioAndSavedSync(_ name: String) async throws {
     try await withControllerCuePlayback(name) { model, input in
