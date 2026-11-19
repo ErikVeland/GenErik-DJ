@@ -1712,6 +1712,38 @@
         }
       ],
       "result": "X and Pro MK3 add automatic Programmer setup with bounded static clearing and a best-effort Live exit on startup failure. Original Pro stays manual because of its independent Standalone port and saved channel. Native four-quadrant64-pad/52-lamp layout per model; no downloaded script or DAW handshake."
+    },
+    {
+      "request": "R403",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "model": "Akai APC mini MK2",
+          "url": "https://cdn.inmusicbrands.com/akai/attachments/APC%20mini%20mk2%20-%20Communication%20Protocol%20-%20v1.0.pdf",
+          "cacheName": "apc-mini-mk2-protocol.pdf",
+          "sha256": "38881e0411831a9e67a2896b9dad8d8938b57bda278a6290aa717be4b046d6a7",
+          "pages": [
+            2,
+            3,
+            9,
+            13,
+            16
+          ],
+          "relatedSources": [
+            {
+              "url": "https://support.akaipro.com/en/support/solutions/articles/69000833843-akai-pro-apc-mini-mkii-how-to-download-install-and-setup-ableton-live-lite"
+            }
+          ],
+          "review": "Manufacturer Communications Protocol v1.0 pages2/3/9/13/16 visually checked. Session grid is0..63 bottom-to-top, eight columns. Only wire channel0 on the documented Control interface is accepted; Drum9 and the separate Note interface are excluded. Static full-brightness RGB feedback uses wire channel6. Shift122 retires source-owned holds and guards the grid. Nine absolute faders are CC48..56 on0. Native chooses four level, four gain and one master fader, plus the shared app quadrant functions on this independently qualified Akai grid. Introduction uses product79/application0 and the current app version0.1.0. Command36 clears pad range0..63 with eight payload bytes and zero RGB components and no surrounding-button write. No Ableton script, private handshake, original APC or other model protocol is inherited. Complete mode/channel negotiation, remaining UI, expressions/lifecycle and physical/iPad/A10X acceptance remain open."
+        },
+        {
+          "model": "Akai APC40 MKII",
+          "url": "https://cdn.inmusicbrands.com/akai/attachments/apc40II/APC40Mk2_Communications_Protocol_v1.2.pdf",
+          "sha256": "3af85d0b338a68581360633f38db9267119a34d3e9f7ffaf68be24658ce932b1",
+          "finding": "Public model-specific communications protocol recovered for the next review. No APC40 mapping is inferred from APC mini MK2."
+        }
+      ],
+      "result": "APC mini MK2 adds74 automatic Session-channel1 inputs and52 channel7 static lamps, with independent introduction/range-clear commands. Other modes/ports/channels, complete lifecycle and physical acceptance remain open."
     }
   ]
 }

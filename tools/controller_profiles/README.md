@@ -1113,3 +1113,6 @@ R401 adds independent `akiyama_charts.py` manual facts:98 Quattro,200 Quark SC a
 
 
 R402 adds `launchpad_programmer.py`: independently reviewed X, Pro MK3 and original Pro grids, each with64 inputs/52 static lamps in a native four-quadrant DJ layout. X/Pro MK3 use documented MIDI interfaces, Programmer/Live setup and two104-byte clear packets. Bounded startup-abort metadata attempts Live recovery after partial setup failure. Original Pro remains manual on its independent Standalone/channel1 contract.267 source checks,31 native tests and iPad framework compilation pass. Earlier293 recipes remain identical. Full modes/feedback/lifecycle and physical acceptance remain open.
+
+
+R403 adds `apc_mini_mk2.py` from the independent manufacturer protocol:74 Session-channel1 inputs,52 channel7 full-brightness lamps, Control-port qualification, Shift cleanup, nine native faders and bounded introduction/range-clear messages. `native_dj_grid.py` reuses only app functions across separately reviewed wire grids; all296 earlier recipes remain identical.270 source checks,20 native tests and iPad framework compilation pass. Other modes/channels, full lifecycle and physical acceptance remain open.

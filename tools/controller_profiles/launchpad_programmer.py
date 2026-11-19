@@ -1,5 +1,6 @@
 """Independent Programmer grids with native quadrants and bounded MIDI setup."""
-from curated import add, profile
+from curated import profile
+from native_dj_grid import add_native_dj_grid
 
 GUIDE_BASE='https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/'
 PROGRAMMER_REFERENCES={
@@ -10,21 +11,6 @@ PROGRAMMER_REFERENCES={
     'Novation Launchpad Pro':{'url':GUIDE_BASE+'Launchpad%20Pro%20Programmers%20Reference%20Guide%201.01.pdf','cacheName':'launchpad-pro-programmer.pdf','sha256':'18675fcff65778d3d3ffa00ef7e6b4ce0dcb30e2edab9f95034bc1291c2001f7','pages':[4,5,16,17,18],
         'review':'Original Pro v1.01 independently specifies the same decimal grid in Programmer layout, Notes for square pads and CC for surrounding buttons. The grid and example bytes were visually checked. Its Standalone interface is USB port2, Programmer layout command is product16/44/3, and each layout has a saved MIDI channel. Native therefore retains manual channel1 Programmer setup without automatic mode/output writes. Manual feedback is a separate opt-in. No MK3 negotiation is inferred.'},
 }
-
-
-def _grid(result):
-    for side,deck in enumerate('abcd'):
-        base=11+4*(side%2)+40*(side//2)
-        for action,offset,colour in [('play',0,19),('cuePreview',1,5),('sync',2,45),('load',3,None),
-                                     ('cue',10,19),('loopIn',11,None),('loopOut',12,None),('reloop',13,None)]:
-            add(result,action,0,base+offset,deck=deck,feedback=colour is not None)
-            if colour is not None:result['outputs'][-1]['onValue']=colour
-        suffix='A' if deck in 'ac' else 'B'
-        result['outputs'].append({'action':'loop'+suffix,'kind':'note','channel':0,'number':base+13,
-                                  'onValue':19,'offValue':0,'offUsesNoteOn':True,'targetDeck':deck})
-        for slot in range(8):
-            add(result,f'hotcue{slot+1}',0,base+20+10*(slot//4)+slot%4,deck=deck,feedback=True)
-            result['outputs'][-1]['onValue']=45
 
 
 def programmer_profiles():
@@ -49,6 +35,6 @@ def programmer_profiles():
             result['startup']=[header+[14,1,247]]+clears
             result['startupAbort']=[header+[14,0,247]]
             result['shutdown']=[list(packet) for packet in clears]+[header+[14,0,247]]
-        _grid(result)
+        add_native_dj_grid(result,[[11+10*y+x for x in range(8)] for y in range(8)])
         results.append(result)
     return results

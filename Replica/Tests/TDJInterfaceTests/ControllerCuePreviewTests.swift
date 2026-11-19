@@ -2759,3 +2759,16 @@ func controllerCatalogueLegacyDJMDirectCueKeepsAppStartedRealAudioSynced(_ name:
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueAPCMiniMK2ShiftCleanupRestoresRealAudioSync() async throws {
+    try await withControllerCuePlayback("APC mini mk2",ports:["APC mini MK 2 (Control)"]) { model,input in
+        cuePreviewPacket([0x90,1,1],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x90,122,127,122,0,0,127,0,0],to:input)
+        let audio=model.playback.core.renderOffline(frames:4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}
