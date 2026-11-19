@@ -34,7 +34,7 @@ struct ControllerProfileData: Decodable, Sendable {
         case masterAndHeadphones
     }
 
-    struct Input: Decodable, Sendable {
+    struct Input: Sendable {
         let action: ControllerAction
         let kind: ControllerMIDIMessage.Kind
         let channel: UInt8
@@ -425,7 +425,7 @@ struct ControllerProfileCatalogue: Decodable, Sendable {
     let profiles: [ControllerProfileData]
 
     private static let loaded: Result<Self, Error> = Result {
-        guard let url = Bundle.module.url(forResource: "factory-controller-profiles", withExtension: "json")
+        guard let url = Bundle.module.url(forResource: "factory-controller-profiles.compact", withExtension: "json")
         else { throw TransportError.invalid }
         return try decode(Data(contentsOf: url))
     }

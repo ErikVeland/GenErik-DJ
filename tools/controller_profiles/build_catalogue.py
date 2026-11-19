@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 
 from convert import convert_xml
+from compact_runtime import compact_runtime
 from curated import curated_profiles, REFERENCES
 from sources import canonical, manufacturer, read_serato, read_djay, split_models
 from virtualdj_inventory import read_virtualdj
@@ -549,10 +550,12 @@ def main():
     parser.add_argument("--runtime", type=Path, required=True)
     args = parser.parse_args()
     catalogue, runtime = build(args.cache, args.serato, args.djay)
-    runtime_text = encode_runtime(runtime)
+    runtime_text = json.dumps(runtime, ensure_ascii=False, separators=(",", ":")) + "\n"
+    bundled_text = encode_runtime(compact_runtime(runtime))
     write_json(args.catalogue, catalogue)
     args.runtime.parent.mkdir(parents=True, exist_ok=True)
     args.runtime.write_text(runtime_text, encoding="utf-8")
+    args.runtime.with_suffix(".compact.json").write_text(bundled_text, encoding="utf-8")
     print(json.dumps({"benchmarkRows": len(catalogue["benchmarkRows"]), "models": len(catalogue["models"]),
                       "definitions": len(catalogue["definitions"]), "runtimeProfiles": len(runtime["profiles"]),
                       "automaticControlCandidates": sum(profile["autoSelect"] for profile in runtime["profiles"]),

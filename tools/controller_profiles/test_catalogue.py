@@ -1634,7 +1634,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
                 self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
 
     def test_bundled_runtime_fits_the_native_four_mib_limit(self):
-        path=ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json"
+        path=ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.compact.json"
         self.assertLessEqual(path.stat().st_size,4*1024*1024,"The native loader rejects larger catalogues")
 
     def test_runtime_encoder_preserves_data_and_rejects_oversized_utf8(self):

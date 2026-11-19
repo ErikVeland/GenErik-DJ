@@ -676,7 +676,7 @@ This does not supply cue deletion, held Pad Mode behaviour or automatic audio ro
 ### Runtime resource size (R319)
 
 The native loader accepts at most 4 MiB of UTF-8 JSON. Keep this limit unchanged.
-The generator writes compact runtime JSON and checks its byte count before it writes either output.
+The generator checks the bundled resource byte count before it writes the generated outputs.
 Oversized output fails generation. The review catalogue retains its readable format.
 R319 caught a 4,196,910-byte resource that caused the native loader to reject all data profiles.
 Compact JSON reduced it to 2,235,212 bytes without changing the earlier profile data.
@@ -1119,3 +1119,14 @@ R403 adds `apc_mini_mk2.py` from the independent manufacturer protocol:74 Sessio
 
 
 R404 adds independent `apc40_generations.py` facts:114 MKII/113 original inputs and68 feedback bindings each. Separate product/grid/colour contracts use public momentary unbanked Mode1 and bounded Generic exit. A narrowly validated paired-unbanked contract permits global channels with all16 Shift cleanup selectors; track channels remain explicit.273 source checks,37 native tests and iPad framework compilation pass. Earlier297 recipes remain identical. Complete modes/state/ring/lifecycle and physical acceptance remain open.
+
+
+### Compact application resource (R452)
+
+The existing generation command writes the full review JSON and a sibling `factory-controller-profiles.compact.json` file. SwiftPM excludes the full review JSON from the application bundle. Native loads the compact file.
+
+The compact file shortens input field names and omits only Note/absolute/non-inverted defaults. It removes three profile metadata fields that native already ignored: definition, gaps and hardwareMode. Scope, source, aliases, all input options, output values and setup packets remain unchanged. The full form retains its required fields. Mixed recognised full/compact keys are invalid.
+
+Keep the existing4MiB,512-profile,512-input and128-output limits. Add any new input field to both the compact producer and native decoder. Unknown producer fields stop generation. Source tests must expand the compact file to the full reviewed values. Native binding comparisons must remain exact. See the [storage contract](../../docs/coordination/controller-catalogue-storage.md).
+
+R452 reduces the application resource from4,157,594 to2,051,892 bytes for377 unchanged recipes. All24,689 native input bindings match. Physical/iPad/A10X timing remains unverified.
