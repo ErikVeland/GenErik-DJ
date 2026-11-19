@@ -772,3 +772,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R470 | Implemented; full modes/global channels/audio/host gaps open | Add independent manufacturer Dragon Two and 4MIX Pitch normal cores | Added220/164 manual explicit-channel inputs from separate manufacturer archives.414 source/13 native checks and iPad framework compilation pass. All397 earlier recipes remain identical. [Scope](controller-coverage.md#r470-manufacturer-dragon-two-and-4mix-pitch-cores). |
 
 | R471 | Implemented; full modes/HID/feedback/audio/host gaps open | Add independent GMX MIDI core | Added46 manual independent MIDI inputs.417 source/12 native checks and iPad framework compilation pass. All399 earlier recipes remain identical. [Scope](controller-coverage.md#r471-independent-gmx-midi-core). |
+
+| R472 | Audited; conflicting pads/modes remain open | Review the separate GMX pad contribution | Recorded two numeric/mode conflicts in open PR2. No runtime support inferred.417 source checks pass; both runtime resources and catalogue JSON remain byte-identical to R471. [Scope](controller-coverage.md#r472-gmx-pad-contribution-conflicts). |

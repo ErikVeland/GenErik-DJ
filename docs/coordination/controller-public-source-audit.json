@@ -4997,6 +4997,33 @@
         }
       ],
       "result": "Independent46-input manual GMX MIDI core from pinned primary owner XML/numeric notes and separate own manufacturer mode guidance.417 source/12 native checks and iPad framework compilation pass. All399 earlier recipes remain identical. Six inversions and normal/shifted loop release aliases are explicit. Pads/Hot Cue modes, HID/screens, complete feedback/lifecycle/audio/host and physical acceptance remain open."
+    },
+    {
+      "request": "R472",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "model": "Gemini GMX",
+          "url": "https://github.com/codecat/mixxx-gemini-gmx/pull/2",
+          "upstreamRevision": "5f53a3f21317f901cbc73080c05906bd4ec965f4",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r472/upstream/gmx-pad-scripts.js",
+              "sha256": "0e3fafa18ba539e3a65614e48fd66208fc25ab84b624f07ddcc32761a52800aa"
+            },
+            {
+              "cachePath": "TestBuilds/r472/upstream/gmx-pulls.json",
+              "sha256": "359502efe2be563b0ae59fb02a85483a7a2510eab002a0967249ff101023b71d"
+            },
+            {
+              "cachePath": "TestBuilds/r472/upstream/gmx-pads.midi.xml",
+              "sha256": "534b0f194dd6113f52558a083bc627d14b944ca8e02a8fb263f4a812fab8c832"
+            }
+          ],
+          "finding": "Open/unmerged pad contribution by RenzoAPM. Reviewed as data, not executed or imported. Its automatic-loop mode toggle uses Note8, which the primary numeric notes identify as Shift+LoopIn/loop-half. Its loop-pad sizes are1..128 while the own manufacturer guide specifies1/8..16. Both mode booleans start false without a hardware mode-state report, and the code can leave both true with Hot Cue taking priority. This does not qualify native automatic pad-mode discovery, a reusable toggle-mode contract, fixed loop-size assignments or complete GMX support. The R47146-input core stays intact. GMX DRIVE/HID equivalence is not inferred."
+        }
+      ],
+      "result": "Conflicting new pad source is recorded without adding speculative runtime state or controls. Runtime and catalogue remain byte-identical to R471.417 source checks pass. Full GMX pads/modes/HID and physical acceptance remain open."
     }
   ]
 }
