@@ -19,7 +19,8 @@ The privacy questionnaire has an unpublished Data Not Collected draft.
 The app uses private CloudKit for preparation sync and keeps analysis and diagnostic processing local.
 The privacy manifest lists no collected data and disables tracking.
 Check the privacy answer against the final release build before publication.
-The Apple Content Rights declaration awaits Erik's answer.
+Apple saved No for the shared Content Rights declaration on 19 November 2026.
+Erik confirmed that the app plays music from the user's own library. It includes no bundled music or streaming catalogue.
 Accessibility feature claims await platform checks.
 
 ## Artwork and builds
