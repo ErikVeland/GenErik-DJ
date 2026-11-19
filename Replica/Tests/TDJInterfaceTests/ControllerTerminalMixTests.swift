@@ -91,7 +91,7 @@ private let terminalMixNames = ["Terminal Mix 4", "Terminal Mix 2"]
             input.onAction = { action, value in values.append((action, value)) }
             terminalMixPacket([0x90, 40, 127, 16, 127, 27, 127, 86, 127, 0xB0, 39, 65], to: input)
             input.flushPendingActions()
-            #expect(values.map(\.0) == [.jogTouchA, .hotcue1A, .hotcue8A, .jogA])
+            #expect(values.map(\.0) == [.jogTouchA, .hotcue1A, .hotcue8A, .clearHotcue1A, .jogA])
             #expect(values.last?.1 == 0.625)
             terminalMixPacket([0xB0, 40, 63], to: input)
             input.flushPendingActions()

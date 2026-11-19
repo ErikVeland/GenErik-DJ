@@ -14990,6 +14990,38 @@
       },
       "controlActions": [
         "browse",
+        "clearHotcue1A:a",
+        "clearHotcue1A:c",
+        "clearHotcue1B:b",
+        "clearHotcue1B:d",
+        "clearHotcue2A:a",
+        "clearHotcue2A:c",
+        "clearHotcue2B:b",
+        "clearHotcue2B:d",
+        "clearHotcue3A:a",
+        "clearHotcue3A:c",
+        "clearHotcue3B:b",
+        "clearHotcue3B:d",
+        "clearHotcue4A:a",
+        "clearHotcue4A:c",
+        "clearHotcue4B:b",
+        "clearHotcue4B:d",
+        "clearHotcue5A:a",
+        "clearHotcue5A:c",
+        "clearHotcue5B:b",
+        "clearHotcue5B:d",
+        "clearHotcue6A:a",
+        "clearHotcue6A:c",
+        "clearHotcue6B:b",
+        "clearHotcue6B:d",
+        "clearHotcue7A:a",
+        "clearHotcue7A:c",
+        "clearHotcue7B:b",
+        "clearHotcue7B:d",
+        "clearHotcue8A:a",
+        "clearHotcue8A:c",
+        "clearHotcue8B:b",
+        "clearHotcue8B:d",
         "crossfader",
         "cueA:a",
         "cueA:c",
@@ -15107,7 +15139,7 @@
         "wheelJogB:b",
         "wheelJogB:d"
       ],
-      "inputBindingCount": 129,
+      "inputBindingCount": 225,
       "feedbackBindingCount": 52,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -15136,7 +15168,8 @@
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "R479 adds dedicated normal Note-On Hot Cue clears from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer-DDJ-SB3.midi.xml (SHA-256 67efe99432c2f3818df865b93f097591145941f68b951d8a950576b499f944c5). Every paired activation wire matches an existing native own-model Hot Cue. Clear roles have no positive collision. Both negative aliases rearm their own action without an inferred app Shift requirement. Previous inputs, output/setup/audio and aliases remain unchanged. This does not qualify other modes, display/lifecycle, host routes or physical acceptance."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -39874,6 +39907,22 @@
       },
       "controlActions": [
         "browse",
+        "clearHotcue1A:a",
+        "clearHotcue1B:b",
+        "clearHotcue2A:a",
+        "clearHotcue2B:b",
+        "clearHotcue3A:a",
+        "clearHotcue3B:b",
+        "clearHotcue4A:a",
+        "clearHotcue4B:b",
+        "clearHotcue5A:a",
+        "clearHotcue5B:b",
+        "clearHotcue6A:a",
+        "clearHotcue6B:b",
+        "clearHotcue7A:a",
+        "clearHotcue7B:b",
+        "clearHotcue8A:a",
+        "clearHotcue8B:b",
         "crossfader",
         "cueA:a",
         "cueB:b",
@@ -39930,7 +39979,7 @@
         "wheelJogA:a",
         "wheelJogB:b"
       ],
-      "inputBindingCount": 61,
+      "inputBindingCount": 109,
       "feedbackBindingCount": 26,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -39959,7 +40008,8 @@
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "R479 adds dedicated normal Note-On Hot Cue clears from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Jogvision.midi.xml (SHA-256 8e0499c69c0b91494b8af06da6c722d80c39efc978d7f56c8536c47fc226c7fe). Every paired activation wire matches an existing native own-model Hot Cue. Clear roles have no positive collision. Both negative aliases rearm their own action without an inferred app Shift requirement. Previous inputs, output/setup/audio and aliases remain unchanged. This does not qualify other modes, display/lifecycle, host routes or physical acceptance."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -61436,6 +61486,38 @@
       },
       "controlActions": [
         "browse",
+        "clearHotcue1A:a",
+        "clearHotcue1A:c",
+        "clearHotcue1B:b",
+        "clearHotcue1B:d",
+        "clearHotcue2A:a",
+        "clearHotcue2A:c",
+        "clearHotcue2B:b",
+        "clearHotcue2B:d",
+        "clearHotcue3A:a",
+        "clearHotcue3A:c",
+        "clearHotcue3B:b",
+        "clearHotcue3B:d",
+        "clearHotcue4A:a",
+        "clearHotcue4A:c",
+        "clearHotcue4B:b",
+        "clearHotcue4B:d",
+        "clearHotcue5A:a",
+        "clearHotcue5A:c",
+        "clearHotcue5B:b",
+        "clearHotcue5B:d",
+        "clearHotcue6A:a",
+        "clearHotcue6A:c",
+        "clearHotcue6B:b",
+        "clearHotcue6B:d",
+        "clearHotcue7A:a",
+        "clearHotcue7A:c",
+        "clearHotcue7B:b",
+        "clearHotcue7B:d",
+        "clearHotcue8A:a",
+        "clearHotcue8A:c",
+        "clearHotcue8B:b",
+        "clearHotcue8B:d",
         "crossfader",
         "cueA:a",
         "cueA:c",
@@ -61548,7 +61630,7 @@
         "tempoB:b",
         "tempoB:d"
       ],
-      "inputBindingCount": 117,
+      "inputBindingCount": 213,
       "feedbackBindingCount": 48,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -61578,7 +61660,8 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "FX, sampler/scissor modes, cue deletion, needle navigation, loop-move/size modifiers, fader/crossfader start, assignment and curve controls, remaining shifted functions, full LED cleanup and audio routing remain unimplemented. Core setup does not copy the source 480-message LED sweep or enable four decks automatically. Jog response and source reuse/distribution review remain open. Generic family-only endpoint names cannot select a model automatically."
+        "FX, sampler/scissor modes, cue deletion, needle navigation, loop-move/size modifiers, fader/crossfader start, assignment and curve controls, remaining shifted functions, full LED cleanup and audio routing remain unimplemented. Core setup does not copy the source 480-message LED sweep or enable four decks automatically. Jog response and source reuse/distribution review remain open. Generic family-only endpoint names cannot select a model automatically.",
+        "R479 adds dedicated normal Note-On Hot Cue clears from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop%20Terminal%20Mix%202-4.midi.xml (SHA-256 75ec007d96620b4665d7435c8c7a86bae8a4fae6146542a5c37ae3ac32b01c40). Every paired activation wire matches an existing native own-model Hot Cue. Clear roles have no positive collision. Both negative aliases rearm their own action without an inferred app Shift requirement. Previous inputs, output/setup/audio and aliases remain unchanged. This does not qualify other modes, display/lifecycle, host routes or physical acceptance."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -61628,6 +61711,38 @@
       },
       "controlActions": [
         "browse",
+        "clearHotcue1A:a",
+        "clearHotcue1A:c",
+        "clearHotcue1B:b",
+        "clearHotcue1B:d",
+        "clearHotcue2A:a",
+        "clearHotcue2A:c",
+        "clearHotcue2B:b",
+        "clearHotcue2B:d",
+        "clearHotcue3A:a",
+        "clearHotcue3A:c",
+        "clearHotcue3B:b",
+        "clearHotcue3B:d",
+        "clearHotcue4A:a",
+        "clearHotcue4A:c",
+        "clearHotcue4B:b",
+        "clearHotcue4B:d",
+        "clearHotcue5A:a",
+        "clearHotcue5A:c",
+        "clearHotcue5B:b",
+        "clearHotcue5B:d",
+        "clearHotcue6A:a",
+        "clearHotcue6A:c",
+        "clearHotcue6B:b",
+        "clearHotcue6B:d",
+        "clearHotcue7A:a",
+        "clearHotcue7A:c",
+        "clearHotcue7B:b",
+        "clearHotcue7B:d",
+        "clearHotcue8A:a",
+        "clearHotcue8A:c",
+        "clearHotcue8B:b",
+        "clearHotcue8B:d",
         "crossfader",
         "cueA:a",
         "cueA:c",
@@ -61740,7 +61855,7 @@
         "tempoB:b",
         "tempoB:d"
       ],
-      "inputBindingCount": 117,
+      "inputBindingCount": 213,
       "feedbackBindingCount": 48,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -61770,7 +61885,8 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "FX, sampler/scissor modes, cue deletion, needle navigation, loop-move/size modifiers, fader/crossfader start, assignment and curve controls, remaining shifted functions, full LED cleanup and audio routing remain unimplemented. Core setup does not copy the source 480-message LED sweep or enable four decks automatically. Jog response and source reuse/distribution review remain open. Generic family-only endpoint names cannot select a model automatically."
+        "FX, sampler/scissor modes, cue deletion, needle navigation, loop-move/size modifiers, fader/crossfader start, assignment and curve controls, remaining shifted functions, full LED cleanup and audio routing remain unimplemented. Core setup does not copy the source 480-message LED sweep or enable four decks automatically. Jog response and source reuse/distribution review remain open. Generic family-only endpoint names cannot select a model automatically.",
+        "R479 adds dedicated normal Note-On Hot Cue clears from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop%20Terminal%20Mix%202-4.midi.xml (SHA-256 75ec007d96620b4665d7435c8c7a86bae8a4fae6146542a5c37ae3ac32b01c40). Every paired activation wire matches an existing native own-model Hot Cue. Clear roles have no positive collision. Both negative aliases rearm their own action without an inferred app Shift requirement. Previous inputs, output/setup/audio and aliases remain unchanged. This does not qualify other modes, display/lifecycle, host routes or physical acceptance."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -352358,13 +352474,16 @@
           3
         ]
       },
-      "implementedInputCount": 129,
+      "implementedInputCount": 225,
       "implementedOutputCount": 52,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "R479 adds dedicated normal Note-On Hot Cue clears from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer-DDJ-SB3.midi.xml (SHA-256 67efe99432c2f3818df865b93f097591145941f68b951d8a950576b499f944c5). Every paired activation wire matches an existing native own-model Hot Cue. Clear roles have no positive collision. Both negative aliases rearm their own action without an inferred app Shift requirement. Previous inputs, output/setup/audio and aliases remain unchanged. This does not qualify other modes, display/lifecycle, host routes or physical acceptance."
         }
       ]
     },
@@ -353680,7 +353799,7 @@
         ],
         "review": "The shared XML explicitly supports four decks on either Terminal Mix 2 or 4. Native controls preserve the app four-deck opt-in. Jog/browser use value minus 64; the loop encoder accepts only 65/63. The common midiPitch helper and rate_dir -1 set the pitch direction and exact centre. Crossfader absoluteNonLin uses a raw-64 centre detent. No script execution or automatic fader-start transport is imported."
       },
-      "implementedInputCount": 117,
+      "implementedInputCount": 213,
       "implementedOutputCount": 48,
       "sourceInputCount": null,
       "sourceOutputCount": null,
@@ -353690,6 +353809,9 @@
         },
         {
           "reason": "FX, sampler/scissor modes, cue deletion, needle navigation, loop-move/size modifiers, fader/crossfader start, assignment and curve controls, remaining shifted functions, full LED cleanup and audio routing remain unimplemented. Core setup does not copy the source 480-message LED sweep or enable four decks automatically. Jog response and source reuse/distribution review remain open. Generic family-only endpoint names cannot select a model automatically."
+        },
+        {
+          "reason": "R479 adds dedicated normal Note-On Hot Cue clears from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop%20Terminal%20Mix%202-4.midi.xml (SHA-256 75ec007d96620b4665d7435c8c7a86bae8a4fae6146542a5c37ae3ac32b01c40). Every paired activation wire matches an existing native own-model Hot Cue. Clear roles have no positive collision. Both negative aliases rearm their own action without an inferred app Shift requirement. Previous inputs, output/setup/audio and aliases remain unchanged. This does not qualify other modes, display/lifecycle, host routes or physical acceptance."
         }
       ]
     },
@@ -353916,13 +354038,16 @@
         ],
         "review": "Normal deck channels 0/1. The native recipe combines Shift and Mode as guards for unsupported alternatives, without copying script backspin, slip, eject or quantise changes. The pinned scratch resolution is 400. Normal platter/rim CCs are 65/64 and shifted CCs are 67/66. Factory pad pages have distinct note ranges for cues and samples. CC 126 controls Scratch mode; CC 127 requests analogue and keypad-mode reports. The source's LED-clear comments for CC 127 are not followed. Shutdown does not eject tracks. Shift+Browse is a relative encoder used for custom gain by the source; the device has no dedicated gain knob, so that customisation is not imported. AIR filter, remaining modes, rings, full feedback, cleanup, routing and physical calibration remain open."
       },
-      "implementedInputCount": 61,
+      "implementedInputCount": 109,
       "implementedOutputCount": 26,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "R479 adds dedicated normal Note-On Hot Cue clears from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Jogvision.midi.xml (SHA-256 8e0499c69c0b91494b8af06da6c722d80c39efc978d7f56c8536c47fc226c7fe). Every paired activation wire matches an existing native own-model Hot Cue. Clear roles have no positive collision. Both negative aliases rearm their own action without an inferred app Shift requirement. Previous inputs, output/setup/audio and aliases remain unchanged. This does not qualify other modes, display/lifecycle, host routes or physical acceptance."
         }
       ]
     },

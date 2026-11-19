@@ -5406,6 +5406,40 @@
         }
       ],
       "result": "Added130 dedicated normal Note-On Hot Cue clear inputs across13 existing own-model profiles. Each wire already had one matching native negative guard and no positive collision. All earlier inputs and outputs/setup/audio/aliases remain unchanged;391 other recipes remain identical.434 source/81 focused native checks and iPad framework compilation pass. Dedicated clear opcodes work with either app Shift state. Both negative forms, duplicate presses, cue rearming, source/group isolation and three real-WAV cases pass. Older tests expected nil for separately supported sibling models and an obsolete MIX input count/shifted jog scale. Baseline inputs prove these assumptions predate R478. Revised MIX checks preserve blocked search and248-count normal jogs without relying on dictionary event order. Failed and interrupted runs remain in evidence. No mapper or vendor code executes. Full modes, lifecycle, host routes and physical acceptance remain open."
+    },
+    {
+      "request": "R479",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "model": "Pioneer DDJ-SB3",
+          "path": "res/controllers/Pioneer-DDJ-SB3.midi.xml",
+          "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer-DDJ-SB3.midi.xml",
+          "git_blob": "589a539c2594726a8a884373f8c8ed9ae10cdfd2",
+          "sha256": "67efe99432c2f3818df865b93f097591145941f68b951d8a950576b499f944c5",
+          "bytes": 174029,
+          "clearInputCount": 32
+        },
+        {
+          "model": "Reloop Terminal Mix 2/4",
+          "path": "res/controllers/Reloop Terminal Mix 2-4.midi.xml",
+          "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop%20Terminal%20Mix%202-4.midi.xml",
+          "git_blob": "3f49eddf271b79477c3e082b33a6f3f26966508e",
+          "sha256": "75ec007d96620b4665d7435c8c7a86bae8a4fae6146542a5c37ae3ac32b01c40",
+          "bytes": 92007,
+          "clearInputCount": 32
+        },
+        {
+          "model": "Hercules DJControl Jogvision",
+          "path": "res/controllers/Hercules_DJControl_Jogvision.midi.xml",
+          "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Jogvision.midi.xml",
+          "git_blob": "9ead402712ca9ba863bad5c37f03298cb2a6eb74",
+          "sha256": "8e0499c69c0b91494b8af06da6c722d80c39efc978d7f56c8536c47fc226c7fe",
+          "bytes": 61520,
+          "clearInputCount": 16
+        }
+      ],
+      "result": "Added80 dedicated clear inputs and160 bidirectional negative aliases for DDJ-SB3, Terminal Mix2/4 and Jogvision. Own hash-pinned normal Note-On activation rows exactly match each existing native Hot Cue wire and deck. No active clear-wire collision, modes, protocols or unreviewed fields are allowed. All earlier inputs and outputs/setup/audio/aliases remain unchanged;401 other recipes remain identical.437 source/27 native checks and iPad framework compilation pass. Both negative forms, either app Shift state, duplicate presses, source/group isolation and three real-WAV cases pass. An older Terminal Mix assertion needed its newly supported explicit Clear event. The failed run is retained. No mapper or upstream code executes. Full modes, lifecycle, host routes and physical acceptance remain open."
     }
   ]
 }
