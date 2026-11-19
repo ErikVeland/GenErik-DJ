@@ -59612,12 +59612,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://gist.githubusercontent.com/upCASE/c8dace3e70d565a4b1178f7013d3d738/raw/4517327e37ba39deb18f31f83f9039cc1a072cb3/Roland_DJ-202.midi.xml",
         "https://virtualdj.com/products/hardware.html?model=ROL202"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:roland-dj202"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Roland DJ-202",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Roland DJ-202",
@@ -59625,40 +59630,103 @@
           "source": "https://virtualdj.com/products/hardware.html?model=ROL202"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "keylockA:a",
+        "keylockA:c",
+        "keylockB:b",
+        "keylockB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "reloopB:d",
+        "shift",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d",
+        "tempoA:a",
+        "tempoA:c",
+        "tempoB:b",
+        "tempoB:d"
+      ],
+      "inputBindingCount": 110,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual normal MIDI subset. Expose DJ-202 USB MIDI and select this profile manually. Generic USB mode may require a saved hardware setting. C/D require app opt-in. Full deck-switch ownership, software-mode setup and audio routing remain open."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Separate hardware-owner DJ-202 XML and script qualify a manual normal MIDI subset. These are community observations, not a manufacturer SDK. XML independently defines four deck channels0..3: Play0, held Cue1, Sync2 and Key Lock13 with shifted4/5/3/14; global Shift is channel15 Note0. Native normal transport is Shift-guarded. Shifted and opposite-bank release aliases preserve ownership and debounce. Explicit14-bit pairs are tempo9/59, gain22/52, high23/53, mid24/54, low25/55 and level28/58. XML is authoritative for EQ input addresses: script constructor placeholders differ from the actual mapped pairs. Script sets rate_dir=-1; native tempo polarity is inverted and guarded because shifted tempo changes key pitch. FilterCC26 and PFLNote27 remain separate. Own loop channels4..7 use In21, Out22 and toggle24, unlike DJ-505 loop numbers. Native uses explicit loop semantics. Reloop-and-stop23 remains inactive. Browser channel15CC0 accepts only127 previous/1 next and is Shift-guarded. Shared Load ownership, crossfader maximum16368 calibration, deck-switch software state, jog/contact, pads/FX/TR-S, full Shift modes and feedback remain open. Native emits neither the source initial-state/pad-unlock SysEx nor a driver/preset/firmware/audio write. Generic USB mode may require a saved hardware selection; no zero-config claim is made. Complete startup/shutdown/recovery, routing and physical/iPad/A10X acceptance remain open. DJ-505/DJ-808 contracts stay separate.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -356084,6 +356152,50 @@
         },
         {
           "reason": "Own manufacturer reference specifies USB class-compliant MIDI channel1, X-Y grid Notes16*y+x with top row0..7 and bottom112..119, NoteOn127 press and NoteOn0 release. Native accepts both ordinary release forms. Native assigns its existing four-quadrant DJ layout: A/B below and opt-in C/D above,64 inputs. Own LED facts specify NoteOn at the input address, red15, green60, amber63 and off12. Native uses52 status/pad lamps. Paired startup sends only documented temporary reset B0/0/0, X-Y selection B0/0/1 and simple buffer0 B0/0/32. Reset clears all LEDs and returns volatile settings to power-on values. Shutdown and partial-startup abort attempt the same reset. Previous volatile layout/brightness/buffer state is not restored. No identity challenge, firmware, authentication, bootloader ID/power mode or stored setting is written. Advanced guide says low-power mode is default and permits iPad bus power; full-power mode needs a separate powered hub. Outer buttons, drum layout, advanced colour/buffering/animation/brightness, complete lifecycle/recovery and physical/iPad/A10X acceptance remain open. No original Launchpad, Mini, MK2, X or Pro protocol is inherited."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:roland-dj202",
+      "name": "Roland DJ-202",
+      "transport": "midi",
+      "source": {
+        "url": "https://gist.githubusercontent.com/upCASE/c8dace3e70d565a4b1178f7013d3d738/raw/4517327e37ba39deb18f31f83f9039cc1a072cb3/Roland_DJ-202.midi.xml",
+        "sha256": "c95e3ad4a59ed9c92d39e28f207dd9ae1350796e3adcd237c0409822b3f917d9",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r436/upstream/Roland_DJ-202.midi.xml",
+            "sha256": "c95e3ad4a59ed9c92d39e28f207dd9ae1350796e3adcd237c0409822b3f917d9"
+          },
+          {
+            "cachePath": "TestBuilds/r436/upstream/Roland_DJ-202-scripts.js",
+            "sha256": "3c441d08ef4114d994b18a05e42b3797d371271204c90ee977a60c480fdbb33c"
+          }
+        ],
+        "relatedSources": [
+          {
+            "url": "https://gist.githubusercontent.com/upCASE/88fb258e85546092af18bc3ff924f752/raw/7df847d6bd717d4cc5ef6daa1bd7c1e4f603ed4d/Roland_DJ-202-scripts.js",
+            "sha256": "3c441d08ef4114d994b18a05e42b3797d371271204c90ee977a60c480fdbb33c"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/wiki/Roland-Dj-202"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/issues/11497"
+          }
+        ],
+        "review": "Separate hardware-owner DJ-202 XML and script qualify a manual normal MIDI subset. These are community observations, not a manufacturer SDK. XML independently defines four deck channels0..3: Play0, held Cue1, Sync2 and Key Lock13 with shifted4/5/3/14; global Shift is channel15 Note0. Native normal transport is Shift-guarded. Shifted and opposite-bank release aliases preserve ownership and debounce. Explicit14-bit pairs are tempo9/59, gain22/52, high23/53, mid24/54, low25/55 and level28/58. XML is authoritative for EQ input addresses: script constructor placeholders differ from the actual mapped pairs. Script sets rate_dir=-1; native tempo polarity is inverted and guarded because shifted tempo changes key pitch. FilterCC26 and PFLNote27 remain separate. Own loop channels4..7 use In21, Out22 and toggle24, unlike DJ-505 loop numbers. Native uses explicit loop semantics. Reloop-and-stop23 remains inactive. Browser channel15CC0 accepts only127 previous/1 next and is Shift-guarded. Shared Load ownership, crossfader maximum16368 calibration, deck-switch software state, jog/contact, pads/FX/TR-S, full Shift modes and feedback remain open. Native emits neither the source initial-state/pad-unlock SysEx nor a driver/preset/firmware/audio write. Generic USB mode may require a saved hardware selection; no zero-config claim is made. Complete startup/shutdown/recovery, routing and physical/iPad/A10X acceptance remain open. DJ-505/DJ-808 contracts stay separate."
+      },
+      "implementedInputCount": 110,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Separate hardware-owner DJ-202 XML and script qualify a manual normal MIDI subset. These are community observations, not a manufacturer SDK. XML independently defines four deck channels0..3: Play0, held Cue1, Sync2 and Key Lock13 with shifted4/5/3/14; global Shift is channel15 Note0. Native normal transport is Shift-guarded. Shifted and opposite-bank release aliases preserve ownership and debounce. Explicit14-bit pairs are tempo9/59, gain22/52, high23/53, mid24/54, low25/55 and level28/58. XML is authoritative for EQ input addresses: script constructor placeholders differ from the actual mapped pairs. Script sets rate_dir=-1; native tempo polarity is inverted and guarded because shifted tempo changes key pitch. FilterCC26 and PFLNote27 remain separate. Own loop channels4..7 use In21, Out22 and toggle24, unlike DJ-505 loop numbers. Native uses explicit loop semantics. Reloop-and-stop23 remains inactive. Browser channel15CC0 accepts only127 previous/1 next and is Shift-guarded. Shared Load ownership, crossfader maximum16368 calibration, deck-switch software state, jog/contact, pads/FX/TR-S, full Shift modes and feedback remain open. Native emits neither the source initial-state/pad-unlock SysEx nor a driver/preset/firmware/audio write. Generic USB mode may require a saved hardware selection; no zero-config claim is made. Complete startup/shutdown/recovery, routing and physical/iPad/A10X acceptance remain open. DJ-505/DJ-808 contracts stay separate."
         }
       ]
     },

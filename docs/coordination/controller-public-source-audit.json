@@ -3483,6 +3483,40 @@
         }
       ],
       "result": "Own manufacturer protocol qualifies64 automatic quadrant inputs and52 two-colour status lamps. Temporary reset/X-Y/simple-buffer setup requires paired output. Startup failure, stop and missing output remain bounded. Other layouts/outer buttons/full lifecycle remain open."
+    },
+    {
+      "request": "R436",
+      "sources": [
+        {
+          "model": "Roland DJ-202",
+          "url": "https://gist.githubusercontent.com/upCASE/c8dace3e70d565a4b1178f7013d3d738/raw/4517327e37ba39deb18f31f83f9039cc1a072cb3/Roland_DJ-202.midi.xml",
+          "sha256": "c95e3ad4a59ed9c92d39e28f207dd9ae1350796e3adcd237c0409822b3f917d9",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r436/upstream/Roland_DJ-202.midi.xml",
+              "sha256": "c95e3ad4a59ed9c92d39e28f207dd9ae1350796e3adcd237c0409822b3f917d9"
+            },
+            {
+              "cachePath": "TestBuilds/r436/upstream/Roland_DJ-202-scripts.js",
+              "sha256": "3c441d08ef4114d994b18a05e42b3797d371271204c90ee977a60c480fdbb33c"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://gist.githubusercontent.com/upCASE/88fb258e85546092af18bc3ff924f752/raw/7df847d6bd717d4cc5ef6daa1bd7c1e4f603ed4d/Roland_DJ-202-scripts.js",
+              "sha256": "3c441d08ef4114d994b18a05e42b3797d371271204c90ee977a60c480fdbb33c"
+            },
+            {
+              "url": "https://github.com/mixxxdj/mixxx/wiki/Roland-Dj-202"
+            },
+            {
+              "url": "https://github.com/mixxxdj/mixxx/issues/11497"
+            }
+          ],
+          "review": "Separate hardware-owner DJ-202 XML and script qualify a manual normal MIDI subset. These are community observations, not a manufacturer SDK. XML independently defines four deck channels0..3: Play0, held Cue1, Sync2 and Key Lock13 with shifted4/5/3/14; global Shift is channel15 Note0. Native normal transport is Shift-guarded. Shifted and opposite-bank release aliases preserve ownership and debounce. Explicit14-bit pairs are tempo9/59, gain22/52, high23/53, mid24/54, low25/55 and level28/58. XML is authoritative for EQ input addresses: script constructor placeholders differ from the actual mapped pairs. Script sets rate_dir=-1; native tempo polarity is inverted and guarded because shifted tempo changes key pitch. FilterCC26 and PFLNote27 remain separate. Own loop channels4..7 use In21, Out22 and toggle24, unlike DJ-505 loop numbers. Native uses explicit loop semantics. Reloop-and-stop23 remains inactive. Browser channel15CC0 accepts only127 previous/1 next and is Shift-guarded. Shared Load ownership, crossfader maximum16368 calibration, deck-switch software state, jog/contact, pads/FX/TR-S, full Shift modes and feedback remain open. Native emits neither the source initial-state/pad-unlock SysEx nor a driver/preset/firmware/audio write. Generic USB mode may require a saved hardware selection; no zero-config claim is made. Complete startup/shutdown/recovery, routing and physical/iPad/A10X acceptance remain open. DJ-505/DJ-808 contracts stay separate."
+        }
+      ],
+      "result": "Independent pinned hardware-owner DJ-202 XML/script qualify110 manual normal inputs. Own loop21/22/24 differs from DJ-505. Nonstandard14-bit pairs, Shift/release aliases and strict browser steps are retained. Shared Load, jog, pads, feedback and full lifecycle remain open."
     }
   ]
 }

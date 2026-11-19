@@ -1445,6 +1445,21 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
     }
 }
 
+@Test @MainActor func controllerCatalogueDJ202ManualCueAcrossShiftBankKeepsNativeAudioAndSync() async throws {
+    try await withControllerCuePlayback("DJ-202", manual: true) { model, input in
+        cuePreviewPacket([0x90, 1, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x9F, 0, 127, 0x82, 5, 127, 0x8F, 0, 127, 0x90, 0, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        cuePreviewPacket([0xB0, 28, 127, 58, 127, 0x90, 27, 127], to: input)
+        let samples = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.mixer.volume == 1 && model.playbackSnapshot?.a.mixer.cue == true)
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+    }
+}
+
 @Test @MainActor func controllerCatalogueDJ505ManualCueAcrossShiftBankKeepsNativeAudioAndSync() async throws {
     try await withControllerCuePlayback("DJ-505", manual: true) { model, input in
         cuePreviewPacket([0x90, 1, 127], to: input)
