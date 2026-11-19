@@ -3429,3 +3429,22 @@ func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String
         }
     }
 }
+
+@Test @MainActor func controllerCatalogueDV2ManualMixerAndPFLKeepRealAudioSync() async throws {
+    try await withControllerCuePlayback("DV2 USB",manual:true) {model,input in
+        model.pressPlay(deck:.a,vinylStop:false)
+        input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+        for number:UInt8 in [58,55] {
+            for value:UInt8 in [0,127,64] {
+                input.receiveBytes([0xBF,number,value],source:10);input.flushPendingActions()
+            }
+        }
+        input.receiveBytes([0x9F,9,127,9,0],source:10);input.flushPendingActions()
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(abs((model.controllerValue(.levelA) ?? -1)-64.0/127)<0.000001)
+        #expect(abs((model.controllerValue(.master) ?? -1)-64.0/127)<0.000001)
+        #expect(model.controllerValue(.cueA)==1)
+    }
+}

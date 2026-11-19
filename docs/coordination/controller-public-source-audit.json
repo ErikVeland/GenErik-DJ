@@ -4287,6 +4287,43 @@
         }
       ],
       "result": "Three independent39/38/40-input profiles cover two physical models without merging conflicting1000 revisions.385 source/20 native checks and iPad framework compilation pass. All380 earlier recipes remain identical. Revision detection and full modes/feedback/lifecycle/audio/physical acceptance remain open."
+    },
+    {
+      "request": "R458",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "url": "https://assets.centryngroup.com/dl/files/DV2703__DL__002.pdf",
+          "sha256": "2c27fa0687929f8a955d1408ce976eb74b7977b035cb2190730e61d83286c253",
+          "finding": "Own manufacturer routing and numeric MIDI/status pages11/12 checked. VR explicitly Bn and SW explicitly9n127/0. No fixed channel is inferred. MIDI-on versus MIDI-off audio ownership differs."
+        },
+        {
+          "url": "https://assets.centryngroup.com/dl/files/DV2703__DL__004.zip",
+          "sha256": "fc3fa8ae79b3240e2579c707a16ac650ebed884cbc06bbbd2d72fedd66bf4979",
+          "finding": "Manufacturer-hosted AADV2.xml and mapper authored by Leo_V independently corroborate types, numbers and DV2 USB identity. Data only; no mapper execution or source identity prefix copied."
+        }
+      ],
+      "additionalFindings": [
+        {
+          "url": "https://device.report/m/fd790c764d470d213cc50dcce352c9bca5c3e5e0e333b38d63ff51798ab30306.pdf",
+          "finding": "Own M70 manual is readable through public indexed PDF text. Download attempts at two mirrors returned403 and screenshots returned cache miss. The checked manual has SW/VR columns without explicit input status-byte definitions. No CMX-2000 protocol inheritance or runtime recipe is added.",
+          "cachePath": "TestBuilds/r458/upstream/m70-midi-public-text.txt",
+          "publicTextExcerptSHA256": "a6701100196653cb1b79c2cc5c213c24323403f3d171ef3a24d14d895a44ca32"
+        },
+        {
+          "url": "https://maps.djtechtools.com/mappings/776",
+          "finding": "The M70 mapping listing requires sign-in. No login or access-control bypass was attempted."
+        },
+        {
+          "url": "https://manualzz.com/doc/63865118/voxoa-s70-user-manual",
+          "finding": "An own S70 numeric chart is publicly indexed, but its multi-column layout and complete channel/type contract still need independent recovery. No sibling addresses are inferred."
+        },
+        {
+          "url": "https://www.adj.com/products/elmc1",
+          "finding": "Public product-page download lookup returned429. The request was not repeated. The already checked own manual has no numeric table."
+        }
+      ],
+      "result": "Independent16-input manual DV2 USB core. A narrow mixer exception adds only two explicit A/B PFL note targets.387 source/17 native checks and iPad framework compilation pass. All383 earlier recipes remain identical. Automatic ownership, complete lifecycle/audio/host and physical acceptance remain open."
     }
   ]
 }

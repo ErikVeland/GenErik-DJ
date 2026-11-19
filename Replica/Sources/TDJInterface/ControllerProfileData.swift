@@ -340,21 +340,27 @@ struct ControllerProfileData: Decodable, Sendable {
     }
 
     /**
-     * Accepts manufacturer Bn controls only in an input-only manual mixer contract.
+     * Accepts manufacturer Bn controls and two PFL notes in a manual mixer contract.
      */
     private var hasManualUnbankedMixer: Bool {
         let actions: Set<ControllerAction> = [
             .gainA, .gainB, .highA, .highB, .midA, .midB, .lowA, .lowB, .levelA, .levelB,
             .crossfader, .master, .monitor, .cueMix,
         ]
+        let buttons = inputs.filter { $0.kind == .note }
         return !autoSelect && role == "accessory" && !inputs.isEmpty && inputs.count <= 32
+            && inputs.contains { $0.kind == .control } && buttons.count <= 2
+            && Set(buttons.map(\.action)).count == buttons.count
             && outputs.isEmpty && startup.isEmpty && shutdown.isEmpty && startupAbort == nil
             && startupDelaysMilliseconds == nil && audioOutput == nil && inputProtocol == nil
             && inputModes == nil && bankChanges == nil
             && Set(inputs.map(\.number)).count == inputs.count
             && inputs.allSatisfy {
-                $0.anyChannel == true && $0.channel == 0 && $0.kind == .control && $0.encoding == .absolute
-                    && actions.contains($0.action) && !$0.inverted && $0.shifted == nil
+                let matchesKind = ($0.kind == .control && actions.contains($0.action))
+                    || ($0.kind == .note && (($0.action == .cueA && $0.targetDeck == .a)
+                        || ($0.action == .cueB && $0.targetDeck == .b)))
+                return $0.anyChannel == true && $0.channel == 0 && matchesKind && $0.encoding == .absolute
+                    && !$0.inverted && $0.shifted == nil
                     && $0.requiredMode == nil && $0.shiftChannel == nil && $0.shiftInput == nil && $0.holdInput == nil
                     && $0.releaseOnly == nil && $0.lowNumber == nil && $0.pulse == nil && $0.requiresTouch == nil
                     && $0.directionStep == nil && $0.argument == nil && $0.deckBank == nil
