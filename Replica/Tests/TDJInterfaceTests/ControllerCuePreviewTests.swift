@@ -2987,6 +2987,18 @@ func controllerCatalogueLegacyRaneMixerAndLoopsKeepRealAudioAndSavedSync(_ name:
     }
 }
 
+@Test @MainActor func controllerCatalogueOrbitKeepsRealAudioAndSavedSync() async throws {
+    try await withControllerCuePlayback("Numark Orbit") { model, input in
+        input.receiveBytes([0x90, 45, 127], source: 10); input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x91, 36, 127, 36, 0, 0x80, 45, 127], source: 10); input.flushPendingActions()
+        input.receiveBytes([0x90, 44, 127, 44, 0], source: 10); input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
 @Test(arguments: ["JB Systems DJ KONTROL2", "JB Systems DJ KONTROL3"]) @MainActor
 func controllerCatalogueJBKontrolKeepsRealAudioAndSavedSync(_ name: String) async throws {
     try await withControllerCuePlayback(name, manual: true) { model, input in

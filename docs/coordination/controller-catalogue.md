@@ -11,10 +11,10 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 562 total catalogue records. 555 name physical models. The remainder identify software endpoints or protocol families.
-- 355 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 219 factory profiles select core controls automatically for 228 physical models.
+- 356 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 220 factory profiles select core controls automatically for 229 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
-- 321 physical models still lack automatic core controls.
+- 320 physical models still lack automatic core controls.
 - 555 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -223,13 +223,13 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 17 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 222 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 223 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
 | partial-midi-profile | 138 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 161 | The pinned references contain no implemented mapping for this model. |
+| protocol-needed | 160 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -696,8 +696,8 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Numark NS7 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20NS7.midi.xml) |
 | Numark NS7 II | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=NS7II) |
 | Numark NS7 III | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=NS7III) |
-| Numark ORBIT | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ORBIT) |
 | Numark Omni Control | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Omni%20Control.midi.xml) |
+| Numark Orbit | accessory | automatic-core-profile | [Reference](https://www.numark.com/images/product_downloads/Orbit-NEBUL4_%282Decks%29.zip) |
 | Numark Stealth Control | primary | automatic-core-profile | [Reference](https://www.numark.com/product/stealthcontrol) |
 | Numark Total Control | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Total%20Control.midi.xml) |
 | Numark V7 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20V7.midi.xml) |
