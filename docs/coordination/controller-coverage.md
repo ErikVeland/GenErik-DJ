@@ -5260,3 +5260,181 @@ The manufacturer VirtualDJ device definition explicitly gives512 full-turn count
 Validation:258 Python checks and ten native tests passed, including the162-profile automatic held-Cue corpus. Fixtures check both MODE press/release orders and release forms, Shift loading on both decks, contact/wheel separation and signed64, source ownership, pickup, Shift-independent mixer/pitch, cue/loop/library families, lamp bytes and stop cleanup. A real-WAV fixture retains finite, synced playback after Cue and contact mode cleanup. The iPad framework compiled and its bundled resource matches the source. All288 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r399/validation.json`.
 
 The catalogue has289 recipes for552 physical models. Automatic core coverage increases to201, with351 without automatic core. First-protocol gaps fall from226 to225. Bluetooth/tablet transport, ring animation, full modes/lifecycle/audio/calibration, full theoretical support and physical/iPad/A10X acceptance remain open.
+
+
+## R400 Twitch basic MIDI and bounded load-bank routing
+
+Assumption: the published Basic-mode reset establishes A/B bank state. Reuse the existing source-local bank engine for the two shared load buttons. Automatic banking is limited to load actions, paired bounded startup/shutdown and unbanked feedback. Other automatic banked actions remain invalid.
+
+- [x] Pin and visually review the manufacturer Basic-mode, page, contact and lifecycle contracts.
+- [x] Add schema guards and fixtures for automatic load-only bank routing.
+- [x] Add selected native Basic controls, source-local contact and bounded feedback.
+- [x] Verify both load banks, source/deck isolation, pickup, cleanup and real-WAV Sync.
+- [x] Run source/native checks, compile the iPad framework and preserve earlier recipes.
+
+The manufacturer programmer guide qualifies Basic reset, four firmware MIDI pages, the two fixed-channel Load buttons, touch contact, SWIPE/DROP and selected lamp values. The139-input core uses44 static lamps. The existing bank engine now permits automatic dynamic targets only for Load, with bounded paired startup/shutdown and no Load feedback. Other automatic banked actions still fail catalogue validation. A missing output or failed reset blocks input. Reconnection resets software A/B state and sends the documented Basic reset; physical reset/bank equivalence remains unverified.
+
+All positive contact velocities are accepted because they encode strip position. SWIPE is signed CC53 and stops on release, Shift, pad page or deck selection. DROP is absolute CC52. Firmware retains four-deck lamp pages; no feedback follows the software Load bank. Native chooses composed Shift, beat jumps, eight fixed loop lengths and127 software scrub scaling. These are explicit app choices. They do not establish source-software feature parity or physical calibration. No direct-monitor, advanced-mode, private arbitration, audio-route or all-LED-off write is sent.
+
+Validation:261 Python checks and19 native tests passed, including163 automatic held-Cue profiles. Tests cover schema rejection, paired reset failures, both load selectors and release forms, source isolation, four-deck opt-in, reconnect, transport, cue and loop pads, relative tempo, every positive strip-contact range, signed SWIPE, DROP, pickup, composed Shift, page cleanup, exact shutdown and finite synced real-WAV playback. The iPad framework compiled and its bundled resource matches the source. All289 earlier recipes remain identical. The first native run retained two fixture-callback failures; the corrected fixture passes. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r400/validation.json`.
+
+The catalogue has290 recipes for552 physical models:202 automatic core and350 without automatic core. First-protocol gaps fall to224. Full theoretical support remains0/552. Advanced arbitration, full modes/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open.
+
+The public Roland707M MIDI chart was also recovered. Its owner manual explicitly excludes DJ software from the iOS Generic PC-B playback path; MIDI control uses PC-A. The public chart therefore does not close its iPad transport gap.
+
+## R401 independent Akiyama chart subsets
+
+Assumption: keep three independent manual profiles while chart conflicts, full mode negotiation and calibration remain unresolved. Use each model's published wire addresses. Do not infer sibling protocols, feedback or automatic audio.
+
+- [x] Pin and visually review each manufacturer's chart and cross-check visible factory facts.
+- [x] Add bounded normal controls with alternate-release and source-local Shift/deck cleanup.
+- [x] Verify channel isolation, four-deck opt-in, pickup, held Cue and real-WAV Sync.
+- [x] Run focused native/source checks, compile the iPad framework and preserve earlier recipes.
+
+Each profile uses its own manufacturer manual, mirrored by a retailer, with the relevant chart pages visually reviewed. Independent visible factory XML facts cross-check the selected normal mixer rows. Quattro has98 inputs, Quark SC200 and TTWO125. All remain manual, with no startup/shutdown, feedback or audio-route writes. The core retains four explicit deck channels, direct loads, PFL, Hot Cues, selected manual loops, mixer pickup and source-local held-Cue cleanup.
+
+Quattro uses fixed mixer channel4 and three alternate transport releases. Its unclear pitch data-byte scaling and jog calibration remain inactive. Quark SC retains six normal Cue pads, listed Shift CC aliases and composed physical Shift contacts across paged channels. Its normal loop encoder uses one native step per directional packet. AutoLoop/Roll and FX/sample-slot functions remain inactive. TTWO retains separate A/B load/PFL channel4 and C/D channel5. Its pitch/filter collision, ambiguous jog direction/Shift, crossfader type, browser press/release and conflicting lamp rows are not imported. No sibling protocol is substituted for a missing fact.
+
+Validation:264 Python checks and11 native tests passed, with three model cases on each shared fixture and all163 automatic held-Cue profiles retained. Checks cover manual identity, exact transport/hotcue/load channels, duplicate and both release forms, source ownership, Shift/deck cleanup, pickup, four-deck opt-in, disputed wires remaining inactive, stop cleanup and finite synced real-WAV playback. The iPad framework compiled and its bundled resource matches the source. All290 earlier recipes remain identical. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r401/validation.json`.
+
+The catalogue has293 recipes for552 physical models. First-protocol gaps fall from224 to221. Automatic coverage remains202 models, with350 without automatic core and0/552 with full theoretical support. Full modes/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. Quark SC's200 manual bindings also leave room for only56 other manual inputs under the existing256-input mapping limit.
+
+## R402 independent Launchpad Programmer grids
+
+Assumption: use a native four-quadrant grid on independently documented Programmer layouts. A/B occupy the lower quadrants; opt-in C/D occupy the upper quadrants. This is an app layout, separate from Ableton and other DJ mappings. X and Pro MK3 select Programmer mode through their documented MIDI interfaces and return to Live at shutdown. Original Pro requires manual Standalone Programmer mode on channel1.
+
+- [x] Pin and visually review each independent manufacturer layout, interface, mode and lamp contract.
+- [x] Add64 grid inputs and52 static lamp mappings per model, with bounded setup for X/Pro MK3.
+- [x] Verify quadrant routing, C/D opt-in, contact/velocity release, source and port isolation, setup failure and cleanup.
+- [x] Run native/source checks, real-WAV playback, iPad framework compilation and earlier-recipe comparison.
+
+Each model has an independently pinned programmer guide and visually reviewed grid. The app uses the same native function arrangement on each independently qualified grid. Within each quadrant, rows run from bottom to top:
+
+| Row | Four pads, left to right |
+| --- | --- |
+| 1 | Play, held Cue, Sync, Load |
+| 2 | PFL, loop In, loop Out, Reloop |
+| 3 | Hot Cues1..4 |
+| 4 | Hot Cues5..8 |
+
+X uses the documented LPX MIDI pair and product12 command14. Pro MK3 uses LPProMK3 MIDI and product14 command14. Both enter Programmer1, clear64 grid lamps in two104-byte messages and return to Live0 after shutdown clears. Each message stays within the existing128-byte bound. The new optional startup-abort contract permits at most four reviewed exit messages, requires automatic paired setup, excludes protocol decoders, and counts towards the existing64-message lifecycle limit. Immediate and timed failure paths attempt the exit without enabling input. A failed exit still needs connection or power recovery; this is a best-effort software guarantee.
+
+The original Pro has its own product16/layout44 protocol, second USB Standalone interface and saved per-layout MIDI channel. Its64 inputs and52 lamps remain manual on Programmer channel1, with feedback as a separate opt-in and no automatic hardware write. The added Pro MK3 catalogue model is distinct from the original Pro. No sibling mode command or persistent custom template is inferred. These are native app mappings, not Ableton presets or copies of downloaded scripts.
+
+Validation:267 Python checks and31 native tests passed, including165 automatic held-Cue profiles. Tests cover all quadrants/pad slots, low-velocity Cue ownership and both release forms, pressure/foreign inputs, C/D opt-in, identity/port ambiguity, missing outputs, failure at each setup step with a Live exit attempt, schema bounds, exact clear/stop messages, static feedback and finite synced real-WAV playback. Existing Twitch, manual bank routing and Pioneer startup regressions also pass. The iPad framework compiled and its bundled resource matches the source. All293 earlier recipes remain identical. A retained first compile failed on an overly complex test expression; a later fixture expected full velocity for a low-velocity press. Both fixture issues are corrected. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r402/validation.json`.
+
+The catalogue has296 recipes for553 physical models:204 automatic core and349 without automatic core. First-protocol gaps fall to219. Full theoretical support remains0/553. Outer buttons, remaining modes/expressions, full feedback/lifecycle and physical/iPad/A10X acceptance remain open. Live-mode restoration does not restore an arbitrary pre-connection custom state. Unknown OS port-name variants still require qualification.
+
+## R403 independent APC mini MK2 Session core
+
+Assumption: support Session view on MIDI channel1 through the documented Control interface. Drum channel10 and the separate Note interface remain inactive. Reuse the native quadrant functions only after independently checking the Akai grid addresses. Faders1..4 control A..D levels,5..8 control A..D gain, and9 controls master. This is an app layout.
+
+- [x] Pin and visually review the independent grid, ports, Shift, faders, brightness and introduction/clear contracts.
+- [x] Add74 inputs/52 lamps with source-owned Shift cleanup and bounded lifecycle packets.
+- [x] Verify grid/faders, channel/port and C/D isolation, setup failure, feedback and real-WAV Sync.
+- [x] Run focused checks, compile the iPad framework and preserve earlier recipes.
+
+The manufacturer Communications Protocol v1.0 independently qualifies the bottom-to-top0..63 grid, Shift122, absolute CC48..56 faders, introduction and RGB pad-range clear. The current manufacturer setup guide names the Control interface. The profile accepts only that interface and wire channel0. Drum channel9, other Session channels and the separate Note interface remain inactive. Static pad feedback uses wire channel6 for full brightness. No Novation, original APC mini or APC40 wire address or mode command is inherited.
+
+The existing app quadrant functions now use a small shared builder that takes each caller's independently reviewed eight wire rows. All296 earlier recipes remain identical. APC mini MK2 has64 guarded grid inputs, held Shift and nine faders:74 inputs and52 lamps. Shift retires source-owned holds and suppresses pad actions while it is held. Faders1..4 control A..D levels,5..8 A..D gain, and9 master. C/D still require opt-in. These are app function choices, separate from Ableton mappings.
+
+Startup sends the published product79/application0 introduction with the current app version0.1.0, then one16-byte zero-RGB clear for pad range0..63. Shutdown and bounded failure recovery use the same clear. No surrounding-button state, private handshake, DAW script, persistent preset or audio route is written. This does not claim automatic selection of every saved hardware mode/channel or restoration of previous user colours.
+
+Validation:270 Python checks and20 native tests passed, including166 automatic held-Cue profiles and all R402 Programmer-grid regressions. Tests cover all quadrant functions/slots, strict channels and ports, velocity/release ownership, Shift, nine-fader pickup and targets, C/D opt-in, exact full-brightness feedback, introduction/clear/failure/stop bytes and finite synced real-WAV playback. The iPad framework compiled and its bundled resource matches the source. A retained first compile caught a missing optional unwrap in a fixture; an earlier source check caught stale generated review text. Both are corrected. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r403/validation.json`.
+
+The catalogue has297 recipes for553 physical models:205 automatic core and348 without automatic core. First-protocol gaps fall to218. Full theoretical support remains0/553. Remaining UI/modes/channels, full feedback/lifecycle, OS port-name variants, power and physical/iPad/A10X acceptance remain open. The separate APC40 MKII protocol is downloaded for the next review.
+
+## R404 independent APC40 generation cores
+
+Assumption: use each manufacturer's documented mode1 to make buttons momentary and device knobs unbanked. Assign four native column pairs to A..D using each model's published control order. Original grid rows use notes53..57 on track channels0..7. MKII uses40 distinct grid notes. This is an app layout; physical pad orientation still needs acceptance. Restore Generic mode at shutdown or startup failure, rather than claim restoration of an arbitrary previous mode.
+
+- [x] Pin and visually review both independent setup, input and feedback contracts.
+- [x] Add selected native grid/strip/knob/library controls, with explicit model-specific colours and bounded lifecycle.
+- [x] Verify track/global channel boundaries, Shift ownership, pickup, C/D opt-in, ring values, setup failure and real audio.
+- [x] Run source/native checks, compile the iPad framework and preserve earlier recipes.
+
+The two independently pinned manufacturer protocols qualify different product IDs and grids. Original APC40 uses product115 and per-track grid notes53..57 on channels0..7. MKII uses product41 and40 distinct grid notes0..39. Both use the public Mode1 configuration65 for momentary buttons and unbanked device knobs. Each startup sends its own12-byte introduction with app version0.1.0. Shutdown clears52 selected note lamps and selects Generic configuration64. Bounded failure recovery attempts the same Generic exit. The total55 lifecycle messages stay within the existing64-message bound.
+
+The native app uses adjacent column pairs1/2,3/4,5/6,7/8 for A/B/C/D. The first four published grid rows form eight Hot Cues per pair; row5 is Play/held Cue. Arm buttons become Sync/Load, Solo becomes PFL/key lock, Activator becomes loop In/Out, Track Select becomes half/double and Clip Stop becomes Reloop/toggle. Paired faders become level/gain. Sixteen knobs control high/mid/low/filter across four decks and receive native value feedback. Scene buttons supply library navigation. Cue Level47 is signed relative in both guides; MKII Tempo13 supplies native browse. These are app function choices. Physical pad orientation and full interaction still require acceptance.
+
+The explicit paired-unbanked contract permits global input channels only for an automatic accessory with bounded startup, shutdown and abort; one global Shift; no protocol decoder or software deck bank; and all16 exact channel selectors clearing every deck on that Shift. Track inputs keep their explicit channels. Other wildcard accessory profiles remain invalid. Contract validation runs once per profile validation. Both guides' repeated/ambiguous ring-type input rows remain inactive. Selected note feedback uses each generation's own colour codes and actual Note Offs. The16 CC outputs update knob positions/rings; shutdown does not claim complete ring or prior-state restoration.
+
+Validation:273 Python checks and37 native tests passed, including168 automatic held-Cue profiles and existing bank/Programmer-grid/APC mini regressions. Fixtures cover both independent grids, all strip functions, global/track boundaries, every global Shift channel and source ownership, pickup, signed monitor/browse, static colours and continuous ring values, mode failure/stop, C/D opt-in and finite synced real-WAV playback. The iPad framework compiled and its bundled resource matches the source. All297 earlier recipes remain identical. The retained first native run correctly rejected unqualified accessory wildcard inputs; a separate red fixture precedes the bounded unbanked contract. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r404/validation.json`.
+
+The catalogue has299 recipes for553 physical models:207 automatic core and346 without automatic core. First-protocol gaps fall to216. Full theoretical support remains0/553. Unreviewed table screenshots are identified separately from visual evidence in the source records. Remaining hardware controls/modes, complete feedback/ring/state/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. Generic exit is a best-effort return to the documented default, not saved-state restoration.
+
+## R405 Launch Control3 andXL3 DAW cores
+
+Assumption: use each model's documented DAW interface and temporary DAW Control mode. Use published surface indices for native four-deck mixer and transport functions. Do not write saved custom modes, brightness, MIDI routing or global channel settings. Legacy Launch Control and XL require separate factory-template input evidence.
+
+- [x] Pin both independent manufacturer guides and visually check surface indices.
+- [x] Add bounded setup/exit and a mode gate that retires source-owned holds and pickup when surface mode changes.
+- [x] Verify strict port/channel boundaries, mixer/transport targets, feedback, partial setup failure and synced real audio.
+- [x] Run focused checks, compile the iPad framework and preserve all299 earlier recipes.
+
+Each primary guide independently qualifies its product identifier, DAW USB interface, absolute controls and temporary DAW mode. Launch Control3 uses product22 and16 encoders. XL3 uses product21,24 encoders and eight faders. Both surface diagrams were visually reviewed. The other stated protocol contracts were checked as extracted text. Startup enters DAW Control2, selects absolute encoder rows and disables touch reports. XL3 also disables hardware fader pickup so the app owns pickup. These feature settings are temporary. No saved custom mode, global MIDI channel, brightness, DIN route or audio route changes.
+
+The native app assigns adjacent column pairs to A/B/C/D. Each pair has Play/held Cue. Launch Control3 encoders control high/mid/low/gain. XL3 adds filter and level encoders, paired level/gain faders, Sync/Load and library navigation. C/D retain the existing opt-in. Encoder value feedback uses channel16. Button colours use channel1. Load lamps stay inactive because the app has no matching feedback state. Shutdown clears every native transport button and exits DAW mode. The bounded startup-abort contract now also permits this explicit accessory protocol. Failed setup never enables input.
+
+The source-local decoder follows CC30 on channel7. Custom or unknown modes suspend input. Returning to DAW Mixer1 or Control2 resumes it. Every changed mode retires held actions and pickup, including a change between the two supported DAW modes. Shift has its own source-owned cleanup. Exact0/127 button CCs become logical notes before binding lookup. This retains first-press handling and duplicate/release ownership without changing generic CC-button rules. Other values and raw notes do not trigger those buttons.
+
+Validation:276 source checks and38 native checks passed, including170 automatic held-Cue profiles. Tests cover both independent identities/products, strict DAW ports/channels, ambiguous or missing outputs, every native mixer/transport target, library functions, pickup and mode reset, source-owned mode/Shift cleanup, C/D opt-in, button colours and encoder values, failure at every startup step, shutdown and finite synced real-WAV playback through the actual byte decoder. Existing APC40, Korg setup and XDJ-AN decoder regressions pass. The iPad framework compiled and its bundled resource matches the source. All299 earlier recipes remain identical. The retained first run exposed the generic CC first-press guard and test helpers that bypassed mode decoding. Both are corrected at their own boundaries. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r405/validation.json`.
+
+The catalogue has301 recipes and561 records for554 physical models. Automatic core coverage is209 models, with345 still without automatic core and215 first-protocol gaps. Full theoretical support remains0/554. Legacy Launch Control/XL factory inputs, complete modern modes/screen/state/lifecycle/feedback, further OS port-name variants and physical/iPad/A10X acceptance remain open.
+
+## R406 original Launch Control template reader
+
+Assumption: select User template1 temporarily and read its existing assignments through the manufacturer editor's public query. Give physical control positions native app functions. Read other User templates on selection. Suspend input for Factory templates, whose fixed addresses are not qualified. Keep saved raw mappings ahead of this automatic profile. Do not write or reset stored templates.
+
+- [x] Pin the independent original protocol and manufacturer editor member.
+- [x] Read bounded current User-template replies, normalise unambiguous wires/ranges and retire holds on template changes.
+- [x] Verify malformed/stale/duplicate data, channel/range/button behaviour, Shift, C/D, raw mappings, failures and real audio.
+- [x] Run focused checks, compile the iPad framework and preserve all301 earlier recipes.
+
+The independently pinned original programmer guide qualifies template selection and change notifications. Page7 was visually reviewed. The public manufacturer editor independently supplies the read query121, exact177-byte reply119,16 six-byte knob records and12 six-byte button records. Only protocol facts were read. The editor and its MIDI actions were not executed or copied. Startup selects User template1 and requests its existing data. No stored data, template reset, firmware or feedback write is sent. The app does not restore an arbitrary previous selected template.
+
+The bounded reader accepts only the selected User-template reply. It validates the original product10 header, exact length, seven-bit data, channels, record types and reserved fields. It counts all wires before enabling controls, including inactive controls, so a duplicate cannot trigger another physical function. Limited and reversed knob ranges retain physical direction. Momentary Note/CC buttons become logical notes with exact configured press/release values. Toggle buttons, constant ranges, unsupported records and zero-velocity Note presses stay inactive. User-template changes retire source-owned holds, Shift and pickup, then request that template. Stale replies stay inactive. Factory templates suspend input without a query.
+
+The native40-input app layout follows physical positions: four adjacent pairs target A/B/C/D. Knobs control high/mid then low/gain. Pads provide Play/held Cue. Right arrow is native Shift, with Load/PFL on the pads and level on the gain knobs. Up/Down browse tracks; Left opens a group. C/D retain opt-in. Existing saved raw mappings keep priority until explicit profile replacement. A failed read or missing paired output leaves native input inactive. No response timeout or automatic retry is claimed.
+
+Validation:278 source checks and50 native checks passed, including171 automatic held-Cue profiles. Tests cover every reply split boundary, running status, custom channels and reversed/limited ranges, stale/foreign/malformed/oversized data, duplicates and inactive types, all User/Factory template transitions, native mixer/transport/Shift/navigation, source-owned holds, C/D, each setup failure, raw mapping retention/capacity and real-WAV Sync through actual byte decoding. Earlier DAW/Korg/XDJ-AN regressions pass. The iPad framework compiled and its bundled resource matches the source. All301 earlier recipes remain identical. The retained first native run had one incorrect fixture count, corrected from21 to22 enabled controls. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r406/validation.json`.
+
+The catalogue has302 recipes and561 records for554 physical models:210 automatic core and344 without it. First-protocol gaps fall to214. Full theoretical support remains0/554. Factory templates, complete feedback/state/lifecycle/timeout recovery and physical/iPad/A10X acceptance remain open. The separate legacy XL schema is now recovered from the current public Novation Components bundle for the next independent implementation.
+
+## R407 legacy Launch Control XL template reader
+
+Assumption: use the manufacturer-supported MK1/MK2 family protocol and public Components read format. Select User template1 temporarily and read its existing assignments. Keep Factory/HUI/modern XL3 protocols separate. Give physical positions native app functions, with no stored-template or colour write.
+
+- [x] Pin the independent XL guide and public Components schema.
+- [x] Reuse bounded template handling with explicit model-specific sizes, record groups and product IDs.
+- [x] Verify all native controls, ranges, stale/malformed/cross-model replies, source-owned Shift/template cleanup and real audio.
+- [x] Run focused checks, compile the iPad framework and preserve all302 earlier recipes.
+
+The independently pinned legacy XL guide qualifies product17, template selection and notifications. Page8 was visually reviewed. Novation's current public Components1.72.5 bundle independently qualifies the417-byte read reply, query121 and exact group offsets:24 pots at0, eight faders at144,16 buttons at192, four menu buttons at288 and four arrows at312. Each control has a six-byte record. The final72 bytes hold pot LED settings and do not become controls or hardware writes. The manufacturer's combined download page explicitly covers MK1/MK2. The public bundle was read without executing the app or copying its MIDI actions.
+
+The reader now takes an explicit model. Original remains product10/177 bytes/16 continuous and28 total records. XL uses product17/417 bytes/32 continuous and56 total records. Both share bounded framing, requested-template ownership, duplicate checks, range normalisation and momentary button handling. Cross-model replies stay inactive. The XL profile temporarily selects User template1 and reads existing data. Other User selections trigger reads; Factory selections suspend input. There is no stored-template, HUI, XL3 DAW, LED-colour or audio write.
+
+The native60-input XL app layout uses four adjacent column pairs. Pot rows control high/mid, low/filter and gain/level. Fader pairs also control level/gain, with independent pickup for each physical control. Top buttons provide Play/held Cue; bottom buttons provide Sync/Load. Device/Mute/Solo/Record Arm provide A/B/C/D PFL and Shift+key lock. Right arrow is native Shift, Up/Down browse tracks and Left opens a group. Template/Shift changes retire source-owned holds and pickup. Existing raw mappings keep priority and C/D retain opt-in.
+
+Validation:280 source checks and57 native checks passed, including172 automatic held-Cue profiles. Tests cover every XL reply split, all record groups, exact products/sizes/channels, stale/malformed/oversized data, cross-group collisions, inactive types, ignored LED-tail data, reversed fader ranges, all native targets, independent pickup, template/Shift/source ownership, C/D, each setup and later-read failure, saved raw mapping retention/capacity and finite synced real-WAV playback. All original/modern Launch Control and selected Korg/XDJ regressions pass. The iPad framework compiled and its bundled resource matches the source. All302 earlier recipes remain identical. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r407/validation.json`.
+
+The catalogue has303 recipes and561 records for554 physical models:211 automatic core and343 without it. First-protocol gaps fall to213. Full theoretical support remains0/554. Factory/HUI modes, complete feedback/state/lifecycle/timeout recovery and physical/iPad/A10X acceptance remain open. MK1/MK2 remain one manufacturer-supported wire family in the established catalogue count.
+
+## R408 remaining Akiyama public facts
+
+Assumption: expose manual A/B normal-mode subsets for Pulsar and Tempus from each separate public factory XML. Use held Shift only with the documented Hold setting. For Syncron, use only the eleven mixer controls common to the two independent public mappings. Do not guess disputed transport, jog, pitch, mode or audio behaviour.
+
+- [x] Pin and reconcile selected wires in each public source.
+- [x] Add manual profiles without hardware writes or automatic selection.
+- [x] Verify native controls, channels, Shift/hold ownership, pickup, disputed-wire rejection and finite synced audio.
+- [x] Run focused checks, compile the iPad framework and preserve all303 earlier recipes.
+
+Separate pinned Pulsar and Tempus XML members qualify the same selected normal-layer A/B wires. Each file was reviewed independently. Native retains Play/held Cue, Sync/Load, key lock/PFL, manual loops, four Hot Cues, held bends, five strip controls, crossfader and headphone blend/level. Shift45 appears on both side channels in the factory unused-control declarations. Native requires Hold mode, composes both physical inputs and retires source-owned holds. C/D and alternate commands remain inactive. These45-input profiles require manual selection and explicit hardware channel/mode setup.
+
+For Syncron, the ProMixer XML and independent DEX script agree on five mixer wires per deck and crossfader48 on centre channel5. Native retains only those eleven absolute controls with independent pickup. The sources disagree on Sync96/33, loop In/Out0/2/3 and the headphone51 versus multi-byte jog interpretation. Those rows and all Syncron transport/Shift/pads/jog/tempo remain inactive. Software virtual commands above127 are not converted into MIDI. No sibling address, sensitivity value or calibration is inferred.
+
+All three subsets remain manual, with no startup, shutdown, feedback, stored-preset or audio-route write. Public factory documents and script facts were read without running the installer, app or downloaded MIDI actions. This is partial control support. It does not establish full hardware function or automatic zero-config operation. The cached Pulsar manufacturer table corroborates selected normal wires, but its full bytes and page image were not recovered. No Tempus manufacturer chart is claimed from the separate software XML.
+
+Validation:282 source checks and18 native checks passed, including172 automatic held-Cue profiles and earlier Akiyama chart regressions. Tests cover manual-only activation, no writes, exact A/B controls, both Cue releases, duplicate/source ownership, composed Shift, strict channels, per-control pickup, rejected disputed Syncron traffic and finite synced real-WAV playback for all three models. The iPad framework compiled and its bundled resource matches the source. All303 earlier recipes remain identical. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r408/validation.json`.
+
+The catalogue has306 recipes and561 records for554 physical models. Automatic core coverage stays211, with343 without it. First-protocol gaps fall to210. Full theoretical support remains0/554. Configurable modes/channels, complete transport/feedback/lifecycle/calibration/audio and physical/iPad/A10X acceptance remain open.

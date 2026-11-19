@@ -1104,3 +1104,18 @@ R398 adds `universal_dj.py`:111 inputs and30 lamps from independently reconciled
 
 
 R399 adds `wave_usb.py`:42 inputs and14 lamps, composed MODE Shift from both manufacturer djay mappings, Shift loading/browse and512-count contact/wheel jogs from the manufacturer VirtualDJ definition. Current DJUCED720 calibration, ambiguous PFL, ring/setup and Bluetooth/tablet remain open.258 source checks, ten native tests and iPad framework compilation pass. Earlier288 recipes remain identical.
+
+
+R400 adds independent `twitch_basic.py` facts from the public Novation programmer guide:139 Basic inputs,44 static lamp mappings, source-local A/C and B/D loads, contact-gated signed SWIPE and absolute DROP. Automatic software banking is limited to paired load-only profiles. Advanced arbitration, full modes/audio and physical calibration remain open.261 source checks,19 native tests and iPad framework compilation pass. Earlier289 recipes remain identical.
+
+
+R401 adds independent `akiyama_charts.py` manual facts:98 Quattro,200 Quark SC and125 TTWO inputs. Separate manufacturer charts qualify each channel layout, normal controls, selected mixer fields and alternate release wires. Disputed pitch/jog/output rows remain inactive. No hardware write is sent.264 source checks,11 native tests and iPad framework compilation pass. Earlier290 recipes remain identical. Automatic setup and complete modes/audio/calibration remain open.
+
+
+R402 adds `launchpad_programmer.py`: independently reviewed X, Pro MK3 and original Pro grids, each with64 inputs/52 static lamps in a native four-quadrant DJ layout. X/Pro MK3 use documented MIDI interfaces, Programmer/Live setup and two104-byte clear packets. Bounded startup-abort metadata attempts Live recovery after partial setup failure. Original Pro remains manual on its independent Standalone/channel1 contract.267 source checks,31 native tests and iPad framework compilation pass. Earlier293 recipes remain identical. Full modes/feedback/lifecycle and physical acceptance remain open.
+
+
+R403 adds `apc_mini_mk2.py` from the independent manufacturer protocol:74 Session-channel1 inputs,52 channel7 full-brightness lamps, Control-port qualification, Shift cleanup, nine native faders and bounded introduction/range-clear messages. `native_dj_grid.py` reuses only app functions across separately reviewed wire grids; all296 earlier recipes remain identical.270 source checks,20 native tests and iPad framework compilation pass. Other modes/channels, full lifecycle and physical acceptance remain open.
+
+
+R404 adds independent `apc40_generations.py` facts:114 MKII/113 original inputs and68 feedback bindings each. Separate product/grid/colour contracts use public momentary unbanked Mode1 and bounded Generic exit. A narrowly validated paired-unbanked contract permits global channels with all16 Shift cleanup selectors; track channels remain explicit.273 source checks,37 native tests and iPad framework compilation pass. Earlier297 recipes remain identical. Complete modes/state/ring/lifecycle and physical acceptance remain open.

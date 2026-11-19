@@ -43,6 +43,43 @@ private func deckBankFixture(
     }
 }
 
+@Test func controllerDeckBankAutomaticRoutingRequiresPairedSetupAndOnlyLoadTargets() throws {
+    let base = try #require(try JSONSerialization.jsonObject(with: deckBankFixture()) as? [String: Any])
+    var fixture = try #require((base["profiles"] as? [[String: Any]])?.first)
+    fixture["autoSelect"] = true
+    fixture["startup"] = [[0xB7, 0, 0]]
+    fixture["shutdown"] = [[0xB7, 0, 0]]
+    var inputs = try #require(fixture["inputs"] as? [[String: Any]])
+    inputs[0]["action"] = "loadA"
+    fixture["inputs"] = inputs
+    func decode(_ profile: [String: Any]) throws -> ControllerProfileCatalogue {
+        try ControllerProfileCatalogue.decode(
+            JSONSerialization.data(withJSONObject: ["schemaVersion": 1, "profiles": [profile]]))
+    }
+    let valid = try decode(fixture)
+    #expect(valid.profiles.first?.requiresPairedSetup == true)
+    for field in ["startup", "shutdown"] {
+        var invalid = fixture
+        invalid[field] = []
+        #expect(throws: (any Error).self) { try decode(invalid) }
+    }
+    var invalidAction = fixture
+    inputs[0]["action"] = "playA"
+    invalidAction["inputs"] = inputs
+    #expect(throws: (any Error).self) { try decode(invalidAction) }
+    var invalidFeedback = fixture
+    invalidFeedback["outputs"] = [
+        [
+            "action": "loadA", "kind": "note", "channel": 7, "number": 13,
+            "offValue": 0, "onValue": 127, "offUsesNoteOn": true, "targetDeck": "a",
+        ]
+    ]
+    #expect(throws: (any Error).self) { try decode(invalidFeedback) }
+    var invalidRole = fixture
+    invalidRole["role"] = "accessory"
+    #expect(throws: (any Error).self) { try decode(invalidRole) }
+}
+
 @MainActor private func withVMS5(
     decks: [DeckID] = DeckID.allCases,
     _ body: (ControllerMIDIConnection) throws -> Void

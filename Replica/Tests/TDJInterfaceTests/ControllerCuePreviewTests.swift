@@ -2709,3 +2709,150 @@ func controllerCatalogueLegacyDJMDirectCueKeepsAppStartedRealAudioSynced(_ name:
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueTwitchBasicStripAndBankCleanupRestoreRealAudioSync() async throws {
+    try await withControllerCuePlayback("Twitch") { model,input in
+        cuePreviewPacket([0x97,22,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x87,22,127,0x97,23,127,23,0,71,1,0xB7,53,3],to:input)
+        _ = model.playback.core.renderOffline(frames:4096)
+        cuePreviewPacket([0x97,0,127,0,0],to:input)
+        let audio = model.playback.core.renderOffline(frames:4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test(arguments: ["Akiyama Quattro","Akiyama Quark SC","Akiyama TTWO"])
+@MainActor func controllerCatalogueAkiyamaChartShiftCleanupRestoresRealAudioSync(_ name: String) async throws {
+    try await withControllerCuePlayback(name,manual:true) { model,input in
+        let quark = name == "Akiyama Quark SC"
+        let cue: UInt8 = name == "Akiyama Quattro" ? 50 : quark ? 53 : 46
+        let play: UInt8 = name == "Akiyama Quattro" ? 51 : quark ? 52 : 47
+        let shift: UInt8 = name == "Akiyama Quattro" ? 114 : quark ? 63 : 36
+        let status: UInt8 = quark ? 0x90 : 0x94
+        cuePreviewPacket([0x90,cue,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([status,shift,127,shift,0,0x90,play,127,play,0],to:input)
+        let audio = model.playback.core.renderOffline(frames:4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test(arguments: ["Novation Launchpad X","Novation Launchpad Pro MK3","Novation Launchpad Pro"])
+@MainActor func controllerCatalogueProgrammerGridHeldCueAndPlayRestoreRealAudioSync(_ name: String) async throws {
+    let port = name.hasSuffix(" X") ? "LPX MIDI" : "LPProMK3 MIDI"
+    try await withControllerCuePlayback(name,manual:name == "Novation Launchpad Pro",ports:[port]) { model,input in
+        cuePreviewPacket([0x90,12,1],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        _ = model.playback.core.renderOffline(frames:1024)
+        cuePreviewPacket([0x80,12,127,0x90,11,127,11,0],to:input)
+        let audio = model.playback.core.renderOffline(frames:4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test @MainActor func controllerCatalogueAPCMiniMK2ShiftCleanupRestoresRealAudioSync() async throws {
+    try await withControllerCuePlayback("APC mini mk2",ports:["APC mini MK 2 (Control)"]) { model,input in
+        cuePreviewPacket([0x90,1,1],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x90,122,127,122,0,0,127,0,0],to:input)
+        let audio=model.playback.core.renderOffline(frames:4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test(arguments:["Akai APC40 MKII","Akai APC40"])
+@MainActor func controllerCatalogueAPC40ModeOneCueAndShiftRestoreRealAudioSync(_ name:String)async throws {
+    try await withControllerCuePlayback(name) { model,input in
+        let mk2=name=="Akai APC40 MKII"
+        let channel:UInt8=mk2 ? 0:1;let cue:UInt8=mk2 ? 33:57
+        cuePreviewPacket([0x90+channel,cue,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        let play:UInt8=mk2 ? 32:57
+        cuePreviewPacket([0x9F,98,127,98,0,0x90,play,127,play,0],to:input)
+        let audio=model.playback.core.renderOffline(frames:4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test(arguments:["Novation Launch Control 3","Novation LaunchControl XL3"])
+@MainActor func controllerCatalogueLaunchControlDAWModeExitRestoresRealAudioSync(_ name:String)async throws {
+    let port=name.hasSuffix("XL3") ? "Launch Control XL 3 DAW":"Launch Control 3 DAW"
+    try await withControllerCuePlayback(name,ports:[port]){model,input in
+        input.receiveBytes([0xB0,38,127],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0xB6,30,6],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        input.receiveBytes([0xB6,30,2,0xB0,37,127,37,0],source:10);input.flushPendingActions()
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+    }
+}
+
+@Test @MainActor func controllerCatalogueLaunchControlTemplateSceneChangeRestoresRealAudioSync()async throws{
+    try await withControllerCuePlayback("Novation Launch Control",ports:["Launch Control"],prepareInput:{input in input.receiveBytes(launchControlTemplateFixture(),source:10)}){model,input in
+        input.receiveBytes([0x93,61,127],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([240,0,32,41,2,10,119,8,247],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        input.receiveBytes([240,0,32,41,2,10,119,0,247],source:10)
+        input.receiveBytes(launchControlTemplateFixture(),source:10)
+        input.receiveBytes([0x93,60,127,60,0],source:10);input.flushPendingActions()
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+    }
+}
+
+@Test @MainActor func controllerCatalogueLaunchControlXLTemplateChangeRestoresRealAudioSync()async throws{
+    try await withControllerCuePlayback("Novation Launch Control XL",ports:["Launch Control XL"],prepareInput:{input in input.receiveBytes(launchControlXLTemplateFixture(),source:10)}){model,input in
+        input.receiveBytes([0x94,61,127],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([240,0,32,41,2,17,119,8,247],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        input.receiveBytes([240,0,32,41,2,17,119,0,247],source:10)
+        input.receiveBytes(launchControlXLTemplateFixture(),source:10)
+        input.receiveBytes([0x94,60,127,60,0],source:10);input.flushPendingActions()
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+    }
+}
+
+@Test(arguments:["Akiyama Pulsar","Akiyama Tempus"])
+@MainActor func controllerCatalogueRemainingAkiyamaNormalCueAndShiftKeepRealAudioSync(_ name:String)async throws{
+    try await withControllerCuePlayback(name,manual:true){model,input in
+        cuePreviewPacket([0x90,23,127],to:input);#expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x90,45,127],to:input);#expect(model.playbackSnapshot?.a.touchActive == false)
+        cuePreviewPacket([0x90,45,0,24,127,24,0],to:input)
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+    }
+}
+
+@Test @MainActor func controllerCatalogueRemainingAkiyamaSyncronCommonMixerKeepsRealAudioSync()async throws{
+    try await withControllerCuePlayback("Akiyama Syncron",manual:true){model,input in
+        model.pressPlay(deck:.a,vinylStop:false)
+        cuePreviewPacket([0xB0,16,64,17,64,18,64,19,64,20,64,0xB4,48,64],to:input)
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+    }
+}

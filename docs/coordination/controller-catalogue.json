@@ -19908,68 +19908,6 @@
       }
     },
     {
-      "id": "akaiapcminimk2",
-      "name": "AKAI APC MINI MK2",
-      "manufacturer": "Akai",
-      "role": "accessory",
-      "benchmark": false,
-      "sources": [
-        "https://virtualdj.com/products/hardware.html?model=APCMINI2"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "virtualDJ": {
-          "sourceName": "AKAI APC MINI MK2",
-          "category": "Addon Units (FX,Pads,..)",
-          "source": "https://virtualdj.com/products/hardware.html?model=APCMINI2"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
       "id": "akaiapc20",
       "name": "AKAI APC20",
       "manufacturer": "Akai",
@@ -19987,130 +19925,6 @@
           "sourceName": "AKAI APC20",
           "category": "Addon Units (FX,Pads,..)",
           "source": "https://virtualdj.com/products/hardware.html?model=AKAPC20"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
-      "id": "akaiapc40",
-      "name": "AKAI APC40",
-      "manufacturer": "Akai",
-      "role": "accessory",
-      "benchmark": false,
-      "sources": [
-        "https://virtualdj.com/products/hardware.html?model=AKAIAPC40"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "virtualDJ": {
-          "sourceName": "AKAI APC40",
-          "category": "Addon Units (FX,Pads,..)",
-          "source": "https://virtualdj.com/products/hardware.html?model=AKAIAPC40"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
-      "id": "akaiapc40mk2",
-      "name": "AKAI APC40 MKII",
-      "manufacturer": "Akai",
-      "role": "accessory",
-      "benchmark": false,
-      "sources": [
-        "https://virtualdj.com/products/hardware.html?model=APC40II"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "virtualDJ": {
-          "sourceName": "AKAI APC40 MKII",
-          "category": "Addon Units (FX,Pads,..)",
-          "source": "https://virtualdj.com/products/hardware.html?model=APC40II"
         }
       },
       "controlActions": [],
@@ -20466,6 +20280,508 @@
       }
     },
     {
+      "id": "akaiapcminimk2",
+      "name": "Akai APC mini MK2",
+      "manufacturer": "Akai",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://cdn.inmusicbrands.com/akai/attachments/APC%20mini%20mk2%20-%20Communication%20Protocol%20-%20v1.0.pdf",
+        "https://virtualdj.com/products/hardware.html?model=APCMINI2"
+      ],
+      "definitions": [
+        "manufacturer:apc-mini-mk2-session-native-grid"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Akai APC mini MK2",
+      "automaticControls": true,
+      "comparisonSupport": {
+        "virtualDJ": {
+          "sourceName": "AKAI APC MINI MK2",
+          "category": "Addon Units (FX,Pads,..)",
+          "source": "https://virtualdj.com/products/hardware.html?model=APCMINI2"
+        }
+      },
+      "controlActions": [
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "master",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "reloopB:d",
+        "shift",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d"
+      ],
+      "inputBindingCount": 74,
+      "feedbackBindingCount": 52,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Session view on MIDI channel1 through APC mini MK 2 (Control). Close other software that controls the device. Drum channel10 and the separate Note interface remain inactive."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "This is a native app grid/fader layout, separate from Ableton. Other Session channels, Drum/Note modes, full mode negotiation, remaining track/scene buttons, pressure/expression, user colour/state restoration, full feedback/lifecycle and physical/iPad/A10X acceptance remain open. Port-name variants and required iPad power need physical qualification. No DAW script, audio route or persistent template is written."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "akaiapc40",
+      "name": "Akai APC40",
+      "manufacturer": "Akai",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://cdn.inmusicbrands.com/akai/apc40/APC40_Communications_Protocol_rev_1.pdf_1db97c1fdba23bacf47df0f9bf64e913.pdf",
+        "https://virtualdj.com/products/hardware.html?model=AKAIAPC40"
+      ],
+      "definitions": [
+        "manufacturer:akai-apc40-native-mode1"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Akai APC40",
+      "automaticControls": true,
+      "comparisonSupport": {
+        "virtualDJ": {
+          "sourceName": "AKAI APC40",
+          "category": "Addon Units (FX,Pads,..)",
+          "source": "https://virtualdj.com/products/hardware.html?model=AKAIAPC40"
+        }
+      },
+      "controlActions": [
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
+        "browsePreviousGroup",
+        "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "keylockA:a",
+        "keylockA:c",
+        "keylockB:b",
+        "keylockB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "loopDownA:a",
+        "loopDownA:c",
+        "loopDownB:b",
+        "loopDownB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "loopUpA:a",
+        "loopUpA:c",
+        "loopUpB:b",
+        "loopUpB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor",
+        "openGroup",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "reloopB:d",
+        "shift",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d"
+      ],
+      "inputBindingCount": 113,
+      "feedbackBindingCount": 68,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Native selects the documented Mode1 for momentary buttons and unbanked device knobs. Close other controlling software. Adjacent track pairs1/2,3/4,5/6,7/8 target A/B/C/D. C/D require opt-in. Shutdown restores Generic Mode0."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "This is an app layout following published control order. Physical pad orientation, full source modes, global transport/foot controls, source-specific Shift/FX, remaining LEDs/ring styles/state, startup analogue response, complete feedback/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. Generic exit does not restore an arbitrary previous mode or state. No DAW script, private authentication, persistent preset or audio route is used."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "akaiapc40mk2",
+      "name": "Akai APC40 MKII",
+      "manufacturer": "Akai",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://cdn.inmusicbrands.com/akai/attachments/apc40II/APC40Mk2_Communications_Protocol_v1.2.pdf",
+        "https://virtualdj.com/products/hardware.html?model=APC40II"
+      ],
+      "definitions": [
+        "manufacturer:akai-apc40-mkii-native-mode1"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Akai APC40 MKII",
+      "automaticControls": true,
+      "comparisonSupport": {
+        "virtualDJ": {
+          "sourceName": "AKAI APC40 MKII",
+          "category": "Addon Units (FX,Pads,..)",
+          "source": "https://virtualdj.com/products/hardware.html?model=APC40II"
+        }
+      },
+      "controlActions": [
+        "browse",
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
+        "browsePreviousGroup",
+        "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "keylockA:a",
+        "keylockA:c",
+        "keylockB:b",
+        "keylockB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "loopDownA:a",
+        "loopDownA:c",
+        "loopDownB:b",
+        "loopDownB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "loopUpA:a",
+        "loopUpA:c",
+        "loopUpB:b",
+        "loopUpB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor",
+        "openGroup",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "reloopB:d",
+        "shift",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d"
+      ],
+      "inputBindingCount": 114,
+      "feedbackBindingCount": 68,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Native selects the documented Mode1 for momentary buttons and unbanked device knobs. Close other controlling software. Adjacent track pairs1/2,3/4,5/6,7/8 target A/B/C/D. C/D require opt-in. Shutdown restores Generic Mode0."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "This is an app layout following published control order. Physical pad orientation, full source modes, global transport/foot controls, source-specific Shift/FX, remaining LEDs/ring styles/state, startup analogue response, complete feedback/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. Generic exit does not restore an arbitrary previous mode or state. No DAW script, private authentication, persistent preset or audio route is used."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
       "id": "akailpd8",
       "name": "Akai LPD8",
       "manufacturer": "Akai",
@@ -20793,17 +21109,22 @@
     },
     {
       "id": "akiyamapulsar",
-      "name": "Akiyama PULSAR",
+      "name": "Akiyama Pulsar",
       "manufacturer": "Akiyama",
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
         "https://virtualdj.com/products/hardware.html?model=PULSAR"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:akiyama-pulsar-public-subset"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Akiyama Pulsar",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Akiyama PULSAR",
@@ -20811,40 +21132,85 @@
           "source": "https://virtualdj.com/products/hardware.html?model=PULSAR"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 45,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual A/B normal-mode subset. Set deck MIDI channels1/2 and centre channel1, Shift to Hold, and mixer strips to MIDI. Do not use C/D or alternate modes. Configure audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "C/D and configurable channels/modes, full Shift/FX/pad controls, jog/tempo calibration, feedback/state/lifecycle/audio and physical/iPad/A10X acceptance remain open. Source scripts and installers are not executed or bundled. Factory software sensitivity values are not physical calibration.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -20917,17 +21283,22 @@
     },
     {
       "id": "akiyamaquarksc",
-      "name": "Akiyama QUARK SC",
+      "name": "Akiyama Quark SC",
       "manufacturer": "Akiyama",
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://media.djmania.net/manuales/pdf/Manual_Akiyama_Quark_SC.pdf",
         "https://virtualdj.com/products/hardware.html?model=QUARKSC"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:akiyama-quark-sc-manual-chart"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Akiyama Quark SC",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Akiyama QUARK SC",
@@ -20935,40 +21306,143 @@
           "source": "https://virtualdj.com/products/hardware.html?model=QUARKSC"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "browseGroups",
+        "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "loopSizeA:a",
+        "loopSizeA:c",
+        "loopSizeB:b",
+        "loopSizeB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownA:c",
+        "pitchBendDownB:b",
+        "pitchBendDownB:d",
+        "pitchBendUpA:a",
+        "pitchBendUpA:c",
+        "pitchBendUpB:b",
+        "pitchBendUpB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "reloopB:d",
+        "shift",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d",
+        "tempoA:a",
+        "tempoA:c",
+        "tempoB:b",
+        "tempoB:d"
+      ],
+      "inputBindingCount": 200,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Normal six-Hot-Cue pad page, deck channels0..3 and common channel4. Shift CC aliases preserve selected mixer functions; other Shift actions release only. Manual selection only. Configure audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Jog/touch calibration, pitch physical polarity/range, AutoLoop/Roll pad pages, separate FX/sample slots, source Shift alternatives, complete feedback/lifecycle/audio and physical/iPad/A10X acceptance remain open. Pitch follows increasing published CC values; physical calibration remains unresolved. No cue-delete, ring, meter or hardware mode command is sent.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -20979,17 +21453,22 @@
     },
     {
       "id": "akiyamaquattro",
-      "name": "Akiyama QUATTRO",
+      "name": "Akiyama Quattro",
       "manufacturer": "Akiyama",
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://media.djmania.net/manuales/pdf/118rOPK_Ym0.pdf",
         "https://virtualdj.com/products/hardware.html?model=QUATTRO"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:akiyama-quattro-manual-chart"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Akiyama Quattro",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Akiyama QUATTRO",
@@ -20997,40 +21476,127 @@
           "source": "https://virtualdj.com/products/hardware.html?model=QUATTRO"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "keylockA:a",
+        "keylockA:c",
+        "keylockB:b",
+        "keylockB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopDownA:a",
+        "loopDownA:c",
+        "loopDownB:b",
+        "loopDownB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "loopUpA:a",
+        "loopUpA:c",
+        "loopUpB:b",
+        "loopUpB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor",
+        "openGroup",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "shift",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d"
+      ],
+      "inputBindingCount": 98,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Normal MIDI channels0..3 with fixed mixer channel4. Shared Shift guards unsupported alternate functions. Manual selection only. Configure audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Pitch/crossfader MSB scaling, jog/touch calibration and scratch mode, sampler/FX, alternate Shift actions, thru/source ownership, complete feedback/lifecycle/audio and physical/iPad/A10X acceptance remain open. No ambiguous pitch packet, source script or hardware command is used.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -21041,17 +21607,22 @@
     },
     {
       "id": "akiyamasyncron",
-      "name": "Akiyama SYNCRON",
+      "name": "Akiyama Syncron",
       "manufacturer": "Akiyama",
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
         "https://virtualdj.com/products/hardware.html?model=SYNCRON"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:akiyama-syncron-public-subset"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Akiyama Syncron",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Akiyama SYNCRON",
@@ -21059,102 +21630,52 @@
           "source": "https://virtualdj.com/products/hardware.html?model=SYNCRON"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "crossfader",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "levelA:a",
+        "levelB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b"
+      ],
+      "inputBindingCount": 11,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual mixer-only subset. Select MIDI A and MIDI B, enable MIDI mixer control and use deck channels1/2 with centre channel5. Use app transport/jogs and configure audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
-      "id": "akiyamatempus",
-      "name": "Akiyama TEMPUS",
-      "manufacturer": "Akiyama",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://virtualdj.com/products/hardware.html?model=TEMPUS"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "virtualDJ": {
-          "sourceName": "Akiyama TEMPUS",
-          "category": "All-in-one",
-          "source": "https://virtualdj.com/products/hardware.html?model=TEMPUS"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Sync, loop and headphone rows disagree across the two sources. All transport/Shift/pad/jog/tempo, complete feedback/state/lifecycle/audio and physical/iPad/A10X acceptance remain open. No DEX or ProMixer action, hardware reset, preset or audio route is executed.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -21170,12 +21691,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://media.djmania.net/manuales/pdf/Manual_Akiyama_TTwo.pdf",
         "https://virtualdj.com/products/hardware.html?model=TTWO"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:akiyama-ttwo-manual-chart"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Akiyama TTWO",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Akiyama TTWO",
@@ -21183,40 +21709,238 @@
           "source": "https://virtualdj.com/products/hardware.html?model=TTWO"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "browseGroups",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopDownA:a",
+        "loopDownA:c",
+        "loopDownB:b",
+        "loopDownB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "loopUpA:a",
+        "loopUpA:c",
+        "loopUpB:b",
+        "loopUpB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor",
+        "pitchBendDownA:a",
+        "pitchBendDownA:c",
+        "pitchBendDownB:b",
+        "pitchBendDownB:d",
+        "pitchBendUpA:a",
+        "pitchBendUpA:c",
+        "pitchBendUpB:b",
+        "pitchBendUpB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "shift",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d"
+      ],
+      "inputBindingCount": 125,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Normal deck channels0..3, direct loads/PFL on4/5 and shared Shift on4. Disputed pitch/filter/jog/feedback rows remain inactive. Manual selection only. Configure audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Conflicting pitch/filter54, paired resolution/order, jog direction/Shift/calibration, browser press/release, crossfader type, master channel and lamp rows remain inactive. Sampler/FX, alternate Shift actions, complete feedback/lifecycle/audio and physical/iPad/A10X acceptance remain open. The table labels do not authorise Quattro protocol inheritance.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "akiyamatempus",
+      "name": "Akiyama Tempus",
+      "manufacturer": "Akiyama",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+        "https://virtualdj.com/products/hardware.html?model=TEMPUS"
+      ],
+      "definitions": [
+        "reviewed:akiyama-tempus-public-subset"
+      ],
+      "implementation": "partial-midi-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Akiyama Tempus",
+      "automaticControls": false,
+      "comparisonSupport": {
+        "virtualDJ": {
+          "sourceName": "Akiyama TEMPUS",
+          "category": "All-in-one",
+          "source": "https://virtualdj.com/products/hardware.html?model=TEMPUS"
+        }
+      },
+      "controlActions": [
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 45,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual A/B normal-mode subset. Set deck MIDI channels1/2 and centre channel1, Shift to Hold, and mixer strips to MIDI. Do not use C/D or alternate modes. Configure audio separately."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "partial",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "C/D and configurable channels/modes, full Shift/FX/pad controls, jog/tempo calibration, feedback/state/lifecycle/audio and physical/iPad/A10X acceptance remain open. Source scripts and installers are not executed or bundled. Factory software sensitivity values are not physical calibration.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -41884,68 +42608,6 @@
       }
     },
     {
-      "id": "novationlaunchcontrol",
-      "name": "Novation LAUNCH CONTROL",
-      "manufacturer": "Novation",
-      "role": "accessory",
-      "benchmark": false,
-      "sources": [
-        "https://virtualdj.com/products/hardware.html?model=LAUNCHCTRL"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "virtualDJ": {
-          "sourceName": "Novation LAUNCH CONTROL",
-          "category": "Addon Units (FX,Pads,..)",
-          "source": "https://virtualdj.com/products/hardware.html?model=LAUNCHCTRL"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
       "id": "novationlaunchpads",
       "name": "Novation LAUNCHPAD S",
       "manufacturer": "Novation",
@@ -42008,18 +42670,214 @@
       }
     },
     {
+      "id": "novationlaunchcontrol",
+      "name": "Novation Launch Control",
+      "manufacturer": "Novation",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/launch-control-programmers-reference-guide.pdf",
+        "https://virtualdj.com/products/hardware.html?model=LAUNCHCTRL"
+      ],
+      "definitions": [
+        "manufacturer:launch-control-user-template-reader"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Novation Launch Control",
+      "automaticControls": true,
+      "comparisonSupport": {
+        "virtualDJ": {
+          "sourceName": "Novation LAUNCH CONTROL",
+          "category": "Addon Units (FX,Pads,..)",
+          "source": "https://virtualdj.com/products/hardware.html?model=LAUNCHCTRL"
+        }
+      },
+      "controlActions": [
+        "browseNext",
+        "browsePrevious",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "openGroup",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "shift"
+      ],
+      "inputBindingCount": 40,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Native temporarily selects User template1 and reads its existing assignments. Other User templates are read on selection. Factory templates suspend native input. Close other editors. Existing raw mappings take priority. No stored preset is changed."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Physical-position app functions use only unambiguous seven-bit knobs and momentary Note/CC buttons. Toggle/constant/duplicate/unsupported controls and Factory templates stay inactive. Full modes/feedback/timeout recovery, prior-template restoration and physical/iPad/A10X acceptance remain open. No stored data, firmware, DAW script, private SDK or audio route is written."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "novationlaunchcontrol3",
+      "name": "Novation Launch Control 3",
+      "manufacturer": "Novation",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://fael-downloads-prod.focusrite.com/customer/prod/downloads/launch_control_3_programmer_s_reference_guide.pdf"
+      ],
+      "definitions": [
+        "manufacturer:launch-control3-native-daw"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Novation Launch Control 3",
+      "automaticControls": true,
+      "controlActions": [
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "shift"
+      ],
+      "inputBindingCount": 25,
+      "feedbackBindingCount": 24,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Native uses the paired DAW USB interface, enters DAW Control and sets absolute encoder output. Close other controlling software. Adjacent column pairs target A/B/C/D. C/D require opt-in. Custom modes suspend native input. Returning to DAW Mixer or Control resumes it. Shutdown exits DAW mode."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "This is an app layout following each published surface diagram. Complete modes, Shift functions, feature controls, screen/labels, remaining LEDs, saved-state restoration and physical/iPad/A10X acceptance remain open. Only explicitly matched DAW ports are enabled. No custom template, DAW script, private SDK, non-volatile setting, DIN route or audio route is written. Mode exit is best effort, not restoration of arbitrary previous state."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
       "id": "novationlaunchcontrolxl",
       "name": "Novation Launch Control XL",
       "manufacturer": "Novation",
       "role": "accessory",
       "benchmark": false,
       "sources": [
+        "https://fael-downloads-prod.focusrite.com/customer/prod/downloads/launch_control_xl_programmer_s_reference_guide.pdf",
         "https://virtualdj.com/products/hardware.html?model=LAUNCHCTRLXL"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:launch-control-xl-user-template-reader"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Novation Launch Control XL",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Novation Launch Control XL",
@@ -42027,40 +42885,92 @@
           "source": "https://virtualdj.com/products/hardware.html?model=LAUNCHCTRLXL"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browseNext",
+        "browsePrevious",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "keylockA:a",
+        "keylockA:c",
+        "keylockB:b",
+        "keylockB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "openGroup",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "shift",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d"
+      ],
+      "inputBindingCount": 60,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Native temporarily selects User template1 and reads its existing assignments. Other User templates are read on selection. Factory templates suspend native input. Close other editors. Existing raw mappings take priority. No stored preset, HUI or modern DAW mode is written."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Physical-position app functions use only unambiguous seven-bit continuous controls and momentary Note/CC buttons. Toggle/constant/duplicate/unsupported controls, Factory/HUI/XL3, full feedback/state/lifecycle/timeout recovery, prior-template restoration and physical/iPad/A10X acceptance remain open. No stored data, LED colour, firmware, DAW script, private SDK or audio route is written."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -42071,17 +42981,22 @@
     },
     {
       "id": "novationlaunchcontrolxl3",
-      "name": "Novation LaunchControl XL 3",
+      "name": "Novation LaunchControl XL3",
       "manufacturer": "Novation",
       "role": "accessory",
       "benchmark": false,
       "sources": [
+        "https://fael-downloads-prod.focusrite.com/customer/prod/downloads/launch_control_xl_3_programmer_s_reference_guide-pdf_en.pdf",
         "https://virtualdj.com/products/hardware.html?model=NOVLCXL3"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:launch-control-xl3-native-daw"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Novation LaunchControl XL3",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Novation LaunchControl XL 3",
@@ -42089,40 +43004,86 @@
           "source": "https://virtualdj.com/products/hardware.html?model=NOVLCXL3"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
+        "browsePreviousGroup",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "openGroup",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "shift",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d"
+      ],
+      "inputBindingCount": 54,
+      "feedbackBindingCount": 36,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Native uses the paired DAW USB interface, enters DAW Control and sets absolute encoder output. Close other controlling software. Adjacent column pairs target A/B/C/D. C/D require opt-in. Custom modes suspend native input. Returning to DAW Mixer or Control resumes it. Shutdown exits DAW mode."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "This is an app layout following each published surface diagram. Complete modes, Shift functions, feature controls, screen/labels, remaining LEDs, saved-state restoration and physical/iPad/A10X acceptance remain open. Only explicitly matched DAW ports are enabled. No custom template, DAW script, private SDK, non-volatile setting, DIN route or audio route is written. Mode exit is best effort, not restoration of arbitrary previous state."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -42554,12 +43515,17 @@
       "role": "accessory",
       "benchmark": false,
       "sources": [
+        "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/Launchpad%20Pro%20Programmers%20Reference%20Guide%201.01.pdf",
         "https://virtualdj.com/products/hardware.html?model=LAUNCHPADPRO"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:novation-launchpad-pro-native-grid"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Novation Launchpad Pro",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Novation Launchpad Pro",
@@ -42567,40 +43533,228 @@
           "source": "https://virtualdj.com/products/hardware.html?model=LAUNCHPADPRO"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "reloopB:d",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d"
+      ],
+      "inputBindingCount": 64,
+      "feedbackBindingCount": 52,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Original Pro Standalone MIDI port2, Programmer layout, channel1. Select and configure manually. Feedback needs separate manual opt-in."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "This is an app-selected DJ grid, separate from Ableton and other DJ mappings. Outer buttons, library navigation, mixer/FX, pressure/aftertouch expressions, persistent custom layouts, original saved-state restoration, complete modes/feedback/lifecycle and physical/iPad/A10X acceptance remain open. No audio route, DAW handshake, firmware/authentication or persistent preset is written.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "novationlaunchpadpromk3",
+      "name": "Novation Launchpad Pro MK3",
+      "manufacturer": "Novation",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/LPP3_prog_ref_guide_200415.pdf"
+      ],
+      "definitions": [
+        "manufacturer:novation-launchpad-pro-mk3-native-grid"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Novation Launchpad Pro MK3",
+      "automaticControls": true,
+      "controlActions": [
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "reloopB:d",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d"
+      ],
+      "inputBindingCount": 64,
+      "feedbackBindingCount": 52,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Use the documented MIDI interface. Native selects Programmer mode and restores Live mode at shutdown. Close other software that controls this device."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "This is an app-selected DJ grid, separate from Ableton and other DJ mappings. Outer buttons, library navigation, mixer/FX, pressure/aftertouch expressions, persistent custom layouts, original saved-state restoration, complete modes/feedback/lifecycle and physical/iPad/A10X acceptance remain open. No audio route, DAW handshake, firmware/authentication or persistent preset is written."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -42616,12 +43770,17 @@
       "role": "accessory",
       "benchmark": false,
       "sources": [
+        "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/Launchpad%20X%20-%20Programmers%20Reference%20Manual.pdf",
         "https://virtualdj.com/products/hardware.html?model=LAUNCHPADX"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:novation-launchpad-x-native-grid"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Novation Launchpad X",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Novation Launchpad X",
@@ -42629,40 +43788,104 @@
           "source": "https://virtualdj.com/products/hardware.html?model=LAUNCHPADX"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "reloopB:d",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d"
+      ],
+      "inputBindingCount": 64,
+      "feedbackBindingCount": 52,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Use the documented MIDI interface. Native selects Programmer mode and restores Live mode at shutdown. Close other software that controls this device."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "This is an app-selected DJ grid, separate from Ableton and other DJ mappings. Outer buttons, library navigation, mixer/FX, pressure/aftertouch expressions, persistent custom layouts, original saved-state restoration, complete modes/feedback/lifecycle and physical/iPad/A10X acceptance remain open. No audio route, DAW handshake, firmware/authentication or persistent preset is written."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -42673,17 +43896,22 @@
     },
     {
       "id": "novationtwitch",
-      "name": "Novation TWITCH",
+      "name": "Novation Twitch",
       "manufacturer": "Novation",
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://fael-downloads-prod.focusrite.com/customer/dev/s3fs-public/novation/downloads/25322/twitch-programmers-reference2.pdf",
         "https://virtualdj.com/products/hardware.html?model=TWITCH"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:novation-twitch-basic-core"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Novation Twitch",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Novation TWITCH",
@@ -42691,40 +43919,147 @@
           "source": "https://virtualdj.com/products/hardware.html?model=TWITCH"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "browseGroups",
+        "crossfader",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "filterToggleA:a",
+        "filterToggleA:c",
+        "filterToggleB:b",
+        "filterToggleB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "jogA:a",
+        "jogA:c",
+        "jogB:b",
+        "jogB:d",
+        "jogTouchA:a",
+        "jogTouchA:c",
+        "jogTouchB:b",
+        "jogTouchB:d",
+        "jumpBackA:a",
+        "jumpBackA:c",
+        "jumpBackB:b",
+        "jumpBackB:d",
+        "jumpForwardA:a",
+        "jumpForwardA:c",
+        "jumpForwardB:b",
+        "jumpForwardB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "openGroup",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "seekA:a",
+        "seekA:c",
+        "seekB:b",
+        "seekB:d",
+        "shift",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d",
+        "tempoA:a",
+        "tempoA:c",
+        "tempoB:b",
+        "tempoB:d",
+        "tempoResetA:a",
+        "tempoResetA:c",
+        "tempoResetB:b",
+        "tempoResetB:d"
+      ],
+      "inputBindingCount": 139,
+      "feedbackBindingCount": 44,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Basic MIDI, established by the documented reset through the paired output. Close other DJ software. A/C and B/D select the shared Load targets; C/D require four-deck opt-in. Hot Cues and Loop select firmware pad pages. Shift is composed across both sides. Configure audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Advanced ITCH mode/arbitration, source-specific FX/Freeze/BeatGrid/sampler, complete Shift/UI/feedback/lifecycle/audio and physical/iPad/A10X acceptance remain open. Native fixed loops use0.25/0.5/1/2/4/8/16/32 beats; Back/Fwd use native beat jumps. The selected127 software SWIPE scale and relative pitch range require physical calibration. No private arbitration, audio route, direct-monitor control, all-LED-off or advanced-mode write is sent."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -353418,6 +354753,608 @@
           "reason": "Bluetooth/tablet transport, ring animation/setup, meters, EQ kill lamps, source-specific right-MODE headphone functions, PFL wire ambiguity, FX/sampler, Hot Cue delete, complete modes/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. The manufacturer VirtualDJ512 calibration differs from current DJUCED720. No state query or SysEx is sent."
         }
       ]
+    },
+    {
+      "id": "manufacturer:novation-twitch-basic-core",
+      "name": "Novation Twitch",
+      "transport": "midi",
+      "source": {
+        "url": "https://fael-downloads-prod.focusrite.com/customer/dev/s3fs-public/novation/downloads/25322/twitch-programmers-reference2.pdf",
+        "cacheName": "twitch-programmers-reference.pdf",
+        "sha256": "466f07f6feb7192f2db720734397c71656a85a19da72bd0d6cfc3c4d62d26fdf",
+        "relatedSources": [
+          {
+            "url": "https://downloads.novationmusic.com/novation/novation-miscellaneous/twitch"
+          },
+          {
+            "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+            "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+            "member": "Applications/DEX4.app/Contents/Resources/controllers/Novation__Twitch.js",
+            "memberSHA256": "0505e8b0ff0147dd75c746556086479e15a778a6e8bd5b1164079366df2b59f6",
+            "evidenceLimit": "Independent software-selected127 scratch scale only. No script or source action is copied or executed."
+          }
+        ],
+        "review": "Manufacturer programmer reference pages4/5,9/10,12/13 and16 were visually checked. Basic reset B7/00/00 initialises the controller and reports visible analogue controls. Basic deck channels are wire7/8/9/10. Selector notes0 on7/8 choose A/C and B/D; shared load notes82/83 stay on7. Firmware pages the other deck inputs and all selected feedback. Positive strip-note71 velocities encode finger position, so every positive value is contact. SWIPE CC53 is signed twos complement; DROP52 is absolute. Native chooses beat jumps for Back/Fwd, eight fixed loop lengths, composed Shift and127 software scrub scaling; these are app layout/calibration choices, not manufacturer physical turn calibration. PCDJ DEX public mapping independently uses127 software scratch scaling. Automatic software banking is limited to load actions with paired bounded reset setup and no load feedback. Advanced ITCH arbitration is expressly outside this public guide. No software action/script is copied or executed. Complete arbitration, modes, audio, pitch/strip calibration and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 139,
+      "implementedOutputCount": 44,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Advanced ITCH mode/arbitration, source-specific FX/Freeze/BeatGrid/sampler, complete Shift/UI/feedback/lifecycle/audio and physical/iPad/A10X acceptance remain open. Native fixed loops use0.25/0.5/1/2/4/8/16/32 beats; Back/Fwd use native beat jumps. The selected127 software SWIPE scale and relative pitch range require physical calibration. No private arbitration, audio route, direct-monitor control, all-LED-off or advanced-mode write is sent."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:akiyama-quattro-manual-chart",
+      "name": "Akiyama Quattro",
+      "transport": "midi",
+      "source": {
+        "url": "https://media.djmania.net/manuales/pdf/118rOPK_Ym0.pdf",
+        "cacheName": "quattro-manual.pdf",
+        "sha256": "a5b77f2388e42509a10d97a0387091e9b3604a409836506371f58fdbca7dbc59",
+        "pages": [
+          20,
+          21,
+          22
+        ],
+        "review": "Manufacturer manual, mirrored by a retailer. Input chart pages21/22 visually reviewed; channel explanation on20. Four independent deck channels0..3, fixed mixer channel4. Mixer strip labels repeat in error; ordered strips independently agree with the visible model-specific public ProMixer XML. Shift changes transport notes by32. Pitch/crossfader pitch-bend rows use an unclear fixed data byte; software MSB-only scaling and jog calibration remain open. No output or hardware mode write is imported.",
+        "relatedSources": [
+          {
+            "url": "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+            "sha256": "0557173bb5cb8bce866bbd439bd10140d8c281fd550486541dc4ddfff46edbec",
+            "member": "Devices/AKIYAMA QUATTRO.xml",
+            "memberSHA256": "17d2d4b9250f7251f1955a43ea3b3b011f25dca27a442c2e4af2783f7430a7d4",
+            "evidenceLimit": "Visible XML address facts only; no source action, installer or script is copied or executed."
+          }
+        ]
+      },
+      "implementedInputCount": 98,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Pitch/crossfader MSB scaling, jog/touch calibration and scratch mode, sampler/FX, alternate Shift actions, thru/source ownership, complete feedback/lifecycle/audio and physical/iPad/A10X acceptance remain open. No ambiguous pitch packet, source script or hardware command is used."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:akiyama-quark-sc-manual-chart",
+      "name": "Akiyama Quark SC",
+      "transport": "midi",
+      "source": {
+        "url": "https://media.djmania.net/manuales/pdf/Manual_Akiyama_Quark_SC.pdf",
+        "cacheName": "quark-sc-manual.pdf",
+        "sha256": "7c32c6beb499e9c0db199f64fac9bf35c8ef299cd9abf798cc2323db27dd132f",
+        "pages": [
+          21,
+          22,
+          23
+        ],
+        "review": "Independent manufacturer chart pages21..23 visually reviewed. Decks are wire channels0..3; common controls4, separate FX/sample slots5..8. Hardware Shift adds64 to the listed wires. Only normal six-Cue/manual-loop layout is qualified. Native composes the two physical Shift contacts across their paged channel aliases; source-owned holds retire on either Shift, deck or pad-mode transition. Jog calibration, AutoLoop/Roll modes, slot processing, LED state and complete setup remain open.",
+        "relatedSources": [
+          {
+            "url": "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+            "sha256": "0557173bb5cb8bce866bbd439bd10140d8c281fd550486541dc4ddfff46edbec",
+            "member": "Devices/AKIYAMA QUARK SC.xml",
+            "memberSHA256": "55bee8213c1b13c4fccb4edc654c3a2df5ff04312685e14a3319d69cfb7c9971",
+            "evidenceLimit": "Visible XML address facts only; no source action, installer or script is copied or executed."
+          }
+        ]
+      },
+      "implementedInputCount": 200,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Jog/touch calibration, pitch physical polarity/range, AutoLoop/Roll pad pages, separate FX/sample slots, source Shift alternatives, complete feedback/lifecycle/audio and physical/iPad/A10X acceptance remain open. Pitch follows increasing published CC values; physical calibration remains unresolved. No cue-delete, ring, meter or hardware mode command is sent."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:akiyama-ttwo-manual-chart",
+      "name": "Akiyama TTWO",
+      "transport": "midi",
+      "source": {
+        "url": "https://media.djmania.net/manuales/pdf/Manual_Akiyama_TTwo.pdf",
+        "cacheName": "ttwo-manual.pdf",
+        "sha256": "294769de28e27e6a9c6d2ead05f5e58a2309e0d14a913dd38af608530cd5dfda",
+        "pages": [
+          20,
+          21
+        ],
+        "review": "Independent manufacturer chart pages20/21 visually reviewed. Deck channels0..3 and direct loads/PFL on4/5 remain separate. Visible model-specific ProMixer facts confirm the selected normal mixer fields. The chart repeats Quattro labels/values in mixer maxima and its LED heading. Pitch54/118 conflicts with filter54, jog forward32/reverse33 and Shift33 are ambiguous, browser press/release differ, and LED on/off rows disagree. These disputed pitch/filter/jog/browser-press/crossfader/output rows remain inactive. No sibling mapping or hardware write is inferred.",
+        "relatedSources": [
+          {
+            "url": "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+            "sha256": "0557173bb5cb8bce866bbd439bd10140d8c281fd550486541dc4ddfff46edbec",
+            "member": "Devices/AKIYAMA TTWO.xml",
+            "memberSHA256": "b8b4e5b58068ad878d720ac2c6ee377459d6374a53c636e252a00327715ac459",
+            "evidenceLimit": "Visible XML address facts only; no source action, installer or script is copied or executed."
+          }
+        ]
+      },
+      "implementedInputCount": 125,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Conflicting pitch/filter54, paired resolution/order, jog direction/Shift/calibration, browser press/release, crossfader type, master channel and lamp rows remain inactive. Sampler/FX, alternate Shift actions, complete feedback/lifecycle/audio and physical/iPad/A10X acceptance remain open. The table labels do not authorise Quattro protocol inheritance."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:akiyama-pulsar-public-subset",
+      "name": "Akiyama Pulsar",
+      "transport": "midi",
+      "source": {
+        "url": "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+        "sha256": "0557173bb5cb8bce866bbd439bd10140d8c281fd550486541dc4ddfff46edbec",
+        "members": [
+          {
+            "path": "Devices/AKIYAMA PULSAR.xml",
+            "sha256": "88965a83c862f1f555ec0d2cf61d8c36fe793b9ec013754702afefc0334c5ac6"
+          }
+        ],
+        "review": "Independent visible public factory XML qualifies only a manual A/B normal-layer subset on wire channels0/1 and centre controls on0. Each model file was checked separately. No sibling controls or factory release/action code is copied. Shift45 appears in the factory unused-control declarations on both side channels. Native uses Hold mode, composes the two held inputs and retires source-owned holds. Normal buttons, four Hot Cues, five strip controls and three global controls are retained. C/D, configurable channels/modes, alternate commands, calibration, feedback/lifecycle/audio and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 45,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "C/D and configurable channels/modes, full Shift/FX/pad controls, jog/tempo calibration, feedback/state/lifecycle/audio and physical/iPad/A10X acceptance remain open. Source scripts and installers are not executed or bundled. Factory software sensitivity values are not physical calibration."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:akiyama-tempus-public-subset",
+      "name": "Akiyama Tempus",
+      "transport": "midi",
+      "source": {
+        "url": "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+        "sha256": "0557173bb5cb8bce866bbd439bd10140d8c281fd550486541dc4ddfff46edbec",
+        "members": [
+          {
+            "path": "Devices/AKIYAMA TEMPUS.xml",
+            "sha256": "8dd48dd36698d64ed452f7bcb7ab4dccc949404fdc090707a0831218f723d274"
+          }
+        ],
+        "review": "Independent visible public factory XML qualifies only a manual A/B normal-layer subset on wire channels0/1 and centre controls on0. Each model file was checked separately. No sibling controls or factory release/action code is copied. Shift45 appears in the factory unused-control declarations on both side channels. Native uses Hold mode, composes the two held inputs and retires source-owned holds. Normal buttons, four Hot Cues, five strip controls and three global controls are retained. C/D, configurable channels/modes, alternate commands, calibration, feedback/lifecycle/audio and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 45,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "C/D and configurable channels/modes, full Shift/FX/pad controls, jog/tempo calibration, feedback/state/lifecycle/audio and physical/iPad/A10X acceptance remain open. Source scripts and installers are not executed or bundled. Factory software sensitivity values are not physical calibration."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:akiyama-syncron-public-subset",
+      "name": "Akiyama Syncron",
+      "transport": "midi",
+      "source": {
+        "url": "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+        "sha256": "0557173bb5cb8bce866bbd439bd10140d8c281fd550486541dc4ddfff46edbec",
+        "members": [
+          {
+            "path": "Devices/AKIYAMA SYNCRON.xml",
+            "sha256": "52d924e47918e87247a450e95d9b920ee541d535ebc9dc044a544f59e6fb28cc"
+          }
+        ],
+        "review": "Separate public ProMixer XML and DEX Syncron script agree on eleven absolute mixer wires: five per deck on explicit channels0/1, and crossfader48 on centre channel4. Native retains only those shared facts. ProMixer Sync96 differs from DEX33. ProMixer loop In/Out0 conflicts with DEX2/3. ProMixer headphone51 overlaps the DEX multi-byte jog interpretation. Those disputed controls, all transport/Shift/pads/jog/tempo, feedback/lifecycle/audio and physical/iPad/A10X acceptance remain inactive/open. No source executable or downloaded mapping action is bundled or executed.",
+        "secondaryURL": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+        "secondarySHA256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+        "secondaryMember": "controllers/Akiyama__Syncron.js",
+        "secondaryMemberSHA256": "8aeda2fa4517b8423c15849c2f31a2047fe5cba8d7f50d5c1ce0c5c2dc659685",
+        "disputedInputs": [
+          "Sync96 versus33",
+          "Loop In/Out0 versus2/3",
+          "Headphone51 versus multi-byte jog interpretation"
+        ]
+      },
+      "implementedInputCount": 11,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Sync, loop and headphone rows disagree across the two sources. All transport/Shift/pad/jog/tempo, complete feedback/state/lifecycle/audio and physical/iPad/A10X acceptance remain open. No DEX or ProMixer action, hardware reset, preset or audio route is executed."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:novation-launchpad-x-native-grid",
+      "name": "Novation Launchpad X",
+      "transport": "midi",
+      "source": {
+        "url": "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/Launchpad%20X%20-%20Programmers%20Reference%20Manual.pdf",
+        "cacheName": "launchpad-x-programmer.pdf",
+        "sha256": "eca1842544e184e200a2134053acac8b1acb77df0247f23ef488fd9c2897db7a",
+        "pages": [
+          6,
+          7,
+          8,
+          10,
+          13,
+          15
+        ],
+        "review": "Independent X reference qualifies LPX MIDI In/Out, wire channel0 grid11+10*y+x, product12 Programmer/Live command14 and repeated static palette colour specs. Layout/mode/grid/lighting pages visually checked. Two32-pad104-byte clear packets remain within the native128-byte message limit. A bounded Live exit is attempted if any startup message fails. DAW port and persistent custom layouts are not used."
+      },
+      "implementedInputCount": 64,
+      "implementedOutputCount": 52,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "This is an app-selected DJ grid, separate from Ableton and other DJ mappings. Outer buttons, library navigation, mixer/FX, pressure/aftertouch expressions, persistent custom layouts, original saved-state restoration, complete modes/feedback/lifecycle and physical/iPad/A10X acceptance remain open. No audio route, DAW handshake, firmware/authentication or persistent preset is written."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:novation-launchpad-pro-mk3-native-grid",
+      "name": "Novation Launchpad Pro MK3",
+      "transport": "midi",
+      "source": {
+        "url": "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/LPP3_prog_ref_guide_200415.pdf",
+        "cacheName": "launchpad-pro-mk3-programmer.pdf",
+        "sha256": "54654f0603bf62e8d378961c3d759ba0ac022cbb7049e7a271af6c3b6ce97004",
+        "pages": [
+          6,
+          12,
+          18,
+          19
+        ],
+        "review": "Independent Pro MK3 reference qualifies LPProMK3 MIDI In/Out, distinct DIN/DAW interfaces, wire channel0 grid11+10*y+x, product14 Programmer/Live command14 and static palette colour specs. Programmer grid, mode and lighting pages visually checked. A bounded Live exit is attempted if any startup message fails. No original Pro or Mini command is inherited. The new MK3 catalogue entry is separate from the original Pro."
+      },
+      "implementedInputCount": 64,
+      "implementedOutputCount": 52,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "This is an app-selected DJ grid, separate from Ableton and other DJ mappings. Outer buttons, library navigation, mixer/FX, pressure/aftertouch expressions, persistent custom layouts, original saved-state restoration, complete modes/feedback/lifecycle and physical/iPad/A10X acceptance remain open. No audio route, DAW handshake, firmware/authentication or persistent preset is written."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:novation-launchpad-pro-native-grid",
+      "name": "Novation Launchpad Pro",
+      "transport": "midi",
+      "source": {
+        "url": "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/Launchpad%20Pro%20Programmers%20Reference%20Guide%201.01.pdf",
+        "cacheName": "launchpad-pro-programmer.pdf",
+        "sha256": "18675fcff65778d3d3ffa00ef7e6b4ce0dcb30e2edab9f95034bc1291c2001f7",
+        "pages": [
+          4,
+          5,
+          16,
+          17,
+          18
+        ],
+        "review": "Original Pro v1.01 independently specifies the same decimal grid in Programmer layout, Notes for square pads and CC for surrounding buttons. The grid and example bytes were visually checked. Its Standalone interface is USB port2, Programmer layout command is product16/44/3, and each layout has a saved MIDI channel. Native therefore retains manual channel1 Programmer setup without automatic mode/output writes. Manual feedback is a separate opt-in. No MK3 negotiation is inferred."
+      },
+      "implementedInputCount": 64,
+      "implementedOutputCount": 52,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "This is an app-selected DJ grid, separate from Ableton and other DJ mappings. Outer buttons, library navigation, mixer/FX, pressure/aftertouch expressions, persistent custom layouts, original saved-state restoration, complete modes/feedback/lifecycle and physical/iPad/A10X acceptance remain open. No audio route, DAW handshake, firmware/authentication or persistent preset is written."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:apc-mini-mk2-session-native-grid",
+      "name": "Akai APC mini MK2",
+      "transport": "midi",
+      "source": {
+        "url": "https://cdn.inmusicbrands.com/akai/attachments/APC%20mini%20mk2%20-%20Communication%20Protocol%20-%20v1.0.pdf",
+        "cacheName": "apc-mini-mk2-protocol.pdf",
+        "sha256": "38881e0411831a9e67a2896b9dad8d8938b57bda278a6290aa717be4b046d6a7",
+        "pages": [
+          2,
+          3,
+          9,
+          13,
+          16
+        ],
+        "relatedSources": [
+          {
+            "url": "https://support.akaipro.com/en/support/solutions/articles/69000833843-akai-pro-apc-mini-mkii-how-to-download-install-and-setup-ableton-live-lite"
+          }
+        ],
+        "review": "Manufacturer Communications Protocol v1.0 pages2/3/9/13/16 visually checked. Session grid is0..63 bottom-to-top, eight columns. Only wire channel0 on the documented Control interface is accepted; Drum9 and the separate Note interface are excluded. Static full-brightness RGB feedback uses wire channel6. Shift122 retires source-owned holds and guards the grid. Nine absolute faders are CC48..56 on0. Native chooses four level, four gain and one master fader, plus the shared app quadrant functions on this independently qualified Akai grid. Introduction uses product79/application0 and the current app version0.1.0. Command36 clears pad range0..63 with eight payload bytes and zero RGB components and no surrounding-button write. No Ableton script, private handshake, original APC or other model protocol is inherited. Complete mode/channel negotiation, remaining UI, expressions/lifecycle and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 74,
+      "implementedOutputCount": 52,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "This is a native app grid/fader layout, separate from Ableton. Other Session channels, Drum/Note modes, full mode negotiation, remaining track/scene buttons, pressure/expression, user colour/state restoration, full feedback/lifecycle and physical/iPad/A10X acceptance remain open. Port-name variants and required iPad power need physical qualification. No DAW script, audio route or persistent template is written."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:akai-apc40-mkii-native-mode1",
+      "name": "Akai APC40 MKII",
+      "transport": "midi",
+      "source": {
+        "url": "https://cdn.inmusicbrands.com/akai/attachments/apc40II/APC40Mk2_Communications_Protocol_v1.2.pdf",
+        "sha256": "3af85d0b338a68581360633f38db9267119a34d3e9f7ffaf68be24658ce932b1",
+        "version": "1.2",
+        "pages": [
+          12,
+          13,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37
+        ],
+        "visuallyReviewedPages": [
+          12,
+          13,
+          32,
+          34,
+          35,
+          36,
+          37
+        ],
+        "review": "Independent MKII protocol: product41, Mode1 identifier65,40 distinct Clip Launch notes0..39 and per-track notes48..52 on0..7. Global note functions ignore MIDI channel. Native retains strict track channels and any-channel global input, with Shift cleanup on all16 channels. An explicit paired-unbanked contract permits these global inputs only with bounded mode setup/exit and one Shift selector covering every channel. Selected input/mode/LED header tables were visually checked; remaining sequential grid/global/ring rows were checked as extracted text. The inbound table repeats ring-type IDs24..31/56..63 and lists Cue Level as both absolute and relative. Native uses only unambiguous position families16..23/48..55, the explicit relative Cue Level assignment47 and relative Tempo13. Duplicated ring-type input rows remain inactive. Full geometry/mode/state/feedback/calibration and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 114,
+      "implementedOutputCount": 68,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "This is an app layout following published control order. Physical pad orientation, full source modes, global transport/foot controls, source-specific Shift/FX, remaining LEDs/ring styles/state, startup analogue response, complete feedback/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. Generic exit does not restore an arbitrary previous mode or state. No DAW script, private authentication, persistent preset or audio route is used."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:akai-apc40-native-mode1",
+      "name": "Akai APC40",
+      "transport": "midi",
+      "source": {
+        "url": "https://cdn.inmusicbrands.com/akai/apc40/APC40_Communications_Protocol_rev_1.pdf_1db97c1fdba23bacf47df0f9bf64e913.pdf",
+        "sha256": "b8c62fb7e69ed2c8e926a72ff48b4c823eca586ff2f798d1c81d2bd98a80d698",
+        "version": "Rev1,1May2009",
+        "pages": [
+          7,
+          8,
+          9,
+          10,
+          11,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "visuallyReviewedPages": [
+          7,
+          8,
+          9,
+          16,
+          18,
+          19,
+          20
+        ],
+        "review": "Independent original protocol: product115, Mode1 identifier65, Clip Launch rows53..57 repeated on track channels0..7 and explicit original1/3/5 pad colours. Selected mode/input/LED tables were visually checked; remaining global/ring rows were checked as extracted text. Global note functions ignore MIDI channel. An explicit paired-unbanked contract requires bounded mode setup/exit and all16 Shift cleanup channels. Relative Cue Level47 has its own signed table. No MKII product/grid/RGB or Tempo13 input is inherited. Native app column-pair functions follow documented control order; physical orientation, complete modes/state/feedback/calibration and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 113,
+      "implementedOutputCount": 68,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "This is an app layout following published control order. Physical pad orientation, full source modes, global transport/foot controls, source-specific Shift/FX, remaining LEDs/ring styles/state, startup analogue response, complete feedback/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. Generic exit does not restore an arbitrary previous mode or state. No DAW script, private authentication, persistent preset or audio route is used."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:launch-control3-native-daw",
+      "name": "Novation Launch Control 3",
+      "transport": "midi",
+      "source": {
+        "url": "https://fael-downloads-prod.focusrite.com/customer/prod/downloads/launch_control_3_programmer_s_reference_guide.pdf",
+        "sha256": "a8eb5814ebb5214332aa378469db903986b327a9672483debaf9ccc3eca978e9",
+        "version": "1.1",
+        "pages": [
+          5,
+          6,
+          8,
+          9,
+          10,
+          11,
+          12,
+          16,
+          17
+        ],
+        "visuallyReviewedPages": [
+          9
+        ],
+        "review": "Independent manufacturer DAW-port contract and product identifier. Surface indices on page9 were visually reviewed. Mode, channel, colour, absolute-encoder and feature-control contracts were checked as extracted text. Native app functions use four adjacent column pairs. Temporary DAW mode and absolute encoder setup do not edit custom templates or non-volatile settings. The decoder normalises exact0/127 momentary button CCs to logical notes. Source-local mode changes retire holds and pickup. Complete modes/screen/state/feedback/lifecycle, OS port-name variants and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 25,
+      "implementedOutputCount": 24,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "This is an app layout following each published surface diagram. Complete modes, Shift functions, feature controls, screen/labels, remaining LEDs, saved-state restoration and physical/iPad/A10X acceptance remain open. Only explicitly matched DAW ports are enabled. No custom template, DAW script, private SDK, non-volatile setting, DIN route or audio route is written. Mode exit is best effort, not restoration of arbitrary previous state."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:launch-control-xl3-native-daw",
+      "name": "Novation LaunchControl XL3",
+      "transport": "midi",
+      "source": {
+        "url": "https://fael-downloads-prod.focusrite.com/customer/prod/downloads/launch_control_xl_3_programmer_s_reference_guide-pdf_en.pdf",
+        "sha256": "4ac520cae51280b6c21fee35cb6b30ef4f50d80d5e1161d921ffe3c36c2736ad",
+        "version": "1.0",
+        "pages": [
+          5,
+          6,
+          8,
+          9,
+          10,
+          11,
+          12,
+          16,
+          17
+        ],
+        "visuallyReviewedPages": [
+          9
+        ],
+        "review": "Independent manufacturer DAW-port contract and product identifier. Surface indices on page9 were visually reviewed. Mode, channel, colour, absolute-encoder and feature-control contracts were checked as extracted text. Native app functions use four adjacent column pairs. Temporary DAW mode and absolute encoder setup do not edit custom templates or non-volatile settings. The decoder normalises exact0/127 momentary button CCs to logical notes. Source-local mode changes retire holds and pickup. Complete modes/screen/state/feedback/lifecycle, OS port-name variants and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 54,
+      "implementedOutputCount": 36,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "This is an app layout following each published surface diagram. Complete modes, Shift functions, feature controls, screen/labels, remaining LEDs, saved-state restoration and physical/iPad/A10X acceptance remain open. Only explicitly matched DAW ports are enabled. No custom template, DAW script, private SDK, non-volatile setting, DIN route or audio route is written. Mode exit is best effort, not restoration of arbitrary previous state."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:launch-control-user-template-reader",
+      "name": "Novation Launch Control",
+      "transport": "midi",
+      "source": {
+        "url": "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/launch-control-programmers-reference-guide.pdf",
+        "sha256": "759108827d49557ae41fe4add63d767bfde46378f07b19707b3133cab453f659",
+        "pages": [
+          2,
+          6,
+          7
+        ],
+        "visuallyReviewedPages": [
+          7
+        ],
+        "editorURL": "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/novation/downloads/10773/novation-launch-control-editor.dmg",
+        "editorSHA256": "684dae96016739b795f88fb82edaa21761f7e9783d5c994f1d3510f3fe76482d",
+        "editorMember": "Novation Launch Control Editor/Novation Launch Control Editor.app/Contents/Resources/web/js/editor.js",
+        "editorMemberSHA256": "797a28925f07420d13839d8f91e29aca38f91e892128f817b19d682119e53e7b",
+        "review": "Original product10 programmer guide provides temporary template selection and template-change notifications. Public manufacturer editor source independently provides User-template read query121,177-byte reply119,16 knob and12 button six-byte records, configured channels/ranges/types and reserved fields. Only independent wire facts were read. The editor and downloaded actions were not executed or copied. Native selects User0 and reads stored data without a stored-template write/reset. Duplicate wires, constant ranges, toggle buttons, unsupported reserved data and Factory templates remain inactive. Existing raw mappings take priority. This is a native physical-position layout, not a manufacturer DJ mapping. Full Factory/feedback/lifecycle/timeout/state and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 40,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Physical-position app functions use only unambiguous seven-bit knobs and momentary Note/CC buttons. Toggle/constant/duplicate/unsupported controls and Factory templates stay inactive. Full modes/feedback/timeout recovery, prior-template restoration and physical/iPad/A10X acceptance remain open. No stored data, firmware, DAW script, private SDK or audio route is written."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:launch-control-xl-user-template-reader",
+      "name": "Novation Launch Control XL",
+      "transport": "midi",
+      "source": {
+        "url": "https://fael-downloads-prod.focusrite.com/customer/prod/downloads/launch_control_xl_programmer_s_reference_guide.pdf",
+        "sha256": "076985fa9a0859a2ecce0c35d1e843fc5815bd67062c0019de9a8cdca07f7c06",
+        "version": "V2",
+        "pages": [
+          3,
+          7,
+          8
+        ],
+        "visuallyReviewedPages": [
+          8
+        ],
+        "componentsURL": "https://components.novationmusic.com/assets/main-D3lNZfPT.js",
+        "componentsSHA256": "2322dc9fd409e5910e69f83cf5a6d4127c71322ded94e9bbc99cbba4be5a673a",
+        "componentsRelease": "1.72.5",
+        "reviewedSymbols": [
+          "qoe.getFromDevice",
+          "Woe",
+          "H9.binary",
+          "z9.binary",
+          "B9.binary",
+          "t9.binary"
+        ],
+        "familyURL": "https://downloads.novationmusic.com/novation/launch/launch-control-xl-mk1mk2",
+        "review": "Independent XL manufacturer guide and public Components source qualify product17, read query121, exact417-byte reply119,24 pots at0,8 faders at144,16 buttons at192,4 menu buttons at288 and4 arrow buttons at312, all six-byte records. Shared manufacturer button schema gives kind/number/min/max/pressType/channel. The remaining72 bytes describe pot LED settings and do not become controls or output writes. Both generations are explicitly covered by the manufacturer download page. Only public wire/schema facts were read. The Components app and its MIDI actions were not executed or copied. Native temporarily selects User0 and reads saved wires/ranges. Factory/HUI/XL3, unsupported/duplicate/toggle controls, complete feedback/state/lifecycle/timeout and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 60,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Physical-position app functions use only unambiguous seven-bit continuous controls and momentary Note/CC buttons. Toggle/constant/duplicate/unsupported controls, Factory/HUI/XL3, full feedback/state/lifecycle/timeout recovery, prior-template restoration and physical/iPad/A10X acceptance remain open. No stored data, LED colour, firmware, DAW script, private SDK or audio route is written."
+        }
+      ]
     }
   ],
   "releaseGate": {
@@ -353429,7 +355366,7 @@
     "theoreticalSupport": {
       "complete": false,
       "implementedModels": 0,
-      "targetModels": 552,
+      "targetModels": 554,
       "requiresPhysicalTestForEveryModel": false
     },
     "reason": "Documented implementation gaps block theoretical completion. Physical tests are separate evidence, not a per-model completion requirement."

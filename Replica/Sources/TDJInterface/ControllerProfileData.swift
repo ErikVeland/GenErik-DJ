@@ -4,11 +4,20 @@ import TDJCore
 struct ControllerProfileData: Decodable, Sendable {
     enum InputProtocol: String, Codable, Sendable {
         case smk25II, cdj101, ddjSR2, keyLabMKI, kontrolOne, midiFighterSpectra, p1Nano, sc5000M, denonPrimePlayer,
-            denonPrime4, nanoKontrol2Native, nanoPad2Native, nanoKontrolScene, xdjAN
+            denonPrime4, nanoKontrol2Native, nanoPad2Native, nanoKontrolScene, xdjAN, launchControlDAW,
+            launchControlTemplate, launchControlXLTemplate
         var setupInputMode: ControllerSetupInputDecoder.Mode? {
-            self == .xdjAN ? .xdjAN : korgInputMode.map { .korg($0) }
+            self == .launchControlXLTemplate
+                ? .launchControlXLTemplate
+                : self == .launchControlTemplate
+                    ? .launchControlTemplate
+                    : self == .launchControlDAW
+                        ? .launchControlDAW : self == .xdjAN ? .xdjAN : korgInputMode.map { .korg($0) }
         }
-        var preservesRawMappings: Bool { self == .nanoKontrolScene || self == .xdjAN }
+        var preservesRawMappings: Bool {
+            self == .nanoKontrolScene || self == .xdjAN || self == .launchControlTemplate
+                || self == .launchControlXLTemplate
+        }
         var korgNativeModel: ControllerKorgNativeDecoder.Model? {
             switch self {
             case .nanoKontrol2Native: .nanoKontrol2
@@ -126,6 +135,8 @@ struct ControllerProfileData: Decodable, Sendable {
     let startup: [[UInt8]]
     let startupDelaysMilliseconds: [UInt16]?
     let shutdown: [[UInt8]]
+    let startupAbort: [[UInt8]]?
+    let unbankedGlobalInputs: Bool?
     let autoSelect: Bool
     let scope: String
     let source: String
@@ -137,7 +148,10 @@ struct ControllerProfileData: Decodable, Sendable {
     let inputProtocol: InputProtocol?
 
     var isValid: Bool {
-        (role == nil || role == "player" || role == "accessory") && !id.isEmpty && id.count <= 128 && !aliases.isEmpty
+        let pairedGlobals = hasPairedUnbankedGlobals
+        return (unbankedGlobalInputs != true || pairedGlobals)
+            && (role == nil || role == "player" || role == "accessory") && !id.isEmpty && id.count <= 128
+            && !aliases.isEmpty
             && aliases.count <= 24
             && aliases.allSatisfy { !$0.isEmpty && $0.count <= 128 }
             && (portAliases.map { !$0.isEmpty && $0.count <= 16 && $0.allSatisfy { !$0.isEmpty && $0.count <= 128 } }
@@ -162,7 +176,7 @@ struct ControllerProfileData: Decodable, Sendable {
                         ? $0.kind == .control && ($0.lowNumber.map { $0 < 128 } ?? ($0.number < 32))
                             && $0.lowNumber != $0.number
                         : $0.lowNumber == nil)
-                    && ($0.anyChannel != true || role == "player")
+                    && ($0.anyChannel != true || role == "player" || pairedGlobals)
                     && ($0.requiresTouch != true || ($0.action.isJog && $0.encoding.isRelative))
                     && (!$0.encoding.isContactGate
                         || ($0.kind == .note && [.jogTouchA, .jogTouchB].contains($0.action)))
@@ -212,8 +226,9 @@ struct ControllerProfileData: Decodable, Sendable {
             && outputs.allSatisfy {
                 $0.binding(destination: 0).isValid
             }
-            && (startup + shutdown).count <= 64
-            && (startup + shutdown).allSatisfy(Self.validSetupMessage)
+            && validStartupAbort
+            && (startup + shutdown + (startupAbort ?? [])).count <= 64
+            && (startup + shutdown + (startupAbort ?? [])).allSatisfy(Self.validSetupMessage)
     }
 
     /**
@@ -241,12 +256,12 @@ struct ControllerProfileData: Decodable, Sendable {
     }
 
     /**
-     * Limits software bank routing to explicit manual side selectors without unqualified light feedback.
+     * Limits automatic bank routing to paired load-only profiles with static feedback.
      */
     private var validDeckBanks: Bool {
         let selectors = (bankChanges ?? []).filter { $0.deckBank != nil }
         guard !selectors.isEmpty || inputs.contains(where: { $0.deckBank != nil }) else { return true }
-        return !autoSelect && outputs.isEmpty && inputProtocol == nil && role == nil
+        return ((!autoSelect && outputs.isEmpty) || hasAutomaticLoadBanks) && inputProtocol == nil && role == nil
             && Set(selectors.compactMap(\.deckBank)).count == selectors.count
             && selectors.allSatisfy { selector in inputs.contains { $0.deckBank == selector.deckBank } }
             && inputs.allSatisfy { input in
@@ -273,7 +288,48 @@ struct ControllerProfileData: Decodable, Sendable {
             }
     }
 
-    var requiresPairedSetup: Bool { hasDelayedStartup || inputProtocol?.setupInputMode != nil }
+    private var hasAutomaticLoadBanks: Bool {
+        autoSelect && inputs.contains { $0.deckBank != nil }
+            && inputs.allSatisfy { $0.deckBank == nil || $0.action == .loadA || $0.action == .loadB }
+            && !startup.isEmpty && !shutdown.isEmpty
+            && outputs.allSatisfy { $0.action != .loadA && $0.action != .loadB }
+    }
+
+    /**
+     * Allows reviewed global channels only after paired setup and complete Shift cleanup.
+     */
+    private var hasPairedUnbankedGlobals: Bool {
+        guard unbankedGlobalInputs == true, autoSelect, role == "accessory", inputProtocol == nil,
+            !startup.isEmpty, !shutdown.isEmpty, startupAbort?.isEmpty == false, inputs.count <= 512,
+            let changes = bankChanges, changes.count == 16
+        else { return false }
+        let globals = inputs.filter { $0.anyChannel == true }
+        let shifts = inputs.filter { $0.action == .shift }
+        guard !globals.isEmpty, shifts.count == 1, let shift = shifts.first,
+            shift.anyChannel == true, shift.kind == .note, shift.encoding == .absolute
+        else { return false }
+        return globals.allSatisfy {
+            $0.channel == 0 && ($0.kind == .note || $0.kind == .control)
+                && $0.deckBank == nil && $0.shiftChannel == nil
+        }
+            && Set(changes.map(\.channel)) == Set(UInt8(0)..<16)
+            && changes.allSatisfy {
+                ($0.kind == nil || $0.kind == .note) && $0.number == shift.number && $0.onValue == 127
+                    && Set($0.decks) == Set(DeckID.allCases)
+                    && $0.releaseShiftChannels == nil && $0.deckBank == nil
+            }
+    }
+
+    private var validStartupAbort: Bool {
+        guard let startupAbort else { return true }
+        return autoSelect && (inputProtocol == nil || (inputProtocol == .launchControlDAW && role == "accessory"))
+            && !startup.isEmpty && !shutdown.isEmpty
+            && !startupAbort.isEmpty && startupAbort.count <= 4
+    }
+
+    var requiresPairedSetup: Bool {
+        hasDelayedStartup || inputProtocol?.setupInputMode != nil || hasAutomaticLoadBanks || startupAbort != nil
+    }
 
     var hasDelayedStartup: Bool { startupDelaysMilliseconds?.contains { $0 > 0 } == true }
 

@@ -781,7 +781,9 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         shiftLayers[source] = nil
         channelShiftLayers[source] = nil
         resetInputValueStates(inputBindings(source: source))
-        if inputProtocol(for: source) == .nanoKontrolScene {
+        if inputProtocol(for: source) == .launchControlTemplate || inputProtocol(for: source) == .launchControlXLTemplate {
+            status = ready ? "Controller template ready." : "Reading the controller template. Select a User template if setup does not finish."
+        } else if inputProtocol(for: source) == .nanoKontrolScene {
             status = ready ? "Controller scene ready." : "Reading the controller scene. Reconnect if setup does not finish."
         } else {
             status = ready ? "Controller ready." : "Controller left its MIDI mode. Reconnect to continue."
@@ -963,9 +965,21 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         let messages = starting ? session.profile.definition?.startup : session.profile.definition?.shutdown
         guard let messages, !messages.isEmpty else { return true }
         for message in messages {
-            guard sendFactoryMessage(message, session: session, starting: starting) else { return false }
+            guard sendFactoryMessage(message, session: session, starting: starting) else {
+                if starting { abortFactoryStartup(session) }
+                return false
+            }
         }
         return true
+    }
+
+    /**
+     * Attempts the reviewed exit sequence after partial setup failure without enabling input.
+     */
+    private func abortFactoryStartup(_ session: ControllerFactorySession) {
+        for message in session.profile.definition?.startupAbort ?? [] {
+            _ = sendFactoryMessage(message, session: session, starting: false)
+        }
     }
 
     private func sendFactoryMessage(_ message: [UInt8], session: ControllerFactorySession, starting: Bool) -> Bool {
@@ -1041,6 +1055,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     }
 
     private func failFactorySetup(_ session: ControllerFactorySession) {
+        abortFactoryStartup(session)
         if session.profile.definition?.inputProtocol?.setupInputMode != nil {
             _ = sendFactorySetup(session, starting: false)
         }

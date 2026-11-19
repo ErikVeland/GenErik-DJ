@@ -10,12 +10,12 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 164 Mixxx definitions at `20f2c218ae1b762ac39fd76ff408c8428056f4f7`, including alternative MIDI, HID and bulk mappings.
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
-- 559 total catalogue records. 552 name physical models. The remainder identify software endpoints or protocol families.
-- 289 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 187 factory profiles select core controls automatically for 195 physical models.
+- 561 total catalogue records. 554 name physical models. The remainder identify software endpoints or protocol families.
+- 306 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 197 factory profiles select core controls automatically for 205 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
-- 351 physical models still lack automatic core controls.
-- 552 physical models still need complete theoretical support.
+- 343 physical models still lack automatic core controls.
+- 554 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
 These counts do not establish hardware acceptance, complete pad modes, motor support, screens, audio routing or feature parity.
@@ -223,13 +223,13 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 17 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 189 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 199 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 104 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 225 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 111 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 210 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -437,25 +437,25 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Pioneer XDJ-RX3 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-RX3/XDJ-RX3_MIDI_Message_List_E1.pdf) |
 | Pioneer XDJ-XZ | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-XZ/XDJ-XZ_MIDI_Message_List_E1.pdf) |
 | AKAI APC MINI | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=APCMINI) |
-| AKAI APC MINI MK2 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=APCMINI2) |
 | AKAI APC20 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AKAPC20) |
-| AKAI APC40 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AKAIAPC40) |
-| AKAI APC40 MKII | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=APC40II) |
 | AKAI APC64 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=APC64) |
 | AKAI LPD8 MK2 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=LPD8MK2) |
 | AKAI MPD 218 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MPD218) |
 | AKAI MPD 226 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MPD226) |
 | AKAI MPD 232 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MPD232) |
+| Akai APC mini MK2 | accessory | automatic-core-profile | [Reference](https://cdn.inmusicbrands.com/akai/attachments/APC%20mini%20mk2%20-%20Communication%20Protocol%20-%20v1.0.pdf) |
+| Akai APC40 | accessory | automatic-core-profile | [Reference](https://cdn.inmusicbrands.com/akai/apc40/APC40_Communications_Protocol_rev_1.pdf_1db97c1fdba23bacf47df0f9bf64e913.pdf) |
+| Akai APC40 MKII | accessory | automatic-core-profile | [Reference](https://cdn.inmusicbrands.com/akai/attachments/apc40II/APC40Mk2_Communications_Protocol_v1.2.pdf) |
 | Akai LPD8 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Akai-LPD8-RK.midi.xml) |
 | Akai MPD24 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Akai%20MPD24.midi.xml) |
 | Akai Pro AMX | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AKAMX) |
-| Akiyama PULSAR | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=PULSAR) |
+| Akiyama Pulsar | primary | partial-midi-profile | [Reference](https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe) |
 | Akiyama QUARC | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=QUARK) |
-| Akiyama QUARK SC | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=QUARKSC) |
-| Akiyama QUATTRO | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=QUATTRO) |
-| Akiyama SYNCRON | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=SYNCRON) |
-| Akiyama TEMPUS | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=TEMPUS) |
-| Akiyama TTWO | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=TTWO) |
+| Akiyama Quark SC | primary | partial-midi-profile | [Reference](https://media.djmania.net/manuales/pdf/Manual_Akiyama_Quark_SC.pdf) |
+| Akiyama Quattro | primary | partial-midi-profile | [Reference](https://media.djmania.net/manuales/pdf/118rOPK_Ym0.pdf) |
+| Akiyama Syncron | primary | partial-midi-profile | [Reference](https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe) |
+| Akiyama TTWO | primary | partial-midi-profile | [Reference](https://media.djmania.net/manuales/pdf/Manual_Akiyama_TTwo.pdf) |
+| Akiyama Tempus | primary | partial-midi-profile | [Reference](https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe) |
 | Allen & Heath XONE 1D | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=XONE1D) |
 | Allen & Heath XONE 2D | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=XONE2D) |
 | Allen & Heath XONE 43C | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AH43C) |
@@ -666,17 +666,19 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Native Instruments Traktor Kontrol Z1 Mk2 | primary | linux-bridge | [Reference](../../docs/coordination/controller-coverage.md) |
 | Native Instruments Traktor Kontrol Z2 | primary | linux-bridge | [Reference](../../docs/coordination/controller-coverage.md) |
 | Native Instruments Traktor MX2 | primary | linux-bridge | [Reference](../../docs/coordination/controller-coverage.md) |
-| Novation LAUNCH CONTROL | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=LAUNCHCTRL) |
 | Novation LAUNCHPAD S | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=LAUNCHPADS) |
-| Novation Launch Control XL | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=LAUNCHCTRLXL) |
-| Novation LaunchControl XL 3 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=NOVLCXL3) |
+| Novation Launch Control | accessory | automatic-core-profile | [Reference](https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/launch-control-programmers-reference-guide.pdf) |
+| Novation Launch Control 3 | accessory | automatic-core-profile | [Reference](https://fael-downloads-prod.focusrite.com/customer/prod/downloads/launch_control_3_programmer_s_reference_guide.pdf) |
+| Novation Launch Control XL | accessory | automatic-core-profile | [Reference](https://fael-downloads-prod.focusrite.com/customer/prod/downloads/launch_control_xl_programmer_s_reference_guide.pdf) |
+| Novation LaunchControl XL3 | accessory | automatic-core-profile | [Reference](https://fael-downloads-prod.focusrite.com/customer/prod/downloads/launch_control_xl_3_programmer_s_reference_guide-pdf_en.pdf) |
 | Novation Launchpad | primary | adapter-needed | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Launchpad.midi.xml) |
 | Novation Launchpad MK2 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Launchpad%20MK2.midi.xml) |
 | Novation Launchpad Mini | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation-Launchpad-Mini.midi.xml) |
 | Novation Launchpad Mini MK3 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Launchpad%20Mini%20MK3.midi.xml) |
-| Novation Launchpad Pro | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=LAUNCHPADPRO) |
-| Novation Launchpad X | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=LAUNCHPADX) |
-| Novation TWITCH | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=TWITCH) |
+| Novation Launchpad Pro | accessory | partial-midi-profile | [Reference](https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/Launchpad%20Pro%20Programmers%20Reference%20Guide%201.01.pdf) |
+| Novation Launchpad Pro MK3 | accessory | automatic-core-profile | [Reference](https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/LPP3_prog_ref_guide_200415.pdf) |
+| Novation Launchpad X | accessory | automatic-core-profile | [Reference](https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/Launchpad%20X%20-%20Programmers%20Reference%20Manual.pdf) |
+| Novation Twitch | primary | automatic-core-profile | [Reference](https://fael-downloads-prod.focusrite.com/customer/dev/s3fs-public/novation/downloads/25322/twitch-programmers-reference2.pdf) |
 | Numark 4TRAK | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=4TRAK) |
 | Numark DJ IO | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=NUMARKDJIO) |
 | Numark DJ IO2 | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=NMDJIO2) |

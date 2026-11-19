@@ -1,7 +1,7 @@
 import TDJCore
 
 /**
- * Tracks independent manual A/C and B/D banks with one transition per physical press.
+ * Tracks independent A/C and B/D banks with one transition per physical press.
  */
 struct ControllerDeckBankState {
     private var selected: [UInt8: DeckID] = [:]
