@@ -57,7 +57,7 @@ def beta_link():
     import re
     if not re.fullmatch(r'https://testflight\.apple\.com/join/[A-Za-z0-9]+', url):
         raise ValueError('Expected a public TestFlight invitation URL')
-    return f'<a class="contact-link" href="{html.escape(url, quote=True)}">Join the TestFlight beta</a>'
+    return f'<a class="contact-link" href="{html.escape(url, quote=True)}">Join the iOS TestFlight beta</a>'
 
 def build():
     if OUT.exists():
