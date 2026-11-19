@@ -2,7 +2,7 @@
 
 **R428 blocking freeze:** Erik reported that build 227 froze for at least eight minutes after tapping Deck B album art for a matching track. Device inventory confirms build 227. Diagnostic capture is incomplete because profiler finalisation and later device requests stalled. Cause and recovery remain unresolved. See the [request ledger](requests.md).
 
-**R427 screenshots:** Apple accepted four native 10.5-inch iPad captures and three Duo captures in the English (Australia) iOS 1.0 draft. R428 added four accepted 2752 × 2064 copies to the required 13-inch iPad slot. The required standard iPhone set remains open. [Files and upload evidence](../app-store/screenshots-r427/README.md).
+**R427 screenshots:** Apple accepted four native 10.5-inch iPad captures and three Duo captures in the English (Australia) iOS 1.0 draft. R429 added four accepted 2752 × 2064 copies to the required 13-inch iPad slot. The required standard iPhone set remains open. [Files and upload evidence](../app-store/screenshots-r427/README.md).
 
 **Build 227 (R425)** installed on the A10X iPad after an initial connection timeout. iPadOS accepted launch. Control labels stay on one line, and grid editing uses the full header width. Long help and error text remains readable. Erik checks both orientations, narrow panes, audio and touch. [Scope](ui-text-r425.md) · [Build record](../testing/builds/227.json).
 

@@ -20,7 +20,7 @@ The unrelated Lemmings capture was excluded.
 
 ## Remaining release work
 
-R428 resized all four selected iPad captures from 2224 × 1668 to 2752 × 2064 with macOS sips.
+R429 resized all four selected iPad captures from 2224 × 1668 to 2752 × 2064 with macOS sips.
 Both sizes have a 4:3 aspect ratio. No crop or change in proportions was needed.
 Apple accepted all four copies in the required 13-inch slot on 19 November 2026.
 The originals remain unchanged. `ipad-13-manifest.json` records source and output hashes.

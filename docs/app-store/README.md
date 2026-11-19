@@ -33,7 +33,7 @@ The release candidate needs the current source.
 
 R427 uploaded three iPhone Duo screenshots and four native 10.5-inch iPad screenshots to the English (Australia) iOS 1.0 draft.
 Apple accepted all seven files in the recorded order. [Files and upload evidence](screenshots-r427/README.md).
-R428 added four resized 2752 × 2064 copies to the required 13-inch iPad slot. Apple accepted all four.
+R429 added four resized 2752 × 2064 copies to the required 13-inch iPad slot. Apple accepted all four.
 The required standard iPhone slot remains empty. Mac screenshots also remain open.
 The existing website images are historical captures or development previews.
 Check the supplied captures against the release candidate and capture the missing device sizes before submission.
