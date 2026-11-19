@@ -3444,6 +3444,45 @@
         }
       ],
       "result": "Published Program1 editor image qualifies16 manual NOTE-mode accessory inputs. Factory defaults are not qualified. CC-mode pad messages overlap knobs, so mode changes require deactivating the profile. No preset or colour writes."
+    },
+    {
+      "request": "R435",
+      "sources": [
+        {
+          "model": "Novation Launchpad S",
+          "url": "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/novation/downloads/10753/launchpad-s-prm.pdf",
+          "sha256": "5a1d051e7413871bba9c56a065bfd6069f218e2656e97cb5bdcf5ef4d32615fa",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r434/upstream/launchpad-s-prm.pdf",
+              "sha256": "5a1d051e7413871bba9c56a065bfd6069f218e2656e97cb5bdcf5ef4d32615fa"
+            },
+            {
+              "cachePath": "TestBuilds/r435/upstream/launchpad-s-afg.pdf",
+              "sha256": "795de2456376f4edaccbd1ac2e9ab0e256386aa53d2f249a57cffcb1ee3082f6"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://downloads.novationmusic.com/novation/launchpad-mk1/launchpad-s"
+            },
+            {
+              "url": "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/novation/downloads/10752/launchpad-s-afg.pdf"
+            }
+          ],
+          "pages": [
+            3,
+            5,
+            8,
+            12,
+            13,
+            17,
+            18
+          ],
+          "review": "Own manufacturer reference specifies USB class-compliant MIDI channel1, X-Y grid Notes16*y+x with top row0..7 and bottom112..119, NoteOn127 press and NoteOn0 release. Native accepts both ordinary release forms. Native assigns its existing four-quadrant DJ layout: A/B below and opt-in C/D above,64 inputs. Own LED facts specify NoteOn at the input address, red15, green60, amber63 and off12. Native uses52 status/pad lamps. Paired startup sends only documented temporary reset B0/0/0, X-Y selection B0/0/1 and simple buffer0 B0/0/32. Reset clears all LEDs and returns volatile settings to power-on values. Shutdown and partial-startup abort attempt the same reset. Previous volatile layout/brightness/buffer state is not restored. No identity challenge, firmware, authentication, bootloader ID/power mode or stored setting is written. Advanced guide says low-power mode is default and permits iPad bus power; full-power mode needs a separate powered hub. Outer buttons, drum layout, advanced colour/buffering/animation/brightness, complete lifecycle/recovery and physical/iPad/A10X acceptance remain open. No original Launchpad, Mini, MK2, X or Pro protocol is inherited."
+        }
+      ],
+      "result": "Own manufacturer protocol qualifies64 automatic quadrant inputs and52 two-colour status lamps. Temporary reset/X-Y/simple-buffer setup requires paired output. Startup failure, stop and missing output remain bounded. Other layouts/outer buttons/full lifecycle remain open."
     }
   ]
 }

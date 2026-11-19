@@ -44302,68 +44302,6 @@
       }
     },
     {
-      "id": "novationlaunchpads",
-      "name": "Novation LAUNCHPAD S",
-      "manufacturer": "Novation",
-      "role": "accessory",
-      "benchmark": false,
-      "sources": [
-        "https://virtualdj.com/products/hardware.html?model=LAUNCHPADS"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "virtualDJ": {
-          "sourceName": "Novation LAUNCHPAD S",
-          "category": "Addon Units (FX,Pads,..)",
-          "source": "https://virtualdj.com/products/hardware.html?model=LAUNCHPADS"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
       "id": "novationlaunchcontrol",
       "name": "Novation Launch Control",
       "manufacturer": "Novation",
@@ -45449,6 +45387,137 @@
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
         "This is an app-selected DJ grid, separate from Ableton and other DJ mappings. Outer buttons, library navigation, mixer/FX, pressure/aftertouch expressions, persistent custom layouts, original saved-state restoration, complete modes/feedback/lifecycle and physical/iPad/A10X acceptance remain open. No audio route, DAW handshake, firmware/authentication or persistent preset is written."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "novationlaunchpads",
+      "name": "Novation Launchpad S",
+      "manufacturer": "Novation",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/novation/downloads/10753/launchpad-s-prm.pdf",
+        "https://virtualdj.com/products/hardware.html?model=LAUNCHPADS"
+      ],
+      "definitions": [
+        "manufacturer:launchpad-s-native-grid"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Novation Launchpad S",
+      "automaticControls": true,
+      "comparisonSupport": {
+        "virtualDJ": {
+          "sourceName": "Novation LAUNCHPAD S",
+          "category": "Addon Units (FX,Pads,..)",
+          "source": "https://virtualdj.com/products/hardware.html?model=LAUNCHPADS"
+        }
+      },
+      "controlActions": [
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "reloopB:d",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d"
+      ],
+      "inputBindingCount": 64,
+      "feedbackBindingCount": 52,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Use Launchpad S USB MIDI. Native temporarily resets LEDs/settings, selects X-Y layout and buffer0, then resets at shutdown. Close other controller software. A/B are below; C/D above require app opt-in. iPad bus power requires low-power mode; full-power mode requires a powered hub."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Own manufacturer reference specifies USB class-compliant MIDI channel1, X-Y grid Notes16*y+x with top row0..7 and bottom112..119, NoteOn127 press and NoteOn0 release. Native accepts both ordinary release forms. Native assigns its existing four-quadrant DJ layout: A/B below and opt-in C/D above,64 inputs. Own LED facts specify NoteOn at the input address, red15, green60, amber63 and off12. Native uses52 status/pad lamps. Paired startup sends only documented temporary reset B0/0/0, X-Y selection B0/0/1 and simple buffer0 B0/0/32. Reset clears all LEDs and returns volatile settings to power-on values. Shutdown and partial-startup abort attempt the same reset. Previous volatile layout/brightness/buffer state is not restored. No identity challenge, firmware, authentication, bootloader ID/power mode or stored setting is written. Advanced guide says low-power mode is default and permits iPad bus power; full-power mode needs a separate powered hub. Outer buttons, drum layout, advanced colour/buffering/animation/brightness, complete lifecycle/recovery and physical/iPad/A10X acceptance remain open. No original Launchpad, Mini, MK2, X or Pro protocol is inherited."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -355966,6 +356035,55 @@
         },
         {
           "reason": "The publisher Program1 editor image independently specifies momentary pads, Notes36..43 and knobsCC36..43, all channel1. Knobs span0..127. Bottom pad row is36..39; top row40..43. Top knobsK1..4 areCC36..39; bottomK5..8 areCC40..43. Native assigns bottom pads four Hot Cues A, top pads four Hot Cues B; top knobs gain/high/mid/low A and bottom knobs the same B. This is an explicit native layout, not the source software effect actions. Select the published VDJ Program1 in NOTE mode and apply this profile manually. Native does not load or send the preset. The guide confirms programmable assignments and four stored programs. Factory defaults have not been independently qualified. Other programs, CC/Program Change modes, pressure, RGB feedback, complete mode/preset/lifecycle/recovery, USB/OS/power and physical/iPad/A10X acceptance remain open. Mode/program buttons do not supply a qualified observable transition. In the published preset pad CCs overlap knob CCs: CC-mode pads cannot be distinguished from knobs. Do not change mode/program while this profile is active. No setup, stored preset, colour, global setting, driver, firmware or audio route is written. Original LPD8 and LPD8 Wireless contracts stay separate."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:launchpad-s-native-grid",
+      "name": "Novation Launchpad S",
+      "transport": "midi",
+      "source": {
+        "url": "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/novation/downloads/10753/launchpad-s-prm.pdf",
+        "sha256": "5a1d051e7413871bba9c56a065bfd6069f218e2656e97cb5bdcf5ef4d32615fa",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r434/upstream/launchpad-s-prm.pdf",
+            "sha256": "5a1d051e7413871bba9c56a065bfd6069f218e2656e97cb5bdcf5ef4d32615fa"
+          },
+          {
+            "cachePath": "TestBuilds/r435/upstream/launchpad-s-afg.pdf",
+            "sha256": "795de2456376f4edaccbd1ac2e9ab0e256386aa53d2f249a57cffcb1ee3082f6"
+          }
+        ],
+        "relatedSources": [
+          {
+            "url": "https://downloads.novationmusic.com/novation/launchpad-mk1/launchpad-s"
+          },
+          {
+            "url": "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/novation/downloads/10752/launchpad-s-afg.pdf"
+          }
+        ],
+        "pages": [
+          3,
+          5,
+          8,
+          12,
+          13,
+          17,
+          18
+        ],
+        "review": "Own manufacturer reference specifies USB class-compliant MIDI channel1, X-Y grid Notes16*y+x with top row0..7 and bottom112..119, NoteOn127 press and NoteOn0 release. Native accepts both ordinary release forms. Native assigns its existing four-quadrant DJ layout: A/B below and opt-in C/D above,64 inputs. Own LED facts specify NoteOn at the input address, red15, green60, amber63 and off12. Native uses52 status/pad lamps. Paired startup sends only documented temporary reset B0/0/0, X-Y selection B0/0/1 and simple buffer0 B0/0/32. Reset clears all LEDs and returns volatile settings to power-on values. Shutdown and partial-startup abort attempt the same reset. Previous volatile layout/brightness/buffer state is not restored. No identity challenge, firmware, authentication, bootloader ID/power mode or stored setting is written. Advanced guide says low-power mode is default and permits iPad bus power; full-power mode needs a separate powered hub. Outer buttons, drum layout, advanced colour/buffering/animation/brightness, complete lifecycle/recovery and physical/iPad/A10X acceptance remain open. No original Launchpad, Mini, MK2, X or Pro protocol is inherited."
+      },
+      "implementedInputCount": 64,
+      "implementedOutputCount": 52,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Own manufacturer reference specifies USB class-compliant MIDI channel1, X-Y grid Notes16*y+x with top row0..7 and bottom112..119, NoteOn127 press and NoteOn0 release. Native accepts both ordinary release forms. Native assigns its existing four-quadrant DJ layout: A/B below and opt-in C/D above,64 inputs. Own LED facts specify NoteOn at the input address, red15, green60, amber63 and off12. Native uses52 status/pad lamps. Paired startup sends only documented temporary reset B0/0/0, X-Y selection B0/0/1 and simple buffer0 B0/0/32. Reset clears all LEDs and returns volatile settings to power-on values. Shutdown and partial-startup abort attempt the same reset. Previous volatile layout/brightness/buffer state is not restored. No identity challenge, firmware, authentication, bootloader ID/power mode or stored setting is written. Advanced guide says low-power mode is default and permits iPad bus power; full-power mode needs a separate powered hub. Outer buttons, drum layout, advanced colour/buffering/animation/brightness, complete lifecycle/recovery and physical/iPad/A10X acceptance remain open. No original Launchpad, Mini, MK2, X or Pro protocol is inherited."
         }
       ]
     },

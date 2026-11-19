@@ -5825,3 +5825,15 @@ Mode/program transitions have no qualified report. In this preset, CC-mode pads 
 Validation:335 source checks and7 focused native tests passed. Checks cover the independent manual identity, all16 wires/targets, both pad release forms, repeated-press suppression/rearming, source isolation, all knob pickup/ranges and rejection of unmapped channels/pressure/program messages. Real-WAV playback remains finite and synced. All three catalogue gates and192 automatic held-Cue recipes pass. Initial missing-profile failures remain in evidence. The iPad framework compiled and its resource matches the source. All359 earlier recipes remain identical. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r434/validation.json`.
 
 The catalogue has360 recipes and562 records for555 physical models. It has236 automatic core models and319 without automatic core. First-protocol gaps decrease to156. Full theoretical support remains0/555. Physical/iPad/A10X acceptance remains open.
+
+## R435 — Independent Launchpad S native grid
+
+Novation’s own programmer reference qualifies the channel1 X-Y grid, two-colour feedback and temporary configuration. Native reuses its existing64-pad DJ layout with independent S addresses: A/B below, C/D above with app opt-in. Each quadrant supplies Play, held Cue, Sync, Load, PFL, Loop In/Out, Reloop and eight Hot Cues. The52 status lamps use red15, green60, amber63 and off12. No Mini/X/Pro protocol is inherited.
+
+Automatic input requires a paired output. Startup sends temporary reset, X-Y layout and simple buffer0 commands. Reset clears all LEDs and returns volatile settings to power-on values. Startup failure and shutdown attempt the same reset. Previous volatile layout/brightness/buffer state is not restored. No authentication, firmware, bootloader identity/power mode or stored setting is written. The advanced guide specifies default low-power mode for iPad bus power; full-power mode requires a separate powered hub.
+
+Outer buttons, drum layout, advanced colour/buffering/animation/brightness, complete lifecycle/recovery and physical/iPad/A10X acceptance remain open. No audio route is inferred.
+
+Validation:337 source checks and9 focused native tests passed. Checks cover all64 addresses/native targets, all four quadrants/eight Hot Cues, velocity1/64/127 and both Cue release forms, source ownership, stop cleanup, C/D opt-in, independent identity/colours, exact temporary setup/shutdown, every startup failure and missing output. Soft Cue and Play retain finite synced real-WAV playback. All three catalogue gates and193 automatic held-Cue recipes pass. Initial missing-profile failures remain in evidence. The iPad framework compiled and its resource matches the source. All360 earlier recipes remain identical. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r435/validation.json`.
+
+The catalogue has361 recipes and562 records for555 physical models. It has237 automatic core models and318 without automatic core. First-protocol gaps decrease to155. Full theoretical support remains0/555. Physical/iPad/A10X acceptance remains open.

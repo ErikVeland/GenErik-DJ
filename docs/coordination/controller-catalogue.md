@@ -11,10 +11,10 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 562 total catalogue records. 555 name physical models. The remainder identify software endpoints or protocol families.
-- 360 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 221 factory profiles select core controls automatically for 230 physical models.
+- 361 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 222 factory profiles select core controls automatically for 231 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
-- 319 physical models still lack automatic core controls.
+- 318 physical models still lack automatic core controls.
 - 555 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -223,13 +223,13 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 17 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 224 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 225 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
 | partial-midi-profile | 141 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 156 | The pinned references contain no implemented mapping for this model. |
+| protocol-needed | 155 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -666,7 +666,6 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Native Instruments Traktor Kontrol Z1 Mk2 | primary | linux-bridge | [Reference](../../docs/coordination/controller-coverage.md) |
 | Native Instruments Traktor Kontrol Z2 | primary | linux-bridge | [Reference](../../docs/coordination/controller-coverage.md) |
 | Native Instruments Traktor MX2 | primary | linux-bridge | [Reference](../../docs/coordination/controller-coverage.md) |
-| Novation LAUNCHPAD S | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=LAUNCHPADS) |
 | Novation Launch Control | accessory | automatic-core-profile | [Reference](https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/launch-control-programmers-reference-guide.pdf) |
 | Novation Launch Control 3 | accessory | automatic-core-profile | [Reference](https://fael-downloads-prod.focusrite.com/customer/prod/downloads/launch_control_3_programmer_s_reference_guide.pdf) |
 | Novation Launch Control XL | accessory | automatic-core-profile | [Reference](https://fael-downloads-prod.focusrite.com/customer/prod/downloads/launch_control_xl_programmer_s_reference_guide.pdf) |
@@ -677,6 +676,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Novation Launchpad Mini MK3 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Launchpad%20Mini%20MK3.midi.xml) |
 | Novation Launchpad Pro | accessory | partial-midi-profile | [Reference](https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/Launchpad%20Pro%20Programmers%20Reference%20Guide%201.01.pdf) |
 | Novation Launchpad Pro MK3 | accessory | automatic-core-profile | [Reference](https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/LPP3_prog_ref_guide_200415.pdf) |
+| Novation Launchpad S | accessory | automatic-core-profile | [Reference](https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/novation/downloads/10753/launchpad-s-prm.pdf) |
 | Novation Launchpad X | accessory | automatic-core-profile | [Reference](https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/Launchpad%20X%20-%20Programmers%20Reference%20Manual.pdf) |
 | Novation Twitch | primary | automatic-core-profile | [Reference](https://fael-downloads-prod.focusrite.com/customer/dev/s3fs-public/novation/downloads/25322/twitch-programmers-reference2.pdf) |
 | Numark 4TRAK | primary | partial-midi-profile | [Reference](https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg) |
