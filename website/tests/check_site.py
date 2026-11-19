@@ -34,7 +34,7 @@ def check():
         assert metas['og:url']==CONFIG['origin']+route,route
         assert any(t=='link' and a.get('rel')=='canonical' and a.get('href')==CONFIG['origin']+route for t,a in p.tags),route
         for tag,attrs in p.tags:
-            if tag=='script':assert attrs.get('type')=='application/ld+json',route
+            if tag=='script':assert attrs.get('type')=='application/ld+json' or (route=='/controllers' and re.fullmatch(r'/assets/controllers\.[a-f0-9]{12}\.js', attrs.get('src','')) and 'defer' in attrs),route
             if tag=='img':assert all(k in attrs for k in ['alt','width','height']),route
             if tag=='a':assert attrs.get('href') not in ('',None,'#'),route
             if tag in ('iframe','form'):raise AssertionError((route,tag))
@@ -66,6 +66,6 @@ def check():
         for bg in ['#0b0d0e','#1b1d20']:
             ratio=(lum(fg)+.05)/(lum(bg)+.05);ratios[fg+'/'+bg]=round(ratio,2)
             assert ratio>=4.5,ratios
-    report={'routes':len(cache),'internal_targets':targets,'contrast_ratios':ratios,'executable_javascript_bytes':0,'third_party_runtime_requests':0,'total_asset_bytes':sum(p.stat().st_size for p in (OUT/'assets').iterdir())}
+    report={'routes':len(cache),'internal_targets':targets,'contrast_ratios':ratios,'executable_javascript_bytes':sum(p.stat().st_size for p in (OUT/'assets').glob('*.js')),'third_party_runtime_requests':0,'total_asset_bytes':sum(p.stat().st_size for p in (OUT/'assets').iterdir())}
     print(json.dumps(report,indent=2))
 if __name__=='__main__':check()

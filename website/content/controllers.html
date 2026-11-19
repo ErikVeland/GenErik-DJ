@@ -1,0 +1,19 @@
+<section aria-labelledby="mapped-hardware">
+  <h2 id="mapped-hardware">Mapped hardware</h2>
+  <p>Find controllers, mixers and accessories with mappings in the current development source. A mapping does not mean every control, screen or audio output works. These models have not been physically verified.</p>
+  <div class="controller-filters" data-controller-tools hidden>
+    <label>Search <input type="search" id="controller-search" aria-controls="controller-list"></label>
+    <label>Manufacturer <select id="controller-make" aria-controls="controller-list"><option value="">All manufacturers</option></select></label>
+    <label>Mapping <select id="controller-mapping" aria-controls="controller-list"><option value="">All mappings</option></select></label>
+    <label>Sort by <select id="controller-sort" aria-controls="controller-list"><option value="manufacturer">Manufacturer (A–Z)</option><option value="model">Model (A–Z)</option></select></label>
+  </div>
+  <p id="controller-status" role="status" hidden></p>
+  <div class="controller-table">
+    <table id="controller-list">
+      <caption>Controller mappings</caption>
+      <thead><tr><th scope="col">Manufacturer</th><th scope="col">Device</th><th scope="col">Mapping</th><th scope="col">Connection</th></tr></thead>
+      <tbody>{{controller_rows}}</tbody>
+    </table>
+  </div>
+  <p><a href="/support">Report a controller issue</a></p>
+</section>
