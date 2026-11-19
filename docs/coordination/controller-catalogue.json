@@ -42844,15 +42844,20 @@
       "id": "mixarsquattro",
       "name": "Mixars QUATTRO",
       "manufacturer": "Mixars",
-      "role": "primary",
+      "role": "accessory",
       "benchmark": false,
       "sources": [
+        "https://www.mediafire.com/file/dqqm12ter942giu/Mixars_Quattro-nr1.5.djayMidiMapping.zip/file",
         "https://virtualdj.com/products/hardware.html?model=MXRSQUATTRO"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:mixars-quattro-owner"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Mixars QUATTRO",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Mixars QUATTRO",
@@ -42860,40 +42865,97 @@
           "source": "https://virtualdj.com/products/hardware.html?model=MXRSQUATTRO"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopDownA:a",
+        "loopDownA:c",
+        "loopDownB:b",
+        "loopDownB:d",
+        "loopUpA:a",
+        "loopUpA:c",
+        "loopUpB:b",
+        "loopUpB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "shift",
+        "syncA:a",
+        "syncB:b",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopA:c",
+        "toggleFixedLoopB:b",
+        "toggleFixedLoopB:d"
+      ],
+      "inputBindingCount": 109,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Enable this manual MIDI accessory profile separately. Select non-Serato routing on the hardware. CUES provides eight Hot Cues; Shift+CUES selects Transport for Play and loop sizing. C/D require app opt-in. External deck audio routing and hardware mixer controls are not configured."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Independent nice-record hardware-owner export,229 rows, djay Pro AI-3.1.9, endpoint Mixars Quattro. The original XML is retained unchanged. Four lineVolume rows have dangling output keys, so the full file is not a valid property list. Review removes only those four absent-output markers in a temporary test tree to read existing numeric input facts; no replacement output or executable source runs. Own manufacturer manual confirms deck selection3/1 and2/4, CUES/Shift+Transport and Sampler/User modes, two physical Shift buttons and non-Serato external hardware mixing. Native manual accessory implements32 Hot Cues on channels4..7/Notes96,100,97,101,98,102,99,103; Transport-mode Play27 and loop half25/double24; fixed-four-beat loop push64; global15 Load2..5; own Sync2 on0/1; and flipped rotary64 BrowseCC0/global15. Source numbered cuePositionOrJumpConsideringPlayState1/Note26 is not held main Cue and remains inactive. Four Shift reports0..3/Note32 compose the two physical contacts with fixed side keys; all normal inputs are guarded. Defensive release-only aliases across A/C and B/D rearm buttons without activating the other deck. No deck-selector wire is inferred. Native does not translate source hardware mixer/PFL/faders or dual14-bit fader reports into software mixing. Manufacturer non-Serato mode requires separate deck audio outputs, which remain unimplemented. Reported source import, pad-light and headphone issues do not establish working feedback or audio. Automatic selection, all other modes, feedback, cold routing discovery, full lifecycle/recovery, USB/OS/power and physical/iPad/A10X acceptance remain open. No map import, output, setup, preset, driver, firmware or audio-route packet runs. DUO, PRIMO and Reloop Quattro remain separate.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -356828,6 +356890,53 @@
         },
         {
           "reason": "Vestax April2012 own owner manual MIDI table, recovered as public cached scan transcription at Manualzz lines1602..1654. The SHA identifies that saved factual excerpt, not the inaccessible original14MB PDF. Own table qualifies deck channels8/9 and shifted channels10/11 (one-based), Play23/Cue22/Sync19, Trim9, High72/Mid71/Low70, input fader7, latching headphone CUE10, shifted LOAD10, shifted Keylock27, Shift12, pads60..67 and global crossfader8/Cue-Master88. Native direct PFL state preserves both toggle edges. Per-deck Shift retires only its source/deck and guards normal deck functions. Pads start unselected and require explicit Hot Cue56. Other normal selectors57/58/59 block Hot Cues. Shifted Sampler56 invalidates the corresponding normal pad channel until Hot Cue is selected again. Shifted clear-pad notes remain inactive. The DJ Yoi owner guide separately confirms Shift+Hot Cue selects Sampler and ordinary panel functions. A partial hardware-owner VDJ device header corroborates the specific VCI-380 endpoint name only; its copied VCI400/channel assumptions do not run. Native sends no setup, query, output, preset, driver, firmware or audio route. TempoCC13/45 order/polarity, jogCC69/scrollCC85 encoding, the ambiguous OCR INPUT SWITCH number, other pad/FX/parameter modes, LED velocity contract, full lifecycle/recovery, source-switch ownership, USB/OS/power and physical/iPad/A10X acceptance remain open. Use the supplied7.5V adapter. Generic Vestax MIDI endpoints and other VCI models are excluded."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:mixars-quattro-owner",
+      "name": "Mixars QUATTRO",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.mediafire.com/file/dqqm12ter942giu/Mixars_Quattro-nr1.5.djayMidiMapping.zip/file",
+        "sha256": "0f6e75b0fd95e5906a4be30a501ad804cba2df0948fd72f334eda36b5d04a8ef",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r442/upstream/quattro-owner.zip",
+            "sha256": "0f6e75b0fd95e5906a4be30a501ad804cba2df0948fd72f334eda36b5d04a8ef"
+          },
+          {
+            "cachePath": "TestBuilds/r442/upstream/quattro-owner.djayMidiMapping",
+            "sha256": "884afff200789fca49635d07af6c3222dff0683c866a64d2afd5f930d9a990e6"
+          },
+          {
+            "cachePath": "TestBuilds/r442/upstream/quattro-manual.pdf",
+            "sha256": "01a88a07bda75505ce610babf578cdfbcc2a26aa3f3eaef2788deda56630846f"
+          }
+        ],
+        "relatedSources": [
+          {
+            "url": "https://community.algoriddim.com/t/midi-mapping-for-mixars-quattro-anyone-interested/15739"
+          },
+          {
+            "url": "https://www.mixars.com/wp-content/uploads/2017/01/quattro-manual-multi-language_102317rev.2.pdf"
+          },
+          {
+            "url": "https://mixars.com/product/quattro/"
+          }
+        ],
+        "review": "Independent nice-record hardware-owner export,229 rows, djay Pro AI-3.1.9, endpoint Mixars Quattro. The original XML is retained unchanged. Four lineVolume rows have dangling output keys, so the full file is not a valid property list. Review removes only those four absent-output markers in a temporary test tree to read existing numeric input facts; no replacement output or executable source runs. Own manufacturer manual confirms deck selection3/1 and2/4, CUES/Shift+Transport and Sampler/User modes, two physical Shift buttons and non-Serato external hardware mixing. Native manual accessory implements32 Hot Cues on channels4..7/Notes96,100,97,101,98,102,99,103; Transport-mode Play27 and loop half25/double24; fixed-four-beat loop push64; global15 Load2..5; own Sync2 on0/1; and flipped rotary64 BrowseCC0/global15. Source numbered cuePositionOrJumpConsideringPlayState1/Note26 is not held main Cue and remains inactive. Four Shift reports0..3/Note32 compose the two physical contacts with fixed side keys; all normal inputs are guarded. Defensive release-only aliases across A/C and B/D rearm buttons without activating the other deck. No deck-selector wire is inferred. Native does not translate source hardware mixer/PFL/faders or dual14-bit fader reports into software mixing. Manufacturer non-Serato mode requires separate deck audio outputs, which remain unimplemented. Reported source import, pad-light and headphone issues do not establish working feedback or audio. Automatic selection, all other modes, feedback, cold routing discovery, full lifecycle/recovery, USB/OS/power and physical/iPad/A10X acceptance remain open. No map import, output, setup, preset, driver, firmware or audio-route packet runs. DUO, PRIMO and Reloop Quattro remain separate."
+      },
+      "implementedInputCount": 109,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Independent nice-record hardware-owner export,229 rows, djay Pro AI-3.1.9, endpoint Mixars Quattro. The original XML is retained unchanged. Four lineVolume rows have dangling output keys, so the full file is not a valid property list. Review removes only those four absent-output markers in a temporary test tree to read existing numeric input facts; no replacement output or executable source runs. Own manufacturer manual confirms deck selection3/1 and2/4, CUES/Shift+Transport and Sampler/User modes, two physical Shift buttons and non-Serato external hardware mixing. Native manual accessory implements32 Hot Cues on channels4..7/Notes96,100,97,101,98,102,99,103; Transport-mode Play27 and loop half25/double24; fixed-four-beat loop push64; global15 Load2..5; own Sync2 on0/1; and flipped rotary64 BrowseCC0/global15. Source numbered cuePositionOrJumpConsideringPlayState1/Note26 is not held main Cue and remains inactive. Four Shift reports0..3/Note32 compose the two physical contacts with fixed side keys; all normal inputs are guarded. Defensive release-only aliases across A/C and B/D rearm buttons without activating the other deck. No deck-selector wire is inferred. Native does not translate source hardware mixer/PFL/faders or dual14-bit fader reports into software mixing. Manufacturer non-Serato mode requires separate deck audio outputs, which remain unimplemented. Reported source import, pad-light and headphone issues do not establish working feedback or audio. Automatic selection, all other modes, feedback, cold routing discovery, full lifecycle/recovery, USB/OS/power and physical/iPad/A10X acceptance remain open. No map import, output, setup, preset, driver, firmware or audio-route packet runs. DUO, PRIMO and Reloop Quattro remain separate."
         }
       ]
     },

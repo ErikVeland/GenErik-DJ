@@ -3762,6 +3762,48 @@
         }
       ],
       "result": "Independent44-input VCI-380 core from own manufacturer table. Pads start unknown and require explicit Hot Cue. Cross-channel Sampler invalidates only its deck. No guessed jog/tempo/output/audio contract.353 source/17 native checks and iPad framework compilation pass. All366 earlier recipes remain identical. Full modes/lifecycle/source switching and physical acceptance remain open."
+    },
+    {
+      "request": "R442",
+      "sources": [
+        {
+          "model": "Mixars QUATTRO",
+          "url": "https://www.mediafire.com/file/dqqm12ter942giu/Mixars_Quattro-nr1.5.djayMidiMapping.zip/file",
+          "sha256": "0f6e75b0fd95e5906a4be30a501ad804cba2df0948fd72f334eda36b5d04a8ef",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r442/upstream/quattro-owner.zip",
+              "sha256": "0f6e75b0fd95e5906a4be30a501ad804cba2df0948fd72f334eda36b5d04a8ef"
+            },
+            {
+              "cachePath": "TestBuilds/r442/upstream/quattro-owner.djayMidiMapping",
+              "sha256": "884afff200789fca49635d07af6c3222dff0683c866a64d2afd5f930d9a990e6"
+            },
+            {
+              "cachePath": "TestBuilds/r442/upstream/quattro-manual.pdf",
+              "sha256": "01a88a07bda75505ce610babf578cdfbcc2a26aa3f3eaef2788deda56630846f"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://community.algoriddim.com/t/midi-mapping-for-mixars-quattro-anyone-interested/15739"
+            },
+            {
+              "url": "https://www.mixars.com/wp-content/uploads/2017/01/quattro-manual-multi-language_102317rev.2.pdf"
+            },
+            {
+              "url": "https://mixars.com/product/quattro/"
+            }
+          ],
+          "review": "Independent nice-record hardware-owner export,229 rows, djay Pro AI-3.1.9, endpoint Mixars Quattro. The original XML is retained unchanged. Four lineVolume rows have dangling output keys, so the full file is not a valid property list. Review removes only those four absent-output markers in a temporary test tree to read existing numeric input facts; no replacement output or executable source runs. Own manufacturer manual confirms deck selection3/1 and2/4, CUES/Shift+Transport and Sampler/User modes, two physical Shift buttons and non-Serato external hardware mixing. Native manual accessory implements32 Hot Cues on channels4..7/Notes96,100,97,101,98,102,99,103; Transport-mode Play27 and loop half25/double24; fixed-four-beat loop push64; global15 Load2..5; own Sync2 on0/1; and flipped rotary64 BrowseCC0/global15. Source numbered cuePositionOrJumpConsideringPlayState1/Note26 is not held main Cue and remains inactive. Four Shift reports0..3/Note32 compose the two physical contacts with fixed side keys; all normal inputs are guarded. Defensive release-only aliases across A/C and B/D rearm buttons without activating the other deck. No deck-selector wire is inferred. Native does not translate source hardware mixer/PFL/faders or dual14-bit fader reports into software mixing. Manufacturer non-Serato mode requires separate deck audio outputs, which remain unimplemented. Reported source import, pad-light and headphone issues do not establish working feedback or audio. Automatic selection, all other modes, feedback, cold routing discovery, full lifecycle/recovery, USB/OS/power and physical/iPad/A10X acceptance remain open. No map import, output, setup, preset, driver, firmware or audio-route packet runs. DUO, PRIMO and Reloop Quattro remain separate."
+        }
+      ],
+      "result": "Independent109-input-row manual performance subset. Original229-row owner export has four dangling output keys. Only source input facts are used. Own manual confirms external mixing and pad/transport modes.356 source/10 native checks and framework compilation pass. All367 earlier recipes remain identical. Main Cue, hardware mixer/PFL, feedback, audio routing, automatic and physical acceptance remain open.",
+      "additionalSearches": {
+        "RanePerformerSDK": "Public Rane Performer MIDI GitHub and Rane SDK MIDI searches yielded no usable own numeric protocol or SDK in these results. No absence beyond checked sources is asserted.",
+        "DenonX1850": "Public address search again found setup/user-guide material without numeric wire data. No X1600 protocol is inherited.",
+        "historicalMixxx": "Pinned Mixxx1.11 tree568d9ce04722d8c36389cd1f14a24c2f85d11eaf lists105 current/unused MIDI/HID definitions. Initial comparison found no independent new NS7II/III table; original NS7 is not inherited."
+      }
     }
   ]
 }

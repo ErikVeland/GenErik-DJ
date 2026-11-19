@@ -3002,6 +3002,18 @@ func controllerCatalogueLegacyRaneMixerAndLoopsKeepRealAudioAndSavedSync(_ name:
     }
 }
 
+@Test @MainActor func controllerCatalogueMixarsQuattroManualPlayLoopAndComposedShiftKeepRealAudioSync() async throws {
+    try await withControllerCuePlayback("Mixars QUATTRO", manual: true) { model, input in
+        input.receiveBytes([0x90, 32, 127, 0x94, 27, 127, 27, 0], source: 10); input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.phase.active == false)
+        input.receiveBytes([0x82, 32, 127, 0x94, 27, 127, 27, 0, 64, 127, 64, 0], source: 10)
+        input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+    }
+}
+
 @Test @MainActor func controllerCatalogueVCI380ShiftReleasesSoftCueAndKeepsRealAudioSync() async throws {
     try await withControllerCuePlayback("VCI-380") { model, input in
         input.receiveBytes([0x97, 22, 1], source: 10); input.flushPendingActions()

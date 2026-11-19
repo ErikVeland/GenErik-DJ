@@ -11,7 +11,7 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 562 total catalogue records. 555 name physical models. The remainder identify software endpoints or protocol families.
-- 367 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 368 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 226 factory profiles select core controls automatically for 235 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - 314 physical models still lack automatic core controls.
@@ -228,8 +228,8 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 143 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 149 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 144 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 148 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -640,7 +640,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | MixVibes U-Mix Control Pro | primary | automatic-core-profile | [Reference](https://media.djmania.net/manuales/pdf/U-MIX_CONTROL_PRO_1.5.1_user_manual_0.pdf) |
 | MixVibes U-Mix Control Pro 2 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MixVibes%20U-Mix%20Control%20Pro%202.midi.xml) |
 | Mixvibes VFX CONTROL | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MIXVVFX) |
-| Mixars QUATTRO | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MXRSQUATTRO) |
+| Mixars QUATTRO | accessory | partial-midi-profile | [Reference](https://www.mediafire.com/file/dqqm12ter942giu/Mixars_Quattro-nr1.5.djayMidiMapping.zip/file) |
 | Native Instruments AUDIO 2DJ | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AUDIO2DJ) |
 | Native Instruments AUDIO 4DJ | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AUDIO4DJ) |
 | Native Instruments AUDIO 8DJ | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AUDIO8DJ) |
