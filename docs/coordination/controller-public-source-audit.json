@@ -4063,6 +4063,46 @@
         }
       ],
       "result": "Manual pad-mode guards fixed and verified with26 native tests and iPad framework compilation.375 runtime recipes remain unchanged. DJ-707M protocol facts found, direct iPad route remains unqualified."
+    },
+    {
+      "request": "R450",
+      "sources": [
+        {
+          "url": "https://static.roland.com/assets/media/pdf/DJ-707M_MIDI_Imple_Chart_jpn01_W.pdf",
+          "sha256": "1e36cb927bb1248f09cb0404575b81c35b850d0f29995ee5f195ee1333e2400e",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r449/upstream/dj707m-midi-jpn.pdf",
+              "sha256": "1e36cb927bb1248f09cb0404575b81c35b850d0f29995ee5f195ee1333e2400e"
+            },
+            {
+              "cachePath": "TestBuilds/r449/upstream/dj707m-manual.pdf",
+              "sha256": "0207dab3084c6f52b0ecd05aeb99f40c6ec094ddb94a1332a66741fbe62facbb"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://static.roland.com/assets/media/pdf/DJ-707M_eng01_W.pdf"
+            }
+          ],
+          "review": "Own manufacturer v1.02 three-page MIDI chart visually reviewed. Raw0..3 Note0 Play,1 Instant Cue,2 Sync,3 Sync Off,5 Return to beginning,8 Deck,13 Key,14 Range and27 monitoring Cue. Own manual identifies Shift+Cue as Return to beginning and Shift+Range as Keylock. Global Shift is raw15 Note0. Native normal transport/PFL/Load/filter/browse is Shift-guarded; Key13 requires Shift. Cue5,Sync3,Range14 and shifted pad28..35 are release-only guards. Raw4..7 pads20..27 require explicit Hot Cue mode0, with other modes1..11 blocking. Own deck selector8 invalidates its pad mode. Global raw15 Loads2..5, Back7 and CC0 Select are independently charted. CC0 has binary offset64: left63 down, right65 up. FilterCC26 is separate7bit. High-resolution paired numbers do not by themselves establish byte significance or pitch polarity, so tempo/gain/EQ/level/crossfader remain inactive. No jog/calibration/LED colour/output/SysEx/FX/TR-S/mic/OSC state is inherited from DJ-202/DJ-505/DJ-808. This manual107-input subset requires an already available, independently qualified MIDI bridge from PC-A. Own manual p22 routes iOS audio through PC-B Generic, explicitly excludes DJ software there and sends standalone controller MIDI through PC-A. Native does not provide the PC-A USB driver/bridge or a direct iPad controller route. Audio ownership/routes, PC host handover, complete pad/deck modes/feedback/lifecycle/recovery and physical/iPad/A10X acceptance remain open. No setup, identity query, mode, driver, firmware, reset or audio-route packet runs."
+        }
+      ],
+      "additionalFindings": [
+        {
+          "url": "https://www.recordcase.de/media/9e/eb/f0/1700636239/gemini-cdj-700-user-manual.pdf",
+          "cachePath": "TestBuilds/r450/upstream/cdj700-manual.pdf",
+          "sha256": "7a8933d3d31cc8282c0f2348fbb53dc7747b7466f8e0793b8a50d087b63003a2",
+          "finding": "Manufacturer manual p18 MIDI table has numeric Send Number/min/max fields, without MIDI status type/channel. Adjacent HID bit/byte table is separate. No note/CC assumption, HID transport or profile is added. Entering MIDI terminates CD/USB/SD playback."
+        },
+        {
+          "url": "https://asset.conrad.com/media10/add/160267/c1/-/cs/000312244ML01/manual-312244-gemini-cdj-650-e-dj-cd-player.pdf",
+          "cachePath": "TestBuilds/r450/upstream/cdj650-manual.pdf",
+          "sha256": "6d37eddace398143acacca76df3c0ac9a4668ca32c78f76fa8cca6cd103cd923",
+          "finding": "Distributor-hosted Czech manual p5 supplies its own MIDI Send Number/min/max and separate HID fields. No MIDI status type/channel or CDJ-700 equivalence is inferred. Manufacturer authorship of this translation is not established."
+        }
+      ],
+      "result": "Independent107-input manual DJ-707M bridge-only core.371 source/11 native checks and iPad framework compilation pass.375 prior recipes remain identical. No direct iPad route, bridge, driver or audio setup is implemented. Full modes/lifecycle and physical acceptance remain open."
     }
   ]
 }
