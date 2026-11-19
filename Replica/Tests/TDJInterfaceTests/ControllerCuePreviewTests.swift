@@ -3639,3 +3639,20 @@ func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String
         }
     }
 }
+
+
+@Test @MainActor func controllerCatalogueGMXManualCueAndMixerKeepRealAudioSynced() async throws {
+    try await withControllerCuePlayback("GMX",manual:true) {model,input in
+        input.receiveBytes([0x90,2,1],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x80,2,127,0x90,1,127,1,0],source:10);input.flushPendingActions()
+        input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+        for n:UInt8 in [1,3,5,7,9] {
+            for value:UInt8 in [0,127,64] {input.receiveBytes([0xB3,n,value],source:10);input.flushPendingActions()}
+        }
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        #expect(abs((model.controllerValue(.levelA) ?? -1)-64.0/127)<0.0001)
+    }
+}

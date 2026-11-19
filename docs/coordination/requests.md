@@ -770,3 +770,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R469 | Implemented; driver/full modes/feedback/audio/host gaps open | Add independent DJ-808 normal MIDI subset | Added113 manual own-model inputs.411 source/13 native checks and iPad framework compilation pass. All396 earlier recipes remain identical. [Scope](controller-coverage.md#r469-independent-dj-808-normal-midi-core). |
 
 | R470 | Implemented; full modes/global channels/audio/host gaps open | Add independent manufacturer Dragon Two and 4MIX Pitch normal cores | Added220/164 manual explicit-channel inputs from separate manufacturer archives.414 source/13 native checks and iPad framework compilation pass. All397 earlier recipes remain identical. [Scope](controller-coverage.md#r470-manufacturer-dragon-two-and-4mix-pitch-cores). |
+
+| R471 | Implemented; full modes/HID/feedback/audio/host gaps open | Add independent GMX MIDI core | Added46 manual independent MIDI inputs.417 source/12 native checks and iPad framework compilation pass. All399 earlier recipes remain identical. [Scope](controller-coverage.md#r471-independent-gmx-midi-core). |
