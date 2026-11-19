@@ -6,7 +6,7 @@ struct ControllerProfileData: Decodable, Sendable {
         case smk25II, cdj101, ddjSR2, keyLabMKI, kontrolOne, midiFighterSpectra, p1Nano, sc5000M, denonPrimePlayer,
             denonPrime4, nanoKontrol2Native, nanoPad2Native, nanoKontrolScene, xdjAN, launchControlDAW,
             launchControlTemplate, launchControlXLTemplate, mc1000, legacyUSBPlayer, legacySinglePlayer, orbit,
-            mpd218Chroma
+            mpd218Chroma, mpd2Bitwig
         var setupInputMode: ControllerSetupInputDecoder.Mode? {
             self == .launchControlXLTemplate
                 ? .launchControlXLTemplate

@@ -2987,6 +2987,20 @@ func controllerCatalogueLegacyRaneMixerAndLoopsKeepRealAudioAndSavedSync(_ name:
     }
 }
 
+@Test(arguments: ["Akai MPD226", "Akai MPD232"]) @MainActor
+func controllerCatalogueMPD2BitwigKeepsSoftCueRealAudioAndSavedSync(_ name: String) async throws {
+    try await withControllerCuePlayback(name, manual: true) { model, input in
+        input.receiveBytes([0x99, 45, 1], source: 10); input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0xB1, 40, 127, 0xB2, 40, 127], source: 10); input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x99, 52, 127, 52, 0, 0x89, 45, 127, 0x99, 44, 1, 44, 0], source: 10); input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
 @Test @MainActor func controllerCatalogueMPD218KeepsSoftCueRealAudioAndSavedSync() async throws {
     try await withControllerCuePlayback("Akai MPD218") { model, input in
         input.receiveBytes([0x99, 45, 1], source: 10); input.flushPendingActions()

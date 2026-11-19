@@ -694,3 +694,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R431 | Implemented; knobs/motion/feedback/lifecycle gaps open | Add native Orbit factory pad banks | Added64 automatic pad inputs from the manufacturer factory template.329 source/10 native checks and iPad framework compilation pass. All355 earlier recipes remain identical. [Scope](controller-coverage.md#r431-orbit-factory-pad-banks). |
 
 | R432 | Implemented; other presets/modes/feedback/lifecycle gaps open | Add independent MPD218 preset1 native contract | Added66 automatic factory-preset inputs:48 pads and18 knobs.331 source/11 native checks and iPad framework compilation pass. All356 earlier recipes remain identical. [Scope](controller-coverage.md#r432-independent-mpd218-chroma10-contract). |
+
+| R433 | Implemented; other presets/modes/feedback/lifecycle gaps open | Add independent MPD226/232 Bitwig-mode native cores | Added two100-input manual cores from separate manufacturer members.333 source/12 native checks and iPad framework compilation pass. All357 earlier recipes remain identical. [Scope](controller-coverage.md#r433-independent-mpd226-and-mpd232-bitwig-cores). |

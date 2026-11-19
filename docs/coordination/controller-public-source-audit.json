@@ -96,7 +96,7 @@
           "model": "Seventy-Two MKII",
           "downloads": [
             {
-              "description": "Seventy-Two Control Panel – macOS v1.1.2",
+              "description": "Seventy-Two Control Panel \u2013 macOS v1.1.2",
               "type": "Editor",
               "url": "https://cdn.inmusicbrands.com/rane/seventy-two/MacRaneSeventy-Two_1.1.2.dmg"
             },
@@ -126,7 +126,7 @@
           "model": "Seventy-Two",
           "downloads": [
             {
-              "description": "Seventy-Two Control Panel – macOS v1.1.2",
+              "description": "Seventy-Two Control Panel \u2013 macOS v1.1.2",
               "type": "Editor",
               "url": "https://cdn.inmusicbrands.com/rane/seventy-two/MacRaneSeventy-Two_1.1.2.dmg"
             },
@@ -156,12 +156,12 @@
           "model": "Seventy",
           "downloads": [
             {
-              "description": "SEVENTY Firmware Update – macOS v1.1.0.127 (Latest Version)",
+              "description": "SEVENTY Firmware Update \u2013 macOS v1.1.0.127 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/seventy/Rane%20Seventy%20Firmware%20Updater%20For%20Firmware%201.1.0.127%20%28Updater%201.0.1%29.dmg"
             },
             {
-              "description": "SEVENTY Firmware Update – Windows v1.1.0.127 (Latest Version)",
+              "description": "SEVENTY Firmware Update \u2013 Windows v1.1.0.127 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/seventy/Install%20Rane%20Seventy%20Firmware%20Updater%20For%20Firmware%201.1.0.127%20%28Updater%201.0.0%29.exe"
             },
@@ -211,7 +211,7 @@
               "url": "https://cdn.inmusicbrands.com/rane/four/Install%20Rane%20FOUR%201.0.10.exe"
             },
             {
-              "description": "FOUR Firmware Update – macOS 1.8.0.18 (Latest Version)",
+              "description": "FOUR Firmware Update \u2013 macOS 1.8.0.18 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/Software/RD/RANE%20FOUR%20Firmware%20Updater%20For%20Firmware%201.8.0.18.dmg"
             },
@@ -226,7 +226,7 @@
               "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20FOUR%20Firmware%20-%20Release%20Note%20History%20v1.8.0.18.pdf"
             },
             {
-              "description": "FOUR Firmware Update – macOS v1.7.0.8",
+              "description": "FOUR Firmware Update \u2013 macOS v1.7.0.8",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/four/RANE%20FOUR%20Firmware%20Updater%20For%20Firmware%201.7.0.8%20%28Updater%201.1.6%29.dmg"
             },
@@ -306,12 +306,12 @@
               "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%201.0.2.exe"
             },
             {
-              "description": "PERFORMER Firmware Update – macOS v1.3.0.13 (Latest Version)",
+              "description": "PERFORMER Firmware Update \u2013 macOS v1.3.0.13 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.3.0.13.dmg"
             },
             {
-              "description": "PERFORMER Firmware Update – Windows v1.3.0.13 (Latest Version)",
+              "description": "PERFORMER Firmware Update \u2013 Windows v1.3.0.13 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/Software/RD/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.3.0.13.exe"
             },
@@ -321,12 +321,12 @@
               "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20PERFORMER%20Firmware%20-%20Release%20Note%20History%20v1.3.0.13.pdf"
             },
             {
-              "description": "PERFORMER Firmware Update – macOS v1.2.0.10",
+              "description": "PERFORMER Firmware Update \u2013 macOS v1.2.0.10",
               "type": "Driver",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.2.0.10%20%28Updater%201.0.5%29.dmg"
             },
             {
-              "description": "PERFORMER Firmware Update – Windows v1.2.0.10",
+              "description": "PERFORMER Firmware Update \u2013 Windows v1.2.0.10",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.2.0.10%20%28Updater%201.0.4%29.exe"
             },
@@ -336,12 +336,12 @@
               "url": "https://cdn.inmusicbrands.com/rane/performer/Release%20Notes%20-%20Rane%20PERFORMER%20Firmware%20v1.2.0.10.pdf"
             },
             {
-              "description": "PERFORMER Firmware Update – macOS v1.1.0.13",
+              "description": "PERFORMER Firmware Update \u2013 macOS v1.1.0.13",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.1.0.13%20%28Updater%201.0.3%29.dmg"
             },
             {
-              "description": "PERFORMER Firmware Update – Windows v1.1.0.13",
+              "description": "PERFORMER Firmware Update \u2013 Windows v1.1.0.13",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.1.0.13%20%28Updater%201.0.3%29.exe"
             },
@@ -356,12 +356,12 @@
           "model": "Rane One MKII",
           "downloads": [
             {
-              "description": " ONE MKII Firmware Update – macOS v1.2.0.2 (Latest Version)",
+              "description": " ONE MKII Firmware Update \u2013 macOS v1.2.0.2 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/one-mkii/FW1202/Rane%20ONE%20MKII%20Firmware%20Updater%20For%20Firmware%201.2.0.2%20%28Updater%201.0.2%29%201.dmg"
             },
             {
-              "description": " ONE MKII Firmware Update – Windows v1.2.0.2 (Latest Version) ",
+              "description": " ONE MKII Firmware Update \u2013 Windows v1.2.0.2 (Latest Version) ",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/one-mkii/FW1202/Install%20Rane%20ONE%20MKII%20Firmware%20Updater%20For%20Firmware%201.2.0.2%20%28Updater%201.0.2%29.exe"
             },
@@ -2781,7 +2781,7 @@
               "review": "Read-only corroboration of channel0..3 targets and source scratch scale150. Primary charts override copied software-role assumptions."
             }
           ],
-          "review": "Separate manufacturer charts independently qualify the same default-channel input and lamp addresses for both editions. Native channels0..3 target A/B/C/D. Normal notes use Shift +64 release-only aliases; alternate positive commands remain inactive. Play39/Cue38/Sync40, eight independently addressed Hot Cues, Load9, native beat jumps20/21, Loop18/Reloop19, binary-offset loop-size22/browser9 and filter45 are explicit native controls. Normal47 and Scratch48 wheel/contact families use owned touch and source scale150; primary reports raw40±N. Other wheel modes, no-touch direction notes, modified positive commands and physical scale remain unqualified. Deck-selection notes5..8 retire owned holds across all targets; normal wheel-mode32..35 reports retire only their deck, and releases preserve fresh contacts. Note8 is a shifted deck selector, never Key Lock; there is no pitch slider or primary pitch-bend input. Shifted filter/pan CC109/110 are not treated as headphone/master knobs. No source software, startup, channel changer, stored setting or audio command runs."
+          "review": "Separate manufacturer charts independently qualify the same default-channel input and lamp addresses for both editions. Native channels0..3 target A/B/C/D. Normal notes use Shift +64 release-only aliases; alternate positive commands remain inactive. Play39/Cue38/Sync40, eight independently addressed Hot Cues, Load9, native beat jumps20/21, Loop18/Reloop19, binary-offset loop-size22/browser9 and filter45 are explicit native controls. Normal47 and Scratch48 wheel/contact families use owned touch and source scale150; primary reports raw40\u00b1N. Other wheel modes, no-touch direction notes, modified positive commands and physical scale remain unqualified. Deck-selection notes5..8 retire owned holds across all targets; normal wheel-mode32..35 reports retire only their deck, and releases preserve fresh contacts. Note8 is a shifted deck selector, never Key Lock; there is no pitch slider or primary pitch-bend input. Shifted filter/pan CC109/110 are not treated as headphone/master knobs. No source software, startup, channel changer, stored setting or audio command runs."
         }
       ],
       "result": "Separate CE and IE manufacturer charts qualify one shared default-channel wire recipe and two edition inventory rows. The generic VirtualDJ family reference is retained on both rows. Normal and Scratch contact/jog, eight Hot Cues per deck and Shift release aliases are implemented. Copied Key Lock/pitch/global-role assumptions are rejected. Full modes/audio/host/calibration and physical acceptance remain open."
@@ -3318,6 +3318,92 @@
         }
       ],
       "result": "Own factory chroma10 preset and independent file-field reference qualify48 momentary pads and18 full-range CC knobs. Native source-owned pad-bank cleanup preserves independent knob pickup. All other presets/modes/feedback/lifecycle and physical acceptance remain open."
+    },
+    {
+      "request": "R433",
+      "sources": [
+        {
+          "model": "Akai MPD226",
+          "url": "https://cdn.inmusicbrands.com/akai/MPD226/MPD2Seriesv1.0.2.zip_a45537bcc8619b374fa020c5acb2d879.zip",
+          "sha256": "8a927aa10cb07a2b5ce370fb0cf04c22462b92ebe283b9c3bd59eca0bfd74195",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r432/upstream/mpd226-bitwig.zip",
+              "sha256": "8a927aa10cb07a2b5ce370fb0cf04c22462b92ebe283b9c3bd59eca0bfd74195"
+            },
+            {
+              "cachePath": "TestBuilds/r432/upstream/mpd-bitwig/MPD2 Series v1.0.2/MPD226.control.js",
+              "sha256": "d591c87df42bf10e189927fe830c8aaa66b09f824060ca0cd69f7db2a75ae3a1"
+            },
+            {
+              "cachePath": "TestBuilds/r432/upstream/mpd-bitwig/MPD2 Series v1.0.2/MPD2_common.js",
+              "sha256": "dcf7d9eb3faa0aa4e2cc6907eb2bbb5a3429f72c50fa05de89f5fb22660ca10c"
+            },
+            {
+              "cachePath": "TestBuilds/r432/upstream/mpd-bitwig/MPD2 Series v1.0.2/MPD2_PadInstrument.js",
+              "sha256": "6217f1370252cc06914a914a82454553fb6a7651e0556ad2865e17a43c3cf137"
+            },
+            {
+              "cachePath": "TestBuilds/r432/upstream/mpd-bitwig/MPD2 Series v1.0.2/MPD2 Series, MPK2 Series - Bitwig Studio Program Documentation - v1.0.pdf",
+              "sha256": "329ca379a22ac3c992fd7f48890e353805d683165c4a1a1f9f95c5b1265921c0"
+            },
+            {
+              "cachePath": "TestBuilds/r433/upstream/mpd226-guide.pdf",
+              "sha256": "f49bd77f896f7f52105f6897ea805156745e7251496b7e69f9949acbe4721962"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://www.akaipro.com/downloads-and-support/downloads/?product=MPD226"
+            },
+            {
+              "url": "https://cdn.inmusicbrands.com/akai/attachments/MPD226/MPD226-User_Guide-v1.1.pdf"
+            }
+          ],
+          "review": "Own manufacturer product download includes the separate MPD226 member and a documented shared input contract. Select the onboard Bitwig preset and use main Port A, not Remote/MIDI4. Pad Instrument handles channel10 Notes36..99, four16-pad banks. Shared control banks use channels2/3/4; first four switchesCC30..33, faders40..43 absolute0..127 and knobs50..53 signed increments. Native accepts only strict1/127 knob steps. Native assigns one pad bank per A/B/C/D deck. Four switches per control bank set native PFL/Sync/Key Lock; faders set level/high/low; knobs adjust gain/mid/filter. Pad and control banks stay independent. Pad changes retire only that source. Control changes rearm CC buttons and reacquire pickup on the new control bank without releasing held pad Cue. Late releases do not change contexts. Manual selection is required. All four physical control columns are covered in this subset. Other presets, full relative magnitudes/calibration, dedicated transport, navigation, pressure/repeat, Remote display/colour-parameter writes, complete bank/preset/lifecycle/recovery/USB/OS/power and physical/iPad/A10X acceptance remain open. A standalone bank-selector report is not implemented; cleanup occurs at the next mapped report or original release. No source program/action, preset, global setting, tempo, firmware, driver, colour write or audio route executes. MPD218 and MPK contracts stay separate."
+        },
+        {
+          "model": "Akai MPD232",
+          "url": "https://cdn.inmusicbrands.com/akai/MPD232/MPD2Seriesv1.0.2.zip_2d5b4cb748f1b0cc256d5197f95cb66e.zip",
+          "sha256": "8a927aa10cb07a2b5ce370fb0cf04c22462b92ebe283b9c3bd59eca0bfd74195",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r432/upstream/mpd232-bitwig.zip",
+              "sha256": "8a927aa10cb07a2b5ce370fb0cf04c22462b92ebe283b9c3bd59eca0bfd74195"
+            },
+            {
+              "cachePath": "TestBuilds/r432/upstream/mpd-bitwig/MPD2 Series v1.0.2/MPD232.control.js",
+              "sha256": "3adfcc79065a5d25e91045ed45a5dccb61b1604d3d51516d6281904987d7c76a"
+            },
+            {
+              "cachePath": "TestBuilds/r432/upstream/mpd-bitwig/MPD2 Series v1.0.2/MPD2_common.js",
+              "sha256": "dcf7d9eb3faa0aa4e2cc6907eb2bbb5a3429f72c50fa05de89f5fb22660ca10c"
+            },
+            {
+              "cachePath": "TestBuilds/r432/upstream/mpd-bitwig/MPD2 Series v1.0.2/MPD2_PadInstrument.js",
+              "sha256": "6217f1370252cc06914a914a82454553fb6a7651e0556ad2865e17a43c3cf137"
+            },
+            {
+              "cachePath": "TestBuilds/r432/upstream/mpd-bitwig/MPD2 Series v1.0.2/MPD2 Series, MPK2 Series - Bitwig Studio Program Documentation - v1.0.pdf",
+              "sha256": "329ca379a22ac3c992fd7f48890e353805d683165c4a1a1f9f95c5b1265921c0"
+            },
+            {
+              "cachePath": "TestBuilds/r433/upstream/mpd232-guide.pdf",
+              "sha256": "4ba19eedb423beacbaf018cd0b7ce6a2f05cf4c7210f702b001b1e9ea07f0d10"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://www.akaipro.com/downloads-and-support/downloads/?product=MPD232"
+            },
+            {
+              "url": "https://cdn.inmusicbrands.com/akai/attachments/MPD232/MPD232-User_Guide-v1.1.pdf"
+            }
+          ],
+          "review": "Own manufacturer product download includes the separate MPD232 member and a documented shared input contract. Select the onboard Bitwig preset and use main Port A, not Remote/MIDI4. Pad Instrument handles channel10 Notes36..99, four16-pad banks. Shared control banks use channels2/3/4; first four switchesCC30..33, faders40..43 absolute0..127 and knobs50..53 signed increments. Native accepts only strict1/127 knob steps. Native assigns one pad bank per A/B/C/D deck. Four switches per control bank set native PFL/Sync/Key Lock; faders set level/high/low; knobs adjust gain/mid/filter. Pad and control banks stay independent. Pad changes retire only that source. Control changes rearm CC buttons and reacquire pickup on the new control bank without releasing held pad Cue. Late releases do not change contexts. Manual selection is required. Only the first four of the eight physical control columns are active. The extra four columns stay inactive. Other presets, full relative magnitudes/calibration, dedicated transport, navigation, pressure/repeat, Remote display/colour-parameter writes, complete bank/preset/lifecycle/recovery/USB/OS/power and physical/iPad/A10X acceptance remain open. A standalone bank-selector report is not implemented; cleanup occurs at the next mapped report or original release. No source program/action, preset, global setting, tempo, firmware, driver, colour write or audio route executes. MPD218 and MPK contracts stay separate."
+        }
+      ],
+      "result": "Separate manufacturer MPD226/232 members qualify two manual100-input Bitwig cores. Pad and control-bank contexts remain independent. Other presets, extra232 columns, full relative magnitudes, dedicated transport, Remote writes, feedback and complete lifecycle remain open."
     }
   ]
 }

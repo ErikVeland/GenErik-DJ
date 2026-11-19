@@ -402,6 +402,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private var legacySinglePlayerDecoders: [Int32: ControllerLegacySinglePlayerDecoder] = [:]
     @ObservationIgnored private var orbitDecoders: [Int32: ControllerOrbitDecoder] = [:]
     @ObservationIgnored private var mpd218Decoders: [Int32: ControllerMPD218Decoder] = [:]
+    @ObservationIgnored private var mpd2BitwigDecoders: [Int32: ControllerMPD2BitwigDecoder] = [:]
     @ObservationIgnored private var mc1000Decoders: [Int32: ControllerMC1000Decoder] = [:]
     @ObservationIgnored private var keyLabDecoders: [Int32: ControllerKeyLabDecoder] = [:]
     @ObservationIgnored private var manualFactoryProfiles: [Int32: ControllerFactoryProfile] = [:]
@@ -638,6 +639,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         legacySinglePlayerDecoders.removeAll()
         orbitDecoders.removeAll()
         mpd218Decoders.removeAll()
+        mpd2BitwigDecoders.removeAll()
         mc1000Decoders.removeAll()
         setupInputDecoders.removeAll()
         sc5000MDecoders.removeAll()
@@ -1306,6 +1308,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         legacySinglePlayerDecoders[source] = nil
         orbitDecoders[source] = nil
         mpd218Decoders[source] = nil
+        mpd2BitwigDecoders[source] = nil
         mc1000Decoders[source] = nil
         setupInputDecoders[source] = nil
         sc5000MDecoders[source] = nil
@@ -1348,6 +1351,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         legacySinglePlayerDecoders[id] = nil
         orbitDecoders[id] = nil
         mpd218Decoders[id] = nil
+        mpd2BitwigDecoders[id] = nil
         mc1000Decoders[id] = nil
         setupInputDecoders[id] = nil
         sc5000MDecoders[id] = nil
@@ -1382,6 +1386,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         legacySinglePlayerDecoders[id] = nil
         orbitDecoders[id] = nil
         mpd218Decoders[id] = nil
+        mpd2BitwigDecoders[id] = nil
         mc1000Decoders[id] = nil
         setupInputDecoders[id] = nil
         sc5000MDecoders[id] = nil
@@ -2209,6 +2214,31 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                     releaseMomentaryActions(source: source, decks: decks)
                     resetInputValueStates(inputBindings(source: source).filter {
                         $0.targetDeck.map { decks.contains($0) } == true
+                    })
+                }
+            }
+            return events.count
+        }
+        if inputProtocol(for: source) == .mpd2Bitwig {
+            var decoder = mpd2BitwigDecoders[source, default: .init()]
+            let events = decoder.append(bytes)
+            mpd2BitwigDecoders[source] = decoder
+            guard events.count <= limit else {
+                stop()
+                status = "Controller input overload. Reconnect to continue."
+                return nil
+            }
+            for event in events {
+                switch event {
+                case .message(let message): receive(message, source: source)
+                case .padBankChanged:
+                    flushPendingActions()
+                    releaseMomentaryActions(source: source)
+                    resetInputValueStates(inputBindings(source: source).filter { $0.kind == .note })
+                case .controlBankChanged(let channel):
+                    flushPendingActions()
+                    resetInputValueStates(inputBindings(source: source).filter {
+                        $0.kind == .control && ($0.action.isButton || $0.channel == channel)
                     })
                 }
             }
