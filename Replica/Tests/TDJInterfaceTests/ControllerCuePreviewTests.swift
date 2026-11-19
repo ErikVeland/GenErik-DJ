@@ -2951,3 +2951,14 @@ func controllerCatalogueRecoveredPublicTransportKeepsRealAudioAndSavedSync(_ nam
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test(arguments:["Denon DJ SC2900","Denon DJ S3900","Denon DJ S3700","Denon DJ S1200"]) @MainActor
+func controllerCatalogueDenonLegacyPlayerKeepsRealAudioSavedSyncAndModeRelease(_ name:String)async throws{
+    try await withControllerCuePlayback(name){model,input in
+        cuePreviewPacket([0x95,66,64],to:input);#expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x9F,name=="Denon DJ S1200" || name=="Denon DJ S3700" ? 49:82,64,0x95,67,64,67,0],source:10);input.flushPendingActions()
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}

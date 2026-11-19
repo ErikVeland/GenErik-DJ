@@ -86,6 +86,7 @@ struct ControllerProfileData: Decodable, Sendable {
     struct BankChange: Decodable, Sendable {
         let kind: ControllerMIDIMessage.Kind?
         let channel: UInt8
+        let anyChannel: Bool?
         let number: UInt8
         let onValue: UInt8?
         let decks: [DeckID]
@@ -245,8 +246,11 @@ struct ControllerProfileData: Decodable, Sendable {
 
     private var validBankChanges: Bool {
         let changes = bankChanges ?? []
-        return changes.count <= 32 && (changes.isEmpty || role != "player")
-            && changes.allSatisfy { $0.isValid }
+        return changes.count <= 32
+            && (role != "player" || changes.allSatisfy { $0.decks == [.a] && $0.deckBank == nil })
+            && changes.allSatisfy {
+                $0.isValid && ($0.anyChannel != true || (role == "player" && $0.channel == 0 && ($0.kind ?? .note) == .note))
+            }
             && changes.allSatisfy { change in
                 (change.releaseShiftChannels ?? []).allSatisfy { channel in
                     inputs.contains { $0.action == .shift && $0.shiftChannel == channel }
@@ -255,7 +259,8 @@ struct ControllerProfileData: Decodable, Sendable {
             && changes.enumerated().allSatisfy { index, change in
                 changes.prefix(index).allSatisfy { previous in
                     let sameAddress = (change.kind ?? .note) == (previous.kind ?? .note)
-                        && change.channel == previous.channel && change.number == previous.number
+                        && (change.channel == previous.channel || change.anyChannel == true || previous.anyChannel == true)
+                        && change.number == previous.number
                     return !sameAddress || (change.kind == .control && change.onValue != nil
                         && previous.onValue != nil && change.onValue != previous.onValue)
                 }

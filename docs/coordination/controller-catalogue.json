@@ -30117,12 +30117,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://cdn.inmusicbrands.com/denondj/legacy/dns1200/DN-S1200_midicommandlist.pdf",
         "https://virtualdj.com/products/hardware.html?model=S1200"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:denon-s1200-normal-midi"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Denon DJ S1200",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Denon DJ S1200",
@@ -30130,41 +30135,67 @@
           "source": "https://virtualdj.com/products/hardware.html?model=S1200"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "cuePreviewA:a",
+        "loadA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendUpA:a",
+        "playA:a",
+        "reloopA:a"
+      ],
+      "inputBindingCount": 10,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Select ordinary USB-MIDI / Normal mode on S1200. Each physical input is assigned to its own app deck. The documented channel envelope is accepted. Configure app audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Hybrid/DVS, unqualified jog/contact/pitch calibration, motors, remaining Shift/FX/modes, complete feedback/displays/state/lifecycle/audio/OS and physical/iPad/A10X acceptance remain open. No setup, preset, firmware, motor or audio write.",
+        "Hybrid/DVS, unqualified jog/contact/pitch calibration, motors, remaining Shift/FX/modes, complete feedback/displays/state/lifecycle/audio/OS and physical/iPad/A10X acceptance remain open. No setup, preset, firmware, motor or audio write."
       ],
+      "playerSupport": {
+        "requiredHardwareMode": "Select ordinary USB-MIDI / Normal mode on S1200. Each physical input is assigned to its own app deck. The documented channel envelope is accepted. Configure app audio separately.",
+        "midiInputImplemented": true,
+        "recognisedNames": [
+          "Denon DJ S1200",
+          "Denon S1200",
+          "DN-S1200",
+          "S1200"
+        ],
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
@@ -30179,12 +30210,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://cdn.inmusicbrands.com/denondj/legacy/dns3700/dns3700-midi-command-list.pdf",
         "https://virtualdj.com/products/hardware.html?model=S3700"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:denon-s3700-normal-midi"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Denon DJ S3700",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Denon DJ S3700",
@@ -30192,41 +30228,73 @@
           "source": "https://virtualdj.com/products/hardware.html?model=S3700"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "cuePreviewA:a",
+        "hotcue1A:a",
+        "hotcue2A:a",
+        "hotcue3A:a",
+        "keylockA:a",
+        "loadA:a",
+        "loopA:a",
+        "loopDisableA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendUpA:a",
+        "playA:a",
+        "reloopA:a"
+      ],
+      "inputBindingCount": 16,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Select ordinary USB-MIDI / Normal mode on S3700. Each physical input is assigned to its own app deck. The documented channel envelope is accepted. Configure app audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Hybrid/DVS, unqualified jog/contact/pitch calibration, motors, remaining Shift/FX/modes, complete feedback/displays/state/lifecycle/audio/OS and physical/iPad/A10X acceptance remain open. No setup, preset, firmware, motor or audio write.",
+        "Hybrid/DVS, unqualified jog/contact/pitch calibration, motors, remaining Shift/FX/modes, complete feedback/displays/state/lifecycle/audio/OS and physical/iPad/A10X acceptance remain open. No setup, preset, firmware, motor or audio write."
       ],
+      "playerSupport": {
+        "requiredHardwareMode": "Select ordinary USB-MIDI / Normal mode on S3700. Each physical input is assigned to its own app deck. The documented channel envelope is accepted. Configure app audio separately.",
+        "midiInputImplemented": true,
+        "recognisedNames": [
+          "Denon DJ S3700",
+          "Denon S3700",
+          "DN-S3700",
+          "S3700"
+        ],
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
@@ -30241,12 +30309,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://cdn.inmusicbrands.com/denondj/legacy/sc3900/sc3900em-om-20130513-en.pdf",
         "https://virtualdj.com/products/hardware.html?model=SC3900"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:denon-sc3900-normal-midi"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Denon DJ S3900",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Denon DJ S3900",
@@ -30254,41 +30327,78 @@
           "source": "https://virtualdj.com/products/hardware.html?model=SC3900"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "cuePreviewA:a",
+        "hotcue1A:a",
+        "hotcue2A:a",
+        "hotcue3A:a",
+        "hotcue4A:a",
+        "hotcue5A:a",
+        "hotcue6A:a",
+        "hotcue7A:a",
+        "hotcue8A:a",
+        "keylockA:a",
+        "loadA:a",
+        "loopA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendUpA:a",
+        "playA:a",
+        "reloopA:a",
+        "syncA:a"
+      ],
+      "inputBindingCount": 21,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Select ordinary USB-MIDI / Normal mode on SC3900. Each physical input is assigned to its own app deck. The documented channel envelope is accepted. Configure app audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Hybrid/DVS, unqualified jog/contact/pitch calibration, motors, remaining Shift/FX/modes, complete feedback/displays/state/lifecycle/audio/OS and physical/iPad/A10X acceptance remain open. No setup, preset, firmware, motor or audio write.",
+        "Hybrid/DVS, unqualified jog/contact/pitch calibration, motors, remaining Shift/FX/modes, complete feedback/displays/state/lifecycle/audio/OS and physical/iPad/A10X acceptance remain open. No setup, preset, firmware, motor or audio write."
       ],
+      "playerSupport": {
+        "requiredHardwareMode": "Select ordinary USB-MIDI / Normal mode on SC3900. Each physical input is assigned to its own app deck. The documented channel envelope is accepted. Configure app audio separately.",
+        "midiInputImplemented": true,
+        "recognisedNames": [
+          "Denon DJ S3900",
+          "Denon SC3900",
+          "DN-SC3900",
+          "SC3900"
+        ],
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
@@ -30556,12 +30666,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://cdn.inmusicbrands.com/denondj/legacy/sc2900/sc2900em-om-20130513-owners-manual-en.pdf",
         "https://virtualdj.com/products/hardware.html?model=SC2900"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:denon-sc2900-normal-midi"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Denon DJ SC2900",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Denon DJ SC2900",
@@ -30569,41 +30684,78 @@
           "source": "https://virtualdj.com/products/hardware.html?model=SC2900"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "cuePreviewA:a",
+        "hotcue1A:a",
+        "hotcue2A:a",
+        "hotcue3A:a",
+        "hotcue4A:a",
+        "hotcue5A:a",
+        "hotcue6A:a",
+        "hotcue7A:a",
+        "hotcue8A:a",
+        "keylockA:a",
+        "loadA:a",
+        "loopA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendUpA:a",
+        "playA:a",
+        "reloopA:a",
+        "syncA:a"
+      ],
+      "inputBindingCount": 21,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Select ordinary USB-MIDI / Normal mode on SC2900. Each physical input is assigned to its own app deck. The documented channel envelope is accepted. Configure app audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Hybrid/DVS, unqualified jog/contact/pitch calibration, motors, remaining Shift/FX/modes, complete feedback/displays/state/lifecycle/audio/OS and physical/iPad/A10X acceptance remain open. No setup, preset, firmware, motor or audio write.",
+        "Hybrid/DVS, unqualified jog/contact/pitch calibration, motors, remaining Shift/FX/modes, complete feedback/displays/state/lifecycle/audio/OS and physical/iPad/A10X acceptance remain open. No setup, preset, firmware, motor or audio write."
       ],
+      "playerSupport": {
+        "requiredHardwareMode": "Select ordinary USB-MIDI / Normal mode on SC2900. Each physical input is assigned to its own app deck. The documented channel envelope is accepted. Configure app audio separately.",
+        "midiInputImplemented": true,
+        "recognisedNames": [
+          "Denon DJ SC2900",
+          "Denon SC2900",
+          "DN-SC2900",
+          "SC2900"
+        ],
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
@@ -352237,6 +352389,78 @@
         },
         {
           "reason": "Jog/contact calibration, alternate Shift functions, auto-loop selection, sampler/FX/mic, complete modes/state/feedback/lifecycle/audio/OS and physical/iPad/A10X acceptance remain open."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:denon-sc2900-normal-midi",
+      "name": "Denon DJ SC2900",
+      "transport": "midi",
+      "source": {
+        "url": "https://cdn.inmusicbrands.com/denondj/legacy/sc2900/sc2900em-om-20130513-owners-manual-en.pdf",
+        "sha256": "b1274a096816e795f0d35183527fc69a170d6d21a4f0e9151a1dae7810e3aee7"
+      },
+      "implementedInputCount": 21,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Hybrid/DVS, unqualified jog/contact/pitch calibration, motors, remaining Shift/FX/modes, complete feedback/displays/state/lifecycle/audio/OS and physical/iPad/A10X acceptance remain open. No setup, preset, firmware, motor or audio write."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:denon-sc3900-normal-midi",
+      "name": "Denon DJ S3900",
+      "transport": "midi",
+      "source": {
+        "url": "https://cdn.inmusicbrands.com/denondj/legacy/sc3900/sc3900em-om-20130513-en.pdf",
+        "sha256": "b1274a096816e795f0d35183527fc69a170d6d21a4f0e9151a1dae7810e3aee7"
+      },
+      "implementedInputCount": 21,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Hybrid/DVS, unqualified jog/contact/pitch calibration, motors, remaining Shift/FX/modes, complete feedback/displays/state/lifecycle/audio/OS and physical/iPad/A10X acceptance remain open. No setup, preset, firmware, motor or audio write."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:denon-s3700-normal-midi",
+      "name": "Denon DJ S3700",
+      "transport": "midi",
+      "source": {
+        "url": "https://cdn.inmusicbrands.com/denondj/legacy/dns3700/dns3700-midi-command-list.pdf",
+        "sha256": "b1274a096816e795f0d35183527fc69a170d6d21a4f0e9151a1dae7810e3aee7"
+      },
+      "implementedInputCount": 16,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Hybrid/DVS, unqualified jog/contact/pitch calibration, motors, remaining Shift/FX/modes, complete feedback/displays/state/lifecycle/audio/OS and physical/iPad/A10X acceptance remain open. No setup, preset, firmware, motor or audio write."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:denon-s1200-normal-midi",
+      "name": "Denon DJ S1200",
+      "transport": "midi",
+      "source": {
+        "url": "https://cdn.inmusicbrands.com/denondj/legacy/dns1200/DN-S1200_midicommandlist.pdf",
+        "sha256": "b1274a096816e795f0d35183527fc69a170d6d21a4f0e9151a1dae7810e3aee7"
+      },
+      "implementedInputCount": 10,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Hybrid/DVS, unqualified jog/contact/pitch calibration, motors, remaining Shift/FX/modes, complete feedback/displays/state/lifecycle/audio/OS and physical/iPad/A10X acceptance remain open. No setup, preset, firmware, motor or audio write."
         }
       ]
     },

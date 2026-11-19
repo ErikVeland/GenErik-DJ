@@ -11,10 +11,10 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 561 total catalogue records. 554 name physical models. The remainder identify software endpoints or protocol families.
-- 320 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 204 factory profiles select core controls automatically for 212 physical models.
+- 324 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 208 factory profiles select core controls automatically for 216 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
-- 336 physical models still lack automatic core controls.
+- 332 physical models still lack automatic core controls.
 - 554 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -40,7 +40,7 @@ Other models have no claimed popularity rank. Within that tier, finish documente
 ## Club and XDJ players — R176/R177
 
 The club-player order balances established models and recent releases. It is an implementation order, not a measured global sales ranking.
-All 20 players select core controls automatically after the hardware enters its PC or USB-MIDI mode.
+All 24 players select core controls automatically after the hardware enters its PC or USB-MIDI mode.
 Connected players receive separate A/B assignments. Saved endpoint identities retain their assignments. C/D require the existing four-deck trial.
 HID, screens, lights and automatic routing across multiple player audio interfaces remain unimplemented.
 
@@ -223,13 +223,13 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 17 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 206 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 210 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
 | partial-midi-profile | 118 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 196 | The pinned references contain no implemented mapping for this model. |
+| protocol-needed | 192 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -535,10 +535,10 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Denon DJ PRIME 2 | primary | partial-midi-profile | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
 | Denon DJ PRIME GO | primary | automatic-core-profile | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
 | Denon DJ PRIME GO+ | primary | partial-midi-profile | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
-| Denon DJ S1200 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=S1200) |
-| Denon DJ S3700 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=S3700) |
-| Denon DJ S3900 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=SC3900) |
-| Denon DJ SC2900 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=SC2900) |
+| Denon DJ S1200 | primary | automatic-core-profile | [Reference](https://cdn.inmusicbrands.com/denondj/legacy/dns1200/DN-S1200_midicommandlist.pdf) |
+| Denon DJ S3700 | primary | automatic-core-profile | [Reference](https://cdn.inmusicbrands.com/denondj/legacy/dns3700/dns3700-midi-command-list.pdf) |
+| Denon DJ S3900 | primary | automatic-core-profile | [Reference](https://cdn.inmusicbrands.com/denondj/legacy/sc3900/sc3900em-om-20130513-en.pdf) |
+| Denon DJ SC2900 | primary | automatic-core-profile | [Reference](https://cdn.inmusicbrands.com/denondj/legacy/sc2900/sc2900em-om-20130513-owners-manual-en.pdf) |
 | Denon DJ SC5000 PRIME | primary | partial-midi-profile | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
 | Denon DJ SC5000M PRIME | primary | partial-midi-profile | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |
 | Denon DJ SC6000 PRIME | primary | partial-midi-profile | [Reference](https://support.denondj.com/en/support/solutions/articles/69000867689-engine-dj-hardware-supported-streaming-services) |

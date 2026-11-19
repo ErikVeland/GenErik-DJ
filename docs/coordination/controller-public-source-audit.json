@@ -2311,6 +2311,93 @@
         }
       ],
       "result": "Independent77-input NVII and45-input GO+ manual subsets, plus108-input/18-lamp automatic DP2 core.298 source/12 native checks and iPad framework compilation pass. All317 earlier recipes remain identical. Full theoretical, audio/OS and physical acceptance remain open."
+    },
+    {
+      "request": "R417",
+      "sources": [
+        {
+          "model": "Denon DJ SC2900",
+          "url": "https://cdn.inmusicbrands.com/denondj/legacy/sc2900/sc2900em-om-20130513-owners-manual-en.pdf",
+          "sha256": "75a523cdb6a9fb37ad5df544391aa52d74089603bd6f683e9e1c4f1f92fedc2e",
+          "cacheName": "sc2900-manual.pdf",
+          "pages": [
+            41,
+            42,
+            43
+          ],
+          "visuallyReviewedPages": [
+            42
+          ],
+          "review": "Own Normal-mode MIDI table independently qualifies pressure64 transport, four normal and four MIDI Bank2 Hot Cue addresses, key adjust, Sync107 and zeroForward library. Native keeps those fixed functions; hardware Shift/Shift Lock/MIDI Bank reports retire owned contacts rather than importing Hybrid/DVS or Shift software actions. Pitch CC122/123, three contact/jog families and3600-pulse calibration, full feedback/displays/state/lifecycle/audio/OS and physical acceptance remain open."
+        },
+        {
+          "model": "Denon DJ S3900",
+          "url": "https://cdn.inmusicbrands.com/denondj/legacy/sc3900/sc3900em-om-20130513-en.pdf",
+          "sha256": "05e2900187c9fb22ad7b69d7bb747443b3bb4159b702adbd637218bfc7210d58",
+          "cacheName": "sc3900-manual.pdf",
+          "pages": [
+            38,
+            39,
+            40
+          ],
+          "visuallyReviewedPages": [
+            39
+          ],
+          "review": "Own SC3900 Normal-mode MIDI table independently qualifies pressure64 transport, four normal and four MIDI Bank2 Hot Cue addresses, key adjust, Sync107 and zeroForward library. The catalogue retains its S3900 name and explicit SC3900 aliases. Native does not inherit SC2900 contact streams: SC3900 has separate motor/jog pulse-width reports. Motors, Hybrid/DVS, pitch CC122/123, scratch pulse calibration, complete feedback/displays/state/lifecycle/audio/OS and physical acceptance remain open."
+        },
+        {
+          "model": "Denon DJ S3700",
+          "url": "https://cdn.inmusicbrands.com/denondj/legacy/dns3700/dns3700-midi-command-list.pdf",
+          "sha256": "54e5b974b7a60dd7050fa6ac4a2d76f8aff1a0ef32b7d28e4649d567baf3cbaa",
+          "cacheName": "s3700-midi.pdf",
+          "pages": [
+            1,
+            2
+          ],
+          "visuallyReviewedPages": [
+            1,
+            2
+          ],
+          "relatedSources": [
+            {
+              "url": "https://cdn.inmusicbrands.com/denondj/legacy/dns3700/dns3700_ownersmanual.zip",
+              "member": "DNS3700_ownersmanual_english.pdf",
+              "memberSHA256": "484e15503bb8d1a248e2ef32b450232dafd9f812251b696dec509fde894a4c79"
+            }
+          ],
+          "review": "Own command table qualifies pressure64 transport, three Hot Cues, separate Auto Loop Set/Exit, Key Adjust6 and zeroForward library. Native Auto Loop Set uses app loop behaviour; Exit disables it. Jog/scratch CC81 and platter CC86 are separate1480-pulse streams and are not conflated. Its own manual defaults MIDI channel1 with1..6 selection. Native accepts the table channel envelope0..15 without inferring motor, Hybrid/DVS, pitch direction/calibration, full modes/displays/feedback/lifecycle/audio/OS or physical acceptance."
+        },
+        {
+          "model": "Denon DJ S1200",
+          "url": "https://cdn.inmusicbrands.com/denondj/legacy/dns1200/DN-S1200_midicommandlist.pdf",
+          "sha256": "9ca1ff5d73419b7ef8894fafd247a9752d121638651547cdac64bb6a06b31536",
+          "cacheName": "s1200-midi.pdf",
+          "pages": [
+            1,
+            2
+          ],
+          "visuallyReviewedPages": [
+            1
+          ],
+          "relatedSources": [
+            {
+              "url": "https://cdn.inmusicbrands.com/denondj/legacy/dns1200/DN-S1200_ownersmanual.zip",
+              "member": "DN-S1200_ownersmanual_english.pdf",
+              "memberSHA256": "1f2591b4bd0ddb92ca590a8fa0717fe45188d0c06ca0b68635933709f9835a51"
+            }
+          ],
+          "review": "Own command table qualifies pressure64 transport, A1 loop In/B loop Out/Exit-Reloop, held bends and zeroForward library. Its own manual defaults MIDI channel1 with1..6 selection. Native accepts the table channel envelope0..15 and does not invent Hot Cues, a separate Sync button or an independent key-lock meaning for combined Pitch/KEY5. A2/Flip, contact/jog/pitch calibration, FX, complete displays/feedback/state/lifecycle/audio/OS and physical acceptance remain open."
+        }
+      ],
+      "otherProtocolFindings": [
+        {
+          "model": "Denon DJ HD2500",
+          "url": "https://cdn.inmusicbrands.com/denondj/legacy/dnhd2500/DN-HD2500-MIDI-command-list.pdf",
+          "sha256": "a84b3ff9e23cd3acd010ef42a0e8fdf8b6aefca65468cd761baad289b8ddcfee",
+          "review": "Public primary web text is readable, but local Poppler and Quartz renders lose the command-table font. Original owner manual and firmware addendum do not yet establish a complete USB MIDI mode/channel contract. Remains a separate gap; no S1200 or HC4500 inheritance."
+        }
+      ],
+      "result": "Four independent automatic normal-MIDI single-player cores: SC2900/SC390021 inputs each, S370016 and S120010. Player-local mode reports follow the currently assigned deck.300 source/19 native checks and iPad framework compilation pass. All320 earlier recipes remain identical. Full motion/motor/Hybrid/DVS/modes/feedback/audio/OS and physical acceptance remain open."
     }
   ]
 }
