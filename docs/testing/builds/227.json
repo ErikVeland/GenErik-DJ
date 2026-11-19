@@ -13,6 +13,13 @@
       "report": "Erik reported a complete iPad app freeze that had lasted eight minutes and continued. Trigger: tapping Deck B album art to find a matching track for Da Hool Love Parade. Audio state remains unconfirmed.",
       "investigation": "Installed build 227 confirmed through device app inventory. Process 850 present. Time Profiler attached, but trace finalisation stalled. App-file and later process requests timed out. No cause or fix confirmed. Evidence: TestBuilds/r428/.",
       "status": "open"
+    },
+    {
+      "date": "2026-11-19",
+      "request": "R428",
+      "report": "Home button returned to Home. USB connected. Crash report retrieved for process 850, build 227.",
+      "evidence": "GenErikDJ-2026-11-19-214253.ips: scene-update watchdog termination at 21:42:52 Brisbane. Main thread in ObservationRegistrar.State.cancel through browserPresentationID.setter and showSuggestions. Audio continuity remains unconfirmed.",
+      "status": "blocking; candidate under verification"
     }
   ],
   "log": "TestBuilds/ipad/build-227.log",

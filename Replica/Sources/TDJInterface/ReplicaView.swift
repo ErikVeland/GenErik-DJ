@@ -30,6 +30,7 @@ private let surface = PerformancePalette.panel
     private var upper: DeckID { fourDecks ? upperDeck : .a }
     private var lower: DeckID { fourDecks ? lowerDeck : .b }
     @State private var libraryPanel = LibraryPanelState()
+    @State private var browserPresentationID = UUID()
     @State private var deckSplit = DeckSplitState()
     @State private var touchInterruption = UUID()
     @State private var sectionEdit: (deck: DeckID, identity: SectionEditIdentity)?
@@ -283,7 +284,7 @@ private let surface = PerformancePalette.panel
                             HStack(spacing: 0) {
                                 TouchPanelHandle(
                                     presented: libraryPanel.extent > 0, maximumExtent: libraryPanel.maximumExtent,
-                                    presentationID: model.browserPresentationID,
+                                    presentationID: browserPresentationID,
                                     toggle: {
                                         libraryPanel.setPresented(libraryPanel.extent == 0)
                                         model.browserVisible = libraryPanel.extent > 0
@@ -337,7 +338,8 @@ private let surface = PerformancePalette.panel
                                 libraryPanel.updateViewport(
                                     width: space.size.width, height: space.size.height, presented: model.browserVisible,
                                     handleExtent: value)
-                            }.onChange(of: model.browserPresentationID) { _, _ in
+                            }.onReceive(model.browserPresentationRequests) { request in
+                                browserPresentationID = request
                                 libraryPanel.present(fullyExpanded: model.browserPresentationExpands)
                                 model.browserVisible = libraryPanel.extent > 0
                             }.onChange(of: model.browserVisible) { _, visible in libraryPanel.setPresented(visible) }

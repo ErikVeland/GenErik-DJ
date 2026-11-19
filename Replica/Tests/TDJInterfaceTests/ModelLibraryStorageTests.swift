@@ -186,3 +186,30 @@ private func waitForQueuedStorageRetirement() async { await drainQueuedBackgroun
     #expect(model.musicLibraryCatalog == nil)
     await model.finishForShutdown()
 }
+
+@Test @MainActor func browserPresentationDoesNotUseTheSharedModelRegistrar() async throws {
+    let (model, root) = try storageModel()
+    defer { try? FileManager.default.removeItem(at: root) }
+    let shared = StorageNotificationCounter()
+    let browser = StorageNotificationCounter()
+    withObservationTracking {
+        model.access(keyPath: \.browserPresentationID)
+    } onChange: { shared.increment() }
+    let subscription = model.browserPresentationRequests.sink { _ in browser.increment() }
+    defer { subscription.cancel() }
+    let first = model.browserPresentationID
+    model.showLibrary(fullyExpanded: true)
+    #expect(shared.value == 0)
+    #expect(browser.value == 1)
+    #expect(model.browserPresentationID != first)
+    #expect(model.browserVisible && model.browserPresentationExpands)
+    let second = model.browserPresentationID
+    model.showSuggestions(destination: .b)
+    #expect(model.browserPresentationID != second)
+    #expect(browser.value == 2)
+    #expect(model.suggestionDestination == nil)
+    #expect(model.browserVisible && model.browserPresentationExpands)
+    model.browserVisible = false
+    #expect(!model.browserVisible)
+    await model.finishForShutdown()
+}

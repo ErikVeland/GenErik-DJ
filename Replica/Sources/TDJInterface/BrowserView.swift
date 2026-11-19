@@ -184,7 +184,7 @@ struct BrowserView: View {
         }.onChange(of: playlists) { _, _ in collectionVersion = UUID() }.onChange(of: model.browserHintsVersion) {
             _, _ in
             collectionVersion = UUID()
-        }.onChange(of: model.browserPresentationID) { _, _ in
+        }.onReceive(model.browserPresentationRequests) { _ in
             open(.songs)
             if model.suggestionDestination != nil {
                 detailTab = .match

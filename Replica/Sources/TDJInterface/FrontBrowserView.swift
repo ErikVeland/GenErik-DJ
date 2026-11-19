@@ -162,9 +162,9 @@ struct FrontBrowserView: View {
                 configureColumns(width: browserWidth)
             }.onChange(of: portrait) { _, _ in configureColumns(width: browserWidth) }.onChange(of: touchInterruption) {
                 _, _ in cancelColumnDrags()
-            }.onChange(of: scenePhase) { _, phase in if phase != .active { cancelColumnDrags() } }.onChange(
-                of: model.browserPresentationID
-            ) { _, _ in handleBrowserPresentation() }.task(id: recommendationKey) { await refreshRecommendations() }
+            }.onChange(of: scenePhase) { _, phase in if phase != .active { cancelColumnDrags() } }.onReceive(model.browserPresentationRequests) { _ in
+                handleBrowserPresentation()
+            }.task(id: recommendationKey) { await refreshRecommendations() }
             .onDisappear {
                 playlistSave.cancel()
                 cancelColumnDrags()
