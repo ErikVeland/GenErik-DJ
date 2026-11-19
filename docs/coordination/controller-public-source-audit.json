@@ -2085,6 +2085,32 @@
         }
       ],
       "result": "Independent automatic48-control normal-layer cores with30 alternate release guards and16 owned lamps each. Source-local channel observation resets pickup and held controls on qualified Shift wire changes.290 source/22 native checks and iPad framework compilation pass. All308 earlier recipes remain identical. Jog/tempo calibration, full modes/audio/lifecycle and physical acceptance remain open."
+    },
+    {
+      "request": "R412",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "model": "Pioneer DJM-TOUR1",
+          "url": "https://downloads.support.alphatheta.com/manuals/DJM_TOUR1_DJM_TOUR1_MIDI_Message_e_v100_addendum/",
+          "sha256": "99e99068f1f9149a35687e08aee862fdbd58f13965e010975bcaad3a86769eb5",
+          "version": "1.00",
+          "pages": [
+            2,
+            3,
+            4
+          ],
+          "visuallyReviewedPages": [
+            2,
+            3,
+            4
+          ],
+          "supportURL": "https://support.alphatheta.com/en-US/articles/21934589697945",
+          "acquisition": "The current support page links the public MIDI addendum. Direct curl returned404, but the browser document viewer displayed all four pages and its Download button supplied the pinned PDF. No account, EULA or private SDK was required.",
+          "review": "Independent manufacturer table qualifies32 selected controls on manually chosen channel1 with BUTTON TYPE TOGGLE. Primary PFL is CC70..73, not the separate second-headphone Note1..4. All four strips have their own explicit gain/three-band EQ/Color/level addresses. Master24, primary headphone level26/blend27 and crossfader11 are seven-bit absolute app controls. Each of24 source-selector Note messages resets pickup only on its own source and strip when the new source reports127. Footnote2 explicitly sends old selection OFF/new selection ON. C/D require opt-in. Separate headphone bus, hardware audio ownership, touchscreen/PRO DJ LINK, source/audio routing, effects, physical taper/calibration, full feedback/lifecycle and physical/iPad/A10X acceptance remain open. No sibling table, stored-setting write, hardware output or automatic audio route is inferred."
+        }
+      ],
+      "result": "Independent manual32-input TOUR1 primary-bus mixer with24 positive input-selector pickup reset messages.292 source/17 native checks and iPad framework compilation pass. All310 earlier recipes remain identical. V5 own MIDI FAQ points to its Software Information section, which currently lists no MIDI table; the V5 protocol gap remains open."
     }
   ]
 }

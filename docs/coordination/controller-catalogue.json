@@ -16750,72 +16750,6 @@
       }
     },
     {
-      "id": "pioneerdjmtour1",
-      "name": "Pioneer DJ DJM-TOUR1",
-      "manufacturer": "Pioneer",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://www.algoriddim.com/hardware/djmtour1"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "djay": {
-          "sourceName": "Pioneer DJ DJM-TOUR1",
-          "platforms": [
-            "mac",
-            "win"
-          ],
-          "limitations": [],
-          "source": "https://www.algoriddim.com/hardware/djmtour1"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
       "id": "pioneeropusquad",
       "name": "Pioneer DJ OPUS-QUAD",
       "manufacturer": "Pioneer",
@@ -18458,6 +18392,110 @@
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
         "Dual crossfader attenuation wires are not a qualified single position and stay inactive. Native Hot Cue delete, sampler/FX/LFO, other Shift/Advanced Shift functions, complete mode handling/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "pioneerdjmtour1",
+      "name": "Pioneer DJM-TOUR1",
+      "manufacturer": "Pioneer",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://downloads.support.alphatheta.com/manuals/DJM_TOUR1_DJM_TOUR1_MIDI_Message_e_v100_addendum/",
+        "https://www.algoriddim.com/hardware/djmtour1"
+      ],
+      "definitions": [
+        "manufacturer:pioneerdjmtour1"
+      ],
+      "implementation": "partial-midi-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer DJM-TOUR1",
+      "automaticControls": false,
+      "comparisonSupport": {
+        "djay": {
+          "sourceName": "Pioneer DJ DJM-TOUR1",
+          "platforms": [
+            "mac",
+            "win"
+          ],
+          "limitations": [],
+          "source": "https://www.algoriddim.com/hardware/djmtour1"
+        }
+      },
+      "controlActions": [
+        "crossfader",
+        "cueMix",
+        "cueStateA:a",
+        "cueStateA:c",
+        "cueStateB:b",
+        "cueStateB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor"
+      ],
+      "inputBindingCount": 32,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manually select MIDI channel1 and BUTTON TYPE TOGGLE. Enable MIDI transmission. Use separate app audio. Physical CH1-4 map to A-D; C/D require opt-in. Only the primary headphone controls are mapped."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "partial",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Manual channel1/TOGGLE only; no factory setting is inferred. Second headphone bus, full touchscreen/PRO DJ LINK/FX/microphone/AUX/curve controls, hardware/software audio ownership, external deck routing, physical taper/calibration, complete feedback/lifecycle and physical/iPad/A10X acceptance remain open. No setting, output, sibling protocol or audio route is written.",
         "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
@@ -351509,6 +351547,41 @@
         },
         {
           "reason": "Jog/touch/tempo calibration, dedicated Sync, complete Shift/FX/kill/pad and configurable channel modes, display/meters, complete lifecycle/audio routing and physical/iPad/A10X acceptance remain open. Shift alone does not select an app layer; the next qualified wire change clears held controls/pickup. No stored preset, firmware, source mapping action or automatic audio route is written."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneerdjmtour1",
+      "name": "Pioneer DJM-TOUR1",
+      "transport": "midi",
+      "source": {
+        "url": "https://downloads.support.alphatheta.com/manuals/DJM_TOUR1_DJM_TOUR1_MIDI_Message_e_v100_addendum/",
+        "sha256": "99e99068f1f9149a35687e08aee862fdbd58f13965e010975bcaad3a86769eb5",
+        "version": "1.00",
+        "pages": [
+          2,
+          3,
+          4
+        ],
+        "visuallyReviewedPages": [
+          2,
+          3,
+          4
+        ],
+        "supportURL": "https://support.alphatheta.com/en-US/articles/21934589697945",
+        "acquisition": "The current support page links the public MIDI addendum. Direct curl returned404, but the browser document viewer displayed all four pages and its Download button supplied the pinned PDF. No account, EULA or private SDK was required.",
+        "review": "Independent manufacturer table qualifies32 selected controls on manually chosen channel1 with BUTTON TYPE TOGGLE. Primary PFL is CC70..73, not the separate second-headphone Note1..4. All four strips have their own explicit gain/three-band EQ/Color/level addresses. Master24, primary headphone level26/blend27 and crossfader11 are seven-bit absolute app controls. Each of24 source-selector Note messages resets pickup only on its own source and strip when the new source reports127. Footnote2 explicitly sends old selection OFF/new selection ON. C/D require opt-in. Separate headphone bus, hardware audio ownership, touchscreen/PRO DJ LINK, source/audio routing, effects, physical taper/calibration, full feedback/lifecycle and physical/iPad/A10X acceptance remain open. No sibling table, stored-setting write, hardware output or automatic audio route is inferred."
+      },
+      "implementedInputCount": 32,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual channel1/TOGGLE only; no factory setting is inferred. Second headphone bus, full touchscreen/PRO DJ LINK/FX/microphone/AUX/curve controls, hardware/software audio ownership, external deck routing, physical taper/calibration, complete feedback/lifecycle and physical/iPad/A10X acceptance remain open. No setting, output, sibling protocol or audio route is written."
         }
       ]
     },

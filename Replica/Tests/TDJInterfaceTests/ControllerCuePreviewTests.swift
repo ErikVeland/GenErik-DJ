@@ -2897,3 +2897,13 @@ func controllerCatalogueLegacyUSBTransportCueAndManualLoopsKeepRealAudioSync(_ n
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueDJMTour1PrimaryMixerKeepsRealAudioAndSavedSync()async throws{
+    try await withControllerCuePlayback("Pioneer DJM-TOUR1",manual:true){model,input in
+        model.pressPlay(deck:.a,vinylStop:false)
+        cuePreviewPacket([0xB0,1,64,2,64,3,64,4,64,5,64,17,64,70,127,70,0,24,64,26,64,27,64,11,64],to:input)
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}

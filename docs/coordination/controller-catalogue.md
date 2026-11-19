@@ -11,7 +11,7 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 561 total catalogue records. 554 name physical models. The remainder identify software endpoints or protocol families.
-- 310 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 311 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 200 factory profiles select core controls automatically for 208 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - 340 physical models still lack automatic core controls.
@@ -228,8 +228,8 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 112 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 206 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 113 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 205 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -413,7 +413,6 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Pioneer DDJ-WeGO2 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-WeGO2/DDJWeGO2ListofMIDIMessageVirtualDJE.pdf) |
 | Pioneer DDJ-WeGO4 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-WeGO4/DDJ-WeGO4_List_of_MIDI_Message_E.pdf) |
 | Pioneer DDJ-XP1 | accessory | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-XP1/DDJ-XP1_List_of_MIDI_Message_E1.pdf) |
-| Pioneer DJ DJM-TOUR1 | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware/djmtour1) |
 | Pioneer DJM-2000 | accessory | partial-midi-profile | [Reference](https://static.bhphoto.com/lit_files/88476.pdf) |
 | Pioneer DJM-2000NXS | accessory | partial-midi-profile | [Reference](https://www.dimmer.fr/wp-content/uploads/2022/01/Pioneer-DJM-2000-Nexus-Manual-DE-EN-FR.pdf) |
 | Pioneer DJM-250MK2 | accessory | partial-midi-profile | [Reference](https://manuals.plus/m/e7d4bd85474a10aedc2c4ddd9809d56bd9707b753a45cf73bd7b831a2da23594) |
@@ -427,6 +426,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Pioneer DJM-S3 | accessory | partial-midi-profile | [Reference](https://dwn.alza.cz/manual/61365) |
 | Pioneer DJM-S9 | accessory | partial-midi-profile | [Reference](https://downloads.support.alphatheta.com/midi-mapping/dj-mixers/DJM-S9/DJM-S9_List_of_MIDI_Message_E.pdf) |
 | Pioneer DJM-T1 | primary | partial-midi-profile | [Reference](https://downloads.support.alphatheta.com/manuals/dj-mixers/DJM-T1/DJM-T1_DRB1610_manual.pdf) |
+| Pioneer DJM-TOUR1 | accessory | partial-midi-profile | [Reference](https://downloads.support.alphatheta.com/manuals/DJM_TOUR1_DJM_TOUR1_MIDI_Message_e_v100_addendum/) |
 | Pioneer DJM-V10 | accessory | partial-midi-profile | [Reference](https://raw.githubusercontent.com/heronarts/LX/a950c548db00b1d3b72db3b5ac4a80f2b8519415/src/main/java/heronarts/lx/midi/surface/DJMV10.java) |
 | Pioneer DJM-V10-LF | accessory | partial-midi-profile | [Reference](https://blt-guide.deepsymmetry.org/beat-link-trigger/next/_attachments/ExtendedOnAirV10.bls) |
 | Pioneer MEP-7000 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/manuals/dj-players/MEP-7000/MEP-7000_DRB1467B_manual.pdf) |
