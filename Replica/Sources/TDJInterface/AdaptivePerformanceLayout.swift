@@ -149,3 +149,14 @@ struct PerformanceToolsPanelState {
         isVisible = horizontal < 0
     }
 }
+
+struct WideDeckLayout {
+    static let gap = 6.0
+    static let minimumDeckWidth = 540.0
+    static let minimumDeckHeight = 332.0
+
+    static func fits(width: Double, height: Double) -> Bool {
+        width.isFinite && height.isFinite
+            && width >= 2 * minimumDeckWidth + gap && height >= 2 * minimumDeckHeight + gap
+    }
+}
