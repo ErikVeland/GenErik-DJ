@@ -781,7 +781,9 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         shiftLayers[source] = nil
         channelShiftLayers[source] = nil
         resetInputValueStates(inputBindings(source: source))
-        if inputProtocol(for: source) == .nanoKontrolScene {
+        if inputProtocol(for: source) == .launchControlTemplate {
+            status = ready ? "Controller template ready." : "Reading the controller template. Select a User template if setup does not finish."
+        } else if inputProtocol(for: source) == .nanoKontrolScene {
             status = ready ? "Controller scene ready." : "Reading the controller scene. Reconnect if setup does not finish."
         } else {
             status = ready ? "Controller ready." : "Controller left its MIDI mode. Reconnect to continue."

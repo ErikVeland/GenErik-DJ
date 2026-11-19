@@ -42491,68 +42491,6 @@
       }
     },
     {
-      "id": "novationlaunchcontrol",
-      "name": "Novation LAUNCH CONTROL",
-      "manufacturer": "Novation",
-      "role": "accessory",
-      "benchmark": false,
-      "sources": [
-        "https://virtualdj.com/products/hardware.html?model=LAUNCHCTRL"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "virtualDJ": {
-          "sourceName": "Novation LAUNCH CONTROL",
-          "category": "Addon Units (FX,Pads,..)",
-          "source": "https://virtualdj.com/products/hardware.html?model=LAUNCHCTRL"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
       "id": "novationlaunchpads",
       "name": "Novation LAUNCHPAD S",
       "manufacturer": "Novation",
@@ -42606,6 +42544,113 @@
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
         "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "novationlaunchcontrol",
+      "name": "Novation Launch Control",
+      "manufacturer": "Novation",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/launch-control-programmers-reference-guide.pdf",
+        "https://virtualdj.com/products/hardware.html?model=LAUNCHCTRL"
+      ],
+      "definitions": [
+        "manufacturer:launch-control-user-template-reader"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Novation Launch Control",
+      "automaticControls": true,
+      "comparisonSupport": {
+        "virtualDJ": {
+          "sourceName": "Novation LAUNCH CONTROL",
+          "category": "Addon Units (FX,Pads,..)",
+          "source": "https://virtualdj.com/products/hardware.html?model=LAUNCHCTRL"
+        }
+      },
+      "controlActions": [
+        "browseNext",
+        "browsePrevious",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "openGroup",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "shift"
+      ],
+      "inputBindingCount": 40,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Native temporarily selects User template1 and reads its existing assignments. Other User templates are read on selection. Factory templates suspend native input. Close other editors. Existing raw mappings take priority. No stored preset is changed."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Physical-position app functions use only unambiguous seven-bit knobs and momentary Note/CC buttons. Toggle/constant/duplicate/unsupported controls and Factory templates stay inactive. Full modes/feedback/timeout recovery, prior-template restoration and physical/iPad/A10X acceptance remain open. No stored data, firmware, DAW script, private SDK or audio route is written."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -354964,6 +355009,40 @@
         },
         {
           "reason": "This is an app layout following each published surface diagram. Complete modes, Shift functions, feature controls, screen/labels, remaining LEDs, saved-state restoration and physical/iPad/A10X acceptance remain open. Only explicitly matched DAW ports are enabled. No custom template, DAW script, private SDK, non-volatile setting, DIN route or audio route is written. Mode exit is best effort, not restoration of arbitrary previous state."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:launch-control-user-template-reader",
+      "name": "Novation Launch Control",
+      "transport": "midi",
+      "source": {
+        "url": "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/launch-control-programmers-reference-guide.pdf",
+        "sha256": "759108827d49557ae41fe4add63d767bfde46378f07b19707b3133cab453f659",
+        "pages": [
+          2,
+          6,
+          7
+        ],
+        "visuallyReviewedPages": [
+          7
+        ],
+        "editorURL": "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/novation/downloads/10773/novation-launch-control-editor.dmg",
+        "editorSHA256": "684dae96016739b795f88fb82edaa21761f7e9783d5c994f1d3510f3fe76482d",
+        "editorMember": "Novation Launch Control Editor/Novation Launch Control Editor.app/Contents/Resources/web/js/editor.js",
+        "editorMemberSHA256": "797a28925f07420d13839d8f91e29aca38f91e892128f817b19d682119e53e7b",
+        "review": "Original product10 programmer guide provides temporary template selection and template-change notifications. Public manufacturer editor source independently provides User-template read query121,177-byte reply119,16 knob and12 button six-byte records, configured channels/ranges/types and reserved fields. Only independent wire facts were read. The editor and downloaded actions were not executed or copied. Native selects User0 and reads stored data without a stored-template write/reset. Duplicate wires, constant ranges, toggle buttons, unsupported reserved data and Factory templates remain inactive. Existing raw mappings take priority. This is a native physical-position layout, not a manufacturer DJ mapping. Full Factory/feedback/lifecycle/timeout/state and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 40,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Physical-position app functions use only unambiguous seven-bit knobs and momentary Note/CC buttons. Toggle/constant/duplicate/unsupported controls and Factory templates stay inactive. Full modes/feedback/timeout recovery, prior-template restoration and physical/iPad/A10X acceptance remain open. No stored data, firmware, DAW script, private SDK or audio route is written."
         }
       ]
     }

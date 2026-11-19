@@ -1856,6 +1856,31 @@
         }
       ],
       "result": "Independent25/54-input automatic DAW cores,24/36 feedback bindings, strict paired ports, temporary setup/exit and source-local mode/Shift cleanup.276 source/38 native checks and iPad framework compilation pass. All299 earlier recipes remain identical. Full theoretical support and physical acceptance remain open."
+    },
+    {
+      "request": "R406",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "model": "Novation Launch Control",
+          "url": "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/launch-control-programmers-reference-guide.pdf",
+          "sha256": "759108827d49557ae41fe4add63d767bfde46378f07b19707b3133cab453f659",
+          "pages": [
+            2,
+            6,
+            7
+          ],
+          "visuallyReviewedPages": [
+            7
+          ],
+          "editorURL": "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/novation/downloads/10773/novation-launch-control-editor.dmg",
+          "editorSHA256": "684dae96016739b795f88fb82edaa21761f7e9783d5c994f1d3510f3fe76482d",
+          "editorMember": "Novation Launch Control Editor/Novation Launch Control Editor.app/Contents/Resources/web/js/editor.js",
+          "editorMemberSHA256": "797a28925f07420d13839d8f91e29aca38f91e892128f817b19d682119e53e7b",
+          "review": "Original product10 programmer guide provides temporary template selection and template-change notifications. Public manufacturer editor source independently provides User-template read query121,177-byte reply119,16 knob and12 button six-byte records, configured channels/ranges/types and reserved fields. Only independent wire facts were read. The editor and downloaded actions were not executed or copied. Native selects User0 and reads stored data without a stored-template write/reset. Duplicate wires, constant ranges, toggle buttons, unsupported reserved data and Factory templates remain inactive. Existing raw mappings take priority. This is a native physical-position layout, not a manufacturer DJ mapping. Full Factory/feedback/lifecycle/timeout/state and physical/iPad/A10X acceptance remain open."
+        }
+      ],
+      "result": "Original40-input automatic configured-template core. Bounded177-byte read, unambiguous wires/ranges, momentary buttons, source-owned template/Shift cleanup and raw mapping priority.278 source/50 native checks and iPad framework compilation pass. All301 earlier recipes remain identical. Full Factory/feedback/timeout and physical acceptance remain open."
     }
   ]
 }

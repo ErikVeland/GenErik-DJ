@@ -20,6 +20,7 @@ import Testing
     ]
     input.reconcileFactoryProfiles()
     if name == "AlphaTheta XDJ-AN" { input.receiveBytes([0xB0, 100, 127, 0xB1, 100, 127], source: 10) }
+    if name == "Novation Launch Control" { input.receiveBytes(launchControlTemplateFixture(), source: 10) }
     try body(input)
 }
 
@@ -56,7 +57,7 @@ import Testing
             }
         }
     }
-    #expect(covered == 170)
+    #expect(covered == 171)
 }
 
 @Test @MainActor func controllerCataloguePioneerPlayerCueReassignmentReleasesThePreviousDeck() throws {

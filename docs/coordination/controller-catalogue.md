@@ -11,10 +11,10 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 561 total catalogue records. 554 name physical models. The remainder identify software endpoints or protocol families.
-- 301 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 195 factory profiles select core controls automatically for 203 physical models.
+- 302 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 196 factory profiles select core controls automatically for 204 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
-- 345 physical models still lack automatic core controls.
+- 344 physical models still lack automatic core controls.
 - 554 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -223,13 +223,13 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 17 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 197 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 198 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
 | partial-midi-profile | 108 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 215 | The pinned references contain no implemented mapping for this model. |
+| protocol-needed | 214 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -666,8 +666,8 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Native Instruments Traktor Kontrol Z1 Mk2 | primary | linux-bridge | [Reference](../../docs/coordination/controller-coverage.md) |
 | Native Instruments Traktor Kontrol Z2 | primary | linux-bridge | [Reference](../../docs/coordination/controller-coverage.md) |
 | Native Instruments Traktor MX2 | primary | linux-bridge | [Reference](../../docs/coordination/controller-coverage.md) |
-| Novation LAUNCH CONTROL | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=LAUNCHCTRL) |
 | Novation LAUNCHPAD S | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=LAUNCHPADS) |
+| Novation Launch Control | accessory | automatic-core-profile | [Reference](https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/launch-control-programmers-reference-guide.pdf) |
 | Novation Launch Control 3 | accessory | automatic-core-profile | [Reference](https://fael-downloads-prod.focusrite.com/customer/prod/downloads/launch_control_3_programmer_s_reference_guide.pdf) |
 | Novation Launch Control XL | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=LAUNCHCTRLXL) |
 | Novation LaunchControl XL3 | accessory | automatic-core-profile | [Reference](https://fael-downloads-prod.focusrite.com/customer/prod/downloads/launch_control_xl_3_programmer_s_reference_guide-pdf_en.pdf) |
