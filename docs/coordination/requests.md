@@ -800,3 +800,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R484 | Reviewed; bin-state protocol remains open | Correct QUARK Shift/Smart Cue provenance | Corrected the clear-wire label. All405 recipes retain their controls. Two targeted source/five native checks and iPad framework compilation pass. [Scope](controller-coverage.md#r484-quark-shift-is-not-a-clear-opcode). |
 
 | R485 | Implemented; full modes/physical gaps open | Add CMD STUDIO4a held-DEL Hot Cue clearing | Added32 clears behind the existing side-specific DEL hold.449 source/13 native checks and iPad framework compilation pass. Earlier124 inputs and404 other recipes remain identical. [Scope](controller-coverage.md#r485-studio4a-held-del-clearing). |
+
+| R486 | Implemented; full modes/physical gaps open | Add own-source clearing to built-in FLX4 and DDJ-400 profiles | Added16 clears and32 paired negative aliases per model.450 source/37 native checks and iPad framework compilation pass. All405 JSON recipes remain byte-identical. [Scope](controller-coverage.md#r486-built-in-flx4-and-ddj-400-clears). |

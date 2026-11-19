@@ -3916,3 +3916,26 @@ func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+
+@Test @MainActor func controllerBuiltinPioneerClearsDeleteWithoutMovingRealPlaybackOrSavedSync() async throws {
+    for name in ["DDJ-FLX4","DDJ-400"] {
+        try await withControllerCuePlayback(name) { model,input in
+            let track=try #require(model.track(.a))
+            model.performance.cues[track.id]=[0:.init(frame:0),1:.init(frame:100)]
+            model.pressPlay(deck:.a,vinylStop:false)
+            _ = model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+            try #require(model.playbackSnapshot?.a.phase.active == true)
+            let before=try #require(model.playbackSnapshot?.a.sourceFrame)
+            cuePreviewPacket([0x88,0,127],to:input)
+            #expect(model.performance.cues[track.id]?[0] != nil)
+            cuePreviewPacket([0x90,63,127,0x98,0,127,0x80,63,127,0x87,0,127],to:input)
+            model.refreshPlayback()
+            #expect(model.performance.cues[track.id]?[0] == nil && model.performance.cues[track.id]?[1] != nil)
+            #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1)-before)<=1)
+            let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        }
+    }
+}

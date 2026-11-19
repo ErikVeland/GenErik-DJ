@@ -43,12 +43,13 @@ extension ControllerMIDIConnection {
         var profile = ddjFLX4BasicBindings(source: source).filter { $0.action != .shift }
         func binding(
             _ action: ControllerAction, _ kind: ControllerMIDIMessage.Kind, _ channel: UInt8, _ number: UInt8,
-            _ encoding: ControllerMIDIEncoding = .absolute, shifted: Bool = false
+            _ encoding: ControllerMIDIEncoding = .absolute, shifted: Bool = false,
+            layerIndependent: Bool? = nil, releaseOnly: Bool? = nil
         ) -> ControllerBinding {
             .init(
                 source: source, group: 0, channel: channel, kind: kind, number: number,
                 parameter: nil, noteNumber: nil, action: action, encoding: encoding,
-                inverted: false, shifted: shifted)
+                inverted: false, shifted: shifted, layerIndependent: layerIndependent, releaseOnly: releaseOnly)
         }
         for channel in UInt8(0)...1 {
             let a = channel == 0
@@ -72,6 +73,34 @@ extension ControllerMIDIConnection {
             binding(.openGroup, .note, 6, 65),
             binding(.loadA, .note, 6, 70), binding(.loadB, .note, 6, 71),
         ]
+        /**
+         * Both own-model mappings use separate clear channels for the eight Hot Cue pads.
+         */
+        let padActions: [(UInt8, [ControllerAction], [ControllerAction])] = [
+            (
+                7, [.hotcue1A, .hotcue2A, .hotcue3A, .hotcue4A, .hotcue5A, .hotcue6A, .hotcue7A, .hotcue8A],
+                [
+                    .clearHotcue1A, .clearHotcue2A, .clearHotcue3A, .clearHotcue4A, .clearHotcue5A, .clearHotcue6A,
+                    .clearHotcue7A, .clearHotcue8A,
+                ]
+            ),
+            (
+                9, [.hotcue1B, .hotcue2B, .hotcue3B, .hotcue4B, .hotcue5B, .hotcue6B, .hotcue7B, .hotcue8B],
+                [
+                    .clearHotcue1B, .clearHotcue2B, .clearHotcue3B, .clearHotcue4B, .clearHotcue5B, .clearHotcue6B,
+                    .clearHotcue7B, .clearHotcue8B,
+                ]
+            ),
+        ]
+        for (channel, cues, clears) in padActions {
+            for slot in 0..<8 {
+                profile += [
+                    binding(clears[slot], .note, channel + 1, UInt8(slot), layerIndependent: true),
+                    binding(cues[slot], .note, channel + 1, UInt8(slot), layerIndependent: true, releaseOnly: true),
+                    binding(clears[slot], .note, channel, UInt8(slot), layerIndependent: true, releaseOnly: true),
+                ]
+            }
+        }
         return profile
     }
 

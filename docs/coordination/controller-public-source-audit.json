@@ -5724,6 +5724,45 @@
         }
       ],
       "result": "Added32 clear bindings at existing own pad wires behind the native physical-side DEL hold. The pinned mapper explicitly calls hotcue_clear while DEL is held. Native retains its earlier source-local A/C and B/D hold guard rather than copying the source global delPushed flag, latched DEL state or timer callbacks. Every earlier124 input and output/setup/audio/alias remains unchanged;404 other recipes remain identical.449 source/13 native checks and iPad framework compilation pass. Checks cover all32 pads, both negative forms, debounce, modifier release before pad release, source/group and physical-side isolation, C/D opt-in, earlier Cue/jog/pitch/lifecycle regressions and real-WAV marker deletion without position/Sync/active-playback changes. Full latched modes, lifecycle/host/audio and physical acceptance remain open. No script, timer or source engine mutation executes."
+    },
+    {
+      "request": "R486",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "model": "DDJ-FLX4",
+          "path": "res/controllers/Pioneer-DDJ-FLX4.midi.xml",
+          "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer-DDJ-FLX4.midi.xml",
+          "git_blob": "6c5aa30c90160a8d28fb41249624607a2a1951d4",
+          "sha256": "7d84a58391b71a9c3540fd4a3b675db93faa1c7bb7a862e891cf6ba259e97c98",
+          "bytes": 148445
+        },
+        {
+          "model": "DDJ-400",
+          "path": "res/controllers/Pioneer-DDJ-400.midi.xml",
+          "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Pioneer-DDJ-400.midi.xml",
+          "git_blob": "3377fa4dad370cf1f336989a220bf0049ee2fd93",
+          "sha256": "97eae1632fb273c0d818901cb6ec10b094268d595eb31ebc8c31050bc3513ac7",
+          "bytes": 113819
+        },
+        {
+          "model": "DDJ-400",
+          "url": "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-400/DDJ-400_MIDI_Message_List_E1.pdf",
+          "sha256": "c20990e3368511f6e0c0738a21489857e5daa6d805072412c71c4a5e46bb986a",
+          "cachePath": "TestBuilds/r486/upstream/ddj400-midi.pdf",
+          "visuallyReviewedPrintedPages": [
+            2,
+            3
+          ]
+        },
+        {
+          "model": "DDJ-FLX4",
+          "url": "https://www.pioneerdj.com/-/media/pioneerdj/software-info/controller/ddj-flx4/ddj-flx4_midi_message_list_e1.pdf",
+          "sha256": null,
+          "review": "Own manufacturer PDF is web-reviewed. Its Hot Cue rows independently confirm raw7/9 normal and raw8/10 Shift channels, notes0..7. No local FLX4 PDF hash or visual PDF proof is claimed; direct publisher/mirror downloads were unavailable."
+        }
+      ],
+      "result": "Added16 dedicated clear inputs and32 paired negative aliases per built-in FLX4 and DDJ-400 model. Each own pinned XML explicitly qualifies all16 activation/clear pairs and normal Note-On semantics. Raw8/10 notes0..7 clear, while raw7/9 remain normal Hot Cues. Clear opcodes and negative guards are layer-independent. Existing Shift policy, earlier bindings, identity, feedback/setup/audio remain unchanged. FLX2/REV1/REV5 are untouched. All405 JSON recipes and both resource files remain byte-identical.450 source/37 native checks and iPad framework compilation pass. Tests cover both models, all clear slots/decks, either app Shift state, both negative forms and directions, debounce, source/group ownership, inactive other pad modes, factory lifecycle/feedback/legacy regressions and two real-WAV cases. Missing-feature TDD records10 failed expectations before implementation. No mapper or hardware mode/configuration runs. Complete modes/host/lifecycle and physical acceptance remain open."
     }
   ]
 }
