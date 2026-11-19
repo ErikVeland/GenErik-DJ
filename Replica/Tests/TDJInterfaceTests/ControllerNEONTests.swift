@@ -39,7 +39,7 @@ import Testing
         #expect(input.isInputActive(10))
         let profile = try #require(ControllerFactoryProfile.matching(["Reloop NEON"], automaticOnly: true))
         let data = try #require(profile.definition)
-        #expect(data.role == "accessory" && data.inputs.count == 96 && data.outputs.isEmpty)
+        #expect(data.role == "accessory" && data.inputs.count == 160 && data.outputs.isEmpty)
         #expect(packets == [[0xF0, 10, 0, 0xF7]])
         #expect(ControllerFactoryProfile.matching(["Reloop NEON 2"]) == nil)
         #expect(
@@ -66,15 +66,16 @@ import Testing
     }
 }
 
-@Test @MainActor func controllerCatalogueNEONShiftedDeleteReleasesRearmWithoutDeletingOrFiring() {
+@Test @MainActor func controllerCatalogueNEONShiftedDeletePressClearsAndBothNegativeFormsRearm() {
     for status in [UInt8(0x97), 0x87] {
         withNEON { input, _ in
             var targets: [ControllerActionTarget] = []
             input.onTargetAction = { target, _ in targets.append(target) }
             neonPacket([0x97, 16, 127, 48, 127], to: input)
-            #expect(targets == [.init(.hotcue1A, deck: .a)])
+            #expect(targets == [.init(.hotcue1A, deck: .a), .init(.clearHotcue1A, deck: .a)])
             neonPacket([status, 48, status == 0x87 ? 99 : 0, 0x97, 16, 127], to: input)
-            #expect(targets == [.init(.hotcue1A, deck: .a), .init(.hotcue1A, deck: .a)])
+            #expect(
+                targets == [.init(.hotcue1A, deck: .a), .init(.clearHotcue1A, deck: .a), .init(.hotcue1A, deck: .a)])
         }
     }
 }
@@ -101,6 +102,12 @@ import Testing
         input.onTargetAction = { target, _ in targets.append(target) }
         neonPacket([0x97, 16, 127, 0x94, 1, 127, 0x98, 16, 127, 0x93, 1, 127, 0x97, 16, 127], to: input)
         #expect(targets == [.init(.hotcue1A, deck: .a), .init(.hotcue1B, deck: .b), .init(.hotcue1A, deck: .a)])
+        targets.removeAll()
+        neonPacket([0x97, 48, 127, 0x94, 1, 127, 0x98, 48, 127, 0x93, 1, 127, 0x97, 48, 127], to: input)
+        #expect(
+            targets == [
+                .init(.clearHotcue1A, deck: .a), .init(.clearHotcue1B, deck: .b), .init(.clearHotcue1A, deck: .a),
+            ])
     }
 }
 
@@ -108,7 +115,7 @@ import Testing
     withNEON(decks: [.a, .b]) { input, _ in
         var targets: [ControllerActionTarget] = []
         input.onTargetAction = { target, _ in targets.append(target) }
-        neonPacket([0x99, 16, 127, 0x9A, 16, 127, 0x97, 16, 127], to: input)
+        neonPacket([0x99, 16, 127, 48, 127, 0x9A, 16, 127, 48, 127, 0x97, 16, 127], to: input)
         #expect(targets == [.init(.hotcue1A, deck: .a)])
     }
 }
