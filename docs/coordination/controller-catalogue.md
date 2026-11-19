@@ -11,10 +11,10 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 562 total catalogue records. 555 name physical models. The remainder identify software endpoints or protocol families.
-- 376 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 229 factory profiles select core controls automatically for 238 physical models.
+- 377 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 230 factory profiles select core controls automatically for 239 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
-- 311 physical models still lack automatic core controls.
+- 310 physical models still lack automatic core controls.
 - 555 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -223,13 +223,13 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 17 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 232 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 233 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
 | partial-midi-profile | 149 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 140 | The pinned references contain no implemented mapping for this model. |
+| protocol-needed | 139 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -450,7 +450,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Akai MPD24 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Akai%20MPD24.midi.xml) |
 | Akai Pro AMX | accessory | partial-midi-profile | [Reference](https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe) |
 | Akiyama Pulsar | primary | partial-midi-profile | [Reference](https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe) |
-| Akiyama QUARC | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=QUARK) |
+| Akiyama QUARC | primary | automatic-core-profile | [Reference](https://device.report/m/9d92b3513df25546696fa6025330c3e39fcac4c7165d91b0137a53259af71fa6.pdf) |
 | Akiyama Quark SC | primary | partial-midi-profile | [Reference](https://media.djmania.net/manuales/pdf/Manual_Akiyama_Quark_SC.pdf) |
 | Akiyama Quattro | primary | partial-midi-profile | [Reference](https://media.djmania.net/manuales/pdf/118rOPK_Ym0.pdf) |
 | Akiyama Syncron | primary | partial-midi-profile | [Reference](https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe) |

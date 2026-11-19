@@ -3364,3 +3364,15 @@ func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueQuarkShiftedCueBendReleasesKeepRealAudioSync() async throws {
+    try await withControllerCuePlayback("Akiyama QUARK") { model,input in
+        input.receiveBytes([0x90,53,1,63,127,63,0],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x80,117,127,0x90,52,127,52,0,50,127],source:10);input.flushPendingActions()
+        input.receiveBytes([0x90,114,0],source:10);input.flushPendingActions()
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}

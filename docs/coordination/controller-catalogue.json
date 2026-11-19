@@ -21802,12 +21802,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://device.report/m/9d92b3513df25546696fa6025330c3e39fcac4c7165d91b0137a53259af71fa6.pdf",
         "https://virtualdj.com/products/hardware.html?model=QUARK"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:akiyama-quark-original"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Akiyama QUARC",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Akiyama QUARC",
@@ -21815,40 +21820,136 @@
           "source": "https://virtualdj.com/products/hardware.html?model=QUARK"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "loopSizeA:a",
+        "loopSizeA:c",
+        "loopSizeB:b",
+        "loopSizeB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownA:c",
+        "pitchBendDownB:b",
+        "pitchBendDownB:d",
+        "pitchBendUpA:a",
+        "pitchBendUpA:c",
+        "pitchBendUpB:b",
+        "pitchBendUpB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "reloopB:d",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d"
+      ],
+      "inputBindingCount": 164,
+      "feedbackBindingCount": 44,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Original QUARK factory MIDI channels1..5. C/D require app opt-in. Normal Hot Cue mode uses six distinct pads. Shifted clears, alternate loop/roll pads, jog and tempo remain inactive. QUARK SC is a separate model. Power/audio and complete modes need separate qualification."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Own original QUARK English manufacturer manual pp14..18 supplies separate NOTE/CC types, raw deck channels0/1/2/3 for A/B/C/D, global4, explicit64-offset relative encoders and127/0 switches/lamps. The pinned SHA identifies the public numeric-table text excerpt, not original PDF bytes. Direct PDF download and screenshots were unavailable; legible public table rows were checked against the own worked example Play34hex=52. The catalogue spelling QUARC comes from the VirtualDJ entry whose model identifier is QUARK. Native164 automatic inputs use normal Play52/Cue53/Sync54/PFL60/Load59, manual loops47/48/49, bends50/51 and normal AutoLoop44/current-loop toggle, with explicit shifted release aliases plus64. Six normal Hot Cues23/26/29/32/35/38 use shifted clear wires only as release guards. AutoLoop/Roll pad wires are distinct and remain inactive. Gain9/high10/mid11/low12/level59 are7bit CC per deck. LoopSizeCC44 and global browseCC2 use binary offset64. Native assigns Track List push2 to group entry. Global CC1 is master and CC4 crossfader. Forty-four optional normal static lamps include six yellow Hot Cues per deck and five transport/loop/PFL lamps; Loop In/Out/Reloop lamps and green/shifted/mode/FX/sample/meter outputs stay inactive. Deck selector7 retires only its physical A/C or B/D pair, and mode selectors41/42/43 retire their own deck. Jog/contact calibration, tempo polarity/range, full shifted continuous pickup/alternate functions, remaining pad/FX/sample/modes, full feedback/lifecycle/recovery, USB/OS/power/audio and physical/iPad/A10X acceptance remain open. Own power specification is USB5V500mA or DC6V1.75A; iPad power is not qualified. No setup, identity query, preset, firmware, driver or audio-route packet runs. QUARK SC bytes are not inherited."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -357718,6 +357819,39 @@
         },
         {
           "reason": "Own manufacturer v1.02 three-page MIDI chart visually reviewed. Raw0..3 Note0 Play,1 Instant Cue,2 Sync,3 Sync Off,5 Return to beginning,8 Deck,13 Key,14 Range and27 monitoring Cue. Own manual identifies Shift+Cue as Return to beginning and Shift+Range as Keylock. Global Shift is raw15 Note0. Native normal transport/PFL/Load/filter/browse is Shift-guarded; Key13 requires Shift. Cue5,Sync3,Range14 and shifted pad28..35 are release-only guards. Raw4..7 pads20..27 require explicit Hot Cue mode0, with other modes1..11 blocking. Own deck selector8 invalidates its pad mode. Global raw15 Loads2..5, Back7 and CC0 Select are independently charted. CC0 has binary offset64: left63 down, right65 up. FilterCC26 is separate7bit. High-resolution paired numbers do not by themselves establish byte significance or pitch polarity, so tempo/gain/EQ/level/crossfader remain inactive. No jog/calibration/LED colour/output/SysEx/FX/TR-S/mic/OSC state is inherited from DJ-202/DJ-505/DJ-808. This manual107-input subset requires an already available, independently qualified MIDI bridge from PC-A. Own manual p22 routes iOS audio through PC-B Generic, explicitly excludes DJ software there and sends standalone controller MIDI through PC-A. Native does not provide the PC-A USB driver/bridge or a direct iPad controller route. Audio ownership/routes, PC host handover, complete pad/deck modes/feedback/lifecycle/recovery and physical/iPad/A10X acceptance remain open. No setup, identity query, mode, driver, firmware, reset or audio-route packet runs."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:akiyama-quark-original",
+      "name": "Akiyama QUARC",
+      "transport": "midi",
+      "source": {
+        "url": "https://device.report/m/9d92b3513df25546696fa6025330c3e39fcac4c7165d91b0137a53259af71fa6.pdf",
+        "sha256": "39abfa44a2409b983d76457a9706f2f0adebd87f9d52eddab8e8533d8feda10a",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r451/upstream/quark-midi-public-text.txt",
+            "sha256": "39abfa44a2409b983d76457a9706f2f0adebd87f9d52eddab8e8533d8feda10a"
+          }
+        ],
+        "relatedSources": [
+          {
+            "url": "https://virtualdj.com/products/hardware.html?model=QUARK"
+          }
+        ],
+        "review": "Own original QUARK English manufacturer manual pp14..18 supplies separate NOTE/CC types, raw deck channels0/1/2/3 for A/B/C/D, global4, explicit64-offset relative encoders and127/0 switches/lamps. The pinned SHA identifies the public numeric-table text excerpt, not original PDF bytes. Direct PDF download and screenshots were unavailable; legible public table rows were checked against the own worked example Play34hex=52. The catalogue spelling QUARC comes from the VirtualDJ entry whose model identifier is QUARK. Native164 automatic inputs use normal Play52/Cue53/Sync54/PFL60/Load59, manual loops47/48/49, bends50/51 and normal AutoLoop44/current-loop toggle, with explicit shifted release aliases plus64. Six normal Hot Cues23/26/29/32/35/38 use shifted clear wires only as release guards. AutoLoop/Roll pad wires are distinct and remain inactive. Gain9/high10/mid11/low12/level59 are7bit CC per deck. LoopSizeCC44 and global browseCC2 use binary offset64. Native assigns Track List push2 to group entry. Global CC1 is master and CC4 crossfader. Forty-four optional normal static lamps include six yellow Hot Cues per deck and five transport/loop/PFL lamps; Loop In/Out/Reloop lamps and green/shifted/mode/FX/sample/meter outputs stay inactive. Deck selector7 retires only its physical A/C or B/D pair, and mode selectors41/42/43 retire their own deck. Jog/contact calibration, tempo polarity/range, full shifted continuous pickup/alternate functions, remaining pad/FX/sample/modes, full feedback/lifecycle/recovery, USB/OS/power/audio and physical/iPad/A10X acceptance remain open. Own power specification is USB5V500mA or DC6V1.75A; iPad power is not qualified. No setup, identity query, preset, firmware, driver or audio-route packet runs. QUARK SC bytes are not inherited."
+      },
+      "implementedInputCount": 164,
+      "implementedOutputCount": 44,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Own original QUARK English manufacturer manual pp14..18 supplies separate NOTE/CC types, raw deck channels0/1/2/3 for A/B/C/D, global4, explicit64-offset relative encoders and127/0 switches/lamps. The pinned SHA identifies the public numeric-table text excerpt, not original PDF bytes. Direct PDF download and screenshots were unavailable; legible public table rows were checked against the own worked example Play34hex=52. The catalogue spelling QUARC comes from the VirtualDJ entry whose model identifier is QUARK. Native164 automatic inputs use normal Play52/Cue53/Sync54/PFL60/Load59, manual loops47/48/49, bends50/51 and normal AutoLoop44/current-loop toggle, with explicit shifted release aliases plus64. Six normal Hot Cues23/26/29/32/35/38 use shifted clear wires only as release guards. AutoLoop/Roll pad wires are distinct and remain inactive. Gain9/high10/mid11/low12/level59 are7bit CC per deck. LoopSizeCC44 and global browseCC2 use binary offset64. Native assigns Track List push2 to group entry. Global CC1 is master and CC4 crossfader. Forty-four optional normal static lamps include six yellow Hot Cues per deck and five transport/loop/PFL lamps; Loop In/Out/Reloop lamps and green/shifted/mode/FX/sample/meter outputs stay inactive. Deck selector7 retires only its physical A/C or B/D pair, and mode selectors41/42/43 retire their own deck. Jog/contact calibration, tempo polarity/range, full shifted continuous pickup/alternate functions, remaining pad/FX/sample/modes, full feedback/lifecycle/recovery, USB/OS/power/audio and physical/iPad/A10X acceptance remain open. Own power specification is USB5V500mA or DC6V1.75A; iPad power is not qualified. No setup, identity query, preset, firmware, driver or audio-route packet runs. QUARK SC bytes are not inherited."
         }
       ]
     },

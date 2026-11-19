@@ -4103,6 +4103,50 @@
         }
       ],
       "result": "Independent107-input manual DJ-707M bridge-only core.371 source/11 native checks and iPad framework compilation pass.375 prior recipes remain identical. No direct iPad route, bridge, driver or audio setup is implemented. Full modes/lifecycle and physical acceptance remain open."
+    },
+    {
+      "request": "R451",
+      "sources": [
+        {
+          "url": "https://device.report/m/9d92b3513df25546696fa6025330c3e39fcac4c7165d91b0137a53259af71fa6.pdf",
+          "sha256": "39abfa44a2409b983d76457a9706f2f0adebd87f9d52eddab8e8533d8feda10a",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r451/upstream/quark-midi-public-text.txt",
+              "sha256": "39abfa44a2409b983d76457a9706f2f0adebd87f9d52eddab8e8533d8feda10a"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://virtualdj.com/products/hardware.html?model=QUARK"
+            }
+          ],
+          "review": "Own original QUARK English manufacturer manual pp14..18 supplies separate NOTE/CC types, raw deck channels0/1/2/3 for A/B/C/D, global4, explicit64-offset relative encoders and127/0 switches/lamps. The pinned SHA identifies the public numeric-table text excerpt, not original PDF bytes. Direct PDF download and screenshots were unavailable; legible public table rows were checked against the own worked example Play34hex=52. The catalogue spelling QUARC comes from the VirtualDJ entry whose model identifier is QUARK. Native164 automatic inputs use normal Play52/Cue53/Sync54/PFL60/Load59, manual loops47/48/49, bends50/51 and normal AutoLoop44/current-loop toggle, with explicit shifted release aliases plus64. Six normal Hot Cues23/26/29/32/35/38 use shifted clear wires only as release guards. AutoLoop/Roll pad wires are distinct and remain inactive. Gain9/high10/mid11/low12/level59 are7bit CC per deck. LoopSizeCC44 and global browseCC2 use binary offset64. Native assigns Track List push2 to group entry. Global CC1 is master and CC4 crossfader. Forty-four optional normal static lamps include six yellow Hot Cues per deck and five transport/loop/PFL lamps; Loop In/Out/Reloop lamps and green/shifted/mode/FX/sample/meter outputs stay inactive. Deck selector7 retires only its physical A/C or B/D pair, and mode selectors41/42/43 retire their own deck. Jog/contact calibration, tempo polarity/range, full shifted continuous pickup/alternate functions, remaining pad/FX/sample/modes, full feedback/lifecycle/recovery, USB/OS/power/audio and physical/iPad/A10X acceptance remain open. Own power specification is USB5V500mA or DC6V1.75A; iPad power is not qualified. No setup, identity query, preset, firmware, driver or audio-route packet runs. QUARK SC bytes are not inherited."
+        }
+      ],
+      "additionalFindings": [
+        {
+          "url": "https://virtualdj.com/forums/265643/Wishes_and_new_features/Request:_Add_LED_output_support_for_Vestax_VFX-1_in_VirtualDJ.html",
+          "finding": "Owner reports raw Ch2 Note104127/0 for one On/Off control, but its side/complete contract is not established. The posted full definition contains conflicting CC10 assignments and the author acknowledges AI assistance. It is not accepted as a verified full protocol. No device identity, LED-enable SysEx or whole-map channel assumption is inferred."
+        },
+        {
+          "url": "https://www.kevinchant.com/uploads/7/1/0/8/7108231/vsm-vfx-1.pdf",
+          "finding": "Public service manual located. Its checked text covers schematics/parts without a MIDI message table. Hardware schematics are not treated as MIDI byte assignments."
+        },
+        {
+          "url": "https://www.joeferrantidj.com/post/rekordbox-e-rane-twelve-mkii-midi-mapping-1",
+          "finding": "Indexed owner mapping article returns404 when opened. No mapping bytes or motor protocol are inferred. Manufacturer Twelve FAQ confirms generic MIDI controls without a numeric chart."
+        },
+        {
+          "url": "https://www.numark.com/product/nsfx",
+          "finding": "Fresh public product/source checks did not recover a numeric NSFX protocol. VCI-300 and original NS7 source scripts contain no explicit NSFX/VFX1 contract. No sibling protocol is inherited."
+        },
+        {
+          "url": "https://www.manualslib.com/manual/916717/Voxoa-C60.html?page=56",
+          "finding": "Manufacturer-manual index identifies a C60 MIDI chart, but checked chart-page access failed. C50 public manual text also identifies its own table. The column layout is not yet qualified. No C50/C60 sibling bytes are inferred."
+        }
+      ],
+      "result": "Independent original QUARK164-input automatic core and44 optional lamps.373 source/10 native checks and iPad framework compilation pass. All376 prior recipes remain identical. Source hash pins public text, not original PDF. QUARK SC and full modes/lifecycle/audio remain separate."
     }
   ]
 }
