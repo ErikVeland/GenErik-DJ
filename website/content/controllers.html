@@ -5,15 +5,9 @@
     <label>Search <input type="search" id="controller-search" aria-controls="controller-list"></label>
     <label>Manufacturer <select id="controller-make" aria-controls="controller-list"><option value="">All manufacturers</option></select></label>
     <label>Mapping <select id="controller-mapping" aria-controls="controller-list"><option value="">All mappings</option></select></label>
-    <label>Sort by <select id="controller-sort" aria-controls="controller-list"><option value="manufacturer">Manufacturer (A–Z)</option><option value="model">Model (A–Z)</option></select></label>
+    <label>Sort by <select id="controller-sort" aria-controls="controller-list"><option value="manufacturer">Manufacturer (A–Z)</option><option value="manufacturer-desc">Manufacturer (Z–A)</option><option value="mapping">Mapping within manufacturer (A–Z)</option><option value="model-desc">Model within manufacturer (Z–A)</option></select></label>
   </div>
-  <p id="controller-status" role="status" hidden></p>
-  <div class="controller-table">
-    <table id="controller-list">
-      <caption>Controller mappings</caption>
-      <thead><tr><th scope="col">Manufacturer</th><th scope="col">Device</th><th scope="col">Mapping</th><th scope="col">Connection</th></tr></thead>
-      <tbody>{{controller_rows}}</tbody>
-    </table>
-  </div>
+  <p id="controller-status" role="status">{{controller_total}} controllers</p>
+  <div id="controller-list">{{controller_groups}}</div>
   <p><a href="/support">Report a controller issue</a></p>
 </section>
