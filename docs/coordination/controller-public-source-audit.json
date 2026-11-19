@@ -3404,6 +3404,46 @@
         }
       ],
       "result": "Separate manufacturer MPD226/232 members qualify two manual100-input Bitwig cores. Pad and control-bank contexts remain independent. Other presets, extra232 columns, full relative magnitudes, dedicated transport, Remote writes, feedback and complete lifecycle remain open."
+    },
+    {
+      "request": "R434",
+      "sources": [
+        {
+          "model": "Akai LPD8 MK2",
+          "url": "https://virtualdj.com/manuals/hardware/akai/lpd8mk2/advanced.html",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r432/upstream/lpd8-program-editor.png",
+              "sha256": "43af45c4ea4f31b13632dd0e97b8175a0d7dc02882472e1f3a0205d577455e90"
+            },
+            {
+              "cachePath": "TestBuilds/r432/upstream/lpd8-vdj-programs.zip",
+              "sha256": "d23bce6e19621b173fc08908e920f2727b43565268bf9bd870f648355b7c1683"
+            },
+            {
+              "cachePath": "TestBuilds/r432/upstream/lpd8-vdj/PROG1_VDJ.lpd8mk2",
+              "sha256": "2d9c78099a28249af30798ab43610c7ca0cd3fb66292805ba4aa0ba33000315a"
+            },
+            {
+              "cachePath": "TestBuilds/r434/upstream/lpd8-guide.pdf",
+              "sha256": "dc4eee2c9294b75886e5b3eb47a3b1d703dcd1a978848fce16e87faf42424b81"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://virtualdj.com/img/372700/76537/ProgramEditor.png"
+            },
+            {
+              "url": "https://virtualdj.com/documents/LPD8_MK2_Programs.zip"
+            },
+            {
+              "url": "https://cdn.inmusicbrands.com/akai/LPD8/LPD8%20mk2%20-%20User%20Guide%20-%20v1.2.pdf"
+            }
+          ],
+          "review": "The publisher Program1 editor image independently specifies momentary pads, Notes36..43 and knobsCC36..43, all channel1. Knobs span0..127. Bottom pad row is36..39; top row40..43. Top knobsK1..4 areCC36..39; bottomK5..8 areCC40..43. Native assigns bottom pads four Hot Cues A, top pads four Hot Cues B; top knobs gain/high/mid/low A and bottom knobs the same B. This is an explicit native layout, not the source software effect actions. Select the published VDJ Program1 in NOTE mode and apply this profile manually. Native does not load or send the preset. The guide confirms programmable assignments and four stored programs. Factory defaults have not been independently qualified. Other programs, CC/Program Change modes, pressure, RGB feedback, complete mode/preset/lifecycle/recovery, USB/OS/power and physical/iPad/A10X acceptance remain open. Mode/program buttons do not supply a qualified observable transition. In the published preset pad CCs overlap knob CCs: CC-mode pads cannot be distinguished from knobs. Do not change mode/program while this profile is active. No setup, stored preset, colour, global setting, driver, firmware or audio route is written. Original LPD8 and LPD8 Wireless contracts stay separate."
+        }
+      ],
+      "result": "Published Program1 editor image qualifies16 manual NOTE-mode accessory inputs. Factory defaults are not qualified. CC-mode pad messages overlap knobs, so mode changes require deactivating the profile. No preset or colour writes."
     }
   ]
 }

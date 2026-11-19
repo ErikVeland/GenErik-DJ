@@ -20070,68 +20070,6 @@
       }
     },
     {
-      "id": "akailpd8mk2",
-      "name": "AKAI LPD8 MK2",
-      "manufacturer": "Akai",
-      "role": "accessory",
-      "benchmark": false,
-      "sources": [
-        "https://virtualdj.com/products/hardware.html?model=LPD8MK2"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "virtualDJ": {
-          "sourceName": "AKAI LPD8 MK2",
-          "category": "Addon Units (FX,Pads,..)",
-          "source": "https://virtualdj.com/products/hardware.html?model=LPD8MK2"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
       "id": "akaiapcminimk2",
       "name": "Akai APC mini MK2",
       "manufacturer": "Akai",
@@ -20685,6 +20623,90 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "akailpd8mk2",
+      "name": "Akai LPD8 MK2",
+      "manufacturer": "Akai",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://virtualdj.com/manuals/hardware/akai/lpd8mk2/advanced.html",
+        "https://virtualdj.com/products/hardware.html?model=LPD8MK2"
+      ],
+      "definitions": [
+        "reviewed:lpd8-mk2-vdj-program1"
+      ],
+      "implementation": "partial-midi-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Akai LPD8 MK2",
+      "automaticControls": false,
+      "comparisonSupport": {
+        "virtualDJ": {
+          "sourceName": "AKAI LPD8 MK2",
+          "category": "Addon Units (FX,Pads,..)",
+          "source": "https://virtualdj.com/products/hardware.html?model=LPD8MK2"
+        }
+      },
+      "controlActions": [
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b"
+      ],
+      "inputBindingCount": 16,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Use the published VDJ Program1 assignments in NOTE mode, then select this profile manually. Bottom pads: Hot Cues1-4 A. Top pads: Hot Cues1-4 B. Top knobs: gain/high/mid/low A. Bottom knobs: gain/high/mid/low B. Move knobs to current app values for pickup. Deactivate this profile before changing mode or program. Configure app audio separately."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "partial",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "The publisher Program1 editor image independently specifies momentary pads, Notes36..43 and knobsCC36..43, all channel1. Knobs span0..127. Bottom pad row is36..39; top row40..43. Top knobsK1..4 areCC36..39; bottomK5..8 areCC40..43. Native assigns bottom pads four Hot Cues A, top pads four Hot Cues B; top knobs gain/high/mid/low A and bottom knobs the same B. This is an explicit native layout, not the source software effect actions. Select the published VDJ Program1 in NOTE mode and apply this profile manually. Native does not load or send the preset. The guide confirms programmable assignments and four stored programs. Factory defaults have not been independently qualified. Other programs, CC/Program Change modes, pressure, RGB feedback, complete mode/preset/lifecycle/recovery, USB/OS/power and physical/iPad/A10X acceptance remain open. Mode/program buttons do not supply a qualified observable transition. In the published preset pad CCs overlap knob CCs: CC-mode pads cannot be distinguished from knobs. Do not change mode/program while this profile is active. No setup, stored preset, colour, global setting, driver, firmware or audio route is written. Original LPD8 and LPD8 Wireless contracts stay separate.",
         "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
@@ -355894,6 +355916,56 @@
         },
         {
           "reason": "Own manufacturer product download includes the separate MPD232 member and a documented shared input contract. Select the onboard Bitwig preset and use main Port A, not Remote/MIDI4. Pad Instrument handles channel10 Notes36..99, four16-pad banks. Shared control banks use channels2/3/4; first four switchesCC30..33, faders40..43 absolute0..127 and knobs50..53 signed increments. Native accepts only strict1/127 knob steps. Native assigns one pad bank per A/B/C/D deck. Four switches per control bank set native PFL/Sync/Key Lock; faders set level/high/low; knobs adjust gain/mid/filter. Pad and control banks stay independent. Pad changes retire only that source. Control changes rearm CC buttons and reacquire pickup on the new control bank without releasing held pad Cue. Late releases do not change contexts. Manual selection is required. Only the first four of the eight physical control columns are active. The extra four columns stay inactive. Other presets, full relative magnitudes/calibration, dedicated transport, navigation, pressure/repeat, Remote display/colour-parameter writes, complete bank/preset/lifecycle/recovery/USB/OS/power and physical/iPad/A10X acceptance remain open. A standalone bank-selector report is not implemented; cleanup occurs at the next mapped report or original release. No source program/action, preset, global setting, tempo, firmware, driver, colour write or audio route executes. MPD218 and MPK contracts stay separate."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:lpd8-mk2-vdj-program1",
+      "name": "Akai LPD8 MK2",
+      "transport": "midi",
+      "source": {
+        "url": "https://virtualdj.com/manuals/hardware/akai/lpd8mk2/advanced.html",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r432/upstream/lpd8-program-editor.png",
+            "sha256": "43af45c4ea4f31b13632dd0e97b8175a0d7dc02882472e1f3a0205d577455e90"
+          },
+          {
+            "cachePath": "TestBuilds/r432/upstream/lpd8-vdj-programs.zip",
+            "sha256": "d23bce6e19621b173fc08908e920f2727b43565268bf9bd870f648355b7c1683"
+          },
+          {
+            "cachePath": "TestBuilds/r432/upstream/lpd8-vdj/PROG1_VDJ.lpd8mk2",
+            "sha256": "2d9c78099a28249af30798ab43610c7ca0cd3fb66292805ba4aa0ba33000315a"
+          },
+          {
+            "cachePath": "TestBuilds/r434/upstream/lpd8-guide.pdf",
+            "sha256": "dc4eee2c9294b75886e5b3eb47a3b1d703dcd1a978848fce16e87faf42424b81"
+          }
+        ],
+        "relatedSources": [
+          {
+            "url": "https://virtualdj.com/img/372700/76537/ProgramEditor.png"
+          },
+          {
+            "url": "https://virtualdj.com/documents/LPD8_MK2_Programs.zip"
+          },
+          {
+            "url": "https://cdn.inmusicbrands.com/akai/LPD8/LPD8%20mk2%20-%20User%20Guide%20-%20v1.2.pdf"
+          }
+        ],
+        "review": "The publisher Program1 editor image independently specifies momentary pads, Notes36..43 and knobsCC36..43, all channel1. Knobs span0..127. Bottom pad row is36..39; top row40..43. Top knobsK1..4 areCC36..39; bottomK5..8 areCC40..43. Native assigns bottom pads four Hot Cues A, top pads four Hot Cues B; top knobs gain/high/mid/low A and bottom knobs the same B. This is an explicit native layout, not the source software effect actions. Select the published VDJ Program1 in NOTE mode and apply this profile manually. Native does not load or send the preset. The guide confirms programmable assignments and four stored programs. Factory defaults have not been independently qualified. Other programs, CC/Program Change modes, pressure, RGB feedback, complete mode/preset/lifecycle/recovery, USB/OS/power and physical/iPad/A10X acceptance remain open. Mode/program buttons do not supply a qualified observable transition. In the published preset pad CCs overlap knob CCs: CC-mode pads cannot be distinguished from knobs. Do not change mode/program while this profile is active. No setup, stored preset, colour, global setting, driver, firmware or audio route is written. Original LPD8 and LPD8 Wireless contracts stay separate."
+      },
+      "implementedInputCount": 16,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "The publisher Program1 editor image independently specifies momentary pads, Notes36..43 and knobsCC36..43, all channel1. Knobs span0..127. Bottom pad row is36..39; top row40..43. Top knobsK1..4 areCC36..39; bottomK5..8 areCC40..43. Native assigns bottom pads four Hot Cues A, top pads four Hot Cues B; top knobs gain/high/mid/low A and bottom knobs the same B. This is an explicit native layout, not the source software effect actions. Select the published VDJ Program1 in NOTE mode and apply this profile manually. Native does not load or send the preset. The guide confirms programmable assignments and four stored programs. Factory defaults have not been independently qualified. Other programs, CC/Program Change modes, pressure, RGB feedback, complete mode/preset/lifecycle/recovery, USB/OS/power and physical/iPad/A10X acceptance remain open. Mode/program buttons do not supply a qualified observable transition. In the published preset pad CCs overlap knob CCs: CC-mode pads cannot be distinguished from knobs. Do not change mode/program while this profile is active. No setup, stored preset, colour, global setting, driver, firmware or audio route is written. Original LPD8 and LPD8 Wireless contracts stay separate."
         }
       ]
     },

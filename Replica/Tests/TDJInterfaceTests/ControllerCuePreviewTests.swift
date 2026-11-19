@@ -2987,6 +2987,16 @@ func controllerCatalogueLegacyRaneMixerAndLoopsKeepRealAudioAndSavedSync(_ name:
     }
 }
 
+@Test @MainActor func controllerCatalogueLPD8MK2KeepsRealAudioAndSavedSync() async throws {
+    try await withControllerCuePlayback("Akai LPD8 MK2", manual: true) { model, input in
+        model.pressPlay(deck: .a, vinylStop: false)
+        input.receiveBytes([0xB0, 36, 64, 37, 64, 38, 64, 39, 64, 0xA0, 36, 127, 0xC0, 0], source: 10); input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
 @Test(arguments: ["Akai MPD226", "Akai MPD232"]) @MainActor
 func controllerCatalogueMPD2BitwigKeepsSoftCueRealAudioAndSavedSync(_ name: String) async throws {
     try await withControllerCuePlayback(name, manual: true) { model, input in
