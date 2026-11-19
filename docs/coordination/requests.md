@@ -778,3 +778,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R473 | Implemented; full feedback/lifecycle/physical gaps open | Add explicit steady lamps to Dragon Two, 4MIX and GMX | Added68 optional steady lamps.419 source/24 native checks and iPad framework compilation pass. All400 input layouts and397 other recipes remain identical. [Scope](controller-coverage.md#r473-explicit-steady-legacy-lamps). |
 
 | R474 | Implemented; full controls/channel/audio/host gaps open | Add own DAP D2 core and distinct Cue Stop | Added33 manual own-manual inputs.422 source/23 native checks and iPad framework compilation pass. All400 earlier recipes remain identical. [Scope](controller-coverage.md#r474-own-dap-d2-core-and-distinct-cue-stop). |
+
+| R475 | Implemented; full modes/mixer/host gaps open | Add independent CDMP-7000 owner player core | Added13 manual raw0 player inputs.425 source/11 native checks and iPad framework compilation pass. All401 earlier recipes remain identical. [Scope](controller-coverage.md#r475-independent-cdmp-7000-owner-player-core). |

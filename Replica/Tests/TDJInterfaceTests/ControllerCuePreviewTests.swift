@@ -3700,3 +3700,24 @@ func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String
         #expect(abs((model.controllerValue(.levelA) ?? -1)-64.0/127)<0.0001)
     }
 }
+
+@Test @MainActor func controllerCatalogueCDMP7000OwnCueAnd128CountScratchRestoreSync() async throws {
+    try await withControllerCuePlayback("Gemini CDMP-7000",manual:true) {model,input in
+        cuePreviewPacket([0x90,1,1],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80,1,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        cuePreviewPacket([0x90,24,127,0xB0,32,65],to:input)
+        try await Task.sleep(for:.milliseconds(80))
+        _ = model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        let sampleRate=try #require(model.track(.a)?.analysis.sampleRate)
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1)-sampleRate*1.8/128)<=1)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x90,24,0,2,127,2,0,4,127,4,0],to:input)
+        input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+        for value:UInt8 in [0,127,64] {cuePreviewPacket([0xB0,33,value],to:input)}
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}

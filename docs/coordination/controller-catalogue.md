@@ -11,7 +11,7 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 562 total catalogue records. 555 name physical models. The remainder identify software endpoints or protocol families.
-- 401 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 402 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 235 factory profiles select core controls automatically for 244 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - 305 physical models still lack automatic core controls.
@@ -41,7 +41,7 @@ Other models have no claimed popularity rank. Within that tier, finish documente
 ## Club and XDJ players — R176/R177
 
 The club-player order balances established models and recent releases. It is an implementation order, not a measured global sales ranking.
-All 31 players select core controls automatically after the hardware enters its PC or USB-MIDI mode.
+All 32 players select core controls automatically after the hardware enters its PC or USB-MIDI mode.
 Connected players receive separate A/B assignments. Saved endpoint identities retain their assignments. C/D require the existing four-deck trial.
 HID, screens, lights and automatic routing across multiple player audio interfaces remain unimplemented.
 
@@ -229,8 +229,8 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 165 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 118 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 166 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 117 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -559,7 +559,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Gemini CDJ650 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GCDJ650) |
 | Gemini CDJ700 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GCDJ700) |
 | Gemini CDMP-2700 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GCDMP2700) |
-| Gemini CDMP-7000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GCDMP7000) |
+| Gemini CDMP-7000 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/djtrinidad/mixxx-gemini-cdmp7000-latest/3236e2380a1b24c662fc58777d266b21f9cc46ec/Gemini_CDMP-7000-test.midi.xml) |
 | Gemini CDMP-7000 L | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Gemini%20CDMP-7000%20L%20audio.midi.xml) |
 | Gemini CDMP-7000 R | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Gemini%20CDMP-7000%20R%20audio.midi.xml) |
 | Gemini CNTRL-2 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GEMINI2) |

@@ -5154,6 +5154,53 @@
         }
       ],
       "result": "Added33 manual own-manual DAP D2 inputs and a distinct native Cue Stop action.422 source/23 focused native tests and iPad framework compilation pass. All400 earlier recipes remain identical. Stored raw0 does not assert a transmitted factory channel. Crossfader direction, omitted A loop addresses, modes, feedback/audio/lifecycle/host and physical acceptance remain open."
+    },
+    {
+      "request": "R475",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "model": "Gemini CDMP-7000",
+          "url": "https://raw.githubusercontent.com/djtrinidad/mixxx-gemini-cdmp7000-latest/3236e2380a1b24c662fc58777d266b21f9cc46ec/Gemini_CDMP-7000-test.midi.xml",
+          "sha256": "d434a696726694f0bef4ff66cc836a5ee65c41c78e847d329ea10a59bf87b89d",
+          "upstreamRevision": "3236e2380a1b24c662fc58777d266b21f9cc46ec",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r475/upstream/cdmp7000.midi.xml",
+              "sha256": "d434a696726694f0bef4ff66cc836a5ee65c41c78e847d329ea10a59bf87b89d"
+            },
+            {
+              "cachePath": "TestBuilds/r475/upstream/cdmp7000-scripts.js",
+              "sha256": "8fb63dabbee403dca4d64ad9355a88239a4b61d4e073165940afc99e135e1a9b"
+            },
+            {
+              "cachePath": "TestBuilds/r475/upstream/cdmp7000-readme.md",
+              "sha256": "f87af6d775997b20c6d02a05c620cccb76b47a5aecf7ae2d7126eeaabed492b0"
+            },
+            {
+              "cachePath": "TestBuilds/r475/upstream/cdmp7000-older-scripts.js",
+              "sha256": "a15972ffe4ce3d4efc381e273afa0cd98c9a2263d97e3df3d1f43d1e47eb10cd"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://github.com/djtrinidad/mixxx-gemini-cdmp7000-latest"
+            },
+            {
+              "url": "https://raw.githubusercontent.com/djtrinidad/cdmp7000-mixxx/c4b2a1949e0623c8433471a8a6a42c582e57ba5f/gemini_CDMP-7000-scripts.js"
+            }
+          ],
+          "review": "Primary owner djtrinidad own-model XML and component mapper at3236e2380a1b24c662fc58777d266b21f9cc46ec identify CDMP-7000 Deck A and explicitly say the hardware exposes separate L/R units using the same file. Manual raw0 player core only. Separate endpoints remain manual target A; no unverified automatic endpoint identity, right-side mapping or hardware channel switch is inferred. Play02, held native Cue01, bend+/minus03/04, Select/Load0F and In10/Out11/Reloop12 are explicit. Note0B/0C are track-list previous/next pulses. PitchCC21 has an explicit invert option; copied FIX comment leaves physical polarity/range acceptance open. Native uses its existing +/-8percent range and pickup. JogCC20 uses value-minus64 and scratchEnable128 at33+1/3RPM; own earlier repository c4b2a1949e0623c8433471a8a6a42c582e57ba5f independently agrees on128. TouchNote18 uses native fixed touch scratch; hardware Vinyl button/state and source intermittent scratch bug are not imported. Relative count/calibration and live feel require hardware acceptance. The source MIDI0D is labelled Master Tempo and XML sync_leader despite an unused SyncButton object; it does not qualify native Sync toggle. LOCK1C is not proven Keylock. Memo08 is toggled in software with contradictory0x91 object and0x90 XML; all Hot Cues/clears stay inactive. Source duplicateNote25, empty FX keys/notes, LCD SysEx, reset loops, timers, slip/reverse/search, effects, full lamps and source lifecycle do not run. No analogue mixer control/audio route is inferred from the standalone mixer. README only reports CDJ-700 compatibility; no CDJ-700/CDJ650/CDMP2700/GMX/MDJ protocol or identity is inherited. Exact USB naming/channel choice/driver/OS/power/audio/DVS, full modes/lifecycle/recovery and physical/iPad/A10X acceptance remain open. Requires an existing CoreMIDI endpoint and separate app audio. No upstream source, mapper, driver, firmware, query, setup, hardware mode, preset, output or audio-route write executes or ships."
+        }
+      ],
+      "additionalResearch": [
+        {
+          "url": "https://www.theseus.fi/bitstream/handle/10024/133340/opinnaytetyo_joakim_mattson_8.pdf?sequence=1",
+          "model": "Gemini MDJ-1000",
+          "result": "Primary owner2017 thesis has web-indexed captured MIDI facts in appendix1. Original PDF fetch403 and web screenshot cache miss. No PDF content hash or complete visual review is claimed. No native MDJ-1000 recipe is inferred from these research notes."
+        }
+      ],
+      "result": "Added13 manual raw0 CDMP-7000 player inputs from pinned primary-owner data.425 source/11 focused native tests and iPad framework compilation pass. All401 earlier recipes remain identical. Reported CDJ-700 compatibility is not inherited. Sync/Memo/LOCK, incomplete source modes, output/display lifecycle and complete acceptance remain open."
     }
   ]
 }

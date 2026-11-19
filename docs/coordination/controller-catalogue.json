@@ -34891,12 +34891,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://raw.githubusercontent.com/djtrinidad/mixxx-gemini-cdmp7000-latest/3236e2380a1b24c662fc58777d266b21f9cc46ec/Gemini_CDMP-7000-test.midi.xml",
         "https://virtualdj.com/products/hardware.html?model=GCDMP7000"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:cdmp7000-owner-raw0-player-core"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Gemini CDMP-7000",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Gemini CDMP-7000",
@@ -34904,41 +34909,71 @@
           "source": "https://virtualdj.com/products/hardware.html?model=GCDMP7000"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browseNext",
+        "browsePrevious",
+        "cuePreviewA:a",
+        "jogA:a",
+        "jogTouchA:a",
+        "loadA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "pitchBendDownA:a",
+        "pitchBendUpA:a",
+        "playA:a",
+        "reloopA:a",
+        "tempoA:a"
+      ],
+      "inputBindingCount": 13,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual CDMP-7000 player endpoint, MIDI channel1/raw0. Target A. Expose its MIDI source and configure app audio separately. Fixed native touch scratch and native tempo range. Other endpoint assignment, Memo, Vinyl modes, mixer and screens remain unqualified."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Primary owner djtrinidad own-model XML and component mapper at3236e2380a1b24c662fc58777d266b21f9cc46ec identify CDMP-7000 Deck A and explicitly say the hardware exposes separate L/R units using the same file. Manual raw0 player core only. Separate endpoints remain manual target A; no unverified automatic endpoint identity, right-side mapping or hardware channel switch is inferred. Play02, held native Cue01, bend+/minus03/04, Select/Load0F and In10/Out11/Reloop12 are explicit. Note0B/0C are track-list previous/next pulses. PitchCC21 has an explicit invert option; copied FIX comment leaves physical polarity/range acceptance open. Native uses its existing +/-8percent range and pickup. JogCC20 uses value-minus64 and scratchEnable128 at33+1/3RPM; own earlier repository c4b2a1949e0623c8433471a8a6a42c582e57ba5f independently agrees on128. TouchNote18 uses native fixed touch scratch; hardware Vinyl button/state and source intermittent scratch bug are not imported. Relative count/calibration and live feel require hardware acceptance. The source MIDI0D is labelled Master Tempo and XML sync_leader despite an unused SyncButton object; it does not qualify native Sync toggle. LOCK1C is not proven Keylock. Memo08 is toggled in software with contradictory0x91 object and0x90 XML; all Hot Cues/clears stay inactive. Source duplicateNote25, empty FX keys/notes, LCD SysEx, reset loops, timers, slip/reverse/search, effects, full lamps and source lifecycle do not run. No analogue mixer control/audio route is inferred from the standalone mixer. README only reports CDJ-700 compatibility; no CDJ-700/CDJ650/CDMP2700/GMX/MDJ protocol or identity is inherited. Exact USB naming/channel choice/driver/OS/power/audio/DVS, full modes/lifecycle/recovery and physical/iPad/A10X acceptance remain open. Requires an existing CoreMIDI endpoint and separate app audio. No upstream source, mapper, driver, firmware, query, setup, hardware mode, preset, output or audio-route write executes or ships.",
+        "Untranslated controls and script behaviour remain in the linked definition records.",
+        "Primary owner djtrinidad own-model XML and component mapper at3236e2380a1b24c662fc58777d266b21f9cc46ec identify CDMP-7000 Deck A and explicitly say the hardware exposes separate L/R units using the same file. Manual raw0 player core only. Separate endpoints remain manual target A; no unverified automatic endpoint identity, right-side mapping or hardware channel switch is inferred. Play02, held native Cue01, bend+/minus03/04, Select/Load0F and In10/Out11/Reloop12 are explicit. Note0B/0C are track-list previous/next pulses. PitchCC21 has an explicit invert option; copied FIX comment leaves physical polarity/range acceptance open. Native uses its existing +/-8percent range and pickup. JogCC20 uses value-minus64 and scratchEnable128 at33+1/3RPM; own earlier repository c4b2a1949e0623c8433471a8a6a42c582e57ba5f independently agrees on128. TouchNote18 uses native fixed touch scratch; hardware Vinyl button/state and source intermittent scratch bug are not imported. Relative count/calibration and live feel require hardware acceptance. The source MIDI0D is labelled Master Tempo and XML sync_leader despite an unused SyncButton object; it does not qualify native Sync toggle. LOCK1C is not proven Keylock. Memo08 is toggled in software with contradictory0x91 object and0x90 XML; all Hot Cues/clears stay inactive. Source duplicateNote25, empty FX keys/notes, LCD SysEx, reset loops, timers, slip/reverse/search, effects, full lamps and source lifecycle do not run. No analogue mixer control/audio route is inferred from the standalone mixer. README only reports CDJ-700 compatibility; no CDJ-700/CDJ650/CDMP2700/GMX/MDJ protocol or identity is inherited. Exact USB naming/channel choice/driver/OS/power/audio/DVS, full modes/lifecycle/recovery and physical/iPad/A10X acceptance remain open. Requires an existing CoreMIDI endpoint and separate app audio. No upstream source, mapper, driver, firmware, query, setup, hardware mode, preset, output or audio-route write executes or ships."
       ],
+      "playerSupport": {
+        "requiredHardwareMode": "Manual CDMP-7000 player endpoint, MIDI channel1/raw0. Target A. Expose its MIDI source and configure app audio separately. Fixed native touch scratch and native tempo range. Other endpoint assignment, Memo, Vinyl modes, mixer and screens remain unqualified.",
+        "midiInputImplemented": true,
+        "recognisedNames": [
+          "Gemini CDMP-7000",
+          "Gemini CDMP7000",
+          "CDMP-7000",
+          "CDMP7000"
+        ],
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
@@ -360150,6 +360185,52 @@
         },
         {
           "reason": "Own manufacturer Highlite D1261 Core Kontrol D2 English V1 guide printed9/10/11/26/27/28, with MIDI appendix26..28 visually reviewed. All note/CC numbers are hexadecimal. The channel table puts X under Transmitted Default and1 under Recognized Default while other reception rows say X. It does not establish a transmitted factory channel. Native accepts all16 channels through the bounded manual unbanked two-deck core; stored raw0 is only a placeholder. All33 wire numbers and actions are unique, with no modes/banks/modifiers/setup/output/audio. The schema keeps mandatory A/B Play, held Cue and levels but permits an absent crossfader; no polarity is invented merely to satisfy a schema. Only native Cue Stop and Reloop roles are added to its permitted normal buttons; all previous uniqueness, kind, target and field guards remain. Own Play43/4C, SetCue3B/44, Cue33/3C, Sync40/47, Keylock38/3F, Load4B/34, PFL55/56, bends minus79/68 and plus78/67, loop-half72/61, B loop-double60 and B Reloop5F are independently transcribed. Set Cue is the held preview control. Separate Cue Stop returns to the saved Cue and pauses, including when already paused, without marking a new Cue or changing Sync. Main Cue and Set Cue are not confused with headphone PFL. Own absolute gain0D/0E, high10/11, mid12/13, low14/15, level08/09 and cueMix20 retain native pickup. The guide explicitly identifies Master as analogue/no MIDI; no master/monitor control is invented. Cross0A direction, tempo/ranges, A loop-double/reloop addresses omitted by the table, loops/SmartLoops/HotCues/delete modes, Shift-dependent FX/filter/pitch roles, relative jog/contact/needle calibration, library/kill/FX/sampler/reverse/curve/source states and complete feedback/lifecycle/recovery remain open. Recognized notes/CC are X, so no lamp packets are sent. Hardware emits NoteOn127/0; native additionally accepts NoteOff releases. Manual selection and existing MIDI input with separately configured app audio are required because analogue cue mix/hardware ownership is not automated. Exact USB names/driver/OS/power/channel polarity/audio/DVS and physical/iPad/A10X acceptance remain open. No NI Kontrol D2, DAP D4i, ABMA4 or other OEM protocol/identity is inherited. No preset, driver, firmware, source code, query, setting or audio-route write runs."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:cdmp7000-owner-raw0-player-core",
+      "name": "Gemini CDMP-7000",
+      "transport": "midi",
+      "source": {
+        "url": "https://raw.githubusercontent.com/djtrinidad/mixxx-gemini-cdmp7000-latest/3236e2380a1b24c662fc58777d266b21f9cc46ec/Gemini_CDMP-7000-test.midi.xml",
+        "sha256": "d434a696726694f0bef4ff66cc836a5ee65c41c78e847d329ea10a59bf87b89d",
+        "upstreamRevision": "3236e2380a1b24c662fc58777d266b21f9cc46ec",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r475/upstream/cdmp7000.midi.xml",
+            "sha256": "d434a696726694f0bef4ff66cc836a5ee65c41c78e847d329ea10a59bf87b89d"
+          },
+          {
+            "cachePath": "TestBuilds/r475/upstream/cdmp7000-scripts.js",
+            "sha256": "8fb63dabbee403dca4d64ad9355a88239a4b61d4e073165940afc99e135e1a9b"
+          },
+          {
+            "cachePath": "TestBuilds/r475/upstream/cdmp7000-readme.md",
+            "sha256": "f87af6d775997b20c6d02a05c620cccb76b47a5aecf7ae2d7126eeaabed492b0"
+          },
+          {
+            "cachePath": "TestBuilds/r475/upstream/cdmp7000-older-scripts.js",
+            "sha256": "a15972ffe4ce3d4efc381e273afa0cd98c9a2263d97e3df3d1f43d1e47eb10cd"
+          }
+        ],
+        "relatedSources": [
+          {
+            "url": "https://github.com/djtrinidad/mixxx-gemini-cdmp7000-latest"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/djtrinidad/cdmp7000-mixxx/c4b2a1949e0623c8433471a8a6a42c582e57ba5f/gemini_CDMP-7000-scripts.js"
+          }
+        ],
+        "review": "Primary owner djtrinidad own-model XML and component mapper at3236e2380a1b24c662fc58777d266b21f9cc46ec identify CDMP-7000 Deck A and explicitly say the hardware exposes separate L/R units using the same file. Manual raw0 player core only. Separate endpoints remain manual target A; no unverified automatic endpoint identity, right-side mapping or hardware channel switch is inferred. Play02, held native Cue01, bend+/minus03/04, Select/Load0F and In10/Out11/Reloop12 are explicit. Note0B/0C are track-list previous/next pulses. PitchCC21 has an explicit invert option; copied FIX comment leaves physical polarity/range acceptance open. Native uses its existing +/-8percent range and pickup. JogCC20 uses value-minus64 and scratchEnable128 at33+1/3RPM; own earlier repository c4b2a1949e0623c8433471a8a6a42c582e57ba5f independently agrees on128. TouchNote18 uses native fixed touch scratch; hardware Vinyl button/state and source intermittent scratch bug are not imported. Relative count/calibration and live feel require hardware acceptance. The source MIDI0D is labelled Master Tempo and XML sync_leader despite an unused SyncButton object; it does not qualify native Sync toggle. LOCK1C is not proven Keylock. Memo08 is toggled in software with contradictory0x91 object and0x90 XML; all Hot Cues/clears stay inactive. Source duplicateNote25, empty FX keys/notes, LCD SysEx, reset loops, timers, slip/reverse/search, effects, full lamps and source lifecycle do not run. No analogue mixer control/audio route is inferred from the standalone mixer. README only reports CDJ-700 compatibility; no CDJ-700/CDJ650/CDMP2700/GMX/MDJ protocol or identity is inherited. Exact USB naming/channel choice/driver/OS/power/audio/DVS, full modes/lifecycle/recovery and physical/iPad/A10X acceptance remain open. Requires an existing CoreMIDI endpoint and separate app audio. No upstream source, mapper, driver, firmware, query, setup, hardware mode, preset, output or audio-route write executes or ships."
+      },
+      "implementedInputCount": 13,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Primary owner djtrinidad own-model XML and component mapper at3236e2380a1b24c662fc58777d266b21f9cc46ec identify CDMP-7000 Deck A and explicitly say the hardware exposes separate L/R units using the same file. Manual raw0 player core only. Separate endpoints remain manual target A; no unverified automatic endpoint identity, right-side mapping or hardware channel switch is inferred. Play02, held native Cue01, bend+/minus03/04, Select/Load0F and In10/Out11/Reloop12 are explicit. Note0B/0C are track-list previous/next pulses. PitchCC21 has an explicit invert option; copied FIX comment leaves physical polarity/range acceptance open. Native uses its existing +/-8percent range and pickup. JogCC20 uses value-minus64 and scratchEnable128 at33+1/3RPM; own earlier repository c4b2a1949e0623c8433471a8a6a42c582e57ba5f independently agrees on128. TouchNote18 uses native fixed touch scratch; hardware Vinyl button/state and source intermittent scratch bug are not imported. Relative count/calibration and live feel require hardware acceptance. The source MIDI0D is labelled Master Tempo and XML sync_leader despite an unused SyncButton object; it does not qualify native Sync toggle. LOCK1C is not proven Keylock. Memo08 is toggled in software with contradictory0x91 object and0x90 XML; all Hot Cues/clears stay inactive. Source duplicateNote25, empty FX keys/notes, LCD SysEx, reset loops, timers, slip/reverse/search, effects, full lamps and source lifecycle do not run. No analogue mixer control/audio route is inferred from the standalone mixer. README only reports CDJ-700 compatibility; no CDJ-700/CDJ650/CDMP2700/GMX/MDJ protocol or identity is inherited. Exact USB naming/channel choice/driver/OS/power/audio/DVS, full modes/lifecycle/recovery and physical/iPad/A10X acceptance remain open. Requires an existing CoreMIDI endpoint and separate app audio. No upstream source, mapper, driver, firmware, query, setup, hardware mode, preset, output or audio-route write executes or ships."
         }
       ]
     },
