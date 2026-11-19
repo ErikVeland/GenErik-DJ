@@ -221,8 +221,9 @@ enum PlaybackInputSource: Equatable { case touch, controller }
             if playback.isRecording {
                 storeAccess.beginRecording()
                 recordingLimitTask?.cancel()
+                let recordingRemaining = storeAccess.recordingRemaining
                 recordingLimitTask = Task { [weak self] in
-                    try? await Task.sleep(for: .seconds(storeAccess.recordingRemaining))
+                    try? await Task.sleep(for: .seconds(recordingRemaining))
                     guard let self, !Task.isCancelled, playback.isRecording else { return }
                     if storeAccess.previewIsActive, !storeAccess.hasPurchase(for: .recording) {
                         let previewRemaining = max(0, storeAccess.previewEndsAt.timeIntervalSinceNow)
@@ -1923,7 +1924,11 @@ enum PlaybackInputSource: Equatable { case touch, controller }
                 playback.core.asset(generation: snapshot.b.generation)?.frames
             ), lighting: lightOptions(for: "Z1"))
     }
-    public func pressPlay(deck: DeckID, vinylStop: Bool? = nil, source: PlaybackInputSource = .touch) {
+    public func pressPlay(deck: DeckID, vinylStop: Bool? = nil) {
+        pressPlay(deck: deck, vinylStop: vinylStop, source: .touch)
+    }
+
+    func pressPlay(deck: DeckID, vinylStop: Bool? = nil, source: PlaybackInputSource) {
         controllerPausedJogs[deck] = nil
         cancelCloudSyncForPlayback()
         if source == .controller, storeAccess.controllerLimitReached {
