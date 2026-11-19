@@ -3414,3 +3414,18 @@ func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+
+@Test @MainActor func controllerCatalogueRadiusLegacyVariantsKeepRealAudioSync() async throws {
+    for (name,manual,offset,tap):(String,Bool,UInt8,UInt8) in [("American Audio RADIUS 1000 (2009 factory mapping)",true,63,32),("American Audio RADIUS 1000",true,61,46),("American Audio RADIUS 3000",false,63,32)] {
+        try await withControllerCuePlayback(name,manual:manual) {model,input in
+            input.receiveBytes([0x90,48,1],source:10);input.flushPendingActions()
+            #expect(model.playbackSnapshot?.a.touchActive == true)
+            input.receiveBytes([0x90,tap,127,0x80,48+offset,127,0x90,tap,0,42,127,42,0,7,127],source:10);input.flushPendingActions()
+            input.receiveBytes([0x90,7+offset,0],source:10);input.flushPendingActions()
+            let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        }
+    }
+}

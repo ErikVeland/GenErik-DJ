@@ -4257,6 +4257,36 @@
         }
       ],
       "result": "Independent119-input manual native-bank core with a bounded shifted selector-release alias.383 source/32 native checks and iPad framework compilation pass. All379 earlier recipes remain identical. Automatic ownership, complete modes/feedback/lifecycle/audio and physical acceptance remain open."
+    },
+    {
+      "request": "R457",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "url": "https://www.adj.com/products/radius-1000",
+          "finding": "Own product page links both the March2010 manual and2009 factory mapping. Their TAP/touch/shifted families conflict, so separate manual profiles preserve each source."
+        },
+        {
+          "url": "https://assets.centryngroup.com/dl/files/RADIUS_1000__DL__001.%20March%202010%29",
+          "sha256": "2c98b2d66e553dcd3e5b18486372a0902d60a7a5f4bb1cadd2eaead9bfbefdce",
+          "finding": "Own2010 MIDI pages35/36 visually reviewed. TAP46/touch32/shift+61 are distinct from the2009 archive. NOTE navigation is an explicit configured mode."
+        },
+        {
+          "url": "https://www.adj.com/cdn/shop/files/84368c9268e29e2f3d38f814e4029167dcd9bcb4_vdj6_radius1000.zip?v=9125319635821468713",
+          "sha256": "03f6262414642ea81c87c451c24ef46097cb04c1265479ae41c1d6ed7b0c2522",
+          "finding": "NSIS archive listed and only two XML members extracted as data. No executable or mapper ran. Own old definition specifies TAP32/touch38/shift+63,1024-count binary-offset jog and inverted pitch."
+        },
+        {
+          "url": "https://d295jznhem2tn9.cloudfront.net/ItemRelatedFiles/8354/radius_3000.pdf",
+          "sha256": "6616197b7f82b1d2ddb18e24946ae9cbe795b5539303a52a41f6287749136ffd",
+          "finding": "Own pages38/39 visually qualify the3000 plus63 button core with four cues. The default Relative format is not inferred from another model."
+        },
+        {
+          "url": "https://www.adj.com/products/radius-3000",
+          "finding": "The product SSL download redirects to RADIUS_1000__DL__005.zip. Its only definition is Radius1000 SSL V4.xml. This does not establish a3000 protocol."
+        }
+      ],
+      "result": "Three independent39/38/40-input profiles cover two physical models without merging conflicting1000 revisions.385 source/20 native checks and iPad framework compilation pass. All380 earlier recipes remain identical. Revision detection and full modes/feedback/lifecycle/audio/physical acceptance remain open."
     }
   ]
 }

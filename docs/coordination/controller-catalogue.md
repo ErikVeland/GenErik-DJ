@@ -11,10 +11,10 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 562 total catalogue records. 555 name physical models. The remainder identify software endpoints or protocol families.
-- 380 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 231 factory profiles select core controls automatically for 240 physical models.
+- 383 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 232 factory profiles select core controls automatically for 241 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
-- 309 physical models still lack automatic core controls.
+- 308 physical models still lack automatic core controls.
 - 555 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -40,7 +40,7 @@ Other models have no claimed popularity rank. Within that tier, finish documente
 ## Club and XDJ players — R176/R177
 
 The club-player order balances established models and recent releases. It is an implementation order, not a measured global sales ranking.
-All 28 players select core controls automatically after the hardware enters its PC or USB-MIDI mode.
+All 30 players select core controls automatically after the hardware enters its PC or USB-MIDI mode.
 Connected players receive separate A/B assignments. Saved endpoint identities retain their assignments. C/D require the existing four-deck trial.
 HID, screens, lights and automatic routing across multiple player audio interfaces remain unimplemented.
 
@@ -223,13 +223,13 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 17 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 234 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 235 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 151 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 136 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 152 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 134 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -473,8 +473,8 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | American Audio DV2 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AADV2) |
 | American Audio ELMC-1 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ELMC1) |
 | American Audio ENCORE 2000 | accessory | partial-midi-profile | [Reference](https://d295jznhem2tn9.cloudfront.net/ItemRelatedFiles/8330/encore_2000.pdf) |
-| American Audio RADIUS 1000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RADIUS1000) |
-| American Audio RADIUS 3000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RADIUS3000) |
+| American Audio RADIUS 1000 | primary | partial-midi-profile | [Reference](https://www.adj.com/cdn/shop/files/84368c9268e29e2f3d38f814e4029167dcd9bcb4_vdj6_radius1000.zip?v=9125319635821468713) |
+| American Audio RADIUS 3000 | primary | automatic-core-profile | [Reference](https://d295jznhem2tn9.cloudfront.net/ItemRelatedFiles/8354/radius_3000.pdf) |
 | American Audio Radius 2000 CH1 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/American%20Audio%20RADIUS%202000%20CH1.midi.xml) |
 | American Audio VERSADECK | primary | automatic-core-profile | [Reference](https://www.adj.com/cdn/shop/files/5be308675de7801329d188d3f0cf44323069d6d2_versadeck_user_manual.pdf?v=11627430234356086881) |
 | American Audio VMS2 | primary | partial-midi-profile | [Reference](https://cdn-docs.av-iq.com/other/VMS2_User%20Manual.pdf) |

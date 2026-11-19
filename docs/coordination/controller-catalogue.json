@@ -24271,12 +24271,19 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://www.adj.com/cdn/shop/files/84368c9268e29e2f3d38f814e4029167dcd9bcb4_vdj6_radius1000.zip?v=9125319635821468713",
+        "https://assets.centryngroup.com/dl/files/RADIUS_1000__DL__001.%20March%202010%29",
         "https://virtualdj.com/products/hardware.html?model=RADIUS1000"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:radius1000-2009-factory",
+        "reviewed:radius1000-2010-note-core"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "American Audio RADIUS 1000",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "American Audio RADIUS 1000",
@@ -24284,41 +24291,77 @@
           "source": "https://virtualdj.com/products/hardware.html?model=RADIUS1000"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
+        "browsePreviousGroup",
+        "cuePreviewA:a",
+        "hotcue1A:a",
+        "hotcue2A:a",
+        "hotcue3A:a",
+        "keylockA:a",
+        "loadA:a",
+        "loopDownA:a",
+        "loopInA:a",
+        "loopOutOrExitA:a",
+        "loopUpA:a",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendUpA:a",
+        "playA:a",
+        "reloopA:a"
+      ],
+      "inputBindingCount": 38,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual March2010 protocol only. Enter MIDI mode with default commands and Hold TAP. Directional navigation requires CC TYPE NOTE. Target A. The2009 definition has different TAP/touch/shift bytes."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Own manufacturer March2010 manual pp35/36 visually reviewed. This38-input manual preset uses its distinct TAP46, touch32 and shifted plus61 NOTE family. The conflicting own2009 factory definition has a separate manual profile; neither is automatically selected. Select MIDI mode, default NOTE command assignments, Hold TAP and CC TYPE NOTE for directional encoder navigation. Native Play42/Cue48/Keylock6/In11/Out5/Reloop23/Bends7/13/Halve14/Double8 and three Hot Cues22/16/10 retain explicit shifted release aliases. Native assigns Folder25 to group entry and Track31 to Load A, with shifted86/92 only rearming. CW/CCW folder54/55 and track56/57 are directional native group/track pulses; shifted115/116/117/118 deliberately retain those native actions. Hardware channel changes remain on the manual A target, not an invented virtual deck. TAP46/P34 both edges retire only source-owned holds. Relative encoder encoding, jog/contact calibration, pitch polarity, revision/mode/preset discovery, hardware multi-deck paging, full feedback/lifecycle/recovery, USB/OS/audio routing and physical/iPad/A10X acceptance remain open. No native Sync toggle is assigned to the BPM-display control. No setup, identity query, preset, driver, firmware or audio-route write runs. Radius2000/3000 and the2009 mapping are not inherited.",
+        "Untranslated controls and script behaviour remain in the linked definition records.",
+        "Own manufacturer March2010 manual pp35/36 visually reviewed. This38-input manual preset uses its distinct TAP46, touch32 and shifted plus61 NOTE family. The conflicting own2009 factory definition has a separate manual profile; neither is automatically selected. Select MIDI mode, default NOTE command assignments, Hold TAP and CC TYPE NOTE for directional encoder navigation. Native Play42/Cue48/Keylock6/In11/Out5/Reloop23/Bends7/13/Halve14/Double8 and three Hot Cues22/16/10 retain explicit shifted release aliases. Native assigns Folder25 to group entry and Track31 to Load A, with shifted86/92 only rearming. CW/CCW folder54/55 and track56/57 are directional native group/track pulses; shifted115/116/117/118 deliberately retain those native actions. Hardware channel changes remain on the manual A target, not an invented virtual deck. TAP46/P34 both edges retire only source-owned holds. Relative encoder encoding, jog/contact calibration, pitch polarity, revision/mode/preset discovery, hardware multi-deck paging, full feedback/lifecycle/recovery, USB/OS/audio routing and physical/iPad/A10X acceptance remain open. No native Sync toggle is assigned to the BPM-display control. No setup, identity query, preset, driver, firmware or audio-route write runs. Radius2000/3000 and the2009 mapping are not inherited."
       ],
+      "playerSupport": {
+        "requiredHardwareMode": "Manual March2010 protocol only. Enter MIDI mode with default commands and Hold TAP. Directional navigation requires CC TYPE NOTE. Target A. The2009 definition has different TAP/touch/shift bytes.",
+        "midiInputImplemented": true,
+        "recognisedNames": [
+          "American Audio RADIUS 1000",
+          "Radius 1000",
+          "RADIUS1000",
+          "Radius 1000 2010"
+        ],
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
@@ -24333,12 +24376,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://d295jznhem2tn9.cloudfront.net/ItemRelatedFiles/8354/radius_3000.pdf",
         "https://virtualdj.com/products/hardware.html?model=RADIUS3000"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:radius3000-note-core"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "American Audio RADIUS 3000",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "American Audio RADIUS 3000",
@@ -24346,41 +24394,76 @@
           "source": "https://virtualdj.com/products/hardware.html?model=RADIUS3000"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
+        "browsePreviousGroup",
+        "cuePreviewA:a",
+        "hotcue1A:a",
+        "hotcue2A:a",
+        "hotcue3A:a",
+        "hotcue4A:a",
+        "keylockA:a",
+        "loadA:a",
+        "loopDownA:a",
+        "loopInA:a",
+        "loopOutOrExitA:a",
+        "loopUpA:a",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendUpA:a",
+        "playA:a",
+        "reloopA:a"
+      ],
+      "inputBindingCount": 40,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Hardware MIDI mode and default note commands. Native assigns a separate app deck per source. CC TYPE NOTE is required only for directional encoder navigation. Factory Relative jog/tempo remain inactive. Hardware virtual-deck paging and USB/Link/audio modes remain open."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Own manufacturer pp38/39 numeric MIDI table visually reviewed. Factory raw0, Relative encoders, Pitch Bend and sensor1024 are explicit in the manual. This40-input automatic button core uses its own plus63 shifted NOTE family, four Hot Cues22/16/10/34 and normal Play42/Cue48/Keylock6/In11/Out5/Reloop23/Bends7/13/Halve14/Double8. Shifted positives only rearm the corresponding native action. Native assigns Folder25 to group entry and Track31 to Load on the app-assigned player deck, with shifted88/94 release guards. Directional folder54/55 and track56/57 only operate after selecting the documented CC TYPE NOTE; shifted117/118/119/120 retain those native group/track assignments. Default Relative encoder format is not guessed. MIDI channels1..16 keep the source-assigned app deck and do not implement hardware channel-selected virtual paging. TAP32/P46 both edges retire only source-owned holds. The manufacturer3000 page links an SSL archive containing only Radius1000 XML; it is not a3000 protocol source. Relative encoding/jog/contact calibration, pitch polarity, stored note edits, complete mode/preset/paging/feedback/lifecycle/recovery, USB/Link/OS/audio routing and physical/iPad/A10X acceptance remain open. Enter hardware MIDI mode and use default command assignments. No native Sync toggle is assigned to BPM-display control. No output, setup, query, preset, firmware, driver or audio-route write runs. Radius1000/2000 are not inherited.",
+        "Own manufacturer pp38/39 numeric MIDI table visually reviewed. Factory raw0, Relative encoders, Pitch Bend and sensor1024 are explicit in the manual. This40-input automatic button core uses its own plus63 shifted NOTE family, four Hot Cues22/16/10/34 and normal Play42/Cue48/Keylock6/In11/Out5/Reloop23/Bends7/13/Halve14/Double8. Shifted positives only rearm the corresponding native action. Native assigns Folder25 to group entry and Track31 to Load on the app-assigned player deck, with shifted88/94 release guards. Directional folder54/55 and track56/57 only operate after selecting the documented CC TYPE NOTE; shifted117/118/119/120 retain those native group/track assignments. Default Relative encoder format is not guessed. MIDI channels1..16 keep the source-assigned app deck and do not implement hardware channel-selected virtual paging. TAP32/P46 both edges retire only source-owned holds. The manufacturer3000 page links an SSL archive containing only Radius1000 XML; it is not a3000 protocol source. Relative encoding/jog/contact calibration, pitch polarity, stored note edits, complete mode/preset/paging/feedback/lifecycle/recovery, USB/Link/OS/audio routing and physical/iPad/A10X acceptance remain open. Enter hardware MIDI mode and use default command assignments. No native Sync toggle is assigned to BPM-display control. No output, setup, query, preset, firmware, driver or audio-route write runs. Radius1000/2000 are not inherited."
       ],
+      "playerSupport": {
+        "requiredHardwareMode": "Hardware MIDI mode and default note commands. Native assigns a separate app deck per source. CC TYPE NOTE is required only for directional encoder navigation. Factory Relative jog/tempo remain inactive. Hardware virtual-deck paging and USB/Link/audio modes remain open.",
+        "midiInputImplemented": true,
+        "recognisedNames": [
+          "American Audio RADIUS 3000",
+          "Radius 3000",
+          "RADIUS3000"
+        ],
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
@@ -358268,6 +358351,89 @@
         },
         {
           "reason": "Own manufacturer manual pp39/47/52..54/60..61 and separately supplied VirtualDJ/Serato factory XML read as data. Numeric tables visually reviewed. This manual native119-input layout requires both input selectors USB, MIXER MIDI ON, Shift Lock OFF, normal fader direction and crossfader THRU OFF. Fixed wire channels raw0/1 do not become four invented hardware MIDI pages. Native starts A/B on apply/reconnect; normal Deck25 on each channel selects A/C or B/D in software with one127 press per change. Shifted Deck75 positives stay inactive and both shifted release forms rearm only that source/bank. C/D require app opt-in. Normal Play38/Cue37/Sync35/Keylock30/PFL16/Loop28/In31/Out32/Bends26/27 have explicit shifted plus50 release guards. Out uses native loop-out-or-exit. Native fixed jumps are normal36=-4 and33=+4. Shared Load is raw0 Note1 left/3 right, routed through the corresponding native bank; shifted51/53 only release. Eight left Hot Cues use43/48/49/50/44/45/46/47 for slots1..8. On the right, the manual conflicts with VirtualDJ for slots3/4/7/8. Independent factory Serato B2/B3 controls46/47 corroborate right slots3/4. Right slots1..6 use43/48/46/47/44/45. Uncorroborated right slots7/8 at49/50 remain inactive. Shifted clears only rearm. Mixer CC gain14/high15/mid16/low17/filter18/level19 and shifted54..59 deliberately retain the same native bank-owned actions. LoopCC25 and BrowseCC3/43 use documented binary offset64. Native Shift browse steps groups; normal browse steps tracks and push2 opens a group, shifted52 only rearms it. Global master5/45, cueMix1/41, cueLevel2/42 and cross11/51 deliberately mirror native actions. No jog or tempo fader is invented. Full mixer source/reverse/THRU/curve/Shift Lock ownership, remaining pad/FX/sample/video/fader-start/filter-off/alternate-loop/seek modes, right cues7/8, bank lamps/full feedback/meters/initial positions/startup/shutdown/recovery, USB/OS/audio/DVS routing and physical/iPad/A10X acceptance remain open. No mapper executes and no source init/position query, preset, driver, firmware or audio-route command runs. The source init attribute is not blindly copied as SysEx. DDC-2000 and other OMNITRONIC protocols are not inherited."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:radius1000-2009-factory",
+      "name": "American Audio RADIUS 1000 (2009 factory mapping)",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.adj.com/cdn/shop/files/84368c9268e29e2f3d38f814e4029167dcd9bcb4_vdj6_radius1000.zip?v=9125319635821468713",
+        "sha256": "03f6262414642ea81c87c451c24ef46097cb04c1265479ae41c1d6ed7b0c2522",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r457/upstream/radius1000-vdj.zip",
+            "sha256": "03f6262414642ea81c87c451c24ef46097cb04c1265479ae41c1d6ed7b0c2522"
+          },
+          {
+            "cachePath": "TestBuilds/r457/upstream/radius1000-data/Devices/American Audio Radius 1000 definition.xml",
+            "sha256": "c545bf2465d35282947e1ed142182ff26685519779b028aa75737ea677be8d75"
+          },
+          {
+            "cachePath": "TestBuilds/r457/upstream/radius1000-data/Mappers/American Audio Radius 1000 mapping.xml",
+            "sha256": "94f3166daa06d5ec3a147344e623cdddc2fbb6295ed67e8183dde4f15ff03a12"
+          }
+        ],
+        "review": "Own manufacturer product links the2009 VirtualDJ6 archive. Its NSIS container was listed and only two XML data files extracted with the archive reader; the executable and mapper were not run. This39-input manual old-protocol layout requires raw channel0, Relative encoders, pitch-bend pitch and1024-pulse jog. Its TAP32, touch38 and shifted normal+63 differ from the manufacturer2010 manual. Never combine these revisions. Own XML specifies binary-offset64 jogCC53 with full1024 and inverted pitch bend. Native normal jog/tempo are TAP-guarded and use fixed native touch scratch and+/-8percent tempo. Shifted touch101 only releases. Folder/Track CC54/56 and TAP117/119 step native groups/tracks. Folder25 opens a group and Track31 loads the current manual target. Play42/Cue48/Keylock6/In11/Out5/Reloop23/Bends7/13/Halve14/Double8 and three Hot Cues22/16/10 have explicit shifted release aliases. No native Sync toggle is assigned to the source one-off BPM match. TAP both edges retire source-owned holds before possible configuration changes. Manual profiles target A and do not gain automatic separate-player assignment. Revision detection, other channels/presets, source ADV/sample/FX/modes/encoder ranges, full feedback/lifecycle/recovery, USB/OS/audio routing and physical/iPad/A10X acceptance remain open. No setup, query, driver, firmware, reset, executable, mapper or audio-route command runs."
+      },
+      "implementedInputCount": 39,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Own manufacturer product links the2009 VirtualDJ6 archive. Its NSIS container was listed and only two XML data files extracted with the archive reader; the executable and mapper were not run. This39-input manual old-protocol layout requires raw channel0, Relative encoders, pitch-bend pitch and1024-pulse jog. Its TAP32, touch38 and shifted normal+63 differ from the manufacturer2010 manual. Never combine these revisions. Own XML specifies binary-offset64 jogCC53 with full1024 and inverted pitch bend. Native normal jog/tempo are TAP-guarded and use fixed native touch scratch and+/-8percent tempo. Shifted touch101 only releases. Folder/Track CC54/56 and TAP117/119 step native groups/tracks. Folder25 opens a group and Track31 loads the current manual target. Play42/Cue48/Keylock6/In11/Out5/Reloop23/Bends7/13/Halve14/Double8 and three Hot Cues22/16/10 have explicit shifted release aliases. No native Sync toggle is assigned to the source one-off BPM match. TAP both edges retire source-owned holds before possible configuration changes. Manual profiles target A and do not gain automatic separate-player assignment. Revision detection, other channels/presets, source ADV/sample/FX/modes/encoder ranges, full feedback/lifecycle/recovery, USB/OS/audio routing and physical/iPad/A10X acceptance remain open. No setup, query, driver, firmware, reset, executable, mapper or audio-route command runs."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:radius1000-2010-note-core",
+      "name": "American Audio RADIUS 1000",
+      "transport": "midi",
+      "source": {
+        "url": "https://assets.centryngroup.com/dl/files/RADIUS_1000__DL__001.%20March%202010%29",
+        "sha256": "2c98b2d66e553dcd3e5b18486372a0902d60a7a5f4bb1cadd2eaead9bfbefdce",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r457/upstream/radius1000-manual.pdf",
+            "sha256": "2c98b2d66e553dcd3e5b18486372a0902d60a7a5f4bb1cadd2eaead9bfbefdce"
+          }
+        ],
+        "review": "Own manufacturer March2010 manual pp35/36 visually reviewed. This38-input manual preset uses its distinct TAP46, touch32 and shifted plus61 NOTE family. The conflicting own2009 factory definition has a separate manual profile; neither is automatically selected. Select MIDI mode, default NOTE command assignments, Hold TAP and CC TYPE NOTE for directional encoder navigation. Native Play42/Cue48/Keylock6/In11/Out5/Reloop23/Bends7/13/Halve14/Double8 and three Hot Cues22/16/10 retain explicit shifted release aliases. Native assigns Folder25 to group entry and Track31 to Load A, with shifted86/92 only rearming. CW/CCW folder54/55 and track56/57 are directional native group/track pulses; shifted115/116/117/118 deliberately retain those native actions. Hardware channel changes remain on the manual A target, not an invented virtual deck. TAP46/P34 both edges retire only source-owned holds. Relative encoder encoding, jog/contact calibration, pitch polarity, revision/mode/preset discovery, hardware multi-deck paging, full feedback/lifecycle/recovery, USB/OS/audio routing and physical/iPad/A10X acceptance remain open. No native Sync toggle is assigned to the BPM-display control. No setup, identity query, preset, driver, firmware or audio-route write runs. Radius2000/3000 and the2009 mapping are not inherited."
+      },
+      "implementedInputCount": 38,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Own manufacturer March2010 manual pp35/36 visually reviewed. This38-input manual preset uses its distinct TAP46, touch32 and shifted plus61 NOTE family. The conflicting own2009 factory definition has a separate manual profile; neither is automatically selected. Select MIDI mode, default NOTE command assignments, Hold TAP and CC TYPE NOTE for directional encoder navigation. Native Play42/Cue48/Keylock6/In11/Out5/Reloop23/Bends7/13/Halve14/Double8 and three Hot Cues22/16/10 retain explicit shifted release aliases. Native assigns Folder25 to group entry and Track31 to Load A, with shifted86/92 only rearming. CW/CCW folder54/55 and track56/57 are directional native group/track pulses; shifted115/116/117/118 deliberately retain those native actions. Hardware channel changes remain on the manual A target, not an invented virtual deck. TAP46/P34 both edges retire only source-owned holds. Relative encoder encoding, jog/contact calibration, pitch polarity, revision/mode/preset discovery, hardware multi-deck paging, full feedback/lifecycle/recovery, USB/OS/audio routing and physical/iPad/A10X acceptance remain open. No native Sync toggle is assigned to the BPM-display control. No setup, identity query, preset, driver, firmware or audio-route write runs. Radius2000/3000 and the2009 mapping are not inherited."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:radius3000-note-core",
+      "name": "American Audio RADIUS 3000",
+      "transport": "midi",
+      "source": {
+        "url": "https://d295jznhem2tn9.cloudfront.net/ItemRelatedFiles/8354/radius_3000.pdf",
+        "sha256": "6616197b7f82b1d2ddb18e24946ae9cbe795b5539303a52a41f6287749136ffd",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r457/upstream/radius3000-manual.pdf",
+            "sha256": "6616197b7f82b1d2ddb18e24946ae9cbe795b5539303a52a41f6287749136ffd"
+          }
+        ],
+        "review": "Own manufacturer pp38/39 numeric MIDI table visually reviewed. Factory raw0, Relative encoders, Pitch Bend and sensor1024 are explicit in the manual. This40-input automatic button core uses its own plus63 shifted NOTE family, four Hot Cues22/16/10/34 and normal Play42/Cue48/Keylock6/In11/Out5/Reloop23/Bends7/13/Halve14/Double8. Shifted positives only rearm the corresponding native action. Native assigns Folder25 to group entry and Track31 to Load on the app-assigned player deck, with shifted88/94 release guards. Directional folder54/55 and track56/57 only operate after selecting the documented CC TYPE NOTE; shifted117/118/119/120 retain those native group/track assignments. Default Relative encoder format is not guessed. MIDI channels1..16 keep the source-assigned app deck and do not implement hardware channel-selected virtual paging. TAP32/P46 both edges retire only source-owned holds. The manufacturer3000 page links an SSL archive containing only Radius1000 XML; it is not a3000 protocol source. Relative encoding/jog/contact calibration, pitch polarity, stored note edits, complete mode/preset/paging/feedback/lifecycle/recovery, USB/Link/OS/audio routing and physical/iPad/A10X acceptance remain open. Enter hardware MIDI mode and use default command assignments. No native Sync toggle is assigned to BPM-display control. No output, setup, query, preset, firmware, driver or audio-route write runs. Radius1000/2000 are not inherited."
+      },
+      "implementedInputCount": 40,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Own manufacturer pp38/39 numeric MIDI table visually reviewed. Factory raw0, Relative encoders, Pitch Bend and sensor1024 are explicit in the manual. This40-input automatic button core uses its own plus63 shifted NOTE family, four Hot Cues22/16/10/34 and normal Play42/Cue48/Keylock6/In11/Out5/Reloop23/Bends7/13/Halve14/Double8. Shifted positives only rearm the corresponding native action. Native assigns Folder25 to group entry and Track31 to Load on the app-assigned player deck, with shifted88/94 release guards. Directional folder54/55 and track56/57 only operate after selecting the documented CC TYPE NOTE; shifted117/118/119/120 retain those native group/track assignments. Default Relative encoder format is not guessed. MIDI channels1..16 keep the source-assigned app deck and do not implement hardware channel-selected virtual paging. TAP32/P46 both edges retire only source-owned holds. The manufacturer3000 page links an SSL archive containing only Radius1000 XML; it is not a3000 protocol source. Relative encoding/jog/contact calibration, pitch polarity, stored note edits, complete mode/preset/paging/feedback/lifecycle/recovery, USB/Link/OS/audio routing and physical/iPad/A10X acceptance remain open. Enter hardware MIDI mode and use default command assignments. No native Sync toggle is assigned to BPM-display control. No output, setup, query, preset, firmware, driver or audio-route write runs. Radius1000/2000 are not inherited."
         }
       ]
     },
