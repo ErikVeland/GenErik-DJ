@@ -1967,6 +1967,33 @@
         }
       ],
       "result": "Independent45/45-input manual Pulsar/Tempus normal-layer subsets and eleven shared Syncron mixer inputs. Disputed Syncron controls stay inactive.282 source/18 native checks and iPad framework compilation pass. All303 earlier recipes remain identical. No hardware writes or automatic support claim."
+    },
+    {
+      "request": "R409",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "model": "Numark MixDeck",
+          "url": "https://www.numark.com/images/product_downloads/mixdeck___quickstart_guide___v1.6.pdf",
+          "sha256": "023dcefa27e11651ab057b49bf11be50b5fb18ce22798fa9c6cfe7e20c08eb54",
+          "version": "1.6",
+          "pages": [
+            4,
+            12,
+            13
+          ],
+          "visuallyReviewedPages": [
+            12,
+            13
+          ],
+          "mappingURL": "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+          "mappingSHA256": "0557173bb5cb8bce866bbd439bd10140d8c281fd550486541dc4ddfff46edbec",
+          "mappingMember": "Devices/NUMARK MIXDECK.xml",
+          "mappingMemberSHA256": "cf2bdf917d81685b5539144f78ef8ad2af4e33ee5ca04ab9d901537f6dc1a347",
+          "review": "The original manufacturer v1.6 guide explicitly says the mixer and iPod controls have no MIDI function. It requires USB-MIDI deck mode and documents the software layout: Play toggles, Pause sets Cue, Back opens groups, Track browses/loads, TAP Syncs and trigger pads1/2/3 set1/4/8-beat loops. Independent original ProMixer XML qualifies selected channels0/1 and raw input addresses. Native32-input manual subset does not reuse Express/Quad wires or calibration. Pitch virtual numbers224/225 are not raw controllers; jog, pitch, time/FX knobs, other modes, ambiguous lamp values74/75, complete feedback/lifecycle/audio and physical/iPad/A10X acceptance remain open. The software mixer and iPod are not invented as MIDI controls. No factory XML, program or MIDI action is executed or bundled."
+        }
+      ],
+      "result": "Independent32-input manual original MIXDECK USB-MIDI deck subset with documented software Cue-set and fixed loop functions. No analogue mixer, sibling calibration or ambiguous lamp writes.284 source/16 native checks and iPad framework compilation pass. All306 earlier recipes remain identical."
     }
   ]
 }

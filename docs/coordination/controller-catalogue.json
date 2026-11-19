@@ -44780,68 +44780,6 @@
       }
     },
     {
-      "id": "numarkmixdeck",
-      "name": "Numark MIXDECK",
-      "manufacturer": "Numark",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://virtualdj.com/products/hardware.html?model=MIXDECK"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "virtualDJ": {
-          "sourceName": "Numark MIXDECK",
-          "category": "All-in-one",
-          "source": "https://virtualdj.com/products/hardware.html?model=MIXDECK"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
       "id": "numarkmixtrack",
       "name": "Numark MIXTRACK",
       "manufacturer": "Numark",
@@ -44952,6 +44890,100 @@
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
         "Native core transport and fixed manual loops replace source script modes. Manual/auto loop toggles, directory latch, Delete/Hot Cue or EQ-kill modes, Scratch toggle, pitch-bend buttons, FX and full audio routing remain unimplemented. Native Scratch lights use the published LED addresses. Source-specific tempo direction, jog calibration, complete shutdown feedback and source reuse/distribution review remain open."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "numarkmixdeck",
+      "name": "Numark MixDeck",
+      "manufacturer": "Numark",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://www.numark.com/images/product_downloads/mixdeck___quickstart_guide___v1.6.pdf",
+        "https://virtualdj.com/products/hardware.html?model=MIXDECK"
+      ],
+      "definitions": [
+        "reviewed:numark-original-mixdeck-usb-midi"
+      ],
+      "implementation": "partial-midi-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Numark MixDeck",
+      "automaticControls": false,
+      "comparisonSupport": {
+        "virtualDJ": {
+          "sourceName": "Numark MIXDECK",
+          "category": "All-in-one",
+          "source": "https://virtualdj.com/products/hardware.html?model=MIXDECK"
+        }
+      },
+      "controlActions": [
+        "browse",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "cueSetA:a",
+        "cueSetB:b",
+        "keylockA:a",
+        "keylockB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "syncA:a",
+        "syncB:b",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopB:b"
+      ],
+      "inputBindingCount": 32,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual original-model A/B deck subset. Select USB-MIDI on both players. Native Play toggles; Pause sets Cue, following the manufacturer software layout. Use app mixing and configure audio separately. The analogue mixer and iPod send no MIDI."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "partial",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Jog/touch/tempo calibration and resolution, time/FX knobs, additional modes and physical controls, ambiguous lamp values, complete feedback/state/lifecycle, driver/audio routing and physical/iPad/A10X acceptance remain open. No stored preset, source script, firmware or automatic audio route is used. The analogue mixer and iPod have no MIDI function.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -351171,6 +351203,42 @@
         },
         {
           "reason": "Native fixed touch replaces source software Scratch/Search toggles. Native calibration and finer pitch resolution remain unverified. Combined-loop/edit variations, pitch ranges, reverse/slip/FX, full displays/text, complete lifecycle and audio routing remain open. No Sync button is inferred. Shared cue/sampler mode, full PFL routing and legacy30-pin iOS mono handling remain open. Physical switch setup is required."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:numark-original-mixdeck-usb-midi",
+      "name": "Numark MixDeck",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.numark.com/images/product_downloads/mixdeck___quickstart_guide___v1.6.pdf",
+        "sha256": "023dcefa27e11651ab057b49bf11be50b5fb18ce22798fa9c6cfe7e20c08eb54",
+        "version": "1.6",
+        "pages": [
+          4,
+          12,
+          13
+        ],
+        "visuallyReviewedPages": [
+          12,
+          13
+        ],
+        "mappingURL": "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+        "mappingSHA256": "0557173bb5cb8bce866bbd439bd10140d8c281fd550486541dc4ddfff46edbec",
+        "mappingMember": "Devices/NUMARK MIXDECK.xml",
+        "mappingMemberSHA256": "cf2bdf917d81685b5539144f78ef8ad2af4e33ee5ca04ab9d901537f6dc1a347",
+        "review": "The original manufacturer v1.6 guide explicitly says the mixer and iPod controls have no MIDI function. It requires USB-MIDI deck mode and documents the software layout: Play toggles, Pause sets Cue, Back opens groups, Track browses/loads, TAP Syncs and trigger pads1/2/3 set1/4/8-beat loops. Independent original ProMixer XML qualifies selected channels0/1 and raw input addresses. Native32-input manual subset does not reuse Express/Quad wires or calibration. Pitch virtual numbers224/225 are not raw controllers; jog, pitch, time/FX knobs, other modes, ambiguous lamp values74/75, complete feedback/lifecycle/audio and physical/iPad/A10X acceptance remain open. The software mixer and iPod are not invented as MIDI controls. No factory XML, program or MIDI action is executed or bundled."
+      },
+      "implementedInputCount": 32,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Jog/touch/tempo calibration and resolution, time/FX knobs, additional modes and physical controls, ambiguous lamp values, complete feedback/state/lifecycle, driver/audio routing and physical/iPad/A10X acceptance remain open. No stored preset, source script, firmware or automatic audio route is used. The analogue mixer and iPod have no MIDI function."
         }
       ]
     },

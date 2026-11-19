@@ -11,7 +11,7 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 561 total catalogue records. 554 name physical models. The remainder identify software endpoints or protocol families.
-- 306 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 307 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 197 factory profiles select core controls automatically for 205 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - 343 physical models still lack automatic core controls.
@@ -228,8 +228,8 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 111 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 210 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 112 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 209 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -685,8 +685,8 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Numark DJ2Go | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20DJ2Go.midi.xml) |
 | Numark DMC2 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DMC2) |
 | Numark ICDX | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ICDX) |
-| Numark MIXDECK | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MIXDECK) |
 | Numark MIXTRACK | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20MIXTRACK.midi.xml) |
+| Numark MixDeck | primary | partial-midi-profile | [Reference](https://www.numark.com/images/product_downloads/mixdeck___quickstart_guide___v1.6.pdf) |
 | Numark Mixtrack 3 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-3.midi.xml) |
 | Numark Mixtrack Edge | primary | partial-midi-profile | [Reference](https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe) |
 | Numark Mixtrack II | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%202.midi.xml) |

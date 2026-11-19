@@ -5438,3 +5438,20 @@ All three subsets remain manual, with no startup, shutdown, feedback, stored-pre
 Validation:282 source checks and18 native checks passed, including172 automatic held-Cue profiles and earlier Akiyama chart regressions. Tests cover manual-only activation, no writes, exact A/B controls, both Cue releases, duplicate/source ownership, composed Shift, strict channels, per-control pickup, rejected disputed Syncron traffic and finite synced real-WAV playback for all three models. The iPad framework compiled and its bundled resource matches the source. All303 earlier recipes remain identical. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r408/validation.json`.
 
 The catalogue has306 recipes and561 records for554 physical models. Automatic core coverage stays211, with343 without it. First-protocol gaps fall to210. Full theoretical support remains0/554. Configurable modes/channels, complete transport/feedback/lifecycle/calibration/audio and physical/iPad/A10X acceptance remain open.
+
+## R409 original MIXDECK USB-MIDI subset
+
+Assumption: use the original model's independently pinned public factory wires. Follow the manufacturer MIDI software layout for Play/Pause, Pause-to-Cue-set and1/4/8-beat trigger buttons. Keep its analogue mixer outside the MIDI profile. Require manual selection and USB-MIDI deck mode. No Express or Quad protocol or calibration is inherited.
+
+- [x] Pin and visually review the original manufacturer MIDI/mapping notes and separate factory XML.
+- [x] Add the bounded manual A/B deck subset without hardware writes.
+- [x] Verify Cue releases/source ownership, Cue-set, fixed loops, browsing, strict channels, unqualified-wire rejection and real audio.
+- [x] Run focused checks, compile the iPad framework and preserve all306 earlier recipes.
+
+The original manufacturer v1.6 guide explicitly excludes the analogue mixer and iPod from MIDI. Its MIDI software notes use Play as Play/Pause, Pause as Cue-set, Track for browse/load and Back for group navigation. Trigger buttons1/2/3 set1/4/8-beat loops. Pages12/13 were visually reviewed. The separate public original ProMixer XML supplies the selected raw A/B channels and addresses. No Express/Quad address, lamp rule or calibration is inherited.
+
+The32-input manual app layout retains Play/held Cue, Cue-set, Sync/key lock, held bends, manual loop boundaries, native Reloop, fixed loop pads and both browse/load/group controls. Browse accepts only exact1/127 steps. The native Reloop/toggle function follows the app's existing loop behaviour. Unqualified jog/contact/pitch, time/FX knobs, additional modes and lamp values74/75 stay inactive. Virtual pitch numbers224/225 do not become raw controller numbers. The profile has no hardware write, feedback or automatic audio assignment. Decks require USB-MIDI mode and manual profile selection. Separate external deck audio routing remains unavailable.
+
+Validation:284 source checks and16 native checks passed, including172 automatic held-Cue profiles and existing Express/Quad regressions. Fixtures cover the original identity, strict A/B targets, both Cue releases, duplicate/source ownership, Cue-set, bends, loop arguments, exact browse steps, rejected unqualified wires and finite synced real-WAV playback. Cue-set retains playing state and the loop pad enables the expected native loop. The iPad framework compiled and its bundled resource matches the source. All306 earlier recipes remain identical. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r409/validation.json`.
+
+The catalogue has307 recipes and561 records for554 physical models. Automatic core coverage stays211, with343 without it. First-protocol gaps fall to209. Full theoretical support remains0/554. Complete modes/feedback/lifecycle/calibration/audio, desktop/iPad driver behaviour and physical/A10X acceptance remain open. The current public Zomo support page also yielded its official factory TSI archive and manual for the next independent review.

@@ -2856,3 +2856,19 @@ func controllerCatalogueLegacyDJMDirectCueKeepsAppStartedRealAudioSynced(_ name:
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueOriginalMixDeckCueSetAndLoopPadsKeepRealAudioSync()async throws{
+    try await withControllerCuePlayback("Numark MixDeck",manual:true){model,input in
+        cuePreviewPacket([0x90,56,127],to:input);#expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80,56,127,0x90,58,127,58,0],to:input)
+        _=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        cuePreviewPacket([0x90,57,127,57,0],to:input)
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        cuePreviewPacket([0x90,51,127,51,0],to:input)
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.loopEnabled == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}
