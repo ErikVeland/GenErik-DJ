@@ -2906,6 +2906,75 @@
         }
       ],
       "result": "Separate1D/2D/4D primary Map2 CC charts qualify18/19/35 manual axis inputs. Normal1D and2D addresses differ;4D shares both pod families but shifts channel, unlike2D address shifting. Numeric button-note origins and light-pipe toggle contracts remain unqualified and inactive. Driver, generic identity and audio ownership prevent automatic-selection claims. No vendor code, driver, setting or MIDI output runs."
+    },
+    {
+      "request": "R426",
+      "sources": [
+        {
+          "model": "Numark NDX800",
+          "url": "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+          "sha256": "0557173bb5cb8bce866bbd439bd10140d8c281fd550486541dc4ddfff46edbec",
+          "member": "Devices/NUMARK NDX-800 (Single A).xml",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r388/upstream/documents/Devices/NUMARK NDX-800 (Single A).xml",
+              "sha256": "49d8a7182ea8d2c434a6079998b89ad3ed12985e3d9ea163d60753299a7c8df8"
+            },
+            {
+              "cachePath": "TestBuilds/r426/upstream/ndx800.pdf",
+              "sha256": "ac79aef922a617c65fcfcccb9603741169c041edc1d7f13ecf725900f768f953"
+            },
+            {
+              "cachePath": "TestBuilds/r426/upstream/ndx800-cue.zip",
+              "sha256": "361f2a03f35901664ecf66d06d8306aa0c1de649c24d9e2931519485801c825e"
+            },
+            {
+              "cachePath": "TestBuilds/r426/upstream/ndx800-mapping.xml",
+              "sha256": "074aeeaf3dc8c82b5ff911b6aefc521f4bf6bc9ea2ddf68b29b3001114090ca4"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://www.numark.com/product/ndx800",
+              "review": "Manufacturer explicitly lists class-compliant MIDI and iOS compatibility; physical acceptance remains separate."
+            },
+            {
+              "url": "https://www.numark.com/images/product_downloads/ndx800___quickstart_guide___v1.4.pdf"
+            },
+            {
+              "url": "https://www.numark.com/images/product_downloads/ndx800___cue_controller_mapping_file.zip"
+            }
+          ],
+          "review": "Own public ProMixer Single-A input rows qualify normal Play58/Cue56/bends60/61/Load70/loop48/49/50, strict browseCC33 values1/127 and inverted pitch-bend. Manufacturer guide and CUE setup instructions require SOURCE/PARAMETER to select USB-MIDI. Published CUE mapper is semantic corroboration only, not a wire definition: RANGE distinguishes short pitch-range from held Key Lock; separate Pause is not a native toggle. Its copied MIXDECK refresh action never runs. Source phantom CC133 and zero-number placeholders are ignored, including selector0/rangeup69. No numeric selector or mode reset is inferred from900. Jog/contact calibration, conditional pads/record/Hold/FX/browser, unqualified Sync/key-lock/Pause commands, full output/display/state/lifecycle/audio/host and physical/iPad/A10X acceptance remain open. No NDX500 or900 startup is inherited."
+        },
+        {
+          "model": "Numark NDX900",
+          "url": "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+          "sha256": "0557173bb5cb8bce866bbd439bd10140d8c281fd550486541dc4ddfff46edbec",
+          "member": "Devices/NUMARK NDX-900 (Single A).xml",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r388/upstream/documents/Devices/NUMARK NDX-900 (Single A).xml",
+              "sha256": "7882253e7ee503b60267bda12f9b39b048e69ebd235a2fb575feb8d5f28a1031"
+            },
+            {
+              "cachePath": "TestBuilds/r426/upstream/ndx900.pdf",
+              "sha256": "b9cfceaf99c294b5c10e84279317ac18d7bcce8ae06662efc48e36b4a124cbcc"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://www.numark.com/product/ndx900controller",
+              "review": "Own product page lists driver-free class-compliant MIDI/audio and iOS compatibility; native does not infer automatic multi-interface routing."
+            },
+            {
+              "url": "https://www.numark.com/images/product_downloads/ndx900___quickstart_guide___v1.2.pdf"
+            }
+          ],
+          "review": "Own separate public input definition qualifies the same bounded normal Play/Cue/bend/Load/manual-loop/browse/pitch wires. Native does not infer the NDX800 pad, range/Hold, display or lifecycle contract. Its own manufacturer guide requires USB-MIDI source mode. Each attached unit receives an app player assignment; accepted MIDI channels address that owned player rather than app deck numbers. Cue/Sampler mode69 retires only that source-owned player. Native pitch follows app range; hardware range changes are not implemented. Full jog/contact calibration, conditional pads/FX/record/Hold, separate Pause/key-lock/Sync semantics, feedback/display/lifecycle/audio/host/OS and physical/iPad/A10X acceptance remain open. No stored setting, software action, driver, firmware or vendor program runs."
+        }
+      ],
+      "result": "Separate ten-input automatic player cores use own pinned input rows and manufacturer USB-MIDI/class-compliance evidence. Native wire checks now cover every active input and mode reset against each own XML. NDX800 selector0/rangeup69 remains inactive; only NDX900 qualifies real Note69 cleanup. Source software actions, phantom CC133, placeholders and ambiguous lamps remain inactive. Full modes/audio/feedback/host and physical acceptance remain open."
     }
   ]
 }

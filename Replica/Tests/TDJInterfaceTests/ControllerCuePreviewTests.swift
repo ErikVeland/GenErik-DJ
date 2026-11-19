@@ -2987,6 +2987,19 @@ func controllerCatalogueLegacyRaneMixerAndLoopsKeepRealAudioAndSavedSync(_ name:
     }
 }
 
+@Test(arguments: ["Numark NDX800", "Numark NDX900"]) @MainActor
+func controllerCatalogueNDXLegacyKeepsRealAudioAndSavedSync(_ name: String) async throws {
+    try await withControllerCuePlayback(name) { model, input in
+        cuePreviewPacket([0x9B, 56, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes(name == "Numark NDX800" ? [0x8B, 56, 127] : [0x9F, 69, 64], source: 10); input.flushPendingActions()
+        input.receiveBytes([0x9B, 58, 127, 58, 0, 0xEB, 0, 64], source: 10); input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
 @Test(arguments: ["Allen & Heath XONE 1D", "Allen & Heath XONE 2D", "Allen & Heath XONE 4D"]) @MainActor
 func controllerCatalogueLegacyXoneAxesKeepRealAudioAndSavedSync(_ name: String) async throws {
     try await withControllerCuePlayback(name, manual: true) { model, input in

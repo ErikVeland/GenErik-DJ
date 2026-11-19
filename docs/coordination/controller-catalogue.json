@@ -48427,130 +48427,6 @@
       }
     },
     {
-      "id": "numarkndx800",
-      "name": "Numark NDX 800",
-      "manufacturer": "Numark",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://virtualdj.com/products/hardware.html?model=NDX800"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "virtualDJ": {
-          "sourceName": "Numark NDX 800",
-          "category": "Deck controllers (cd player/turntable)",
-          "source": "https://virtualdj.com/products/hardware.html?model=NDX800"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
-      "id": "numarkndx900",
-      "name": "Numark NDX 900",
-      "manufacturer": "Numark",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://virtualdj.com/products/hardware.html?model=NDX900"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "virtualDJ": {
-          "sourceName": "Numark NDX 900",
-          "category": "Deck controllers (cd player/turntable)",
-          "source": "https://virtualdj.com/products/hardware.html?model=NDX900"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
       "id": "numarkndx500",
       "name": "Numark NDX500",
       "manufacturer": "Numark",
@@ -48635,6 +48511,194 @@
         "recognisedNames": [
           "Numark NDX500",
           "NDX500"
+        ],
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "numarkndx800",
+      "name": "Numark NDX800",
+      "manufacturer": "Numark",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+        "https://virtualdj.com/products/hardware.html?model=NDX800"
+      ],
+      "definitions": [
+        "reviewed:ndx-legacy-800"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Numark NDX800",
+      "automaticControls": true,
+      "comparisonSupport": {
+        "virtualDJ": {
+          "sourceName": "Numark NDX 800",
+          "category": "Deck controllers (cd player/turntable)",
+          "source": "https://virtualdj.com/products/hardware.html?model=NDX800"
+        }
+      },
+      "controlActions": [
+        "browse",
+        "cuePreviewA:a",
+        "loadA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "pitchBendDownA:a",
+        "pitchBendUpA:a",
+        "playA:a",
+        "reloopA:a",
+        "tempoA:a"
+      ],
+      "inputBindingCount": 10,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Select USB-MIDI with SOURCE/PARAMETER. Each connected player receives its own app deck assignment. Use normal transport mode and configure app audio separately. Pitch follows app range."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Own public ProMixer Single-A input rows qualify normal Play58/Cue56/bends60/61/Load70/loop48/49/50, strict browseCC33 values1/127 and inverted pitch-bend. Manufacturer guide and CUE setup instructions require SOURCE/PARAMETER to select USB-MIDI. Published CUE mapper is semantic corroboration only, not a wire definition: RANGE distinguishes short pitch-range from held Key Lock; separate Pause is not a native toggle. Its copied MIXDECK refresh action never runs. Source phantom CC133 and zero-number placeholders are ignored, including selector0/rangeup69. No numeric selector or mode reset is inferred from900. Jog/contact calibration, conditional pads/record/Hold/FX/browser, unqualified Sync/key-lock/Pause commands, full output/display/state/lifecycle/audio/host and physical/iPad/A10X acceptance remain open. No NDX500 or900 startup is inherited.",
+        "Own public ProMixer Single-A input rows qualify normal Play58/Cue56/bends60/61/Load70/loop48/49/50, strict browseCC33 values1/127 and inverted pitch-bend. Manufacturer guide and CUE setup instructions require SOURCE/PARAMETER to select USB-MIDI. Published CUE mapper is semantic corroboration only, not a wire definition: RANGE distinguishes short pitch-range from held Key Lock; separate Pause is not a native toggle. Its copied MIXDECK refresh action never runs. Source phantom CC133 and zero-number placeholders are ignored, including selector0/rangeup69. No numeric selector or mode reset is inferred from900. Jog/contact calibration, conditional pads/record/Hold/FX/browser, unqualified Sync/key-lock/Pause commands, full output/display/state/lifecycle/audio/host and physical/iPad/A10X acceptance remain open. No NDX500 or900 startup is inherited."
+      ],
+      "playerSupport": {
+        "requiredHardwareMode": "Select USB-MIDI with SOURCE/PARAMETER. Each connected player receives its own app deck assignment. Use normal transport mode and configure app audio separately. Pitch follows app range.",
+        "midiInputImplemented": true,
+        "recognisedNames": [
+          "Numark NDX800",
+          "Numark NDX-800",
+          "NDX800",
+          "NDX-800",
+          "NDX800 Controller"
+        ],
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "numarkndx900",
+      "name": "Numark NDX900",
+      "manufacturer": "Numark",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+        "https://virtualdj.com/products/hardware.html?model=NDX900"
+      ],
+      "definitions": [
+        "reviewed:ndx-legacy-900"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Numark NDX900",
+      "automaticControls": true,
+      "comparisonSupport": {
+        "virtualDJ": {
+          "sourceName": "Numark NDX 900",
+          "category": "Deck controllers (cd player/turntable)",
+          "source": "https://virtualdj.com/products/hardware.html?model=NDX900"
+        }
+      },
+      "controlActions": [
+        "browse",
+        "cuePreviewA:a",
+        "loadA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "pitchBendDownA:a",
+        "pitchBendUpA:a",
+        "playA:a",
+        "reloopA:a",
+        "tempoA:a"
+      ],
+      "inputBindingCount": 10,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Select USB-MIDI with SOURCE/PARAMETER. Each connected player receives its own app deck assignment. Use normal transport mode and configure app audio separately. Pitch follows app range."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Own separate public input definition qualifies the same bounded normal Play/Cue/bend/Load/manual-loop/browse/pitch wires. Native does not infer the NDX800 pad, range/Hold, display or lifecycle contract. Its own manufacturer guide requires USB-MIDI source mode. Each attached unit receives an app player assignment; accepted MIDI channels address that owned player rather than app deck numbers. Cue/Sampler mode69 retires only that source-owned player. Native pitch follows app range; hardware range changes are not implemented. Full jog/contact calibration, conditional pads/FX/record/Hold, separate Pause/key-lock/Sync semantics, feedback/display/lifecycle/audio/host/OS and physical/iPad/A10X acceptance remain open. No stored setting, software action, driver, firmware or vendor program runs.",
+        "Own separate public input definition qualifies the same bounded normal Play/Cue/bend/Load/manual-loop/browse/pitch wires. Native does not infer the NDX800 pad, range/Hold, display or lifecycle contract. Its own manufacturer guide requires USB-MIDI source mode. Each attached unit receives an app player assignment; accepted MIDI channels address that owned player rather than app deck numbers. Cue/Sampler mode69 retires only that source-owned player. Native pitch follows app range; hardware range changes are not implemented. Full jog/contact calibration, conditional pads/FX/record/Hold, separate Pause/key-lock/Sync semantics, feedback/display/lifecycle/audio/host/OS and physical/iPad/A10X acceptance remain open. No stored setting, software action, driver, firmware or vendor program runs."
+      ],
+      "playerSupport": {
+        "requiredHardwareMode": "Select USB-MIDI with SOURCE/PARAMETER. Each connected player receives its own app deck assignment. Use normal transport mode and configure app audio separately. Pitch follows app range.",
+        "midiInputImplemented": true,
+        "recognisedNames": [
+          "Numark NDX900",
+          "Numark NDX-900",
+          "NDX900",
+          "NDX-900",
+          "NDX900 Controller"
         ],
         "automaticDeckAssignment": true,
         "hidImplemented": false,
@@ -354541,6 +354605,95 @@
         },
         {
           "reason": "Full theoretical support and physical/iPad/A10X acceptance remain open. No firmware, driver, channel/map/light-pipe setting, vendor program, MIDI clock or audio route is written."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:ndx-legacy-800",
+      "name": "Numark NDX800",
+      "transport": "midi",
+      "source": {
+        "url": "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+        "sha256": "0557173bb5cb8bce866bbd439bd10140d8c281fd550486541dc4ddfff46edbec",
+        "member": "Devices/NUMARK NDX-800 (Single A).xml",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r388/upstream/documents/Devices/NUMARK NDX-800 (Single A).xml",
+            "sha256": "49d8a7182ea8d2c434a6079998b89ad3ed12985e3d9ea163d60753299a7c8df8"
+          },
+          {
+            "cachePath": "TestBuilds/r426/upstream/ndx800.pdf",
+            "sha256": "ac79aef922a617c65fcfcccb9603741169c041edc1d7f13ecf725900f768f953"
+          },
+          {
+            "cachePath": "TestBuilds/r426/upstream/ndx800-cue.zip",
+            "sha256": "361f2a03f35901664ecf66d06d8306aa0c1de649c24d9e2931519485801c825e"
+          },
+          {
+            "cachePath": "TestBuilds/r426/upstream/ndx800-mapping.xml",
+            "sha256": "074aeeaf3dc8c82b5ff911b6aefc521f4bf6bc9ea2ddf68b29b3001114090ca4"
+          }
+        ],
+        "relatedSources": [
+          {
+            "url": "https://www.numark.com/product/ndx800",
+            "review": "Manufacturer explicitly lists class-compliant MIDI and iOS compatibility; physical acceptance remains separate."
+          },
+          {
+            "url": "https://www.numark.com/images/product_downloads/ndx800___quickstart_guide___v1.4.pdf"
+          },
+          {
+            "url": "https://www.numark.com/images/product_downloads/ndx800___cue_controller_mapping_file.zip"
+          }
+        ],
+        "review": "Own public ProMixer Single-A input rows qualify normal Play58/Cue56/bends60/61/Load70/loop48/49/50, strict browseCC33 values1/127 and inverted pitch-bend. Manufacturer guide and CUE setup instructions require SOURCE/PARAMETER to select USB-MIDI. Published CUE mapper is semantic corroboration only, not a wire definition: RANGE distinguishes short pitch-range from held Key Lock; separate Pause is not a native toggle. Its copied MIXDECK refresh action never runs. Source phantom CC133 and zero-number placeholders are ignored, including selector0/rangeup69. No numeric selector or mode reset is inferred from900. Jog/contact calibration, conditional pads/record/Hold/FX/browser, unqualified Sync/key-lock/Pause commands, full output/display/state/lifecycle/audio/host and physical/iPad/A10X acceptance remain open. No NDX500 or900 startup is inherited."
+      },
+      "implementedInputCount": 10,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Own public ProMixer Single-A input rows qualify normal Play58/Cue56/bends60/61/Load70/loop48/49/50, strict browseCC33 values1/127 and inverted pitch-bend. Manufacturer guide and CUE setup instructions require SOURCE/PARAMETER to select USB-MIDI. Published CUE mapper is semantic corroboration only, not a wire definition: RANGE distinguishes short pitch-range from held Key Lock; separate Pause is not a native toggle. Its copied MIXDECK refresh action never runs. Source phantom CC133 and zero-number placeholders are ignored, including selector0/rangeup69. No numeric selector or mode reset is inferred from900. Jog/contact calibration, conditional pads/record/Hold/FX/browser, unqualified Sync/key-lock/Pause commands, full output/display/state/lifecycle/audio/host and physical/iPad/A10X acceptance remain open. No NDX500 or900 startup is inherited."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:ndx-legacy-900",
+      "name": "Numark NDX900",
+      "transport": "midi",
+      "source": {
+        "url": "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+        "sha256": "0557173bb5cb8bce866bbd439bd10140d8c281fd550486541dc4ddfff46edbec",
+        "member": "Devices/NUMARK NDX-900 (Single A).xml",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r388/upstream/documents/Devices/NUMARK NDX-900 (Single A).xml",
+            "sha256": "7882253e7ee503b60267bda12f9b39b048e69ebd235a2fb575feb8d5f28a1031"
+          },
+          {
+            "cachePath": "TestBuilds/r426/upstream/ndx900.pdf",
+            "sha256": "b9cfceaf99c294b5c10e84279317ac18d7bcce8ae06662efc48e36b4a124cbcc"
+          }
+        ],
+        "relatedSources": [
+          {
+            "url": "https://www.numark.com/product/ndx900controller",
+            "review": "Own product page lists driver-free class-compliant MIDI/audio and iOS compatibility; native does not infer automatic multi-interface routing."
+          },
+          {
+            "url": "https://www.numark.com/images/product_downloads/ndx900___quickstart_guide___v1.2.pdf"
+          }
+        ],
+        "review": "Own separate public input definition qualifies the same bounded normal Play/Cue/bend/Load/manual-loop/browse/pitch wires. Native does not infer the NDX800 pad, range/Hold, display or lifecycle contract. Its own manufacturer guide requires USB-MIDI source mode. Each attached unit receives an app player assignment; accepted MIDI channels address that owned player rather than app deck numbers. Cue/Sampler mode69 retires only that source-owned player. Native pitch follows app range; hardware range changes are not implemented. Full jog/contact calibration, conditional pads/FX/record/Hold, separate Pause/key-lock/Sync semantics, feedback/display/lifecycle/audio/host/OS and physical/iPad/A10X acceptance remain open. No stored setting, software action, driver, firmware or vendor program runs."
+      },
+      "implementedInputCount": 10,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Own separate public input definition qualifies the same bounded normal Play/Cue/bend/Load/manual-loop/browse/pitch wires. Native does not infer the NDX800 pad, range/Hold, display or lifecycle contract. Its own manufacturer guide requires USB-MIDI source mode. Each attached unit receives an app player assignment; accepted MIDI channels address that owned player rather than app deck numbers. Cue/Sampler mode69 retires only that source-owned player. Native pitch follows app range; hardware range changes are not implemented. Full jog/contact calibration, conditional pads/FX/record/Hold, separate Pause/key-lock/Sync semantics, feedback/display/lifecycle/audio/host/OS and physical/iPad/A10X acceptance remain open. No stored setting, software action, driver, firmware or vendor program runs."
         }
       ]
     },

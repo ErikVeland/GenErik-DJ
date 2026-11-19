@@ -11,10 +11,10 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 562 total catalogue records. 555 name physical models. The remainder identify software endpoints or protocol families.
-- 345 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 216 factory profiles select core controls automatically for 225 physical models.
+- 347 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 218 factory profiles select core controls automatically for 227 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
-- 324 physical models still lack automatic core controls.
+- 322 physical models still lack automatic core controls.
 - 555 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -40,7 +40,7 @@ Other models have no claimed popularity rank. Within that tier, finish documente
 ## Club and XDJ players — R176/R177
 
 The club-player order balances established models and recent releases. It is an implementation order, not a measured global sales ranking.
-All 24 players select core controls automatically after the hardware enters its PC or USB-MIDI mode.
+All 26 players select core controls automatically after the hardware enters its PC or USB-MIDI mode.
 Connected players receive separate A/B assignments. Saved endpoint identities retain their assignments. C/D require the existing four-deck trial.
 HID, screens, lights and automatic routing across multiple player audio interfaces remain unimplemented.
 
@@ -223,13 +223,13 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 17 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 219 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 221 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
 | partial-midi-profile | 131 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 171 | The pinned references contain no implemented mapping for this model. |
+| protocol-needed | 169 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -690,8 +690,8 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Numark Mixtrack 3 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-3.midi.xml) |
 | Numark Mixtrack Edge | primary | partial-midi-profile | [Reference](https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe) |
 | Numark Mixtrack II | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%202.midi.xml) |
-| Numark NDX 800 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=NDX800) |
-| Numark NDX 900 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=NDX900) |
+| Numark NDX800 | primary | automatic-core-profile | [Reference](https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe) |
+| Numark NDX900 | primary | automatic-core-profile | [Reference](https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe) |
 | Numark NS6 | primary | partial-midi-profile | [Reference](https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg) |
 | Numark NS7 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20NS7.midi.xml) |
 | Numark NS7 II | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=NS7II) |
