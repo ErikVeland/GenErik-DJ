@@ -11,10 +11,10 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 559 total catalogue records. 552 name physical models. The remainder identify software endpoints or protocol families.
-- 288 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 186 factory profiles select core controls automatically for 194 physical models.
+- 289 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 187 factory profiles select core controls automatically for 195 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
-- 352 physical models still lack automatic core controls.
+- 351 physical models still lack automatic core controls.
 - 552 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -223,13 +223,13 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 17 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 188 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 189 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
 | partial-midi-profile | 104 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 226 | The pinned references contain no implemented mapping for this model. |
+| protocol-needed | 225 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -603,7 +603,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Hercules DJControl Jogvision | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Jogvision.midi.xml) |
 | Hercules DJControl MIX | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20MIX.midi.xml) |
 | Hercules DJControl Mix Ultra | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/v6ry876z77-bit/yt-dj-mix/93a097e7641512bd026b9d1b5d129b2e5f009f87/mixultra-midi.md) |
-| Hercules DJControlWave | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=HCWAVE) |
+| Hercules DJControlWave | primary | automatic-core-profile | [Reference](https://ts.hercules.com/download/sound/MIDI_Mapping/DJWave/DJCWaveDJAYPro.ZIP) |
 | Hercules DeeJay Trim Scratch Kit | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=TRIM) |
 | Hercules P32 DJ | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20P32%20DJ.midi.xml) |
 | Hercules Universal DJ | primary | automatic-core-profile | [Reference](https://ts.hercules.com/download/sound/MIDI_Mapping/UniversalDJ/DJay_Pro_Hercules_Universal_DJ.zip) |

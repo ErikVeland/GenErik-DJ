@@ -2693,3 +2693,19 @@ func controllerCatalogueLegacyDJMDirectCueKeepsAppStartedRealAudioSynced(_ name:
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+
+@Test @MainActor func controllerCatalogueWaveUSBModeContactCleanupRestoresRealAudioSync() async throws {
+    try await withControllerCuePlayback("Hercules DJControlWave") {model,input in
+        cuePreviewPacket([0x90,15,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x90,16,127,16,0,13,127,13,0,18,127,0xB0,18,3],to:input)
+        _ = model.playback.core.renderOffline(frames:4096)
+        cuePreviewPacket([0x90,34,127,34,0],to:input)
+        let audio = model.playback.core.renderOffline(frames:4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

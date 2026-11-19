@@ -5241,3 +5241,22 @@ The core includes transport, loads, PFL, contact/wheel jogs, paired pitch, selec
 Validation:255 Python checks and11 native tests passed, including the161-profile automatic held-Cue corpus. Fixtures check both pitch families, endpoints, pickup, source/pair separation,512-count contact/wheel streams, both Note Off forms, independent Shift/source cleanup, mixer rows, all cue/loop families, shifted gain, library, lamp bytes and disconnect cleanup. A real-WAV fixture retains finite, synced playback after Shift contact cleanup. The iPad framework compiled and its bundled resource matches the source. All287 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r398/validation.json`.
 
 The catalogue has288 recipes for552 physical models. Automatic core coverage increases to200, with352 without automatic core. First-protocol gaps fall from227 to226. Full theoretical support and physical acceptance remain open.
+
+
+## R399 independent Wave USB core
+
+Assumption: use the manufacturer's djay mapping's common modifier on both MODE keys and the manufacturer VirtualDJ definition's512-count jog scale. Keep selected USB controls independent of Bluetooth, tablet audio and source-software ring animation. The different DJUCED720 calibration remains an explicit capture limit.
+
+- [x] Pin and reconcile the three manufacturer archives and current factory facts.
+- [x] Add42 selected USB inputs and14 bounded lamp mappings, without unqualified ring/setup writes.
+- [x] Verify composed Shift, loading, source contact ownership, mixer/pitch, loops and real-WAV Sync.
+- [x] Run source/native checks, compile the iPad framework and preserve earlier recipes.
+
+
+Hercules directly publishes separate djay, Traktor and VirtualDJ archives for Wave. Both djay members assign MODE notes16/34 to the same application modifier. The native core therefore composes both held MODE contacts as one source-local Shift. Releasing one leaves the other active. Normal Play becomes Shift Load on either deck. Normal loop encoder/press becomes Shift browse/open-group. This follows the manufacturer djay layout; the DJUCED-specific right-MODE headphone layer remains open.
+
+The manufacturer VirtualDJ device definition explicitly gives512 full-turn counts for all four wheel/contact streams. Current DJUCED specifies720; this remains an unresolved physical-calibration difference. The42-input core uses512, source-local contact gates, inverted pitch, three cue pads per deck, loops, mixer, crossfader and master. Fourteen selected transport/loop/cue-pad lamps use0/127 and clear on startup/shutdown. No ring/setup SysEx, state query, meter or EQ-kill output is sent. The djay PFL entries point both decks to the same unrelated channel4 CC9 template, so no PFL wire is inferred from them.
+
+Validation:258 Python checks and ten native tests passed, including the162-profile automatic held-Cue corpus. Fixtures check both MODE press/release orders and release forms, Shift loading on both decks, contact/wheel separation and signed64, source ownership, pickup, Shift-independent mixer/pitch, cue/loop/library families, lamp bytes and stop cleanup. A real-WAV fixture retains finite, synced playback after Cue and contact mode cleanup. The iPad framework compiled and its bundled resource matches the source. All288 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r399/validation.json`.
+
+The catalogue has289 recipes for552 physical models. Automatic core coverage increases to201, with351 without automatic core. First-protocol gaps fall from226 to225. Bluetooth/tablet transport, ring animation, full modes/lifecycle/audio/calibration, full theoretical support and physical/iPad/A10X acceptance remain open.

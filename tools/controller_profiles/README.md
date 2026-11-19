@@ -1101,3 +1101,6 @@ R397 adds independent `instinct_p8.py` facts:86 inputs,256-count wheel/contact s
 
 
 R398 adds `universal_dj.py`:111 inputs and30 lamps from independently reconciled manufacturer djay/Traktor archives and current factory XML. Explicit pitch pairs1/33,2/34 and55/71,56/72 stay separate. Current mixer consensus resolves the older PDF errors. The fixed A/B USB core keeps Bluetooth/tablet and automatic audio open.255 source checks,11 native tests and iPad framework compilation pass. Earlier287 recipes remain identical.
+
+
+R399 adds `wave_usb.py`:42 inputs and14 lamps, composed MODE Shift from both manufacturer djay mappings, Shift loading/browse and512-count contact/wheel jogs from the manufacturer VirtualDJ definition. Current DJUCED720 calibration, ambiguous PFL, ring/setup and Bluetooth/tablet remain open.258 source checks, ten native tests and iPad framework compilation pass. Earlier288 recipes remain identical.
