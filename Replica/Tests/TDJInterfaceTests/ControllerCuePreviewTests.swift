@@ -3471,3 +3471,24 @@ func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String
         }
     }
 }
+
+
+@Test @MainActor func controllerCatalogueAudiophonyFactoryVariantsKeepRealAudioSync() async throws {
+    for name in ["Audiophony DJAZZ","Audiophony DJAM","Audiophony DJAM (CTRL MIDI mixer)"] {
+        try await withControllerCuePlayback(name,manual:name.contains("CTRL MIDI")) {model,input in
+            input.receiveBytes([0x90,23,1],source:10);input.flushPendingActions()
+            #expect(model.playbackSnapshot?.a.touchActive == true)
+            input.receiveBytes([0x90,45,127,0x80,73,127,0x90,45,0,24,127,24,0,19,127],source:10);input.flushPendingActions()
+            input.receiveBytes([0x90,69,0],source:10);input.flushPendingActions()
+            if name != "Audiophony DJAM" {
+                input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+                for value:UInt8 in [0,127,64] {
+                    input.receiveBytes([0xB0,7,value],source:10);input.flushPendingActions()
+                }
+            }
+            let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        }
+    }
+}

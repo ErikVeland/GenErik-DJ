@@ -4350,6 +4350,91 @@
         }
       ],
       "result": "Independent64-input automatic common-player core and separate90-input manual Mode3 variant,14 optional lamps each.389 source/13 native checks and iPad framework compilation pass. All384 earlier recipes remain identical. Full modes/motion/feedback/lifecycle/audio/physical acceptance remain open."
+    },
+    {
+      "request": "R460",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "model": "Audiophony DJAZZ",
+          "url": "https://www.audiophony.com/downloads/DJazz-Pro_manuel-V1-2011-12.pdf",
+          "sha256": "2deb5d54906082cef84a472e881efd2efe4df3e3fff6a4ac5c53e638c6578633",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r460/upstream/djazz-pro-manual.pdf",
+              "sha256": "2deb5d54906082cef84a472e881efd2efe4df3e3fff6a4ac5c53e638c6578633"
+            },
+            {
+              "cachePath": "TestBuilds/r460/upstream/djazz-vdj.zip",
+              "sha256": "c18ea7120db230c308ad83dde8d609be98a81db079a104ad0322e1388ce4de7f"
+            },
+            {
+              "cachePath": "TestBuilds/r460/upstream/djazz-vdj/Audiophony DJazz mapping.xml",
+              "sha256": "3422d4ab792c79b093946a732926349306cdf57b0bdfeb7b3b9bcd09b6e2b003"
+            },
+            {
+              "cachePath": "TestBuilds/r460/upstream/djazz-vdj/DJAZZMIDI.xml",
+              "sha256": "b474834803d9d99f6844b227108ced50289b6c676dd2908e08341fd9d53a0fd3"
+            },
+            {
+              "cachePath": "TestBuilds/r460/upstream/djazz-vdj/read me_lisez moi.txt",
+              "sha256": "3038d225393a77c0f172cfb2d213324f54d8f16f16ab4547598daddbf46ca9ae"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://www.eurobaltronics.com/files/downloads/16002_Audiophony_DJazz_mapping_virtual_DJ.zip"
+            },
+            {
+              "url": "https://virtualdj.com/products/hardware.html?model=DJAZZ"
+            }
+          ],
+          "review": "Own DJazz-Pro v1 December2011 manual and separate Atomix factory XML/mapper from the public reseller archive, read only as data. Catalogue DJAZZ identity follows the official linked manufacturer model. Published mapping channels1..4, Hold Shift default. Normal NOTE Play24/Cue23/Sync18/Keylock16/PFL28/Loop1/In4/Out5/Active6/Bends19/20, Hot Cues8..11, Load34 on A/C and35 on B/D, contact38; shifted note releases plus50. Shifted Hot Cues58/59 seek native -4/+4 beats; other shifted positives remain inactive. Normal CC2 jog uses offset64 and own full count 150. Normal loopCC1 and browser14/44 also use offset64. Own inverted14bit pitch is mapped to native +/-8percent. Shift45 guards normal jog/tempo/loop/Mid/Low; Shift Low36 controls native filter. Gain3/33, High4/34 and Level7/37 mirror their actions. Global cross16/46, cueMix19/49 and monitor20/50 are independently listed. Normal browser push39 enters a group and89 only rearms. Deck17/67 retires only its source-owned A/C or B/D pair. Normal optional lamps exclude unpublished AutoLoop/meter/mode lamps. DJazz master12/42 appears in XML but not its own manual MIDI chart and stays inactive. Saved channel presets, exact startup state/discovery, complete jog/search/tempo-range/FX/sample/key/kill/delete modes, full feedback/screens/lifecycle/recovery, USB/OS/power/audio/DVS routing and physical/iPad/A10X acceptance remain open. No mapper, executable, setup, identity query, source-mode, preset, driver, firmware or audio-route write runs. Other Audiophony/DDC/Voxoa model bytes are not inherited."
+        },
+        {
+          "model": "Audiophony DJAM",
+          "url": "https://www.audiophony.com/downloads/DJam-ultimate_manuel-V1-2011-12.pdf",
+          "sha256": "e927df4b4956fe2b3fc2fa0a07f2ef644b9079a36a0d0d1929f1637746219b69",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r460/upstream/djam-ultimate-manual.pdf",
+              "sha256": "e927df4b4956fe2b3fc2fa0a07f2ef644b9079a36a0d0d1929f1637746219b69"
+            },
+            {
+              "cachePath": "TestBuilds/r460/upstream/djam-vdj.zip",
+              "sha256": "f4e254a3e9753418039e2a8674538c8a4c08865855cb691c90b4dacde320eb8a"
+            },
+            {
+              "cachePath": "TestBuilds/r460/upstream/djam-vdj/Audiophony DJam mapping.xml",
+              "sha256": "732ef9483e596952aeec337ed79d0a758dddf4ff7510e77f26101baddeff397c"
+            },
+            {
+              "cachePath": "TestBuilds/r460/upstream/djam-vdj/DJAMMIDI.xml",
+              "sha256": "fbb81f8a89b9df378b84dffe7fe577db960b7193668541957d556f458cbbc9be"
+            },
+            {
+              "cachePath": "TestBuilds/r460/upstream/djam-vdj/read me_lisez moi.txt",
+              "sha256": "f5cad57aab3ba7cacb182ab04152179b9e52fc39737e17230252951a09ee608e"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://www.eurobaltronics.com/files/downloads/16001_audiophony-djam-ultimate-midi-controller_Virtual_DJ_mappings.zip"
+            },
+            {
+              "url": "https://virtualdj.com/products/hardware.html?model=DJAM"
+            }
+          ],
+          "review": "Own DJam-ultimate v1 December2011 manual and separate Atomix factory XML/mapper from the public reseller archive, read only as data. Catalogue DJAM identity follows the official linked manufacturer model. Published mapping channels1..4, Hold Shift default. Normal NOTE Play24/Cue23/Sync18/Keylock16/PFL28/Loop1/In4/Out5/Active6/Bends19/20, Hot Cues8..11, Load34 on A/C and35 on B/D, contact38; shifted note releases plus50. Shifted Hot Cues58/59 seek native -4/+4 beats; other shifted positives remain inactive. Normal CC2 jog uses offset64 and own full count 800. Normal loopCC1 and browser14/44 also use offset64. Own inverted14bit pitch is mapped to native +/-8percent. Shift45 guards normal jog/tempo/loop/Mid/Low; Shift Low36 controls native filter. Gain3/33, High4/34 and Level7/37 mirror their actions. Global cross16/46, cueMix19/49 and monitor20/50 are independently listed. Normal browser push39 enters a group and89 only rearms. Deck17/67 retires only its source-owned A/C or B/D pair. Normal optional lamps exclude unpublished AutoLoop/meter/mode lamps. DJam master12/42 is corroborated by its own manual and XML. Rear MIXER STATUS selects analogue MIX or MIDI. Automatic core excludes all mixer/PFL/global browser controls; full mixer is manual CTRL MIDI only, with normal reverse/curve settings and separate audio configuration. Saved channel presets, exact startup state/discovery, complete jog/search/tempo-range/FX/sample/key/kill/delete modes, full feedback/screens/lifecycle/recovery, USB/OS/power/audio/DVS routing and physical/iPad/A10X acceptance remain open. No mapper, executable, setup, identity query, source-mode, preset, driver, firmware or audio-route write runs. Other Audiophony/DDC/Voxoa model bytes are not inherited."
+        }
+      ],
+      "additionalFindings": [
+        {
+          "url": "https://www.roland.com/global/support/by_product/dj-808/owners_manuals/",
+          "finding": "Fresh primary index request again timed out. A matching MC-808 result is a different product and is not used as DJ-808 protocol evidence."
+        }
+      ],
+      "result": "Separate DJazz211-input automatic core and DJam157-input common-player/213-input manual CTRL MIDI mixer cores. Own jog counts150/800 preserved.391 source/16 native checks and iPad framework compilation pass. All386 earlier recipes remain identical. Full theoretical/device acceptance remains open."
     }
   ]
 }
