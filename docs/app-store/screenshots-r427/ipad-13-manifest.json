@@ -1,0 +1,42 @@
+[
+  {
+    "source": "ipad-10.5/01-two-decks.png",
+    "source_sha256": "a01e9648a05daf6f57409a23bd01009ca54d7fb085eb1af4aedaa54483c85839",
+    "file": "ipad-13/01-two-decks.png",
+    "sha256": "6b1fc7c393877a52abcdae9c777d76b5df0cd757d6e6f013fbbf95d6b8bb45aa",
+    "width": 2752,
+    "height": 2064,
+    "operation": "sips --resampleHeightWidth 2064 2752",
+    "alpha": false
+  },
+  {
+    "source": "ipad-10.5/02-effects-and-eq.png",
+    "source_sha256": "4861ee28c802bdf61b9cec4633a675ba933e2a4734d5e4427bcb4cbcc918cc5a",
+    "file": "ipad-13/02-effects-and-eq.png",
+    "sha256": "613c906d917dca7933010bda2325eb52a9c81b2ba33d8620425aeaebb6778f36",
+    "width": 2752,
+    "height": 2064,
+    "operation": "sips --resampleHeightWidth 2064 2752",
+    "alpha": false
+  },
+  {
+    "source": "ipad-10.5/03-library.png",
+    "source_sha256": "fa271d703dc29893119eb673f7d3505f452eb3f0df94c92f2daab6b15b4d7f00",
+    "file": "ipad-13/03-library.png",
+    "sha256": "bd16cc522ac82233c994a2169596771cd9f911c9f2a18a01094f7ca07dc4b189",
+    "width": 2752,
+    "height": 2064,
+    "operation": "sips --resampleHeightWidth 2064 2752",
+    "alpha": false
+  },
+  {
+    "source": "ipad-10.5/04-beat-grid.png",
+    "source_sha256": "e4d4966764ddb0c75e47620bd8896e4948c4fe898dc6f4b2ab61b4c6f2083339",
+    "file": "ipad-13/04-beat-grid.png",
+    "sha256": "28339bc38df4a6ddb4bfcb515a19f6849aed38015b117441d52e7935d77a6ca6",
+    "width": 2752,
+    "height": 2064,
+    "operation": "sips --resampleHeightWidth 2064 2752",
+    "alpha": false
+  }
+]
