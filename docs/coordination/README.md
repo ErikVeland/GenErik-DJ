@@ -1,5 +1,9 @@
 # Current work
 
+**Build 227 (R425)** installed on the A10X iPad after an initial connection timeout. iPadOS accepted launch. Control labels stay on one line, and grid editing uses the full header width. Long help and error text remains readable. Erik checks both orientations, narrow panes, audio and touch. [Scope](ui-text-r425.md) · [Build record](../testing/builds/227.json).
+
+**R426 App Store:** English (Australia) metadata and seven purchase localisations are prepared. Apple authentication remains unresolved. No remote field or icon assignment has changed. [Prepared metadata and remaining work](../app-store/README.md).
+
 **R292–R295 websites:** All seven catalogue sites link back to GlassCode Academy About. PACtrack retains GlassCode Academy attribution and The Epstein Files link. R296 removes the unrelated DJ promotion. Project previews are live, and PiDay styles are repaired. [Publication evidence](website-links-r295.md).
 
 **R291 website:** The product, manual, support and legal pages are live at https://dj.generik.au on Glasscode. HTTPS and public-route checks pass. The site describes the development app. Fresh captures, final privacy reconciliation and full browser/device checks remain open. No app build ran. [Source and verification](website-r291.md).

@@ -18,8 +18,8 @@ The waveform geometry and the audio engine are unchanged.
 Source review and whitespace checks passed before the signed build.
 Build 227 compiled from committed main at `82f66c1ec` in 332.6 seconds.
 Runtime framework checks and deep strict signing passed.
-The iPad connection timed out during installation. The signed app remains saved for deployment without a rebuild.
-No device launch or rendered layout acceptance is claimed. Erik's acceptance remains open.
+The first installation attempt timed out. The saved build then installed after the iPad connection returned.
+iPadOS accepted launch. Device actions stopped at handover. Rendered layout, audio and touch acceptance remain with Erik.
 Check RESET, TAP MODE, DONE, Sync, effects, mixer labels, browser titles and Settings in both iPad orientations.
 Also check narrow panes and the four-deck layout when that trial is enabled.
 Phone front, Duo inside and Mac layouts share the source rule, but their rendered acceptance remains open.
