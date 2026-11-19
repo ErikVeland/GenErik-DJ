@@ -2987,6 +2987,18 @@ func controllerCatalogueLegacyRaneMixerAndLoopsKeepRealAudioAndSavedSync(_ name:
     }
 }
 
+@Test(arguments: ["Allen & Heath XONE 1D", "Allen & Heath XONE 2D", "Allen & Heath XONE 4D"]) @MainActor
+func controllerCatalogueLegacyXoneAxesKeepRealAudioAndSavedSync(_ name: String) async throws {
+    try await withControllerCuePlayback(name, manual: true) { model, input in
+        model.pressPlay(deck: .a, vinylStop: false)
+        let number: UInt8 = name == "Allen & Heath XONE 2D" ? 40 : 32
+        cuePreviewPacket([0xBF, number, 1], to: input)
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
 @Test(arguments: ["Denon DJ HD2500", "Stanton SCS.4DJ", "Gemini FirstMix I/O"]) @MainActor
 func controllerCatalogueLegacyStandaloneKeepsRealAudioAndSavedSync(_ name: String) async throws {
     try await withControllerCuePlayback(name, manual: name == "Denon DJ HD2500") { model, input in

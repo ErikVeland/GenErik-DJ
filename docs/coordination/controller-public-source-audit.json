@@ -2861,6 +2861,51 @@
         }
       ],
       "result": "Added a manual HD2500 channel1/2 subset, automatic unmodified channel1 SCS.4DJ core in MIDI Controller Mode, and independent FirstMix I/O core. The new bounded unsignedCount decoder handles separate directional wheel addresses with owned contact. Primary guides correct copied Master/gain comments and establish operating modes. No private SDK was found or required for these subsets. Full modes/audio/host and physical acceptance remain open."
+    },
+    {
+      "request": "R425",
+      "sources": [
+        {
+          "model": "Allen & Heath XONE 1D",
+          "url": "https://www.allen-heath.com/content/uploads/2023/07/XONE1D_UG_AP7080_3.pdf",
+          "sha256": "41b4d3742bc9fdf4bedbee353bc38a93e0c1eea6f7dc5928109f0d38c5df3efb",
+          "cachePath": "TestBuilds/r425/upstream/xone1d.pdf",
+          "reviewedPages": [
+            6,
+            8,
+            13,
+            14
+          ],
+          "review": "Own guide gives Map2 top encoders CC32..35, two pot rows9/11/13/15 and8/10/12/14, faders19/18/17/16, encoder36 and wheel37. Default MIDI channel16. Encoders/wheel are twos-complement; pot/fader positions are0..127. Native deliberately assigns four columns to A/B/C/D gain/high/low/level, encoder36 to A loop size and wheel37 to library browse. These are explicit native assignments, not manufacturer DJ-software actions. The documented generic USB Audio Device/Xone MIDI Device names do not establish an exclusive model identity; manual selection is required. Button note-number convention, Map1, all lights/state/lifecycle/USB/OS and physical acceptance remain open. No audio interface or touch-sensitive platter is invented."
+        },
+        {
+          "model": "Allen & Heath XONE 2D",
+          "url": "https://www.allen-heath.com/content/uploads/2023/07/XONE2D_UG_AP6908_2.pdf",
+          "sha256": "83b9a8c9ed67b17bbdd992b6598c9c96bb6ea9d25276bf5a85dedb3ec7ca9c85",
+          "cachePath": "TestBuilds/r425/upstream/xone2d-primary.pdf",
+          "reviewedPages": [
+            9,
+            12,
+            27,
+            28
+          ],
+          "review": "Own normal Map2 chart uses top encoders40..43, pots21/23/25/27 and20/22/24/26, faders31/30/29/28, encoder44, wheel45 and crossfader5. It does not use the1D normal address family. Default MIDI channel16. Native four-column gain/high/low/level, A loop size, library and crossfader are explicit assignments. Hardware Shift uses the left-family addresses32..37/8..19 on the same channel; those alternate controls remain inactive. The Mac guide requires a driver. Button note numbers, full map/Shift/clock/monitor/digital audio, USB host/driver and lifecycle remain open. No driver or stored setting runs; manual selection and separate app audio are required."
+        },
+        {
+          "model": "Allen & Heath XONE 4D",
+          "url": "https://www.allen-heath.com/content/uploads/2023/07/Xone4D_User_Guide_AP7265_3.pdf",
+          "sha256": "b244df319946354feb1f4d007ca7a8d35d28f816f9e39b22288e8cd40e979660",
+          "cachePath": "TestBuilds/r425/upstream/xone4d.pdf",
+          "reviewedPages": [
+            11,
+            12,
+            38,
+            39
+          ],
+          "review": "Own two-pod Map2 chart independently supplies both CC families, wheels37/45 and MIDI crossfader5. Default MIDI channel16; hardware Shift uses channel15, unlike2D address shifting. Both pods deliberately address the same four native A/B/C/D gain/high/low/level targets with independent pickup. Wheels browse the library. The hardware analogue channel-strip controls are not claimed as MIDI controls. Native does not map channel15, ambiguous musical-note button labels, top fifth encoders, joystick/footswitch, clock/LFO or motor/display behaviour. Manual selection and separate app audio prevent an automatic hardware/software mixing claim. Complete modes/feedback/state/lifecycle/audio/USB/OS and physical acceptance remain open."
+        }
+      ],
+      "result": "Separate1D/2D/4D primary Map2 CC charts qualify18/19/35 manual axis inputs. Normal1D and2D addresses differ;4D shares both pod families but shifts channel, unlike2D address shifting. Numeric button-note origins and light-pipe toggle contracts remain unqualified and inactive. Driver, generic identity and audio ownership prevent automatic-selection claims. No vendor code, driver, setting or MIDI output runs."
     }
   ]
 }

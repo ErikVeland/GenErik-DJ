@@ -22022,12 +22022,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://www.allen-heath.com/content/uploads/2023/07/XONE1D_UG_AP7080_3.pdf",
         "https://virtualdj.com/products/hardware.html?model=XONE1D"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:xone-axes-1d"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Allen & Heath XONE 1D",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Allen & Heath XONE 1D",
@@ -22035,40 +22040,60 @@
           "source": "https://virtualdj.com/products/hardware.html?model=XONE1D"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loopSizeA:a",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d"
+      ],
+      "inputBindingCount": 18,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Select manually in Map2 on MIDI channel16. Each four-column pod addresses native A/B/C/D gain/high/low/level. Enable C/D separately. Configure app audio separately. Alternate Shift controls remain inactive."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Own guide gives Map2 top encoders CC32..35, two pot rows9/11/13/15 and8/10/12/14, faders19/18/17/16, encoder36 and wheel37. Default MIDI channel16. Encoders/wheel are twos-complement; pot/fader positions are0..127. Native deliberately assigns four columns to A/B/C/D gain/high/low/level, encoder36 to A loop size and wheel37 to library browse. These are explicit native assignments, not manufacturer DJ-software actions. The documented generic USB Audio Device/Xone MIDI Device names do not establish an exclusive model identity; manual selection is required. Button note-number convention, Map1, all lights/state/lifecycle/USB/OS and physical acceptance remain open. No audio interface or touch-sensitive platter is invented.",
+        "Full theoretical support and physical/iPad/A10X acceptance remain open. No firmware, driver, channel/map/light-pipe setting, vendor program, MIDI clock or audio route is written.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -22084,12 +22109,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://www.allen-heath.com/content/uploads/2023/07/XONE2D_UG_AP6908_2.pdf",
         "https://virtualdj.com/products/hardware.html?model=XONE2D"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:xone-axes-2d"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Allen & Heath XONE 2D",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Allen & Heath XONE 2D",
@@ -22097,40 +22127,61 @@
           "source": "https://virtualdj.com/products/hardware.html?model=XONE2D"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loopSizeA:a",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d"
+      ],
+      "inputBindingCount": 19,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Select manually in Map2 on MIDI channel16. Each four-column pod addresses native A/B/C/D gain/high/low/level. Enable C/D separately. Configure app audio separately. Alternate Shift controls remain inactive."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Own normal Map2 chart uses top encoders40..43, pots21/23/25/27 and20/22/24/26, faders31/30/29/28, encoder44, wheel45 and crossfader5. It does not use the1D normal address family. Default MIDI channel16. Native four-column gain/high/low/level, A loop size, library and crossfader are explicit assignments. Hardware Shift uses the left-family addresses32..37/8..19 on the same channel; those alternate controls remain inactive. The Mac guide requires a driver. Button note numbers, full map/Shift/clock/monitor/digital audio, USB host/driver and lifecycle remain open. No driver or stored setting runs; manual selection and separate app audio are required.",
+        "Full theoretical support and physical/iPad/A10X acceptance remain open. No firmware, driver, channel/map/light-pipe setting, vendor program, MIDI clock or audio route is written.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -22208,12 +22259,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://www.allen-heath.com/content/uploads/2023/07/Xone4D_User_Guide_AP7265_3.pdf",
         "https://virtualdj.com/products/hardware.html?model=XONE4D"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:xone-axes-4d"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Allen & Heath XONE 4D",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Allen & Heath XONE 4D",
@@ -22221,40 +22277,60 @@
           "source": "https://virtualdj.com/products/hardware.html?model=XONE4D"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d"
+      ],
+      "inputBindingCount": 35,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Select manually in Map2 on MIDI channel16. Each four-column pod addresses native A/B/C/D gain/high/low/level. Enable C/D separately. Configure app audio separately. Alternate Shift controls remain inactive."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Own two-pod Map2 chart independently supplies both CC families, wheels37/45 and MIDI crossfader5. Default MIDI channel16; hardware Shift uses channel15, unlike2D address shifting. Both pods deliberately address the same four native A/B/C/D gain/high/low/level targets with independent pickup. Wheels browse the library. The hardware analogue channel-strip controls are not claimed as MIDI controls. Native does not map channel15, ambiguous musical-note button labels, top fifth encoders, joystick/footswitch, clock/LFO or motor/display behaviour. Manual selection and separate app audio prevent an automatic hardware/software mixing claim. Complete modes/feedback/state/lifecycle/audio/USB/OS and physical acceptance remain open.",
+        "Full theoretical support and physical/iPad/A10X acceptance remain open. No firmware, driver, channel/map/light-pipe setting, vendor program, MIDI clock or audio route is written.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -354369,6 +354445,102 @@
         },
         {
           "reason": "Own FirstMIX i/O script independently qualifies raw0 transport/PFL/key lock/Load, physical contact23/87, rotary pitch3/4, Gain10/11, High12/13, Low16/17, crossfader7 and Master18. The manufacturer guide resolves copied source comments: gain is gain, there are no channel faders, and CC18 is Master rather than cue-mix. Separate left wheel addresses1/2 carry negative unsigned counts; right20/21 carry positive counts at source scale350. Native unsignedCount retains1..127 magnitude, ignores0, requires owned contact and applies sign per address. Browser Notes3/2 move previous/next and Note1 opens selection. No original FirstMix/Pro alias, original signed wheel encoding or startup is inherited. Fixed native contact replaces the source software Scratch toggle. Preview, FX, full modes/state/meters/lifecycle/audio/host/OS and physical/iPad/A10X acceptance remain open. Local PDF mirror refused access; the manufacturer guide transcript was read publicly. No bypass, vendor code, driver, SysEx query, firmware or setting write runs."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:xone-axes-1d",
+      "name": "Allen & Heath XONE 1D",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.allen-heath.com/content/uploads/2023/07/XONE1D_UG_AP7080_3.pdf",
+        "sha256": "41b4d3742bc9fdf4bedbee353bc38a93e0c1eea6f7dc5928109f0d38c5df3efb",
+        "cachePath": "TestBuilds/r425/upstream/xone1d.pdf",
+        "reviewedPages": [
+          6,
+          8,
+          13,
+          14
+        ],
+        "review": "Own guide gives Map2 top encoders CC32..35, two pot rows9/11/13/15 and8/10/12/14, faders19/18/17/16, encoder36 and wheel37. Default MIDI channel16. Encoders/wheel are twos-complement; pot/fader positions are0..127. Native deliberately assigns four columns to A/B/C/D gain/high/low/level, encoder36 to A loop size and wheel37 to library browse. These are explicit native assignments, not manufacturer DJ-software actions. The documented generic USB Audio Device/Xone MIDI Device names do not establish an exclusive model identity; manual selection is required. Button note-number convention, Map1, all lights/state/lifecycle/USB/OS and physical acceptance remain open. No audio interface or touch-sensitive platter is invented."
+      },
+      "implementedInputCount": 18,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Own guide gives Map2 top encoders CC32..35, two pot rows9/11/13/15 and8/10/12/14, faders19/18/17/16, encoder36 and wheel37. Default MIDI channel16. Encoders/wheel are twos-complement; pot/fader positions are0..127. Native deliberately assigns four columns to A/B/C/D gain/high/low/level, encoder36 to A loop size and wheel37 to library browse. These are explicit native assignments, not manufacturer DJ-software actions. The documented generic USB Audio Device/Xone MIDI Device names do not establish an exclusive model identity; manual selection is required. Button note-number convention, Map1, all lights/state/lifecycle/USB/OS and physical acceptance remain open. No audio interface or touch-sensitive platter is invented."
+        },
+        {
+          "reason": "Full theoretical support and physical/iPad/A10X acceptance remain open. No firmware, driver, channel/map/light-pipe setting, vendor program, MIDI clock or audio route is written."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:xone-axes-2d",
+      "name": "Allen & Heath XONE 2D",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.allen-heath.com/content/uploads/2023/07/XONE2D_UG_AP6908_2.pdf",
+        "sha256": "83b9a8c9ed67b17bbdd992b6598c9c96bb6ea9d25276bf5a85dedb3ec7ca9c85",
+        "cachePath": "TestBuilds/r425/upstream/xone2d-primary.pdf",
+        "reviewedPages": [
+          9,
+          12,
+          27,
+          28
+        ],
+        "review": "Own normal Map2 chart uses top encoders40..43, pots21/23/25/27 and20/22/24/26, faders31/30/29/28, encoder44, wheel45 and crossfader5. It does not use the1D normal address family. Default MIDI channel16. Native four-column gain/high/low/level, A loop size, library and crossfader are explicit assignments. Hardware Shift uses the left-family addresses32..37/8..19 on the same channel; those alternate controls remain inactive. The Mac guide requires a driver. Button note numbers, full map/Shift/clock/monitor/digital audio, USB host/driver and lifecycle remain open. No driver or stored setting runs; manual selection and separate app audio are required."
+      },
+      "implementedInputCount": 19,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Own normal Map2 chart uses top encoders40..43, pots21/23/25/27 and20/22/24/26, faders31/30/29/28, encoder44, wheel45 and crossfader5. It does not use the1D normal address family. Default MIDI channel16. Native four-column gain/high/low/level, A loop size, library and crossfader are explicit assignments. Hardware Shift uses the left-family addresses32..37/8..19 on the same channel; those alternate controls remain inactive. The Mac guide requires a driver. Button note numbers, full map/Shift/clock/monitor/digital audio, USB host/driver and lifecycle remain open. No driver or stored setting runs; manual selection and separate app audio are required."
+        },
+        {
+          "reason": "Full theoretical support and physical/iPad/A10X acceptance remain open. No firmware, driver, channel/map/light-pipe setting, vendor program, MIDI clock or audio route is written."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:xone-axes-4d",
+      "name": "Allen & Heath XONE 4D",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.allen-heath.com/content/uploads/2023/07/Xone4D_User_Guide_AP7265_3.pdf",
+        "sha256": "b244df319946354feb1f4d007ca7a8d35d28f816f9e39b22288e8cd40e979660",
+        "cachePath": "TestBuilds/r425/upstream/xone4d.pdf",
+        "reviewedPages": [
+          11,
+          12,
+          38,
+          39
+        ],
+        "review": "Own two-pod Map2 chart independently supplies both CC families, wheels37/45 and MIDI crossfader5. Default MIDI channel16; hardware Shift uses channel15, unlike2D address shifting. Both pods deliberately address the same four native A/B/C/D gain/high/low/level targets with independent pickup. Wheels browse the library. The hardware analogue channel-strip controls are not claimed as MIDI controls. Native does not map channel15, ambiguous musical-note button labels, top fifth encoders, joystick/footswitch, clock/LFO or motor/display behaviour. Manual selection and separate app audio prevent an automatic hardware/software mixing claim. Complete modes/feedback/state/lifecycle/audio/USB/OS and physical acceptance remain open."
+      },
+      "implementedInputCount": 35,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Own two-pod Map2 chart independently supplies both CC families, wheels37/45 and MIDI crossfader5. Default MIDI channel16; hardware Shift uses channel15, unlike2D address shifting. Both pods deliberately address the same four native A/B/C/D gain/high/low/level targets with independent pickup. Wheels browse the library. The hardware analogue channel-strip controls are not claimed as MIDI controls. Native does not map channel15, ambiguous musical-note button labels, top fifth encoders, joystick/footswitch, clock/LFO or motor/display behaviour. Manual selection and separate app audio prevent an automatic hardware/software mixing claim. Complete modes/feedback/state/lifecycle/audio/USB/OS and physical acceptance remain open."
+        },
+        {
+          "reason": "Full theoretical support and physical/iPad/A10X acceptance remain open. No firmware, driver, channel/map/light-pipe setting, vendor program, MIDI clock or audio route is written."
         }
       ]
     },
