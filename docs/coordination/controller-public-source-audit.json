@@ -96,7 +96,7 @@
           "model": "Seventy-Two MKII",
           "downloads": [
             {
-              "description": "Seventy-Two Control Panel – macOS v1.1.2",
+              "description": "Seventy-Two Control Panel \u2013 macOS v1.1.2",
               "type": "Editor",
               "url": "https://cdn.inmusicbrands.com/rane/seventy-two/MacRaneSeventy-Two_1.1.2.dmg"
             },
@@ -126,7 +126,7 @@
           "model": "Seventy-Two",
           "downloads": [
             {
-              "description": "Seventy-Two Control Panel – macOS v1.1.2",
+              "description": "Seventy-Two Control Panel \u2013 macOS v1.1.2",
               "type": "Editor",
               "url": "https://cdn.inmusicbrands.com/rane/seventy-two/MacRaneSeventy-Two_1.1.2.dmg"
             },
@@ -156,12 +156,12 @@
           "model": "Seventy",
           "downloads": [
             {
-              "description": "SEVENTY Firmware Update – macOS v1.1.0.127 (Latest Version)",
+              "description": "SEVENTY Firmware Update \u2013 macOS v1.1.0.127 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/seventy/Rane%20Seventy%20Firmware%20Updater%20For%20Firmware%201.1.0.127%20%28Updater%201.0.1%29.dmg"
             },
             {
-              "description": "SEVENTY Firmware Update – Windows v1.1.0.127 (Latest Version)",
+              "description": "SEVENTY Firmware Update \u2013 Windows v1.1.0.127 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/seventy/Install%20Rane%20Seventy%20Firmware%20Updater%20For%20Firmware%201.1.0.127%20%28Updater%201.0.0%29.exe"
             },
@@ -211,7 +211,7 @@
               "url": "https://cdn.inmusicbrands.com/rane/four/Install%20Rane%20FOUR%201.0.10.exe"
             },
             {
-              "description": "FOUR Firmware Update – macOS 1.8.0.18 (Latest Version)",
+              "description": "FOUR Firmware Update \u2013 macOS 1.8.0.18 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/Software/RD/RANE%20FOUR%20Firmware%20Updater%20For%20Firmware%201.8.0.18.dmg"
             },
@@ -226,7 +226,7 @@
               "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20FOUR%20Firmware%20-%20Release%20Note%20History%20v1.8.0.18.pdf"
             },
             {
-              "description": "FOUR Firmware Update – macOS v1.7.0.8",
+              "description": "FOUR Firmware Update \u2013 macOS v1.7.0.8",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/four/RANE%20FOUR%20Firmware%20Updater%20For%20Firmware%201.7.0.8%20%28Updater%201.1.6%29.dmg"
             },
@@ -306,12 +306,12 @@
               "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%201.0.2.exe"
             },
             {
-              "description": "PERFORMER Firmware Update – macOS v1.3.0.13 (Latest Version)",
+              "description": "PERFORMER Firmware Update \u2013 macOS v1.3.0.13 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.3.0.13.dmg"
             },
             {
-              "description": "PERFORMER Firmware Update – Windows v1.3.0.13 (Latest Version)",
+              "description": "PERFORMER Firmware Update \u2013 Windows v1.3.0.13 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/Software/RD/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.3.0.13.exe"
             },
@@ -321,12 +321,12 @@
               "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20PERFORMER%20Firmware%20-%20Release%20Note%20History%20v1.3.0.13.pdf"
             },
             {
-              "description": "PERFORMER Firmware Update – macOS v1.2.0.10",
+              "description": "PERFORMER Firmware Update \u2013 macOS v1.2.0.10",
               "type": "Driver",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.2.0.10%20%28Updater%201.0.5%29.dmg"
             },
             {
-              "description": "PERFORMER Firmware Update – Windows v1.2.0.10",
+              "description": "PERFORMER Firmware Update \u2013 Windows v1.2.0.10",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.2.0.10%20%28Updater%201.0.4%29.exe"
             },
@@ -336,12 +336,12 @@
               "url": "https://cdn.inmusicbrands.com/rane/performer/Release%20Notes%20-%20Rane%20PERFORMER%20Firmware%20v1.2.0.10.pdf"
             },
             {
-              "description": "PERFORMER Firmware Update – macOS v1.1.0.13",
+              "description": "PERFORMER Firmware Update \u2013 macOS v1.1.0.13",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.1.0.13%20%28Updater%201.0.3%29.dmg"
             },
             {
-              "description": "PERFORMER Firmware Update – Windows v1.1.0.13",
+              "description": "PERFORMER Firmware Update \u2013 Windows v1.1.0.13",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.1.0.13%20%28Updater%201.0.3%29.exe"
             },
@@ -356,12 +356,12 @@
           "model": "Rane One MKII",
           "downloads": [
             {
-              "description": " ONE MKII Firmware Update – macOS v1.2.0.2 (Latest Version)",
+              "description": " ONE MKII Firmware Update \u2013 macOS v1.2.0.2 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/one-mkii/FW1202/Rane%20ONE%20MKII%20Firmware%20Updater%20For%20Firmware%201.2.0.2%20%28Updater%201.0.2%29%201.dmg"
             },
             {
-              "description": " ONE MKII Firmware Update – Windows v1.2.0.2 (Latest Version) ",
+              "description": " ONE MKII Firmware Update \u2013 Windows v1.2.0.2 (Latest Version) ",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/one-mkii/FW1202/Install%20Rane%20ONE%20MKII%20Firmware%20Updater%20For%20Firmware%201.2.0.2%20%28Updater%201.0.2%29.exe"
             },
@@ -2781,7 +2781,7 @@
               "review": "Read-only corroboration of channel0..3 targets and source scratch scale150. Primary charts override copied software-role assumptions."
             }
           ],
-          "review": "Separate manufacturer charts independently qualify the same default-channel input and lamp addresses for both editions. Native channels0..3 target A/B/C/D. Normal notes use Shift +64 release-only aliases; alternate positive commands remain inactive. Play39/Cue38/Sync40, eight independently addressed Hot Cues, Load9, native beat jumps20/21, Loop18/Reloop19, binary-offset loop-size22/browser9 and filter45 are explicit native controls. Normal47 and Scratch48 wheel/contact families use owned touch and source scale150; primary reports raw40±N. Other wheel modes, no-touch direction notes, modified positive commands and physical scale remain unqualified. Deck-selection notes5..8 retire owned holds across all targets; normal wheel-mode32..35 reports retire only their deck, and releases preserve fresh contacts. Note8 is a shifted deck selector, never Key Lock; there is no pitch slider or primary pitch-bend input. Shifted filter/pan CC109/110 are not treated as headphone/master knobs. No source software, startup, channel changer, stored setting or audio command runs."
+          "review": "Separate manufacturer charts independently qualify the same default-channel input and lamp addresses for both editions. Native channels0..3 target A/B/C/D. Normal notes use Shift +64 release-only aliases; alternate positive commands remain inactive. Play39/Cue38/Sync40, eight independently addressed Hot Cues, Load9, native beat jumps20/21, Loop18/Reloop19, binary-offset loop-size22/browser9 and filter45 are explicit native controls. Normal47 and Scratch48 wheel/contact families use owned touch and source scale150; primary reports raw40\u00b1N. Other wheel modes, no-touch direction notes, modified positive commands and physical scale remain unqualified. Deck-selection notes5..8 retire owned holds across all targets; normal wheel-mode32..35 reports retire only their deck, and releases preserve fresh contacts. Note8 is a shifted deck selector, never Key Lock; there is no pitch slider or primary pitch-bend input. Shifted filter/pan CC109/110 are not treated as headphone/master knobs. No source software, startup, channel changer, stored setting or audio command runs."
         }
       ],
       "result": "Separate CE and IE manufacturer charts qualify one shared default-channel wire recipe and two edition inventory rows. The generic VirtualDJ family reference is retained on both rows. Normal and Scratch contact/jog, eight Hot Cues per deck and Shift release aliases are implemented. Copied Key Lock/pitch/global-role assumptions are rejected. Full modes/audio/host/calibration and physical acceptance remain open."
@@ -5130,6 +5130,30 @@
         }
       ],
       "result": "Added68 explicitly addressed optional steady lamps: Dragon Two32,4MIX28,GMX8.419 source/24 native checks and iPad framework compilation pass. All400 input layouts and all397 other recipes remain identical. Manual output selection and explicit feedback enablement remain required. No source reset loop, startup, meter/display or complete feedback lifecycle is inferred."
+    },
+    {
+      "request": "R474",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "model": "DAP KONTROL D2",
+          "url": "https://www.highlite.com/media/attachments/MANUAL/D1261_MANUAL_GB_V1.pdf",
+          "sha256": "d4e9a9029dfd93acf5f736814b16892013d045005ef1cf446cc8b64243aa3582",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r474/upstream/dap-d2-manual.pdf",
+              "sha256": "d4e9a9029dfd93acf5f736814b16892013d045005ef1cf446cc8b64243aa3582"
+            }
+          ],
+          "visuallyReviewedPages": [
+            26,
+            27,
+            28
+          ],
+          "review": "Own manufacturer Highlite D1261 Core Kontrol D2 English V1 guide printed9/10/11/26/27/28, with MIDI appendix26..28 visually reviewed. All note/CC numbers are hexadecimal. The channel table puts X under Transmitted Default and1 under Recognized Default while other reception rows say X. It does not establish a transmitted factory channel. Native accepts all16 channels through the bounded manual unbanked two-deck core; stored raw0 is only a placeholder. All33 wire numbers and actions are unique, with no modes/banks/modifiers/setup/output/audio. The schema keeps mandatory A/B Play, held Cue and levels but permits an absent crossfader; no polarity is invented merely to satisfy a schema. Only native Cue Stop and Reloop roles are added to its permitted normal buttons; all previous uniqueness, kind, target and field guards remain. Own Play43/4C, SetCue3B/44, Cue33/3C, Sync40/47, Keylock38/3F, Load4B/34, PFL55/56, bends minus79/68 and plus78/67, loop-half72/61, B loop-double60 and B Reloop5F are independently transcribed. Set Cue is the held preview control. Separate Cue Stop returns to the saved Cue and pauses, including when already paused, without marking a new Cue or changing Sync. Main Cue and Set Cue are not confused with headphone PFL. Own absolute gain0D/0E, high10/11, mid12/13, low14/15, level08/09 and cueMix20 retain native pickup. The guide explicitly identifies Master as analogue/no MIDI; no master/monitor control is invented. Cross0A direction, tempo/ranges, A loop-double/reloop addresses omitted by the table, loops/SmartLoops/HotCues/delete modes, Shift-dependent FX/filter/pitch roles, relative jog/contact/needle calibration, library/kill/FX/sampler/reverse/curve/source states and complete feedback/lifecycle/recovery remain open. Recognized notes/CC are X, so no lamp packets are sent. Hardware emits NoteOn127/0; native additionally accepts NoteOff releases. Manual selection and existing MIDI input with separately configured app audio are required because analogue cue mix/hardware ownership is not automated. Exact USB names/driver/OS/power/channel polarity/audio/DVS and physical/iPad/A10X acceptance remain open. No NI Kontrol D2, DAP D4i, ABMA4 or other OEM protocol/identity is inherited. No preset, driver, firmware, source code, query, setting or audio-route write runs."
+        }
+      ],
+      "result": "Added33 manual own-manual DAP D2 inputs and a distinct native Cue Stop action.422 source/23 focused native tests and iPad framework compilation pass. All400 earlier recipes remain identical. Stored raw0 does not assert a transmitted factory channel. Crossfader direction, omitted A loop addresses, modes, feedback/audio/lifecycle/host and physical acceptance remain open."
     }
   ]
 }

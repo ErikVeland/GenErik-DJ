@@ -62,3 +62,43 @@ import Testing
     repeated = inputs; repeated[4]["inverted"] = true; row["inputs"] = repeated
     #expect(throws: (any Error).self) { try decode(row) }
 }
+
+@Test func controllerCatalogueManualUnbankedTwoDeckCoreCanOmitAnUnqualifiedCrossfader() throws {
+    let controls: [(String, String?, String, Int)] = [
+        ("playA", "a", "note", 10), ("playB", "b", "note", 20),
+        ("cuePreviewA", "a", "note", 11), ("cuePreviewB", "b", "note", 21),
+        ("levelA", "a", "control", 2), ("levelB", "b", "control", 3), ("cueMix", nil, "control", 32),
+        ("cueStopA", "a", "note", 51), ("cueStopB", "b", "note", 60), ("reloopB", "b", "note", 95),
+    ]
+    let inputs: [[String: Any]] = controls.map { action, deck, kind, n in
+        var r: [String: Any] = [
+            "action": action, "kind": kind, "channel": 0, "number": n, "encoding": "absolute", "inverted": false,
+            "anyChannel": true,
+        ]
+        if let deck { r["targetDeck"] = deck }; return r
+    }
+    func decode(_ rows: [[String: Any]]) throws -> ControllerProfileCatalogue {
+        try .decode(
+            JSONSerialization.data(withJSONObject: [
+                "schemaVersion": 1,
+                "profiles": [
+                    [
+                        "id": "crossless manual core", "aliases": ["manual core"], "autoSelect": false,
+                        "source": "fixture", "scope": "fixture", "inputs": rows, "outputs": [], "startup": [],
+                        "shutdown": [],
+                    ]
+                ],
+            ]))
+    }
+    #expect(try decode(inputs).profiles.count == 1)
+    for missing in 0..<6 {
+        var rows = inputs; rows.remove(at: missing)
+        #expect(throws: (any Error).self) { try decode(rows) }
+    }
+    for (key, value): (String, Any) in [
+        ("kind", "control"), ("targetDeck", "b"), ("action", "cueGotoA"), ("action", "cueStateA"), ("inverted", true),
+    ] {
+        var rows = inputs; rows[7][key] = value
+        #expect(throws: (any Error).self) { try decode(rows) }
+    }
+}

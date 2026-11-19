@@ -384,13 +384,14 @@ struct ControllerProfileData: Decodable, Sendable {
             .playA, .playB, .cuePreviewA, .cuePreviewB, .syncA, .syncB, .keylockA, .keylockB,
             .loadA, .loadB, .cueA, .cueB, .pitchBendDownA, .pitchBendDownB, .pitchBendUpA, .pitchBendUpB,
             .loopUpA, .loopUpB, .loopDownA, .loopDownB,
+            .cueStopA, .cueStopB, .reloopA, .reloopB,
         ]
         let controls: Set<ControllerAction> = [
             .gainA, .gainB, .highA, .highB, .midA, .midB, .lowA, .lowB, .levelA, .levelB,
             .crossfader, .cueMix, .monitor,
         ]
         let required: Set<ControllerAction> = [
-            .playA, .playB, .cuePreviewA, .cuePreviewB, .levelA, .levelB, .crossfader,
+            .playA, .playB, .cuePreviewA, .cuePreviewB, .levelA, .levelB,
         ]
         return required.isSubset(of: Set(inputs.map(\.action))) && inputs.allSatisfy {
             let matchesKind = ($0.kind == .note && buttons.contains($0.action))

@@ -28244,12 +28244,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://www.highlite.com/media/attachments/MANUAL/D1261_MANUAL_GB_V1.pdf",
         "https://virtualdj.com/products/hardware.html?model=DAPKONTROLD2"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:dap-d2-own-normal-core"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "DAP KONTROL D2",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "DAP KONTROL D2",
@@ -28257,40 +28262,74 @@
           "source": "https://virtualdj.com/products/hardware.html?model=DAPKONTROLD2"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "cueStopA:a",
+        "cueStopB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopUpB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "reloopB:b",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 33,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Select DAP Core Kontrol D2 manually on an exposed MIDI source. The transmitted factory channel is not established; normal qualified controls accept channel changes. Cue returns and stops; Set Cue provides held preview. Configure app audio separately. Crossfader, modes, lights and motion remain unqualified."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Own manufacturer Highlite D1261 Core Kontrol D2 English V1 guide printed9/10/11/26/27/28, with MIDI appendix26..28 visually reviewed. All note/CC numbers are hexadecimal. The channel table puts X under Transmitted Default and1 under Recognized Default while other reception rows say X. It does not establish a transmitted factory channel. Native accepts all16 channels through the bounded manual unbanked two-deck core; stored raw0 is only a placeholder. All33 wire numbers and actions are unique, with no modes/banks/modifiers/setup/output/audio. The schema keeps mandatory A/B Play, held Cue and levels but permits an absent crossfader; no polarity is invented merely to satisfy a schema. Only native Cue Stop and Reloop roles are added to its permitted normal buttons; all previous uniqueness, kind, target and field guards remain. Own Play43/4C, SetCue3B/44, Cue33/3C, Sync40/47, Keylock38/3F, Load4B/34, PFL55/56, bends minus79/68 and plus78/67, loop-half72/61, B loop-double60 and B Reloop5F are independently transcribed. Set Cue is the held preview control. Separate Cue Stop returns to the saved Cue and pauses, including when already paused, without marking a new Cue or changing Sync. Main Cue and Set Cue are not confused with headphone PFL. Own absolute gain0D/0E, high10/11, mid12/13, low14/15, level08/09 and cueMix20 retain native pickup. The guide explicitly identifies Master as analogue/no MIDI; no master/monitor control is invented. Cross0A direction, tempo/ranges, A loop-double/reloop addresses omitted by the table, loops/SmartLoops/HotCues/delete modes, Shift-dependent FX/filter/pitch roles, relative jog/contact/needle calibration, library/kill/FX/sampler/reverse/curve/source states and complete feedback/lifecycle/recovery remain open. Recognized notes/CC are X, so no lamp packets are sent. Hardware emits NoteOn127/0; native additionally accepts NoteOff releases. Manual selection and existing MIDI input with separately configured app audio are required because analogue cue mix/hardware ownership is not automated. Exact USB names/driver/OS/power/channel polarity/audio/DVS and physical/iPad/A10X acceptance remain open. No NI Kontrol D2, DAP D4i, ABMA4 or other OEM protocol/identity is inherited. No preset, driver, firmware, source code, query, setting or audio-route write runs.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -360078,6 +360117,39 @@
         },
         {
           "reason": "Primary owner codecat repository mixxx-gemini-gmx at67f88e747bd8c8e04048f29945e7d87506e863f1 supplies independent MIDI XML, numeric Midi Spec and a separate HID interface. Its README calls the mapping work-in-progress and explicitly reports MIDI limitations. This is community protocol evidence, not a manufacturer numeric specification or native hardware acceptance. MIDI XML and the notes agree on raw0/1 deck channels and raw3 globals. Native Play1/held Cue2/Reloop5/Keylock19/Load28/PFL34 use the existing app actions. Numeric notes separately qualify loop In3/Out4, shifted half8/double7 and Shift43. Native normal buttons/filter/tempo are Shift-guarded; Range20 is negative-only Keylock rearm, and negative half/double aliases rearm normal In/Out as well as their own action. Native uses the existing +/-8-percent tempo range for explicitly inverted CC1; exact hardware range/discovery is unqualified. Normal filterCC4 preserves the XML super1 role; the prose endpoint typo is not interpreted as a binary switch. Raw3 gain1/2, mid3/4, high5/6, low7/8 and level9/10 are normal absolute positions. Cross11, cueMix12, master13 and monitor14 are explicitly inverted in both numeric roles and XML; native preserves their direction. No sibling G2V/G4V/GMX DRIVE addresses or USB names are inherited. Own GMX manual independently documents that entering/exiting MIDI stops standalone playback. Native never sends that mode switch. Requires manual existing MIDI mode/input and separately configured app audio. Hot Cue/Auto Loop states, all pads/clears, TAP/Lock/AutoCue/repeat/search/reverse/scratch, ambiguous relative jog/browser edge64 and calibration, booth, meters/screens/HID, full feedback/lifecycle/recovery and exact USB/driver/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. Source notes use ceil(value-63.5) while mapper jog uses value-64; no relative encoding is guessed. Source LED-clear loops are not copied. No upstream mapper/script code executes or ships. No setup/query/preset/firmware/driver/hardware-mode/audio-route packet runs. R473 adds eight own-MIDI-XML steady Play/Cue/Keylock/PFL lamps on raw0/1 with Note-On127/0. Pads, reverse, meters, blink modes, screens/HID and complete output lifecycle remain open. Source LED-reset loops are not copied. Feedback uses an explicitly selected output; manual input/mode/audio ownership stays separate."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:dap-d2-own-normal-core",
+      "name": "DAP KONTROL D2",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.highlite.com/media/attachments/MANUAL/D1261_MANUAL_GB_V1.pdf",
+        "sha256": "d4e9a9029dfd93acf5f736814b16892013d045005ef1cf446cc8b64243aa3582",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r474/upstream/dap-d2-manual.pdf",
+            "sha256": "d4e9a9029dfd93acf5f736814b16892013d045005ef1cf446cc8b64243aa3582"
+          }
+        ],
+        "visuallyReviewedPages": [
+          26,
+          27,
+          28
+        ],
+        "review": "Own manufacturer Highlite D1261 Core Kontrol D2 English V1 guide printed9/10/11/26/27/28, with MIDI appendix26..28 visually reviewed. All note/CC numbers are hexadecimal. The channel table puts X under Transmitted Default and1 under Recognized Default while other reception rows say X. It does not establish a transmitted factory channel. Native accepts all16 channels through the bounded manual unbanked two-deck core; stored raw0 is only a placeholder. All33 wire numbers and actions are unique, with no modes/banks/modifiers/setup/output/audio. The schema keeps mandatory A/B Play, held Cue and levels but permits an absent crossfader; no polarity is invented merely to satisfy a schema. Only native Cue Stop and Reloop roles are added to its permitted normal buttons; all previous uniqueness, kind, target and field guards remain. Own Play43/4C, SetCue3B/44, Cue33/3C, Sync40/47, Keylock38/3F, Load4B/34, PFL55/56, bends minus79/68 and plus78/67, loop-half72/61, B loop-double60 and B Reloop5F are independently transcribed. Set Cue is the held preview control. Separate Cue Stop returns to the saved Cue and pauses, including when already paused, without marking a new Cue or changing Sync. Main Cue and Set Cue are not confused with headphone PFL. Own absolute gain0D/0E, high10/11, mid12/13, low14/15, level08/09 and cueMix20 retain native pickup. The guide explicitly identifies Master as analogue/no MIDI; no master/monitor control is invented. Cross0A direction, tempo/ranges, A loop-double/reloop addresses omitted by the table, loops/SmartLoops/HotCues/delete modes, Shift-dependent FX/filter/pitch roles, relative jog/contact/needle calibration, library/kill/FX/sampler/reverse/curve/source states and complete feedback/lifecycle/recovery remain open. Recognized notes/CC are X, so no lamp packets are sent. Hardware emits NoteOn127/0; native additionally accepts NoteOff releases. Manual selection and existing MIDI input with separately configured app audio are required because analogue cue mix/hardware ownership is not automated. Exact USB names/driver/OS/power/channel polarity/audio/DVS and physical/iPad/A10X acceptance remain open. No NI Kontrol D2, DAP D4i, ABMA4 or other OEM protocol/identity is inherited. No preset, driver, firmware, source code, query, setting or audio-route write runs."
+      },
+      "implementedInputCount": 33,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Own manufacturer Highlite D1261 Core Kontrol D2 English V1 guide printed9/10/11/26/27/28, with MIDI appendix26..28 visually reviewed. All note/CC numbers are hexadecimal. The channel table puts X under Transmitted Default and1 under Recognized Default while other reception rows say X. It does not establish a transmitted factory channel. Native accepts all16 channels through the bounded manual unbanked two-deck core; stored raw0 is only a placeholder. All33 wire numbers and actions are unique, with no modes/banks/modifiers/setup/output/audio. The schema keeps mandatory A/B Play, held Cue and levels but permits an absent crossfader; no polarity is invented merely to satisfy a schema. Only native Cue Stop and Reloop roles are added to its permitted normal buttons; all previous uniqueness, kind, target and field guards remain. Own Play43/4C, SetCue3B/44, Cue33/3C, Sync40/47, Keylock38/3F, Load4B/34, PFL55/56, bends minus79/68 and plus78/67, loop-half72/61, B loop-double60 and B Reloop5F are independently transcribed. Set Cue is the held preview control. Separate Cue Stop returns to the saved Cue and pauses, including when already paused, without marking a new Cue or changing Sync. Main Cue and Set Cue are not confused with headphone PFL. Own absolute gain0D/0E, high10/11, mid12/13, low14/15, level08/09 and cueMix20 retain native pickup. The guide explicitly identifies Master as analogue/no MIDI; no master/monitor control is invented. Cross0A direction, tempo/ranges, A loop-double/reloop addresses omitted by the table, loops/SmartLoops/HotCues/delete modes, Shift-dependent FX/filter/pitch roles, relative jog/contact/needle calibration, library/kill/FX/sampler/reverse/curve/source states and complete feedback/lifecycle/recovery remain open. Recognized notes/CC are X, so no lamp packets are sent. Hardware emits NoteOn127/0; native additionally accepts NoteOff releases. Manual selection and existing MIDI input with separately configured app audio are required because analogue cue mix/hardware ownership is not automated. Exact USB names/driver/OS/power/channel polarity/audio/DVS and physical/iPad/A10X acceptance remain open. No NI Kontrol D2, DAP D4i, ABMA4 or other OEM protocol/identity is inherited. No preset, driver, firmware, source code, query, setting or audio-route write runs."
         }
       ]
     },

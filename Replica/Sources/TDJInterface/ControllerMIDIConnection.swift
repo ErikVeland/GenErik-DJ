@@ -15,7 +15,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     case filterA, filterB, fxA, fxB, fxToggleA, fxToggleB, crossfader, cueMix
     case filterToggleA, filterToggleB, master, monitor, tempoA, tempoB
     case loopA, loopB, loopUpA, loopUpB, loopDownA, loopDownB, jumpBackA, jumpBackB, jumpForwardA, jumpForwardB
-    case cueReturnA, cueReturnB, cuePreviewA, cuePreviewB, freezeA, freezeB
+    case cueReturnA, cueReturnB, cueStopA, cueStopB, cuePreviewA, cuePreviewB, freezeA, freezeB
     case jogA, jogB, jogTouchA, jogTouchB, wheelJogA, wheelJogB
     case browse, browseGroups, openGroup, loadA, loadB
     case browsePrevious, browseNext, browsePreviousGroup, browseNextGroup
@@ -61,7 +61,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
             "gain": "Gain", "low": "Low EQ", "mid": "Mid EQ", "high": "High EQ", "filter": "Filter",
             "filterToggle": "Filter on / off", "fx": "Effect amount", "fxToggle": "Effect on / off",
             "tempo": "Tempo ±8%", "loop": "Loop on / off", "loopUp": "Larger loop", "loopDown": "Smaller loop",
-            "jumpBack": "Beat jump back", "jumpForward": "Beat jump forward", "cueReturn": "Cue return / set", "cuePreview": "Cue preview (hold)",
+            "jumpBack": "Beat jump back", "jumpForward": "Beat jump forward", "cueReturn": "Cue return / set", "cueStop": "Go to Cue and stop", "cuePreview": "Cue preview (hold)",
             "freeze": "Freeze", "jog": "Platter jog", "jogTouch": "Platter touch", "wheelJog": "Wheel-side jog",
             "toggleFixedLoop": "Loop pad", "fixedLoop": "Fixed beat loop", "fixedJump": "Fixed beat jump", "loopIn": "Loop in", "loopOut": "Loop out",
             "seek": "Waveform position", "tempoReset": "Tempo reset",

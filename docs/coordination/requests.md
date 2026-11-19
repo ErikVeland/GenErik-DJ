@@ -776,3 +776,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R472 | Audited; conflicting pads/modes remain open | Review the separate GMX pad contribution | Recorded two numeric/mode conflicts in open PR2. No runtime support inferred.417 source checks pass; both runtime resources and catalogue JSON remain byte-identical to R471. [Scope](controller-coverage.md#r472-gmx-pad-contribution-conflicts). |
 
 | R473 | Implemented; full feedback/lifecycle/physical gaps open | Add explicit steady lamps to Dragon Two, 4MIX and GMX | Added68 optional steady lamps.419 source/24 native checks and iPad framework compilation pass. All400 input layouts and397 other recipes remain identical. [Scope](controller-coverage.md#r473-explicit-steady-legacy-lamps). |
+
+| R474 | Implemented; full controls/channel/audio/host gaps open | Add own DAP D2 core and distinct Cue Stop | Added33 manual own-manual inputs.422 source/23 native checks and iPad framework compilation pass. All400 earlier recipes remain identical. [Scope](controller-coverage.md#r474-own-dap-d2-core-and-distinct-cue-stop). |

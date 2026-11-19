@@ -3656,3 +3656,47 @@ func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String
         #expect(abs((model.controllerValue(.levelA) ?? -1)-64.0/127)<0.0001)
     }
 }
+
+
+@Test @MainActor func controllerCatalogueCueStopReturnsWithoutRemarkingOrChangingSync() async throws {
+    try await withControllerCuePlayback {model,_ in
+        let action=try #require(ControllerAction(rawValue:"cueStopA"))
+        let sampleRate=try #require(model.track(.a)?.analysis.sampleRate)
+        model.cuePoints[.a]=0;model.jump(sampleRate,deck:.a,quantized:false);model.refreshPlayback()
+        #expect((model.playbackSnapshot?.a.sourceFrame ?? 0)>0)
+        model.applyController(action,value:0);model.refreshPlayback()
+        #expect((model.playbackSnapshot?.a.sourceFrame ?? 0)>0)
+        model.applyController(action,value:1);model.refreshPlayback()
+        #expect(model.cuePoints[.a] == 0 && abs(model.playbackSnapshot?.a.sourceFrame ?? -1)<=1)
+        #expect(model.playbackSnapshot?.a.phase.active == false && model.playbackSnapshot?.a.synced == true)
+        model.pressPlay(deck:.a,vinylStop:false);_ = model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        model.applyController(action,value:1);_ = model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(model.cuePoints[.a] == 0 && abs(model.playbackSnapshot?.a.sourceFrame ?? -1)<=1)
+        #expect(model.playbackSnapshot?.a.phase.active == false && model.playbackSnapshot?.a.synced == true)
+        model.applyController(.cuePreviewA,value:1);model.refreshPlayback()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        model.applyController(action,value:1);model.refreshPlayback()
+        #expect(model.playbackSnapshot?.a.touchActive == false && model.playbackSnapshot?.a.phase.active == false && model.playbackSnapshot?.a.synced == true)
+    }
+}
+
+
+@Test @MainActor func controllerCatalogueDAPD2CoreDistinctCueControlsAndMixerKeepSync() async throws {
+    try await withControllerCuePlayback("DAP KONTROL D2",manual:true) {model,input in
+        input.receiveBytes([0x9F,59,1],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x80,59,127,0x94,67,127,67,0],source:10);input.flushPendingActions()
+        _ = model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        input.receiveBytes([0x98,51,127,51,0],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.phase.active == false && model.playbackSnapshot?.a.touchActive == false && model.playbackSnapshot?.a.synced == true)
+        input.receiveBytes([0x90,67,127,67,0],source:10);input.flushPendingActions()
+        input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+        for value:UInt8 in [0,127,64] {input.receiveBytes([0xB7,8,value],source:10);input.flushPendingActions()}
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        #expect(abs((model.controllerValue(.levelA) ?? -1)-64.0/127)<0.0001)
+    }
+}
