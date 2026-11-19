@@ -109,7 +109,7 @@ import Testing
 
 @Test @MainActor func ddjFLX10InputProfileUsesPublishedFourDeckChannelsAndEncodings() throws {
     let bindings = ControllerMIDIConnection.ddjFLX10Bindings(source: 44)
-    #expect(bindings.count == 145)
+    #expect(bindings.count == 241)
     #expect(bindings.allSatisfy { $0.source == 44 && $0.group == 0 })
     for (channel, deck) in DeckID.allCases.enumerated() {
         let scoped = bindings.filter { $0.targetDeck == deck }
@@ -119,7 +119,7 @@ import Testing
         #expect(scoped.contains { [.loopInOrHalveA, .loopInOrHalveB].contains($0.action) && $0.number == 16 })
         #expect(scoped.contains { [.loopOutOrDoubleA, .loopOutOrDoubleB].contains($0.action) && $0.number == 17 })
         #expect(scoped.contains { [.toggleFixedLoopA, .toggleFixedLoopB].contains($0.action) && $0.argument == 4 })
-        let pads = scoped.filter { $0.action.hotcueSlot != nil }
+        let pads = scoped.filter { $0.action.hotcueSlot != nil && $0.releaseOnly != true }
         #expect(pads.map(\.channel) == Array(repeating: UInt8(7 + channel * 2), count: 8))
         #expect(pads.map(\.number) == (0..<8).map { UInt8($0) })
         #expect(scoped.contains { [.jogA, .jogB].contains($0.action) && $0.number == 34 && $0.mode == .binaryOffset })

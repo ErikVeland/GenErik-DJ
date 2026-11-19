@@ -251,7 +251,7 @@ class ConversionTests(unittest.TestCase):
     def test_original_ddj1000_uses_its_own_factory_addresses_and_bank_events(self):
         result = ddj1000_profiles()[0]
         self.assertEqual(result["id"], "DDJ-1000")
-        self.assertEqual(len(result["inputs"]), 125)
+        self.assertEqual(len(result["inputs"]), 221)
         self.assertEqual(len(result["outputs"]), 48)
         self.assertEqual([(row["channel"], row["number"]) for row in result["bankChanges"]], [(2, 114), (3, 114)])
         for action, number in [("syncA", 88), ("tempoA", 0), ("toggleFixedLoopA", 20)]:
@@ -268,7 +268,7 @@ class ConversionTests(unittest.TestCase):
         result = flx10_profiles()[0]
         self.assertEqual(result["id"], "DDJ-FLX10")
         self.assertEqual(result["catalogueName"], "Pioneer DDJ-FLX10")
-        self.assertEqual(len(result["inputs"]), 145)
+        self.assertEqual(len(result["inputs"]), 241)
         self.assertEqual(len(result["outputs"]), 44)
         self.assertEqual([row["channel"] for row in result["bankChanges"]], [0, 1, 2, 3])
         self.assertEqual([row["shiftInput"] for row in result["inputs"] if row["action"] == "shift"], [0, 1, 0, 1])

@@ -10269,6 +10269,38 @@
       },
       "controlActions": [
         "browse",
+        "clearHotcue1A:a",
+        "clearHotcue1A:c",
+        "clearHotcue1B:b",
+        "clearHotcue1B:d",
+        "clearHotcue2A:a",
+        "clearHotcue2A:c",
+        "clearHotcue2B:b",
+        "clearHotcue2B:d",
+        "clearHotcue3A:a",
+        "clearHotcue3A:c",
+        "clearHotcue3B:b",
+        "clearHotcue3B:d",
+        "clearHotcue4A:a",
+        "clearHotcue4A:c",
+        "clearHotcue4B:b",
+        "clearHotcue4B:d",
+        "clearHotcue5A:a",
+        "clearHotcue5A:c",
+        "clearHotcue5B:b",
+        "clearHotcue5B:d",
+        "clearHotcue6A:a",
+        "clearHotcue6A:c",
+        "clearHotcue6B:b",
+        "clearHotcue6B:d",
+        "clearHotcue7A:a",
+        "clearHotcue7A:c",
+        "clearHotcue7B:b",
+        "clearHotcue7B:d",
+        "clearHotcue8A:a",
+        "clearHotcue8A:c",
+        "clearHotcue8B:b",
+        "clearHotcue8B:d",
         "crossfader",
         "cueA:a",
         "cueA:c",
@@ -10379,7 +10411,7 @@
         "wheelJogB:b",
         "wheelJogB:d"
       ],
-      "inputBindingCount": 125,
+      "inputBindingCount": 221,
       "feedbackBindingCount": 48,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -10408,7 +10440,8 @@
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "R490 qualifies only first-page Hot Cue Shift deletion from this own manufacturer MIDI table and hardware diagram. Raw7/9/11/13 notes0..7 remain activation, while raw8/10/12/14 notes0..7 clear. Both negative aliases rearm their own role even when hardware Shift changes before release. Dedicated opcodes do not infer app Shift state. Page2, other pad modes, complete lifecycle/host/audio and physical acceptance remain open. No hardware configuration, setup or output write is added."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -13845,6 +13878,38 @@
       },
       "controlActions": [
         "browse",
+        "clearHotcue1A:a",
+        "clearHotcue1A:c",
+        "clearHotcue1B:b",
+        "clearHotcue1B:d",
+        "clearHotcue2A:a",
+        "clearHotcue2A:c",
+        "clearHotcue2B:b",
+        "clearHotcue2B:d",
+        "clearHotcue3A:a",
+        "clearHotcue3A:c",
+        "clearHotcue3B:b",
+        "clearHotcue3B:d",
+        "clearHotcue4A:a",
+        "clearHotcue4A:c",
+        "clearHotcue4B:b",
+        "clearHotcue4B:d",
+        "clearHotcue5A:a",
+        "clearHotcue5A:c",
+        "clearHotcue5B:b",
+        "clearHotcue5B:d",
+        "clearHotcue6A:a",
+        "clearHotcue6A:c",
+        "clearHotcue6B:b",
+        "clearHotcue6B:d",
+        "clearHotcue7A:a",
+        "clearHotcue7A:c",
+        "clearHotcue7B:b",
+        "clearHotcue7B:d",
+        "clearHotcue8A:a",
+        "clearHotcue8A:c",
+        "clearHotcue8B:b",
+        "clearHotcue8B:d",
         "crossfader",
         "cueA:a",
         "cueA:c",
@@ -13959,7 +14024,7 @@
         "wheelJogB:b",
         "wheelJogB:d"
       ],
-      "inputBindingCount": 145,
+      "inputBindingCount": 241,
       "feedbackBindingCount": 44,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -13988,7 +14053,8 @@
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "R490 qualifies only first-page Hot Cue Shift deletion from this own manufacturer MIDI table and hardware diagram. Raw7/9/11/13 notes0..7 remain activation, while raw8/10/12/14 notes0..7 clear. Both negative aliases rearm their own role even when hardware Shift changes before release. Dedicated opcodes do not infer app Shift state. Page2, other pad modes, complete lifecycle/host/audio and physical acceptance remain open. No hardware configuration, setup or output write is added."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -354098,13 +354164,16 @@
         ],
         "review": "Four transport channels 0/1/2/3 target A/B/C/D, with normal pad channels 7/9/11/13. Normal loop buttons set in/out while no loop is active and halve/double an active loop. The four-beat button toggles a four-beat loop. Beat Jump uses four beats, or sixteen with Shift. Shifted jog reports edit the beat grid and do not inherit scratch or bend. Bank Note 60 positive reports protect the corresponding physical side. The existing profile ID, exact aliases and saved custom mappings remain stable. Full pad modes, grid editing, stem controls, screens, complete feedback, lifecycle cleanup and audio routing remain open. Jog resolution is not published in the table, so native default sensitivity still needs calibration."
       },
-      "implementedInputCount": 145,
+      "implementedInputCount": 241,
       "implementedOutputCount": 44,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "R490 qualifies only first-page Hot Cue Shift deletion from this own manufacturer MIDI table and hardware diagram. Raw7/9/11/13 notes0..7 remain activation, while raw8/10/12/14 notes0..7 clear. Both negative aliases rearm their own role even when hardware Shift changes before release. Dedicated opcodes do not infer app Shift state. Page2, other pad modes, complete lifecycle/host/audio and physical acceptance remain open. No hardware configuration, setup or output write is added."
         }
       ]
     },
@@ -354135,13 +354204,16 @@
         ],
         "review": "Original DDJ-1000 alone. The 1000SRT retains a separate recipe. Normal Sync is Note 88, tempo CC 0/32 and four-beat loop Note 20. Earlier code used shifted addresses 92, 5/37 and 80. The factory table confirms four transport channels 0/1/2/3 and normal pad channels 7/9/11/13. Note 114 on channel 2 reports either left-bank change; channel 3 reports either right-bank change. These are switch events, not active-deck queries. Loop In/Out set boundaries while no loop is active and halve/double an active loop. Shifted jogs edit the grid. Screens, remaining modes, full feedback, cleanup, audio routing and physical jog calibration remain open."
       },
-      "implementedInputCount": 125,
+      "implementedInputCount": 221,
       "implementedOutputCount": 48,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "R490 qualifies only first-page Hot Cue Shift deletion from this own manufacturer MIDI table and hardware diagram. Raw7/9/11/13 notes0..7 remain activation, while raw8/10/12/14 notes0..7 clear. Both negative aliases rearm their own role even when hardware Shift changes before release. Dedicated opcodes do not infer app Shift state. Page2, other pad modes, complete lifecycle/host/audio and physical acceptance remain open. No hardware configuration, setup or output write is added."
         }
       ]
     },

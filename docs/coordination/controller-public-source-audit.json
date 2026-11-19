@@ -5829,6 +5829,41 @@
         }
       ],
       "result": "Added16 clear bindings and32 paired negative aliases to each existing REV1/REV5 built-in, for105/111 inputs. Their own numeric tables and guide roles independently qualify reuse of the fixed paired-channel constructor. Existing fields/order, R488 corrected normal right-deck channel, feedback, setup and audio remain unchanged. All405 JSON recipes and both resources remain byte-identical.451 source/38 native checks and iPad framework compilation pass. Five built-in models now share exhaustive slot/deck/release/debounce/Shift/source/group/inactive-mode tests, with five real-WAV marker/position/active-playback/Sync checks. Missing-feature TDD records10 failed expectations across the two REV profiles. Complete modes/lifecycle/host and physical acceptance remain open."
+    },
+    {
+      "request": "R490",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "model": "DDJ-FLX10",
+          "url": "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-FLX10/DDJ-FLX10_MIDI_Message_List_E1.pdf",
+          "sha256": "c6fbe89c909bdabed911d315a35fc6c00c5af45ec4dd66ef20f49e86e90ac26c",
+          "cachePath": "TestBuilds/r214/manufacturer/DDJ-FLX10.pdf",
+          "relatedSources": [
+            {
+              "url": "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-FLX10/DDJ-FLX10_HardwareDiagram_rekordbox_E1.pdf",
+              "sha256": "9e1d1357c28e5eddfecfe0d646bf579a2a09e0e4b6a602bf47978e72919fbf35",
+              "cachePath": "TestBuilds/r214/manufacturer/DDJ-FLX10-diagram.pdf"
+            }
+          ],
+          "review": "Own first-page Hot Cue normal/Shift numeric rows qualify all eight slots on all four decks. Own hardware diagram identifies Shift Delete. Both PDFs remain independently hash-pinned. FLX10 numeric printed page4 and DDJ-1000 diagram printed page2 were visually rechecked for this increment. Other numeric pad pages are text-reviewed. No sibling, Page2 or automatic mode-discovery assumption supplies a wire."
+        },
+        {
+          "model": "DDJ-1000",
+          "url": "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-1000/DDJ-1000_MIDI_Message_List_E1.pdf",
+          "sha256": "28d68d514774daa81e603d9a8709105283f38fbc944650671971ecf57cb95d11",
+          "cachePath": "TestBuilds/r215/manufacturer/DDJ-1000.pdf",
+          "relatedSources": [
+            {
+              "url": "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-1000/DDJ-1000_HardwareDiagram_rekordboxdj_E1.pdf",
+              "sha256": "97e025df9c835194993c11792edbd71300e0b7a2c69abc2dbe094f1cc9ce714c",
+              "cachePath": "TestBuilds/r215/manufacturer/DDJ-1000-diagram.pdf"
+            }
+          ],
+          "review": "Own first-page Hot Cue normal/Shift numeric rows qualify all eight slots on all four decks. Own hardware diagram identifies Shift Delete. Both PDFs remain independently hash-pinned. FLX10 numeric printed page4 and DDJ-1000 diagram printed page2 were visually rechecked for this increment. Other numeric pad pages are text-reviewed. No sibling, Page2 or automatic mode-discovery assumption supplies a wire."
+        }
+      ],
+      "result": "Added32 first-page dedicated clear inputs and64 paired negative aliases per model. Original125/145 inputs remain exact prefixes, yielding221/241 inputs.403 other recipes remain identical. Feedback/setup/audio/aliases/bankChanges and all non-input fields except scope/gap notes remain unchanged. A bounded helper rejects unreviewed model/mode/fields, missing activation proof and positive clear collisions before mutating inputs.454 source/60 native checks and iPad framework compilation pass. Tests cover all64 clear wires, both negatives/directions, duplicate presses, either app Shift state, source/group isolation, C/D availability, inactive Page2/other-mode wires, prior bank/loop/jump/pickup/lifecycle/feedback and six pair-profile real-WAV cases. The separate five-built-in WAV regression also passes. Catalogue gates compare27626 inputs and205 automatic held-Cue recipes. Compact bundle2245269 bytes within unchanged limits; full review resource excluded. Missing-feature source failure and missing-helper error are preserved. No script, mode/configuration, output or audio-route write is added. Complete pages/modes/lifecycle/host and physical acceptance remain open."
     }
   ]
 }

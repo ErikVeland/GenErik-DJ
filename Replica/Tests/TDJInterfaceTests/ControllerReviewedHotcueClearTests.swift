@@ -105,7 +105,7 @@ func controllerCatalogueReviewedClearForeignSourcesAndGroupsCannotDelete(name: S
     }
 }
 
-private let reviewedPairNames = ["Pioneer DDJ-SB3", "Reloop Terminal Mix 2/4", "Hercules DJControl Jogvision", "Denon MC4000", "Reloop NEON"]
+private let reviewedPairNames = ["Pioneer DDJ-SB3", "Reloop Terminal Mix 2/4", "Hercules DJControl Jogvision", "Denon MC4000", "Reloop NEON", "DDJ-FLX10", "DDJ-1000"]
 
 @Test(arguments: reviewedPairNames) @MainActor
 func controllerCatalogueReviewedPairDedicatedOpcodesWorkWithEitherShiftState(name: String) throws {
@@ -215,4 +215,34 @@ func controllerCatalogueReviewedClearBothNegativeWiresRearmOnlyTheirOwnRole(name
             }
         }
     }
+}
+
+@Test(arguments: ["DDJ-FLX10", "DDJ-1000"]) @MainActor
+func controllerCatalogueReviewedPairFactoryPagesAndCapacityRemainBounded(name: String) throws {
+    let suite = "four-deck-clear-\(UUID().uuidString)"
+    let preferences = UserDefaults(suiteName: suite)!
+    defer { preferences.removePersistentDomain(forName: suite) }
+    let input = ControllerMIDIConnection(
+        preferences: preferences, factoryPacketSender: { _, _ in
+            Issue.record("Input-only clear checks must not send packets."); return false
+        }, deckAvailability: { DeckID.primary })
+    input.sources = [.init(id: 10, reference: 100, name: name, identity: .init(id: 10, device: 1, names: [name]))]
+    input.reconcileFactoryProfiles()
+    #expect(input.isInputActive(10))
+    var events: [ControllerActionTarget] = []
+    input.onTargetAction = { target, _ in events.append(target) }
+    for channel: UInt8 in [11, 12, 13, 14] {
+        for number: UInt8 in 0..<8 {
+            reviewedClearPacket([0x90 + channel, number, 127, number, 0], input)
+        }
+    }
+    #expect(events.isEmpty)
+    for channel: UInt8 in [7, 8, 9, 10, 11, 12, 13, 14] {
+        for number: UInt8 in 8..<128 {
+            reviewedClearPacket([0x90 + channel, number, 127, number, 0], input)
+        }
+    }
+    #expect(events.isEmpty)
+    reviewedClearPacket([0x98, 0, 127, 0, 0, 0x9A, 7, 127, 7, 0], input)
+    #expect(events == [.init(.clearHotcue1A, deck: .a), .init(.clearHotcue8B, deck: .b)])
 }

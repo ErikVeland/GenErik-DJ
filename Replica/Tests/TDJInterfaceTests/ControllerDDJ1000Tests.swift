@@ -105,7 +105,7 @@ import Testing
     #expect(ControllerFactoryProfile.matching(["DDJ-1000SRT"]) != .ddj1000)
     #expect(ControllerFactoryProfile.matching(["DDJ-1000+"]) == nil)
     let profile = try #require(ControllerFactoryProfile.ddj1000.definition)
-    #expect(profile.inputs.count == 125 && profile.outputs.count == 48)
+    #expect(profile.inputs.count == 221 && profile.outputs.count == 48)
     #expect(profile.bankChanges?.map(\.channel) == [2, 3])
     let feedback = ControllerMIDIConnection.ddj1000FeedbackBindings(destination: 20)
     for deck in DeckID.allCases {
@@ -117,7 +117,7 @@ import Testing
     withDDJ1000([.a, .b]) { input in
         var events: [ControllerActionTarget] = []
         input.onTargetAction = { target, _ in events.append(target) }
-        ddj1000Packet([0x92, 11, 127, 0x93, 12, 127, 0x96, 72, 127, 0x9B, 7, 127], to: input)
+        ddj1000Packet([0x92, 11, 127, 0x93, 12, 127, 0x96, 72, 127, 0x9B, 7, 127, 0x9C, 7, 127, 0x9E, 7, 127], to: input)
         #expect(events.isEmpty)
     }
 }
