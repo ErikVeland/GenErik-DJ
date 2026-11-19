@@ -23,9 +23,9 @@ private enum StoreAccessProductID: String, CaseIterable {
     case controllerLifetime = "org.generikdj.replica.controller.lifetime"
     case recordingMonthly = "org.generikdj.replica.recording.monthly"
     case recordingLifetime = "org.generikdj.replica.recording.lifetime"
-    case openFormatMonthly = "org.generikdj.replica.open-format.monthly"
-    case openFormatLifetime = "org.generikdj.replica.open-format.lifetime"
-    case allInOneLifetime = "org.generikdj.replica.all-in-one.lifetime"
+    case openFormatMonthly = "org.generikdj.replica.open_format.monthly"
+    case openFormatLifetime = "org.generikdj.replica.open_format.lifetime"
+    case allInOneLifetime = "org.generikdj.replica.all_in_one.lifetime"
 
     var features: Set<StoreAccessFeature> {
         switch self {

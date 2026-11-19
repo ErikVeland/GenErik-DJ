@@ -7,28 +7,43 @@ It includes seven purchase localisations. Prices are not inferred or changed.
 The name, subtitle, promotional text, description and keywords pass the current Apple field limits.
 Purchase names and descriptions also pass their limits. The STE linter is not installed, so the text received manual review.
 
-## Live update status
+## App Store Connect status
 
-Apple authentication is unresolved. Safari Technology Preview returned the sign-in page after Erik reported signing in.
-The saved credential now requires Touch ID. No remote metadata field or artwork assignment has changed in this request.
+Saved the English (Australia) product fields in both 1.0 drafts on 19 November 2026.
+Both drafts have the description, promotional text, keywords, copyright, support and marketing links, and App Review contact details.
+The review phone remains in App Store Connect.
+The shared subtitle and Music category are saved. Apple calculated a 4+ age rating.
 
-After authentication, compare and save the fields in both existing platform drafts.
-Retain the review phone number already entered by Erik. Do not copy it into the repository.
-Check existing purchase records before applying their prepared localisations.
-Reconcile the privacy questionnaire with the selected release build before publishing its answers.
-Do not assert unverified accessibility support.
+The existing privacy policy and privacy choices links match the project URLs.
+The privacy questionnaire has an unpublished Data Not Collected draft.
+The app uses private CloudKit for preparation sync and keeps analysis and diagnostic processing local.
+The privacy manifest lists no collected data and disables tracking.
+Check the privacy answer against the final release build before publication.
+The Apple Content Rights declaration awaits Erik's answer.
+Accessibility feature claims await platform checks.
 
-## Artwork and build
+## Artwork and builds
 
-Use the existing approved `Replica/iPad/AppIcon.icon` artwork and the current App Store header.
-Their source checksums are in the metadata file.
-Apple takes the app icon from an uploaded build. The icon is not a standalone metadata upload.
-The project currently uses marketing version `0.1.0`. The last recorded store drafts use `1.0`.
-Check which builds Apple permits before selecting a build or changing the version.
-Build 227 is a signed development install, not an App Store distribution upload.
+Both 1.0 drafts show the approved icon from build 226, identified by Apple as version 0.1.0.
+The iOS draft retains the approved branded header.
+Apple takes each icon from the selected build.
+Build 226 predates the label fix and the product ID correction. Build 227 is the installed iPad development build.
+The release candidate needs the current source.
 
-Screenshots must match the selected build and platform. The website's historical captures do not establish current screenshot acceptance.
-The metadata request does not submit a public release or invite testers.
+The checked iPhone, iPhone Duo, iPad and Mac screenshot slots are empty.
+The existing website images are historical captures or development previews.
+Capture the matching App Store release build before uploading screenshots.
+
+## Purchase drafts
+
+Saved all seven product records with their English (Australia) names and descriptions.
+The three monthly products each have a one-month period and their own localised group.
+Apple's form rejected hyphens in the Open Format and All-in-One product IDs.
+The product records, source and metadata now use underscores for those IDs.
+Swift syntax and the seven ID matches passed. StoreKit purchase and restore checks remain open.
+Pricing, availability and review assets are pending for all products.
+
+Both platform drafts are in Prepare for Submission.
 
 ## References
 

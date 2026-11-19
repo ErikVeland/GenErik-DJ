@@ -19,9 +19,9 @@
 | Controller Support lifetime | `org.generikdj.replica.controller.lifetime` | Non-consumable |
 | Recording monthly | `org.generikdj.replica.recording.monthly` | Auto-renewable subscription |
 | Recording lifetime | `org.generikdj.replica.recording.lifetime` | Non-consumable |
-| Open Format monthly | `org.generikdj.replica.open-format.monthly` | Auto-renewable subscription |
-| Open Format lifetime | `org.generikdj.replica.open-format.lifetime` | Non-consumable |
-| All-in-One lifetime | `org.generikdj.replica.all-in-one.lifetime` | Non-consumable |
+| Open Format monthly | `org.generikdj.replica.open_format.monthly` | Auto-renewable subscription |
+| Open Format lifetime | `org.generikdj.replica.open_format.lifetime` | Non-consumable |
+| All-in-One lifetime | `org.generikdj.replica.all_in_one.lifetime` | Non-consumable |
 
 ## Limits
 
@@ -35,7 +35,7 @@
 
 ## Remaining release work
 
-App Store Connect needs these products, prices, localised metadata, subscription groups, privacy and terms links, and review notes. The privacy draft names Erik Veland and erik@veland.au. It still needs human review, a public deployment and the requested custom domain. The 1.0 release also needs a signed build with these purchases. Verify the purchase and time-limit paths before submission. Physical controller testing is not a release blocker.
+R426 created the seven product drafts and the three monthly subscription groups in App Store Connect. English (Australia) product and group names are saved. Product prices, availability, review assets and entitlement checks remain open. The [App Store record](../app-store/README.md) records the metadata and artwork status. The 1.0 release needs a signed build with the current product IDs. Verify purchase, restore and time limits before submission. Physical controller testing is not a release blocker.
 
 ## Implementation notes
 

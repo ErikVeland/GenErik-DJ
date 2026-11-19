@@ -1,11 +1,13 @@
 {
   "appID": "6832211854",
   "locale": "en-AU",
-  "status": "Prepared locally. App Store Connect sign-in required before reconciliation and saving.",
+  "status": "Saved in the iOS and macOS 1.0 drafts on 19 November 2026.",
   "appInformation": {
     "name": "GenErik DJ",
     "subtitle": "Mix music. Shape your setup.",
-    "primaryCategory": "MUSIC"
+    "primaryCategory": "MUSIC",
+    "ageRating": "4+",
+    "contentRightsStatus": "Awaiting the account holder’s declaration."
   },
   "versionInformation": {
     "promotionalText": "Choose your controls. Move through your music with waveforms, loops, cues and effects in a workspace that adapts to your setup.",
@@ -18,7 +20,7 @@
   "privacy": {
     "privacyPolicyURL": "https://dj.generik.au/privacy",
     "privacyChoicesURL": "https://dj.generik.au/privacy/choices",
-    "questionnaireStatus": "Reconcile the final build and existing answers before publishing."
+    "questionnaireStatus": "Data Not Collected saved as a draft. Publication is pending."
   },
   "accessibility": {
     "accessibilityURL": "https://dj.generik.au/accessibility",
@@ -27,13 +29,13 @@
   "review": {
     "contactEmail": "erik@veland.au",
     "signInRequired": false,
-    "notes": "GenErik DJ uses local, unprotected audio. Import audio from Settings > Library, or permit access to local Music-library tracks. No GenErik DJ account is required. Apple services use the system Apple Account.\n\nThe first-launch 14-day preview unlocks the purchase features without starting a subscription. Purchase options and Restore Purchases are in Settings. A compatible controller is optional for on-screen mixing. The controller catalogue lists model-specific coverage.\n\nAudio analysis runs locally. Private iCloud preparation sharing transfers analysis and sections, not audio files. Website: https://dj.generik.au.",
-    "contactPhone": "Retain the contact already entered by Erik in App Store Connect."
+    "notes": "GenErik DJ uses local, unprotected audio. Import audio from Settings > Library, or permit access to local Music-library tracks. No GenErik DJ account is required. Apple services use the system Apple Account.\n\nA compatible controller is optional for on-screen mixing. The controller catalogue lists model-specific coverage.\n\nAudio analysis runs locally. Private iCloud preparation sharing transfers analysis and sections, not audio files. Website: https://dj.generik.au.",
+    "contactPhone": "Use the phone number saved in App Store Connect. It is omitted here."
   },
   "artwork": {
     "iconSource": "Replica/iPad/AppIcon.icon",
     "header": "Replica/Branding/AppStore/header-current-3840x1646.png",
-    "status": "Keep the approved Icon Composer artwork. Select an eligible uploaded build and verify the extracted icon. Reconcile screenshots against that build.",
+    "status": "Both 1.0 drafts show the approved icon from build 226. The iOS draft also has the approved header.",
     "iconConfigurationSHA256": "e75c3a68e33a447c5efc3d42abc69d8bffbe1db5b673e43805e6743c4b859e23",
     "iconLayerSHA256": "82335dab98a5b86e1bf32f63fe931ad91d91abbaa2fe862ce7af6cadb88bae00",
     "headerSHA256": "23d09136ae9890613a308f12cedbdaf0bb0200c710d615e4f3151cc933ddf4f3"
@@ -41,7 +43,7 @@
   "publication": {
     "submitForReview": false,
     "releasePublicly": false,
-    "notes": "Metadata refresh only. Purchase configuration, screenshots and release qualification remain separately tracked."
+    "notes": "App Store versions and purchase records are in Prepare for Submission. Purchase pricing, availability, review assets and release qualification remain open."
   },
   "inAppPurchaseLocalizations": [
     {
@@ -65,17 +67,17 @@
       "description": "Unlock recording and DJ branding for life."
     },
     {
-      "productID": "org.generikdj.replica.open-format.monthly",
+      "productID": "org.generikdj.replica.open_format.monthly",
       "name": "Open Format Monthly",
       "description": "Remove the free set limit each month."
     },
     {
-      "productID": "org.generikdj.replica.open-format.lifetime",
+      "productID": "org.generikdj.replica.open_format.lifetime",
       "name": "Open Format Lifetime",
       "description": "Remove set limits. Includes DJ branding."
     },
     {
-      "productID": "org.generikdj.replica.all-in-one.lifetime",
+      "productID": "org.generikdj.replica.all_in_one.lifetime",
       "name": "All-in-One Lifetime",
       "description": "All three unlocks and your own DJ branding."
     }
