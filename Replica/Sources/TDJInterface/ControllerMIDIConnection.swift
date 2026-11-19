@@ -1621,7 +1621,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 ]
             ),
             (
-                UInt8(8),
+                UInt8(9),
                 [
                     ControllerAction.hotcue1B, .hotcue2B, .hotcue3B, .hotcue4B, .hotcue5B, .hotcue6B, .hotcue7B,
                     .hotcue8B,
@@ -2017,7 +2017,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 deck == "A"
                 ? [.hotcue1A, .hotcue2A, .hotcue3A, .hotcue4A, .hotcue5A, .hotcue6A, .hotcue7A, .hotcue8A]
                 : [.hotcue1B, .hotcue2B, .hotcue3B, .hotcue4B, .hotcue5B, .hotcue6B, .hotcue7B, .hotcue8B]
-            let padChannel: UInt8 = deck == "A" ? 7 : 8
+            let padChannel: UInt8 = deck == "A" ? 7 : 9
             profile += hotcues.enumerated().map {
                 binding($0.element, kind: .note, channel: padChannel, number: UInt8($0.offset))
             }

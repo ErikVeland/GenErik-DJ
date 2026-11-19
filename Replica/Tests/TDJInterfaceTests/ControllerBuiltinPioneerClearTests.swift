@@ -126,3 +126,25 @@ func controllerBuiltinPioneerClearOtherPadModesStayInactive(name: String) throws
         #expect(events.isEmpty)
     }
 }
+
+@Test @MainActor
+func controllerBuiltinPioneerClearREV5NormalRightPadsNeverUseLeftShiftChannel() throws {
+    try withBuiltinClear("DDJ-REV5") { input, p in
+        var events: [ControllerActionTarget] = []
+        input.onTargetAction = { target, _ in events.append(target) }
+        for slot: UInt8 in 0..<8 {
+            builtinClearPacket([0x99, slot, 127, slot, 0], input)
+        }
+        #expect(events.map(\.action.hotcueSlot) == Array(0..<8).map { Optional($0) })
+        #expect(events.allSatisfy { $0.action.deck == .b })
+        events.removeAll()
+        for slot: UInt8 in 0..<8 {
+            builtinClearPacket([0x98, slot, 127, slot, 0], input)
+        }
+        #expect(!events.contains { $0.action.deck == .b })
+        let lamps = p.feedback(destination: 20).filter { $0.action.hotcueSlot != nil && $0.action.deck == .b }
+        #expect(lamps.count == 8)
+        #expect(lamps.allSatisfy { $0.channel == 9 })
+        #expect(lamps.map { $0.message(value: 1) } == (UInt8(0)..<8).map { [0x99, $0, 127] })
+    }
+}

@@ -171,7 +171,7 @@ import Testing
             == (0..<8).map { "7:\($0)" })
     #expect(
         bindings.filter { $0.action.hotcueSlot != nil && $0.action.deck == .b }.map { "\($0.channel):\($0.number)" }
-            == (0..<8).map { "8:\($0)" })
+            == (0..<8).map { "9:\($0)" })
 }
 
 @Test @MainActor func ddjREV5FeedbackProfileUsesPublishedStatusAndPadMessages() {
@@ -187,7 +187,7 @@ import Testing
     #expect(bindings.first { $0.action == .syncB }?.channel == 1)
     #expect(bindings.first { $0.action == .syncB }?.number == 9)
     let hotcueB = bindings.filter { $0.action.hotcueSlot != nil && $0.action.deck == .b }
-    #expect(hotcueB.map(\.channel) == Array(repeating: 8, count: 8))
+    #expect(hotcueB.map(\.channel) == Array(repeating: 9, count: 8))
     #expect(hotcueB.map(\.number) == (0..<8).map { UInt8($0) })
 }
 

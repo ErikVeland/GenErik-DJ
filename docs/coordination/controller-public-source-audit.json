@@ -5787,6 +5787,19 @@
         }
       ],
       "result": "Added16 dedicated clear inputs and32 paired negative aliases to the existing FLX2 built-in. The shared constructor contains only the independently qualified channel layout. FLX4 and DDJ-400 bindings retain every field and order. All405 JSON recipes and both resources remain byte-identical.451 source/37 native checks and iPad framework compilation pass. Native tests cover all three models, all slots/decks, both negative forms/directions, debounce, either app Shift state, source/group ownership and inactive other modes. Three real-WAV cases preserve marker neighbours/position, finite active playback and saved Sync. Missing-feature TDD records five failed expectations for FLX2 alone. Complete modes/lifecycle/host and physical acceptance remain open."
+    },
+    {
+      "request": "R488",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "model": "DDJ-REV5",
+          "url": "https://www.pioneerdj.com/-/media/pioneerdj/software-info/controller/ddj-rev5/ddj-rev5_midi_message_list_e1.pdf",
+          "sha256": null,
+          "review": "Own E1 table is web-reviewed. Normal performance-pad channels are decimal8/10/12/14, with Shift9/11/13/15, notes0..7. The introductory category names contain duplicated/misaligned deck labels, recorded without silently correcting the source. Native A/B follows the normal p=7/p=9 and alternate s=8/s=A channel groups in the numeric rows. Direct publisher download403, inferred support URL404 and document asset host403. No local PDF hash or visual-table proof is claimed."
+        }
+      ],
+      "result": "Reproduced five failed expectations across three tests: factory raw9 right-deck pads were ignored, raw8 left Shift pads incorrectly recalled right Hot Cues, and right pad feedback used raw8. Corrected only eight right-deck input channels and eight corresponding output channels from8 to9. Existing63 inputs/22 outputs and all other fields remain unchanged.451 source/38 native checks and iPad framework compilation pass. A new decoded-packet regression checks all eight right-pad recalls, inactive left Shift-to-right routing and exact right feedback packet bytes. An initial new test incorrectly inspected an optional target-deck override rather than the action deck; that failed run is preserved, and only the assertion was corrected. All405 JSON recipes and both resources remain byte-identical. No clear feature, protocol inheritance, hardware write or physical acceptance is claimed."
     }
   ]
 }
