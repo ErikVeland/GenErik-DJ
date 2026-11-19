@@ -6601,3 +6601,12 @@ The publisher archive contains the exact Twelve MKII file recovered in R495. Its
 The public ELITE exercise attachment has31 rows. It contains modifier-controlled left-pad mute assignments and outputs, with unresolved mode behaviour reported by its author. It supplies no transport or mixer core. The distributor guide's hex routing table describes hardware settings, so it does not qualify ordinary input controls. No ELITE profile or routing write is added.
 
 465 source checks pass. The initial regression records six incorrect unsupported-version interpretations. All406 runtime recipes, both resources, catalogue JSON and app source/tests remain identical to R495. No new native/framework build was required for this inspection-tool change. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r496/validation.json`. Counts remain556 physical models,250 automatic core models and114 protocol-needed records. Full modes, private protocol access and physical/iPad/A10X acceptance remain open.
+
+
+## R497 — Archived Deckadance preset documents
+
+The publisher's retired download has a public20160211201610 archive capture. The74,814,880-byte recovered payload matches the archive index SHA1. The trusted archive reader lists70 files and reads14 selected preset, script and reference documents. Nothing installs or runs.
+
+Ten readable C scripts name models already in the catalogue, plus IL Remote. The default MIDI template has461 rows, with every status/data/res0/res1 field zero. It does not establish any controller's factory addresses. No wire is inferred from the template or compiled application.
+
+Runtime resources, catalogue JSON and app source/tests remain identical. No new tests or framework build were required for this documentation-only review. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r497/validation.json`. Counts remain406 data recipes plus five built-ins,556 physical models,250 automatic core models and114 protocol-needed records. Public-source implementation continues.

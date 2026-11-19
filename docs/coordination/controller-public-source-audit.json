@@ -6153,6 +6153,35 @@
         }
       ],
       "result": "465 source checks pass. New regression catches six unsupported-version condition interpretations before the fix. The read-only inspector exposes modifier conditions only for reviewed CMAD settingsVersion4 and returns unknown for other versions. Actual publisher Xone1D version1 and4D version2 fixtures retain102/202 mapping facts without guessed conditions. All406 runtime recipes, both resources, catalogue JSON and application sources/tests remain byte-identical to R495. No native/framework build is needed for this source-inspection-only change. Repository checking retains12 historical missing-file links. No installer, source script, mapping action, hardware setup, driver, firmware, MIDI/audio output, account or activation runs. Catalogue still has114 protocol-needed records. No private SDK or full-support claim."
+    },
+    {
+      "request": "R497",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "url": "https://forum.image-line.com/viewtopic.php?t=107418",
+          "finding": "Publisher thread links the retired generic Deckadance installer. Current download returns404. The public archive index provides one successful capture."
+        },
+        {
+          "url": "https://web.archive.org/web/20160211201610id_/http://downloads.image-line.com/deckadance/deckadance_install.exe",
+          "originalURL": "http://downloads.image-line.com/deckadance/deckadance_install.exe",
+          "bytes": 74814880,
+          "sha256": "f676b65a0e8ea5044d8e0055c2cb2d7f7cfa9deb2d498cf23d2cdfe9cde8e47f",
+          "archivePayloadSHA1Base32": "UGJ37S4GTX6WQ5EA52Z442PT4TCXTG4Y",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r497/upstream/deckadance_install.exe",
+              "sha256": "f676b65a0e8ea5044d8e0055c2cb2d7f7cfa9deb2d498cf23d2cdfe9cde8e47f"
+            },
+            {
+              "cachePath": "TestBuilds/r497/upstream/document-manifest.json",
+              "sha256": "88c0050a53720f9095072992bd2f380d84e45860d18dbb8e5aab0d2db7e4a11f"
+            }
+          ],
+          "finding": "Actual installer payload SHA1 matches CDX. Trusted archive reader lists70 files and extracts14 selected preset/script/reference documents. No executable, installer, application, driver or script runs. Ten readable C scripts name already-catalogued CMD Micro/Studio2a, Casio XW-J1, AIR Plus, F1, LaunchpadS, N4, MixtrackProII and originalSpin, plus IL Remote. The461-row default MIDI XML has zero assigned status/data/res0/res1 fields. It is not a factory wire table. No missing controller is inferred from the empty template or compiled application."
+        }
+      ],
+      "result": "Read-only public-source audit only. No source, runtime resource, catalogue JSON, native test, hardware setting, output or audio route changes. Counts stay406 data recipes plus five built-ins,556 physical models,250 automatic core and114 protocol-needed. No new unit/native/framework run was required for documentation only. Repository checking retains12 historical missing-file links. Public-source work continues."
     }
   ]
 }
