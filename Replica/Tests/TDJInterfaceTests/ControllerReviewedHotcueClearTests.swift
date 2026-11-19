@@ -105,7 +105,7 @@ func controllerCatalogueReviewedClearForeignSourcesAndGroupsCannotDelete(name: S
     }
 }
 
-private let reviewedPairNames = ["Pioneer DDJ-SB3", "Reloop Terminal Mix 2/4", "Hercules DJControl Jogvision", "Denon MC4000"]
+private let reviewedPairNames = ["Pioneer DDJ-SB3", "Reloop Terminal Mix 2/4", "Hercules DJControl Jogvision", "Denon MC4000", "Reloop NEON"]
 
 @Test(arguments: reviewedPairNames) @MainActor
 func controllerCatalogueReviewedPairDedicatedOpcodesWorkWithEitherShiftState(name: String) throws {

@@ -5616,6 +5616,47 @@
         }
       ],
       "result": "Fixed clear-action debounce when hardware Shift changes before pad release on the first13 clear profiles. Added130 negative-only clear aliases at each own normal Hot Cue activation wire. Each normal wire is independently checked against its own hash-pinned normal Note-On XML row. The generator rejects missing/ambiguous activation proof and unreviewed activation fields/encoding. Native TDD reproduced260 failed edge expectations across13 profiles before the fix.444 source/82 native checks and iPad framework compilation now pass. Both negative forms rearm their own role; original held-Cue/jog/pitch/loop/feedback/WAV regressions pass. All earlier inputs and every positive role remain exact; output/setup/audio/aliases are unchanged and392 other recipes remain identical. No script executes. Complete modes/lifecycle/host and physical acceptance remain open."
+    },
+    {
+      "request": "R483",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "model": "Reloop NEON",
+          "url": "https://www.reloop.com/media/custom/upload/Reloop-NEON_MIDI-Map.pdf",
+          "sha256": "41226da60587823b7eb1ee094180d1391a07006c688423f9196a9b2e61ed4059",
+          "pages": [
+            4,
+            7,
+            8
+          ],
+          "relatedSources": [
+            {
+              "url": "https://www.reloop.com/media/custom/upload/Reloop-232520_Reloop_IM.pdf",
+              "sha256": "95aeb6d508b13d051fd1df236621fe42b7f279e00069d4cf8ddcea3e73910699",
+              "pages": [
+                6,
+                7
+              ]
+            },
+            {
+              "url": "https://www.reloop.com/media/custom/upload/Reloop-Reloop_neon_quick_start_guide.pdf",
+              "sha256": "14f51859b621e00fcf9742fa23059fc8a92ccc1a855b007a04f288417bc74d84",
+              "pages": [
+                5
+              ]
+            }
+          ],
+          "review": "The factory table gives distinct channel/note ranges for each pad mode. Four targets use channels 7-10 and first-layer cue notes 16-23. R483 adds32 native clear inputs at shifted first-layer notes48-55 on the same four deck channels. The own quick-start guide printed7 explicitly qualifies Shift plus Cue as delete. Existing negative activation guards remain, and32 inverse negative aliases rearm clearing when Shift changes before release. Second-layer Hot Cue is Hot Flip and remains unmapped. Manual Loop pads use notes 120/124/125/126 for Loop on/off, In, Out and Reloop/Exit. The Serato guide confirms that the first manual pad toggles the loop. Active-loop boundary editing remains unmapped. Their shifted releases use notes 88/92/93/94. The setup packet enables the hardware's C/D buttons without changing app deck availability. Deck reports reset pad edges for the shared surface. C/D Sync entries conflict with Slip in the factory table. Common encoder and Load messages also occur in Sampler mode, so they remain unmapped until mode guards can retain their context. Stored loops, rolls, sampler, slicer, Flip, DVS switching, pressure, pad colours and full cleanup remain open.",
+          "factoryTableVisuallyReviewedPage": 4,
+          "ownGuideVisuallyReviewedPrintedPage": 7,
+          "cachePaths": [
+            "TestBuilds/r228/manufacturer/NEON-MIDI.pdf",
+            "TestBuilds/r228/manufacturer/NEON-Guide.pdf"
+          ]
+        }
+      ],
+      "result": "Added32 dedicated first-layer Hot Cue clears on raw channels7..10 notes48..55 and32 inverse negative aliases on normal notes16..23. Own MIDI map page4 gives all four deck wires; own Quick Start guide printed7 qualifies Shift plus Cue as delete. Every earlier96 input is retained. Setup, bank reports, aliases, output/audio and404 other recipes remain identical.446 source/14 native checks and iPad framework compilation pass. Five parameterised profiles retain both release directions/forms, either app Shift state, debounce and source/group isolation. NEON deck reports rearm both normal and clear roles; app C/D opt-in remains required. Four real-WAV pair cases preserve marker neighbours/position, finite active playback and saved Sync. Other modes, pressure, shared encoders/Load/Sync, colours, full lifecycle/host/audio and physical acceptance remain open. No script executes."
     }
   ]
 }

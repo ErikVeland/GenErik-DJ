@@ -6453,3 +6453,12 @@ The new native regression reproduces260 failed edge expectations across13 profil
 The iPad framework compiled. Its2,231,095-byte compact resource matches source and excludes the full review file. Catalogue gates compare27,338 native inputs and205 automatic held-Cue recipes. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r482/validation.json`. Complete modes, lifecycle, host routes and physical/iPad/A10X edge acceptance remain open.
 
 Counts remain405 recipes,556 physical models,250 automatic core models and115 protocol-needed records, including two reviewed audio-only integrations.306 models lack automatic core selection. Full theoretical support remains0/556. The wider manufacturer audit remains open.
+
+
+## R483 — NEON first-layer Hot Cue clears
+
+The own NEON MIDI map page4 qualifies raw channels7..10 and shifted first-layer pad notes48..55. Its Quick Start Guide, printed7, explicitly describes Shift plus Cue as delete. These sources were visually rechecked.32 dedicated clear roles now use those wires.32 inverse negative aliases use normal activation notes16..23. The existing96 inputs remain an exact prefix. Setup, deck reports, aliases, outputs and audio remain unchanged.404 other recipes remain identical.
+
+446 source checks and14 focused native tests pass. They cover both release directions/forms, either app Shift state, duplicate presses and foreign sources/groups. Existing deck reports rearm both normal and clear roles. App C/D opt-in remains required. Four real-WAV pair cases preserve neighbouring markers, position, finite active playback and saved Sync. Missing-clear TDD remains preserved. The iPad framework compiled. Its2,234,194-byte compact resource matches source and excludes the full review file. Catalogue gates compare27,402 native inputs and205 automatic held-Cue recipes. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r483/validation.json`.
+
+Hot Flip, sampler/slicer/roll/stored loops, pressure, shared encoders/Load/Sync, colours, full lifecycle/host/audio and physical/iPad/A10X acceptance remain open. No upstream script executes. Counts remain405 recipes,556 physical models,250 automatic core models and115 protocol-needed records, including two reviewed audio-only integrations.306 models lack automatic core selection. Full theoretical support remains0/556. The wider manufacturer audit remains open.

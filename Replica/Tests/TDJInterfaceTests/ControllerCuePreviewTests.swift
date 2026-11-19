@@ -3813,7 +3813,7 @@ func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String
 }
 
 @Test @MainActor func controllerCatalogueReviewedPairProfilesDeleteOnlyTheirMarkerDuringPlayback() async throws {
-    for name in ["Pioneer DDJ-SB3","Reloop Terminal Mix 2/4","Hercules DJControl Jogvision"] {
+    for name in ["Pioneer DDJ-SB3","Reloop Terminal Mix 2/4","Hercules DJControl Jogvision","Reloop NEON"] {
         try await withControllerCuePlayback(name,manual:true) {model,input in
             let track=try #require(model.track(.a))
             model.performance.cues[track.id]=[0:.init(frame:0),1:.init(frame:100)]

@@ -3481,7 +3481,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
 
     def test_neon_uses_distinct_factory_pages_without_context_free_encoders(self):
         result = neon_profiles()[0]
-        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (96, 0))
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (160, 0))
         self.assertEqual(result["role"], "accessory")
         self.assertEqual(result["startup"], [[240, 10, 0, 247]])
         cues = [row for row in result["inputs"] if row["action"].startswith("hotcue") and not row.get("releaseOnly")]
