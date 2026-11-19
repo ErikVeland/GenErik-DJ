@@ -2856,3 +2856,67 @@ func controllerCatalogueLegacyDJMDirectCueKeepsAppStartedRealAudioSynced(_ name:
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueOriginalMixDeckCueSetAndLoopPadsKeepRealAudioSync()async throws{
+    try await withControllerCuePlayback("Numark MixDeck",manual:true){model,input in
+        cuePreviewPacket([0x90,56,127],to:input);#expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80,56,127,0x90,58,127,58,0],to:input)
+        _=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        cuePreviewPacket([0x90,57,127,57,0],to:input)
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        cuePreviewPacket([0x90,51,127,51,0],to:input)
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.loopEnabled == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test @MainActor func controllerCatalogueMC1000NativeTransportLoopAndTempoKeepRealAudioSync()async throws{
+    try await withControllerCuePlayback("Zomo MC-1000"){model,input in
+        input.receiveBytes([0x90,14,127,14,0,12,127,12,0],source:10);input.flushPendingActions()
+        input.receiveBytes([0xB0,5,64,0x90,10,127,10,0],source:10);input.flushPendingActions()
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.loopEnabled == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test(arguments:["American Audio VERSADECK","Synq DMC-2000","CITRONIC MPX10"]) @MainActor
+func controllerCatalogueLegacyUSBTransportCueAndManualLoopsKeepRealAudioSync(_ name:String)async throws{
+    try await withControllerCuePlayback(name){model,input in
+        input.receiveBytes([0x90,31,127],source:10);input.flushPendingActions();#expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x80,94,127,0x90,32,127,32,0,2,127,2,0],source:10);input.flushPendingActions()
+        _=model.playback.core.renderOffline(frames:32768);model.refreshPlayback()
+        input.receiveBytes([0x90,3,127,3,0,34,127,0x80,97,127],source:10);input.flushPendingActions()
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.loopEnabled == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test @MainActor func controllerCatalogueDJMTour1PrimaryMixerKeepsRealAudioAndSavedSync()async throws{
+    try await withControllerCuePlayback("Pioneer DJM-TOUR1",manual:true){model,input in
+        model.pressPlay(deck:.a,vinylStop:false)
+        cuePreviewPacket([0xB0,1,64,2,64,3,64,4,64,5,64,17,64,70,127,70,0,24,64,26,64,27,64,11,64],to:input)
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test(arguments:["Akai Pro AMX","ION ICUE","Reloop DIGITAL JOCKEY"]) @MainActor
+func controllerCatalogueRemainingPublicTransportKeepsRealAudioAndSavedSync(_ name:String)async throws{
+    try await withControllerCuePlayback(name,manual:true){model,input in
+        let cue:UInt8=name=="Akai Pro AMX" ? 8:name=="ION ICUE" ? 51:23
+        let play:UInt8=name=="Akai Pro AMX" ? 10:name=="ION ICUE" ? 67:25
+        cuePreviewPacket([0x90,cue,127],to:input);#expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80,cue,127,0x90,play,127,play,0],to:input)
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}

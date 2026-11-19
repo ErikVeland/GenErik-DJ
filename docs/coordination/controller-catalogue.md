@@ -11,10 +11,10 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 561 total catalogue records. 554 name physical models. The remainder identify software endpoints or protocol families.
-- 306 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 197 factory profiles select core controls automatically for 205 physical models.
+- 315 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 201 factory profiles select core controls automatically for 209 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
-- 343 physical models still lack automatic core controls.
+- 339 physical models still lack automatic core controls.
 - 554 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -223,13 +223,13 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 17 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 199 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 203 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 111 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 210 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 116 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 201 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -413,7 +413,6 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Pioneer DDJ-WeGO2 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-WeGO2/DDJWeGO2ListofMIDIMessageVirtualDJE.pdf) |
 | Pioneer DDJ-WeGO4 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-WeGO4/DDJ-WeGO4_List_of_MIDI_Message_E.pdf) |
 | Pioneer DDJ-XP1 | accessory | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-XP1/DDJ-XP1_List_of_MIDI_Message_E1.pdf) |
-| Pioneer DJ DJM-TOUR1 | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware/djmtour1) |
 | Pioneer DJM-2000 | accessory | partial-midi-profile | [Reference](https://static.bhphoto.com/lit_files/88476.pdf) |
 | Pioneer DJM-2000NXS | accessory | partial-midi-profile | [Reference](https://www.dimmer.fr/wp-content/uploads/2022/01/Pioneer-DJM-2000-Nexus-Manual-DE-EN-FR.pdf) |
 | Pioneer DJM-250MK2 | accessory | partial-midi-profile | [Reference](https://manuals.plus/m/e7d4bd85474a10aedc2c4ddd9809d56bd9707b753a45cf73bd7b831a2da23594) |
@@ -427,6 +426,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Pioneer DJM-S3 | accessory | partial-midi-profile | [Reference](https://dwn.alza.cz/manual/61365) |
 | Pioneer DJM-S9 | accessory | partial-midi-profile | [Reference](https://downloads.support.alphatheta.com/midi-mapping/dj-mixers/DJM-S9/DJM-S9_List_of_MIDI_Message_E.pdf) |
 | Pioneer DJM-T1 | primary | partial-midi-profile | [Reference](https://downloads.support.alphatheta.com/manuals/dj-mixers/DJM-T1/DJM-T1_DRB1610_manual.pdf) |
+| Pioneer DJM-TOUR1 | accessory | partial-midi-profile | [Reference](https://downloads.support.alphatheta.com/manuals/DJM_TOUR1_DJM_TOUR1_MIDI_Message_e_v100_addendum/) |
 | Pioneer DJM-V10 | accessory | partial-midi-profile | [Reference](https://raw.githubusercontent.com/heronarts/LX/a950c548db00b1d3b72db3b5ac4a80f2b8519415/src/main/java/heronarts/lx/midi/surface/DJMV10.java) |
 | Pioneer DJM-V10-LF | accessory | partial-midi-profile | [Reference](https://blt-guide.deepsymmetry.org/beat-link-trigger/next/_attachments/ExtendedOnAirV10.bls) |
 | Pioneer MEP-7000 | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/manuals/dj-players/MEP-7000/MEP-7000_DRB1467B_manual.pdf) |
@@ -448,7 +448,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Akai APC40 MKII | accessory | automatic-core-profile | [Reference](https://cdn.inmusicbrands.com/akai/attachments/apc40II/APC40Mk2_Communications_Protocol_v1.2.pdf) |
 | Akai LPD8 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Akai-LPD8-RK.midi.xml) |
 | Akai MPD24 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Akai%20MPD24.midi.xml) |
-| Akai Pro AMX | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AKAMX) |
+| Akai Pro AMX | accessory | partial-midi-profile | [Reference](https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe) |
 | Akiyama Pulsar | primary | partial-midi-profile | [Reference](https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe) |
 | Akiyama QUARC | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=QUARK) |
 | Akiyama Quark SC | primary | partial-midi-profile | [Reference](https://media.djmania.net/manuales/pdf/Manual_Akiyama_Quark_SC.pdf) |
@@ -476,7 +476,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | American Audio RADIUS 1000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RADIUS1000) |
 | American Audio RADIUS 3000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RADIUS3000) |
 | American Audio Radius 2000 CH1 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/American%20Audio%20RADIUS%202000%20CH1.midi.xml) |
-| American Audio VERSADECK | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=VERSADECKM) |
+| American Audio VERSADECK | primary | automatic-core-profile | [Reference](https://www.adj.com/cdn/shop/files/5be308675de7801329d188d3f0cf44323069d6d2_versadeck_user_manual.pdf?v=11627430234356086881) |
 | American Audio VMS2 | primary | partial-midi-profile | [Reference](https://cdn-docs.av-iq.com/other/VMS2_User%20Manual.pdf) |
 | American Audio VMS4 | primary | partial-midi-profile | [Reference](https://manual.mixxx.org/2.5/en/hardware/controllers/american_audio_vms4) |
 | American Audio VMS4.1 | primary | partial-midi-profile | [Reference](https://manual.mixxx.org/2.5/en/hardware/controllers/american_audio_vms4) |
@@ -508,7 +508,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Casio XW-DJ1 | primary | automatic-core-profile | [Reference](https://www.casio.com/content/dam/casio/global/support/manuals/electronic-musical-instruments/pdf/008-en/w/Web_XWDJ1-E-2A_EN.pdf) |
 | Casio XW-J1 | primary | partial-midi-profile | [Reference](https://gist.github.com/samba2/5af83e947297ab99a4745a5be3e13d55/a8c441c832affebb59415abdc80872967bc8c0e6) |
 | CITRONIC MPCD-X3 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MPCDX3) |
-| CITRONIC MPX10 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MPX10) |
+| CITRONIC MPX10 | primary | automatic-core-profile | [Reference](https://www.billebro.se/proddoc/PRID_6104_doc_170700.pdf) |
 | DAP KONTROL D2 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DAPKONTROLD2) |
 | DJ TechTools MIDI Fighter | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJTechTools%20MIDI%20Fighter.midi.xml) |
 | DJ TechTools MIDI Fighter 3D | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=FIGHTER3D) |
@@ -612,7 +612,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Intech TEK2 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Intech%20TEK2.midi.xml) |
 | ION DJ LIVE | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=IONLIVE) |
 | ION DJ2GO | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=IONDJ2GO) |
-| ION ICUE | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ICUE) |
+| ION ICUE | primary | partial-midi-profile | [Reference](https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe) |
 | Ion Discover DJ | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Ion%20Discover%20DJ.midi.xml) |
 | Ion Discover DJ Pro | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Ion-Discover-DJ-Pro.midi.xml) |
 | Ion iDJ2GO | primary | partial-midi-profile | [Reference](https://download.algoriddim.com/djay/202010171657/djay_Pro_2.2.9.zip) |
@@ -685,8 +685,8 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Numark DJ2Go | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20DJ2Go.midi.xml) |
 | Numark DMC2 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DMC2) |
 | Numark ICDX | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ICDX) |
-| Numark MIXDECK | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MIXDECK) |
 | Numark MIXTRACK | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20MIXTRACK.midi.xml) |
+| Numark MixDeck | primary | partial-midi-profile | [Reference](https://www.numark.com/images/product_downloads/mixdeck___quickstart_guide___v1.6.pdf) |
 | Numark Mixtrack 3 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark-Mixtrack-3.midi.xml) |
 | Numark Mixtrack Edge | primary | partial-midi-profile | [Reference](https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe) |
 | Numark Mixtrack II | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Numark%20Mixtrack%202.midi.xml) |
@@ -734,7 +734,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Reloop Beatpad 2 | primary | automatic-core-profile | [Reference](https://www.reloop.com/djing-with-smart-devices-controllercomparisonchart) |
 | Reloop Buddy | primary | partial-midi-profile | [Reference](https://www.reloop.com/reloop-buddy) |
 | Reloop CONTOUR | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=CONTOUR) |
-| Reloop DIGITAL JOCKEY | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DIGITALJOCKEY) |
+| Reloop DIGITAL JOCKEY | primary | partial-midi-profile | [Reference](https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe) |
 | Reloop Digital Jockey 2 Controller | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop%20Digital%20Jockey%202%20Controller%20Edition.midi.xml) |
 | Reloop Digital Jockey 2 Interface Edition | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Digital-Jockey-2-IE.midi.xml) |
 | Reloop Digital Jockey 2 Master Edition | primary | partial-midi-profile | [Reference](https://www.reloop.com/reloop-digital-jockey-2-master-edition) |
@@ -766,7 +766,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Stanton SCS.3m | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton%20SCS.3m.midi.xml) |
 | Stanton SCS.4DJ | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=SCS4DJ) |
 | Synq DMC-1000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DMC1000) |
-| Synq DMC-2000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DMC2000) |
+| Synq DMC-2000 | primary | automatic-core-profile | [Reference](https://synq-audio.com/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1466605574.pdf&name=DMC-2000_Manual_v2.0) |
 | Synq PCM-1 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=PCM-1) |
 | Tascam US-428 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/us428.midi.xml) |
 | The Next Beat SX1 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=NBSX1) |
@@ -813,7 +813,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | YAHORNG ME702SC | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ME702SC) |
 | YAHORNG ME705 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ME705SC) |
 | YAHORNG ME800 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ME800) |
-| ZOMO MC-1000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MC1000) |
+| Zomo MC-1000 | accessory | automatic-core-profile | [Reference](https://www.zomo.de/bilder/manuals_drivers/Zomo_MC-1000_Midi_TSI-File.zip) |
 | IDANCE SCRATCH | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=IDANCESCRATCH) |
 
 ## Provenance and reproduction

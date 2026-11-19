@@ -16750,72 +16750,6 @@
       }
     },
     {
-      "id": "pioneerdjmtour1",
-      "name": "Pioneer DJ DJM-TOUR1",
-      "manufacturer": "Pioneer",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://www.algoriddim.com/hardware/djmtour1"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "djay": {
-          "sourceName": "Pioneer DJ DJM-TOUR1",
-          "platforms": [
-            "mac",
-            "win"
-          ],
-          "limitations": [],
-          "source": "https://www.algoriddim.com/hardware/djmtour1"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 0,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
       "id": "pioneeropusquad",
       "name": "Pioneer DJ OPUS-QUAD",
       "manufacturer": "Pioneer",
@@ -18458,6 +18392,110 @@
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
         "Dual crossfader attenuation wires are not a qualified single position and stay inactive. Native Hot Cue delete, sampler/FX/LFO, other Shift/Advanced Shift functions, complete mode handling/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 0,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "pioneerdjmtour1",
+      "name": "Pioneer DJM-TOUR1",
+      "manufacturer": "Pioneer",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://downloads.support.alphatheta.com/manuals/DJM_TOUR1_DJM_TOUR1_MIDI_Message_e_v100_addendum/",
+        "https://www.algoriddim.com/hardware/djmtour1"
+      ],
+      "definitions": [
+        "manufacturer:pioneerdjmtour1"
+      ],
+      "implementation": "partial-midi-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Pioneer DJM-TOUR1",
+      "automaticControls": false,
+      "comparisonSupport": {
+        "djay": {
+          "sourceName": "Pioneer DJ DJM-TOUR1",
+          "platforms": [
+            "mac",
+            "win"
+          ],
+          "limitations": [],
+          "source": "https://www.algoriddim.com/hardware/djmtour1"
+        }
+      },
+      "controlActions": [
+        "crossfader",
+        "cueMix",
+        "cueStateA:a",
+        "cueStateA:c",
+        "cueStateB:b",
+        "cueStateB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor"
+      ],
+      "inputBindingCount": 32,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manually select MIDI channel1 and BUTTON TYPE TOGGLE. Enable MIDI transmission. Use separate app audio. Physical CH1-4 map to A-D; C/D require opt-in. Only the primary headphone controls are mapped."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "partial",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Manual channel1/TOGGLE only; no factory setting is inferred. Second headphone bus, full touchscreen/PRO DJ LINK/FX/microphone/AUX/curve controls, hardware/software audio ownership, external deck routing, physical taper/calibration, complete feedback/lifecycle and physical/iPad/A10X acceptance remain open. No setting, output, sibling protocol or audio route is written.",
         "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
@@ -21052,12 +21090,17 @@
       "role": "accessory",
       "benchmark": false,
       "sources": [
+        "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
         "https://virtualdj.com/products/hardware.html?model=AKAMX"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:akai-pro-amx-public-native-subset"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Akai Pro AMX",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "AKAI AMX",
@@ -21065,40 +21108,63 @@
           "source": "https://virtualdj.com/products/hardware.html?model=AKAMX"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 32,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual native A/B subset on MIDI channel1. Use normal mode and separate app audio. Shift retires held controls and resets pickup."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Full hardware modes, jog/pitch and encoder calibration, feedback, audio setup and physical acceptance remain open. Touch/FX and library controls are inactive.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -23512,12 +23578,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://www.adj.com/cdn/shop/files/5be308675de7801329d188d3f0cf44323069d6d2_versadeck_user_manual.pdf?v=11627430234356086881",
         "https://virtualdj.com/products/hardware.html?model=VERSADECKM"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:versadeck-default-native"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "American Audio VERSADECK",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "American Audio VERSADECK",
@@ -23525,40 +23596,85 @@
           "source": "https://virtualdj.com/products/hardware.html?model=VERSADECKM"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "browseGroups",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b"
+      ],
+      "inputBindingCount": 78,
+      "feedbackBindingCount": 16,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Set both source selectors to PC. Use default MIDI channels1/2/3 and TAP Hold. Configure audio separately. Native uses normal controls; alternate positive commands are inactive."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Jog/touch/tempo calibration, dedicated Sync, complete Shift/FX/kill/pad and configurable channel modes, display/meters, complete lifecycle/audio routing and physical/iPad/A10X acceptance remain open. Shift alone does not select an app layer; the next qualified wire change clears held controls/pickup. No stored preset, firmware, source mapping action or automatic audio route is written."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -26189,12 +26305,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://www.billebro.se/proddoc/PRID_6104_doc_170700.pdf",
         "https://virtualdj.com/products/hardware.html?model=MPX10"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:citronic-mpx10-default-native"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "CITRONIC MPX10",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "CITRONIC MPX10",
@@ -26202,40 +26323,85 @@
           "source": "https://virtualdj.com/products/hardware.html?model=MPX10"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "browseGroups",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b"
+      ],
+      "inputBindingCount": 78,
+      "feedbackBindingCount": 16,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Set both deck selectors to PC and Mixer Setup to MIDI. Use default MIDI channels1/2/3 and TAP Hold. Configure audio separately. Native uses normal controls; alternate positive commands are inactive."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Jog/touch/tempo calibration, dedicated Sync, complete Shift/FX/kill/pad and configurable channel modes, display/meters, complete lifecycle/audio routing and physical/iPad/A10X acceptance remain open. Shift alone does not select an app layer; the next qualified wire change clears held controls/pickup. No stored preset, firmware, source mapping action or automatic audio route is written."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -38230,12 +38396,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
         "https://virtualdj.com/products/hardware.html?model=ICUE"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:ion-icue-public-native-subset"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "ION ICUE",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "ION ICUE",
@@ -38243,40 +38414,71 @@
           "source": "https://virtualdj.com/products/hardware.html?model=ICUE"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "cueA:a",
+        "cueB:b",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 30,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual native A/B subset on MIDI channel1. Use normal mode and separate app audio. Use app crossfader, headphone globals and library navigation."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Full hardware modes, jog/pitch and encoder calibration, feedback, audio setup and physical acceptance remain open. Crossfader, headphone globals, browser rotation, sampler/FX and separate Pause are inactive.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -44780,68 +44982,6 @@
       }
     },
     {
-      "id": "numarkmixdeck",
-      "name": "Numark MIXDECK",
-      "manufacturer": "Numark",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://virtualdj.com/products/hardware.html?model=MIXDECK"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "virtualDJ": {
-          "sourceName": "Numark MIXDECK",
-          "category": "All-in-one",
-          "source": "https://virtualdj.com/products/hardware.html?model=MIXDECK"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
       "id": "numarkmixtrack",
       "name": "Numark MIXTRACK",
       "manufacturer": "Numark",
@@ -44952,6 +45092,100 @@
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
         "Native core transport and fixed manual loops replace source script modes. Manual/auto loop toggles, directory latch, Delete/Hot Cue or EQ-kill modes, Scratch toggle, pitch-bend buttons, FX and full audio routing remain unimplemented. Native Scratch lights use the published LED addresses. Source-specific tempo direction, jog calibration, complete shutdown feedback and source reuse/distribution review remain open."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "numarkmixdeck",
+      "name": "Numark MixDeck",
+      "manufacturer": "Numark",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://www.numark.com/images/product_downloads/mixdeck___quickstart_guide___v1.6.pdf",
+        "https://virtualdj.com/products/hardware.html?model=MIXDECK"
+      ],
+      "definitions": [
+        "reviewed:numark-original-mixdeck-usb-midi"
+      ],
+      "implementation": "partial-midi-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Numark MixDeck",
+      "automaticControls": false,
+      "comparisonSupport": {
+        "virtualDJ": {
+          "sourceName": "Numark MIXDECK",
+          "category": "All-in-one",
+          "source": "https://virtualdj.com/products/hardware.html?model=MIXDECK"
+        }
+      },
+      "controlActions": [
+        "browse",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "cueSetA:a",
+        "cueSetB:b",
+        "keylockA:a",
+        "keylockB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "syncA:a",
+        "syncB:b",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopB:b"
+      ],
+      "inputBindingCount": 32,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual original-model A/B deck subset. Select USB-MIDI on both players. Native Play toggles; Pause sets Cue, following the manufacturer software layout. Use app mixing and configure audio separately. The analogue mixer and iPod send no MIDI."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "partial",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "Jog/touch/tempo calibration and resolution, time/FX knobs, additional modes and physical controls, ambiguous lamp values, complete feedback/state/lifecycle, driver/audio routing and physical/iPad/A10X acceptance remain open. No stored preset, source script, firmware or automatic audio route is used. The analogue mixer and iPod have no MIDI function.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -53500,12 +53734,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
         "https://virtualdj.com/products/hardware.html?model=DIGITALJOCKEY"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:reloop-digital-jockey-public-native-subset"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Reloop DIGITAL JOCKEY",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Reloop DIGITAL JOCKEY",
@@ -53513,40 +53752,77 @@
           "source": "https://virtualdj.com/products/hardware.html?model=DIGITALJOCKEY"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 118,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual native A/B subset on MIDI channel1. Use normal mode and separate app audio. Both original hardware signal families keep the same native A/B transport and mixer functions."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Full hardware modes, jog/pitch and encoder calibration, feedback, audio setup and physical acceptance remain open. Original Attack stutter and separate Pause, browser rotation, kills and sampler/FX are inactive.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -58236,12 +58512,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://synq-audio.com/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1466605574.pdf&name=DMC-2000_Manual_v2.0",
         "https://virtualdj.com/products/hardware.html?model=DMC2000"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:synq-dmc-2000-default-native"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Synq DMC-2000",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Synq DMC-2000",
@@ -58249,40 +58530,83 @@
           "source": "https://virtualdj.com/products/hardware.html?model=DMC2000"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "browseGroups",
+        "crossfader",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b"
+      ],
+      "inputBindingCount": 78,
+      "feedbackBindingCount": 16,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Set both deck selectors to MIDI and mixer mode to MIDI. Use default MIDI channels1/2/3 and TAP Hold. Configure audio separately. Native uses normal controls; alternate positive commands are inactive."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Jog/touch/tempo calibration, dedicated Sync, complete Shift/FX/kill/pad and configurable channel modes, display/meters, complete lifecycle/audio routing and physical/iPad/A10X acceptance remain open. Shift alone does not select an app layer; the next qualified wire change clears held controls/pickup. No stored preset, firmware, source mapping action or automatic audio route is written."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -62033,17 +62357,22 @@
     },
     {
       "id": "zomomc1000",
-      "name": "ZOMO MC-1000",
+      "name": "Zomo MC-1000",
       "manufacturer": "Zomo",
-      "role": "primary",
+      "role": "accessory",
       "benchmark": false,
       "sources": [
+        "https://www.zomo.de/bilder/manuals_drivers/Zomo_MC-1000_Midi_TSI-File.zip",
         "https://virtualdj.com/products/hardware.html?model=MC1000"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:zomo-mc1000-native-channel-one"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Zomo MC-1000",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "ZOMO MC-1000",
@@ -62051,40 +62380,82 @@
           "source": "https://virtualdj.com/products/hardware.html?model=MC1000"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "loopSizeA:a",
+        "loopSizeA:c",
+        "loopSizeB:b",
+        "loopSizeB:d",
+        "openGroup",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d",
+        "tempoDownA:a",
+        "tempoDownA:c",
+        "tempoDownB:b",
+        "tempoDownB:d",
+        "tempoUpA:a",
+        "tempoUpA:c",
+        "tempoUpB:b",
+        "tempoUpB:d"
+      ],
+      "inputBindingCount": 138,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Set the MIDI Channel switch to1. Native follows the four manufacturer deck channels. C/D require opt-in. Close other controlling software. Normal paddles give0.1% tempo steps. Global Load, other channel-switch positions, feedback and audio routing remain unqualified."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Global Load-bank software conditions, full FX/Shift/Bend and hold functions, additional channel-switch positions, complete feedback/state/lifecycle/audio, OS driver/port behaviour and physical/iPad/A10X acceptance remain open. No TSI action, stored preset, private SDK, hardware setup or audio route is written."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -351171,6 +351542,340 @@
         },
         {
           "reason": "Native fixed touch replaces source software Scratch/Search toggles. Native calibration and finer pitch resolution remain unverified. Combined-loop/edit variations, pitch ranges, reverse/slip/FX, full displays/text, complete lifecycle and audio routing remain open. No Sync button is inferred. Shared cue/sampler mode, full PFL routing and legacy30-pin iOS mono handling remain open. Physical switch setup is required."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:numark-original-mixdeck-usb-midi",
+      "name": "Numark MixDeck",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.numark.com/images/product_downloads/mixdeck___quickstart_guide___v1.6.pdf",
+        "sha256": "023dcefa27e11651ab057b49bf11be50b5fb18ce22798fa9c6cfe7e20c08eb54",
+        "version": "1.6",
+        "pages": [
+          4,
+          12,
+          13
+        ],
+        "visuallyReviewedPages": [
+          12,
+          13
+        ],
+        "mappingURL": "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+        "mappingSHA256": "0557173bb5cb8bce866bbd439bd10140d8c281fd550486541dc4ddfff46edbec",
+        "mappingMember": "Devices/NUMARK MIXDECK.xml",
+        "mappingMemberSHA256": "cf2bdf917d81685b5539144f78ef8ad2af4e33ee5ca04ab9d901537f6dc1a347",
+        "review": "The original manufacturer v1.6 guide explicitly says the mixer and iPod controls have no MIDI function. It requires USB-MIDI deck mode and documents the software layout: Play toggles, Pause sets Cue, Back opens groups, Track browses/loads, TAP Syncs and trigger pads1/2/3 set1/4/8-beat loops. Independent original ProMixer XML qualifies selected channels0/1 and raw input addresses. Native32-input manual subset does not reuse Express/Quad wires or calibration. Pitch virtual numbers224/225 are not raw controllers; jog, pitch, time/FX knobs, other modes, ambiguous lamp values74/75, complete feedback/lifecycle/audio and physical/iPad/A10X acceptance remain open. The software mixer and iPod are not invented as MIDI controls. No factory XML, program or MIDI action is executed or bundled."
+      },
+      "implementedInputCount": 32,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Jog/touch/tempo calibration and resolution, time/FX knobs, additional modes and physical controls, ambiguous lamp values, complete feedback/state/lifecycle, driver/audio routing and physical/iPad/A10X acceptance remain open. No stored preset, source script, firmware or automatic audio route is used. The analogue mixer and iPod have no MIDI function."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:zomo-mc1000-native-channel-one",
+      "name": "Zomo MC-1000",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.zomo.de/bilder/manuals_drivers/Zomo_MC-1000_Midi_TSI-File.zip",
+        "sha256": "a9c3ddd7033ddd102e155a3c13223137cca4115977b0da058c6a82462d492c1a",
+        "member": "Zomo_MC-1000_Midi_TSI-File.tsi",
+        "memberSHA256": "3046ea853b9bef1736867d177f4ea7a4f5e3fb61d7e810c1f7f3dc3374affa64",
+        "manualURL": "https://www.zomo.de/bilder/manuals_drivers/Manual-Zomo-Midi-Controller-MC-1000-English.pdf",
+        "manualSHA256": "08ee9892c7daddb4ec804b23d6e6ec869cf01add7a0a9a87f1e05854b4e3ea12",
+        "pages": [
+          14,
+          15,
+          17,
+          32,
+          33,
+          34,
+          36
+        ],
+        "visuallyReviewedPages": [
+          14,
+          36
+        ],
+        "relatedSources": [
+          {
+            "url": "https://www.zomo.de/support/"
+          }
+        ],
+        "review": "Independent manufacturer TSI and manual qualify raw deck channels0/1/2/3, normal/Shift signal families and the selected controls. The bounded existing inspector reads raw bindings without executing Traktor actions. The native42-control app layout with96 release-only guards uses Play/Sync, three Hot Cues, loop toggle/size,0.1% tempo steps and filter per deck, plus library browse/open. A typed observer resets only the source-owned physical side on deck/Shift context changes before binding lookup. Global traffic cannot select a bank and late old-bank releases cannot steal ownership. Load9/25 share global channel0 across A/C and B/D software conditions, which the inspector does not qualify, so Load remains inactive. Channel switch1, full FX/Shift/Bend/preset/feedback/audio and physical/iPad/A10X acceptance remain open. No TSI action, private SDK, hardware write or audio route is executed. ProMixer documents channel4/5 and DEX contains conflicting Load/duplicate CC cases, so neither is used to extend the manufacturer four-channel contract."
+      },
+      "implementedInputCount": 138,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Global Load-bank software conditions, full FX/Shift/Bend and hold functions, additional channel-switch positions, complete feedback/state/lifecycle/audio, OS driver/port behaviour and physical/iPad/A10X acceptance remain open. No TSI action, stored preset, private SDK, hardware setup or audio route is written."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:versadeck-default-native",
+      "name": "American Audio VERSADECK",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.adj.com/cdn/shop/files/5be308675de7801329d188d3f0cf44323069d6d2_versadeck_user_manual.pdf?v=11627430234356086881",
+        "sha256": "31c2ccf88db7d83704c8eea49c8761690d016feccf2fdd7b41078edea59b9bf9",
+        "cacheName": "versadeck-manual.pdf",
+        "pages": [
+          10,
+          11,
+          13,
+          19,
+          37,
+          38,
+          39
+        ],
+        "visuallyReviewedPages": [
+          37,
+          38
+        ],
+        "productURL": "https://www.adj.com/products/versadeck",
+        "review": "Own manufacturer table independently qualifies default wire channels0/1/2, selected normal and Shift addresses, 64-centred encoder deltas and note127/0 switches. Both source selectors must be PC and TAP must be Hold. Native Track push loads, Folder push opens groups, the lamp button13 controls app PFL. TAP21 and Cue Play30 stay inactive. Red Hot Cue feedback uses1, not127: manufacturer colour ranges are1..31 red and33..63 green. ProMixer uses conflicting channels/zero addresses and is not inherited. Jog/tempo calibration, complete alternate/FX/kill controls, display/meters, lifecycle/audio and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 78,
+      "implementedOutputCount": 16,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Jog/touch/tempo calibration, dedicated Sync, complete Shift/FX/kill/pad and configurable channel modes, display/meters, complete lifecycle/audio routing and physical/iPad/A10X acceptance remain open. Shift alone does not select an app layer; the next qualified wire change clears held controls/pickup. No stored preset, firmware, source mapping action or automatic audio route is written."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:synq-dmc-2000-default-native",
+      "name": "Synq DMC-2000",
+      "transport": "midi",
+      "source": {
+        "url": "https://synq-audio.com/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1466605574.pdf&name=DMC-2000_Manual_v2.0",
+        "sha256": "8531ac0d5857cf028e55c7480fd9cf7f4ffae6830747bedb68fc4361ae9dcc1f",
+        "cacheName": "dmc2000-v2.pdf",
+        "pages": [
+          9,
+          10,
+          12,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "visuallyReviewedPages": [
+          18,
+          19
+        ],
+        "pageNumbering": "PDF page numbers",
+        "productURL": "https://synq-audio.com/dmc-2000",
+        "mappingURL": "https://synq-audio.com/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1438607731.zip&name=DMC-2000_Traktor2_mappings",
+        "mappingSHA256": "d569f63552022c84d7aa66d6c8295ba85b35ab11d332941076afa0759510a0ab",
+        "mappingMember": "DMC2000-TRAKTOR2_PRO-BASIC_mapping/DMC2000-TRAKTOR2_PRO-BASIC_mapping (WITH XFADER).tsi",
+        "mappingMemberSHA256": "1667c7fdda330cb18d7c9b53456a4f70076a0c75239414960040df6ce61ce505",
+        "review": "Own v2.0 manufacturer manual independently qualifies default wire channels0/1/2, normal/Shift addresses, 64-centred encoder deltas and note127/0 switches. Both deck selectors must be MIDI, mixer mode MIDI and TAP Hold. Native Track push and Load Track13 load the deck; Folder push opens groups. TAP/Shift30 and Database33 stay inactive. The separate official basic Traktor TSI independently corroborates overlapping raw wires without executing Traktor commands. Red Hot Cue lamps use127 on their dedicated addresses; green addresses differ from VERSADECK and stay inactive. ProMixer conflicts are not inherited. Jog/tempo calibration, complete alternate/FX/kill controls, display/meters, lifecycle/audio and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 78,
+      "implementedOutputCount": 16,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Jog/touch/tempo calibration, dedicated Sync, complete Shift/FX/kill/pad and configurable channel modes, display/meters, complete lifecycle/audio routing and physical/iPad/A10X acceptance remain open. Shift alone does not select an app layer; the next qualified wire change clears held controls/pickup. No stored preset, firmware, source mapping action or automatic audio route is written."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:citronic-mpx10-default-native",
+      "name": "CITRONIC MPX10",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.billebro.se/proddoc/PRID_6104_doc_170700.pdf",
+        "sha256": "caa911c15469f79a80a9ee3e0e20e6f7b81fadd9e53911f3bd7bb0f13ecc7e04",
+        "cacheName": "citronic-mpx10-v3.pdf",
+        "cacheRequest": "r413",
+        "version": "3.0",
+        "pages": [
+          3,
+          11,
+          15,
+          16,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "visuallyReviewedPages": [
+          20,
+          21,
+          22
+        ],
+        "review": "Independent manufacturer-authored MP-X10 Version3.0 manual from a public retailer mirror qualifies default wire channels0/1/2 and selected normal/Shift note/CC families. Both deck selectors must be PC and Mixer Setup must be MIDI, not its documented default Mixer. TAP Hold and default channels1/2/3 are required. Selected wires independently match the bounded legacy USB observer; no sibling protocol or calibration is inferred. Native Track push loads, Folder push opens groups and lamp button13 controls app PFL. Dedicated red Hot Cue lamps use127; green Note48..51 differs from VERSADECK/DMC and remains inactive. The ProMixer MPX10/DJINN/Syncron XMLs are byte-identical and disagree with this primary default table, so they do not qualify this model. Full alternate/FX/kill/pad functions, jog/touch/tempo calibration, displays/meters, complete lifecycle/audio ownership and physical/iPad/A10X acceptance remain open. No stored setting, firmware, installer or mapping action is executed."
+      },
+      "implementedInputCount": 78,
+      "implementedOutputCount": 16,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Jog/touch/tempo calibration, dedicated Sync, complete Shift/FX/kill/pad and configurable channel modes, display/meters, complete lifecycle/audio routing and physical/iPad/A10X acceptance remain open. Shift alone does not select an app layer; the next qualified wire change clears held controls/pickup. No stored preset, firmware, source mapping action or automatic audio route is written."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:pioneerdjmtour1",
+      "name": "Pioneer DJM-TOUR1",
+      "transport": "midi",
+      "source": {
+        "url": "https://downloads.support.alphatheta.com/manuals/DJM_TOUR1_DJM_TOUR1_MIDI_Message_e_v100_addendum/",
+        "sha256": "99e99068f1f9149a35687e08aee862fdbd58f13965e010975bcaad3a86769eb5",
+        "version": "1.00",
+        "pages": [
+          2,
+          3,
+          4
+        ],
+        "visuallyReviewedPages": [
+          2,
+          3,
+          4
+        ],
+        "supportURL": "https://support.alphatheta.com/en-US/articles/21934589697945",
+        "acquisition": "The current support page links the public MIDI addendum. Direct curl returned404, but the browser document viewer displayed all four pages and its Download button supplied the pinned PDF. No account, EULA or private SDK was required.",
+        "review": "Independent manufacturer table qualifies32 selected controls on manually chosen channel1 with BUTTON TYPE TOGGLE. Primary PFL is CC70..73, not the separate second-headphone Note1..4. All four strips have their own explicit gain/three-band EQ/Color/level addresses. Master24, primary headphone level26/blend27 and crossfader11 are seven-bit absolute app controls. Each of24 source-selector Note messages resets pickup only on its own source and strip when the new source reports127. Footnote2 explicitly sends old selection OFF/new selection ON. C/D require opt-in. Separate headphone bus, hardware audio ownership, touchscreen/PRO DJ LINK, source/audio routing, effects, physical taper/calibration, full feedback/lifecycle and physical/iPad/A10X acceptance remain open. No sibling table, stored-setting write, hardware output or automatic audio route is inferred."
+      },
+      "implementedInputCount": 32,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Manual channel1/TOGGLE only; no factory setting is inferred. Second headphone bus, full touchscreen/PRO DJ LINK/FX/microphone/AUX/curve controls, hardware/software audio ownership, external deck routing, physical taper/calibration, complete feedback/lifecycle and physical/iPad/A10X acceptance remain open. No setting, output, sibling protocol or audio route is written."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:akai-pro-amx-public-native-subset",
+      "name": "Akai Pro AMX",
+      "transport": "midi",
+      "source": {
+        "url": "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+        "sha256": "0557173bb5cb8bce866bbd439bd10140d8c281fd550486541dc4ddfff46edbec",
+        "member": "Devices/AKAI AMX.xml",
+        "memberSHA256": "a2702abeef7052284715d8bbbccc1dd5f788211c25317d1c1e8b469d08b21116",
+        "relatedSources": [
+          {
+            "url": "https://www.akaipro.com/downloads-and-support/downloads/?legacy=true"
+          }
+        ],
+        "review": "Own public factory XML qualifies a manual32-binding normal-layer mixer/transport subset: five buttons per deck, five seven-bit strip controls per deck, crossfader and global Shift. Ten release-only shifted guards preserve held releases and button rearming. Shift0 retires only source-owned holds and resets normal control pickup. Native omits virtual pitch numbers160/161 rather than wrapping them. Browser direction/encoder values, touch-sensitive kill/FX functions, higher-resolution pairs, full Shift/modes/feedback/lifecycle/audio and physical/iPad/A10X acceptance remain open. No AFX/sibling byte, source action, hardware setting or audio route is inherited."
+      },
+      "implementedInputCount": 32,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Full hardware modes, jog/pitch and encoder calibration, feedback, audio setup and physical acceptance remain open. Touch/FX and library controls are inactive."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:ion-icue-public-native-subset",
+      "name": "ION ICUE",
+      "transport": "midi",
+      "source": {
+        "url": "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+        "sha256": "0557173bb5cb8bce866bbd439bd10140d8c281fd550486541dc4ddfff46edbec",
+        "member": "Devices/ION ICUE.xml",
+        "memberSHA256": "78faba4bd106eed6e06964db0f686ff6f4ad7f5e582e27141c65ae647b2d9572",
+        "relatedSources": [
+          {
+            "url": "https://djpromixerblog.com/2015/03/21/ion-icue/"
+          }
+        ],
+        "review": "Own public factory XML qualifies30 manual inputs: ten transport/loop/PFL buttons and five seven-bit mixer controls per deck on wire channel0. Publisher setup explicitly identifies iCUE as MIDI-only with separate soundcard selection. Native does not infer Total Control compatibility. Crossfader is marked CtrlI without an independently qualified direction contract, and HeadMaster appears at both15/23, so those globals stay inactive. Separate Pause, sampler/FX, jog/tempo/browser calibration, full state/feedback/lifecycle and physical/iPad/A10X acceptance remain open. No source action, setting or audio route is executed."
+      },
+      "implementedInputCount": 30,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Full hardware modes, jog/pitch and encoder calibration, feedback, audio setup and physical acceptance remain open. Crossfader, headphone globals, browser rotation, sampler/FX and separate Pause are inactive."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:reloop-digital-jockey-public-native-subset",
+      "name": "Reloop DIGITAL JOCKEY",
+      "transport": "midi",
+      "source": {
+        "url": "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+        "sha256": "0557173bb5cb8bce866bbd439bd10140d8c281fd550486541dc4ddfff46edbec",
+        "member": "Devices/RELOOP DIGITAL JOCKEY.xml",
+        "memberSHA256": "9425ea7d5597dad5741a893f369340ae99228ac22e4684a598a0fddd847092cf",
+        "manualURL": "https://www.reloop.com/media/catalog/product/pdf/2/2/1/221833_Reloop_IM.pdf",
+        "manualSHA256": "666d4b5c1b0f124d02595e3e164b6b1f704ad963f27aa294288b515f601ff516",
+        "pages": [
+          41,
+          42
+        ],
+        "visuallyReviewedPages": [
+          41,
+          42
+        ],
+        "relatedSources": [
+          {
+            "url": "https://www.reloop.com/reloop-digital-jockey"
+          }
+        ],
+        "review": "Own original-model public factory XML qualifies both A/B signal families on channel0. Native deliberately gives normal and plus30 hardware families the same transport/mixer app functions. Forty-eight release guards rearm both families and release the same physical Cue/bend owner without another command. Native118 bindings cover twelve buttons and five mixer controls per side across both families, crossfader and group-open. The original manufacturer manual independently confirms held Shift doubles MIDI functions and explains the physical transport/mixer. Native Play toggles and Loop/Reloop use app behaviour; original Attack stutter/independent Pause are not emulated. No Digital Jockey2 address or calibration is inherited. Browser delta encoding, jog/contact/tempo, software virtual pitch, kill/sampler/FX, remaining modes/state/feedback/lifecycle/audio and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 118,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Full hardware modes, jog/pitch and encoder calibration, feedback, audio setup and physical acceptance remain open. Original Attack stutter and separate Pause, browser rotation, kills and sampler/FX are inactive."
         }
       ]
     },

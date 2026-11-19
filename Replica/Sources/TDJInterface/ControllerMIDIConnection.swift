@@ -398,6 +398,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private var prime4Decoders: [Int32: ControllerPrime4Decoder] = [:]
     @ObservationIgnored private var spectraDecoders: [Int32: ControllerSpectraDecoder] = [:]
     @ObservationIgnored private var p1NanoDecoders: [Int32: ControllerP1NanoDecoder] = [:]
+    @ObservationIgnored private var legacyUSBPlayerDecoders: [Int32: ControllerLegacyUSBPlayerDecoder] = [:]
+    @ObservationIgnored private var mc1000Decoders: [Int32: ControllerMC1000Decoder] = [:]
     @ObservationIgnored private var keyLabDecoders: [Int32: ControllerKeyLabDecoder] = [:]
     @ObservationIgnored private var manualFactoryProfiles: [Int32: ControllerFactoryProfile] = [:]
     @ObservationIgnored private var manualInputProtocols: [Int32: ControllerProfileData.InputProtocol] = [:]
@@ -629,6 +631,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         sr2Decoders.removeAll()
         keyLabDecoders.removeAll()
         p1NanoDecoders.removeAll()
+        legacyUSBPlayerDecoders.removeAll()
+        mc1000Decoders.removeAll()
         setupInputDecoders.removeAll()
         sc5000MDecoders.removeAll()
         prime4Decoders.removeAll()
@@ -1292,6 +1296,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         sr2Decoders[source] = nil
         keyLabDecoders[source] = nil
         p1NanoDecoders[source] = nil
+        legacyUSBPlayerDecoders[source] = nil
+        mc1000Decoders[source] = nil
         setupInputDecoders[source] = nil
         sc5000MDecoders[source] = nil
         prime4Decoders[source] = nil
@@ -1329,6 +1335,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         sr2Decoders[id] = nil
         keyLabDecoders[id] = nil
         p1NanoDecoders[id] = nil
+        legacyUSBPlayerDecoders[id] = nil
+        mc1000Decoders[id] = nil
         setupInputDecoders[id] = nil
         sc5000MDecoders[id] = nil
         prime4Decoders[id] = nil
@@ -1358,6 +1366,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         sr2Decoders[id] = nil
         keyLabDecoders[id] = nil
         p1NanoDecoders[id] = nil
+        legacyUSBPlayerDecoders[id] = nil
+        mc1000Decoders[id] = nil
         setupInputDecoders[id] = nil
         sc5000MDecoders[id] = nil
         prime4Decoders[id] = nil
@@ -2182,6 +2192,51 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                     let decks: Set<DeckID> = left ? [.a, .c] : [.b, .d]
                     flushPendingActions()
                     releaseMomentaryActions(source: source, decks: decks)
+                    resetInputValueStates(inputBindings(source: source).filter {
+                        $0.targetDeck.map { decks.contains($0) } == true
+                    })
+                }
+            }
+            return events.count
+        }
+        if inputProtocol(for: source) == .legacyUSBPlayer {
+            var decoder = legacyUSBPlayerDecoders[source, default: .init()]
+            let events = decoder.append(bytes)
+            legacyUSBPlayerDecoders[source] = decoder
+            guard events.count <= limit else {
+                stop()
+                status = "Controller input overload. Reconnect to continue."
+                return nil
+            }
+            for event in events {
+                switch event {
+                case .message(let message): receive(message, source: source)
+                case .controlsChanged(let channel):
+                    flushPendingActions()
+                    if channel != 1 {
+                        releaseMomentaryActions(source: source, resetJogs: false, decks: channel == 0 ? [.a] : [.b])
+                    }
+                    resetInputValueStates(inputBindings(source: source).filter { $0.channel == channel })
+                }
+            }
+            return events.count
+        }
+        if inputProtocol(for: source) == .mc1000 {
+            var decoder = mc1000Decoders[source, default: .init()]
+            let events = decoder.append(bytes)
+            mc1000Decoders[source] = decoder
+            guard events.count <= limit else {
+                stop()
+                status = "Controller input overload. Reconnect to continue."
+                return nil
+            }
+            for event in events {
+                switch event {
+                case .message(let message): receive(message, source: source)
+                case .controlsChanged(let left):
+                    let decks: Set<DeckID> = left ? [.a, .c] : [.b, .d]
+                    flushPendingActions()
+                    releaseMomentaryActions(source: source, resetJogs: false, decks: decks)
                     resetInputValueStates(inputBindings(source: source).filter {
                         $0.targetDeck.map { decks.contains($0) } == true
                     })
