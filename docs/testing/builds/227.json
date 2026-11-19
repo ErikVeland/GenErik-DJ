@@ -5,7 +5,16 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 332.6,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-19",
+      "request": "R428",
+      "severity": "blocking",
+      "report": "Erik reported a complete iPad app freeze that had lasted eight minutes and continued. Trigger: tapping Deck B album art to find a matching track for Da Hool Love Parade. Audio state remains unconfirmed.",
+      "investigation": "Installed build 227 confirmed through device app inventory. Process 850 present. Time Profiler attached, but trace finalisation stalled. App-file and later process requests timed out. No cause or fix confirmed. Evidence: TestBuilds/r428/.",
+      "status": "open"
+    }
+  ],
   "log": "TestBuilds/ipad/build-227.log",
   "build": 227,
   "app": "TestBuilds/ipad/227/GenErikDJ.app",
