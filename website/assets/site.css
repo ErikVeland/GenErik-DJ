@@ -35,3 +35,19 @@ html { overflow-wrap: normal; word-break: normal; hyphens: none; }
 .opening-links .contact-link{color:var(--cyan);font-size:clamp(18px,2vw,24px)}
 .opening-links .text-link{padding-block:4px}
 @media(max-width:600px){.opening-links{margin-top:14px}}
+
+.deck-switch{margin:0;padding:0;border:0;min-width:0}
+.deck-switch legend{margin-bottom:8px;color:var(--muted);font-size:13px}
+.deck-switch input{position:absolute;opacity:0}
+.deck-switch label{display:inline-block;padding:8px 14px;margin:0 6px 12px 0;border:1px solid var(--line);cursor:pointer}
+.deck-switch input:checked+label{color:var(--cyan);border-color:var(--cyan)}
+.deck-switch input:focus-visible+label{outline:3px solid var(--cyan);outline-offset:3px}
+.deck-views{overflow:hidden;border:1px solid var(--line);background:var(--stage)}
+.deck-view{width:100%;height:auto}
+.four-deck-view,#preview-four:checked~.deck-views .two-deck-view{display:none}
+#preview-four:checked~.deck-views .four-deck-view{display:block}
+@media(min-width:901px) and (prefers-reduced-motion:no-preference){
+ .deck-switch :checked~.deck-views .deck-view{animation:deck-warp 430ms cubic-bezier(.22,.8,.28,1) both}
+ @keyframes deck-warp{from{transform:perspective(650px) scaleX(.94) rotateY(-4deg);opacity:.35}to{transform:none;opacity:1}}
+}
+@media(max-width:600px){.deck-switch legend,.deck-switch label:first-of-type{margin-left:var(--gutter)}}

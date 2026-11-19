@@ -1,7 +1,20 @@
 <section class="opening" aria-labelledby="product-title">
   <div class="opening-title"><h1 id="product-title">GenErik DJ</h1><p class="release-state">In development<span>iPadOS · iOS · macOS</span></p></div>
   <div class="opening-line"><div><p>Choose what’s on screen.</p><p class="opening-detail">Keep the controls you use. Hide the ones you don’t.<br>DJ software for {{platforms}}.</p></div><div class="opening-links">{{testflight_link}}<a class="text-link" href="#workspace">Choose your setup</a></div></div>
-  <figure class="instrument"><picture><source type="image/webp" srcset="/assets/workspace-960.webp 960w, /assets/workspace-1600.webp 1600w, /assets/workspace-2224.webp 2224w" sizes="(min-width: 1600px) 1440px, 94vw"><img src="/assets/workspace-1600.jpg" width="2224" height="1668" alt="GenErik DJ on iPad: two stacked decks with detailed waveforms, beat grids, Sync controls and a vertical crossfader." fetchpriority="high"></picture><figcaption><span>Development interface · Earlier iPad test capture</span><a href="/assets/workspace-2224.webp">View full resolution</a></figcaption></figure>
+  <figure class="instrument deck-preview">
+    <fieldset class="deck-switch">
+      <legend>Preview the wide layout</legend>
+      <input type="radio" name="deck-view" id="preview-two" checked>
+      <label for="preview-two">Two decks</label>
+      <input type="radio" name="deck-view" id="preview-four">
+      <label for="preview-four">Four decks</label>
+      <div class="deck-views">
+        <img class="deck-view two-deck-view" src="/assets/preview-two-decks.webp" width="1440" height="900" alt="The two-deck GenErik DJ workspace with decks A and B side by side." fetchpriority="high">
+        <img class="deck-view four-deck-view" src="/assets/preview-four-decks.webp" width="1440" height="900" alt="The four-deck GenErik DJ workspace with decks A and C on the left, B and D on the right." decoding="async">
+      </div>
+    </fieldset>
+    <figcaption>Mac development preview · Wide layout for an upcoming build.</figcaption>
+  </figure>
 </section>
 <nav class="sequence" aria-label="Product workflow"><a href="#workspace"><span>01</span>Your setup</a><a href="#library"><span>02</span>Library</a><a href="#prepare"><span>03</span>Prepare</a><a href="#mix"><span>04</span>Mix</a><a href="#record"><span>05</span>Record</a></nav>
 <section class="movement workspace-choice" id="workspace"><div class="position" aria-hidden="true">01</div><div class="movement-body"><h2>As much as you need.</h2><p class="lead">Choose each control.<br>Leave room for the music.</p><dl class="setup-options"><div><dt>Decks</dt><dd>Start with A and B. Add C and D in the iPad four-deck trial.</dd></div><div><dt>Controls</dt><dd>Show or hide Beat Jump, the tempo fader, Cue and headphone cue independently.</dd></div><div><dt>Manual mixing</dt><dd>Add a tempo fader to the screen. Map pitch bend to a controller.</dd></div><div><dt>Screen space</dt><dd>Slide the browser and deck dividers to give more room to what you’re using.</dd></div></dl><p>No need to keep every control on screen. Your choices stay saved between sessions.</p><a class="text-link" href="/manual#choose-your-controls">Set up your workspace</a></div></section>

@@ -8,5 +8,17 @@
     "source": "TestBuilds/r50/browser-height.png",
     "sha256": "9ae8f558ca3413c1ef49a57bab0043dc06ad3de908a2461a8caac93247e0ff33",
     "status": "Earlier development capture; not a release-approved current screenshot"
+  },
+  {
+    "source": "GenErik DJ SwiftUI ImageRenderer Mac development preview (two decks), source revision 34bd672a",
+    "sha256": "886078bbf081606a5184336412b6609d57b2c7608559c48500380ae8828d3c64",
+    "asset": "assets/preview-two-decks.webp",
+    "status": "Synthetic track fixtures; development preview, not an App Store capture"
+  },
+  {
+    "source": "GenErik DJ SwiftUI ImageRenderer Mac development preview (four decks), source revision 34bd672a",
+    "sha256": "084ae4bf424b011519a0f4012919e4177c719c13f1dc552488f27308f4d7a1f2",
+    "asset": "assets/preview-four-decks.webp",
+    "status": "Synthetic track fixtures; development preview, not an App Store capture"
   }
 ]
