@@ -4,6 +4,29 @@ import Testing
 
 @testable import TDJInterface
 
+@Test func controllerCataloguePadModesAllowUnknownStartupAndCrossChannelInvalidation() throws {
+    let data = Data(#"{"channel":7,"numbers":[56,57,58,59],"invalidatingSelectors":[{"channel":9,"number":56}]}"#.utf8)
+    let mode = try JSONDecoder().decode(ControllerProfileData.InputMode.self, from: data)
+    #expect(mode.isValid)
+    var state = ControllerPadModeState(modes: [mode])
+    let binding = ControllerBinding(
+        source: 10, group: nil, channel: 7, kind: .note, number: 60,
+        parameter: nil, noteNumber: nil, action: .hotcue1A, encoding: .absolute, inverted: false,
+        shifted: nil, requiredMode: 56)
+    #expect(!state.allows(binding))
+    _ = state.receive(.init(kind: .note, channel: 7, number: 56, value: 1))
+    #expect(state.allows(binding))
+    _ = state.receive(.init(kind: .note, channel: 9, number: 56, value: 0))
+    #expect(state.allows(binding))
+    _ = state.receive(.init(kind: .note, group: 1, channel: 9, number: 56, value: 127))
+    #expect(state.allows(binding))
+    _ = state.receive(.init(kind: .note, channel: 9, number: 56, value: 64))
+    #expect(!state.allows(binding))
+    #expect(!state.isSelected(56, channel: 7))
+    _ = state.receive(.init(kind: .note, channel: 7, number: 56, value: 127))
+    #expect(state.allows(binding))
+}
+
 @MainActor private func withProFXPads(
     sender: @escaping ([UInt8], Int32) -> Bool = { _, _ in true },
     body: (ControllerMIDIConnection) throws -> Void
@@ -130,4 +153,20 @@ import Testing
     var invalidInput = input
     invalidInput["requiredMode"] = 99
     #expect(throws: (any Error).self) { try ControllerProfileCatalogue.decode(data([valid], binding: invalidInput)) }
+    var unknown = inputOnly
+    unknown["initial"] = nil
+    unknown["invalidatingSelectors"] = [["channel": 6, "number": 0]]
+    #expect(try ControllerProfileCatalogue.decode(data([unknown])).profiles.count == 1)
+    for selectors: [[String: Int]] in [
+        [["channel": 16, "number": 0]], [["channel": 6, "number": 128]],
+        [["channel": 6, "number": 0], ["channel": 6, "number": 0]],
+        [["channel": 4, "number": 13]], Array(repeating: ["channel": 6, "number": 0], count: 17),
+    ] {
+        var invalid = unknown; invalid["invalidatingSelectors"] = selectors
+        #expect(throws: (any Error).self) { try ControllerProfileCatalogue.decode(data([invalid])) }
+    }
+    var other = unknown; other["channel"] = 5
+    #expect(throws: (any Error).self) { try ControllerProfileCatalogue.decode(data([unknown, other])) }
+    other["invalidatingSelectors"] = [["channel": 4, "number": 0]]
+    #expect(throws: (any Error).self) { try ControllerProfileCatalogue.decode(data([unknown, other])) }
 }

@@ -3002,6 +3002,20 @@ func controllerCatalogueLegacyRaneMixerAndLoopsKeepRealAudioAndSavedSync(_ name:
     }
 }
 
+@Test @MainActor func controllerCatalogueVCI380ShiftReleasesSoftCueAndKeepsRealAudioSync() async throws {
+    try await withControllerCuePlayback("VCI-380") { model, input in
+        input.receiveBytes([0x97, 22, 1], source: 10); input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x97, 12, 127], source: 10); input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        input.receiveBytes([0x87, 22, 127, 0x97, 12, 0, 23, 127, 23, 0, 0xB7, 7, 64], source: 10)
+        input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
 @Test @MainActor func controllerCatalogueAPC20ShiftReleasesSoftCueAndKeepsRealAudioSync() async throws {
     try await withControllerCuePlayback("APC20") { model, input in
         input.receiveBytes([0x91, 57, 1], source: 10); input.flushPendingActions()

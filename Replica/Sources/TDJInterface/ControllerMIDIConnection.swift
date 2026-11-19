@@ -2876,7 +2876,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             let session = factorySessions.first(where: { $0.source == source }),
             let id = session.destination, let destination = destinations.first(where: { $0.id == id }) else { return }
         for number in mode.numbers {
-            let packet = [0x90 | mode.channel, number, number == message.number ? onValue : offValue]
+            let active = factoryPadModes[source]?.isSelected(number, channel: mode.channel) == true
+            let packet = [0x90 | mode.channel, number, active ? onValue : offValue]
             let sent = factoryPacketSender?(packet, id)
                 ?? (outputPort != 0 && sendMIDIMessage(packet, destination: destination.reference))
             if !sent {

@@ -62583,12 +62583,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://www.bhphotovideo.com/lit_files/90259.pdf",
         "https://virtualdj.com/products/hardware.html?model=VCI380"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:vci380-manufacturer-core"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Vestax VCI-380",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Vestax VCI-380",
@@ -62596,40 +62601,81 @@
           "source": "https://virtualdj.com/products/hardware.html?model=VCI380"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "crossfader",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "cueStateA:a",
+        "cueStateB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "hotcue5A:a",
+        "hotcue5B:b",
+        "hotcue6A:a",
+        "hotcue6B:b",
+        "hotcue7A:a",
+        "hotcue7B:b",
+        "hotcue8A:a",
+        "hotcue8B:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 44,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Use the VCI-380 USB MIDI endpoint with its supplied7.5V adapter and computer deck sources. Select Hot Cue on each deck before using its pads. Other pad modes block Hot Cues. Shift remains per deck. Jog, tempo, FX and audio routing are not configured."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Vestax April2012 own owner manual MIDI table, recovered as public cached scan transcription at Manualzz lines1602..1654. The SHA identifies that saved factual excerpt, not the inaccessible original14MB PDF. Own table qualifies deck channels8/9 and shifted channels10/11 (one-based), Play23/Cue22/Sync19, Trim9, High72/Mid71/Low70, input fader7, latching headphone CUE10, shifted LOAD10, shifted Keylock27, Shift12, pads60..67 and global crossfader8/Cue-Master88. Native direct PFL state preserves both toggle edges. Per-deck Shift retires only its source/deck and guards normal deck functions. Pads start unselected and require explicit Hot Cue56. Other normal selectors57/58/59 block Hot Cues. Shifted Sampler56 invalidates the corresponding normal pad channel until Hot Cue is selected again. Shifted clear-pad notes remain inactive. The DJ Yoi owner guide separately confirms Shift+Hot Cue selects Sampler and ordinary panel functions. A partial hardware-owner VDJ device header corroborates the specific VCI-380 endpoint name only; its copied VCI400/channel assumptions do not run. Native sends no setup, query, output, preset, driver, firmware or audio route. TempoCC13/45 order/polarity, jogCC69/scrollCC85 encoding, the ambiguous OCR INPUT SWITCH number, other pad/FX/parameter modes, LED velocity contract, full lifecycle/recovery, source-switch ownership, USB/OS/power and physical/iPad/A10X acceptance remain open. Use the supplied7.5V adapter. Generic Vestax MIDI endpoints and other VCI models are excluded."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -356739,6 +356785,49 @@
         },
         {
           "reason": "Own pinned hardware-owner integration explicitly selects APC20 mode2 with product7B/command60/value42, then handles per-channel Notes53..57, Solo49, CC7 faders, masterCC14 and signed encoderCC47. Independently authored QLC+ APC20 input profile corroborates every active wire, including Shift81/channel1 and the four navigation keys Note51/channels5..8. A separate firsthand APC20 write-up documents the matching command and default mode40. Native paired setup selects the exact source mode2; shutdown/partial-startup abort requests default mode40. No acknowledgement or previous-state restoration is claimed. Native assigns each adjacent column pair to A/B/C/D. Notes53..56 provide eight Hot Cues per pair; Note57 is Play on the left/Cue on the right. Each adjacent fader pair is level/filter for that deck; master stays global. Solo buttons on either column set that native deck PFL. Navigation is pulse-based, and the encoder accepts only strict1/127 steps. Shift retires only its source and guards all normal inputs. Forty grid plus eight PFL lamps use independently observed on values1/3 and off0. Colour names are not inferred from APC40. Source lighting-console actions and its nonlinear fader curve do not run. Other34 QLC+ controls, full encoder magnitude/calibration, other hardware modes, persistence of the mode selection, saved LED/mode restoration, complete feedback/lifecycle/recovery, USB/OS/power and physical/iPad/A10X acceptance remain open. Native sends no identity query, preset/global-settings dump, driver, firmware or audio route. APC40/APC64/APC mini protocols remain separate."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:vci380-manufacturer-core",
+      "name": "Vestax VCI-380",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.bhphotovideo.com/lit_files/90259.pdf",
+        "sha256": "24e403567edaebd28c0e2eb125844d30992b271618b29858df07dfd9a2cefde2",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r441/upstream/vci380-midi-public-text.txt",
+            "sha256": "24e403567edaebd28c0e2eb125844d30992b271618b29858df07dfd9a2cefde2"
+          },
+          {
+            "cachePath": "TestBuilds/r441/upstream/vci380-owner-guide.pdf",
+            "sha256": "2ac49c1753474110cc4912f2fe2f7bab34f1b609b7a03112637d23e34b560d66"
+          }
+        ],
+        "relatedSources": [
+          {
+            "url": "https://manualzz.com/doc/6742086/vestax-vci-380-dj-controller-owner-s-manual"
+          },
+          {
+            "url": "https://g-zi.de/Traktor/Vestax_VCI-380_Midi_Mapping_v3.4.pdf"
+          },
+          {
+            "url": "https://virtualdj.com/forums/166703/Old_versions/VESTAX_Hardware.html"
+          }
+        ],
+        "review": "Vestax April2012 own owner manual MIDI table, recovered as public cached scan transcription at Manualzz lines1602..1654. The SHA identifies that saved factual excerpt, not the inaccessible original14MB PDF. Own table qualifies deck channels8/9 and shifted channels10/11 (one-based), Play23/Cue22/Sync19, Trim9, High72/Mid71/Low70, input fader7, latching headphone CUE10, shifted LOAD10, shifted Keylock27, Shift12, pads60..67 and global crossfader8/Cue-Master88. Native direct PFL state preserves both toggle edges. Per-deck Shift retires only its source/deck and guards normal deck functions. Pads start unselected and require explicit Hot Cue56. Other normal selectors57/58/59 block Hot Cues. Shifted Sampler56 invalidates the corresponding normal pad channel until Hot Cue is selected again. Shifted clear-pad notes remain inactive. The DJ Yoi owner guide separately confirms Shift+Hot Cue selects Sampler and ordinary panel functions. A partial hardware-owner VDJ device header corroborates the specific VCI-380 endpoint name only; its copied VCI400/channel assumptions do not run. Native sends no setup, query, output, preset, driver, firmware or audio route. TempoCC13/45 order/polarity, jogCC69/scrollCC85 encoding, the ambiguous OCR INPUT SWITCH number, other pad/FX/parameter modes, LED velocity contract, full lifecycle/recovery, source-switch ownership, USB/OS/power and physical/iPad/A10X acceptance remain open. Use the supplied7.5V adapter. Generic Vestax MIDI endpoints and other VCI models are excluded."
+      },
+      "implementedInputCount": 44,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Vestax April2012 own owner manual MIDI table, recovered as public cached scan transcription at Manualzz lines1602..1654. The SHA identifies that saved factual excerpt, not the inaccessible original14MB PDF. Own table qualifies deck channels8/9 and shifted channels10/11 (one-based), Play23/Cue22/Sync19, Trim9, High72/Mid71/Low70, input fader7, latching headphone CUE10, shifted LOAD10, shifted Keylock27, Shift12, pads60..67 and global crossfader8/Cue-Master88. Native direct PFL state preserves both toggle edges. Per-deck Shift retires only its source/deck and guards normal deck functions. Pads start unselected and require explicit Hot Cue56. Other normal selectors57/58/59 block Hot Cues. Shifted Sampler56 invalidates the corresponding normal pad channel until Hot Cue is selected again. Shifted clear-pad notes remain inactive. The DJ Yoi owner guide separately confirms Shift+Hot Cue selects Sampler and ordinary panel functions. A partial hardware-owner VDJ device header corroborates the specific VCI-380 endpoint name only; its copied VCI400/channel assumptions do not run. Native sends no setup, query, output, preset, driver, firmware or audio route. TempoCC13/45 order/polarity, jogCC69/scrollCC85 encoding, the ambiguous OCR INPUT SWITCH number, other pad/FX/parameter modes, LED velocity contract, full lifecycle/recovery, source-switch ownership, USB/OS/power and physical/iPad/A10X acceptance remain open. Use the supplied7.5V adapter. Generic Vestax MIDI endpoints and other VCI models are excluded."
         }
       ]
     },

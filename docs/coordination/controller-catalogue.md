@@ -11,10 +11,10 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 562 total catalogue records. 555 name physical models. The remainder identify software endpoints or protocol families.
-- 366 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 225 factory profiles select core controls automatically for 234 physical models.
+- 367 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 226 factory profiles select core controls automatically for 235 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
-- 315 physical models still lack automatic core controls.
+- 314 physical models still lack automatic core controls.
 - 555 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -223,13 +223,13 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 17 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 228 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 229 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
 | partial-midi-profile | 143 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 150 | The pinned references contain no implemented mapping for this model. |
+| protocol-needed | 149 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -777,7 +777,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Vestax Spin2 | primary | partial-midi-profile | [Reference](https://gist.github.com/samba2/5af83e947297ab99a4745a5be3e13d55/a8c441c832affebb59415abdc80872967bc8c0e6) |
 | Vestax VCI-100 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-100-3DEX.midi.xml) |
 | Vestax VCI-300MKII | primary | automatic-core-profile | [Reference](https://manual.mixxx.org/2.4/en_gb/hardware/controllers/vestax_vci_300) |
-| Vestax VCI-380 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=VCI380) |
+| Vestax VCI-380 | primary | automatic-core-profile | [Reference](https://www.bhphotovideo.com/lit_files/90259.pdf) |
 | Vestax VCI-400 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-400.midi.xml) |
 | Vestax VCM-100 | primary | partial-midi-profile | [Reference](https://www.kevinchant.com/uploads/7/1/0/8/7108231/vsm-vcm-100.pdf) |
 | Vieta DJ Andromeda | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=VTANDRM) |

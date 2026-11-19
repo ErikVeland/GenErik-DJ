@@ -69,16 +69,26 @@ struct ControllerProfileData: Decodable, Sendable {
     }
 
     struct InputMode: Decodable, Sendable {
+        struct Selector: Decodable, Hashable, Sendable {
+            let channel: UInt8
+            let number: UInt8
+        }
+
         let channel: UInt8
-        let initial: UInt8
+        let initial: UInt8?
         let numbers: [UInt8]
         let onValue: UInt8?
         let offValue: UInt8?
+        let invalidatingSelectors: [Selector]?
 
         var isValid: Bool {
             channel < 16 && !numbers.isEmpty && numbers.count <= 16
                 && numbers.allSatisfy { $0 < 128 } && Set(numbers).count == numbers.count
-                && numbers.contains(initial)
+                && (initial.map { numbers.contains($0) } ?? true)
+                && (invalidatingSelectors.map {
+                    $0.count <= 16 && $0.allSatisfy { $0.channel < 16 && $0.number < 128 }
+                        && Set($0).count == $0.count
+                } ?? true)
                 && ((onValue == nil && offValue == nil)
                     || (onValue.map { $0 < 128 } == true && offValue.map { $0 < 128 } == true))
         }
@@ -295,8 +305,13 @@ struct ControllerProfileData: Decodable, Sendable {
 
     private var validInputModes: Bool {
         let modes = inputModes ?? []
+        let selectors = Set(modes.flatMap { mode in
+            mode.numbers.map { InputMode.Selector(channel: mode.channel, number: $0) }
+        })
+        let invalidators = modes.flatMap { $0.invalidatingSelectors ?? [] }
         return modes.count <= 16 && modes.allSatisfy { $0.isValid }
             && Set(modes.map(\.channel)).count == modes.count
+            && Set(invalidators).count == invalidators.count && selectors.isDisjoint(with: invalidators)
             && inputs.allSatisfy { input in
                 guard let required = input.requiredMode else { return true }
                 return input.kind == .note && input.action.isButton && !input.action.isMomentary

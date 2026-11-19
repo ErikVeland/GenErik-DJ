@@ -96,7 +96,7 @@
           "model": "Seventy-Two MKII",
           "downloads": [
             {
-              "description": "Seventy-Two Control Panel \u2013 macOS v1.1.2",
+              "description": "Seventy-Two Control Panel – macOS v1.1.2",
               "type": "Editor",
               "url": "https://cdn.inmusicbrands.com/rane/seventy-two/MacRaneSeventy-Two_1.1.2.dmg"
             },
@@ -126,7 +126,7 @@
           "model": "Seventy-Two",
           "downloads": [
             {
-              "description": "Seventy-Two Control Panel \u2013 macOS v1.1.2",
+              "description": "Seventy-Two Control Panel – macOS v1.1.2",
               "type": "Editor",
               "url": "https://cdn.inmusicbrands.com/rane/seventy-two/MacRaneSeventy-Two_1.1.2.dmg"
             },
@@ -156,12 +156,12 @@
           "model": "Seventy",
           "downloads": [
             {
-              "description": "SEVENTY Firmware Update \u2013 macOS v1.1.0.127 (Latest Version)",
+              "description": "SEVENTY Firmware Update – macOS v1.1.0.127 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/seventy/Rane%20Seventy%20Firmware%20Updater%20For%20Firmware%201.1.0.127%20%28Updater%201.0.1%29.dmg"
             },
             {
-              "description": "SEVENTY Firmware Update \u2013 Windows v1.1.0.127 (Latest Version)",
+              "description": "SEVENTY Firmware Update – Windows v1.1.0.127 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/seventy/Install%20Rane%20Seventy%20Firmware%20Updater%20For%20Firmware%201.1.0.127%20%28Updater%201.0.0%29.exe"
             },
@@ -211,7 +211,7 @@
               "url": "https://cdn.inmusicbrands.com/rane/four/Install%20Rane%20FOUR%201.0.10.exe"
             },
             {
-              "description": "FOUR Firmware Update \u2013 macOS 1.8.0.18 (Latest Version)",
+              "description": "FOUR Firmware Update – macOS 1.8.0.18 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/Software/RD/RANE%20FOUR%20Firmware%20Updater%20For%20Firmware%201.8.0.18.dmg"
             },
@@ -226,7 +226,7 @@
               "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20FOUR%20Firmware%20-%20Release%20Note%20History%20v1.8.0.18.pdf"
             },
             {
-              "description": "FOUR Firmware Update \u2013 macOS v1.7.0.8",
+              "description": "FOUR Firmware Update – macOS v1.7.0.8",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/four/RANE%20FOUR%20Firmware%20Updater%20For%20Firmware%201.7.0.8%20%28Updater%201.1.6%29.dmg"
             },
@@ -306,12 +306,12 @@
               "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%201.0.2.exe"
             },
             {
-              "description": "PERFORMER Firmware Update \u2013 macOS v1.3.0.13 (Latest Version)",
+              "description": "PERFORMER Firmware Update – macOS v1.3.0.13 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.3.0.13.dmg"
             },
             {
-              "description": "PERFORMER Firmware Update \u2013 Windows v1.3.0.13 (Latest Version)",
+              "description": "PERFORMER Firmware Update – Windows v1.3.0.13 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/Software/RD/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.3.0.13.exe"
             },
@@ -321,12 +321,12 @@
               "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20PERFORMER%20Firmware%20-%20Release%20Note%20History%20v1.3.0.13.pdf"
             },
             {
-              "description": "PERFORMER Firmware Update \u2013 macOS v1.2.0.10",
+              "description": "PERFORMER Firmware Update – macOS v1.2.0.10",
               "type": "Driver",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.2.0.10%20%28Updater%201.0.5%29.dmg"
             },
             {
-              "description": "PERFORMER Firmware Update \u2013 Windows v1.2.0.10",
+              "description": "PERFORMER Firmware Update – Windows v1.2.0.10",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.2.0.10%20%28Updater%201.0.4%29.exe"
             },
@@ -336,12 +336,12 @@
               "url": "https://cdn.inmusicbrands.com/rane/performer/Release%20Notes%20-%20Rane%20PERFORMER%20Firmware%20v1.2.0.10.pdf"
             },
             {
-              "description": "PERFORMER Firmware Update \u2013 macOS v1.1.0.13",
+              "description": "PERFORMER Firmware Update – macOS v1.1.0.13",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.1.0.13%20%28Updater%201.0.3%29.dmg"
             },
             {
-              "description": "PERFORMER Firmware Update \u2013 Windows v1.1.0.13",
+              "description": "PERFORMER Firmware Update – Windows v1.1.0.13",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.1.0.13%20%28Updater%201.0.3%29.exe"
             },
@@ -356,12 +356,12 @@
           "model": "Rane One MKII",
           "downloads": [
             {
-              "description": " ONE MKII Firmware Update \u2013 macOS v1.2.0.2 (Latest Version)",
+              "description": " ONE MKII Firmware Update – macOS v1.2.0.2 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/one-mkii/FW1202/Rane%20ONE%20MKII%20Firmware%20Updater%20For%20Firmware%201.2.0.2%20%28Updater%201.0.2%29%201.dmg"
             },
             {
-              "description": " ONE MKII Firmware Update \u2013 Windows v1.2.0.2 (Latest Version) ",
+              "description": " ONE MKII Firmware Update – Windows v1.2.0.2 (Latest Version) ",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/one-mkii/FW1202/Install%20Rane%20ONE%20MKII%20Firmware%20Updater%20For%20Firmware%201.2.0.2%20%28Updater%201.0.2%29.exe"
             },
@@ -2781,7 +2781,7 @@
               "review": "Read-only corroboration of channel0..3 targets and source scratch scale150. Primary charts override copied software-role assumptions."
             }
           ],
-          "review": "Separate manufacturer charts independently qualify the same default-channel input and lamp addresses for both editions. Native channels0..3 target A/B/C/D. Normal notes use Shift +64 release-only aliases; alternate positive commands remain inactive. Play39/Cue38/Sync40, eight independently addressed Hot Cues, Load9, native beat jumps20/21, Loop18/Reloop19, binary-offset loop-size22/browser9 and filter45 are explicit native controls. Normal47 and Scratch48 wheel/contact families use owned touch and source scale150; primary reports raw40\u00b1N. Other wheel modes, no-touch direction notes, modified positive commands and physical scale remain unqualified. Deck-selection notes5..8 retire owned holds across all targets; normal wheel-mode32..35 reports retire only their deck, and releases preserve fresh contacts. Note8 is a shifted deck selector, never Key Lock; there is no pitch slider or primary pitch-bend input. Shifted filter/pan CC109/110 are not treated as headphone/master knobs. No source software, startup, channel changer, stored setting or audio command runs."
+          "review": "Separate manufacturer charts independently qualify the same default-channel input and lamp addresses for both editions. Native channels0..3 target A/B/C/D. Normal notes use Shift +64 release-only aliases; alternate positive commands remain inactive. Play39/Cue38/Sync40, eight independently addressed Hot Cues, Load9, native beat jumps20/21, Loop18/Reloop19, binary-offset loop-size22/browser9 and filter45 are explicit native controls. Normal47 and Scratch48 wheel/contact families use owned touch and source scale150; primary reports raw40±N. Other wheel modes, no-touch direction notes, modified positive commands and physical scale remain unqualified. Deck-selection notes5..8 retire owned holds across all targets; normal wheel-mode32..35 reports retire only their deck, and releases preserve fresh contacts. Note8 is a shifted deck selector, never Key Lock; there is no pitch slider or primary pitch-bend input. Shifted filter/pan CC109/110 are not treated as headphone/master knobs. No source software, startup, channel changer, stored setting or audio command runs."
         }
       ],
       "result": "Separate CE and IE manufacturer charts qualify one shared default-channel wire recipe and two edition inventory rows. The generic VirtualDJ family reference is retained on both rows. Normal and Scratch contact/jog, eight Hot Cues per deck and Shift release aliases are implemented. Copied Key Lock/pitch/global-role assumptions are rejected. Full modes/audio/host/calibration and physical acceptance remain open."
@@ -3729,6 +3729,39 @@
         }
       ],
       "result": "Own hardware-owner mode2 code and independent QLC+ table qualify63 automatic native inputs/48 lamps. Firsthand APC20 mode documentation qualifies the default40 exit. Every active wire is checked against the97-control table. Other34 controls, other modes, full encoder magnitudes and state restoration remain open."
+    },
+    {
+      "request": "R441",
+      "sources": [
+        {
+          "model": "Vestax VCI-380",
+          "url": "https://www.bhphotovideo.com/lit_files/90259.pdf",
+          "sha256": "24e403567edaebd28c0e2eb125844d30992b271618b29858df07dfd9a2cefde2",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r441/upstream/vci380-midi-public-text.txt",
+              "sha256": "24e403567edaebd28c0e2eb125844d30992b271618b29858df07dfd9a2cefde2"
+            },
+            {
+              "cachePath": "TestBuilds/r441/upstream/vci380-owner-guide.pdf",
+              "sha256": "2ac49c1753474110cc4912f2fe2f7bab34f1b609b7a03112637d23e34b560d66"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://manualzz.com/doc/6742086/vestax-vci-380-dj-controller-owner-s-manual"
+            },
+            {
+              "url": "https://g-zi.de/Traktor/Vestax_VCI-380_Midi_Mapping_v3.4.pdf"
+            },
+            {
+              "url": "https://virtualdj.com/forums/166703/Old_versions/VESTAX_Hardware.html"
+            }
+          ],
+          "review": "Vestax April2012 own owner manual MIDI table, recovered as public cached scan transcription at Manualzz lines1602..1654. The SHA identifies that saved factual excerpt, not the inaccessible original14MB PDF. Own table qualifies deck channels8/9 and shifted channels10/11 (one-based), Play23/Cue22/Sync19, Trim9, High72/Mid71/Low70, input fader7, latching headphone CUE10, shifted LOAD10, shifted Keylock27, Shift12, pads60..67 and global crossfader8/Cue-Master88. Native direct PFL state preserves both toggle edges. Per-deck Shift retires only its source/deck and guards normal deck functions. Pads start unselected and require explicit Hot Cue56. Other normal selectors57/58/59 block Hot Cues. Shifted Sampler56 invalidates the corresponding normal pad channel until Hot Cue is selected again. Shifted clear-pad notes remain inactive. The DJ Yoi owner guide separately confirms Shift+Hot Cue selects Sampler and ordinary panel functions. A partial hardware-owner VDJ device header corroborates the specific VCI-380 endpoint name only; its copied VCI400/channel assumptions do not run. Native sends no setup, query, output, preset, driver, firmware or audio route. TempoCC13/45 order/polarity, jogCC69/scrollCC85 encoding, the ambiguous OCR INPUT SWITCH number, other pad/FX/parameter modes, LED velocity contract, full lifecycle/recovery, source-switch ownership, USB/OS/power and physical/iPad/A10X acceptance remain open. Use the supplied7.5V adapter. Generic Vestax MIDI endpoints and other VCI models are excluded."
+        }
+      ],
+      "result": "Independent44-input VCI-380 core from own manufacturer table. Pads start unknown and require explicit Hot Cue. Cross-channel Sampler invalidates only its deck. No guessed jog/tempo/output/audio contract.353 source/17 native checks and iPad framework compilation pass. All366 earlier recipes remain identical. Full modes/lifecycle/source switching and physical acceptance remain open."
     }
   ]
 }
