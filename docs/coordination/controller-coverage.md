@@ -6416,3 +6416,16 @@ All earlier inputs remain an exact prefix. Outputs, setup, audio and aliases rem
 Validation:437 source checks and27 focused native tests pass. Checks cover all80 pairs, duplicate presses, both negative forms, either app Shift state and source/group isolation. Three real-WAV cases preserve active playback, position, neighbouring markers and saved Sync. An older Terminal Mix assertion needed its newly supported explicit Clear event. Its failed run remains preserved. The iPad framework compiled. Its2,218,024-byte compact resource matches source and excludes the full review file. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r479/validation.json`.
 
 Counts remain404 recipes,556 physical models,250 automatic core models and116 protocol-needed records, including two reviewed audio-only integrations. There are27,108 native binding comparisons and205 automatic held-Cue recipes.306 models lack automatic core selection. Full theoretical support remains0/556. The wider manufacturer audit and physical/iPad/A10X acceptance remain open.
+
+
+## R480 — MC4000 factory pads, temporary bends and Cue release
+
+The own MC4000 user guide, printed pages5/30, qualifies four Hot Cues per deck and separate Shift clear notes. Raw channels4/5 use activation20–23 and clear28–31. Each pair has both negative aliases. Eight pad LEDs use factory blue1 and off0 at the normal addresses. Other colours, Pad Mode and sampler banks remain open.
+
+Temporary pitch bends use factory minus12/plus11 on raw channels0/1. The pinned working XML assigns plus13, which conflicts with the factory Keylock address. Native retains Keylock13 and follows factory plus11. Shifted32/33 only release an existing bend. Shifted Cue5 only releases a normal held Cue. Positive shifted search and Track Start remain inactive. No mapper runs. Advanced modes, FX/meters, full lifecycle/audio/host and physical acceptance remain open.
+
+All49 earlier inputs and10 earlier outputs remain exact prefixes.42 inputs and eight outputs are added.403 other recipes remain identical. Startup/shutdown, aliases, audio and tempo ordering remain unchanged.
+
+Validation:440 source checks and15 focused native tests pass. Checks cover all pad pairs, duplicate presses, both negative forms, either app Shift state, source/group isolation and blue/off packet bytes. The real-WAV case verifies shifted held-Cue release, marker deletion, neighbouring markers, both bend releases, finite active playback and saved Sync. Initial checks exposed an overbroad Platinum assertion edit, negative guards counted as active collisions and a missing test MainActor annotation. Only those tests changed. Failed runs remain preserved. The iPad framework compiled. Its2,221,015-byte compact resource matches source and excludes the full review file. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r480/validation.json`.
+
+Counts remain404 recipes,556 physical models,250 automatic core models and116 protocol-needed records, including two reviewed audio-only integrations. There are27,150 native binding comparisons and205 automatic held-Cue recipes.306 models lack automatic core selection. Full theoretical support remains0/556. The wider manufacturer audit and physical/iPad/A10X acceptance remain open.

@@ -334,9 +334,9 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(canonical("Denon DJ MC4000"), canonical("Denon MC4000"))
         self.assertEqual(len(split_models("Mixars DUO (incl. MKII)")), 2)
 
-    def test_curated_addresses_have_no_conflicts(self):
+    def test_curated_positive_addresses_have_no_conflicts(self):
         for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles() + numark_profiles() + mixtrack3_profiles() + platinum_profiles() + mixtrack2_profiles() + denon_profiles() + mc6000_profiles() + mc7000_profiles() + original_mixtrack_profiles() + party_mix_profiles() + t1_profiles() + pad_accessory_profiles() + party_mix2_profiles() + terminal_mix_profiles():
-            for left, right in combinations(profile["inputs"], 2):
+            for left, right in combinations([row for row in profile["inputs"] if not row.get("releaseOnly")], 2):
                 address = lambda item: (item["kind"], item["channel"], item["number"])
                 if address(left) != address(right):
                     continue
@@ -571,7 +571,7 @@ class ConversionTests(unittest.TestCase):
         item = denon_profiles()[0]
         self.assertEqual(item["aliases"], ["Denon MC4000", "MC4000", "Denon DJ MC4000"])
         self.assertTrue(all(binding["inverted"] for binding in item["inputs"] if binding["action"] in {"tempoA", "tempoB"}))
-        self.assertFalse(any(binding["action"].startswith("hotcue") for binding in item["inputs"]))
+        self.assertEqual(len([binding for binding in item["inputs"] if binding["action"].startswith("hotcue") and not binding.get("releaseOnly")]), 8)
         self.assertIn("LSB/MSB", denon_references()["Denon MC4000"]["review"])
         self.assertEqual(item["startup"][0], [240, 0, 2, 11, 127, 1, 96, 0, 4, 4, 1, 0, 0, 247])
         for path, digest in MC4000_SOURCES:

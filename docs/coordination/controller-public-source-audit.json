@@ -5440,6 +5440,33 @@
         }
       ],
       "result": "Added80 dedicated clear inputs and160 bidirectional negative aliases for DDJ-SB3, Terminal Mix2/4 and Jogvision. Own hash-pinned normal Note-On activation rows exactly match each existing native Hot Cue wire and deck. No active clear-wire collision, modes, protocols or unreviewed fields are allowed. All earlier inputs and outputs/setup/audio/aliases remain unchanged;401 other recipes remain identical.437 source/27 native checks and iPad framework compilation pass. Both negative forms, either app Shift state, duplicate presses, source/group isolation and three real-WAV cases pass. An older Terminal Mix assertion needed its newly supported explicit Clear event. The failed run is retained. No mapper or upstream code executes. Full modes, lifecycle, host routes and physical acceptance remain open."
+    },
+    {
+      "request": "R480",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "model": "Denon MC4000",
+          "url": "https://cdn.inmusicbrands.com/denondj/MC4000/MC4000-User-Guide-v1.2_00.pdf",
+          "sha256": "afe48b9f4f71be813dd233985375a4405cd284b0ce225d644ba56735664847d6",
+          "relatedSources": [
+            {
+              "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon%20MC4000.midi.xml",
+              "sha256": "c3e48e924916e3bd982b70f755853385f400e4c4e77c035432c93f83c7cab570"
+            },
+            {
+              "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Denon-MC4000-scripts.js",
+              "sha256": "dbfbd0f0307e891e0f4a8f93eae93ff445c5aa7a97c5ff58670331c663127e70"
+            }
+          ],
+          "review": "Factory pages 30\u201331 specify controls and LED echo. The table labels pitch CC 9/41 as LSB/MSB. The pinned working XML instead pairs MSB 9 with LSB 41; this recipe follows that working order and rate_dir -1. R480 rechecks factory page30 and own Hot Cue behaviour on page5. Four Hot Cues per deck, separate clear notes and blue1/off0 LED values are explicit. The pinned XML assigns normal pitch-bend-plus to note13, which the factory chart and existing profile reserve for Keylock. Native uses factory pitch-bend-plus note11 and minus12. Shift notes32/33 release these holds without implementing search. Shifted Cue note5 releases the held normal Cue without implementing Track Start. Advanced modes and physical verification remain open.",
+          "cachePath": "TestBuilds/r193/manufacturer/MC4000.pdf",
+          "visuallyReviewedPrintedPages": [
+            30
+          ]
+        }
+      ],
+      "result": "Added42 own-factory inputs and eight blue1/off0 pad LED outputs. Four Hot Cues and explicit clears per deck have both negative aliases. Temporary pitch bend uses factory minus12/plus11 on raw0/1, with shifted32/33 negative-only cleanup. The pinned XML incorrectly assigns plus13, colliding with existing factory Keylock13. Shifted Cue5 now releases the held normal Cue without a positive Track Start action. All49 earlier inputs and10 earlier outputs remain exact prefixes;403 other recipes remain identical.440 source/15 native checks and iPad framework compilation pass. Real-WAV checks preserve finite active playback, cue release, bend release, neighbours and saved Sync. Initial checks exposed an overbroad unrelated Platinum assertion edit, a conflict test that counted negative guards as active inputs, and a missing test MainActor annotation. These test-only corrections and failed runs remain in evidence. Advanced pad modes, positive search/Track Start, full FX/meters/audio/host/lifecycle and physical acceptance remain open. No mapper or upstream code executes."
     }
   ]
 }

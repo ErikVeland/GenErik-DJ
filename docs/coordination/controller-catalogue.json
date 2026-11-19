@@ -30716,6 +30716,14 @@
       },
       "controlActions": [
         "browse",
+        "clearHotcue1A:a",
+        "clearHotcue1B:b",
+        "clearHotcue2A:a",
+        "clearHotcue2B:b",
+        "clearHotcue3A:a",
+        "clearHotcue3B:b",
+        "clearHotcue4A:a",
+        "clearHotcue4B:b",
         "crossfader",
         "cueA:a",
         "cueB:b",
@@ -30728,6 +30736,14 @@
         "gainB:b",
         "highA:a",
         "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
         "jogA:a",
         "jogB:b",
         "jogTouchA:a",
@@ -30754,6 +30770,10 @@
         "midB:b",
         "monitor",
         "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
         "playA:a",
         "playB:b",
         "reloopA:a",
@@ -30764,8 +30784,8 @@
         "tempoA:a",
         "tempoB:b"
       ],
-      "inputBindingCount": 49,
-      "feedbackBindingCount": 10,
+      "inputBindingCount": 91,
+      "feedbackBindingCount": 18,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
@@ -30794,7 +30814,7 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "The factory table reverses pitch byte labels compared with the pinned working mapping. Pads and advanced pad modes, Vinyl toggle, additional shifted functions, pitch-bend buttons, FX, meters and complete audio routing remain unimplemented. Jog calibration and source reuse/distribution review remain open."
+        "The factory table reverses pitch byte labels compared with the pinned working mapping. Advanced pad modes, Vinyl toggle, positive shifted search/Track Start, additional shifted functions, FX, meters and complete audio routing remain unimplemented. Factory pitch-bend-plus note11 takes precedence over the pinned XML note13 conflict with Keylock. Jog calibration and source reuse/distribution review remain open."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -353432,10 +353452,10 @@
             "sha256": "dbfbd0f0307e891e0f4a8f93eae93ff445c5aa7a97c5ff58670331c663127e70"
           }
         ],
-        "review": "Factory pages 30–31 specify controls and LED echo. The table labels pitch CC 9/41 as LSB/MSB. The pinned working XML instead pairs MSB 9 with LSB 41; this recipe follows that working order and rate_dir -1. Physical verification remains open."
+        "review": "Factory pages 30–31 specify controls and LED echo. The table labels pitch CC 9/41 as LSB/MSB. The pinned working XML instead pairs MSB 9 with LSB 41; this recipe follows that working order and rate_dir -1. R480 rechecks factory page30 and own Hot Cue behaviour on page5. Four Hot Cues per deck, separate clear notes and blue1/off0 LED values are explicit. The pinned XML assigns normal pitch-bend-plus to note13, which the factory chart and existing profile reserve for Keylock. Native uses factory pitch-bend-plus note11 and minus12. Shift notes32/33 release these holds without implementing search. Shifted Cue note5 releases the held normal Cue without implementing Track Start. Advanced modes and physical verification remain open."
       },
-      "implementedInputCount": 49,
-      "implementedOutputCount": 10,
+      "implementedInputCount": 91,
+      "implementedOutputCount": 18,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [
@@ -353443,7 +353463,7 @@
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
         },
         {
-          "reason": "The factory table reverses pitch byte labels compared with the pinned working mapping. Pads and advanced pad modes, Vinyl toggle, additional shifted functions, pitch-bend buttons, FX, meters and complete audio routing remain unimplemented. Jog calibration and source reuse/distribution review remain open."
+          "reason": "The factory table reverses pitch byte labels compared with the pinned working mapping. Advanced pad modes, Vinyl toggle, positive shifted search/Track Start, additional shifted functions, FX, meters and complete audio routing remain unimplemented. Factory pitch-bend-plus note11 takes precedence over the pinned XML note13 conflict with Keylock. Jog calibration and source reuse/distribution review remain open."
         }
       ]
     },

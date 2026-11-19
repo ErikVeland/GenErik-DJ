@@ -122,7 +122,7 @@ def report(catalogue, runtime):
               "See [R192 Mixtrack II](controller-coverage.md#r192-mixtrack-ii-and-mixtrack-pro-ii-core-controls).", "",
               "## Denon MC4000 — R193", "",
               "MC4000 selects a native core profile. Factory addresses and the pinned working tempo order have fixtures.",
-              "The factory pitch-byte label conflict stays explicit. Pad modes, additional functions and audio routing remain open.",
+              "The factory pitch-byte and community bend-plus conflicts stay explicit. R480 adds four Hot Cues, clear pairs and blue/off pad LEDs per deck. Advanced modes and audio routing remain open.",
               "See [R193 MC4000](controller-coverage.md#r193-denon-mc4000-core-controls).", "",
               "## Denon MC6000MK2 — R194", "",
               "MC6000MK2 selects a native core profile with A/C/B/D deck channels, side-wide Shift and separate LED trigger commands.",

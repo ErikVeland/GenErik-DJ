@@ -3834,3 +3834,32 @@ func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String
         }
     }
 }
+
+
+@Test @MainActor func controllerCatalogueMC4000FactoryPadsCueAndBendsKeepAudioSynced() async throws {
+    try await withControllerCuePlayback("MC4000") { model,input in
+        cuePreviewPacket([0x90,1,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80,5,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == false && model.playbackSnapshot?.a.phase.active == false)
+        let track=try #require(model.track(.a))
+        model.performance.cues[track.id]=[0:.init(frame:0),1:.init(frame:100)]
+        model.pressPlay(deck:.a,vinylStop:false)
+        _ = model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        try #require(model.playbackSnapshot?.a.phase.active == true)
+        let before=try #require(model.playbackSnapshot?.a.sourceFrame)
+        cuePreviewPacket([0x94,28,127,28,0],to:input)
+        model.refreshPlayback()
+        #expect(model.performance.cues[track.id]?[0] == nil && model.performance.cues[track.id]?[1] != nil)
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1)-before)<=1)
+        for (note,alternate,action):(UInt8,UInt8,ControllerAction) in [(12,32,.pitchBendDownA),(11,33,.pitchBendUpA)] {
+            cuePreviewPacket([0x90,note,127],to:input)
+            #expect(model.controllerValue(action)==1)
+            cuePreviewPacket([0x80,alternate,127],to:input)
+            #expect(model.controllerValue(action)==0)
+        }
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
