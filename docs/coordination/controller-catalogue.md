@@ -11,7 +11,7 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 561 total catalogue records. 554 name physical models. The remainder identify software endpoints or protocol families.
-- 312 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 315 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 201 factory profiles select core controls automatically for 209 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - 339 physical models still lack automatic core controls.
@@ -228,8 +228,8 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 113 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 204 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 116 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 201 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -448,7 +448,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Akai APC40 MKII | accessory | automatic-core-profile | [Reference](https://cdn.inmusicbrands.com/akai/attachments/apc40II/APC40Mk2_Communications_Protocol_v1.2.pdf) |
 | Akai LPD8 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Akai-LPD8-RK.midi.xml) |
 | Akai MPD24 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Akai%20MPD24.midi.xml) |
-| Akai Pro AMX | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AKAMX) |
+| Akai Pro AMX | accessory | partial-midi-profile | [Reference](https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe) |
 | Akiyama Pulsar | primary | partial-midi-profile | [Reference](https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe) |
 | Akiyama QUARC | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=QUARK) |
 | Akiyama Quark SC | primary | partial-midi-profile | [Reference](https://media.djmania.net/manuales/pdf/Manual_Akiyama_Quark_SC.pdf) |
@@ -612,7 +612,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Intech TEK2 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Intech%20TEK2.midi.xml) |
 | ION DJ LIVE | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=IONLIVE) |
 | ION DJ2GO | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=IONDJ2GO) |
-| ION ICUE | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ICUE) |
+| ION ICUE | primary | partial-midi-profile | [Reference](https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe) |
 | Ion Discover DJ | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Ion%20Discover%20DJ.midi.xml) |
 | Ion Discover DJ Pro | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Ion-Discover-DJ-Pro.midi.xml) |
 | Ion iDJ2GO | primary | partial-midi-profile | [Reference](https://download.algoriddim.com/djay/202010171657/djay_Pro_2.2.9.zip) |
@@ -734,7 +734,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Reloop Beatpad 2 | primary | automatic-core-profile | [Reference](https://www.reloop.com/djing-with-smart-devices-controllercomparisonchart) |
 | Reloop Buddy | primary | partial-midi-profile | [Reference](https://www.reloop.com/reloop-buddy) |
 | Reloop CONTOUR | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=CONTOUR) |
-| Reloop DIGITAL JOCKEY | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DIGITALJOCKEY) |
+| Reloop DIGITAL JOCKEY | primary | partial-midi-profile | [Reference](https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe) |
 | Reloop Digital Jockey 2 Controller | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop%20Digital%20Jockey%202%20Controller%20Edition.midi.xml) |
 | Reloop Digital Jockey 2 Interface Edition | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Digital-Jockey-2-IE.midi.xml) |
 | Reloop Digital Jockey 2 Master Edition | primary | partial-midi-profile | [Reference](https://www.reloop.com/reloop-digital-jockey-2-master-edition) |

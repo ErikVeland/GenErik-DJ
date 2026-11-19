@@ -2907,3 +2907,16 @@ func controllerCatalogueLegacyUSBTransportCueAndManualLoopsKeepRealAudioSync(_ n
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test(arguments:["Akai Pro AMX","ION ICUE","Reloop DIGITAL JOCKEY"]) @MainActor
+func controllerCatalogueRemainingPublicTransportKeepsRealAudioAndSavedSync(_ name:String)async throws{
+    try await withControllerCuePlayback(name,manual:true){model,input in
+        let cue:UInt8=name=="Akai Pro AMX" ? 8:name=="ION ICUE" ? 51:23
+        let play:UInt8=name=="Akai Pro AMX" ? 10:name=="ION ICUE" ? 67:25
+        cuePreviewPacket([0x90,cue,127],to:input);#expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80,cue,127,0x90,play,127,play,0],to:input)
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
