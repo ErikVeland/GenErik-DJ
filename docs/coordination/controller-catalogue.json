@@ -27537,12 +27537,17 @@
       "role": "accessory",
       "benchmark": false,
       "sources": [
+        "https://www.djtechtools.com/downloads/documents/Midi%20Fighter%203D%20MIDI%20Map%20ABLETON.pdf",
         "https://virtualdj.com/products/hardware.html?model=FIGHTER3D"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:midi-fighter-3d-banked-native"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "DJ TechTools MIDI Fighter 3D",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Midi Fighter 3D",
@@ -27550,40 +27555,105 @@
           "source": "https://virtualdj.com/products/hardware.html?model=FIGHTER3D"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "reloopB:d",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d"
+      ],
+      "inputBindingCount": 64,
+      "feedbackBindingCount": 52,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Use default base channel3 with Four Banks enabled in Ableton or Traktor mode. Select this profile manually. Banks1/2/3/4 target A/B/C/D; enable C/D separately. Bottom two rows: eight Hot Cues. Next row: Play/Cue/Sync/Load. Top row: PFL/Loop In/Out/Reloop. Feedback requires separate manual opt-in. Deactivate before changing channel or bank mode."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Separate maker Ableton and Traktor protocol documents independently specify banked arcade Notes36..99 on channel3, bank reports Notes0..3 on channel4 and the same LED override table. All64 numeric pad entries are checked against both own appendices; octave labels differ, so native uses explicit numeric notes. Four Banks is enabled by default; custom channels and disabled Hold/Toggle banks are separate modes. Native manual layout targets one bank per A/B/C/D deck. Bottom two rows supply eight Hot Cues, next row Play/held Cue/Sync/Load, top PFL/Loop In/Out/Reloop. C/D require app opt-in. Each positive bank report retires only its source and rearms its pads immediately. Late NoteOff/NoteOn-zero selector reports do not retire the new bank. Arcade releases retain their original addresses. Ableton channel6 duplicate CCs and channel4/5 rotation/tilt traffic stay inactive. Optional manual feedback provides52 static arcade overrides: green76, yellow80, red84 and black67. NoteOn0/NoteOff restores the configured default LED behaviour, so it is not used as a dark status value. Bank LED messages can force bank changes and are never emitted. Native sends no setup, bank selection, settings, utility, driver, firmware or audio route. Firmware-dependent names/defaults, side/motion controls, custom channels, disabled-bank modes, saved LED restoration, complete feedback/lifecycle/recovery, USB/OS/power and physical/iPad/A10X acceptance remain open. Manual feedback needs separate destination selection and opt-in. No Spectra,64,Pro or Twister contract is inherited.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -356196,6 +356266,47 @@
         },
         {
           "reason": "Separate hardware-owner DJ-202 XML and script qualify a manual normal MIDI subset. These are community observations, not a manufacturer SDK. XML independently defines four deck channels0..3: Play0, held Cue1, Sync2 and Key Lock13 with shifted4/5/3/14; global Shift is channel15 Note0. Native normal transport is Shift-guarded. Shifted and opposite-bank release aliases preserve ownership and debounce. Explicit14-bit pairs are tempo9/59, gain22/52, high23/53, mid24/54, low25/55 and level28/58. XML is authoritative for EQ input addresses: script constructor placeholders differ from the actual mapped pairs. Script sets rate_dir=-1; native tempo polarity is inverted and guarded because shifted tempo changes key pitch. FilterCC26 and PFLNote27 remain separate. Own loop channels4..7 use In21, Out22 and toggle24, unlike DJ-505 loop numbers. Native uses explicit loop semantics. Reloop-and-stop23 remains inactive. Browser channel15CC0 accepts only127 previous/1 next and is Shift-guarded. Shared Load ownership, crossfader maximum16368 calibration, deck-switch software state, jog/contact, pads/FX/TR-S, full Shift modes and feedback remain open. Native emits neither the source initial-state/pad-unlock SysEx nor a driver/preset/firmware/audio write. Generic USB mode may require a saved hardware selection; no zero-config claim is made. Complete startup/shutdown/recovery, routing and physical/iPad/A10X acceptance remain open. DJ-505/DJ-808 contracts stay separate."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:midi-fighter-3d-banked-native",
+      "name": "DJ TechTools MIDI Fighter 3D",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.djtechtools.com/downloads/documents/Midi%20Fighter%203D%20MIDI%20Map%20ABLETON.pdf",
+        "sha256": "d316f0685aaeb98e3f5ef204d284c68b6fbcf040e60b116d6791d3e0f182bdec",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r437/upstream/mf3d-ableton.pdf",
+            "sha256": "d316f0685aaeb98e3f5ef204d284c68b6fbcf040e60b116d6791d3e0f182bdec"
+          },
+          {
+            "cachePath": "TestBuilds/r437/upstream/mf3d-traktor.pdf",
+            "sha256": "dfe2ed5166596b2a8729047561f8d61653c3f473efd98d1eb8f59b28303a6d6a"
+          }
+        ],
+        "relatedSources": [
+          {
+            "url": "https://www.djtechtools.com/downloads/documents/Midi%20Fighter%203D%20MIDI%20Map%20TRAKTOR.pdf",
+            "sha256": "dfe2ed5166596b2a8729047561f8d61653c3f473efd98d1eb8f59b28303a6d6a"
+          },
+          {
+            "url": "https://techtools.zendesk.com/hc/en-us/articles/7002414831629-Midi-Fighter-3D-App-Guide"
+          }
+        ],
+        "review": "Separate maker Ableton and Traktor protocol documents independently specify banked arcade Notes36..99 on channel3, bank reports Notes0..3 on channel4 and the same LED override table. All64 numeric pad entries are checked against both own appendices; octave labels differ, so native uses explicit numeric notes. Four Banks is enabled by default; custom channels and disabled Hold/Toggle banks are separate modes. Native manual layout targets one bank per A/B/C/D deck. Bottom two rows supply eight Hot Cues, next row Play/held Cue/Sync/Load, top PFL/Loop In/Out/Reloop. C/D require app opt-in. Each positive bank report retires only its source and rearms its pads immediately. Late NoteOff/NoteOn-zero selector reports do not retire the new bank. Arcade releases retain their original addresses. Ableton channel6 duplicate CCs and channel4/5 rotation/tilt traffic stay inactive. Optional manual feedback provides52 static arcade overrides: green76, yellow80, red84 and black67. NoteOn0/NoteOff restores the configured default LED behaviour, so it is not used as a dark status value. Bank LED messages can force bank changes and are never emitted. Native sends no setup, bank selection, settings, utility, driver, firmware or audio route. Firmware-dependent names/defaults, side/motion controls, custom channels, disabled-bank modes, saved LED restoration, complete feedback/lifecycle/recovery, USB/OS/power and physical/iPad/A10X acceptance remain open. Manual feedback needs separate destination selection and opt-in. No Spectra,64,Pro or Twister contract is inherited."
+      },
+      "implementedInputCount": 64,
+      "implementedOutputCount": 52,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Separate maker Ableton and Traktor protocol documents independently specify banked arcade Notes36..99 on channel3, bank reports Notes0..3 on channel4 and the same LED override table. All64 numeric pad entries are checked against both own appendices; octave labels differ, so native uses explicit numeric notes. Four Banks is enabled by default; custom channels and disabled Hold/Toggle banks are separate modes. Native manual layout targets one bank per A/B/C/D deck. Bottom two rows supply eight Hot Cues, next row Play/held Cue/Sync/Load, top PFL/Loop In/Out/Reloop. C/D require app opt-in. Each positive bank report retires only its source and rearms its pads immediately. Late NoteOff/NoteOn-zero selector reports do not retire the new bank. Arcade releases retain their original addresses. Ableton channel6 duplicate CCs and channel4/5 rotation/tilt traffic stay inactive. Optional manual feedback provides52 static arcade overrides: green76, yellow80, red84 and black67. NoteOn0/NoteOff restores the configured default LED behaviour, so it is not used as a dark status value. Bank LED messages can force bank changes and are never emitted. Native sends no setup, bank selection, settings, utility, driver, firmware or audio route. Firmware-dependent names/defaults, side/motion controls, custom channels, disabled-bank modes, saved LED restoration, complete feedback/lifecycle/recovery, USB/OS/power and physical/iPad/A10X acceptance remain open. Manual feedback needs separate destination selection and opt-in. No Spectra,64,Pro or Twister contract is inherited."
         }
       ]
     },

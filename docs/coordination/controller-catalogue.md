@@ -11,7 +11,7 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 562 total catalogue records. 555 name physical models. The remainder identify software endpoints or protocol families.
-- 362 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 363 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 222 factory profiles select core controls automatically for 231 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - 318 physical models still lack automatic core controls.
@@ -228,8 +228,8 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 142 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 154 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 143 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 153 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -511,7 +511,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | CITRONIC MPX10 | primary | automatic-core-profile | [Reference](https://www.billebro.se/proddoc/PRID_6104_doc_170700.pdf) |
 | DAP KONTROL D2 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DAPKONTROLD2) |
 | DJ TechTools MIDI Fighter | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJTechTools%20MIDI%20Fighter.midi.xml) |
-| DJ TechTools MIDI Fighter 3D | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=FIGHTER3D) |
+| DJ TechTools MIDI Fighter 3D | accessory | partial-midi-profile | [Reference](https://www.djtechtools.com/downloads/documents/Midi%20Fighter%203D%20MIDI%20Map%20ABLETON.pdf) |
 | DJ TechTools MIDI Fighter Spectra | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ%20TechTools%20MIDI%20Fighter%20Spectra.midi.xml) |
 | DJ TechTools MIDI Fighter Twister | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ%20TechTools%20MIDI%20Fighter%20Twister.midi.xml) |
 | DJ-Tech 4MIX | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=4MIX) |
