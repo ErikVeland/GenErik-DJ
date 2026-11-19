@@ -3524,3 +3524,20 @@ func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String
         #expect(abs((model.controllerValue(.levelA) ?? -1)-64.0/127)<0.0001)
     }
 }
+
+
+@Test @MainActor func controllerCatalogueNS7IIIEQManualKnobsKeepRealAudioSynced() async throws {
+    try await withControllerCuePlayback("NS7III",manual:true) {model,input in
+        model.pressPlay(deck:.a,vinylStop:false)
+        input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+        for number:UInt8 in [9,10,11] {
+            for value:UInt8 in [0,127,64] {
+                input.receiveBytes([0xB0,number,value],source:10);input.flushPendingActions()
+            }
+        }
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        for action in [ControllerAction.lowA,.midA,.highA] {#expect(abs((model.controllerValue(action) ?? -1)-64.0/127)<0.0001)}
+    }
+}

@@ -51201,15 +51201,20 @@
       "id": "numarkns7iii",
       "name": "Numark NS7 III",
       "manufacturer": "Numark",
-      "role": "primary",
+      "role": "accessory",
       "benchmark": false,
       "sources": [
+        "https://raw.githubusercontent.com/djcmd-project/djcmd/0f8830a2d886450e81e07cd7b957d6ebe4a4856f/ns7iii_map.h",
         "https://virtualdj.com/products/hardware.html?model=NS7III"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:ns7iii-owner-probed-coarse-eq"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Numark NS7 III",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Numark NS7 III",
@@ -51217,40 +51222,53 @@
           "source": "https://virtualdj.com/products/hardware.html?model=NS7III"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d"
+      ],
+      "inputBindingCount": 12,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual exposed CoreMIDI source only; direct iPad USB/driver and bridge qualification remain open. Set channel Input Selectors to PC and use normal software EQ with Touch/TouchLock inactive. Physical CH1..4 map A..D; C/D require app opt-in. Configure app audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Pinned primary owner project djcmd at0f8830a2d886450e81e07cd7b957d6ebe4a4856f. Its map explicitly labels twelve EQ CC numbers as probed from hardware and identifies strip order3/1/2/4. Native transcribes only those raw0 addresses: CH1 low9/mid10/high11, CH2 low14/mid15/high16, CH3 low20/mid21/high22 and CH4 low25/mid26/high27, assigning logical CH1..4 to A..D. The actual map rows and own decoder independently establish normal absolute EQ roles and increasing value direction. This is a manual7-bit coarse subset of the reported high-byte wires. The decoder has14-bit EQ paths but this map does not qualify the EQ low-byte addresses; no plus32 guess or14-bit claim is made. C/D require app opt-in and all knobs retain source-owned pickup. The owner labels other values unconfirmed by capture; none are used. The project is AI-assisted; its explicit hardware-probe statement is community evidence, not a manufacturer wire specification or native hardware test. Numark own v1.1 guide independently establishes normal EQ roles, PC-only MIDI source and Touch/TouchLock EQ-kill behaviour. Select PC and keep native normal EQ use separate from those unimplemented modes. Requires an already exposed CoreMIDI source or a separately qualified bridge. Direct iPad USB/driver, complete source/layer/Touch state, higher resolution, transport, pads, motors/platter calibration, screens/feedback, lifecycle/recovery, OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. No upstream code/map is bundled or executed; only these factual assignments are transcribed. No motor, heartbeat, init, firmware, driver, query, preset, touch, lamp, screen or audio-route packet is sent. NS7/NS7II bytes and identities are not inherited.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -359184,6 +359202,59 @@
         },
         {
           "reason": "Own manufacturer AP9967 issue2 guide pp21..23 visually reviewed. Default MIDI channel16/raw15 is explicit and saved channel changes are possible. Own faders CH1..4 send CC0..3 with00..7F; native assigns physical CH1..4 to A..D with pickup and C/D opt-in. Own Cue switch states send NOTE77/57/37/17 (hex4D/39/25/11), ON9n7F and OFF8n00. Native cueState sets headphone PFL directly, including both Note Off families; it does not toggle on every report or become main held Cue. Manual selection and separate app audio are required because these faders/switches also change analogue audio. No automatic mixer or audio ownership is claimed. The other ten documented MIDI controls remain inactive: MicCue92/MicOn93, channel-filter73/53/33/13, XFX4 and HPF/BPF/LPF1/2/3. Their analogue mic/filter/FX states have no qualified native equivalent here. Analogue EQ/gain/filter-frequency/headphone/master/crossfader controls are not invented as MIDI knobs. The numeric MIDI note conversion appendix contains errors; the explicit hex message table is authoritative. No native output packet is sent because received MIDI can change real hardware state. Alternate channel discovery, complete controls/modes/feedback/lifecycle/recovery, USB/X:Link/OS/power/audio/DVS routing and physical/iPad/A10X acceptance remain open. Mac CoreAudio/CoreMIDI class compliance does not prove current direct iPad acceptance. No setup, identity query, preset, hardware Cue/filter, firmware, driver, internal jumper or audio-route write runs. No Xone23C/24C/PX5/96 protocol is inherited."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:ns7iii-owner-probed-coarse-eq",
+      "name": "Numark NS7 III",
+      "transport": "midi",
+      "source": {
+        "url": "https://raw.githubusercontent.com/djcmd-project/djcmd/0f8830a2d886450e81e07cd7b957d6ebe4a4856f/ns7iii_map.h",
+        "sha256": "15d944b8d9475243715907ee2d1219744f32325b55c9ee4d974f6918ab75d880",
+        "upstreamRevision": "0f8830a2d886450e81e07cd7b957d6ebe4a4856f",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r464/upstream/ns7iii_map.h",
+            "sha256": "15d944b8d9475243715907ee2d1219744f32325b55c9ee4d974f6918ab75d880"
+          },
+          {
+            "cachePath": "TestBuilds/r464/upstream/README.md",
+            "sha256": "e909abd48a4fcd37e6ce967960723525f6ba981fd3f5dc1283dfdad2c140c37f"
+          },
+          {
+            "cachePath": "TestBuilds/r464/upstream/djcmd_midi.c",
+            "sha256": "5d9e667ffa4773a72fc86c368154d38758d0ae65502c86706071a419a3defa7d"
+          },
+          {
+            "cachePath": "TestBuilds/r464/upstream/ns7iii-manual.pdf",
+            "sha256": "e3572ff8bae54d8e14005ebb72b8ed8e018749ed824f44f81999277504473cf8"
+          }
+        ],
+        "relatedSources": [
+          {
+            "url": "https://raw.githubusercontent.com/djcmd-project/djcmd/0f8830a2d886450e81e07cd7b957d6ebe4a4856f/README.md"
+          },
+          {
+            "url": "https://raw.githubusercontent.com/djcmd-project/djcmd/0f8830a2d886450e81e07cd7b957d6ebe4a4856f/djcmd_midi.c"
+          },
+          {
+            "url": "https://www.numark.com/images/product_downloads/NS7IIIUserGuide-v1.1.pdf",
+            "sha256": "e3572ff8bae54d8e14005ebb72b8ed8e018749ed824f44f81999277504473cf8"
+          }
+        ],
+        "review": "Pinned primary owner project djcmd at0f8830a2d886450e81e07cd7b957d6ebe4a4856f. Its map explicitly labels twelve EQ CC numbers as probed from hardware and identifies strip order3/1/2/4. Native transcribes only those raw0 addresses: CH1 low9/mid10/high11, CH2 low14/mid15/high16, CH3 low20/mid21/high22 and CH4 low25/mid26/high27, assigning logical CH1..4 to A..D. The actual map rows and own decoder independently establish normal absolute EQ roles and increasing value direction. This is a manual7-bit coarse subset of the reported high-byte wires. The decoder has14-bit EQ paths but this map does not qualify the EQ low-byte addresses; no plus32 guess or14-bit claim is made. C/D require app opt-in and all knobs retain source-owned pickup. The owner labels other values unconfirmed by capture; none are used. The project is AI-assisted; its explicit hardware-probe statement is community evidence, not a manufacturer wire specification or native hardware test. Numark own v1.1 guide independently establishes normal EQ roles, PC-only MIDI source and Touch/TouchLock EQ-kill behaviour. Select PC and keep native normal EQ use separate from those unimplemented modes. Requires an already exposed CoreMIDI source or a separately qualified bridge. Direct iPad USB/driver, complete source/layer/Touch state, higher resolution, transport, pads, motors/platter calibration, screens/feedback, lifecycle/recovery, OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. No upstream code/map is bundled or executed; only these factual assignments are transcribed. No motor, heartbeat, init, firmware, driver, query, preset, touch, lamp, screen or audio-route packet is sent. NS7/NS7II bytes and identities are not inherited."
+      },
+      "implementedInputCount": 12,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Pinned primary owner project djcmd at0f8830a2d886450e81e07cd7b957d6ebe4a4856f. Its map explicitly labels twelve EQ CC numbers as probed from hardware and identifies strip order3/1/2/4. Native transcribes only those raw0 addresses: CH1 low9/mid10/high11, CH2 low14/mid15/high16, CH3 low20/mid21/high22 and CH4 low25/mid26/high27, assigning logical CH1..4 to A..D. The actual map rows and own decoder independently establish normal absolute EQ roles and increasing value direction. This is a manual7-bit coarse subset of the reported high-byte wires. The decoder has14-bit EQ paths but this map does not qualify the EQ low-byte addresses; no plus32 guess or14-bit claim is made. C/D require app opt-in and all knobs retain source-owned pickup. The owner labels other values unconfirmed by capture; none are used. The project is AI-assisted; its explicit hardware-probe statement is community evidence, not a manufacturer wire specification or native hardware test. Numark own v1.1 guide independently establishes normal EQ roles, PC-only MIDI source and Touch/TouchLock EQ-kill behaviour. Select PC and keep native normal EQ use separate from those unimplemented modes. Requires an already exposed CoreMIDI source or a separately qualified bridge. Direct iPad USB/driver, complete source/layer/Touch state, higher resolution, transport, pads, motors/platter calibration, screens/feedback, lifecycle/recovery, OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. No upstream code/map is bundled or executed; only these factual assignments are transcribed. No motor, heartbeat, init, firmware, driver, query, preset, touch, lamp, screen or audio-route packet is sent. NS7/NS7II bytes and identities are not inherited."
         }
       ]
     },
