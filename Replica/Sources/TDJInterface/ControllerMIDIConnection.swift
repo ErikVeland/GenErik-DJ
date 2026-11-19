@@ -33,6 +33,8 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     case loopOutOrExitA, loopOutOrExitB
     case hotcue1A, hotcue2A, hotcue3A, hotcue4A, hotcue5A, hotcue6A, hotcue7A, hotcue8A
     case hotcue1B, hotcue2B, hotcue3B, hotcue4B, hotcue5B, hotcue6B, hotcue7B, hotcue8B
+    case clearHotcue1A, clearHotcue2A, clearHotcue3A, clearHotcue4A, clearHotcue5A, clearHotcue6A, clearHotcue7A, clearHotcue8A
+    case clearHotcue1B, clearHotcue2B, clearHotcue3B, clearHotcue4B, clearHotcue5B, clearHotcue6B, clearHotcue7B, clearHotcue8B
     var id: String { rawValue }
     var deck: DeckID { rawValue.hasSuffix("B") ? .b : .a }
     var title: String {
@@ -52,6 +54,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
         if self == .filterKnobA || self == .filterKnobB {
             return "\(deck.rawValue.uppercased()) · Filter knob (automatic on/off)"
         }
+        if let clearHotcueSlot { return "\(deck.rawValue.uppercased()) · Clear Hotcue \(clearHotcueSlot + 1)" }
         if let hotcueSlot { return "\(deck.rawValue.uppercased()) · Hotcue \(hotcueSlot + 1)" }
         let labels = [
             "play": "Play / Pause", "sync": "Sync", "keylock": "Key lock", "cue": "Headphone cue", "level": "Volume",
@@ -109,6 +112,10 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     }
     var hotcueSlot: Int? {
         guard rawValue.hasPrefix("hotcue"), let value = Int(rawValue.dropFirst(6).dropLast()) else { return nil }
+        return value - 1
+    }
+    var clearHotcueSlot: Int? {
+        guard rawValue.hasPrefix("clearHotcue"), let value = Int(rawValue.dropFirst(11).dropLast()) else { return nil }
         return value - 1
     }
     var supportsFeedback: Bool {

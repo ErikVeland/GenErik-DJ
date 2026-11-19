@@ -782,3 +782,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R475 | Implemented; full modes/mixer/host gaps open | Add independent CDMP-7000 owner player core | Added13 manual raw0 player inputs.425 source/11 native checks and iPad framework compilation pass. All401 earlier recipes remain identical. [Scope](controller-coverage.md#r475-independent-cdmp-7000-owner-player-core). |
 
 | R476 | Implemented; full modes/Cue/mixer/host gaps open | Add independent original Seventy-Two unconditional input subset | Added seven manual own-author inputs.428 source/10 native checks and iPad framework compilation pass. All402 earlier recipes remain identical. [Scope](controller-coverage.md#r476-original-seventy-two-unconditional-owner-subset). |
+
+| R477 | Implemented; full modes/motion/host gaps open | Add independent MDJ-900 core and native Hot Cue clearing | Added23 manual own-model inputs and16 native marker-clear actions.431 source/12 native checks and iPad framework compilation pass. All403 earlier recipes remain identical. [Scope](controller-coverage.md#r477-independent-mdj-900-and-native-hot-cue-clearing). |

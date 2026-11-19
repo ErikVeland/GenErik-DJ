@@ -5245,6 +5245,43 @@
         }
       ],
       "result": "Recovered Dj-Ush own-model public free mapping archive. Added seven unique unconditional original Seventy-Two Play/Sync/Load/Browse inputs.428 source/10 native checks and iPad framework compilation pass. All402 earlier recipes remain identical. Both modifier slots of each selected used binding are empty. Complete229-row pad/modifier/audio/output work and MKII support remain separate. Initial Browse test expected one event for a negative64 count; native correctly emits two bounded chunks. Corrected the assertion and retained the failed run."
+    },
+    {
+      "request": "R477",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "model": "Gemini MDJ-900",
+          "url": "https://raw.githubusercontent.com/LinuxGamesTV/Gemini-MDJ900/cfa171fa3f7e758e212fc6edb2c711dba3a4a8eb/Gemini-MDJ-900.midi.xml",
+          "sha256": "58d3fbce53b7a73231e2b5c50049eebed5bce0a1b732d2e684182661c0225c7f",
+          "upstreamRevision": "cfa171fa3f7e758e212fc6edb2c711dba3a4a8eb",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r477/upstream/mdj900.midi.xml",
+              "sha256": "58d3fbce53b7a73231e2b5c50049eebed5bce0a1b732d2e684182661c0225c7f"
+            },
+            {
+              "cachePath": "TestBuilds/r477/upstream/mdj900-scripts.js",
+              "sha256": "104d353e78a5893f470dbf1d934f1f86962950ef680aabec36753dfd6a22db69"
+            },
+            {
+              "cachePath": "TestBuilds/r477/upstream/mdj900-manual.pdf",
+              "sha256": "9c73d00987001918bb7f4adcd7f3238b6aadcbbee381cced3066f0d567144c02"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://github.com/LinuxGamesTV/Gemini-MDJ900"
+            },
+            {
+              "url": "https://www.eprodance.cz/user/documents/related_files/Gemini/Gemini_MDJ_900_en.pdf",
+              "sha256": "9c73d00987001918bb7f4adcd7f3238b6aadcbbee381cced3066f0d567144c02"
+            }
+          ],
+          "review": "Primary own-model contributor Peter Stein/LinuxGamesTV publishes MDJ-900 XML and mapper atcfa171fa3f7e758e212fc6edb2c711dba3a4a8eb. Its credit to an earlier MDJ-1000 project does not qualify sibling compatibility. Manual raw0 player A only; generic controller id gemini does not establish USB identity. Explicit normal transport, held Cue, Sync/Keylock/Load, manual loops, four Hot Cues/clears, repeated track browsing and inverted tempo use23 native inputs. The own manufacturer manual qualifies temporary pitch bend and held Cue/Play continuation. Native bends use held pitch bend rather than the owner permanent-step customisation. Clear presses reuse existing cue deletion without moving transport or changing saved Sync; releases do not delete. Tempo uses native pickup/range. No filter or unlisted alternate address is inherited from MDJ-1000. Full Shift edge cleanup, hardware channel/deck paging, source/Link/loop-roll/slip/reverse/search/grid/FX, range discovery, jog/contact calibration, output/display/lifecycle/recovery, USB/driver/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. Source reset loops use invalid note numbers225/255; no loop runs or ships. Requires existing MIDI input and separate audio. No setup, mapper/script, query, hardware mode, preset, reset, output, driver, firmware or audio-route write runs."
+        }
+      ],
+      "result": "Added the newly found MDJ-900 physical model and23 manual own-source inputs. Added16 distinct native Hot Cue clear actions through existing cue deletion.431 source/12 native checks and iPad framework compilation pass. All403 earlier recipes remain identical. The original fixture recalled the pre-existing grid Cue before Play, so it was already paused before deletion. A separate precondition run confirmed this. Empty marker setup fixes the fixture; production deletion code did not change. No earlier recipe gains a guessed clear wire. Full modes/Shift edges/motion/audio/lifecycle/host and physical acceptance remain open."
     }
   ]
 }

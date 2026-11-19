@@ -3735,3 +3735,56 @@ func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueClearHotcueDeletesOnlyOnPressWithoutChangingTransport() async throws {
+    try await withControllerCuePlayback {model,_ in
+        let track=try #require(model.track(.a))
+        model.performance.cues[track.id]=[:]
+        for slot in 0..<8 {model.cue(slot:slot,deck:.a,quantized:false)}
+        model.pressPlay(deck:.a,vinylStop:false)
+        _ = model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        try #require(model.playbackSnapshot?.a.phase.active == true)
+        for slot in 0..<8 {
+            let action=try #require(ControllerAction(rawValue:"clearHotcue\(slot+1)A"))
+            let frame=try #require(model.playbackSnapshot?.a.sourceFrame)
+            model.applyController(action,value:0)
+            #expect(model.performance.cues[track.id]?[slot] != nil)
+            model.applyController(action,value:1)
+            #expect(model.performance.cues[track.id]?[slot] == nil)
+            model.applyController(action,value:1)
+            #expect(model.performance.cues[track.id]?[slot] == nil)
+            for other in (slot+1)..<8 {#expect(model.performance.cues[track.id]?[other] != nil)}
+            model.refreshPlayback()
+            #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1)-frame)<=1)
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        }
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+    }
+}
+
+@Test @MainActor func controllerCatalogueMDJ900CueClearsAndTempoPreserveFiniteSyncedPlayback() async throws {
+    try await withControllerCuePlayback("Gemini MDJ-900",manual:true) {model,input in
+        let track=try #require(model.track(.a))
+        cuePreviewPacket([0x90,1,1],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80,1,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        model.performance.cues[track.id]=[:]
+        for n:UInt8 in 38...41 {cuePreviewPacket([0x90,n,127,n,0],to:input)}
+        try #require(model.playbackSnapshot?.a.phase.active == false)
+        #expect((0..<4).allSatisfy{model.performance.cues[track.id]?[$0] != nil})
+        cuePreviewPacket([0x90,42,127,42,0,2,127,2,0],to:input)
+        #expect(model.performance.cues[track.id]?[0]==nil && model.performance.cues[track.id]?[1] != nil)
+        _ = model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        try #require(model.playbackSnapshot?.a.phase.active == true)
+        cuePreviewPacket([0x90,43,127,43,0,18,127,18,0],to:input)
+        #expect(model.performance.cues[track.id]?[1]==nil && model.performance.cues[track.id]?[2] != nil)
+        input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+        for value:UInt8 in [0,127,64] {cuePreviewPacket([0xB0,1,value],to:input)}
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}

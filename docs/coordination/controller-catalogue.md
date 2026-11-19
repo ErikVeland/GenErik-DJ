@@ -10,13 +10,13 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 164 Mixxx definitions at `20f2c218ae1b762ac39fd76ff408c8428056f4f7`, including alternative MIDI, HID and bulk mappings.
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
-- 562 total catalogue records. 555 name physical models. The remainder identify software endpoints or protocol families.
-- 403 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 563 total catalogue records. 556 name physical models. The remainder identify software endpoints or protocol families.
+- 404 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 235 factory profiles select core controls automatically for 244 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
-- 305 physical models still lack automatic core controls.
+- 306 physical models still lack automatic core controls.
 - 2 reviewed external audio mixers need audio/DVS integration. Their own hardware controls do not send MIDI.
-- 555 physical models still need complete theoretical support.
+- 556 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
 These counts do not establish hardware acceptance, complete pad modes, motor support, screens, audio routing or feature parity.
@@ -41,7 +41,7 @@ Other models have no claimed popularity rank. Within that tier, finish documente
 ## Club and XDJ players — R176/R177
 
 The club-player order balances established models and recent releases. It is an implementation order, not a measured global sales ranking.
-All 32 players select core controls automatically after the hardware enters its PC or USB-MIDI mode.
+All 33 players select core controls automatically after the hardware enters its PC or USB-MIDI mode.
 Connected players receive separate A/B assignments. Saved endpoint identities retain their assignments. C/D require the existing four-deck trial.
 HID, screens, lights and automatic routing across multiple player audio interfaces remain unimplemented.
 
@@ -229,7 +229,7 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 167 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| partial-midi-profile | 168 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
 | protocol-needed | 116 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
@@ -576,6 +576,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Gemini MDJ-1000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GMMDJ1K) |
 | Gemini MDJ-500 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GMDJ500) |
 | Gemini MDJ-600 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GMDJ600) |
+| Gemini MDJ-900 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/LinuxGamesTV/Gemini-MDJ900/cfa171fa3f7e758e212fc6edb2c711dba3a4a8eb/Gemini-MDJ-900.midi.xml) |
 | Gemini PMX10 | accessory | partial-midi-profile | [Reference](https://www.geminisound.com/cdn/shop/files/PMX10_Manual.pdf?v=3857980637559190502) |
 | Gemini PMX20 | accessory | partial-midi-profile | [Reference](https://www.geminisound.com/cdn/shop/files/PMX20_Manual_Compressed.pdf?v=12183789050654275091) |
 | Gemini SDJ-4000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GMSDJ4K) |

@@ -406,6 +406,11 @@ extension ReplicaModel {
         case .hotcue1A, .hotcue2A, .hotcue3A, .hotcue4A, .hotcue5A, .hotcue6A, .hotcue7A, .hotcue8A, .hotcue1B,
             .hotcue2B, .hotcue3B, .hotcue4B, .hotcue5B, .hotcue6B, .hotcue7B, .hotcue8B:
             if let slot = action.hotcueSlot { cue(slot: slot, deck: deck) }
+        case .clearHotcue1A, .clearHotcue2A, .clearHotcue3A, .clearHotcue4A,
+            .clearHotcue5A, .clearHotcue6A, .clearHotcue7A, .clearHotcue8A,
+            .clearHotcue1B, .clearHotcue2B, .clearHotcue3B, .clearHotcue4B,
+            .clearHotcue5B, .clearHotcue6B, .clearHotcue7B, .clearHotcue8B:
+            if value > 0, let slot = action.clearHotcueSlot { cue(slot: slot, deck: deck, delete: true) }
         case .shift: break
         }
     }
