@@ -5,6 +5,7 @@
   "contact": "erik@veland.au",
   "state": "In development",
   "app_store_url": null,
+  "testflight_url": null,
   "policy_date": "18 November 2026",
   "platforms": [
     "iPad",
