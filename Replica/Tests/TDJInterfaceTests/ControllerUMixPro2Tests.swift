@@ -31,7 +31,7 @@ import Testing
 @Test @MainActor func controllerCatalogueUMixPro2KeepsDistinctModelAddressesAndSyncLEDPolarity() throws {
     let profile = try #require(ControllerFactoryProfile.matching(["U-Mix Control Pro 2"], automaticOnly: true))
     let data = try #require(profile.definition)
-    #expect(data.inputs.count == 62 && data.outputs.count == 20)
+    #expect(data.inputs.count == 70 && data.outputs.count == 20)
     #expect(data.startup.count == 12 && data.shutdown.count == 20)
     #expect(!profile.hasAutomaticSplitOutput)
     for name in ["U-Mix Control 2", "U-Mix Control Pro"] {

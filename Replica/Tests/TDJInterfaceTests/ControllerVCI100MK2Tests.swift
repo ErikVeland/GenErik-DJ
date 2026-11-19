@@ -29,7 +29,7 @@ import Testing
 @Test @MainActor func controllerCatalogueVCI100MK2KeepsSeparateFourTargetCoreAndBoundedCleanup() throws {
     let profile = try #require(ControllerFactoryProfile.matching(["VCI-100MKII"], automaticOnly: true))
     let data = try #require(profile.definition)
-    #expect(data.inputs.count == 134 && data.outputs.count == 28)
+    #expect(data.inputs.count == 142 && data.outputs.count == 28)
     #expect(data.bankChanges?.count == 4)
     #expect(data.startup.isEmpty && data.shutdown.count == 16)
     #expect(ControllerFactoryProfile.matching(["VCI-100"], automaticOnly: true) != profile)

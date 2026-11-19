@@ -25,7 +25,7 @@ import Testing
 @Test @MainActor func controllerCatalogueOriginalInpulse200KeepsPhysicalBandsSetupAndAudioLayout() throws {
     let profile = try #require(ControllerFactoryProfile.matching(["DJControl Inpulse 200"], automaticOnly: true))
     let data = try #require(profile.definition)
-    #expect(data.inputs.count == 89 && data.outputs.count == 22)
+    #expect(data.inputs.count == 97 && data.outputs.count == 22)
     #expect(data.startup == [[0x91, 3, 127], [0x92, 3, 127], [0x90, 4, 5], [0xB0, 127, 127]])
     #expect(!data.inputs.contains { [.master, .monitor, .midA, .midB].contains($0.action) })
     #expect(profile.hasAutomaticSplitOutput)

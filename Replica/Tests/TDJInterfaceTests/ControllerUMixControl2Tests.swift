@@ -29,7 +29,7 @@ import Testing
     #expect(profile != ControllerFactoryProfile.matching(["U-Mix Control Pro"]))
     #expect(!profile.hasAutomaticSplitOutput)
     let data = try #require(profile.definition)
-    #expect(data.inputs.count == 96 && data.outputs.count == 28)
+    #expect(data.inputs.count == 108 && data.outputs.count == 28)
     #expect(data.startup.count == 31 && data.shutdown.count == 31)
     #expect(!data.inputs.contains { [.jogTouchA, .jogTouchB, .jogA, .jogB, .monitor, .cueMix].contains($0.action) })
     #expect(data.inputs.filter { $0.action.isJog }.allSatisfy { $0.argument == nil })

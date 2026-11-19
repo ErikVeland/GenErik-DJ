@@ -29,6 +29,7 @@ def apply_reviewed_hotcue_clears(profiles):
         p=by[name]
         if p.get('inputProtocol') is not None or p.get('inputModes') is not None:
             raise ValueError('Clear opcodes require a new protocol or mode review: '+name)
+        inverses=[]
         for channel,number,slot,deck in entries:
             suffix='A' if deck in 'ac' else 'B';activate=f'hotcue{slot}{suffix}'
             same_wire=lambda r:r['kind']=='note' and r['channel']==channel and r['number']==number
@@ -40,7 +41,16 @@ def apply_reviewed_hotcue_clears(profiles):
                 raise ValueError('Clear opcode needs a new input-field review: '+name)
             binding={k:deepcopy(v) for k,v in guard.items() if k not in {'releaseOnly','shifted','shiftChannel'}}
             binding['action']=f'clearHotcue{slot}{suffix}'
+            activations=[r for r in p['inputs'] if r['action']==activate and r.get('targetDeck')==deck and r['kind']=='note' and not r.get('releaseOnly') and r.get('shifted')!=True]
+            if len(activations)!=1 or set(activations[0])-{'action','kind','channel','number','encoding','inverted','targetDeck','shifted','shiftChannel'}:
+                raise ValueError('Clear release needs a new activation-wire review: '+name)
+            activation=activations[0]
+            if activation['encoding']!='absolute' or activation['inverted']:
+                raise ValueError('Clear release needs a new activation-encoding review: '+name)
             p['inputs'].append(binding)
+            inverses.append({**binding,'channel':activation['channel'],'number':activation['number'],'releaseOnly':True})
+        p['inputs'].extend(inverses)
+        p.setdefault('gaps',[]).append('R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged.')
         ref=CLEAR_REFERENCES[name]
         p['scope']+=' Explicit dedicated Hot Cue clear opcodes are supported; full modes and physical acceptance remain open.'
         p.setdefault('gaps',[]).append('R478 adds only direct normal Note-On Hot Cue clear roles from '+ref['url']+' (SHA-256 '+ref['sha256']+'). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance.')

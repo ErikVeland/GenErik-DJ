@@ -42,7 +42,7 @@ private let portableNames = ["Hercules DJControl Starlight", "Hercules DJControl
             let profile = try #require(ControllerFactoryProfile.matching([name], automaticOnly: true))
             let data = try #require(profile.definition)
             let mix = name.hasSuffix("MIX")
-            #expect(data.inputs.count == (mix ? 68 : 66) && data.outputs.count == 22)
+            #expect(data.inputs.count == (mix ? 76 : 74) && data.outputs.count == 22)
             #expect(
                 packets
                     == (mix

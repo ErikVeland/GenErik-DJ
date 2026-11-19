@@ -6442,3 +6442,14 @@ No automatic USB identity/channel assignment, motion calibration, reverse/search
 Validation:443 source checks and14 focused native tests pass. They cover both button release forms, source-owned holds and pickup, all negative aliases, exact loop arguments, repeated browse pulses, filter polarity and inactive wires/channels/groups/sources. The real-WAV case checks held Cue/bend release, marker deletion without a position jump, preserved neighbours, filter, fractional loops, finite active playback and saved Sync. Missing-profile TDD remains preserved. All404 earlier recipes remain identical. Catalogue gates compare27,208 native inputs and205 automatic held-Cue recipes. The iPad framework compiled. Its2,224,395-byte compact resource matches source and excludes the full review file. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r481/validation.json`.
 
 Counts are405 recipes,556 physical models,250 automatic core models and115 protocol-needed records, including two reviewed audio-only integrations.306 models lack automatic core selection. Full theoretical support remains0/556. The wider manufacturer audit and physical acceptance remain open.
+
+
+## R482 — Clear release after hardware Shift changes
+
+The first13 clear profiles could retain a clear-action debounce latch if hardware Shift changed before pad release. The release then arrives on the normal Hot Cue wire. Each clear now has its own negative alias at that normal wire. All130 activation wires are independently checked against their own pinned XML normal Note-On rows. No app Shift state is inferred. The generator rejects ambiguous or missing activation proof and unreviewed fields/encodings.
+
+The new native regression reproduces260 failed edge expectations across13 profiles before the fix. After the fix,444 source checks and82 focused native tests pass. Both negative forms rearm only their own action and deck. Earlier held-Cue, jog, pitch, loop, feedback and real-WAV regressions also pass. The failed native/source checks remain in evidence. All earlier inputs remain exact prefixes. Only130 negative aliases are added. Every positive role, output/setup/audio/alias and392 other recipes remains unchanged.
+
+The iPad framework compiled. Its2,231,095-byte compact resource matches source and excludes the full review file. Catalogue gates compare27,338 native inputs and205 automatic held-Cue recipes. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r482/validation.json`. Complete modes, lifecycle, host routes and physical/iPad/A10X edge acceptance remain open.
+
+Counts remain405 recipes,556 physical models,250 automatic core models and115 protocol-needed records, including two reviewed audio-only integrations.306 models lack automatic core selection. Full theoretical support remains0/556. The wider manufacturer audit remains open.

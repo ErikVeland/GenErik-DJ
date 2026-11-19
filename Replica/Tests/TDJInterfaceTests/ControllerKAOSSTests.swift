@@ -28,7 +28,7 @@ import Testing
     let manual = try #require(ControllerFactoryProfile.matching(["KAOSS DJ Audioless"]))
     #expect(ControllerFactoryProfile.matching(["KAOSS DJ Audioless"], automaticOnly: true) == nil)
     let data = try #require(normal.definition)
-    #expect(data.inputs.count == 92 && data.outputs.count == 20)
+    #expect(data.inputs.count == 98 && data.outputs.count == 20)
     #expect(data.startup.count == 14 && data.shutdown.count == 34)
     #expect((data.startup + data.shutdown).allSatisfy { $0.count == 3 })
     #expect(normal.hasAutomaticSplitOutput && !manual.hasAutomaticSplitOutput)

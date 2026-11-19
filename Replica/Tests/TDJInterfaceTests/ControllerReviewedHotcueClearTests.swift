@@ -45,7 +45,7 @@ private let reviewedClearNames = [
 @Test(arguments: reviewedClearNames) @MainActor
 func controllerCatalogueReviewedClearDedicatedOpcodesWorkWithEitherShiftState(name: String) throws {
     try withReviewedClear(name) { input, p in
-        let bindings = p.bindings(source: 10); let clears = bindings.filter { $0.action.clearHotcueSlot != nil }
+        let bindings = p.bindings(source: 10); let clears = bindings.filter { $0.action.clearHotcueSlot != nil && $0.releaseOnly != true }
         #expect(
             !clears.isEmpty
                 && clears.allSatisfy { $0.kind == .note && !$0.action.isMomentary && !$0.action.supportsFeedback })
@@ -75,7 +75,7 @@ func controllerCatalogueReviewedClearNegativeAliasesStillRearmTheirOwnCue(name: 
     try withReviewedClear(name) { input, p in
         let bindings = p.bindings(source: 10)
         var events: [ControllerActionTarget] = []; input.onTargetAction = { target, _ in events.append(target) }
-        for clear in bindings where clear.action.clearHotcueSlot != nil {
+        for clear in bindings where clear.action.clearHotcueSlot != nil && clear.releaseOnly != true {
             let cue = try #require(
                 bindings.first {
                     $0.action.hotcueSlot == clear.action.clearHotcueSlot && $0.targetDeck == clear.targetDeck
@@ -96,7 +96,7 @@ func controllerCatalogueReviewedClearNegativeAliasesStillRearmTheirOwnCue(name: 
 func controllerCatalogueReviewedClearForeignSourcesAndGroupsCannotDelete(name: String) throws {
     try withReviewedClear(name) { input, p in
         var events: [ControllerActionTarget] = []; input.onTargetAction = { target, _ in events.append(target) }
-        for b in p.bindings(source: 10) where b.action.clearHotcueSlot != nil {
+        for b in p.bindings(source: 10) where b.action.clearHotcueSlot != nil && b.releaseOnly != true {
             reviewedClearPacket([0x90 + b.channel, b.number, 127, b.number, 0], input, source: 999)
             input.receive(.init(kind: .note, group: 1, channel: b.channel, number: b.number, value: 127), source: 10)
             input.flushPendingActions()
@@ -182,3 +182,38 @@ func controllerCatalogueReviewedPairForeignSourcesAndGroupsCannotDelete(name: St
         #expect(events.isEmpty)
     }
 }
+
+@Test(arguments: reviewedClearNames) @MainActor
+func controllerCatalogueReviewedClearBothNegativeWiresRearmOnlyTheirOwnRole(name: String) throws {
+    try withReviewedClear(name) { input, p in
+        let bindings = p.bindings(source: 10)
+        var events: [ControllerActionTarget] = []; input.onTargetAction = { target, _ in events.append(target) }
+        for clear in bindings where clear.action.clearHotcueSlot != nil && clear.releaseOnly != true {
+            let cue = try #require(
+                bindings.first {
+                    $0.action.hotcueSlot == clear.action.clearHotcueSlot && $0.targetDeck == clear.targetDeck
+                        && $0.releaseOnly != true && $0.shifted != true && $0.kind == .note
+                })
+            for off: UInt8 in [0x80, 0x90] {
+                let value: UInt8 = off == 0x80 ? 127 : 0
+                events.removeAll()
+                reviewedClearPacket(
+                    [
+                        0x90 + cue.channel, cue.number, 127,
+                        off + clear.channel, clear.number, value,
+                        0x90 + cue.channel, cue.number, 127, cue.number, 0,
+                    ], input)
+                #expect(events == [cue.target, cue.target])
+                events.removeAll()
+                reviewedClearPacket(
+                    [
+                        0x90 + clear.channel, clear.number, 127,
+                        off + cue.channel, cue.number, value,
+                        0x90 + clear.channel, clear.number, 127, clear.number, 0,
+                    ], input)
+                #expect(events == [clear.target, clear.target])
+            }
+        }
+    }
+}
+

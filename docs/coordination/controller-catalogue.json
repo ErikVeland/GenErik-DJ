@@ -38796,7 +38796,7 @@
         "wheelJogA:a",
         "wheelJogB:b"
       ],
-      "inputBindingCount": 63,
+      "inputBindingCount": 71,
       "feedbackBindingCount": 8,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -38826,6 +38826,7 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged.",
         "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20Compact.midi.xml (SHA-256 a598e43feda6b1d48efda26e33a41fa258e88bc15b4100ec6fae399dac1374dd). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."
       ],
       "priority": {
@@ -38936,7 +38937,7 @@
         "wheelJogA:a",
         "wheelJogB:b"
       ],
-      "inputBindingCount": 89,
+      "inputBindingCount": 97,
       "feedbackBindingCount": 22,
       "connection": "USB MIDI",
       "audioRouting": "Automatic master 1–2 / headphones 3–4",
@@ -38965,6 +38966,7 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged.",
         "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Inpulse_200.midi.xml (SHA-256 c0927a1bbc75c1c1727034d2bd0f0f01d018ee264c1c63c203d3f9d8e06b6587). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."
       ],
       "priority": {
@@ -39345,7 +39347,7 @@
         "wheelJogA:a",
         "wheelJogB:b"
       ],
-      "inputBindingCount": 118,
+      "inputBindingCount": 134,
       "feedbackBindingCount": 8,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -39375,6 +39377,7 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged.",
         "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Inpulse_300.midi.xml (SHA-256 43c8c84c8832af0c26d038851be8280ffb8b9a9c7c0e8b1d9811b520333114c4). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."
       ],
       "priority": {
@@ -40172,7 +40175,7 @@
         "wheelJogA:a",
         "wheelJogB:b"
       ],
-      "inputBindingCount": 68,
+      "inputBindingCount": 76,
       "feedbackBindingCount": 22,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -40202,6 +40205,7 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged.",
         "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20MIX.midi.xml (SHA-256 7d64670a5235dcde14373a700f1aec70124f1f3880d1efa65ee2459faa32ee18). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."
       ],
       "priority": {
@@ -40422,7 +40426,7 @@
         "wheelJogA:a",
         "wheelJogB:b"
       ],
-      "inputBindingCount": 66,
+      "inputBindingCount": 74,
       "feedbackBindingCount": 22,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -40452,6 +40456,7 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged.",
         "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20Starlight.midi.xml (SHA-256 e47b766a85f4fa234c41c4bf91ae456ca35dacc507184f69d3b2d458bf35d6c1). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."
       ],
       "priority": {
@@ -42464,7 +42469,7 @@
         "tempoA:a",
         "tempoB:b"
       ],
-      "inputBindingCount": 92,
+      "inputBindingCount": 98,
       "feedbackBindingCount": 20,
       "connection": "USB MIDI",
       "audioRouting": "Automatic master 1–2 / headphones 3–4",
@@ -42494,6 +42499,7 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged.",
         "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg-KAOSS-DJ.midi.xml (SHA-256 85d2555f1ff54adee404f0443df3f2af4363090f1cde762371d11413c8aa6285). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."
       ],
       "priority": {
@@ -43653,7 +43659,7 @@
         "wheelJogA:a",
         "wheelJogB:b"
       ],
-      "inputBindingCount": 96,
+      "inputBindingCount": 108,
       "feedbackBindingCount": 28,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -43684,6 +43690,7 @@
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
         "Factory LoadA CC5 conflicts with the working Note5 mapping; CC5 stays inactive. Full three-state PitchMode/Vinyl/FX/EQ-kill modes, Tap, held Hot Cue preview, clip/end animation, complete feedback/reset and calibration remain open. No audio interface, Pro touch/rim or Pro2 sensor scale is inferred.",
+        "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged.",
         "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MixVibes%20U-Mix%20Control%202.midi.xml (SHA-256 89a62e4ba79ded920dca67e16b2632b1e9020bdd7a79d78cb5f2feecdefa7b0a). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."
       ],
       "priority": {
@@ -43889,7 +43896,7 @@
         "wheelJogA:a",
         "wheelJogB:b"
       ],
-      "inputBindingCount": 62,
+      "inputBindingCount": 70,
       "feedbackBindingCount": 20,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -43919,6 +43926,7 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged.",
         "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MixVibes%20U-Mix%20Control%20Pro%202.midi.xml (SHA-256 d460da29d06de95265297711fadae4d55ea77ca08821a778ba055ce0452e7840). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."
       ],
       "priority": {
@@ -46173,7 +46181,7 @@
         "toggleFixedLoopA:a",
         "toggleFixedLoopB:b"
       ],
-      "inputBindingCount": 52,
+      "inputBindingCount": 62,
       "feedbackBindingCount": 20,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -46203,6 +46211,7 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged.",
         "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Dicer.midi.xml (SHA-256 1ebe1d435a086e02e819b57f2ca6e61993269ed9971c5748f01726189baf5f46). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."
       ],
       "priority": {
@@ -56985,7 +56994,7 @@
         "toggleFixedLoopB:b",
         "toggleFixedLoopB:d"
       ],
-      "inputBindingCount": 164,
+      "inputBindingCount": 180,
       "feedbackBindingCount": 28,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -57015,6 +57024,7 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged.",
         "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Beatmix-2-4-MK2.midi.xml (SHA-256 9ad44392c28b9221126520cf1afb1fa7a379b2974a20cafcdcef5ae7a4bd6832). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."
       ],
       "priority": {
@@ -57140,7 +57150,7 @@
         "toggleFixedLoopB:b",
         "toggleFixedLoopB:d"
       ],
-      "inputBindingCount": 164,
+      "inputBindingCount": 180,
       "feedbackBindingCount": 28,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -57170,6 +57180,7 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged.",
         "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Beatmix-2-4-MK2.midi.xml (SHA-256 9ad44392c28b9221126520cf1afb1fa7a379b2974a20cafcdcef5ae7a4bd6832). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."
       ],
       "priority": {
@@ -57324,7 +57335,7 @@
         "toggleFixedLoopB:b",
         "toggleFixedLoopB:d"
       ],
-      "inputBindingCount": 164,
+      "inputBindingCount": 180,
       "feedbackBindingCount": 28,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -57354,6 +57365,7 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged.",
         "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Beatmix-2-4-MK2.midi.xml (SHA-256 9ad44392c28b9221126520cf1afb1fa7a379b2974a20cafcdcef5ae7a4bd6832). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."
       ],
       "priority": {
@@ -57479,7 +57491,7 @@
         "toggleFixedLoopB:b",
         "toggleFixedLoopB:d"
       ],
-      "inputBindingCount": 164,
+      "inputBindingCount": 180,
       "feedbackBindingCount": 28,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -57509,6 +57521,7 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged.",
         "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Beatmix-2-4-MK2.midi.xml (SHA-256 9ad44392c28b9221126520cf1afb1fa7a379b2974a20cafcdcef5ae7a4bd6832). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."
       ],
       "priority": {
@@ -63076,7 +63089,7 @@
         "tempoB:b",
         "tempoB:d"
       ],
-      "inputBindingCount": 218,
+      "inputBindingCount": 234,
       "feedbackBindingCount": 40,
       "connection": "USB MIDI",
       "audioRouting": "Automatic master 1–2 / headphones 3–4",
@@ -63106,6 +63119,7 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged.",
         "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton-DJC-4.midi.xml (SHA-256 e7b4cca84354be02d3c627054e187d7e0b66cbfb51bbae6dced9b2b339c97f26). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."
       ],
       "priority": {
@@ -64694,7 +64708,7 @@
         "tempoB:b",
         "tempoB:d"
       ],
-      "inputBindingCount": 134,
+      "inputBindingCount": 142,
       "feedbackBindingCount": 28,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -64724,6 +64738,7 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged.",
         "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-100MKII.midi.xml (SHA-256 ca8cd77428b7cf6133158b048a002e77f5db43a3aa27ab7e8195c71df35b9677). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."
       ],
       "priority": {
@@ -354239,13 +354254,16 @@
         ],
         "review": "The manufacturer publishes the shared Beatmix 2/4 MIDI table on its MK2 product page. Its 1/127 jog values and 800-count resolution take precedence over the pinned script's conflicting value-minus-64 handler. Input Play/Sync addresses differ from LED addresses. Four Hot Cues and four fixed-loop pads retain the pinned mapping's native core layout. Separate sample notes remain unmapped. Shift releases rearm normal buttons without firing unsupported actions. Bank reports protect shared tempo pickup and held contacts. Pitch polarity accounts for the source's negative midiPitch assignment and Mixxx rate direction. No software FX modes, long-press eject or fader-start behaviour is copied. The source's delayed state query, complete LED cleanup, remaining modes, routing and physical calibration remain open."
       },
-      "implementedInputCount": 164,
+      "implementedInputCount": 180,
       "implementedOutputCount": 28,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged."
         },
         {
           "reason": "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Beatmix-2-4-MK2.midi.xml (SHA-256 9ad44392c28b9221126520cf1afb1fa7a379b2974a20cafcdcef5ae7a4bd6832). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."
@@ -354343,13 +354361,16 @@
         ],
         "review": "The native accessory recipe retains the stored ID and five Hot Cues on channels 10/13. Alternate clear-note releases rearm those pads without firing or deleting cues. Shifted green-page notes select native fixed loop lengths. Orange-page Cue uses native held preview and Load retains the XML address. The source reset packet enters startup and shutdown. No downloaded script runs. The source warns that its custom roll implementation erases loops, drifts and can pause audio. That roll code, transformer timers, forced gain changes and rewind effects are not copied. Default green-page rolls, extra effects, full lights and physical acceptance remain open."
       },
-      "implementedInputCount": 52,
+      "implementedInputCount": 62,
       "implementedOutputCount": 20,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged."
         },
         {
           "reason": "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Dicer.midi.xml (SHA-256 1ebe1d435a086e02e819b57f2ca6e61993269ed9971c5748f01726189baf5f46). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."
@@ -354644,13 +354665,16 @@
         ],
         "review": "XML dispatch defines four target channels, fixed physical Shift notes and explicit A/C and B/D bank reports. Normal pitch high/low addresses differ by sixteen, not the MIDI standard thirty-two. The source rate expression is centred at raw 8192 and translates once through Mixxx rate_dir. A fresh pair produces native raw/16384, retaining exact centre and source endpoint asymmetry. Native fixed touch scratching retains 2400 counts per revolution. Shifted release aliases preserve ordinary buttons and held Cue. Both physical Shift keys guard loop-size functions because the source changes their meaning under either hold. Shift plus the navigation/load button loads. Source library focus changes, brake/slip timers, quantised pitch, pitch adjustment, alternate functions, full lights, cleanup, routing and physical calibration remain open."
       },
-      "implementedInputCount": 134,
+      "implementedInputCount": 142,
       "implementedOutputCount": 28,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged."
         },
         {
           "reason": "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-100MKII.midi.xml (SHA-256 ca8cd77428b7cf6133158b048a002e77f5db43a3aa27ab7e8195c71df35b9677). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."
@@ -354676,13 +354700,16 @@
         ],
         "review": "XML dispatch and script handlers define two native deck channels, four Hot Cues, distinct fixed-loop pages, global Shift and 248-count jogs with 1/127 single-step reports. Right shifted jog callbacks derive deck two from MIDI channel five despite the XML's Channel1 group typo. Release-only aliases retain actual alternate channels without enabling source seek, stutter, cue-master or split functions. Native fixed touch scratching replaces the Vinyl toggle. Tempo retains the XML rate direction translated once to native normalisation. Starlight disables its base light show and restores it on shutdown. MIX has different loop/sample page addresses, adds master/headphone amounts and uses its own all-lights-off shutdown. The source defines no Load or browser inputs. Other modes, full feedback, cleanup, audio routing, Bluetooth pairing and physical calibration remain open."
       },
-      "implementedInputCount": 66,
+      "implementedInputCount": 74,
       "implementedOutputCount": 22,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged."
         },
         {
           "reason": "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20Starlight.midi.xml (SHA-256 e47b766a85f4fa234c41c4bf91ae456ca35dacc507184f69d3b2d458bf35d6c1). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."
@@ -354708,13 +354735,16 @@
         ],
         "review": "XML dispatch and script handlers define two native deck channels, four Hot Cues, distinct fixed-loop pages, global Shift and 248-count jogs with 1/127 single-step reports. Right shifted jog callbacks derive deck two from MIDI channel five despite the XML's Channel1 group typo. Release-only aliases retain actual alternate channels without enabling source seek, stutter, cue-master or split functions. Native fixed touch scratching replaces the Vinyl toggle. Tempo retains the XML rate direction translated once to native normalisation. Starlight disables its base light show and restores it on shutdown. MIX has different loop/sample page addresses, adds master/headphone amounts and uses its own all-lights-off shutdown. The source defines no Load or browser inputs. Other modes, full feedback, cleanup, audio routing, Bluetooth pairing and physical calibration remain open."
       },
-      "implementedInputCount": 68,
+      "implementedInputCount": 76,
       "implementedOutputCount": 22,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged."
         },
         {
           "reason": "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20MIX.midi.xml (SHA-256 7d64670a5235dcde14373a700f1aec70124f1f3880d1efa65ee2459faa32ee18). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."
@@ -354760,13 +354790,16 @@
         ],
         "review": "The factory table supplies physical Shift, separate pad pages and paired mixer controls. The official DJUCED guide supplies manual loop In, Out/Exit, long-In four-beat activation and master 1/2/headphones 3/4. Master and headphone knobs are hardware-driven, so their MIDI messages do not also change software gain. The script supplies 248-count scratch scale and four-times shifted search. Factory relative jog magnitudes take precedence over the script's single-step clamp. The factory shifted B note rows repeat A's channel and contain conflicting PFL/Load/long-press numbers. Existing XML dispatch and channel-based handlers retain confirmed right-channel controls. Conflicting shifted PFL/Load/long-press rows remain unmapped. Cue delete, rolls, effects, Assistant, guide lights, full feedback, cleanup, firmware capture and physical calibration remain open."
       },
-      "implementedInputCount": 89,
+      "implementedInputCount": 97,
       "implementedOutputCount": 22,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and input audio routing remain unimplemented."
+        },
+        {
+          "reason": "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged."
         },
         {
           "reason": "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Inpulse_200.midi.xml (SHA-256 c0927a1bbc75c1c1727034d2bd0f0f01d018ee264c1c63c203d3f9d8e06b6587). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."
@@ -355077,13 +355110,16 @@
         ],
         "review": "XML and the short script provide two fixed targets, full-value touch on Note22, centre-64 platter CC22 and separate rim CC23 with 340-count scratch calibration. Pitch uses native centred 14-bit pitch bend and source rate inversion once. Separate Load and browse controls retain published dispatch. Four cue buttons have explicit shifted-channel delete-release aliases. Native held bend uses the shared four-percent rate and reports each held direction independently, including opposing holds; generation and later-control ownership protect feedback. Native Play feedback uses the known beat-indicator address steadily; beat pulses remain open. The source's inverted Sync condition resolves to on 100/off 0. Source EQ kill, Tap, source quarter-nudge scaling, held Hot Cue previews, jog-direction lights, clip/end lamps, full routing/calibration and physical acceptance remain open. Control 2 and original Pro are separate models."
       },
-      "implementedInputCount": 62,
+      "implementedInputCount": 70,
       "implementedOutputCount": 20,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged."
         },
         {
           "reason": "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MixVibes%20U-Mix%20Control%20Pro%202.midi.xml (SHA-256 d460da29d06de95265297711fadae4d55ea77ca08821a778ba055ce0452e7840). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."
@@ -355154,13 +355190,16 @@
         ],
         "review": "Factory channel-zero layout uses distinct hardware pad/mode and Shift addresses. Factory VOL controls deck level, correcting the community pregain assignment. Two-band Mid/Low remains physical, without an invented High control. Normal jogs use native wheel nudge/paused seek, without a fabricated touch sensor or source scratch timers. Shift jog preserves source signed-square tempo increments and inverse Mixxx rate polarity through a factory-only codec. The source state query explicitly corrupts tempo and resets both decks, so native startup omits it and keeps pickup. Cue and shifted cue releases share momentary ownership. Cue pads, eight-beat loop, reloop/half/double follow the pinned source. Play/Sync feedback has distinct normal/shift LED addresses. Native startup/shutdown clears only reviewed feedback plus unsupported Auto/Record indicators. Source synthetic scratch, shifted start/stop, recording, AutoDJ, rolls, FX/samples, full feedback/cleanup, EQ direction calibration and physical acceptance remain open. No Load/browser/PFL or audio interface is invented."
       },
-      "implementedInputCount": 63,
+      "implementedInputCount": 71,
       "implementedOutputCount": 8,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged."
         },
         {
           "reason": "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20Compact.midi.xml (SHA-256 a598e43feda6b1d48efda26e33a41fa258e88bc15b4100ec6fae399dac1374dd). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."
@@ -355372,13 +355411,16 @@
         ],
         "review": "Factory wire formats supply paired crossfader/mixer/pitch and full signed normal/Shift jog magnitude. Pinned source supplies248-count scale, four-times Shift scratching, safe analogue query and the custom In-to-four-beat/Out-to-disable loop layout. Native loop disable is idempotent. Eight distinct Hot Cue input addresses retain native one-press behaviour and shifted-clear release aliases; other hardware pad pages remain inactive. Native fixed scratching ignores source Vinyl toggle, backspin inertia and Scratch2 callbacks. Physical Shift is source-local per deck, rearms paired pickup and preserves old contact/Cue releases. Shifted B contact follows the working source channel5, correcting the factory table's channel4 typo. The factory shifted PFL/Load A rows conflict with normal mode numbers; these disputed alternatives remain unmapped rather than inferring a byte layout. Shifted transport release aliases cover undisputed Cue/Play/Sync. Source-supported direct Load and source basic transport LEDs remain separate from native pad feedback. Master/headphone gain, PFL Master, beatmatch guide, FX, other pad modes, original manual/adjustable loops, complete feedback/cleanup, audio routing and physical calibration remain open. MK2 is a separate recipe."
       },
-      "implementedInputCount": 118,
+      "implementedInputCount": 134,
       "implementedOutputCount": 8,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged."
         },
         {
           "reason": "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Inpulse_300.midi.xml (SHA-256 43c8c84c8832af0c26d038851be8280ffb8b9a9c7c0e8b1d9811b520333114c4). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."
@@ -355526,13 +355568,16 @@
         ],
         "review": "Pinned working XML/script qualify four deck channels, source128-count centre64 jogs and explicit normal/Shift touch addresses. Native fixed scratch omits source playing/paused RPM changes and undefined stripSearchScaling. Physical Shift stays source-local; alternate releases retain Cue/contact/bend ownership and rearm buttons. Factory guide confirms default channels1..4/HOLD Shift and distinct shifted bend releases69/70. Deck notes17/67 release physical-side contacts and rearm pickup without dropping global Shift. Full pitch, five mixer controls, shifted filter and separate shifted Cue Set use native contracts. Loop buttons keep native current-size enable, toggle, In/Out and halve/double; source held adjustment, loop movement, roll, Cue-stop and Shift fast search remain open. Strict65/63 browsing omits source page/focus semantics. Native transport/PFL/key/loop and four cue LEDs per deck use on127/off0, with fixed Scratch indicators and48 lifecycle messages. Full factory reset exceeds the lifecycle budget and is not copied. Source master/microphone are hardware gain, not duplicated in software. The mapping author documents master1/2/headphones3/4. Source modes, alternate channel banks, EQ kill, FX/samplers, remaining feedback, calibration and physical acceptance remain open."
       },
-      "implementedInputCount": 218,
+      "implementedInputCount": 234,
       "implementedOutputCount": 40,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and input audio routing remain unimplemented."
+        },
+        {
+          "reason": "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged."
         },
         {
           "reason": "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton-DJC-4.midi.xml (SHA-256 e7b4cca84354be02d3c627054e187d7e0b66cbfb51bbae6dced9b2b339c97f26). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."
@@ -355702,13 +355747,16 @@
         ],
         "review": "Factory MIDI1.0 table establishes fixed channels6 global/7 A/8 B, full-value contact, separate normal14/scratch16/Shift15 jog streams, distinct three-cue/loop-page buttons, seven-bit pitch/mixer controls and separate note/CC LED commands. Pinned working source supplies signed jog magnitude,128-count scale and4x Shift scratch; native fixed scratch also handles the normal stream while contact is held. Shift scratch needs contact and uses32-count resolution. Local physical-side Shift guards performance alternatives; both physical Shift inputs also feed a source-local global layer for shared Load/browser routing. Native Shift+Play toggles Key Lock, Shift+Sync disables saved Sync idempotently, Shift strip uses native seek, three cues retain shifted delete-release aliases and loop pads retain source manual In/Out/toggle alternatives. Native held bend retains ownership. Factory main/headphone/balance inputs exist only in Audioless mode, so the automatic normal recipe omits them. A separate manually selected Audioless recipe adds software gain/blend without claiming audio output or factory lifecycle. Normal audio uses the mapping author's master1/2/headphones3/4 layout; selecting the output wakes the hardware from standby. Native outputs use factory on127/off0. Startup enables eight deck-knob lamps and fixed Scratch indicators, clears unsupported loop-side lamps; shutdown clears these and20 owned outputs within48messages. The copied Serato proprietary status SysEx is not in the published implementation and is omitted. Identity inquiry is not an analogue query. Scratch toggle, complete browser/mode/FX/sampler/meter/reset behaviour, Audio Return routing, calibration and physical acceptance remain open."
       },
-      "implementedInputCount": 95,
+      "implementedInputCount": 101,
       "implementedOutputCount": 20,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged."
         },
         {
           "reason": "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg-KAOSS-DJ.midi.xml (SHA-256 85d2555f1ff54adee404f0443df3f2af4363090f1cde762371d11413c8aa6285). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."
@@ -355750,13 +355798,16 @@
         ],
         "review": "Factory MIDI1.0 table establishes fixed channels6 global/7 A/8 B, full-value contact, separate normal14/scratch16/Shift15 jog streams, distinct three-cue/loop-page buttons, seven-bit pitch/mixer controls and separate note/CC LED commands. Pinned working source supplies signed jog magnitude,128-count scale and4x Shift scratch; native fixed scratch also handles the normal stream while contact is held. Shift scratch needs contact and uses32-count resolution. Local physical-side Shift guards performance alternatives; both physical Shift inputs also feed a source-local global layer for shared Load/browser routing. Native Shift+Play toggles Key Lock, Shift+Sync disables saved Sync idempotently, Shift strip uses native seek, three cues retain shifted delete-release aliases and loop pads retain source manual In/Out/toggle alternatives. Native held bend retains ownership. Factory main/headphone/balance inputs exist only in Audioless mode, so the automatic normal recipe omits them. A separate manually selected Audioless recipe adds software gain/blend without claiming audio output or factory lifecycle. Normal audio uses the mapping author's master1/2/headphones3/4 layout; selecting the output wakes the hardware from standby. Native outputs use factory on127/off0. Startup enables eight deck-knob lamps and fixed Scratch indicators, clears unsupported loop-side lamps; shutdown clears these and20 owned outputs within48messages. The copied Serato proprietary status SysEx is not in the published implementation and is omitted. Identity inquiry is not an analogue query. Scratch toggle, complete browser/mode/FX/sampler/meter/reset behaviour, Audio Return routing, calibration and physical acceptance remain open."
       },
-      "implementedInputCount": 92,
+      "implementedInputCount": 98,
       "implementedOutputCount": 20,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and input audio routing remain unimplemented."
+        },
+        {
+          "reason": "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged."
         },
         {
           "reason": "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg-KAOSS-DJ.midi.xml (SHA-256 85d2555f1ff54adee404f0443df3f2af4363090f1cde762371d11413c8aa6285). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."
@@ -356298,7 +356349,7 @@
         ],
         "review": "Factory guide explicitly distinguishes non-touch Control2 from original touch Pro; Pro2 is another model. Control2 wheels are centre64 CC22, with no contact or rim messages. Native unheld wheel behaviour uses default calibration. Factory relative loop/browser encoding is signed127/1 with64 negative. Published six cue addresses, direct source Note Load5/6, native held Cue/bend, source keylock on PitchMode8, inverse centred pitch, mixer and loop controls retain source facts. Factory table calls LoadA CC5 while the pinned mapping uses Note5; this recipe follows the working Note form and leaves CC5 inactive. Factory Loop push Note13 and rotation CC13 correct the source's incomplete/asymmetric loop mapping. Global Shift2 on mixer channel2 blocks unsupported layers; shifted release-only contacts cannot trigger normal actions and rearm every normal button. Feedback uses steady127/0, not source beat/clip animation. Setup/shutdown own62 messages. Full three-state pitch/Vinyl/FX/EQ-kill modes, held Hot Cue preview, complete feedback/reset and physical calibration remain open. No audio interface, Pro touch or Pro2 340-count scale is inferred."
       },
-      "implementedInputCount": 96,
+      "implementedInputCount": 108,
       "implementedOutputCount": 28,
       "sourceInputCount": null,
       "sourceOutputCount": null,
@@ -356308,6 +356359,9 @@
         },
         {
           "reason": "Factory LoadA CC5 conflicts with the working Note5 mapping; CC5 stays inactive. Full three-state PitchMode/Vinyl/FX/EQ-kill modes, Tap, held Hot Cue preview, clip/end animation, complete feedback/reset and calibration remain open. No audio interface, Pro touch/rim or Pro2 sensor scale is inferred."
+        },
+        {
+          "reason": "R482 adds the inverse negative alias for each dedicated clear. A release on the qualified normal Hot Cue wire rearms its clear action after hardware Shift changes. The activation wire is independently checked against the same own-model pinned XML. All previous inputs and positive roles remain unchanged."
         },
         {
           "reason": "R478 adds only direct normal Note-On Hot Cue clear roles from https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MixVibes%20U-Mix%20Control%202.midi.xml (SHA-256 89a62e4ba79ded920dca67e16b2632b1e9020bdd7a79d78cb5f2feecdefa7b0a). Every wire already had a matching native negative guard and has no positive collision. Dedicated hardware clear opcodes do not require an inferred app Shift state. Existing negative guards, transport, output/setup/audio and all other controls remain unchanged. This does not qualify other pad modes, display/lifecycle, host routes or physical acceptance."

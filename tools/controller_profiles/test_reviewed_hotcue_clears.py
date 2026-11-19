@@ -16,7 +16,7 @@ class ReviewedHotcueClearTests(unittest.TestCase):
     def test_one_hundred_thirty_explicit_clears_keep_existing_negative_guards(self):
         rows=self.profiles()
         for name,count in EXPECTED.items():
-            p=rows[name];clears=[r for r in p['inputs'] if r['action'].startswith('clearHotcue')]
+            p=rows[name];clears=[r for r in p['inputs'] if r['action'].startswith('clearHotcue') and not r.get('releaseOnly')]
             self.assertEqual(len(clears),count,name)
             for c in clears:
                 self.assertEqual((c['kind'],c['encoding'],c['inverted']),('note','absolute',False))
@@ -34,11 +34,14 @@ class ReviewedHotcueClearTests(unittest.TestCase):
             if not path.exists():continue
             self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),ref['sha256'])
             controls=ET.parse(path).findall('.//control')
-            for c in (r for r in rows[name]['inputs'] if r['action'].startswith('clearHotcue')):
+            for c in (r for r in rows[name]['inputs'] if r['action'].startswith('clearHotcue') and not r.get('releaseOnly')):
                 slot=int(c['action'][11:-1]);group='[Channel'+str('abcd'.index(c['targetDeck'])+1)+']'
                 found=[x for x in controls if x.findtext('group')==group and x.findtext('key')==f'hotcue_{slot}_clear' and int(x.findtext('status','0'),0)==0x90+c['channel'] and int(x.findtext('midino','0'),0)==c['number']]
                 self.assertTrue(found,(name,c))
                 self.assertTrue(any(not {y.tag.lower() for y in (x.find('options') or [])}-{'normal'} for x in found))
+                alias=next(r for r in rows[name]['inputs'] if r['action']==c['action'] and r.get('targetDeck')==c['targetDeck'] and r.get('releaseOnly'))
+                normal=[x for x in controls if x.findtext('group')==group and x.findtext('key')==f'hotcue_{slot}_activate' and int(x.findtext('status','0'),0)==0x90+alias['channel'] and int(x.findtext('midino','0'),0)==alias['number']]
+                self.assertTrue(any(not {y.tag.lower() for y in (x.find('options') or [])}-{'normal'} for x in normal))
 
     def test_extension_rejects_missing_guard_and_positive_wire_collision(self):
         from reviewed_hotcue_clears import apply_reviewed_hotcue_clears
@@ -49,3 +52,13 @@ class ReviewedHotcueClearTests(unittest.TestCase):
             if conflict:item['inputs'].append({k:v for k,v in guard.items() if k not in ['releaseOnly','shifted','shiftChannel']})
             else:item['inputs'].remove(guard)
             with self.assertRaises(ValueError):apply_reviewed_hotcue_clears(changed)
+
+    def test_clear_rearms_from_its_own_activation_negative_wire(self):
+        for name in EXPECTED:
+            p=self.profiles()[name]
+            for clear in [r for r in p['inputs'] if r['action'].startswith('clearHotcue') and not r.get('releaseOnly')]:
+                cues=[r for r in p['inputs'] if r['action']==clear['action'].replace('clearHotcue','hotcue') and r.get('targetDeck')==clear.get('targetDeck') and not r.get('releaseOnly') and r.get('shifted')!=True]
+                self.assertEqual(len(cues),1)
+                cue=cues[0]
+                aliases=[r for r in p['inputs'] if r['action']==clear['action'] and r.get('targetDeck')==clear.get('targetDeck') and r.get('releaseOnly') and r['kind']=='note' and r['channel']==cue['channel'] and r['number']==cue['number']]
+                self.assertEqual(len(aliases),1,(name,clear))

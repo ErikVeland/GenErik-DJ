@@ -25,7 +25,7 @@ import Testing
 @Test @MainActor func controllerCatalogueHerculesCompactKeepsFactoryVolumeAndNoInventedTouchOrRouting() throws {
     let profile = try #require(ControllerFactoryProfile.matching(["Hercules DJControl Compact"], automaticOnly: true))
     let data = try #require(profile.definition)
-    #expect(data.inputs.count == 63 && data.outputs.count == 8)
+    #expect(data.inputs.count == 71 && data.outputs.count == 8)
     #expect(data.startup.count == 12 && data.shutdown == data.startup)
     #expect(data.startup.allSatisfy { $0[0] == 0x90 && $0[2] == 0 })
     #expect(!profile.hasAutomaticSplitOutput)

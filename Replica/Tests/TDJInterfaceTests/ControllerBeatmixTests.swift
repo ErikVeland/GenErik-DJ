@@ -31,7 +31,7 @@ import Testing
     }
     #expect(ControllerFactoryProfile.matching(["Beatmix 4 MK3"]) == nil)
     let data = try #require(profile.definition)
-    #expect(data.inputs.count == 164 && data.outputs.count == 28)
+    #expect(data.inputs.count == 180 && data.outputs.count == 28)
     for deck in DeckID.allCases {
         let outputs = profile.feedback(destination: 20).filter { $0.targetDeck == deck }
         #expect(outputs.first { $0.action == .playA || $0.action == .playB }?.number == 35)

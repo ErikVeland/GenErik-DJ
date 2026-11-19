@@ -26,7 +26,7 @@ import Testing
     let profile = try #require(
         ControllerFactoryProfile.matching(["Hercules DJControl Inpulse 300"], automaticOnly: true))
     let data = try #require(profile.definition)
-    #expect(data.inputs.count == 118 && data.outputs.count == 8)
+    #expect(data.inputs.count == 134 && data.outputs.count == 8)
     #expect(data.startup == [[0x91, 3, 127], [0x92, 3, 127], [0x90, 4, 5], [0xB0, 127, 127]])
     #expect(!profile.hasAutomaticSplitOutput)
     #expect(ControllerFactoryProfile.matching(["Hercules DJControl Inpulse 300 MK2"], automaticOnly: true) != profile)

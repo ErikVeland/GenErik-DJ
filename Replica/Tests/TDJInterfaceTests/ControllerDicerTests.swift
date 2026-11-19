@@ -42,7 +42,7 @@ import Testing
         let profile = try #require(ControllerFactoryProfile.matching(["Novation Dicers"], automaticOnly: true))
         #expect(profile.rawValue == "Novation Dicer")
         let data = try #require(profile.definition)
-        #expect(data.role == "accessory" && data.inputs.count == 52 && data.outputs.count == 20)
+        #expect(data.role == "accessory" && data.inputs.count == 62 && data.outputs.count == 20)
         #expect(data.shutdown == [[0xBA, 0, 0]])
         #expect(ControllerFactoryProfile.matching(["Dicer 2"]) == nil)
         #expect(data.outputs.allSatisfy { $0.onValue == 14 && $0.offValue == 0 })

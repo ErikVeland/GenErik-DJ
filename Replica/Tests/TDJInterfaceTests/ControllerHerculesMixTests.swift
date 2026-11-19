@@ -38,7 +38,7 @@ import Testing
 @Test @MainActor func controllerCatalogueHerculesMixUsesItsOwnExactIdentityAndSetup() throws {
     let profile = try #require(ControllerFactoryProfile.matching(["DJControl MIX"], automaticOnly: true))
     #expect(profile.rawValue == "Hercules DJControl MIX")
-    #expect(profile.definition?.inputs.count == 68)
+    #expect(profile.definition?.inputs.count == 76)
     #expect(profile.feedback(destination: 20).count == 22)
     #expect(ControllerFactoryProfile.matching(["DJControl MIX ULTRA"], automaticOnly: true) != profile)
     #expect(ControllerFactoryProfile.matching(["Hercules MIX"], automaticOnly: true) == nil)

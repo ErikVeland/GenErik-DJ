@@ -28,7 +28,7 @@ import Testing
 @Test @MainActor func controllerCatalogueDJC4KeepsNativeLEDsAndBoundedFixedScratchLifecycle() throws {
     let profile = try #require(ControllerFactoryProfile.matching(["DJC-4"], automaticOnly: true))
     let data = try #require(profile.definition)
-    #expect(data.inputs.count == 218 && data.outputs.count == 40)
+    #expect(data.inputs.count == 234 && data.outputs.count == 40)
     #expect(data.startup.count == 4 && data.shutdown.count == 44)
     #expect(data.bankChanges?.count == 8 && profile.hasAutomaticSplitOutput)
     let feedback = profile.feedback(destination: 20)
