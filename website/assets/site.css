@@ -30,3 +30,8 @@ html { overflow-wrap: normal; word-break: normal; hyphens: none; }
     #controller-list li { grid-template-columns: 1fr; gap: .1rem; }
     .sequence { grid-template-columns: repeat(auto-fit, minmax(4.5rem, 1fr)); }
 }
+
+.opening-links,.closing-links{display:grid;justify-items:start;gap:10px}
+.opening-links .contact-link{color:var(--cyan);font-size:clamp(18px,2vw,24px)}
+.opening-links .text-link{padding-block:4px}
+@media(max-width:600px){.opening-links{margin-top:14px}}
