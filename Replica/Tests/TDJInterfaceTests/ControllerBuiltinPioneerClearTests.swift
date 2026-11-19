@@ -4,7 +4,7 @@ import Testing
 
 @testable import TDJInterface
 
-private let builtinClearNames = ["DDJ-FLX4", "DDJ-400"]
+private let builtinClearNames = ["DDJ-FLX4", "DDJ-400", "DDJ-FLX2"]
 
 @MainActor private func withBuiltinClear(
     _ name: String, _ body: (ControllerMIDIConnection, ControllerFactoryProfile) throws -> Void
@@ -32,7 +32,7 @@ private let builtinClearNames = ["DDJ-FLX4", "DDJ-400"]
 func controllerBuiltinPioneerClearKeepsOwnChannelsSlotsAndExistingFeedback(name: String) throws {
     try withBuiltinClear(name) { _, p in
         let bindings = p.bindings(source: 10)
-        #expect(bindings.count == (name == "DDJ-FLX4" ? 120 : 119))
+        #expect(bindings.count == ["DDJ-FLX4": 120, "DDJ-400": 119, "DDJ-FLX2": 105][name])
         let clears = bindings.filter { $0.action.clearHotcueSlot != nil && $0.releaseOnly != true }
         #expect(clears.count == 16)
         for deck in DeckID.primary {

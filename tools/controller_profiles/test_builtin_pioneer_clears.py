@@ -21,3 +21,13 @@ class BuiltinPioneerClearTests(unittest.TestCase):
                         self.assertTrue(any(not {y.tag.lower() for y in (x.find('options') or [])}-{'normal'} for x in found))
         pdf=ROOT/'TestBuilds/r486/upstream/ddj400-midi.pdf'
         if pdf.exists():self.assertEqual(hashlib.sha256(pdf.read_bytes()).hexdigest(),'c20990e3368511f6e0c0738a21489857e5daa6d805072412c71c4a5e46bb986a')
+
+    def test_flx2_own_factory_table_and_hardware_roles_keep_the_reviewed_hashes(self):
+        sources = [
+            ('TestBuilds/r164/flx2.pdf', 'cccd405d9470382b58ab5d4e421678288448e1209e127d40c60f5228590b0e21'),
+            ('TestBuilds/r487/upstream/flx2-hardware-diagram.pdf', '10619159f70bb5a4ae80090cb753726788351d058d87988d1b3c165ad134a716'),
+        ]
+        for name, digest in sources:
+            path = ROOT / name
+            if path.exists():
+                self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)

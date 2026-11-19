@@ -802,3 +802,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R485 | Implemented; full modes/physical gaps open | Add CMD STUDIO4a held-DEL Hot Cue clearing | Added32 clears behind the existing side-specific DEL hold.449 source/13 native checks and iPad framework compilation pass. Earlier124 inputs and404 other recipes remain identical. [Scope](controller-coverage.md#r485-studio4a-held-del-clearing). |
 
 | R486 | Implemented; full modes/physical gaps open | Add own-source clearing to built-in FLX4 and DDJ-400 profiles | Added16 clears and32 paired negative aliases per model.450 source/37 native checks and iPad framework compilation pass. All405 JSON recipes remain byte-identical. [Scope](controller-coverage.md#r486-built-in-flx4-and-ddj-400-clears). |
+
+| R487 | Implemented; full modes/physical gaps open | Add independent FLX2 Hot Cue clear pairs | Added16 clears and32 negative aliases from its own E1 table and manufacturer hardware diagram.451 source/37 native checks and iPad framework compilation pass. Other built-ins and all405 JSON recipes remain unchanged. [Scope](controller-coverage.md#r487-independent-flx2-clear-pairs). |

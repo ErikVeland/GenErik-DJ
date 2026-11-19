@@ -32,6 +32,7 @@ extension ControllerMIDIConnection {
             binding(.wheelJogA, .control, 0, 33, .binaryOffset, shifted: true),
             binding(.wheelJogB, .control, 1, 33, .binaryOffset, shifted: true),
         ]
+        profile += pioneerPairedHotcueClearBindings(source: source)
         return profile
     }
 
@@ -43,13 +44,12 @@ extension ControllerMIDIConnection {
         var profile = ddjFLX4BasicBindings(source: source).filter { $0.action != .shift }
         func binding(
             _ action: ControllerAction, _ kind: ControllerMIDIMessage.Kind, _ channel: UInt8, _ number: UInt8,
-            _ encoding: ControllerMIDIEncoding = .absolute, shifted: Bool = false,
-            layerIndependent: Bool? = nil, releaseOnly: Bool? = nil
+            _ encoding: ControllerMIDIEncoding = .absolute, shifted: Bool = false
         ) -> ControllerBinding {
             .init(
                 source: source, group: 0, channel: channel, kind: kind, number: number,
                 parameter: nil, noteNumber: nil, action: action, encoding: encoding,
-                inverted: false, shifted: shifted, layerIndependent: layerIndependent, releaseOnly: releaseOnly)
+                inverted: false, shifted: shifted)
         }
         for channel in UInt8(0)...1 {
             let a = channel == 0
@@ -73,9 +73,24 @@ extension ControllerMIDIConnection {
             binding(.openGroup, .note, 6, 65),
             binding(.loadA, .note, 6, 70), binding(.loadB, .note, 6, 71),
         ]
-        /**
-         * Both own-model mappings use separate clear channels for the eight Hot Cue pads.
-         */
+        profile += pioneerPairedHotcueClearBindings(source: source)
+        return profile
+    }
+
+    /**
+     * Uses the independently documented FLX2, FLX4 and DDJ-400 Hot Cue channel pairs.
+     */
+    private static func pioneerPairedHotcueClearBindings(source: Int32) -> [ControllerBinding] {
+        func binding(
+            _ action: ControllerAction, _ channel: UInt8, _ number: UInt8,
+            layerIndependent: Bool, releaseOnly: Bool? = nil
+        ) -> ControllerBinding {
+            .init(
+                source: source, group: 0, channel: channel, kind: .note, number: number,
+                parameter: nil, noteNumber: nil, action: action, encoding: .absolute,
+                inverted: false, shifted: false, layerIndependent: layerIndependent, releaseOnly: releaseOnly)
+        }
+        var profile: [ControllerBinding] = []
         let padActions: [(UInt8, [ControllerAction], [ControllerAction])] = [
             (
                 7, [.hotcue1A, .hotcue2A, .hotcue3A, .hotcue4A, .hotcue5A, .hotcue6A, .hotcue7A, .hotcue8A],
@@ -95,9 +110,9 @@ extension ControllerMIDIConnection {
         for (channel, cues, clears) in padActions {
             for slot in 0..<8 {
                 profile += [
-                    binding(clears[slot], .note, channel + 1, UInt8(slot), layerIndependent: true),
-                    binding(cues[slot], .note, channel + 1, UInt8(slot), layerIndependent: true, releaseOnly: true),
-                    binding(clears[slot], .note, channel, UInt8(slot), layerIndependent: true, releaseOnly: true),
+                    binding(clears[slot], channel + 1, UInt8(slot), layerIndependent: true),
+                    binding(cues[slot], channel + 1, UInt8(slot), layerIndependent: true, releaseOnly: true),
+                    binding(clears[slot], channel, UInt8(slot), layerIndependent: true, releaseOnly: true),
                 ]
             }
         }

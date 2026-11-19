@@ -5763,6 +5763,30 @@
         }
       ],
       "result": "Added16 dedicated clear inputs and32 paired negative aliases per built-in FLX4 and DDJ-400 model. Each own pinned XML explicitly qualifies all16 activation/clear pairs and normal Note-On semantics. Raw8/10 notes0..7 clear, while raw7/9 remain normal Hot Cues. Clear opcodes and negative guards are layer-independent. Existing Shift policy, earlier bindings, identity, feedback/setup/audio remain unchanged. FLX2/REV1/REV5 are untouched. All405 JSON recipes and both resource files remain byte-identical.450 source/37 native checks and iPad framework compilation pass. Tests cover both models, all clear slots/decks, either app Shift state, both negative forms and directions, debounce, source/group ownership, inactive other pad modes, factory lifecycle/feedback/legacy regressions and two real-WAV cases. Missing-feature TDD records10 failed expectations before implementation. No mapper or hardware mode/configuration runs. Complete modes/host/lifecycle and physical acceptance remain open."
+    },
+    {
+      "request": "R487",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "model": "DDJ-FLX2",
+          "url": "https://assets.pioneerdjhub.com/DDJ-FLX2_MIDI_Message_List_E1.pdf",
+          "cachePath": "TestBuilds/r164/flx2.pdf",
+          "sha256": "cccd405d9470382b58ab5d4e421678288448e1209e127d40c60f5228590b0e21",
+          "review": "Own E1 table qualifies pad mode1 raw7/9 normal and raw8/10 Shift, notes0..7. Other pad modes are not clear opcodes."
+        },
+        {
+          "model": "DDJ-FLX2",
+          "url": "https://cdn.rekordbox.com/files/20250107172008/DDJ-FLX2_HardwareDiagram_en.pdf",
+          "cachePath": "TestBuilds/r487/upstream/flx2-hardware-diagram.pdf",
+          "sha256": "10619159f70bb5a4ae80090cb753726788351d058d87988d1b3c165ad134a716",
+          "visuallyReviewedPrintedPages": [
+            1
+          ],
+          "review": "Own AlphaTheta hardware diagram independently identifies Hot Cue mode Shift pads as Delete."
+        }
+      ],
+      "result": "Added16 dedicated clear inputs and32 paired negative aliases to the existing FLX2 built-in. The shared constructor contains only the independently qualified channel layout. FLX4 and DDJ-400 bindings retain every field and order. All405 JSON recipes and both resources remain byte-identical.451 source/37 native checks and iPad framework compilation pass. Native tests cover all three models, all slots/decks, both negative forms/directions, debounce, either app Shift state, source/group ownership and inactive other modes. Three real-WAV cases preserve marker neighbours/position, finite active playback and saved Sync. Missing-feature TDD records five failed expectations for FLX2 alone. Complete modes/lifecycle/host and physical acceptance remain open."
     }
   ]
 }
