@@ -2987,6 +2987,21 @@ func controllerCatalogueLegacyRaneMixerAndLoopsKeepRealAudioAndSavedSync(_ name:
     }
 }
 
+@Test(arguments: ["Numark 4TRAK", "M-Audio Xponent"]) @MainActor
+func controllerCatalogueLegacyPCDJKeepsRealAudioAndSavedSync(_ name: String) async throws {
+    try await withControllerCuePlayback(name, manual: true) { model, input in
+        let ch: UInt8 = name == "Numark 4TRAK" ? 1 : 0
+        let cue: UInt8 = ch == 1 ? 16 : 35
+        let play: UInt8 = ch == 1 ? 17 : 36
+        cuePreviewPacket([0x90 + ch, cue, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80 + ch, cue, 127, 0x90 + ch, play, 127, play, 0], to: input)
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
 @Test(arguments:["Behringer CMD PL-1","Behringer CMD DC-1","Behringer CMD LC-1","Behringer CMD DV-1"]) @MainActor
 func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String)async throws{
     try await withControllerCuePlayback(name,manual:name=="Behringer CMD DV-1"){model,input in
