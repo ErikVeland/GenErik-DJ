@@ -3002,6 +3002,16 @@ func controllerCatalogueLegacyRaneMixerAndLoopsKeepRealAudioAndSavedSync(_ name:
     }
 }
 
+@Test @MainActor func controllerCataloguePMX20ManualLoopAndCommonMixerKeepRealAudioSync() async throws {
+    try await withControllerCuePlayback("Gemini PMX20", manual: true) { model, input in
+        model.pressPlay(deck: .a, vinylStop: false)
+        input.receiveBytes([0x90, 35, 127, 35, 0, 0xB0, 36, 65, 49, 64], source: 10); input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.loopEnabled == true)
+    }
+}
+
 @Test @MainActor func controllerCatalogueKUTManualMIDILevelAndMasterKeepRealAudioSync() async throws {
     try await withControllerCuePlayback("Reloop KUT", manual: true) { model, input in
         model.pressPlay(deck: .a, vinylStop: false)

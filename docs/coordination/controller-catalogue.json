@@ -35300,15 +35300,20 @@
       "id": "geminipmx20",
       "name": "Gemini PMX20",
       "manufacturer": "Gemini",
-      "role": "primary",
+      "role": "accessory",
       "benchmark": false,
       "sources": [
+        "https://www.geminisound.com/cdn/shop/files/PMX20_Manual_Compressed.pdf?v=12183789050654275091",
         "https://virtualdj.com/products/hardware.html?model=GMPMX20"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:pmx20-common-core"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Gemini PMX20",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Gemini PMX20",
@@ -35316,40 +35321,117 @@
           "source": "https://virtualdj.com/products/hardware.html?model=GMPMX20"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browsePreviousGroup",
+        "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cueMix",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "loopSizeA:a",
+        "loopSizeA:c",
+        "loopSizeB:b",
+        "loopSizeB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor",
+        "openGroup"
+      ],
+      "inputBindingCount": 76,
+      "feedbackBindingCount": 40,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Before opening the app, select Full MIDI mode by holding CH2 USB for10seconds. Use factory momentary buttons and normal paging. Enable this manual profile separately. Select Hot Cues for pads; C/D require app opt-in. Back selects the previous library group. C/D Load, Forward and rotary browsing stay inactive because the documents conflict. Audio routing is separate."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Own manufacturer2018 manual p8/p9 gives A/B Hot Cues, loops, all four mixer strips, global controls and output colours. The public2021 PMX20 MIDI SPEC.xlsx export hosted by DJ TechTools supplies explicit C/D performance rows, binary-offset loop encoders, mode/focus paging and factory momentary-button behaviour. Its author metadata is only admin; manufacturer authorship of that separate export is not established. Native uses non-conflicting facts and records its additional C/D/encoding provenance separately. The tables disagree on LoadC/D (manufacturer44/45hex versus2021spec45/46), Forward (46 versus44) and browse encoder channel (raw4 versus5). All disputed controls stay inactive. Manual76-input accessory:32 Hot Cues, four Loop buttons/size encoders, six mixer controls per deck, four PFL buttons, A/B Load, directory entry, native previous-group assignment on Back, crossfader/master/headphone level/blend. Hot Cue notes8..1 are reversed by slot; Sample notes09..0F/20hex remain inactive. Mode33/34 rearm only their deck. Own table focus64 rearm A/C or B/D without assigning app actions. C/D require app opt-in. Forty optional static Hot Cue/PFL/Loop lamps use steady green1/on1 and off0. No mode/focus lamp is sent because those receive notes change hardware paging. Use Full MIDI mode selected before the app by holding CH2 USB10seconds, factory momentary buttons and normal paging. Automatic selection stays off: default power-on is hardware Mixer mode, and persistent Flat/Toggle settings have no reviewed discovery/restoration. No identity, forced updates, all-LED reset, persistent mode, preset, driver, firmware or audio-route write is sent. Main Play/Cue/Sync, sampler/FX, meters, disputed global controls, complete source/audio/mode/lifecycle/recovery and physical/iPad/A10X acceptance remain open. No PMX10 protocol is inherited.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -357116,6 +357198,46 @@
         },
         {
           "reason": "Own manufacturer manual and distributor mirror are byte-identical. Visually reviewed English p7 MIDI chart explicitly gives Bn continuous0..127 controls. CH1 Gain/High/Mid/Low/Fader are CC01/02/03/04/05hex; CH2 CC07/08/09/0A/0Bhex; crossfader0D, Master10, headphone Level12/Mix13hex. Native14-input manual accessory accepts the documented n across MIDI channels1..16 without guessing a fixed factory channel. The narrow wildcard contract permits only unique absolute mixer CCs, manual accessory role and no button, mode, bank, protocol, setup, output or audio contract. Pickup and source boundaries remain native. Enable rear MIDI output separately. KUT hardware mixing remains active, so separate application audio and hardware routing must be qualified before combined use. Automatic selection/audio routing stays off. PFL Note01/03 edge/latch semantics, input-source switches, dynamic FX selection/parameters, mic/booth/curve controls, fader-start and full feedback/lifecycle/recovery remain inactive. Fader-start notes are not Play. The documented pickup-request SysEx is not sent because its complete effect/restoration is unqualified. No query, preset, driver, firmware or audio-route packet is sent. Full controller/audio/USB/OS/power and physical/iPad/A10X acceptance remain open. No RMX model is inherited."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:pmx20-common-core",
+      "name": "Gemini PMX20",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.geminisound.com/cdn/shop/files/PMX20_Manual_Compressed.pdf?v=12183789050654275091",
+        "sha256": "baf0f0cd69921c8f2c35b94861e87668ad9fa4bd4e340a2daf91b9902f18688e",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r445/upstream/pmx20-manufacturer-manual.pdf",
+            "sha256": "baf0f0cd69921c8f2c35b94861e87668ad9fa4bd4e340a2daf91b9902f18688e"
+          },
+          {
+            "cachePath": "TestBuilds/r445/upstream/pmx20-midi-spec.pdf",
+            "sha256": "9515b9e568070fbf0d9239607276d4e112af2ec5780f91a4d6ab35c88dea9555"
+          }
+        ],
+        "relatedSources": [
+          {
+            "url": "https://www.geminisound.com/products/pmx-20"
+          },
+          {
+            "url": "https://cdck-file-uploads-us1.s3.dualstack.us-west-2.amazonaws.com/flex001/uploads/techtools/original/3X/3/2/32116e078fe974f6b96cc2a7e8a25e1eae665413.pdf"
+          }
+        ],
+        "review": "Own manufacturer2018 manual p8/p9 gives A/B Hot Cues, loops, all four mixer strips, global controls and output colours. The public2021 PMX20 MIDI SPEC.xlsx export hosted by DJ TechTools supplies explicit C/D performance rows, binary-offset loop encoders, mode/focus paging and factory momentary-button behaviour. Its author metadata is only admin; manufacturer authorship of that separate export is not established. Native uses non-conflicting facts and records its additional C/D/encoding provenance separately. The tables disagree on LoadC/D (manufacturer44/45hex versus2021spec45/46), Forward (46 versus44) and browse encoder channel (raw4 versus5). All disputed controls stay inactive. Manual76-input accessory:32 Hot Cues, four Loop buttons/size encoders, six mixer controls per deck, four PFL buttons, A/B Load, directory entry, native previous-group assignment on Back, crossfader/master/headphone level/blend. Hot Cue notes8..1 are reversed by slot; Sample notes09..0F/20hex remain inactive. Mode33/34 rearm only their deck. Own table focus64 rearm A/C or B/D without assigning app actions. C/D require app opt-in. Forty optional static Hot Cue/PFL/Loop lamps use steady green1/on1 and off0. No mode/focus lamp is sent because those receive notes change hardware paging. Use Full MIDI mode selected before the app by holding CH2 USB10seconds, factory momentary buttons and normal paging. Automatic selection stays off: default power-on is hardware Mixer mode, and persistent Flat/Toggle settings have no reviewed discovery/restoration. No identity, forced updates, all-LED reset, persistent mode, preset, driver, firmware or audio-route write is sent. Main Play/Cue/Sync, sampler/FX, meters, disputed global controls, complete source/audio/mode/lifecycle/recovery and physical/iPad/A10X acceptance remain open. No PMX10 protocol is inherited."
+      },
+      "implementedInputCount": 76,
+      "implementedOutputCount": 40,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Own manufacturer2018 manual p8/p9 gives A/B Hot Cues, loops, all four mixer strips, global controls and output colours. The public2021 PMX20 MIDI SPEC.xlsx export hosted by DJ TechTools supplies explicit C/D performance rows, binary-offset loop encoders, mode/focus paging and factory momentary-button behaviour. Its author metadata is only admin; manufacturer authorship of that separate export is not established. Native uses non-conflicting facts and records its additional C/D/encoding provenance separately. The tables disagree on LoadC/D (manufacturer44/45hex versus2021spec45/46), Forward (46 versus44) and browse encoder channel (raw4 versus5). All disputed controls stay inactive. Manual76-input accessory:32 Hot Cues, four Loop buttons/size encoders, six mixer controls per deck, four PFL buttons, A/B Load, directory entry, native previous-group assignment on Back, crossfader/master/headphone level/blend. Hot Cue notes8..1 are reversed by slot; Sample notes09..0F/20hex remain inactive. Mode33/34 rearm only their deck. Own table focus64 rearm A/C or B/D without assigning app actions. C/D require app opt-in. Forty optional static Hot Cue/PFL/Loop lamps use steady green1/on1 and off0. No mode/focus lamp is sent because those receive notes change hardware paging. Use Full MIDI mode selected before the app by holding CH2 USB10seconds, factory momentary buttons and normal paging. Automatic selection stays off: default power-on is hardware Mixer mode, and persistent Flat/Toggle settings have no reviewed discovery/restoration. No identity, forced updates, all-LED reset, persistent mode, preset, driver, firmware or audio-route write is sent. Main Play/Cue/Sync, sampler/FX, meters, disputed global controls, complete source/audio/mode/lifecycle/recovery and physical/iPad/A10X acceptance remain open. No PMX10 protocol is inherited."
         }
       ]
     },

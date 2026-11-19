@@ -3898,6 +3898,36 @@
           "result": "Own20-page manual documents configurable bank channels/notes, pressure CCs, XY, Hold/Roll and physical factory reset. Its p17 generic MIDI note/scale chart does not establish factory pad assignments. No inferred bank defaults, reset or production profile added."
         }
       ]
+    },
+    {
+      "request": "R445",
+      "sources": [
+        {
+          "model": "Gemini PMX20",
+          "url": "https://www.geminisound.com/cdn/shop/files/PMX20_Manual_Compressed.pdf?v=12183789050654275091",
+          "sha256": "baf0f0cd69921c8f2c35b94861e87668ad9fa4bd4e340a2daf91b9902f18688e",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r445/upstream/pmx20-manufacturer-manual.pdf",
+              "sha256": "baf0f0cd69921c8f2c35b94861e87668ad9fa4bd4e340a2daf91b9902f18688e"
+            },
+            {
+              "cachePath": "TestBuilds/r445/upstream/pmx20-midi-spec.pdf",
+              "sha256": "9515b9e568070fbf0d9239607276d4e112af2ec5780f91a4d6ab35c88dea9555"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://www.geminisound.com/products/pmx-20"
+            },
+            {
+              "url": "https://cdck-file-uploads-us1.s3.dualstack.us-west-2.amazonaws.com/flex001/uploads/techtools/original/3X/3/2/32116e078fe974f6b96cc2a7e8a25e1eae665413.pdf"
+            }
+          ],
+          "review": "Own manufacturer2018 manual p8/p9 gives A/B Hot Cues, loops, all four mixer strips, global controls and output colours. The public2021 PMX20 MIDI SPEC.xlsx export hosted by DJ TechTools supplies explicit C/D performance rows, binary-offset loop encoders, mode/focus paging and factory momentary-button behaviour. Its author metadata is only admin; manufacturer authorship of that separate export is not established. Native uses non-conflicting facts and records its additional C/D/encoding provenance separately. The tables disagree on LoadC/D (manufacturer44/45hex versus2021spec45/46), Forward (46 versus44) and browse encoder channel (raw4 versus5). All disputed controls stay inactive. Manual76-input accessory:32 Hot Cues, four Loop buttons/size encoders, six mixer controls per deck, four PFL buttons, A/B Load, directory entry, native previous-group assignment on Back, crossfader/master/headphone level/blend. Hot Cue notes8..1 are reversed by slot; Sample notes09..0F/20hex remain inactive. Mode33/34 rearm only their deck. Own table focus64 rearm A/C or B/D without assigning app actions. C/D require app opt-in. Forty optional static Hot Cue/PFL/Loop lamps use steady green1/on1 and off0. No mode/focus lamp is sent because those receive notes change hardware paging. Use Full MIDI mode selected before the app by holding CH2 USB10seconds, factory momentary buttons and normal paging. Automatic selection stays off: default power-on is hardware Mixer mode, and persistent Flat/Toggle settings have no reviewed discovery/restoration. No identity, forced updates, all-LED reset, persistent mode, preset, driver, firmware or audio-route write is sent. Main Play/Cue/Sync, sampler/FX, meters, disputed global controls, complete source/audio/mode/lifecycle/recovery and physical/iPad/A10X acceptance remain open. No PMX10 protocol is inherited."
+        }
+      ],
+      "result": "Independent76-input manual Full MIDI subset with40 optional static lamps. Own2018 manual and separate public2021 technical export disagree on C/D Load, Forward and browse channel. Conflicts stay inactive. Technical-export authorship is not established beyond admin metadata; its extra C/D performance/mode/encoding facts remain explicitly attributed. No persistent Flat/Toggle or query/reset/audio command runs.363 source/10 native checks and framework compilation pass. All370 earlier recipes remain identical. Full modes/disputed controls/lifecycle/audio and physical acceptance remain open."
     }
   ]
 }

@@ -5955,3 +5955,17 @@ Validation:360 source checks and11 focused native tests passed. Native checks co
 The separately preserved PAD-One manufacturer manual documents configurable notes/channels, Hold/Roll and physical reset. Its generic MIDI scale chart does not establish factory assignments. No defaults or reset command are inferred.
 
 The catalogue has370 recipes and562 records for555 physical models. Automatic core stays242, with313 without it. First-protocol gaps decrease to146. Full theoretical support remains0/555. Physical/iPad/A10X acceptance remains open.
+
+## R445 — Independent PMX-20 documented MIDI core
+
+Gemini’s own2018 manual supplies the A/B performance, four mixer strips, global controls and LED table. A separate public2021 PMX20 MIDI SPEC.xlsx export adds explicit C/D performance rows, binary-offset loop encoders, mode/focus paging and factory momentary-button behaviour. Its author metadata is only `admin`. Manufacturer authorship of that separate export is not established. Its additional facts remain explicitly attributed.
+
+The documents disagree on C/D Load, Forward and the rotary browse channel. Those controls stay inactive. The manual76-input accessory subset provides32 Hot Cues, four loop buttons/size encoders, six mixer controls per deck, PFL, A/B Load, directory entry, previous-group assignment on Back, crossfader, master and headphone level/blend. Source Hot Cue notes8..1 reverse by slot. Sample notes09..0F/20hex remain inactive. Mode33/34 rearms only its deck. The technical table’s focus64 rearms A/C or B/D without an app action. C/D require app opt-in.
+
+Forty optional static lamps use32 green1 Hot Cue lamps and eight on1 PFL/Loop lamps, all off0. No mode/focus lamp is sent because those receive messages change hardware paging. No transport is inferred from another physical control.
+
+Use Full MIDI mode, selected before opening the app by holding CH2 USB for10seconds. Use factory momentary buttons and normal paging. Automatic selection stays off because power-on defaults to hardware Mixer mode, and persistent Flat/Toggle settings have no reviewed discovery/restoration. Sampler/FX, meters, disputed controls, complete source/audio/mode/lifecycle/recovery, USB/OS/power and physical/iPad/A10X acceptance remain open. No identity query, forced update, all-LED reset, persistent mode, preset, driver, firmware or audio-route command runs. No PMX10 protocol is inherited.
+
+Validation:363 source checks and10 focused native tests passed. Native checks cover every reversed Hot Cue, both release forms,24 deck mixer controls/four globals and pickup, PFL, loop buttons/relative encoders, agreed Loads/directory controls, repeated Back, source-owned mode/focus rearming, C/D opt-in, static lamp bytes and inactive disputed/Sample/FX controls. Real-WAV loop/mixer reports retain finite synced audio and an active loop. All three catalogue gates and197 automatic held-Cue recipes pass. The iPad framework compiled and its bundled resource matches the source. All370 earlier recipes remain identical. Initial missing-profile failures remain in evidence. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r445/validation.json`.
+
+The catalogue has371 recipes and562 records for555 physical models. Automatic core stays242, with313 without it. First-protocol gaps decrease to145. Full theoretical support remains0/555. Physical/iPad/A10X acceptance remains open.
