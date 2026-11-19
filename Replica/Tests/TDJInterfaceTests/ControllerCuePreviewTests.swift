@@ -2920,3 +2920,127 @@ func controllerCatalogueRemainingPublicTransportKeepsRealAudioAndSavedSync(_ nam
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test(arguments:["Denon DJ HC1000S","Denon DJ HC4500"]) @MainActor
+func controllerCatalogueLegacyHCManufacturerPressureKeepsRealAudioAndSavedSync(_ name:String)async throws{
+    try await withControllerCuePlayback(name){model,input in
+        if name=="Denon DJ HC1000S"{
+            cuePreviewPacket([0x90,96,64,23,64],to:input);#expect(model.playbackSnapshot?.a.touchActive == true)
+            cuePreviewPacket([0x81,96,64,0x90,96,64,24,64,24,0,0x80,96,64,0x90,29,64,29,0],to:input)
+        }else{
+            cuePreviewPacket([0x90,66,64],to:input);#expect(model.playbackSnapshot?.a.touchActive == true)
+            cuePreviewPacket([0x80,66,64,0x90,67,64,67,0],to:input)
+        }
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        if name=="Denon DJ HC1000S"{#expect(model.playbackSnapshot?.a.loopEnabled == true)}
+    }
+}
+
+@Test(arguments:["Numark NVII","Denon DJ PRIME GO+","American Audio DP2"]) @MainActor
+func controllerCatalogueRecoveredPublicTransportKeepsRealAudioAndSavedSync(_ name:String)async throws{
+    try await withControllerCuePlayback(name,manual:name != "American Audio DP2"){model,input in
+        let channel:UInt8=name=="Numark NVII" ? 1:name=="Denon DJ PRIME GO+" ? 2:0
+        let cue:UInt8=name=="Numark NVII" ? 32:name=="Denon DJ PRIME GO+" ? 9:25
+        let play:UInt8=name=="Numark NVII" ? 33:name=="Denon DJ PRIME GO+" ? 10:26
+        cuePreviewPacket([0x90+channel,cue,127],to:input);#expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80+channel,cue,127,0x90+channel,play,127,play,0],to:input)
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test(arguments:["Denon DJ SC2900","Denon DJ S3900","Denon DJ S3700","Denon DJ S1200"]) @MainActor
+func controllerCatalogueDenonLegacyPlayerKeepsRealAudioSavedSyncAndModeRelease(_ name:String)async throws{
+    try await withControllerCuePlayback(name){model,input in
+        cuePreviewPacket([0x95,66,64],to:input);#expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x9F,name=="Denon DJ S1200" || name=="Denon DJ S3700" ? 49:82,64,0x95,67,64,67,0],source:10);input.flushPendingActions()
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test(arguments:["Denon DJ X1600","Synq PCM-1"]) @MainActor
+func controllerCatalogueLegacyLayerNativeTransportKeepsRealAudioAndSavedSync(_ name:String)async throws{
+    try await withControllerCuePlayback(name,manual:true){model,input in
+        let cue:UInt8=name=="Denon DJ X1600" ? 69:25;let play:UInt8=name=="Denon DJ X1600" ? 68:26
+        cuePreviewPacket([0x90,cue,64],to:input);#expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80,cue,64,0x90,play,64,play,0],to:input)
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test(arguments:["Rane SIXTY TWO","Rane SIXTY FOUR","Rane TTM57 MKII"]) @MainActor
+func controllerCatalogueLegacyRaneMixerAndLoopsKeepRealAudioAndSavedSync(_ name:String)async throws{
+    try await withControllerCuePlayback(name,manual:true){model,input in
+        model.pressPlay(deck:.a,vinylStop:false)
+        if name=="Rane TTM57 MKII"{cuePreviewPacket([0x94,50,127,50,0,0xBE,32,4],to:input)}
+        else{cuePreviewPacket([0x90,name=="Rane SIXTY TWO" ? 29:28,127,name=="Rane SIXTY TWO" ? 29:28,0,0xB0,name=="Rane SIXTY TWO" ? 116:117,2],to:input)}
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.loopEnabled == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test(arguments: ["Reloop Contour Controller Edition", "Reloop Contour Interface Edition"]) @MainActor
+func controllerCatalogueContourKeepsRealAudioAndSavedSync(_ name: String) async throws {
+    try await withControllerCuePlayback(name) { model, input in
+        cuePreviewPacket([0x90, 38, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x91, 6, 127, 0x90, 39, 127, 39, 0], source: 10); input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test(arguments: ["American Audio 10MXR", "American Audio 14MXR", "American Audio 19MXR"]) @MainActor
+func controllerCatalogueMXRKeepsRealAudioAndSavedSync(_ name: String) async throws {
+    try await withControllerCuePlayback(name, manual: name == "American Audio 10MXR") { model, input in
+        let ch: UInt8 = name == "American Audio 10MXR" ? 0 : 2
+        cuePreviewPacket([0x90 + ch, 12, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x81 + ch, 12, 127, 0x90 + ch, 13, 127, 13, 0], to: input)
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test(arguments: ["Numark 4TRAK", "M-Audio Xponent"]) @MainActor
+func controllerCatalogueLegacyPCDJKeepsRealAudioAndSavedSync(_ name: String) async throws {
+    try await withControllerCuePlayback(name, manual: true) { model, input in
+        let ch: UInt8 = name == "Numark 4TRAK" ? 1 : 0
+        let cue: UInt8 = ch == 1 ? 16 : 35
+        let play: UInt8 = ch == 1 ? 17 : 36
+        cuePreviewPacket([0x90 + ch, cue, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80 + ch, cue, 127, 0x90 + ch, play, 127, play, 0], to: input)
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test(arguments:["Behringer CMD PL-1","Behringer CMD DC-1","Behringer CMD LC-1","Behringer CMD DV-1"]) @MainActor
+func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String)async throws{
+    try await withControllerCuePlayback(name,manual:name=="Behringer CMD DV-1"){model,input in
+        if name=="Behringer CMD PL-1"{
+            cuePreviewPacket([0x90,34,64],to:input);#expect(model.playbackSnapshot?.a.touchActive == true)
+            input.receiveBytes([0x91,26,1,0x90,35,127,35,0,31,64,0xB0,31,69,0x80,31,64],source:10);input.flushPendingActions()
+        }else{
+            model.pressPlay(deck:.a,vinylStop:false)
+            let ch:UInt8=name=="Behringer CMD DC-1" ? 5:name=="Behringer CMD LC-1" ? 7:6
+            let pad:UInt8=name=="Behringer CMD DC-1" ? 48:name=="Behringer CMD LC-1" ? 32:92
+            cuePreviewPacket([0x90+ch,pad,127,pad,0],to:input)
+        }
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}

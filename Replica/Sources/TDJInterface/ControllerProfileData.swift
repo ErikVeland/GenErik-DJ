@@ -86,8 +86,10 @@ struct ControllerProfileData: Decodable, Sendable {
     struct BankChange: Decodable, Sendable {
         let kind: ControllerMIDIMessage.Kind?
         let channel: UInt8
+        let anyChannel: Bool?
         let number: UInt8
         let onValue: UInt8?
+        let anyPositive: Bool?
         let decks: [DeckID]
         let releaseShiftChannels: [UInt8]?
         let deckBank: UInt8?
@@ -95,7 +97,9 @@ struct ControllerProfileData: Decodable, Sendable {
         var isValid: Bool {
             (kind == nil || kind == .note || kind == .control)
                 && channel < 16 && number < 128
-                && (onValue.map { $0 < 128 && (kind == .control || $0 > 0) } ?? (kind == .control))
+                && (anyPositive == true
+                    ? (kind == nil || kind == .note) && onValue == nil
+                    : (onValue.map { $0 < 128 && (kind == .control || $0 > 0) } ?? (kind == .control)))
                 && (kind != .control || releaseShiftChannels == nil)
                 && !decks.isEmpty && decks.count <= 4 && Set(decks).count == decks.count
                 && (releaseShiftChannels.map {
@@ -245,14 +249,25 @@ struct ControllerProfileData: Decodable, Sendable {
 
     private var validBankChanges: Bool {
         let changes = bankChanges ?? []
-        return changes.count <= 32 && (changes.isEmpty || role != "player")
-            && changes.allSatisfy { $0.isValid }
+        return changes.count <= 32
+            && (role != "player" || changes.allSatisfy { $0.decks == [.a] && $0.deckBank == nil })
+            && changes.allSatisfy {
+                $0.isValid && ($0.anyChannel != true || (role == "player" && $0.channel == 0 && ($0.kind ?? .note) == .note))
+            }
             && changes.allSatisfy { change in
                 (change.releaseShiftChannels ?? []).allSatisfy { channel in
                     inputs.contains { $0.action == .shift && $0.shiftChannel == channel }
                 }
             }
-            && Set(changes.map { "\(($0.kind ?? .note).rawValue):\($0.channel):\($0.number)" }).count == changes.count
+            && changes.enumerated().allSatisfy { index, change in
+                changes.prefix(index).allSatisfy { previous in
+                    let sameAddress = (change.kind ?? .note) == (previous.kind ?? .note)
+                        && (change.channel == previous.channel || change.anyChannel == true || previous.anyChannel == true)
+                        && change.number == previous.number
+                    return !sameAddress || (change.kind == .control && change.onValue != nil
+                        && previous.onValue != nil && change.onValue != previous.onValue)
+                }
+            }
     }
 
     /**
@@ -352,7 +367,7 @@ struct ControllerProfileData: Decodable, Sendable {
             return input.argument.map { input.encoding.isRelative && ControllerCountJogMotion.validResolution($0) }
                 ?? true
         case .loopSizeA, .loopSizeB:
-            return input.kind == .control && [.twosComplement, .binaryStep, .binaryDirection].contains(input.encoding)
+            return input.kind == .control && [.twosComplement, .binaryOffset, .binaryStep, .binaryDirection, .zeroForward, .signedStep].contains(input.encoding)
                 && input.argument == nil
         case .loopA, .loopB:
             return input.argument.map { PerformancePreparation.loopSizes.contains($0) } ?? true

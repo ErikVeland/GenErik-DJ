@@ -96,7 +96,7 @@
           "model": "Seventy-Two MKII",
           "downloads": [
             {
-              "description": "Seventy-Two Control Panel \u2013 macOS v1.1.2",
+              "description": "Seventy-Two Control Panel – macOS v1.1.2",
               "type": "Editor",
               "url": "https://cdn.inmusicbrands.com/rane/seventy-two/MacRaneSeventy-Two_1.1.2.dmg"
             },
@@ -126,7 +126,7 @@
           "model": "Seventy-Two",
           "downloads": [
             {
-              "description": "Seventy-Two Control Panel \u2013 macOS v1.1.2",
+              "description": "Seventy-Two Control Panel – macOS v1.1.2",
               "type": "Editor",
               "url": "https://cdn.inmusicbrands.com/rane/seventy-two/MacRaneSeventy-Two_1.1.2.dmg"
             },
@@ -156,12 +156,12 @@
           "model": "Seventy",
           "downloads": [
             {
-              "description": "SEVENTY Firmware Update \u2013 macOS v1.1.0.127 (Latest Version)",
+              "description": "SEVENTY Firmware Update – macOS v1.1.0.127 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/seventy/Rane%20Seventy%20Firmware%20Updater%20For%20Firmware%201.1.0.127%20%28Updater%201.0.1%29.dmg"
             },
             {
-              "description": "SEVENTY Firmware Update \u2013 Windows v1.1.0.127 (Latest Version)",
+              "description": "SEVENTY Firmware Update – Windows v1.1.0.127 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/seventy/Install%20Rane%20Seventy%20Firmware%20Updater%20For%20Firmware%201.1.0.127%20%28Updater%201.0.0%29.exe"
             },
@@ -211,7 +211,7 @@
               "url": "https://cdn.inmusicbrands.com/rane/four/Install%20Rane%20FOUR%201.0.10.exe"
             },
             {
-              "description": "FOUR Firmware Update \u2013 macOS 1.8.0.18 (Latest Version)",
+              "description": "FOUR Firmware Update – macOS 1.8.0.18 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/Software/RD/RANE%20FOUR%20Firmware%20Updater%20For%20Firmware%201.8.0.18.dmg"
             },
@@ -226,7 +226,7 @@
               "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20FOUR%20Firmware%20-%20Release%20Note%20History%20v1.8.0.18.pdf"
             },
             {
-              "description": "FOUR Firmware Update \u2013 macOS v1.7.0.8",
+              "description": "FOUR Firmware Update – macOS v1.7.0.8",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/four/RANE%20FOUR%20Firmware%20Updater%20For%20Firmware%201.7.0.8%20%28Updater%201.1.6%29.dmg"
             },
@@ -306,12 +306,12 @@
               "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%201.0.2.exe"
             },
             {
-              "description": "PERFORMER Firmware Update \u2013 macOS v1.3.0.13 (Latest Version)",
+              "description": "PERFORMER Firmware Update – macOS v1.3.0.13 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.3.0.13.dmg"
             },
             {
-              "description": "PERFORMER Firmware Update \u2013 Windows v1.3.0.13 (Latest Version)",
+              "description": "PERFORMER Firmware Update – Windows v1.3.0.13 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/Software/RD/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.3.0.13.exe"
             },
@@ -321,12 +321,12 @@
               "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20PERFORMER%20Firmware%20-%20Release%20Note%20History%20v1.3.0.13.pdf"
             },
             {
-              "description": "PERFORMER Firmware Update \u2013 macOS v1.2.0.10",
+              "description": "PERFORMER Firmware Update – macOS v1.2.0.10",
               "type": "Driver",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.2.0.10%20%28Updater%201.0.5%29.dmg"
             },
             {
-              "description": "PERFORMER Firmware Update \u2013 Windows v1.2.0.10",
+              "description": "PERFORMER Firmware Update – Windows v1.2.0.10",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.2.0.10%20%28Updater%201.0.4%29.exe"
             },
@@ -336,12 +336,12 @@
               "url": "https://cdn.inmusicbrands.com/rane/performer/Release%20Notes%20-%20Rane%20PERFORMER%20Firmware%20v1.2.0.10.pdf"
             },
             {
-              "description": "PERFORMER Firmware Update \u2013 macOS v1.1.0.13",
+              "description": "PERFORMER Firmware Update – macOS v1.1.0.13",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.1.0.13%20%28Updater%201.0.3%29.dmg"
             },
             {
-              "description": "PERFORMER Firmware Update \u2013 Windows v1.1.0.13",
+              "description": "PERFORMER Firmware Update – Windows v1.1.0.13",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.1.0.13%20%28Updater%201.0.3%29.exe"
             },
@@ -356,12 +356,12 @@
           "model": "Rane One MKII",
           "downloads": [
             {
-              "description": " ONE MKII Firmware Update \u2013 macOS v1.2.0.2 (Latest Version)",
+              "description": " ONE MKII Firmware Update – macOS v1.2.0.2 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/one-mkii/FW1202/Rane%20ONE%20MKII%20Firmware%20Updater%20For%20Firmware%201.2.0.2%20%28Updater%201.0.2%29%201.dmg"
             },
             {
-              "description": " ONE MKII Firmware Update \u2013 Windows v1.2.0.2 (Latest Version) ",
+              "description": " ONE MKII Firmware Update – Windows v1.2.0.2 (Latest Version) ",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/one-mkii/FW1202/Install%20Rane%20ONE%20MKII%20Firmware%20Updater%20For%20Firmware%201.2.0.2%20%28Updater%201.0.2%29.exe"
             },
@@ -2199,6 +2199,592 @@
         }
       ],
       "result": "Independent manual32-input AMX,30-input iCUE and118-binding original Digital Jockey subsets.294 source/18 native checks and iPad framework compilation pass. All312 earlier recipes remain identical. No hardware or audio writes. Unqualified modes/calibration, feedback/lifecycle/audio and physical acceptance remain open."
+    },
+    {
+      "request": "R415",
+      "sources": [
+        {
+          "model": "Denon DJ HC1000S",
+          "url": "https://cdn.inmusicbrands.com/denondj/legacy/dnhc1000s/DN-HC1000S_ownersmanual.pdf",
+          "sha256": "3ee803eafe162a7925d39e8b0d55174d2a16cb07d9ac87efb2b792df4bbbb8eb",
+          "cacheName": "hc1000s-manual.pdf",
+          "pages": [
+            1,
+            2
+          ],
+          "visuallyReviewedPages": [
+            1
+          ],
+          "review": "Own manufacturer A2 manual independently qualifies raw channels0..3, note press64/release0, each A/B address and separate LED74/75 trigger commands. Native keeps five Hot Cues, bends, loops, Load, library and loop-size encoders. Native Shift Cue1/2/3/4/5 give held Cue/Play/Sync/Load/PFL; Shift Censor gives key lock. All four channel aliases share one source-owned Shift input, with cleanup on both edges even if MIDI channel changes while held. Encoders accept exact0/127 only. Hot Cue/Auto Loop lamps retain normal state while native Shift transport is active. Legacy Cue deletion/instant doubles, TAP/reverse/roll/sampler, full mode feedback/lifecycle and physical/iPad/A10X acceptance remain open. No private SDK, stored setting, setup write or audio route is used."
+        },
+        {
+          "model": "Denon DJ HC4500",
+          "url": "https://cdn.inmusicbrands.com/denondj/legacy/dnhc4500/DN-HC4500_midicommandlist.pdf",
+          "sha256": "13d7ee9d3177fe2e1a9c55ecbc37755a0efccb555f20146b34a98ff66a7f712c",
+          "cacheName": "hc4500-midi.pdf",
+          "pages": [
+            1,
+            2
+          ],
+          "visuallyReviewedPages": [
+            1,
+            2
+          ],
+          "relatedSources": [
+            {
+              "url": "https://cdn.inmusicbrands.com/denondj/legacy/dnhc4500/DN-HC4500_ownersmanual.pdf",
+              "sha256": "d95a7ba9d9eba1572b5e0cf896575d65ee0e121783df47ff858b20db957be64a",
+              "cacheName": "hc4500-manual.pdf",
+              "pages": [
+                8,
+                9
+              ]
+            }
+          ],
+          "review": "Own manufacturer wire table independently qualifies note press64/release0, raw pitch centre8192 and reverse slider direction, strict browse0/127 and separate LED74/75 triggers. Its own manual documents MIDI channel pairs1/2,3/4,5/6, default HC4500 MIDI mode and configurable jog pulse counts. Native maps each pair to the same physical A/B players, not C/D. Source/Preset messages retire only source-owned holds and pickup. Pitch follows app range, not a claim of the hardware printed percentage. Native five Hot Cues, Play/Cue, bends, A1 loop In/B loop Out/Reloop and Parameter push Load are retained. Jog/contact and configurable pulse calibration, A2/Flip, Pitch-Key/TAP/FX, complete displays/state/lifecycle/audio and physical/iPad/A10X acceptance remain open. No HC5000 HID, private SDK, stored setting, SysEx request, hardware mode write or automatic audio assignment is inferred."
+        }
+      ],
+      "otherProtocolFindings": [
+        {
+          "model": "Numark DMC2",
+          "url": "https://www.numark.com/images/product_downloads/dmc2_quickstartguide.pdf",
+          "review": "Own guide identifies a HID-compliant custom DMC2 protocol; no HC4500 MIDI inheritance."
+        },
+        {
+          "model": "Denon DJ HC5000",
+          "url": "https://cdn.inmusicbrands.com/denondj/legacy/dnhc5000/DN-HC5000_ENGLISH.pdf",
+          "review": "Own technical specification identifies USB HID I/O; no HC4500 MIDI inheritance."
+        }
+      ],
+      "result": "Independent automatic HC1000S244-input/48-lamp and HC450096-input/42-lamp cores.296 source/13 native checks and iPad framework compilation pass. All315 earlier recipes remain identical. Full modes/calibration/feedback/lifecycle/audio/OS and physical acceptance remain open."
+    },
+    {
+      "request": "R416",
+      "bundle": {
+        "url": "https://downloads.ultramixer.com/downloads/_releases/UltraMixer/current/UltraMixer-6.4.11-ec74c38-Release-64Bit-mac-INTEL.zip",
+        "sha256": "43b6fb3678741f5a49dc23724f0126020bfbfa9f3788a3fefa6f45ec07a549ad",
+        "jarSHA256": "142fee363d155284ef4d103d0a98e62e8e2193982dc5a7e245d8122e4c3b462f",
+        "mappingDocuments": 100,
+        "inspection": "Only document resources were read. No installer, app, Java class, script or mapping action executed. Embedded artwork was not used as protocol evidence."
+      },
+      "sources": [
+        {
+          "model": "Numark NVII",
+          "url": "https://downloads.ultramixer.com/downloads/_releases/UltraMixer/current/UltraMixer-6.4.11-ec74c38-Release-64Bit-mac-INTEL.zip",
+          "sha256": "43b6fb3678741f5a49dc23724f0126020bfbfa9f3788a3fefa6f45ec07a549ad",
+          "cacheMember": "documents/res/midi/midimaps/Numark-NV2.xml",
+          "memberSHA256": "3a07f44ff1f15a6fdcc0d9bffcd28aa8298311df6017506f09d78dc4e6cf3203",
+          "review": "Own named UltraMixer6.4.11 NV2 factory document qualifies channel1..4 Play33/Cue32/Sync31/Load5/bends16/17, channel0 mixer/PFL and explicit CC29/30 side selectors with values0/1. Its input/output body is identical to its separate NV file, but native does not infer startup or alias NV. Native normal transport uses two independent physical Shift identities across A/C and B/D channel aliases. Either Shift edge retires only source-owned holds; selector reports retire their own side and pickup. Pitch, jog/contact, conditional pads/FX/loops/library, complete screens/state/lifecycle/audio and physical acceptance remain open. Manual selection is required. No source action or vendor program runs."
+        },
+        {
+          "model": "Denon DJ PRIME GO+",
+          "url": "https://downloads.ultramixer.com/downloads/_releases/UltraMixer/current/UltraMixer-6.4.11-ec74c38-Release-64Bit-mac-INTEL.zip",
+          "sha256": "43b6fb3678741f5a49dc23724f0126020bfbfa9f3788a3fefa6f45ec07a549ad",
+          "cacheMember": "documents/res/midi/midimaps/Denon-DJ-Prime-Go-Plus.xml",
+          "memberSHA256": "adc225afa7c3f49e10de0bf8160b09ba09e867e12e0166cdb6471c77828a4d9c",
+          "review": "Own named factory document qualifies a manual normal fixed A/B transport/mixer subset, explicit Shift15/8, signed1/127 loop-size and browse values. Its body is identical to the separately named GO document and its USB identifier is copied across several unrelated files. Native therefore ignores the identifier and does not infer original GO startup, USB host/audio mode, paired pitch, displays, complete modes or lifecycle. The same document labels CC12 master volume while original-model firmware facts use another role, so CC12/13 remain inactive rather than inheriting sibling globals. No setup, stored setting, source action, hardware/audio route or output packet executes. Physical/iPad/A10X acceptance remains open."
+        },
+        {
+          "model": "American Audio DP2",
+          "url": "https://assets.centryngroup.com/dl/files/DP2__DL__003.zip",
+          "sha256": "d1b4aed053f954008eab66945e2db733a36d616466d691abd3ff08a3b6bb844a",
+          "cacheMember": "dp2-factory/Devices/American Audio DP2 definition.xml",
+          "member": "vdj6_dp2_midi/American_Audio_DP2.exe / Devices/American Audio DP2 definition.xml",
+          "memberSHA256": "48e9bd2ef22af5889855ac1f11162e256438382cd0c42458cca74fe6a8f6fd7a",
+          "relatedSources": [
+            {
+              "url": "https://www.adj.com/products/dp2"
+            },
+            {
+              "url": "https://assets.centryngroup.com/dl/files/DP2__DL__007.pdf",
+              "sha256": "8295dd3afa97fdc9f8f37368b7b9a7b8b8d71b17ec964227d083bfc37173cf27",
+              "visuallyReviewedPages": [
+                12
+              ]
+            },
+            {
+              "member": "Mappers/American Audio DP2 mapping.xml",
+              "sha256": "ef03c6d2aa7d5e451b01e5117203e8e6b376be058892fb02d942d01b0829d54c"
+            }
+          ],
+          "review": "Own manufacturer public MIDI chart and distributed Atomix device definition independently qualify default channels0/1, separate hardware Shift channels3/4, two physical Shift identities, channel2 globals, binary65/63 browser, inverted pitch position and LED note addresses. Native uses normal controls only; alternate positive commands stay inactive and release-only guards preserve held releases across both families. Manufacturer HIGH CC20, LOW21 and MIC_VOLUME19 versus deck-B MASTER_VOLUME19 override conflicting UltraMixer EQ/master labels. No mid EQ or gain is invented. Pitch follows app range; unknown jog calibration, FX/sampler and complete mode/state/lifecycle/audio/OS behaviour remain open. The USB-MIDI core selects automatically by explicit DP2 names, with separate app audio. No installer, source action, firmware, preset or hardware setting runs."
+        }
+      ],
+      "result": "Independent77-input NVII and45-input GO+ manual subsets, plus108-input/18-lamp automatic DP2 core.298 source/12 native checks and iPad framework compilation pass. All317 earlier recipes remain identical. Full theoretical, audio/OS and physical acceptance remain open."
+    },
+    {
+      "request": "R417",
+      "sources": [
+        {
+          "model": "Denon DJ SC2900",
+          "url": "https://cdn.inmusicbrands.com/denondj/legacy/sc2900/sc2900em-om-20130513-owners-manual-en.pdf",
+          "sha256": "75a523cdb6a9fb37ad5df544391aa52d74089603bd6f683e9e1c4f1f92fedc2e",
+          "cacheName": "sc2900-manual.pdf",
+          "pages": [
+            41,
+            42,
+            43
+          ],
+          "visuallyReviewedPages": [
+            42
+          ],
+          "review": "Own Normal-mode MIDI table independently qualifies pressure64 transport, four normal and four MIDI Bank2 Hot Cue addresses, key adjust, Sync107 and zeroForward library. Native keeps those fixed functions; hardware Shift/Shift Lock/MIDI Bank reports retire owned contacts rather than importing Hybrid/DVS or Shift software actions. Pitch CC122/123, three contact/jog families and3600-pulse calibration, full feedback/displays/state/lifecycle/audio/OS and physical acceptance remain open."
+        },
+        {
+          "model": "Denon DJ S3900",
+          "url": "https://cdn.inmusicbrands.com/denondj/legacy/sc3900/sc3900em-om-20130513-en.pdf",
+          "sha256": "05e2900187c9fb22ad7b69d7bb747443b3bb4159b702adbd637218bfc7210d58",
+          "cacheName": "sc3900-manual.pdf",
+          "pages": [
+            38,
+            39,
+            40
+          ],
+          "visuallyReviewedPages": [
+            39
+          ],
+          "review": "Own SC3900 Normal-mode MIDI table independently qualifies pressure64 transport, four normal and four MIDI Bank2 Hot Cue addresses, key adjust, Sync107 and zeroForward library. The catalogue retains its S3900 name and explicit SC3900 aliases. Native does not inherit SC2900 contact streams: SC3900 has separate motor/jog pulse-width reports. Motors, Hybrid/DVS, pitch CC122/123, scratch pulse calibration, complete feedback/displays/state/lifecycle/audio/OS and physical acceptance remain open."
+        },
+        {
+          "model": "Denon DJ S3700",
+          "url": "https://cdn.inmusicbrands.com/denondj/legacy/dns3700/dns3700-midi-command-list.pdf",
+          "sha256": "54e5b974b7a60dd7050fa6ac4a2d76f8aff1a0ef32b7d28e4649d567baf3cbaa",
+          "cacheName": "s3700-midi.pdf",
+          "pages": [
+            1,
+            2
+          ],
+          "visuallyReviewedPages": [
+            1,
+            2
+          ],
+          "relatedSources": [
+            {
+              "url": "https://cdn.inmusicbrands.com/denondj/legacy/dns3700/dns3700_ownersmanual.zip",
+              "member": "DNS3700_ownersmanual_english.pdf",
+              "memberSHA256": "484e15503bb8d1a248e2ef32b450232dafd9f812251b696dec509fde894a4c79"
+            }
+          ],
+          "review": "Own command table qualifies pressure64 transport, three Hot Cues, separate Auto Loop Set/Exit, Key Adjust6 and zeroForward library. Native Auto Loop Set uses app loop behaviour; Exit disables it. Jog/scratch CC81 and platter CC86 are separate1480-pulse streams and are not conflated. Its own manual defaults MIDI channel1 with1..6 selection. Native accepts the table channel envelope0..15 without inferring motor, Hybrid/DVS, pitch direction/calibration, full modes/displays/feedback/lifecycle/audio/OS or physical acceptance."
+        },
+        {
+          "model": "Denon DJ S1200",
+          "url": "https://cdn.inmusicbrands.com/denondj/legacy/dns1200/DN-S1200_midicommandlist.pdf",
+          "sha256": "9ca1ff5d73419b7ef8894fafd247a9752d121638651547cdac64bb6a06b31536",
+          "cacheName": "s1200-midi.pdf",
+          "pages": [
+            1,
+            2
+          ],
+          "visuallyReviewedPages": [
+            1
+          ],
+          "relatedSources": [
+            {
+              "url": "https://cdn.inmusicbrands.com/denondj/legacy/dns1200/DN-S1200_ownersmanual.zip",
+              "member": "DN-S1200_ownersmanual_english.pdf",
+              "memberSHA256": "1f2591b4bd0ddb92ca590a8fa0717fe45188d0c06ca0b68635933709f9835a51"
+            }
+          ],
+          "review": "Own command table qualifies pressure64 transport, A1 loop In/B loop Out/Exit-Reloop, held bends and zeroForward library. Its own manual defaults MIDI channel1 with1..6 selection. Native accepts the table channel envelope0..15 and does not invent Hot Cues, a separate Sync button or an independent key-lock meaning for combined Pitch/KEY5. A2/Flip, contact/jog/pitch calibration, FX, complete displays/feedback/state/lifecycle/audio/OS and physical acceptance remain open."
+        }
+      ],
+      "otherProtocolFindings": [
+        {
+          "model": "Denon DJ HD2500",
+          "url": "https://cdn.inmusicbrands.com/denondj/legacy/dnhd2500/DN-HD2500-MIDI-command-list.pdf",
+          "sha256": "a84b3ff9e23cd3acd010ef42a0e8fdf8b6aefca65468cd761baad289b8ddcfee",
+          "review": "Public primary web text is readable, but local Poppler and Quartz renders lose the command-table font. Original owner manual and firmware addendum do not yet establish a complete USB MIDI mode/channel contract. Remains a separate gap; no S1200 or HC4500 inheritance."
+        }
+      ],
+      "result": "Four independent automatic normal-MIDI single-player cores: SC2900/SC390021 inputs each, S370016 and S120010. Player-local mode reports follow the currently assigned deck.300 source/19 native checks and iPad framework compilation pass. All320 earlier recipes remain identical. Full motion/motor/Hybrid/DVS/modes/feedback/audio/OS and physical acceptance remain open."
+    },
+    {
+      "request": "R418",
+      "sources": [
+        {
+          "model": "Denon DJ X1600",
+          "url": "https://cdn.inmusicbrands.com/denondj/legacy/dnx1600/dnx1600-ownersmanual.zip",
+          "sha256": "98a68fc29fa8f24453bc7c163cae56add0eaefa3cfc40536030f957576ea55ec",
+          "cacheName": "x1600-manual.zip",
+          "member": "DN-X1600_ownersmanual_english.pdf",
+          "memberSHA256": "cd131b07988d02c1d02fd0505852174edebeb6bc93bab0f56664898901dc0f78",
+          "visuallyReviewedPages": [
+            24
+          ],
+          "review": "Own manufacturer manual printed18 explains the enabled MIDI layer and hardware EQ/fader lock on return. Printed20/PDF24 independently qualifies four three-band/fader strips, Cue note buttons, crossfader/master, strip layer reports70..73, preset74, page76 and four distinct parameter/function address pages. Native assigns each page to A/B/C/D: FUNC1/2/3/4 are Play/held Cue/Sync/Load; PARAM1 browse/push group; PARAM2 loop-size/push Auto Loop. Those are explicit native assignments, not claimed factory software actions. Per-strip layer reports reset their own strip; preset/page reports retire owned holds across all four. Manual MIDI channel1 and enabled hardware MIDI layers are required. No gain, headphone globals, hardware bus/FX/mic/booth/feedback writes, X1800/X1850 compatibility or automatic audio route is inferred. Full modes/lifecycle/audio/OS and physical acceptance remain open."
+        },
+        {
+          "model": "Synq PCM-1",
+          "url": "https://synq-audio.com/de/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1438589424.zip&name=PCM-1_MIDIMAP_Traktor_Pro",
+          "sha256": "e039bf8ac16eccc5f97ad0b2f0ebda2baf9ba18d90d95b3a279c7c07a5da4d78",
+          "cacheName": "pcm1-traktor.zip",
+          "member": "Traktor Settings for PCM1.tsi",
+          "memberSHA256": "a32965bbcc64db327a974cd1f3aa2e3edc25b86106c5f633b05b966f47ff0aba",
+          "usedRows": 156,
+          "inputRows": 94,
+          "relatedSources": [
+            {
+              "url": "https://synq-audio.com/de/pcm-1"
+            },
+            {
+              "url": "https://synq-audio.com/de/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1418208092.pdf&name=PCM-1_Manual_v1.0",
+              "sha256": "38fb14f694f5c1ddf9b83699ed33362ae062600609281376a029015535e70ed3"
+            },
+            {
+              "url": "https://synq-audio.com/de/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1466781040.pdf&name=PCM-1_FAQ_MIDI_problem",
+              "sha256": "43e259edeb376db81d9744d57ac95577fba3513d25cffc12c9995ee1ca418ed6"
+            }
+          ],
+          "review": "Own manufacturer-distributed TSI has156 used rows,94 inputs. Normal transport and mixer channels1/2, globals3, pitch18 inverted, level22, high19/mid20/low21, monitor3/cueMix2 and binary65/63 library come from separate used input definitions. Native normal buttons keep Play26/held Cue25/Sync56/key lock57/PFL53/Load61 and held bends59/60. Shift55 guards normal positives, retires source-owned holds on the documented factory-mapping full-value path and has only the independently used alternate Cue25 release aliases on raw channels3/4. No DP2 inheritance: its manufacturer EQ addresses differ. Generic USB Audio Device names prevent automatic qualification. Unresolved crossfader/master, gain encoder calibration, jog/contact, sampler/FX/loops, full modes/feedback/lifecycle/audio/OS and physical acceptance remain open. No TSI action, program, driver, preset or hardware/audio write executes."
+        }
+      ],
+      "otherProtocolFindings": [
+        {
+          "model": "Denon DJ X1800 PRIME",
+          "url": "https://cdn.inmusicbrands.com/denondj/X1800/X1800%20Prime%20-%20User%20Guide%20-%20v1.7.pdf",
+          "sha256": "f380205ec6950152fccfdea06199a47c33d1ed84c6d23fa962464e8ff4209caa",
+          "review": "Reviewed user guide explains operation and MIDI clock but provides no control-address chart. Remains a separate protocol gap; no X1600 inheritance."
+        },
+        {
+          "model": "Denon DJ X1850 PRIME",
+          "url": "https://cdn.inmusicbrands.com/denondj/X1850Prime/X1850%20PRIME%20-%20User%20Guide%20-%20v1.4.pdf",
+          "sha256": "ed7b8dc224f5cf6f011f2431fb723cd8282f10dae0e3952a467826be22d1398e",
+          "review": "Reviewed user guide provides no control-address chart. Remains a separate protocol gap; no X1600 or X1800 byte inheritance."
+        }
+      ],
+      "result": "Independent54-input X1600 native MIDI-layer layout and50-input PCM-1 factory subset, both manual with separate audio.303 source/12 native checks and iPad framework compilation pass. All324 earlier recipes remain identical. Full modes/audio/OS and physical acceptance remain open."
+    },
+    {
+      "request": "R419",
+      "sources": [
+        {
+          "model": "Rane SIXTY TWO",
+          "url": "https://www.ranecommercial.com/legacy/pdf/sixtytwo_manual_dj.pdf",
+          "sha256": "f44874c5435959181ae5676c3904291a570e5f8cdfcd19fdff090c17b59e9afe",
+          "cacheName": "sixtytwo-manual.pdf",
+          "pages": [
+            29,
+            32,
+            33,
+            34,
+            35
+          ],
+          "visuallyReviewedPages": [
+            35
+          ],
+          "review": "Own manufacturer manual independently separates read-only mixer MIDI output, writable software controls and mixer-input configuration addresses. Native uses default MIDI Layer1, two six-control strips, four globals, five Hot Cues per deck, distinct manual/auto loop buttons and encoders and library. The manual explicitly gives different MIDI addresses for Cue versus Sample and Auto versus Manual loop controls. Software-owned Hot Cue/Loop lamps use primary-full velocity64 and off0. Hardware-only Cue/FX, input settings and mixer-control LEDs are not written. Source selector CC116/117 values1..4 reset only owned strip pickup. Other layers use non-sequential channels1/3/4/5/6 and are not silently aliased. Complete modes/feedback/audio/OS and physical acceptance remain open."
+        },
+        {
+          "model": "Rane SIXTY FOUR",
+          "url": "https://cdn.inmusicbrands.com/rane/pdf/sixtyfour_manual_dj.pdf",
+          "sha256": "15f81f7976e454c22136464a4804e3a2415f234d067023bb85d8928dbf9ca992",
+          "cacheName": "sixtyfour-manual.pdf",
+          "pages": [
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ],
+          "visuallyReviewedPages": [
+            38
+          ],
+          "review": "Own manufacturer table independently qualifies four fixed targets in physical C/A/B/D strip order, dedicated alternate bank addresses and default MIDI Layer1. Native keeps31 unambiguous Hot Cues, four Sync/load/loop/library sets, four six-control mixer strips and globals. Note16 is duplicated as Deck3 Trigger6 and FX joystick east, so it stays inactive, including feedback. CC122/123 overlap crossfader-assign and layer reports and stay inactive. Source selector CC116..119 values1..4 reset C/A/B/D strip pickup respectively. Only software-owned Hot Cue/Sync/Loop notes receive primary-full64/off0. No mixer setting, contour/reverse, hardware Cue/FX/LED, sibling byte, startup or audio write is inferred. Other layers, full modes/feedback/lifecycle/audio/OS and physical acceptance remain open."
+        },
+        {
+          "model": "Rane TTM57 MKII",
+          "url": "https://cdn.inmusicbrands.com/rane/pdf/ttm57mk2_manual.pdf",
+          "sha256": "4518a534c438a039dd858ffdf3251b656480cabba7b3dbd540164cb2df9d8078",
+          "cacheName": "ttm57mk2-manual.pdf",
+          "pages": [
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28
+          ],
+          "visuallyReviewedPages": [
+            27
+          ],
+          "review": "Own manufacturer table independently qualifies deck mixer channels1/2, loop channels5/6, general channel15 and library/crossfader channel16. Encoders explicitly use65/63 single steps. Native has two six-control strips, master/headphone/cue mix/crossfader, loop size/toggle and library browse/load/group. USB Port Active channel15 CC32 values1/4/5 reset only owned pickup. The same pad addresses represent different Cues/Samples functions, with pad mode reported by channel15 CC58; these pads and their LEDs remain inactive until the mode contract is implemented. No default pad mode, original TTM57 compatibility, driver, setup, source action, mixer preference, firmware or audio route is inferred. Full modes/feedback/lifecycle/audio/OS and physical acceptance remain open."
+        }
+      ],
+      "result": "Independent manual44-input/14-lamp Sixty-Two,83-input/39-lamp Sixty-Four and24-input TTM57mkII subsets.305 source/11 native checks and iPad framework compilation pass. All326 earlier recipes remain identical. Source pickup and relative loop encoder counts are covered. No private SDK or hardware mixer/audio write. Complete modes/feedback/lifecycle/audio/OS and physical acceptance remain open."
+    },
+    {
+      "request": "R420",
+      "sources": [
+        {
+          "model": "Behringer CMD PL-1",
+          "url": "https://www.parts-express.com/pedocs/tech-docs/behringer-cmd-pl-1-platter-module-midi-map--248-6846.pdf",
+          "sha256": "7312917c4731d9e99194b83f65913f79b39dfa9f893d4582a8c046115981783a",
+          "visuallyReviewedPages": [
+            1
+          ],
+          "files": [
+            {
+              "cacheName": "cmd-pl1-midi.pdf",
+              "sha256": "7312917c4731d9e99194b83f65913f79b39dfa9f893d4582a8c046115981783a"
+            },
+            {
+              "cacheName": "pl1/behringer.cmd.pl-1.js",
+              "sha256": "a15361b63cbd801f52e33b0e809d56432abf837272710dffd8727de472d60ebf"
+            },
+            {
+              "cacheName": "pl1/behringer.cmd.pl-1.midi.xml",
+              "sha256": "df47f0bff2cf00918e129a7d0bbbda49d43a1808eab4b3ff0f1a4874a1a838b7"
+            },
+            {
+              "cacheName": "pl1/behringer.cmd.pl-1.custom.js",
+              "sha256": "31cc5e7b09e0860293fb7ca5dbe1220e8741fb99a560a5625019c279b9ca27b4"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://gist.github.com/geenloop/0a8cfa5728c9f9909765d150f96779f4/0b8bed36ad461359b1bfadff14627044bf80fe01",
+              "revision": "0b8bed36ad461359b1bfadff14627044bf80fe01"
+            }
+          ],
+          "review": "Own manufacturer sheet visually qualifies default channel group1..4, note addresses and button LED1 solid/0 off. Independent model-specific mapping qualifies CC31 and Note31 wheel/contact, binary-offset encoders and400-count source scratch scale. Native retains default four targets only, eight Hot Cues each and named Play/held Cue/Sync/Load/key lock. E1..8 deliberately control gain/high/mid/low/filter/loop size/library/headphones; E6/7/8 push loop/group/PFL. These are native assignments, not copied software actions. Jog counts require owned contact; free spin/scratch-toggle and pitch polarity remain inactive or open. Any positive Deck26 retires only owned contacts; its release preserves fresh contacts. HH channel groups5..16, exact physical scale/direction, tempo, remaining buttons, rings/meters, full lifecycle/OS and physical acceptance remain open. No source code, setup, channel changer, stored setting or audio command runs."
+        },
+        {
+          "model": "Behringer CMD DC-1",
+          "url": "https://raw.githubusercontent.com/mpiraux/CMD-DC-1-Ableton-9-Control-Surface-Script/c2a122474cb81469352493c393e4a985b9ca9753/DC1.py",
+          "revision": "c2a122474cb81469352493c393e4a985b9ca9753",
+          "sha256": "c8da7571d54a14b9c00151a108ffe10db4b7b78af632814884292d0dd5f5473b",
+          "files": [
+            {
+              "cacheName": "dc1/DC1.py",
+              "sha256": "c8da7571d54a14b9c00151a108ffe10db4b7b78af632814884292d0dd5f5473b"
+            },
+            {
+              "cacheName": "dc1/DC1_Map.py",
+              "sha256": "b5db5c55ca11891c109b36ec0c723e6208dbaddacbada486e32a0ea1ed690d49"
+            },
+            {
+              "cacheName": "dc1/CMDEncoderElement.py",
+              "sha256": "6e8dd8872115ad9f25b67ebd64afcb7a0bc80eca8517b19cf6a885e446272a5c"
+            },
+            {
+              "cacheName": "dc1/FlashingButtonElement.py",
+              "sha256": "cba7c3d78b61e40ee6440d33373a3f598721f8a6cd0a02746285356ed76b962f"
+            }
+          ],
+          "review": "Own pinned port of the manufacturer Ableton mapping explicitly uses raw channel5,16 ordered pad addresses, encoder CC16..23, their note pushes and CC/Note32 library wheel. Native gives four vertical Hot Cues per A/B/C/D column, first-row level encoders, second-row filters and Load/PFL pushes. Library uses the bounded65/63 directions; eight knobs retain declared binary-offset decoding. Used pad feedback derives through the actual colour-output function: logical green2 sends1 and amber1 sends0. Unused generic/commented templates and copied CNTRL:R comments do not qualify extra controls. Framework compatibility of the old script does not run or become an app dependency. Remaining software modes, custom channels, rings/full feedback/lifecycle and physical acceptance remain open. No vendor program, script, hardware setting or audio write."
+        },
+        {
+          "model": "Behringer CMD LC-1",
+          "url": "https://raw.githubusercontent.com/mpiraux/CMD-LC-1-Ableton-9-Control-Surface-Script/5363aa49d6006f80c71891d8bcb38cdfe80a14e1/LC1.py",
+          "revision": "5363aa49d6006f80c71891d8bcb38cdfe80a14e1",
+          "sha256": "ef3216a6d1e5c2ae58dbfbbdddd188ab619bf3e7b2ee6bd7939b0c06b51c5b8f",
+          "files": [
+            {
+              "cacheName": "lc1/LC1.py",
+              "sha256": "ef3216a6d1e5c2ae58dbfbbdddd188ab619bf3e7b2ee6bd7939b0c06b51c5b8f"
+            },
+            {
+              "cacheName": "lc1/LC1_Map.py",
+              "sha256": "96c55da7a34ba59e44fc9817a4a047cdb22eb1e4d672c09739084697996f4393"
+            },
+            {
+              "cacheName": "lc1/CMDEncoderElement.py",
+              "sha256": "42f7472e472de367609c3bd45b7078e22f508ce0e14ae2c6b63808ba3afd181e"
+            },
+            {
+              "cacheName": "lc1/FlashingButtonElement.py",
+              "sha256": "75a6bb0e4639f73b04617c27d45cf80ef5fea4adf4ca97534f67390b9899d048"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://manualzz.com/doc/3036438/behringer-cmd-lc-1-midi-controller-midi-map",
+              "review": "Manufacturer-authored sheet transcript corroborates channel8 and clip LED1 green/127 fully off; graphical address OCR is not used."
+            }
+          ],
+          "review": "Own pinned port explicitly uses raw channel7, five selected clip rows per four columns, encoder CC16..23 and note pushes, and four named navigation buttons. Native gives five Hot Cues per A/B/C/D column, level/filter encoders with Load/PFL pushes, and library navigation. Declared relative-binary-offset knobs preserve counts. Actual colour conversion maps logical green2 to1 and off127 to127, rather than copying logical colour constants as MIDI bytes. Only the selected used clip rows qualify; remaining clip/transport/mute/arm/solo controls, custom channels, rings/full feedback/lifecycle and physical acceptance remain open. No script, old framework, startup, stored setting or audio command runs."
+        },
+        {
+          "model": "Behringer CMD DV-1",
+          "url": "https://raw.githubusercontent.com/pavallin/CMD-DV1-Ableton/5536b5cf1aba7b9f5150e83e97129390363e072f/DV1.py",
+          "revision": "5536b5cf1aba7b9f5150e83e97129390363e072f",
+          "sha256": "a65a6d7b82dbb0d1216be94efb9eefa625e3b4779c40ef3e84122899b42832f4",
+          "files": [
+            {
+              "cacheName": "dv1/DV1.py",
+              "sha256": "a65a6d7b82dbb0d1216be94efb9eefa625e3b4779c40ef3e84122899b42832f4"
+            },
+            {
+              "cacheName": "dv1/DV1_Map.py",
+              "sha256": "cf95ff1c93b21672dea91daef2502db649c8cbb463df6d98a2c2b16118f28358"
+            },
+            {
+              "cacheName": "dv1/CMDEncoderElement.py",
+              "sha256": "6e8dd8872115ad9f25b67ebd64afcb7a0bc80eca8517b19cf6a885e446272a5c"
+            },
+            {
+              "cacheName": "dv1/ReadMe.txt",
+              "sha256": "63037658c68d3db933ac10316b075641d86906e2e09cde4f338ce5dbce435af9"
+            }
+          ],
+          "review": "Independent mapping explicitly identifies itself as experimental/WIP and retains unused copied DC-1 files. Only used raw channel6, three eight-encoder FX banks, eight clip notes and four Focus-navigation notes qualify. Native manual layout assigns the three qualified encoder banks to A/B/C gain/high/mid/low/filter/level/loop-size/browse, plus four Hot Cues per A/B and Focus library navigation. Actual relative-smooth-binary-offset constructors qualify the decoder; comments and unused templates do not. FX4, other Focus/Master/Double/Shift buttons, complete modes/feedback/lifecycle and physical acceptance remain open. No automatic selection, downloaded code, old framework, preset, startup, output or audio write."
+        }
+      ],
+      "result": "Independent104-input/48-lamp PL-1,34-input/16-lamp DC-1 and40-input/20-lamp LC-1 default cores select automatically. Experimental36-input DV-1 subset remains manual.307 source/16 focused native checks and iPad framework compilation pass. All329 earlier recipes remain identical. PL-1 contact uses source scale400; physical calibration, wider modes and full feedback/lifecycle remain open."
+    },
+    {
+      "request": "R421",
+      "sources": [
+        {
+          "model": "Numark 4TRAK",
+          "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+          "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+          "archiveMember": "Applications/DEX4.app/Contents/Resources/controllers/Numark__4trak_Main.js",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r301/upstream/controllers/Numark__4trak_Main.js",
+              "sha256": "f9c105ffde97c3a38f98c74d80be2acb2adab3e7cf61045e8a9a3279c5e99beb"
+            },
+            {
+              "cachePath": "TestBuilds/r421/upstream/4trak.pdf",
+              "sha256": "f6ce08498a304b977688e6272b99751f0a9d2b49b8ed14cf43cf21204d7e7821"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://www.numark.com/images/product_downloads/4TRAK_Quickstart_Guide_v1.1.pdf"
+            }
+          ],
+          "review": "Own Main script qualifies four deck channels1..4, channel0 mixer, strict1/127 browse and exact0/1 side-selector CC80/81. Native keeps physical Shift identities across A/C and B/D and retires owned side contacts on either Shift edge or selector report. Normal transport and five Hot Cues use release guards. Source lamp CCs are independent of input notes. Only steady Play/Cue/key-lock/Hot Cue lamps are enabled. Source startup changes deck banks, jog mode and loop mode; native deliberately sends none of those writes. The separate FX bar is not this input. Driver/USB host, startup, paired jog calibration/contact, strip seek, conditional loops/FX, complete feedback/lifecycle/audio and physical/iPad/A10X acceptance remain open. Manual selection is required."
+        },
+        {
+          "model": "M-Audio Xponent",
+          "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+          "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+          "archiveMember": "Applications/DEX4.app/Contents/Resources/controllers/MAudio__Xponent.js",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r301/upstream/controllers/MAudio__Xponent.js",
+              "sha256": "be0c6b910b99252faf3d56c8463c9170fcdbfd455de3a465cbbab3d0f5f7f6b6"
+            },
+            {
+              "cachePath": "TestBuilds/r390/upstream/djay-documents/M-Audio Xponent.djayMidiMapping",
+              "sha256": "90bbefef1d963947ec914021026e0c12d31ab426bb9d82a74c44680e6da26676"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://cf3.zzounds.com/media/070907_TorqXpon_UG_EN01-ae905b8e52356e5c89a355bc137419ca.pdf",
+              "reviewedPages": [
+                14,
+                15,
+                16
+              ]
+            },
+            {
+              "url": "https://www.algoriddim.com/hardware"
+            }
+          ],
+          "review": "Manufacturer Appendix A and independent djay mapping override the PCDJ script: real Shift is Note44 per deck, not Note18, and Note44 must never load a track. Pitch uses the complete MIDI pitch-bend value with exact centre, inverted as in the djay definition. Default bank A channels0/1 and channel2 globals qualify normal transport, five Hot Cues, fixed1/2/4/8-beat loops, direct manual loops, mixer and cue-mix. Owned Note22 touch gates binary-offset CC22 jog at source scratch scale300; physical scale remains unmeasured. Native Shift suppresses unsupported alternate functions and retires held contacts. Bank B, source scratch-toggle/search, trackpad/mouse, transform, EQ kills, FX, remaining lamps/meters, complete lifecycle/host/audio/OS and physical/iPad/A10X acceptance remain open. No source code, driver, setup or stored setting runs. Manual selection is required."
+        }
+      ],
+      "result": "Added separate manual 4TRAK main and default-bank Xponent cores. Manufacturer and djay Shift44 override copied PCDJ Shift18/Load44. Detailed R416-R420 references now reach catalogue definitions. Earlier333 runtime recipes remain identical. No vendor software, driver, preset or SDK runs. Full modes/audio/host and physical acceptance remain open."
+    },
+    {
+      "request": "R422",
+      "sources": [
+        {
+          "model": "American Audio 10MXR",
+          "url": "https://www.adj.eu/mwdownloads/download/link/id/522",
+          "sha256": "6ea2a7ef819f5a8988017fef599222cf9938ec463c2048e8b21658d36f41399d",
+          "cachePath": "TestBuilds/r422/upstream/10mxr.pdf",
+          "reviewedPages": [
+            15
+          ],
+          "review": "Own two-strip manufacturer table qualifies normal raw channel0 and Shift1, two Hot Cues per side, right Sync54 and USB selectors89/6. Hardware mixer/audio ownership differs from the larger models. Manual selection requires separate app audio to avoid applying hardware mixing twice. No Controller-mode channel offset is inferred from 14/19MXR. Native alternate positive commands remain inactive and alternate releases retire held controls. Source Sync55 and reversed browse direction are overridden by the primary table. No source actions or hardware writes run."
+        },
+        {
+          "model": "American Audio 14MXR",
+          "url": "https://www.adj.com/cdn/shop/files/f1f0c1c8837d984226dd0e8bf00bea2ad37f7a6c_14mxr.pdf?v=10788332160262280223",
+          "sha256": "a8777d31871455f53e5abcf87c891e37eeb833502b50443ca5a9f0d6f6e170a2",
+          "cachePath": "TestBuilds/r422/upstream/14mxr.pdf",
+          "reviewedPages": [
+            16,
+            17
+          ],
+          "visuallyReviewedPages": [
+            16
+          ],
+          "review": "Own manufacturer table explicitly adds2 to input channels in Controller mode, except LED messages. Native normal input raw2, Shift releases raw3, lamps raw0. Four physical strips map C/A/B/D as in the separate named PCDJ volume mapping. Primary per-strip five mixer controls, filter and PFL override the script copied fourth-strip EQ target error. Three Hot Cues per side and right Sync55 are independent of 10MXR. Hold Controller Mode while powering on to select the documented software-mixing route; native does not change that setting. Mixer-mode channels0/1 stay inactive. Software-owned steady lamps only; no hardware-owned audio/mic/route/preset writes."
+        },
+        {
+          "model": "American Audio 19MXR",
+          "url": "https://assets.centryngroup.com/dl/files/MXR941__DL__002.pdf",
+          "sha256": "93e5c0edfecd27f57aa8f793f8f51f4570f7ae232f47f29651975aca1c831cb1",
+          "cachePath": "TestBuilds/r422/upstream/19mxr.pdf",
+          "reviewedPages": [
+            14,
+            15
+          ],
+          "review": "Own manufacturer table explicitly adds2 to inputs in Controller mode, except LED messages. Native normal raw2, Shift release guards raw3 and lamps raw0. Four physical strips map C/A/B/D with primary mixer/PFL addresses; the script copied fourth-strip EQ target error is not retained. Three Hot Cues and right Sync55 match this model table. The two filter controls depend on hardware crossfader assignments and remain inactive. PFL rows do not identify lamps, so no PFL LED is invented. Hold Controller Mode during power-on for software mixing; native sends no mode or stored-setting write. Mixer-mode channels0/1 stay inactive."
+        }
+      ],
+      "result": "Separate primary tables override copied PCDJ errors. 14/19MXR Controller inputs use raw2/3 while lamps remain raw0. 10MXR keeps its separate raw0/1 manual hardware-mixer contract and Sync54. 14/19 use Sync55. Alternate positive commands and hardware/route writes remain inactive. Full modes/audio/USB/physical acceptance remain open."
+    },
+    {
+      "request": "R423",
+      "sources": [
+        {
+          "model": "Reloop CONTOUR",
+          "url": "https://www.reloop.com/media/catalog/product/pdf/2/2/3/223397_Reloop_IM.pdf",
+          "sha256": "9a0c35e02ceb00fe232e9049114301378ab92aaba1c7f21b1c0600c7dab336d5",
+          "files": [
+            {
+              "edition": "Controller Edition",
+              "url": "https://www.reloop.com/media/catalog/product/pdf/2/2/3/223397_Reloop_IM.pdf",
+              "cachePath": "TestBuilds/r423/upstream/contour-ce.pdf",
+              "sha256": "9a0c35e02ceb00fe232e9049114301378ab92aaba1c7f21b1c0600c7dab336d5",
+              "reviewedPages": [
+                14,
+                15,
+                16
+              ]
+            },
+            {
+              "edition": "Interface Edition",
+              "url": "https://www.reloop.com/media/catalog/product/pdf/2/2/3/223396_Reloop_IM.pdf",
+              "cachePath": "TestBuilds/r423/upstream/contour-ie.pdf",
+              "sha256": "7c107a78d1d046414fc7cec312c3dbe697e11b6c49cbf29a7ec5de681e38847a",
+              "reviewedPages": [
+                38,
+                39,
+                40
+              ]
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://www.reloop.com/reloop-contour-controller-edition"
+            },
+            {
+              "url": "https://www.reloop.com/reloop-contour-interface-edition"
+            },
+            {
+              "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+              "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+              "archiveMember": "Applications/DEX4.app/Contents/Resources/controllers/Reloop__Contour_CE_IE.js",
+              "memberSHA256": "33d9ad6cff1b57b0933a85e1a9337675b2af7ac8428d4ca7bee2184c698f3ad5",
+              "review": "Read-only corroboration of channel0..3 targets and source scratch scale150. Primary charts override copied software-role assumptions."
+            }
+          ],
+          "review": "Separate manufacturer charts independently qualify the same default-channel input and lamp addresses for both editions. Native channels0..3 target A/B/C/D. Normal notes use Shift +64 release-only aliases; alternate positive commands remain inactive. Play39/Cue38/Sync40, eight independently addressed Hot Cues, Load9, native beat jumps20/21, Loop18/Reloop19, binary-offset loop-size22/browser9 and filter45 are explicit native controls. Normal47 and Scratch48 wheel/contact families use owned touch and source scale150; primary reports raw40±N. Other wheel modes, no-touch direction notes, modified positive commands and physical scale remain unqualified. Deck-selection notes5..8 retire owned holds across all targets; normal wheel-mode32..35 reports retire only their deck, and releases preserve fresh contacts. Note8 is a shifted deck selector, never Key Lock; there is no pitch slider or primary pitch-bend input. Shifted filter/pan CC109/110 are not treated as headphone/master knobs. No source software, startup, channel changer, stored setting or audio command runs."
+        }
+      ],
+      "result": "Separate CE and IE manufacturer charts qualify one shared default-channel wire recipe and two edition inventory rows. The generic VirtualDJ family reference is retained on both rows. Normal and Scratch contact/jog, eight Hot Cues per deck and Shift release aliases are implemented. Copied Key Lock/pitch/global-role assumptions are rejected. Full modes/audio/host/calibration and physical acceptance remain open."
     }
   ]
 }

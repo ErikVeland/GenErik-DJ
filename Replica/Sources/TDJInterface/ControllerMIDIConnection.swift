@@ -2786,8 +2786,10 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         guard message.group == 0, message.maximum <= 127,
             let profile = manualFactoryProfiles[source] ?? factorySessions.first(where: { $0.source == source })?.profile,
             let change = profile.definition?.bankChanges?.first(where: {
-                ($0.kind ?? .note) == message.kind && $0.channel == message.channel && $0.number == message.number
+                ($0.kind ?? .note) == message.kind && ($0.anyChannel == true || $0.channel == message.channel)
+                    && $0.number == message.number
                     && (message.isNoteOff ? ($0.releaseShiftChannels != nil || $0.deckBank != nil)
+                        : $0.anyPositive == true ? message.value > 0
                         : $0.onValue.map { Int($0) == message.value } ?? true)
             })
         else { return }
@@ -2802,7 +2804,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             }
             nextBankState = state
         }
-        let decks = Set(change.decks)
+        let decks = Set(profile.isPlayer ? [playerDeck(source: source) ?? .a] : change.decks)
         flushPendingActions()
         releaseMomentaryActions(source: source, decks: decks)
         if let nextBankState { deckBanks[source] = nextBankState }
