@@ -5,20 +5,71 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 846.47,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-19",
+      "request": "R428",
+      "report": "Erik: Seems to be working just now. Requested completion of focused tests.",
+      "status": "Initial user operation reported; sustained freeze and audio/touch acceptance remain open."
+    },
+    {
+      "date": "2026-11-19",
+      "request": "R428",
+      "report": "Erik could not confirm repeated taps with audio, test duration, or absence of audio/touch defects. USB connection was restored.",
+      "status": "Sustained device acceptance remains open. No device actions during focused verification."
+    }
+  ],
   "log": "TestBuilds/ipad/build-228.log",
   "build": 228,
   "app": "TestBuilds/ipad/228/GenErikDJ.app",
   "appSHA256": "2d0d50cda56648094aa36dade6e72e105d4cfcf8a29b954934db6958064b6a2b",
-  "state": "installed",
+  "state": "testing",
   "createdUTC": "2026-11-19T12:23:13.109942+00:00",
   "focusedHostTests": {
-    "result": "incomplete",
-    "detail": "Initial test compiled but did not return a test result. Candidate test compilation was stopped to prioritise the iPad build under host resource pressure.",
-    "logs": [
-      "TestBuilds/r428/test-before.log",
-      "TestBuilds/r428/test-after.log"
-    ]
+    "verifiedUTC": "2026-11-19T13:28:10.880560+00:00",
+    "build": 228,
+    "applicationSourceCommit": "591dfd9d09f77ee88cdda236cf8989989a766f6f",
+    "testSourceCommit": "3dfa2b59df5215e45799ef823c30c7749f2fd2e7",
+    "applicationSourceMatchesInstalledBuild": true,
+    "result": "passed",
+    "testCount": 4,
+    "tests": [
+      "browserPresentationDoesNotUseTheSharedModelRegistrar",
+      "selectionAndArtworkUsePerformerPolicyWithoutLoading",
+      "observationControlDetectsTheLegacyMutationPath",
+      "repeatedRecommendationsBypassPendingObserversAndPreserveOfflineAudio"
+    ],
+    "stress": {
+      "pendingObservers": 10000,
+      "recommendationRequests": 128,
+      "distinctDeliveredRequests": 128,
+      "requestIDObserverCancellations": 0,
+      "incoherentDeliveredStates": 0,
+      "totalRequestSeconds": 0.033557006,
+      "stereoFramesCompared": 65536,
+      "maximumSampleDifference": 0.0,
+      "finiteNonSilentAudio": true,
+      "playbackPositionsAndPhasesMatched": true,
+      "syncChoicePreserved": true,
+      "loadedTracksPreserved": true,
+      "recommendationsReturned": 1
+    },
+    "limits": "Mac host model and offline-audio checks. No SwiftUI view rendering, A10X timing, live output deadlines, or extended iPad session reproduction is claimed.",
+    "logs": {
+      "TestBuilds/r428/test-focused-resume.log": "247b8f78d888904882e384881134b02d866bbc33c6b5d2c3e4b68b35a021d930",
+      "TestBuilds/r428/test-stress.log": "65e60c89952aec749cb7b8f24c5682ced750d83b175b6a6ca2048d1060b1619a"
+    },
+    "previousAttempts": [
+      {
+        "result": "incomplete",
+        "detail": "Initial test compiled but did not return a test result. Candidate test compilation was stopped to prioritise the iPad build under host resource pressure.",
+        "logs": [
+          "TestBuilds/r428/test-before.log",
+          "TestBuilds/r428/test-after.log"
+        ]
+      }
+    ],
+    "evidence": "TestBuilds/r428/focused-verification.json"
   },
   "installAttempts": [
     {
@@ -45,5 +96,6 @@
       "seconds": 25,
       "log": "TestBuilds/r428/launch-direct-228.log"
     }
-  ]
+  ],
+  "userLaunchVerification": "Erik reports the app seems to be working. Earlier remote launch timeouts remain recorded."
 }
