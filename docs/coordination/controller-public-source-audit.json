@@ -4685,6 +4685,67 @@
         }
       ],
       "result": "Manual31-input original i-Mix normal core from strictly parsed intact publisher objects, corroborated by own manufacturer table. Incorrect top-level name and four unused later XML errors are disclosed and excluded from identity/mode claims.402 source/12 native checks and iPad framework compilation pass. All392 earlier recipes remain identical. Source scripts/installers are not executed or bundled. Full modes, motion, feedback, host/audio and physical acceptance remain open."
+    },
+    {
+      "request": "R466",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "model": "BeyondMusic (BMI) ABMA4",
+          "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+          "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r466/upstream/pcdj-dex4-mac.pkg",
+              "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030"
+            },
+            {
+              "cachePath": "TestBuilds/r466/upstream/pcdj-controllers/Applications/DEX4.app/Contents/Resources/controllers/Beyond__Abm4.js",
+              "sha256": "8ff2ac21e733a44dbb8caed40b41a376b2d1ca540160c678672b0f88024613f8"
+            },
+            {
+              "cachePath": "TestBuilds/r466/upstream/pcdj-mac-data/DEX4.pkg/PackageInfo",
+              "sha256": "897b328e3ad25188ca281454d2104970c1ff96b4dd6784c43b9ade6552260304"
+            }
+          ],
+          "archiveMember": "Applications/DEX4.app/Contents/Resources/controllers/Beyond__Abm4.js",
+          "archiveMemberSHA256": "8ff2ac21e733a44dbb8caed40b41a376b2d1ca540160c678672b0f88024613f8",
+          "relatedSources": [
+            {
+              "url": "https://pcdj.com/dj-software/dj-controllers/"
+            }
+          ],
+          "review": "Publisher DEX4.0.0 build98 public Mac archive, dated27March2025, verified and read as data with the trusted archive reader. No installer, application or controller script ran. Beyond__Abm4.js explicitly identifies ABMA4 and JBSystems DJ-kontrol1 no-audio, including the latter reported VID0014/PID0804 and separate ABM4 identity prefix00207B00010004. These identifiers are evidence, not native matching or query packets. Input device-name functions return false. The MIDI callback accepts separate status and channel arguments and does not branch on channel. Native therefore accepts n through a bounded manual unbanked two-deck core; stored channel0 is a placeholder, not a factory-channel claim. Each wire and action is unique. Every native row is checked against an explicit callback case: A/B Play67/76, held Cue51/60, Sync64/71, Keylock56/63, Load75/52, PFL85/86, bends-/+121/120 and104/103, loop half114/97 and double113/96. Absolute A/B gain13/14, high16/17, mid18/19, low20/21 and level8/9, global cueMix32/monitor34 and inverted cross10 preserve the publisher roles. CuePlay59/68 is not held Cue. Conditional Hot Cues/Delete, loop In/Out/Reloop and Smart Loop modes, touch/vinyl/jog calibration, filters/position, pitch/range, FX/kill/reset/reverse, browser and all feedback remain inactive. Browser/jog edge64 and full relative format are not inferred from the source expression. Native does not import source init/deinit LED sequences, delays, identity discovery or state writes. Automatic identity, complete MIDI activation/lifecycle/recovery, source settings, exact USB/driver/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. Requires an already exposed CoreMIDI source and separate app audio. The bounded contract rejects automatic selection, non-unique wires/actions, wrong targets, hidden C/D, modes/modifiers/banks, special encodings, setup/output/audio and inverted controls other than the crossfader. No ABMA1/2/3 or KONTROL2/3/3S/4 protocol is inherited."
+        },
+        {
+          "model": "JB Systems DJ KONTROL1",
+          "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+          "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r466/upstream/pcdj-dex4-mac.pkg",
+              "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030"
+            },
+            {
+              "cachePath": "TestBuilds/r466/upstream/pcdj-controllers/Applications/DEX4.app/Contents/Resources/controllers/Beyond__Abm4.js",
+              "sha256": "8ff2ac21e733a44dbb8caed40b41a376b2d1ca540160c678672b0f88024613f8"
+            },
+            {
+              "cachePath": "TestBuilds/r466/upstream/pcdj-mac-data/DEX4.pkg/PackageInfo",
+              "sha256": "897b328e3ad25188ca281454d2104970c1ff96b4dd6784c43b9ade6552260304"
+            }
+          ],
+          "archiveMember": "Applications/DEX4.app/Contents/Resources/controllers/Beyond__Abm4.js",
+          "archiveMemberSHA256": "8ff2ac21e733a44dbb8caed40b41a376b2d1ca540160c678672b0f88024613f8",
+          "relatedSources": [
+            {
+              "url": "https://pcdj.com/dj-software/dj-controllers/"
+            }
+          ],
+          "review": "Publisher DEX4.0.0 build98 public Mac archive, dated27March2025, verified and read as data with the trusted archive reader. No installer, application or controller script ran. Beyond__Abm4.js explicitly identifies ABMA4 and JBSystems DJ-kontrol1 no-audio, including the latter reported VID0014/PID0804 and separate ABM4 identity prefix00207B00010004. These identifiers are evidence, not native matching or query packets. Input device-name functions return false. The MIDI callback accepts separate status and channel arguments and does not branch on channel. Native therefore accepts n through a bounded manual unbanked two-deck core; stored channel0 is a placeholder, not a factory-channel claim. Each wire and action is unique. Every native row is checked against an explicit callback case: A/B Play67/76, held Cue51/60, Sync64/71, Keylock56/63, Load75/52, PFL85/86, bends-/+121/120 and104/103, loop half114/97 and double113/96. Absolute A/B gain13/14, high16/17, mid18/19, low20/21 and level8/9, global cueMix32/monitor34 and inverted cross10 preserve the publisher roles. CuePlay59/68 is not held Cue. Conditional Hot Cues/Delete, loop In/Out/Reloop and Smart Loop modes, touch/vinyl/jog calibration, filters/position, pitch/range, FX/kill/reset/reverse, browser and all feedback remain inactive. Browser/jog edge64 and full relative format are not inferred from the source expression. Native does not import source init/deinit LED sequences, delays, identity discovery or state writes. Automatic identity, complete MIDI activation/lifecycle/recovery, source settings, exact USB/driver/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. Requires an already exposed CoreMIDI source and separate app audio. The bounded contract rejects automatic selection, non-unique wires/actions, wrong targets, hidden C/D, modes/modifiers/banks, special encodings, setup/output/audio and inverted controls other than the crossfader. No ABMA1/2/3 or KONTROL2/3/3S/4 protocol is inherited."
+        }
+      ],
+      "result": "Recovered131 controller files as data from the verified public DEX4.0.0 build98 archive. The explicitly paired ABMA4/KONTROL1 MIDI definition qualifies two manual33-input cores.405 source/14 native checks and iPad framework compilation pass. The bounded channel-independent manual schema retains all prior guards. All393 earlier recipes remain identical. No installer, application, source script or hardware setup runs. CNTRL-7 is HID rather than a fixed MIDI map; no separate Twelve or NS7 script was recovered. Full controls/modes, automatic identity, feedback/lifecycle/audio and physical acceptance remain open."
     }
   ]
 }

@@ -3557,3 +3557,21 @@ func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String
         #expect(abs((model.controllerValue(.levelA) ?? -1)-64.0/127)<0.0001)
     }
 }
+
+
+@Test @MainActor func controllerCatalogueABMA4CoreVariantsKeepCueBendsAndMixerAudioSynced() async throws {
+    for name in ["BeyondMusic (BMI) ABMA4","JB Systems DJ KONTROL1"] {
+        try await withControllerCuePlayback(name,manual:true) {model,input in
+            input.receiveBytes([0x9F,51,1],source:10);input.flushPendingActions()
+            #expect(model.playbackSnapshot?.a.touchActive == true)
+            input.receiveBytes([0x80,51,127,0x94,67,127,67,0,121,127],source:10);input.flushPendingActions()
+            input.receiveBytes([0x92,121,0],source:10);input.flushPendingActions()
+            input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+            for value:UInt8 in [0,127,64] {input.receiveBytes([0xB8,8,value],source:10);input.flushPendingActions()}
+            let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+            #expect(abs((model.controllerValue(.levelA) ?? -1)-64.0/127)<0.0001)
+        }
+    }
+}

@@ -11,7 +11,7 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 562 total catalogue records. 555 name physical models. The remainder identify software endpoints or protocol families.
-- 393 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 395 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 235 factory profiles select core controls automatically for 244 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - 305 physical models still lack automatic core controls.
@@ -229,8 +229,8 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 157 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 126 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 159 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 124 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -504,7 +504,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | BeyondMusic (BMI) ABMA1 | primary | partial-midi-profile | [Reference](https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg) |
 | BeyondMusic (BMI) ABMA2 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ABMA2) |
 | BeyondMusic (BMI) ABMA3 | primary | partial-midi-profile | [Reference](https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg) |
-| BeyondMusic (BMI) ABMA4 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ABMA4) |
+| BeyondMusic (BMI) ABMA4 | primary | partial-midi-profile | [Reference](https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg) |
 | BeyondMusic (BMI) REMIX PRO | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ABMA1T) |
 | Casio XW-DJ1 | primary | automatic-core-profile | [Reference](https://www.casio.com/content/dam/casio/global/support/manuals/electronic-musical-instruments/pdf/008-en/w/Web_XWDJ1-E-2A_EN.pdf) |
 | Casio XW-J1 | primary | partial-midi-profile | [Reference](https://gist.github.com/samba2/5af83e947297ab99a4745a5be3e13d55/a8c441c832affebb59415abdc80872967bc8c0e6) |
@@ -617,7 +617,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Ion Discover DJ | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Ion%20Discover%20DJ.midi.xml) |
 | Ion Discover DJ Pro | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Ion-Discover-DJ-Pro.midi.xml) |
 | Ion iDJ2GO | primary | partial-midi-profile | [Reference](https://download.algoriddim.com/djay/202010171657/djay_Pro_2.2.9.zip) |
-| JB Systems DJ KONTROL1 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=JBSDJKTRL1) |
+| JB Systems DJ KONTROL1 | primary | partial-midi-profile | [Reference](https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg) |
 | JB Systems DJ KONTROL2 | primary | partial-midi-profile | [Reference](https://jb-systems.eu/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1438086881.zip&name=DJ-KONTROL2_TR2) |
 | JB Systems DJ KONTROL3 | primary | partial-midi-profile | [Reference](https://jb-systems.eu/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1438088622.zip&name=DJ-KONTROL3_TR2) |
 | JB Systems DJ KONTROL3S | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=JBSKT3S) |

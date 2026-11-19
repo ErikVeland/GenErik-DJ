@@ -27658,12 +27658,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
         "https://virtualdj.com/products/hardware.html?model=ABMA4"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:publisher-abma4-kontrol1-normal-abma4"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "BeyondMusic (BMI) ABMA4",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "BeyondMusic (BMI) ABMA4",
@@ -27671,40 +27676,74 @@
           "source": "https://virtualdj.com/products/hardware.html?model=ABMA4"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopUpA:a",
+        "loopUpB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 33,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Select this profile manually for the publisher-reported model. Use an existing MIDI connection and configure app audio separately. The normal controls accept MIDI channel changes. Jog, pads, Smart Loop and other mode buttons require separate support."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Publisher DEX4.0.0 build98 public Mac archive, dated27March2025, verified and read as data with the trusted archive reader. No installer, application or controller script ran. Beyond__Abm4.js explicitly identifies ABMA4 and JBSystems DJ-kontrol1 no-audio, including the latter reported VID0014/PID0804 and separate ABM4 identity prefix00207B00010004. These identifiers are evidence, not native matching or query packets. Input device-name functions return false. The MIDI callback accepts separate status and channel arguments and does not branch on channel. Native therefore accepts n through a bounded manual unbanked two-deck core; stored channel0 is a placeholder, not a factory-channel claim. Each wire and action is unique. Every native row is checked against an explicit callback case: A/B Play67/76, held Cue51/60, Sync64/71, Keylock56/63, Load75/52, PFL85/86, bends-/+121/120 and104/103, loop half114/97 and double113/96. Absolute A/B gain13/14, high16/17, mid18/19, low20/21 and level8/9, global cueMix32/monitor34 and inverted cross10 preserve the publisher roles. CuePlay59/68 is not held Cue. Conditional Hot Cues/Delete, loop In/Out/Reloop and Smart Loop modes, touch/vinyl/jog calibration, filters/position, pitch/range, FX/kill/reset/reverse, browser and all feedback remain inactive. Browser/jog edge64 and full relative format are not inferred from the source expression. Native does not import source init/deinit LED sequences, delays, identity discovery or state writes. Automatic identity, complete MIDI activation/lifecycle/recovery, source settings, exact USB/driver/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. Requires an already exposed CoreMIDI source and separate app audio. The bounded contract rejects automatic selection, non-unique wires/actions, wrong targets, hidden C/D, modes/modifiers/banks, special encodings, setup/output/audio and inverted controls other than the crossfader. No ABMA1/2/3 or KONTROL2/3/3S/4 protocol is inherited.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -41199,12 +41238,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
         "https://virtualdj.com/products/hardware.html?model=JBSDJKTRL1"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:publisher-abma4-kontrol1-normal-kontrol1"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "JB Systems DJ KONTROL1",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "JB Systems DJ KONTROL1",
@@ -41212,40 +41256,74 @@
           "source": "https://virtualdj.com/products/hardware.html?model=JBSDJKTRL1"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopUpA:a",
+        "loopUpB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 33,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Select this profile manually for the publisher-reported model. Use an existing MIDI connection and configure app audio separately. The normal controls accept MIDI channel changes. Jog, pads, Smart Loop and other mode buttons require separate support."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Publisher DEX4.0.0 build98 public Mac archive, dated27March2025, verified and read as data with the trusted archive reader. No installer, application or controller script ran. Beyond__Abm4.js explicitly identifies ABMA4 and JBSystems DJ-kontrol1 no-audio, including the latter reported VID0014/PID0804 and separate ABM4 identity prefix00207B00010004. These identifiers are evidence, not native matching or query packets. Input device-name functions return false. The MIDI callback accepts separate status and channel arguments and does not branch on channel. Native therefore accepts n through a bounded manual unbanked two-deck core; stored channel0 is a placeholder, not a factory-channel claim. Each wire and action is unique. Every native row is checked against an explicit callback case: A/B Play67/76, held Cue51/60, Sync64/71, Keylock56/63, Load75/52, PFL85/86, bends-/+121/120 and104/103, loop half114/97 and double113/96. Absolute A/B gain13/14, high16/17, mid18/19, low20/21 and level8/9, global cueMix32/monitor34 and inverted cross10 preserve the publisher roles. CuePlay59/68 is not held Cue. Conditional Hot Cues/Delete, loop In/Out/Reloop and Smart Loop modes, touch/vinyl/jog calibration, filters/position, pitch/range, FX/kill/reset/reverse, browser and all feedback remain inactive. Browser/jog edge64 and full relative format are not inferred from the source expression. Native does not import source init/deinit LED sequences, delays, identity discovery or state writes. Automatic identity, complete MIDI activation/lifecycle/recovery, source settings, exact USB/driver/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. Requires an already exposed CoreMIDI source and separate app audio. The bounded contract rejects automatic selection, non-unique wires/actions, wrong targets, hidden C/D, modes/modifiers/banks, special encodings, setup/output/audio and inverted controls other than the crossfader. No ABMA1/2/3 or KONTROL2/3/3S/4 protocol is inherited.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -359354,6 +359432,92 @@
         },
         {
           "reason": "Own-model djDecks DX1.02 publisher XML read as data from its public trial archive, without running the installer, mapper or embedded scripts. The file and descriptor identify i-Mix and its MIDI endpoint DJ-Tech i-Mix. The top-level name incorrectly says Kontrol One; it is not used as identity evidence. Own manufacturer combined i-Mix/Club Edition manual supplies the indexed note/CC table and front layouts. The normal publisher controls before the lower-case pitch tabs parse strictly without repair. Four later XML errors at lines627/655/656/695 are in unused jog tabs and are not imported. Every active wire is checked against an intact normal root object: raw0 A/B Play20/55, held native Cue13/48, In1/36, Out8/43, Reloop15/50, bend-/+14/22 and49/29, PFL17/24. Own absolute mixer CCs are A gain72/high69/mid70/low71/level67; B gain75/high76/mid74/low73/level66; global cross65. Both note releases retain native ownership. Four positive-only encoder note wires explicitly scroll the active playlist: Down82/80 and Up83/81, mapped to repeated native track browse pulses. No relative-CC encoder format is guessed. Manual selection only; automatic stored state/discovery and the complete source archive are not qualified. Cue/loop/pitch/jog/FX/software-tab modes, encoder-push keyboard selection, Sync versus one-off MatchBPM/PitchReset, Keylock versus alternate faceplate actions, Hot Cues/modifiers, kill/reset, pitch polarity/range and every output/lamp remain inactive. The source INPUT_OUTPUT tags alone do not qualify native feedback polarity/lifecycle. Source byte types are corroborated by the manufacturer table; the cached table is indexed web text, not a PDF hash, and JPEGs are page backgrounds rather than complete text rendering. Exact USB naming/OS/power/audio/DVS, full lifecycle/recovery and physical/iPad/A10X acceptance remain open. Requires an exposed CoreMIDI source and separate app audio. No firmware, driver, setup, query, preset, keyboard injection, source-mode or audio-route write runs. No Reload/MKII/Kontrol One protocol or software behaviour is inherited."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:publisher-abma4-kontrol1-normal-abma4",
+      "name": "BeyondMusic (BMI) ABMA4",
+      "transport": "midi",
+      "source": {
+        "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+        "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r466/upstream/pcdj-dex4-mac.pkg",
+            "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030"
+          },
+          {
+            "cachePath": "TestBuilds/r466/upstream/pcdj-controllers/Applications/DEX4.app/Contents/Resources/controllers/Beyond__Abm4.js",
+            "sha256": "8ff2ac21e733a44dbb8caed40b41a376b2d1ca540160c678672b0f88024613f8"
+          },
+          {
+            "cachePath": "TestBuilds/r466/upstream/pcdj-mac-data/DEX4.pkg/PackageInfo",
+            "sha256": "897b328e3ad25188ca281454d2104970c1ff96b4dd6784c43b9ade6552260304"
+          }
+        ],
+        "archiveMember": "Applications/DEX4.app/Contents/Resources/controllers/Beyond__Abm4.js",
+        "archiveMemberSHA256": "8ff2ac21e733a44dbb8caed40b41a376b2d1ca540160c678672b0f88024613f8",
+        "relatedSources": [
+          {
+            "url": "https://pcdj.com/dj-software/dj-controllers/"
+          }
+        ],
+        "review": "Publisher DEX4.0.0 build98 public Mac archive, dated27March2025, verified and read as data with the trusted archive reader. No installer, application or controller script ran. Beyond__Abm4.js explicitly identifies ABMA4 and JBSystems DJ-kontrol1 no-audio, including the latter reported VID0014/PID0804 and separate ABM4 identity prefix00207B00010004. These identifiers are evidence, not native matching or query packets. Input device-name functions return false. The MIDI callback accepts separate status and channel arguments and does not branch on channel. Native therefore accepts n through a bounded manual unbanked two-deck core; stored channel0 is a placeholder, not a factory-channel claim. Each wire and action is unique. Every native row is checked against an explicit callback case: A/B Play67/76, held Cue51/60, Sync64/71, Keylock56/63, Load75/52, PFL85/86, bends-/+121/120 and104/103, loop half114/97 and double113/96. Absolute A/B gain13/14, high16/17, mid18/19, low20/21 and level8/9, global cueMix32/monitor34 and inverted cross10 preserve the publisher roles. CuePlay59/68 is not held Cue. Conditional Hot Cues/Delete, loop In/Out/Reloop and Smart Loop modes, touch/vinyl/jog calibration, filters/position, pitch/range, FX/kill/reset/reverse, browser and all feedback remain inactive. Browser/jog edge64 and full relative format are not inferred from the source expression. Native does not import source init/deinit LED sequences, delays, identity discovery or state writes. Automatic identity, complete MIDI activation/lifecycle/recovery, source settings, exact USB/driver/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. Requires an already exposed CoreMIDI source and separate app audio. The bounded contract rejects automatic selection, non-unique wires/actions, wrong targets, hidden C/D, modes/modifiers/banks, special encodings, setup/output/audio and inverted controls other than the crossfader. No ABMA1/2/3 or KONTROL2/3/3S/4 protocol is inherited."
+      },
+      "implementedInputCount": 33,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Publisher DEX4.0.0 build98 public Mac archive, dated27March2025, verified and read as data with the trusted archive reader. No installer, application or controller script ran. Beyond__Abm4.js explicitly identifies ABMA4 and JBSystems DJ-kontrol1 no-audio, including the latter reported VID0014/PID0804 and separate ABM4 identity prefix00207B00010004. These identifiers are evidence, not native matching or query packets. Input device-name functions return false. The MIDI callback accepts separate status and channel arguments and does not branch on channel. Native therefore accepts n through a bounded manual unbanked two-deck core; stored channel0 is a placeholder, not a factory-channel claim. Each wire and action is unique. Every native row is checked against an explicit callback case: A/B Play67/76, held Cue51/60, Sync64/71, Keylock56/63, Load75/52, PFL85/86, bends-/+121/120 and104/103, loop half114/97 and double113/96. Absolute A/B gain13/14, high16/17, mid18/19, low20/21 and level8/9, global cueMix32/monitor34 and inverted cross10 preserve the publisher roles. CuePlay59/68 is not held Cue. Conditional Hot Cues/Delete, loop In/Out/Reloop and Smart Loop modes, touch/vinyl/jog calibration, filters/position, pitch/range, FX/kill/reset/reverse, browser and all feedback remain inactive. Browser/jog edge64 and full relative format are not inferred from the source expression. Native does not import source init/deinit LED sequences, delays, identity discovery or state writes. Automatic identity, complete MIDI activation/lifecycle/recovery, source settings, exact USB/driver/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. Requires an already exposed CoreMIDI source and separate app audio. The bounded contract rejects automatic selection, non-unique wires/actions, wrong targets, hidden C/D, modes/modifiers/banks, special encodings, setup/output/audio and inverted controls other than the crossfader. No ABMA1/2/3 or KONTROL2/3/3S/4 protocol is inherited."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:publisher-abma4-kontrol1-normal-kontrol1",
+      "name": "JB Systems DJ KONTROL1",
+      "transport": "midi",
+      "source": {
+        "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+        "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r466/upstream/pcdj-dex4-mac.pkg",
+            "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030"
+          },
+          {
+            "cachePath": "TestBuilds/r466/upstream/pcdj-controllers/Applications/DEX4.app/Contents/Resources/controllers/Beyond__Abm4.js",
+            "sha256": "8ff2ac21e733a44dbb8caed40b41a376b2d1ca540160c678672b0f88024613f8"
+          },
+          {
+            "cachePath": "TestBuilds/r466/upstream/pcdj-mac-data/DEX4.pkg/PackageInfo",
+            "sha256": "897b328e3ad25188ca281454d2104970c1ff96b4dd6784c43b9ade6552260304"
+          }
+        ],
+        "archiveMember": "Applications/DEX4.app/Contents/Resources/controllers/Beyond__Abm4.js",
+        "archiveMemberSHA256": "8ff2ac21e733a44dbb8caed40b41a376b2d1ca540160c678672b0f88024613f8",
+        "relatedSources": [
+          {
+            "url": "https://pcdj.com/dj-software/dj-controllers/"
+          }
+        ],
+        "review": "Publisher DEX4.0.0 build98 public Mac archive, dated27March2025, verified and read as data with the trusted archive reader. No installer, application or controller script ran. Beyond__Abm4.js explicitly identifies ABMA4 and JBSystems DJ-kontrol1 no-audio, including the latter reported VID0014/PID0804 and separate ABM4 identity prefix00207B00010004. These identifiers are evidence, not native matching or query packets. Input device-name functions return false. The MIDI callback accepts separate status and channel arguments and does not branch on channel. Native therefore accepts n through a bounded manual unbanked two-deck core; stored channel0 is a placeholder, not a factory-channel claim. Each wire and action is unique. Every native row is checked against an explicit callback case: A/B Play67/76, held Cue51/60, Sync64/71, Keylock56/63, Load75/52, PFL85/86, bends-/+121/120 and104/103, loop half114/97 and double113/96. Absolute A/B gain13/14, high16/17, mid18/19, low20/21 and level8/9, global cueMix32/monitor34 and inverted cross10 preserve the publisher roles. CuePlay59/68 is not held Cue. Conditional Hot Cues/Delete, loop In/Out/Reloop and Smart Loop modes, touch/vinyl/jog calibration, filters/position, pitch/range, FX/kill/reset/reverse, browser and all feedback remain inactive. Browser/jog edge64 and full relative format are not inferred from the source expression. Native does not import source init/deinit LED sequences, delays, identity discovery or state writes. Automatic identity, complete MIDI activation/lifecycle/recovery, source settings, exact USB/driver/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. Requires an already exposed CoreMIDI source and separate app audio. The bounded contract rejects automatic selection, non-unique wires/actions, wrong targets, hidden C/D, modes/modifiers/banks, special encodings, setup/output/audio and inverted controls other than the crossfader. No ABMA1/2/3 or KONTROL2/3/3S/4 protocol is inherited."
+      },
+      "implementedInputCount": 33,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Publisher DEX4.0.0 build98 public Mac archive, dated27March2025, verified and read as data with the trusted archive reader. No installer, application or controller script ran. Beyond__Abm4.js explicitly identifies ABMA4 and JBSystems DJ-kontrol1 no-audio, including the latter reported VID0014/PID0804 and separate ABM4 identity prefix00207B00010004. These identifiers are evidence, not native matching or query packets. Input device-name functions return false. The MIDI callback accepts separate status and channel arguments and does not branch on channel. Native therefore accepts n through a bounded manual unbanked two-deck core; stored channel0 is a placeholder, not a factory-channel claim. Each wire and action is unique. Every native row is checked against an explicit callback case: A/B Play67/76, held Cue51/60, Sync64/71, Keylock56/63, Load75/52, PFL85/86, bends-/+121/120 and104/103, loop half114/97 and double113/96. Absolute A/B gain13/14, high16/17, mid18/19, low20/21 and level8/9, global cueMix32/monitor34 and inverted cross10 preserve the publisher roles. CuePlay59/68 is not held Cue. Conditional Hot Cues/Delete, loop In/Out/Reloop and Smart Loop modes, touch/vinyl/jog calibration, filters/position, pitch/range, FX/kill/reset/reverse, browser and all feedback remain inactive. Browser/jog edge64 and full relative format are not inferred from the source expression. Native does not import source init/deinit LED sequences, delays, identity discovery or state writes. Automatic identity, complete MIDI activation/lifecycle/recovery, source settings, exact USB/driver/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. Requires an already exposed CoreMIDI source and separate app audio. The bounded contract rejects automatic selection, non-unique wires/actions, wrong targets, hidden C/D, modes/modifiers/banks, special encodings, setup/output/audio and inverted controls other than the crossfader. No ABMA1/2/3 or KONTROL2/3/3S/4 protocol is inherited."
         }
       ]
     },

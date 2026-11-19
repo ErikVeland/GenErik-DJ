@@ -167,6 +167,7 @@ struct ControllerProfileData: Decodable, Sendable {
     var isValid: Bool {
         let pairedGlobals = hasPairedUnbankedGlobals
         let manualMixer = hasManualUnbankedMixer
+        let manualTwoDeckCore = hasManualUnbankedTwoDeckCore
         return (unbankedGlobalInputs != true || pairedGlobals)
             && (role == nil || role == "player" || role == "accessory") && !id.isEmpty && id.count <= 128
             && !aliases.isEmpty
@@ -194,7 +195,7 @@ struct ControllerProfileData: Decodable, Sendable {
                         ? $0.kind == .control && ($0.lowNumber.map { $0 < 128 } ?? ($0.number < 32))
                             && $0.lowNumber != $0.number
                         : $0.lowNumber == nil)
-                    && ($0.anyChannel != true || role == "player" || pairedGlobals || manualMixer)
+                    && ($0.anyChannel != true || role == "player" || pairedGlobals || manualMixer || manualTwoDeckCore)
                     && ($0.requiresTouch != true || ($0.action.isJog && $0.encoding.isRelative))
                     && ($0.encoding != .unsignedCount || ($0.kind == .control && $0.action.isJog && $0.requiresTouch == true))
                     && (!$0.encoding.isContactGate
@@ -365,6 +366,43 @@ struct ControllerProfileData: Decodable, Sendable {
                     && $0.releaseOnly == nil && $0.lowNumber == nil && $0.pulse == nil && $0.requiresTouch == nil
                     && $0.directionStep == nil && $0.argument == nil && $0.deckBank == nil
             }
+    }
+
+    /**
+     * Accepts a manual two-deck core only when every wire and action is unique.
+     */
+    private var hasManualUnbankedTwoDeckCore: Bool {
+        guard !autoSelect, role == nil, (7...33).contains(inputs.count),
+            outputs.isEmpty, startup.isEmpty, shutdown.isEmpty, startupAbort == nil,
+            startupDelaysMilliseconds == nil, audioOutput == nil, inputProtocol == nil,
+            inputModes == nil, bankChanges == nil, portAliases == nil, unbankedGlobalInputs == nil,
+            inputs.allSatisfy({ $0.anyChannel == true && $0.channel == 0 }),
+            Set(inputs.map(\.number)).count == inputs.count,
+            Set(inputs.map(\.action)).count == inputs.count
+        else { return false }
+        let buttons: Set<ControllerAction> = [
+            .playA, .playB, .cuePreviewA, .cuePreviewB, .syncA, .syncB, .keylockA, .keylockB,
+            .loadA, .loadB, .cueA, .cueB, .pitchBendDownA, .pitchBendDownB, .pitchBendUpA, .pitchBendUpB,
+            .loopUpA, .loopUpB, .loopDownA, .loopDownB,
+        ]
+        let controls: Set<ControllerAction> = [
+            .gainA, .gainB, .highA, .highB, .midA, .midB, .lowA, .lowB, .levelA, .levelB,
+            .crossfader, .cueMix, .monitor,
+        ]
+        let required: Set<ControllerAction> = [
+            .playA, .playB, .cuePreviewA, .cuePreviewB, .levelA, .levelB, .crossfader,
+        ]
+        return required.isSubset(of: Set(inputs.map(\.action))) && inputs.allSatisfy {
+            let matchesKind = ($0.kind == .note && buttons.contains($0.action))
+                || ($0.kind == .control && controls.contains($0.action))
+            let isGlobal = [.crossfader, .cueMix, .monitor].contains($0.action)
+            let matchesDeck = isGlobal ? $0.targetDeck == nil : $0.targetDeck == $0.action.deck
+            return matchesKind && matchesDeck && $0.encoding == .absolute
+                && (!$0.inverted || $0.action == .crossfader) && $0.shifted == nil
+                && $0.requiredMode == nil && $0.shiftChannel == nil && $0.shiftInput == nil && $0.holdInput == nil
+                && $0.releaseOnly == nil && $0.lowNumber == nil && $0.pulse == nil && $0.requiresTouch == nil
+                && $0.directionStep == nil && $0.argument == nil && $0.deckBank == nil
+        }
     }
 
     /**
