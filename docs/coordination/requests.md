@@ -820,3 +820,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R494 | Implemented; full modes/physical gaps open | Add own-table clears to original SX, RX, RZ and RZX | Added128 clears and256 negative aliases.459 source/23 native checks and iPad framework compilation pass.401 other recipes remain identical. [Scope](controller-coverage.md#r494-own-table-sx-rx-rz-and-rzx-clears). |
 
 | R495 | Implemented; motor/host/physical gaps open | Recover own Twelve MKII MIDI accessory controls | Added124 manual input-only bindings from the archived NI mapping.462 source/22 native checks and iPad framework compilation pass.405 earlier recipes remain identical. [Scope](controller-coverage.md#r495-recovered-twelve-mkii-midi-accessory-subset). |
+
+| R496 | Implemented; protocol gaps remain open | Inspect public NI factory documents and guard legacy TSI conditions | Read297 preset documents without installation. Confirmed the exact Twelve MKII mapping. Older condition layouts stay unknown.465 source checks pass. Runtime resources remain identical. [Scope](controller-coverage.md#r496-published-ni-factory-documents-and-legacy-condition-guard). |

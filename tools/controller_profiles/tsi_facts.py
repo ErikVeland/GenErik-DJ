@@ -2,6 +2,7 @@
 
 Frame reference: https://github.com/ivanz/TraktorMappingFileFormat/wiki/File-Format-Specification
 Encoder mode0 is3F/41. Mode1 is7F/01. Unknown fields remain uninterpreted.
+Only reviewed settings version4 exposes modifier conditions. Older layouts remain unknown.
 This tool does not generate runtime recipes or infer MIDI from generic templates.
 """
 import argparse
@@ -102,6 +103,7 @@ def _device(payload, include_unassigned=False):
         sensitivity, acceleration = struct.unpack_from(">ff", settings, 28)
         if not math.isfinite(sensitivity) or not math.isfinite(acceleration):
             raise ValueError("Non-finite TSI encoder setting")
+        version = _uint(settings)
         rows.append({
             "bindingID": index, "signal": signal, "direction": direction, "commandID": command,
             "controllerType": _uint(settings, 4), "interactionMode": _uint(settings, 8),
@@ -111,8 +113,9 @@ def _device(payload, include_unassigned=False):
             "unassigned": unassigned,
             "comment": settings[52:comment_end].decode("utf-16-be"),
             "settingsHex": settings.hex(),
+            "settingsVersion": version,
             "conditions": [[_uint(settings, comment_end + at), _uint(settings, comment_end + at + 8)]
-                           for at in [0, 12]],
+                           for at in [0, 12]] if version == 4 else None,
         })
     return {"name": name, "mappings": rows}
 

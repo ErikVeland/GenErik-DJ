@@ -10,6 +10,11 @@ ROOT=Path(__file__).resolve().parents[2]
 
 
 class TwelveMK2Tests(unittest.TestCase):
+    def test_current_publisher_archive_agrees_with_the_recovered_mapping(self):
+        path=ROOT/'TestBuilds/r496/upstream/traktor-documents/Native Instruments/Traktor Pro 3/Factory Settings/3.8.0/Default Settings/Controller/Rane/01 - Controller - Rane - Rane Twelve MK2.tsi'
+        if not path.exists():self.skipTest('Ignored publisher reference is unavailable')
+        self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),'637741b3bf0d53c18d232bd670d178be374018a3199dd3593c44d43cc0623126')
+
     def profile(self):
         rows=json.loads((ROOT/'Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json').read_text())['profiles']
         p=next((p for p in rows if p['id']=='Rane TWELVE MKII'),None)

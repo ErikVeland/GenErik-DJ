@@ -6114,6 +6114,45 @@
         }
       ],
       "result": "Recovered the own-model public NI mapping. Added one manual input-only accessory recipe with124 bindings: four Load, four absolute Seek,32 Hot Cues,28 cue2..8 clears and56 negative aliases. Four intentionally unassigned cue1 clears remain inactive. No USB identity is inferred from All Ports. The bounded TSI inspector keeps its strict default and supports explicit unassigned-row inspection without inferred signals. Selected68 positive source rows have no modifier condition.462 source checks and22 focused native tests pass, including all four target channels, complete inactive-wire checks, both negative forms/directions, debounce, source/group isolation, C/D opt-in, prior original72 regressions and real-WAV marker/audio/Sync checks. All405 earlier recipes remain identical. The iPad framework compiled. Its2277217-byte compact resource matches source and excludes the full review file. Catalogue gates compare28230 inputs. Existing limits remain unchanged. No source scripts, TSI actions/settings, hardware setup/output or audio-route writes execute or ship. No motor/DVS/pitch/full transport/feedback or automatic selection claim. Complete modes, host/driver/audio and physical/iPad/A10X acceptance remain open."
+    },
+    {
+      "request": "R496",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "url": "https://support.native-instruments.com/support/solutions/articles/69000879400-traktor-pro-legacy-installers-for-older-operating-systems",
+          "finding": "Current replacement primary support page publicly links the legacy3.8.0 Mac archive. No account, activation, installation or launch is required to read its preset documents."
+        },
+        {
+          "url": "https://cdn.inmusicbrands.com/Support/Native%20Instruments/Traktor%20Installers/Traktor_Pro_3_380_Mac.dmg",
+          "sha256": "e4a9cd6853d09c318044a5e756f754ffcc43e76e022e7a9097b00242038be0a2",
+          "bytes": 454185185,
+          "files": [
+            {
+              "cachePath": "TestBuilds/r496/upstream/Traktor_Pro_3_380_Mac.dmg",
+              "sha256": "e4a9cd6853d09c318044a5e756f754ffcc43e76e022e7a9097b00242038be0a2"
+            },
+            {
+              "cachePath": "TestBuilds/r496/upstream/traktor-document-manifest.json",
+              "sha256": "793640ddfd21e2e7af40cc42001f794c447aeac30c5815285b67829bbd3e9c2e"
+            }
+          ],
+          "finding": "Trusted archive reader opens DMG, package and factory-content payload as data.297 TSI documents are hashed, including version duplicates and non-controller settings.229 documents expose bounded mapping facts.66 lack a controller document and two have unsupported or repeated MIDI definitions. Those limits remain strict. Version3.8.0 own Twelve MKII mapping has SHA256637741b3bf0d53c18d232bd670d178be374018a3199dd3593c44d43cc0623126, exactly matching the R495 recovered file. The109 default-controller filenames provide no new protocol-needed model. Existing NI/Xone modal layouts are not flattened."
+        },
+        {
+          "url": "https://community.native-instruments.com/discussion/35042/k2-traktor-4-add-in-to-mute-all-stems-except-the-vocals-stems/p2",
+          "attachmentURL": "https://us.v-cdn.net/6034896/uploads/SLWFJUQ4D814/reloop-elite-stems-v2.tsi",
+          "sha256": "df65e258cd92cb0ce50ef6be4ac2ed3b23c497db9622f1e99cc17538e138cead",
+          "bytes": 617461,
+          "cachePath": "TestBuilds/r496/upstream/reloop-elite-stems-v2.tsi",
+          "finding": "Owner public exercise has31 rows: three modifier inputs,20 conditional SlotMuteOn inputs and eight conditional outputs. It supplies no transport/mixer core. The owner reports unresolved pad/LED mode behaviour. No right-hand channels, factory defaults or native stem assignments are inferred."
+        },
+        {
+          "url": "https://dirigent.jp/wp-content/uploads/2021/11/ELITE-Manual-JP_rev1.2.pdf",
+          "finding": "Web-readable distributor guide only. Local PDF fetch403. The hex table at printed8 describes USB input routing settings, not ordinary control messages. No routing writes or new control profile are derived."
+        }
+      ],
+      "result": "465 source checks pass. New regression catches six unsupported-version condition interpretations before the fix. The read-only inspector exposes modifier conditions only for reviewed CMAD settingsVersion4 and returns unknown for other versions. Actual publisher Xone1D version1 and4D version2 fixtures retain102/202 mapping facts without guessed conditions. All406 runtime recipes, both resources, catalogue JSON and application sources/tests remain byte-identical to R495. No native/framework build is needed for this source-inspection-only change. Repository checking retains12 historical missing-file links. No installer, source script, mapping action, hardware setup, driver, firmware, MIDI/audio output, account or activation runs. Catalogue still has114 protocol-needed records. No private SDK or full-support claim."
     }
   ]
 }
