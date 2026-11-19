@@ -11089,6 +11089,22 @@
       },
       "controlActions": [
         "browse",
+        "clearHotcue1A:a",
+        "clearHotcue1B:b",
+        "clearHotcue2A:a",
+        "clearHotcue2B:b",
+        "clearHotcue3A:a",
+        "clearHotcue3B:b",
+        "clearHotcue4A:a",
+        "clearHotcue4B:b",
+        "clearHotcue5A:a",
+        "clearHotcue5B:b",
+        "clearHotcue6A:a",
+        "clearHotcue6B:b",
+        "clearHotcue7A:a",
+        "clearHotcue7B:b",
+        "clearHotcue8A:a",
+        "clearHotcue8B:b",
         "crossfader",
         "cueA:a",
         "cueB:b",
@@ -11148,7 +11164,7 @@
         "wheelJogA:a",
         "wheelJogB:b"
       ],
-      "inputBindingCount": 66,
+      "inputBindingCount": 114,
       "feedbackBindingCount": 22,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -11177,7 +11193,8 @@
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "R492 qualifies eight Hot Cue clear pairs per deck from this own manufacturer MIDI table and hardware diagram. DDJ-200 normal raw7/9 and clear raw8/10 use notes0..7. RB uses raw7/8 normal notes0..7 and clear notes8..15. These are separate own-model facts. Both negative aliases rearm their own role without an inferred app Shift state. Existing controls, output/setup/audio and aliases remain unchanged. Complete modes/lifecycle/host, Bluetooth/USB audio and physical acceptance remain open."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -13480,6 +13497,22 @@
         }
       },
       "controlActions": [
+        "clearHotcue1A:a",
+        "clearHotcue1B:b",
+        "clearHotcue2A:a",
+        "clearHotcue2B:b",
+        "clearHotcue3A:a",
+        "clearHotcue3B:b",
+        "clearHotcue4A:a",
+        "clearHotcue4B:b",
+        "clearHotcue5A:a",
+        "clearHotcue5B:b",
+        "clearHotcue6A:a",
+        "clearHotcue6B:b",
+        "clearHotcue7A:a",
+        "clearHotcue7B:b",
+        "clearHotcue8A:a",
+        "clearHotcue8B:b",
         "crossfader",
         "cueA:a",
         "cueB:b",
@@ -13524,7 +13557,7 @@
         "wheelJogA:a",
         "wheelJogB:b"
       ],
-      "inputBindingCount": 47,
+      "inputBindingCount": 95,
       "feedbackBindingCount": 22,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -13554,7 +13587,8 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "The hardware has no browser, Load, loop or Keylock buttons. Use the existing app controls. Bluetooth pairing and audio routing remain separate work."
+        "The hardware has no browser, Load, loop or Keylock buttons. Use the existing app controls. Bluetooth pairing and audio routing remain separate work.",
+        "R492 qualifies eight Hot Cue clear pairs per deck from this own manufacturer MIDI table and hardware diagram. DDJ-200 normal raw7/9 and clear raw8/10 use notes0..7. RB uses raw7/8 normal notes0..7 and clear notes8..15. These are separate own-model facts. Both negative aliases rearm their own role without an inferred app Shift state. Existing controls, output/setup/audio and aliases remain unchanged. Complete modes/lifecycle/host, Bluetooth/USB audio and physical acceptance remain open."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -353089,13 +353123,16 @@
           3
         ]
       },
-      "implementedInputCount": 66,
+      "implementedInputCount": 114,
       "implementedOutputCount": 22,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "R492 qualifies eight Hot Cue clear pairs per deck from this own manufacturer MIDI table and hardware diagram. DDJ-200 normal raw7/9 and clear raw8/10 use notes0..7. RB uses raw7/8 normal notes0..7 and clear notes8..15. These are separate own-model facts. Both negative aliases rearm their own role without an inferred app Shift state. Existing controls, output/setup/audio and aliases remain unchanged. Complete modes/lifecycle/host, Bluetooth/USB audio and physical acceptance remain open."
         }
       ]
     },
@@ -353138,7 +353175,7 @@
           2
         ]
       },
-      "implementedInputCount": 47,
+      "implementedInputCount": 95,
       "implementedOutputCount": 22,
       "sourceInputCount": null,
       "sourceOutputCount": null,
@@ -353148,6 +353185,9 @@
         },
         {
           "reason": "The hardware has no browser, Load, loop or Keylock buttons. Use the existing app controls. Bluetooth pairing and audio routing remain separate work."
+        },
+        {
+          "reason": "R492 qualifies eight Hot Cue clear pairs per deck from this own manufacturer MIDI table and hardware diagram. DDJ-200 normal raw7/9 and clear raw8/10 use notes0..7. RB uses raw7/8 normal notes0..7 and clear notes8..15. These are separate own-model facts. Both negative aliases rearm their own role without an inferred app Shift state. Existing controls, output/setup/audio and aliases remain unchanged. Complete modes/lifecycle/host, Bluetooth/USB audio and physical acceptance remain open."
         }
       ]
     },

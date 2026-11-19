@@ -5939,6 +5939,45 @@
         }
       ],
       "result": "Read public YouDJ and Beatport app indexes and directly referenced text resources as data only. YouDJ publicly states that its120-plus mappings are community supplied and need correction without hardware verification. Both public app cores contain obfuscated implementation rather than a standalone readable controller table. No deobfuscation, protected-data decoding, script execution, installation, account, MIDI/audio access or mapping import occurs. The marketing-site JS, translations and Beatport landing bundle do not provide a reusable numeric controller table. The ELITE download requires sign-in. Next Beat SX1 source ambiguities remain unresolved. All405 JSON recipes, both runtime resources and catalogue JSON remain byte-identical to R490. These are bounded source findings, not a claim that no manufacturer SDK or usable mapping exists elsewhere. Public-source implementation continues."
+    },
+    {
+      "request": "R492",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "model": "DDJ-200",
+          "url": "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-200/DDJ-200_MIDI_Message_List_E1.pdf",
+          "sha256": "8e9c0b076c27a7d47eb7df88409aa3071ddc371ac66d202a0c5141cb1f7e9cf0",
+          "cachePath": "TestBuilds/r181/manufacturer/DDJ-200.pdf",
+          "visuallyReviewedPrintedPages": [
+            2
+          ],
+          "relatedSources": [
+            {
+              "url": "https://www.pioneerdj.com/-/media/pioneerdj/software-info/controller/ddj-200/ddj-200_hardwarediagram_rekordboxdj_e2.pdf",
+              "sha256": null,
+              "review": "Own manufacturer hardware diagram is web-reviewed and explicitly identifies Shift Hot Cue Delete. No local diagram hash or visual diagram proof is claimed."
+            }
+          ]
+        },
+        {
+          "model": "DDJ-RB",
+          "url": "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-RB/DDJ-RB_MIDI_Message_List_E.pdf",
+          "sha256": "c774a30945f097806fe715c9d01f1e838a49123944d89080183e4d8fc88a3616",
+          "cachePath": "TestBuilds/r181/manufacturer/DDJ-RB.pdf",
+          "visuallyReviewedPrintedPages": [
+            2
+          ],
+          "relatedSources": [
+            {
+              "url": "https://www.pioneerdj.com/-/media/pioneerdj/software-info/controller/ddj-rb/ddj-rb_hardware_diagram_e.pdf/",
+              "sha256": null,
+              "review": "Own manufacturer hardware diagram is web-reviewed and explicitly identifies Shift Hot Cue Delete. No local diagram hash or visual diagram proof is claimed."
+            }
+          ]
+        }
+      ],
+      "result": "Added16 clears and32 paired negative aliases per model, yielding95 DDJ-200/114 RB inputs. Each own table independently qualifies its different layout: DDJ-200 uses normal raw7/9 and clear raw8/10 notes0..7; RB uses raw7/8 normal0..7 and clear8..15. Original47/66 inputs remain exact prefixes.403 other recipes, including R490 layouts, remain identical. Outputs/setup/audio/aliases remain unchanged.456 source/69 native checks and iPad framework compilation pass. Native main61 plus eight distinct entry/schema checks cover all pairs, both negative forms/directions, debounce, source/group, inactive pad wires/channels, recognition/setup/legacy input/feedback and eight pair-profile WAV cases. The separate five-built-in WAV regression also passes. Earlier source zero-guard and native invalid-CC-release assertions were stale. Existing schema intentionally allows absolute CC button negatives, independently tested by RMX2 validation. Only those assertions changed, with both failed runs preserved. No production schema change. Compact bundle2249899 bytes matches source, full review excluded, existing limits unchanged. Full modes/host/Bluetooth/audio and physical acceptance remain open."
     }
   ]
 }

@@ -105,7 +105,7 @@ func controllerCatalogueReviewedClearForeignSourcesAndGroupsCannotDelete(name: S
     }
 }
 
-private let reviewedPairNames = ["Pioneer DDJ-SB3", "Reloop Terminal Mix 2/4", "Hercules DJControl Jogvision", "Denon MC4000", "Reloop NEON", "DDJ-FLX10", "DDJ-1000"]
+private let reviewedPairNames = ["Pioneer DDJ-SB3", "Reloop Terminal Mix 2/4", "Hercules DJControl Jogvision", "Denon MC4000", "Reloop NEON", "DDJ-FLX10", "DDJ-1000", "Pioneer DDJ-200", "Pioneer DDJ-RB"]
 
 @Test(arguments: reviewedPairNames) @MainActor
 func controllerCatalogueReviewedPairDedicatedOpcodesWorkWithEitherShiftState(name: String) throws {
@@ -245,4 +245,24 @@ func controllerCatalogueReviewedPairFactoryPagesAndCapacityRemainBounded(name: S
     #expect(events.isEmpty)
     reviewedClearPacket([0x98, 0, 127, 0, 0, 0x9A, 7, 127, 7, 0], input)
     #expect(events == [.init(.clearHotcue1A, deck: .a), .init(.clearHotcue8B, deck: .b)])
+}
+
+@Test(arguments: ["Pioneer DDJ-200", "Pioneer DDJ-RB"]) @MainActor
+func controllerCatalogueReviewedPairEntryKeepsOtherPadsAndChannelsInactive(name: String) throws {
+    try withReviewedClear(name) { input, p in
+        let bindings = p.bindings(source: 10)
+        let pads = bindings.filter { $0.action.hotcueSlot != nil || $0.action.clearHotcueSlot != nil }
+        var events: [ControllerActionTarget] = []
+        input.onTargetAction = { target, _ in events.append(target) }
+        for channel: UInt8 in 7..<16 {
+            for number: UInt8 in 0..<128 {
+                if pads.contains(where: { $0.channel == channel && $0.number == number }) { continue }
+                reviewedClearPacket([0x90 + channel, number, 127, number, 0], input)
+            }
+        }
+        #expect(events.isEmpty)
+        #expect(pads.filter { $0.action.clearHotcueSlot != nil && $0.releaseOnly != true }.count == 16)
+        #expect(p.feedback(destination: 20).count == 22)
+        #expect(!p.feedback(destination: 20).contains { $0.action.clearHotcueSlot != nil })
+    }
 }

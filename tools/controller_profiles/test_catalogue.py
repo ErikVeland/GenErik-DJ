@@ -443,7 +443,7 @@ class ConversionTests(unittest.TestCase):
             decks = {entry["targetDeck"] for entry in item["inputs"] if "targetDeck" in entry}
             self.assertEqual(decks, set("abcd") if name.endswith(("DDJ-SB2", "DDJ-RR")) else set("ab"))
             self.assertEqual(item["startup"], [[0x9B, 9, 127]] if name.endswith(("DDJ-SB", "DDJ-SB2", "DDJ-RR")) else [])
-            self.assertEqual(sum(entry.get("releaseOnly", False) for entry in item["inputs"]), len(decks) if name.endswith(("DDJ-SB", "DDJ-SB2")) else 0)
+            self.assertEqual(sum(entry.get("releaseOnly", False) for entry in item["inputs"]), len(decks) if name.endswith(("DDJ-SB", "DDJ-SB2")) else 32 if name.endswith(("DDJ-200", "DDJ-RB")) else 0)
         small = profiles["Pioneer DDJ-200"]
         self.assertFalse(any(entry["action"].startswith(("load", "browse", "loop", "keylock", "gain")) for entry in small["inputs"]))
         wego = profiles["Pioneer DDJ-WeGO4"]
