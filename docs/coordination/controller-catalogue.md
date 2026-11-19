@@ -15,6 +15,7 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - 235 factory profiles select core controls automatically for 244 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - 305 physical models still lack automatic core controls.
+- 2 reviewed external audio mixers need audio/DVS integration. Their own hardware controls do not send MIDI.
 - 555 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -460,7 +461,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Allen & Heath XONE 2D | primary | partial-midi-profile | [Reference](https://www.allen-heath.com/content/uploads/2023/07/XONE2D_UG_AP6908_2.pdf) |
 | Allen & Heath XONE 43C | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AH43C) |
 | Allen & Heath XONE 4D | primary | partial-midi-profile | [Reference](https://www.allen-heath.com/content/uploads/2023/07/Xone4D_User_Guide_AP7265_3.pdf) |
-| Allen & Heath Xone:23C | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware) |
+| Allen & Heath Xone:23C | external-audio-mixer | protocol-needed | [Reference](https://www.algoriddim.com/hardware) |
 | Allen & Heath Xone:24C | primary | partial-midi-profile | [Reference](https://support.allen-heath.com/hc/en-gb/articles/39821017822865-Xone-24C-User-Guide) |
 | Allen & Heath Xone:96 | primary | partial-midi-profile | [Reference](https://support.allen-heath.com/hc/en-gb/articles/43084536824849-Xone-96-MIDI-Implementation) |
 | Allen & Heath Xone:K2 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Allen%20and%20Heath%20Xone%20K2.midi.xml) |
@@ -747,7 +748,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Reloop Mixage Interface Edition MK2 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Mixage.midi.xml) |
 | Reloop Mixtour | primary | automatic-core-profile | [Reference](https://www.reloop.com/djing-with-smart-devices-controllercomparisonchart) |
 | Reloop Mixtour Pro | primary | partial-midi-profile | [Reference](https://www.reloop.com/reloop-mixtour-pro) |
-| Reloop PTB-2 | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware/ptb-2) |
+| Reloop PTB-2 | external-audio-mixer | protocol-needed | [Reference](https://www.algoriddim.com/hardware/ptb-2) |
 | Reloop RMP-2.5a | primary | automatic-core-profile | [Reference](https://www.reloop.com/media/catalog/product/pdf/2/2/4/224803_Reloop_IM.pdf) |
 | Reloop RMP-3 | primary | automatic-core-profile | [Reference](https://www.reloop.com/media/catalog/product/pdf/2/2/2/222609_Reloop_IM.pdf) |
 | Reloop RMP-4 | primary | automatic-core-profile | [Reference](https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg) |

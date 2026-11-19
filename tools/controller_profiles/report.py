@@ -30,6 +30,7 @@ def report(catalogue, runtime):
              f"- {sum(item['autoSelect'] for item in profiles) + code_profiles} factory profiles select core controls automatically for {len(automatic_models) - native_models} physical models.",
              f"- Existing native adapters provide automatic core controls for {native_models} other models.",
              f"- {len(physical_models) - len(automatic_models)} physical models still lack automatic core controls.",
+             f"- {sum(model.get('controlProtocol', {}).get('kind') == 'none' for model in physical_models)} reviewed external audio mixers need audio/DVS integration. Their own hardware controls do not send MIDI.",
              f"- {sum(not model.get('theoreticalSupport', {}).get('complete', False) for model in physical_models)} physical models still need complete theoretical support.",
              f"- Every one of the {sum(item['sourceInputCount'] for item in source_definitions):,} source input rows and {sum(item['sourceOutputCount'] for item in source_definitions):,} output rows has a conversion disposition.", "",
              "These counts do not establish hardware acceptance, complete pad modes, motor support, screens, audio routing or feature parity.",

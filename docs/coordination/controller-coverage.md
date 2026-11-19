@@ -6198,3 +6198,16 @@ Validation:393 source checks and10 focused native tests pass. They cover the man
 The current NI support site lists an official TWELVE MK2 mapping. Its exact linked download returned404 through both web retrieval and curl. No mapping or motor/platter bytes were recovered from that listing.
 
 The catalogue has390 recipes and555 physical models. Automatic core remains250, with305 without it. First-protocol gaps decrease to129. Full theoretical support remains0/555. The wider manufacturer audit and physical acceptance remain open.
+
+
+## R462 — External audio mixers are not MIDI controllers
+
+The PTB-2 manufacturer manual/product specifications and official software-integration support identify an external4x4 USB audio mixer. Its own hardware controls do not send MIDI. Bluetooth supplies audio. The Xone:23C manufacturer guide is also explicit: it sends no MIDI on its own. X:Link powers and passes MIDI from a separate K1/K2. It does not expose the mixer's controls. The separate Xone:43C has its own documented MIDI controls; none are inherited by23C.
+
+Both records now identify their external-audio role and required native audio/DVS work. They gain no controller recipe, automatic route, automatic control, complete-support flag or hardware acceptance. The historical protocol-needed implementation status still denotes unresolved native integration. It does not mean these two mixers need MIDI maps. The catalogue report now identifies this reviewed distinction.
+
+Native external deck-A/deck-B output routing and DVS inputs remain unimplemented for both models. The existing master/headphones split is not equivalent. PTB-2 needs the correct host/input-source, power and adapter states. Xone:23C sends record1/2 and FXsend3/4 by default; DVS input use needs the documented internal harness configuration. No hardware configuration, internal modification or driver installation is performed. The23C Mac driver discussion does not establish direct iPad compatibility. USB/OS, exact channel ownership, lifecycle/recovery, DVS calibration and physical/iPad/A10X acceptance remain open.
+
+Validation:395 source checks pass, including both audio records, source hashes, absent runtime profiles and open support gates. Both full and compact runtime resources are byte-identical to committed R461. No Swift code or app behaviour changed, so native checks and framework compilation were not repeated. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r462/validation.json`.
+
+The catalogue remains390 recipes and555 physical models. Automatic core remains250. The129 records with protocol-needed status include these two audio-only integrations. Full theoretical support remains0/555. The wider manufacturer audit and physical acceptance remain open.

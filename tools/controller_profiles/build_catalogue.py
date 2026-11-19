@@ -477,6 +477,12 @@ def build(cache, serato_html, djay_html=None):
             model["audioRouting"] = VMS_AUDIO_GAP
         audits = [audit for name, audit in SOURCE_AUDITS.items() if model["id"] == canonical(name)]
         for audit in audits:
+            if audit.get("externalAudioMixer"):
+                model["role"] = "external-audio-mixer"
+                model["controlProtocol"] = audit["controlProtocol"]
+                model["audioRequirements"] = audit["audioRequirements"]
+                model["audioRouting"] = "Unimplemented external deck-A/deck-B output and DVS input routing. A master/headphone split is not equivalent."
+                model["connection"] = "External USB audio mixer only. Its own hardware controls do not send MIDI. USB/OS, audio-source, power and adapter requirements need separate qualification."
             if audit.get("automaticAudioOutputAdded"):
                 model["role"] = "audio-output-interface"
                 model["audioOutputSupport"] = audit["audioOutput"]
@@ -509,7 +515,9 @@ def build(cache, serato_html, djay_html=None):
             if model["id"] == canonical(name):
                 model["gaps"].append(pending["gap"])
         if model["implementation"] == "protocol-needed":
-            if model.get("audioOutputSupport"):
+            if model.get("controlProtocol", {}).get("kind") == "none":
+                model["gaps"].append("External audio/DVS integration is required. No MIDI controller mapping applies to the hardware controls.")
+            elif model.get("audioOutputSupport"):
                 model["gaps"].append("Documented MK2 output routing is implemented. Hardware encoders and complete host/USB/lifecycle support remain unimplemented or unqualified.")
             elif model.get("comparisonSupport", {}).get("virtualDJ", {}).get("category") == "Sound cards":
                 model["gaps"].append("Audio interface or DVS kit. Native audio input/DVS routing and OS compatibility require review. A MIDI controller mapping is not implied.")
