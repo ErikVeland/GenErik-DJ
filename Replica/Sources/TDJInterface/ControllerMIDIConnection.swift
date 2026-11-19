@@ -2789,6 +2789,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 ($0.kind ?? .note) == message.kind && ($0.anyChannel == true || $0.channel == message.channel)
                     && $0.number == message.number
                     && (message.isNoteOff ? ($0.releaseShiftChannels != nil || $0.deckBank != nil)
+                        : $0.anyPositive == true ? message.value > 0
                         : $0.onValue.map { Int($0) == message.value } ?? true)
             })
         else { return }

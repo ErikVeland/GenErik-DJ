@@ -24951,12 +24951,17 @@
       "role": "accessory",
       "benchmark": false,
       "sources": [
+        "https://raw.githubusercontent.com/mpiraux/CMD-DC-1-Ableton-9-Control-Surface-Script/c2a122474cb81469352493c393e4a985b9ca9753/DC1.py",
         "https://virtualdj.com/products/hardware.html?model=BeCMDDC1"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:cmd-dc1-native-columns"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Behringer CMD DC-1",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Behringer CMD DC-1",
@@ -24964,40 +24969,74 @@
           "source": "https://virtualdj.com/products/hardware.html?model=BeCMDDC1"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "openGroup"
+      ],
+      "inputBindingCount": 34,
+      "feedbackBindingCount": 16,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Use the source-layout MIDI channel6. Columns control native A/B/C/D. First encoder row controls level; second controls filter. First/second push rows Load/PFL. Enable C/D and configure separate audio."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Remaining software/clip/transport/FX modes, custom channels, encoder rings/full state/feedback/lifecycle/OS and physical/iPad/A10X acceptance remain open. No source code, setup, preset or audio write."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -25010,15 +25049,20 @@
       "id": "behringercmddv1",
       "name": "Behringer CMD DV-1",
       "manufacturer": "Behringer",
-      "role": "primary",
+      "role": "accessory",
       "benchmark": false,
       "sources": [
+        "https://raw.githubusercontent.com/pavallin/CMD-DV1-Ableton/5536b5cf1aba7b9f5150e83e97129390363e072f/DV1.py",
         "https://virtualdj.com/products/hardware.html?model=BeCMDDV1"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:cmd-dv1-experimental-public-inputs"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Behringer CMD DV-1",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Behringer CMD DV-1",
@@ -25026,40 +25070,75 @@
           "source": "https://virtualdj.com/products/hardware.html?model=BeCMDDV1"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
+        "browsePreviousGroup",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "loopSizeA:a",
+        "loopSizeA:c",
+        "loopSizeB:b",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "midA:a",
+        "midA:c",
+        "midB:b"
+      ],
+      "inputBindingCount": 36,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual DV-1 MIDI channel7. Qualified FX1/2/3 encoder banks control native A/B/C gain/high/mid/low/filter/level/loop-size/browse. Clip rows provide four Hot Cues per A/B. Focus buttons navigate the library. Configure audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Experimental source does not qualify automatic startup or hardware acceptance. FX4, remaining Master/Double/Shift/FX modes, full feedback/lifecycle/OS and physical/iPad/A10X acceptance remain open. No code, hardware or audio write.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -25075,12 +25154,17 @@
       "role": "accessory",
       "benchmark": false,
       "sources": [
+        "https://raw.githubusercontent.com/mpiraux/CMD-LC-1-Ableton-9-Control-Surface-Script/5363aa49d6006f80c71891d8bcb38cdfe80a14e1/LC1.py",
         "https://virtualdj.com/products/hardware.html?model=BeCMDLC1"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:cmd-lc1-native-columns"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Behringer CMD LC-1",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Behringer CMD LC-1",
@@ -25088,40 +25172,80 @@
           "source": "https://virtualdj.com/products/hardware.html?model=BeCMDLC1"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
+        "browsePreviousGroup",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d"
+      ],
+      "inputBindingCount": 40,
+      "feedbackBindingCount": 20,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Use the source-layout MIDI channel8. Columns control native A/B/C/D. First encoder row controls level; second controls filter. First/second push rows Load/PFL. Enable C/D and configure separate audio."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Remaining software/clip/transport/FX modes, custom channels, encoder rings/full state/feedback/lifecycle/OS and physical/iPad/A10X acceptance remain open. No source code, setup, preset or audio write."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -25329,15 +25453,20 @@
       "id": "behringercmdpl1",
       "name": "Behringer CMD PL-1",
       "manufacturer": "Behringer",
-      "role": "accessory",
+      "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://www.parts-express.com/pedocs/tech-docs/behringer-cmd-pl-1-platter-module-midi-map--248-6846.pdf",
         "https://virtualdj.com/products/hardware.html?model=BeCMDPL1"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:cmd-pl1-default-native-core"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Behringer CMD PL-1",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Behringer CMD PL-1",
@@ -25345,40 +25474,135 @@
           "source": "https://virtualdj.com/products/hardware.html?model=BeCMDPL1"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "jogA:a",
+        "jogA:c",
+        "jogB:b",
+        "jogB:d",
+        "jogTouchA:a",
+        "jogTouchA:c",
+        "jogTouchB:b",
+        "jogTouchB:d",
+        "keylockA:a",
+        "keylockA:c",
+        "keylockB:b",
+        "keylockB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "loopSizeA:a",
+        "loopSizeA:c",
+        "loopSizeB:b",
+        "loopSizeB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor",
+        "openGroup",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d"
+      ],
+      "inputBindingCount": 104,
+      "feedbackBindingCount": 48,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Default PL-1 channel group1..4 maps to native A/B/C/D. Enable C/D separately. E1..8: gain/high/mid/low/filter/loop size/library/headphones. E6/7/8 push: loop/group/PFL. Wheel requires contact and uses source scale400. Configure audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Other channel groups, physical jog scale/direction, pitch polarity/range, free-spin/scratch-toggle, remaining buttons, rings/meters, full modes/lifecycle/OS and physical/iPad/A10X acceptance remain open. No setup, stored setting or audio write."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -352814,6 +353038,90 @@
         },
         {
           "reason": "Shared Cues/Samples pad state and feedback, Shift/FX/joystick modes, USB audio/hardware ownership, full lifecycle/OS and physical/iPad/A10X acceptance remain open. No mixer preference, driver or hardware/audio write."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:cmd-pl1-default-native-core",
+      "name": "Behringer CMD PL-1",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.parts-express.com/pedocs/tech-docs/behringer-cmd-pl-1-platter-module-midi-map--248-6846.pdf",
+        "sha256": "b1274a096816e795f0d35183527fc69a170d6d21a4f0e9151a1dae7810e3aee7"
+      },
+      "implementedInputCount": 104,
+      "implementedOutputCount": 48,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Other channel groups, physical jog scale/direction, pitch polarity/range, free-spin/scratch-toggle, remaining buttons, rings/meters, full modes/lifecycle/OS and physical/iPad/A10X acceptance remain open. No setup, stored setting or audio write."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:cmd-dc1-native-columns",
+      "name": "Behringer CMD DC-1",
+      "transport": "midi",
+      "source": {
+        "url": "https://raw.githubusercontent.com/mpiraux/CMD-DC-1-Ableton-9-Control-Surface-Script/c2a122474cb81469352493c393e4a985b9ca9753/DC1.py",
+        "sha256": "b1274a096816e795f0d35183527fc69a170d6d21a4f0e9151a1dae7810e3aee7"
+      },
+      "implementedInputCount": 34,
+      "implementedOutputCount": 16,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Remaining software/clip/transport/FX modes, custom channels, encoder rings/full state/feedback/lifecycle/OS and physical/iPad/A10X acceptance remain open. No source code, setup, preset or audio write."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:cmd-lc1-native-columns",
+      "name": "Behringer CMD LC-1",
+      "transport": "midi",
+      "source": {
+        "url": "https://raw.githubusercontent.com/mpiraux/CMD-LC-1-Ableton-9-Control-Surface-Script/5363aa49d6006f80c71891d8bcb38cdfe80a14e1/LC1.py",
+        "sha256": "b1274a096816e795f0d35183527fc69a170d6d21a4f0e9151a1dae7810e3aee7"
+      },
+      "implementedInputCount": 40,
+      "implementedOutputCount": 20,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Remaining software/clip/transport/FX modes, custom channels, encoder rings/full state/feedback/lifecycle/OS and physical/iPad/A10X acceptance remain open. No source code, setup, preset or audio write."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:cmd-dv1-experimental-public-inputs",
+      "name": "Behringer CMD DV-1",
+      "transport": "midi",
+      "source": {
+        "url": "https://raw.githubusercontent.com/pavallin/CMD-DV1-Ableton/5536b5cf1aba7b9f5150e83e97129390363e072f/DV1.py",
+        "sha256": "b1274a096816e795f0d35183527fc69a170d6d21a4f0e9151a1dae7810e3aee7"
+      },
+      "implementedInputCount": 36,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Experimental source does not qualify automatic startup or hardware acceptance. FX4, remaining Master/Double/Shift/FX modes, full feedback/lifecycle/OS and physical/iPad/A10X acceptance remain open. No code, hardware or audio write."
         }
       ]
     },

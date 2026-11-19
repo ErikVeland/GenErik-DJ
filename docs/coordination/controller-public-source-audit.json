@@ -2515,6 +2515,126 @@
         }
       ],
       "result": "Independent manual44-input/14-lamp Sixty-Two,83-input/39-lamp Sixty-Four and24-input TTM57mkII subsets.305 source/11 native checks and iPad framework compilation pass. All326 earlier recipes remain identical. Source pickup and relative loop encoder counts are covered. No private SDK or hardware mixer/audio write. Complete modes/feedback/lifecycle/audio/OS and physical acceptance remain open."
+    },
+    {
+      "request": "R420",
+      "sources": [
+        {
+          "model": "Behringer CMD PL-1",
+          "url": "https://www.parts-express.com/pedocs/tech-docs/behringer-cmd-pl-1-platter-module-midi-map--248-6846.pdf",
+          "sha256": "7312917c4731d9e99194b83f65913f79b39dfa9f893d4582a8c046115981783a",
+          "visuallyReviewedPages": [
+            1
+          ],
+          "files": [
+            {
+              "cacheName": "cmd-pl1-midi.pdf",
+              "sha256": "7312917c4731d9e99194b83f65913f79b39dfa9f893d4582a8c046115981783a"
+            },
+            {
+              "cacheName": "pl1/behringer.cmd.pl-1.js",
+              "sha256": "a15361b63cbd801f52e33b0e809d56432abf837272710dffd8727de472d60ebf"
+            },
+            {
+              "cacheName": "pl1/behringer.cmd.pl-1.midi.xml",
+              "sha256": "df47f0bff2cf00918e129a7d0bbbda49d43a1808eab4b3ff0f1a4874a1a838b7"
+            },
+            {
+              "cacheName": "pl1/behringer.cmd.pl-1.custom.js",
+              "sha256": "31cc5e7b09e0860293fb7ca5dbe1220e8741fb99a560a5625019c279b9ca27b4"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://gist.github.com/geenloop/0a8cfa5728c9f9909765d150f96779f4/0b8bed36ad461359b1bfadff14627044bf80fe01",
+              "revision": "0b8bed36ad461359b1bfadff14627044bf80fe01"
+            }
+          ],
+          "review": "Own manufacturer sheet visually qualifies default channel group1..4, note addresses and button LED1 solid/0 off. Independent model-specific mapping qualifies CC31 and Note31 wheel/contact, binary-offset encoders and400-count source scratch scale. Native retains default four targets only, eight Hot Cues each and named Play/held Cue/Sync/Load/key lock. E1..8 deliberately control gain/high/mid/low/filter/loop size/library/headphones; E6/7/8 push loop/group/PFL. These are native assignments, not copied software actions. Jog counts require owned contact; free spin/scratch-toggle and pitch polarity remain inactive or open. Any positive Deck26 retires only owned contacts; its release preserves fresh contacts. HH channel groups5..16, exact physical scale/direction, tempo, remaining buttons, rings/meters, full lifecycle/OS and physical acceptance remain open. No source code, setup, channel changer, stored setting or audio command runs."
+        },
+        {
+          "model": "Behringer CMD DC-1",
+          "url": "https://raw.githubusercontent.com/mpiraux/CMD-DC-1-Ableton-9-Control-Surface-Script/c2a122474cb81469352493c393e4a985b9ca9753/DC1.py",
+          "revision": "c2a122474cb81469352493c393e4a985b9ca9753",
+          "sha256": "c8da7571d54a14b9c00151a108ffe10db4b7b78af632814884292d0dd5f5473b",
+          "files": [
+            {
+              "cacheName": "dc1/DC1.py",
+              "sha256": "c8da7571d54a14b9c00151a108ffe10db4b7b78af632814884292d0dd5f5473b"
+            },
+            {
+              "cacheName": "dc1/DC1_Map.py",
+              "sha256": "b5db5c55ca11891c109b36ec0c723e6208dbaddacbada486e32a0ea1ed690d49"
+            },
+            {
+              "cacheName": "dc1/CMDEncoderElement.py",
+              "sha256": "6e8dd8872115ad9f25b67ebd64afcb7a0bc80eca8517b19cf6a885e446272a5c"
+            },
+            {
+              "cacheName": "dc1/FlashingButtonElement.py",
+              "sha256": "cba7c3d78b61e40ee6440d33373a3f598721f8a6cd0a02746285356ed76b962f"
+            }
+          ],
+          "review": "Own pinned port of the manufacturer Ableton mapping explicitly uses raw channel5,16 ordered pad addresses, encoder CC16..23, their note pushes and CC/Note32 library wheel. Native gives four vertical Hot Cues per A/B/C/D column, first-row level encoders, second-row filters and Load/PFL pushes. Library uses the bounded65/63 directions; eight knobs retain declared binary-offset decoding. Used pad feedback derives through the actual colour-output function: logical green2 sends1 and amber1 sends0. Unused generic/commented templates and copied CNTRL:R comments do not qualify extra controls. Framework compatibility of the old script does not run or become an app dependency. Remaining software modes, custom channels, rings/full feedback/lifecycle and physical acceptance remain open. No vendor program, script, hardware setting or audio write."
+        },
+        {
+          "model": "Behringer CMD LC-1",
+          "url": "https://raw.githubusercontent.com/mpiraux/CMD-LC-1-Ableton-9-Control-Surface-Script/5363aa49d6006f80c71891d8bcb38cdfe80a14e1/LC1.py",
+          "revision": "5363aa49d6006f80c71891d8bcb38cdfe80a14e1",
+          "sha256": "ef3216a6d1e5c2ae58dbfbbdddd188ab619bf3e7b2ee6bd7939b0c06b51c5b8f",
+          "files": [
+            {
+              "cacheName": "lc1/LC1.py",
+              "sha256": "ef3216a6d1e5c2ae58dbfbbdddd188ab619bf3e7b2ee6bd7939b0c06b51c5b8f"
+            },
+            {
+              "cacheName": "lc1/LC1_Map.py",
+              "sha256": "96c55da7a34ba59e44fc9817a4a047cdb22eb1e4d672c09739084697996f4393"
+            },
+            {
+              "cacheName": "lc1/CMDEncoderElement.py",
+              "sha256": "42f7472e472de367609c3bd45b7078e22f508ce0e14ae2c6b63808ba3afd181e"
+            },
+            {
+              "cacheName": "lc1/FlashingButtonElement.py",
+              "sha256": "75a6bb0e4639f73b04617c27d45cf80ef5fea4adf4ca97534f67390b9899d048"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://manualzz.com/doc/3036438/behringer-cmd-lc-1-midi-controller-midi-map",
+              "review": "Manufacturer-authored sheet transcript corroborates channel8 and clip LED1 green/127 fully off; graphical address OCR is not used."
+            }
+          ],
+          "review": "Own pinned port explicitly uses raw channel7, five selected clip rows per four columns, encoder CC16..23 and note pushes, and four named navigation buttons. Native gives five Hot Cues per A/B/C/D column, level/filter encoders with Load/PFL pushes, and library navigation. Declared relative-binary-offset knobs preserve counts. Actual colour conversion maps logical green2 to1 and off127 to127, rather than copying logical colour constants as MIDI bytes. Only the selected used clip rows qualify; remaining clip/transport/mute/arm/solo controls, custom channels, rings/full feedback/lifecycle and physical acceptance remain open. No script, old framework, startup, stored setting or audio command runs."
+        },
+        {
+          "model": "Behringer CMD DV-1",
+          "url": "https://raw.githubusercontent.com/pavallin/CMD-DV1-Ableton/5536b5cf1aba7b9f5150e83e97129390363e072f/DV1.py",
+          "revision": "5536b5cf1aba7b9f5150e83e97129390363e072f",
+          "sha256": "a65a6d7b82dbb0d1216be94efb9eefa625e3b4779c40ef3e84122899b42832f4",
+          "files": [
+            {
+              "cacheName": "dv1/DV1.py",
+              "sha256": "a65a6d7b82dbb0d1216be94efb9eefa625e3b4779c40ef3e84122899b42832f4"
+            },
+            {
+              "cacheName": "dv1/DV1_Map.py",
+              "sha256": "cf95ff1c93b21672dea91daef2502db649c8cbb463df6d98a2c2b16118f28358"
+            },
+            {
+              "cacheName": "dv1/CMDEncoderElement.py",
+              "sha256": "6e8dd8872115ad9f25b67ebd64afcb7a0bc80eca8517b19cf6a885e446272a5c"
+            },
+            {
+              "cacheName": "dv1/ReadMe.txt",
+              "sha256": "63037658c68d3db933ac10316b075641d86906e2e09cde4f338ce5dbce435af9"
+            }
+          ],
+          "review": "Independent mapping explicitly identifies itself as experimental/WIP and retains unused copied DC-1 files. Only used raw channel6, three eight-encoder FX banks, eight clip notes and four Focus-navigation notes qualify. Native manual layout assigns the three qualified encoder banks to A/B/C gain/high/mid/low/filter/level/loop-size/browse, plus four Hot Cues per A/B and Focus library navigation. Actual relative-smooth-binary-offset constructors qualify the decoder; comments and unused templates do not. FX4, other Focus/Master/Double/Shift buttons, complete modes/feedback/lifecycle and physical acceptance remain open. No automatic selection, downloaded code, old framework, preset, startup, output or audio write."
+        }
+      ],
+      "result": "Independent104-input/48-lamp PL-1,34-input/16-lamp DC-1 and40-input/20-lamp LC-1 default cores select automatically. Experimental36-input DV-1 subset remains manual.307 source/16 focused native checks and iPad framework compilation pass. All329 earlier recipes remain identical. PL-1 contact uses source scale400; physical calibration, wider modes and full feedback/lifecycle remain open."
     }
   ]
 }

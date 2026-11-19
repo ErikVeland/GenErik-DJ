@@ -2986,3 +2986,21 @@ func controllerCatalogueLegacyRaneMixerAndLoopsKeepRealAudioAndSavedSync(_ name:
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.loopEnabled == true && model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test(arguments:["Behringer CMD PL-1","Behringer CMD DC-1","Behringer CMD LC-1","Behringer CMD DV-1"]) @MainActor
+func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String)async throws{
+    try await withControllerCuePlayback(name,manual:name=="Behringer CMD DV-1"){model,input in
+        if name=="Behringer CMD PL-1"{
+            cuePreviewPacket([0x90,34,64],to:input);#expect(model.playbackSnapshot?.a.touchActive == true)
+            input.receiveBytes([0x91,26,1,0x90,35,127,35,0,31,64,0xB0,31,69,0x80,31,64],source:10);input.flushPendingActions()
+        }else{
+            model.pressPlay(deck:.a,vinylStop:false)
+            let ch:UInt8=name=="Behringer CMD DC-1" ? 5:name=="Behringer CMD LC-1" ? 7:6
+            let pad:UInt8=name=="Behringer CMD DC-1" ? 48:name=="Behringer CMD LC-1" ? 32:92
+            cuePreviewPacket([0x90+ch,pad,127,pad,0],to:input)
+        }
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}

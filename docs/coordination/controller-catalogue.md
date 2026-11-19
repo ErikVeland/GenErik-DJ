@@ -11,10 +11,10 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 561 total catalogue records. 554 name physical models. The remainder identify software endpoints or protocol families.
-- 329 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 208 factory profiles select core controls automatically for 216 physical models.
+- 333 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 211 factory profiles select core controls automatically for 219 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
-- 332 physical models still lack automatic core controls.
+- 329 physical models still lack automatic core controls.
 - 554 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -223,13 +223,13 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 17 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 210 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 213 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 123 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 187 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 124 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 183 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -491,12 +491,12 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Behringer BCD2000 | primary | partial-midi-profile | [Reference](https://github.com/anyc/snd-bcd2000) |
 | Behringer BCD3000 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20BCD3000%20Advanced.midi.xml) |
 | Behringer BCR2000 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20BCR2000.midi.xml) |
-| Behringer CMD DC-1 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=BeCMDDC1) |
-| Behringer CMD DV-1 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=BeCMDDV1) |
-| Behringer CMD LC-1 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=BeCMDLC1) |
+| Behringer CMD DC-1 | accessory | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mpiraux/CMD-DC-1-Ableton-9-Control-Surface-Script/c2a122474cb81469352493c393e4a985b9ca9753/DC1.py) |
+| Behringer CMD DV-1 | accessory | partial-midi-profile | [Reference](https://raw.githubusercontent.com/pavallin/CMD-DV1-Ableton/5536b5cf1aba7b9f5150e83e97129390363e072f/DV1.py) |
+| Behringer CMD LC-1 | accessory | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mpiraux/CMD-LC-1-Ableton-9-Control-Surface-Script/5363aa49d6006f80c71891d8bcb38cdfe80a14e1/LC1.py) |
 | Behringer CMD MM-1 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMD%20MM1.midi.xml) |
 | Behringer CMD Micro | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMD%20Micro.midi.xml) |
-| Behringer CMD PL-1 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=BeCMDPL1) |
+| Behringer CMD PL-1 | primary | automatic-core-profile | [Reference](https://www.parts-express.com/pedocs/tech-docs/behringer-cmd-pl-1-platter-module-midi-map--248-6846.pdf) |
 | Behringer CMD STUDIO 2a | primary | automatic-core-profile | [Reference](https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg) |
 | Behringer CMD STUDIO 4a | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMDStudio4a.midi.xml) |
 | Behringer DDM4000 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20DDM4000.midi.xml) |

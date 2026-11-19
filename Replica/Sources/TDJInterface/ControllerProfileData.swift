@@ -89,6 +89,7 @@ struct ControllerProfileData: Decodable, Sendable {
         let anyChannel: Bool?
         let number: UInt8
         let onValue: UInt8?
+        let anyPositive: Bool?
         let decks: [DeckID]
         let releaseShiftChannels: [UInt8]?
         let deckBank: UInt8?
@@ -96,7 +97,9 @@ struct ControllerProfileData: Decodable, Sendable {
         var isValid: Bool {
             (kind == nil || kind == .note || kind == .control)
                 && channel < 16 && number < 128
-                && (onValue.map { $0 < 128 && (kind == .control || $0 > 0) } ?? (kind == .control))
+                && (anyPositive == true
+                    ? (kind == nil || kind == .note) && onValue == nil
+                    : (onValue.map { $0 < 128 && (kind == .control || $0 > 0) } ?? (kind == .control)))
                 && (kind != .control || releaseShiftChannels == nil)
                 && !decks.isEmpty && decks.count <= 4 && Set(decks).count == decks.count
                 && (releaseShiftChannels.map {
