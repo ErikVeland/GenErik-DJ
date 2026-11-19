@@ -1994,6 +1994,41 @@
         }
       ],
       "result": "Independent32-input manual original MIXDECK USB-MIDI deck subset with documented software Cue-set and fixed loop functions. No analogue mixer, sibling calibration or ambiguous lamp writes.284 source/16 native checks and iPad framework compilation pass. All306 earlier recipes remain identical."
+    },
+    {
+      "request": "R410",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "model": "Zomo MC-1000",
+          "url": "https://www.zomo.de/bilder/manuals_drivers/Zomo_MC-1000_Midi_TSI-File.zip",
+          "sha256": "a9c3ddd7033ddd102e155a3c13223137cca4115977b0da058c6a82462d492c1a",
+          "member": "Zomo_MC-1000_Midi_TSI-File.tsi",
+          "memberSHA256": "3046ea853b9bef1736867d177f4ea7a4f5e3fb61d7e810c1f7f3dc3374affa64",
+          "manualURL": "https://www.zomo.de/bilder/manuals_drivers/Manual-Zomo-Midi-Controller-MC-1000-English.pdf",
+          "manualSHA256": "08ee9892c7daddb4ec804b23d6e6ec869cf01add7a0a9a87f1e05854b4e3ea12",
+          "pages": [
+            14,
+            15,
+            17,
+            32,
+            33,
+            34,
+            36
+          ],
+          "visuallyReviewedPages": [
+            14,
+            36
+          ],
+          "relatedSources": [
+            {
+              "url": "https://www.zomo.de/support/"
+            }
+          ],
+          "review": "Independent manufacturer TSI and manual qualify raw deck channels0/1/2/3, normal/Shift signal families and the selected controls. The bounded existing inspector reads raw bindings without executing Traktor actions. The native42-control app layout with96 release-only guards uses Play/Sync, three Hot Cues, loop toggle/size,0.1% tempo steps and filter per deck, plus library browse/open. A typed observer resets only the source-owned physical side on deck/Shift context changes before binding lookup. Global traffic cannot select a bank and late old-bank releases cannot steal ownership. Load9/25 share global channel0 across A/C and B/D software conditions, which the inspector does not qualify, so Load remains inactive. Channel switch1, full FX/Shift/Bend/preset/feedback/audio and physical/iPad/A10X acceptance remain open. No TSI action, private SDK, hardware write or audio route is executed. ProMixer documents channel4/5 and DEX contains conflicting Load/duplicate CC cases, so neither is used to extend the manufacturer four-channel contract."
+        }
+      ],
+      "result": "Independent automatic42-control MC-1000 native core with96 release-only guards and typed per-side/source context observation. Every wire appears in the manufacturer TSI. Load conditions and full modes/feedback/audio remain open.287 source/51 native checks and iPad framework compilation pass. All307 earlier recipes remain identical."
     }
   ]
 }

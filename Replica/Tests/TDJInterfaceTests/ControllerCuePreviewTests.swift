@@ -2872,3 +2872,14 @@ func controllerCatalogueLegacyDJMDirectCueKeepsAppStartedRealAudioSynced(_ name:
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueMC1000NativeTransportLoopAndTempoKeepRealAudioSync()async throws{
+    try await withControllerCuePlayback("Zomo MC-1000"){model,input in
+        input.receiveBytes([0x90,14,127,14,0,12,127,12,0],source:10);input.flushPendingActions()
+        input.receiveBytes([0xB0,5,64,0x90,10,127,10,0],source:10);input.flushPendingActions()
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.loopEnabled == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

@@ -62065,17 +62065,22 @@
     },
     {
       "id": "zomomc1000",
-      "name": "ZOMO MC-1000",
+      "name": "Zomo MC-1000",
       "manufacturer": "Zomo",
-      "role": "primary",
+      "role": "accessory",
       "benchmark": false,
       "sources": [
+        "https://www.zomo.de/bilder/manuals_drivers/Zomo_MC-1000_Midi_TSI-File.zip",
         "https://virtualdj.com/products/hardware.html?model=MC1000"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:zomo-mc1000-native-channel-one"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Zomo MC-1000",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "ZOMO MC-1000",
@@ -62083,40 +62088,82 @@
           "source": "https://virtualdj.com/products/hardware.html?model=MC1000"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "loopSizeA:a",
+        "loopSizeA:c",
+        "loopSizeB:b",
+        "loopSizeB:d",
+        "openGroup",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d",
+        "tempoDownA:a",
+        "tempoDownA:c",
+        "tempoDownB:b",
+        "tempoDownB:d",
+        "tempoUpA:a",
+        "tempoUpA:c",
+        "tempoUpB:b",
+        "tempoUpB:d"
+      ],
+      "inputBindingCount": 138,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Set the MIDI Channel switch to1. Native follows the four manufacturer deck channels. C/D require opt-in. Close other controlling software. Normal paddles give0.1% tempo steps. Global Load, other channel-switch positions, feedback and audio routing remain unqualified."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Global Load-bank software conditions, full FX/Shift/Bend and hold functions, additional channel-switch positions, complete feedback/state/lifecycle/audio, OS driver/port behaviour and physical/iPad/A10X acceptance remain open. No TSI action, stored preset, private SDK, hardware setup or audio route is written."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -351239,6 +351286,50 @@
         },
         {
           "reason": "Jog/touch/tempo calibration and resolution, time/FX knobs, additional modes and physical controls, ambiguous lamp values, complete feedback/state/lifecycle, driver/audio routing and physical/iPad/A10X acceptance remain open. No stored preset, source script, firmware or automatic audio route is used. The analogue mixer and iPod have no MIDI function."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:zomo-mc1000-native-channel-one",
+      "name": "Zomo MC-1000",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.zomo.de/bilder/manuals_drivers/Zomo_MC-1000_Midi_TSI-File.zip",
+        "sha256": "a9c3ddd7033ddd102e155a3c13223137cca4115977b0da058c6a82462d492c1a",
+        "member": "Zomo_MC-1000_Midi_TSI-File.tsi",
+        "memberSHA256": "3046ea853b9bef1736867d177f4ea7a4f5e3fb61d7e810c1f7f3dc3374affa64",
+        "manualURL": "https://www.zomo.de/bilder/manuals_drivers/Manual-Zomo-Midi-Controller-MC-1000-English.pdf",
+        "manualSHA256": "08ee9892c7daddb4ec804b23d6e6ec869cf01add7a0a9a87f1e05854b4e3ea12",
+        "pages": [
+          14,
+          15,
+          17,
+          32,
+          33,
+          34,
+          36
+        ],
+        "visuallyReviewedPages": [
+          14,
+          36
+        ],
+        "relatedSources": [
+          {
+            "url": "https://www.zomo.de/support/"
+          }
+        ],
+        "review": "Independent manufacturer TSI and manual qualify raw deck channels0/1/2/3, normal/Shift signal families and the selected controls. The bounded existing inspector reads raw bindings without executing Traktor actions. The native42-control app layout with96 release-only guards uses Play/Sync, three Hot Cues, loop toggle/size,0.1% tempo steps and filter per deck, plus library browse/open. A typed observer resets only the source-owned physical side on deck/Shift context changes before binding lookup. Global traffic cannot select a bank and late old-bank releases cannot steal ownership. Load9/25 share global channel0 across A/C and B/D software conditions, which the inspector does not qualify, so Load remains inactive. Channel switch1, full FX/Shift/Bend/preset/feedback/audio and physical/iPad/A10X acceptance remain open. No TSI action, private SDK, hardware write or audio route is executed. ProMixer documents channel4/5 and DEX contains conflicting Load/duplicate CC cases, so neither is used to extend the manufacturer four-channel contract."
+      },
+      "implementedInputCount": 138,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Global Load-bank software conditions, full FX/Shift/Bend and hold functions, additional channel-switch positions, complete feedback/state/lifecycle/audio, OS driver/port behaviour and physical/iPad/A10X acceptance remain open. No TSI action, stored preset, private SDK, hardware setup or audio route is written."
         }
       ]
     },
