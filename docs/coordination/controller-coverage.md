@@ -5552,3 +5552,21 @@ The original Digital Jockey has118 bindings. Its own manufacturer manual confirm
 Validation:294 source checks and18 native checks passed, including175 automatic held-Cue profiles and all three legacy USB-player regressions. Fixtures cover explicit identities, manual activation/capacity, both Cue releases, duplicate/source ownership, stop cleanup, AMX Shift suppression/pickup, all original Digital Jockey cross-family button releases, independent transport targets and selected mixer pickup, strict channels, rejected ambiguous controls and finite synced real-WAV transport for each new model. The iPad framework compiled and its bundled resource matches the source. All312 earlier recipes remain identical. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r414/validation.json`.
 
 The catalogue has315 recipes and561 records for554 physical models. Automatic core stays215, with339 without it. First-protocol gaps fall to201. Full theoretical support remains0/554. Full modes/state/feedback/lifecycle, calibration, audio ownership, OS behaviour and physical/iPad/A10X acceptance remain open.
+
+## R415 independent HC1000S and HC4500 manufacturer MIDI cores
+
+Assumption: use each unit's own manufacturer MIDI table. HC1000S gets a native five-Hot-Cue layout with Shift transport and all four documented MIDI channels. HC4500 keeps its two physical players as A/B across all three documented channel pairs, in PC/HC4500 MIDI mode. Its pitch slider uses app range. Keep jog calibration, full displays/modes/audio and sibling HID protocols separate. Read-only source inspection must not write presets or run vendor programs.
+
+- [x] Pin and visually review the independent input, LED and mode/channel tables.
+- [x] Add bounded automatic cores and existing native lamp-trigger encoding.
+- [x] Verify pressure64, both Cue releases, channel/Shift/source cleanup, strict encoder/pitch values, lamps and real audio.
+- [x] Run focused checks, compile the iPad framework and preserve all315 earlier recipes.
+
+
+Each manufacturer document was pinned and read independently. The HC1000S input/LED columns and HC4500 command pages1/2 were visually reviewed. HC1000S has244 inputs and48 lamp bindings across all four channels. It keeps five normal Hot Cues and uses Shift for native held Cue, Play, Sync, Load and PFL. The same source-owned Shift identity accepts release on another documented channel; either edge retires owned holds. HC4500 has96 inputs and42 lamp bindings across all three channel pairs, each controlling the same physical A/B players. Its own manual establishes PC source, HC4500 MIDI mode and configurable jog pulses. Native leaves jog/contact inactive and maps the pitch slider to app range with exact centre8192 and independently documented reverse direction.
+
+Both devices use pressure64 buttons, strict0/127 encoders and their own lamp identifiers. Lamp-on uses CC74 and lamp-off uses CC75, with the identifier in data2. No preset, firmware, hardware mode or audio route is written. HC1000S normal Hot Cue/loop lamps retain those states during native Shift transport. Full modes, displays/feedback/lifecycle, calibration, audio/OS behaviour and physical/iPad/A10X acceptance remain open. The separate manufacturer guides identify Numark DMC2 and Denon HC5000 as HID devices; neither inherits these MIDI profiles.
+
+Validation:296 source checks and13 native checks passed, including176 automatic held-Cue profiles, both pressure64 release forms, channel/Shift/source ownership, strict encoders and pitch pickup, independent lamp triggers, raw schema decoding and finite synced real-WAV transport. The iPad framework compiled and its bundled resource matches the source. All315 earlier recipes remain identical. A missing required lamp schema field caused the initial native run to fail; the definition was corrected and all three checks reran. Failed logs remain in the evidence record. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r415/validation.json`.
+
+The catalogue has317 recipes and561 records for554 physical models:217 automatic core and337 without it. First-protocol gaps fall to199. Full theoretical support remains0/554.

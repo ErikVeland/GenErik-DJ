@@ -2199,6 +2199,64 @@
         }
       ],
       "result": "Independent manual32-input AMX,30-input iCUE and118-binding original Digital Jockey subsets.294 source/18 native checks and iPad framework compilation pass. All312 earlier recipes remain identical. No hardware or audio writes. Unqualified modes/calibration, feedback/lifecycle/audio and physical acceptance remain open."
+    },
+    {
+      "request": "R415",
+      "sources": [
+        {
+          "model": "Denon DJ HC1000S",
+          "url": "https://cdn.inmusicbrands.com/denondj/legacy/dnhc1000s/DN-HC1000S_ownersmanual.pdf",
+          "sha256": "3ee803eafe162a7925d39e8b0d55174d2a16cb07d9ac87efb2b792df4bbbb8eb",
+          "cacheName": "hc1000s-manual.pdf",
+          "pages": [
+            1,
+            2
+          ],
+          "visuallyReviewedPages": [
+            1
+          ],
+          "review": "Own manufacturer A2 manual independently qualifies raw channels0..3, note press64/release0, each A/B address and separate LED74/75 trigger commands. Native keeps five Hot Cues, bends, loops, Load, library and loop-size encoders. Native Shift Cue1/2/3/4/5 give held Cue/Play/Sync/Load/PFL; Shift Censor gives key lock. All four channel aliases share one source-owned Shift input, with cleanup on both edges even if MIDI channel changes while held. Encoders accept exact0/127 only. Hot Cue/Auto Loop lamps retain normal state while native Shift transport is active. Legacy Cue deletion/instant doubles, TAP/reverse/roll/sampler, full mode feedback/lifecycle and physical/iPad/A10X acceptance remain open. No private SDK, stored setting, setup write or audio route is used."
+        },
+        {
+          "model": "Denon DJ HC4500",
+          "url": "https://cdn.inmusicbrands.com/denondj/legacy/dnhc4500/DN-HC4500_midicommandlist.pdf",
+          "sha256": "13d7ee9d3177fe2e1a9c55ecbc37755a0efccb555f20146b34a98ff66a7f712c",
+          "cacheName": "hc4500-midi.pdf",
+          "pages": [
+            1,
+            2
+          ],
+          "visuallyReviewedPages": [
+            1,
+            2
+          ],
+          "relatedSources": [
+            {
+              "url": "https://cdn.inmusicbrands.com/denondj/legacy/dnhc4500/DN-HC4500_ownersmanual.pdf",
+              "sha256": "d95a7ba9d9eba1572b5e0cf896575d65ee0e121783df47ff858b20db957be64a",
+              "cacheName": "hc4500-manual.pdf",
+              "pages": [
+                8,
+                9
+              ]
+            }
+          ],
+          "review": "Own manufacturer wire table independently qualifies note press64/release0, raw pitch centre8192 and reverse slider direction, strict browse0/127 and separate LED74/75 triggers. Its own manual documents MIDI channel pairs1/2,3/4,5/6, default HC4500 MIDI mode and configurable jog pulse counts. Native maps each pair to the same physical A/B players, not C/D. Source/Preset messages retire only source-owned holds and pickup. Pitch follows app range, not a claim of the hardware printed percentage. Native five Hot Cues, Play/Cue, bends, A1 loop In/B loop Out/Reloop and Parameter push Load are retained. Jog/contact and configurable pulse calibration, A2/Flip, Pitch-Key/TAP/FX, complete displays/state/lifecycle/audio and physical/iPad/A10X acceptance remain open. No HC5000 HID, private SDK, stored setting, SysEx request, hardware mode write or automatic audio assignment is inferred."
+        }
+      ],
+      "otherProtocolFindings": [
+        {
+          "model": "Numark DMC2",
+          "url": "https://www.numark.com/images/product_downloads/dmc2_quickstartguide.pdf",
+          "review": "Own guide identifies a HID-compliant custom DMC2 protocol; no HC4500 MIDI inheritance."
+        },
+        {
+          "model": "Denon DJ HC5000",
+          "url": "https://cdn.inmusicbrands.com/denondj/legacy/dnhc5000/DN-HC5000_ENGLISH.pdf",
+          "review": "Own technical specification identifies USB HID I/O; no HC4500 MIDI inheritance."
+        }
+      ],
+      "result": "Independent automatic HC1000S244-input/48-lamp and HC450096-input/42-lamp cores.296 source/13 native checks and iPad framework compilation pass. All315 earlier recipes remain identical. Full modes/calibration/feedback/lifecycle/audio/OS and physical acceptance remain open."
     }
   ]
 }

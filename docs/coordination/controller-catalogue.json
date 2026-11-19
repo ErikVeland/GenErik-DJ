@@ -27925,12 +27925,17 @@
       "role": "accessory",
       "benchmark": false,
       "sources": [
+        "https://cdn.inmusicbrands.com/denondj/legacy/dnhc1000s/DN-HC1000S_ownersmanual.pdf",
         "https://virtualdj.com/products/hardware.html?model=DNHC1000S"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:denon-dn-hc1000s-native-midi"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Denon DJ HC1000S",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Denon DJ HC1000S",
@@ -27938,40 +27943,83 @@
           "source": "https://virtualdj.com/products/hardware.html?model=DNHC1000S"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
+        "browsePreviousGroup",
+        "cueA:a",
+        "cueB:b",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "hotcue5A:a",
+        "hotcue5B:b",
+        "keylockA:a",
+        "keylockB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "loopSizeA:a",
+        "loopSizeB:b",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 244,
+      "feedbackBindingCount": 48,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "All four documented MIDI channels are accepted. Shift Cue1/2/3/4/5 control held Cue, Play, Sync, Load and PFL. Shift Censor controls key lock. Use separate app audio."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Legacy Cue deletion/instant doubles, TAP/reverse/roll/sampler, remaining modes, complete Shift feedback/lifecycle, OS behaviour and physical/iPad/A10X acceptance remain open. Audio requires a separate device."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -27987,12 +28035,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://cdn.inmusicbrands.com/denondj/legacy/dnhc4500/DN-HC4500_midicommandlist.pdf",
         "https://virtualdj.com/products/hardware.html?model=HC4500"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:denon-dn-hc4500-native-midi"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Denon DJ HC4500",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Denon DJ HC4500",
@@ -28000,40 +28053,70 @@
           "source": "https://virtualdj.com/products/hardware.html?model=HC4500"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "hotcue5A:a",
+        "hotcue5B:b",
+        "loadA:a",
+        "loadB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "tempoA:a",
+        "tempoB:b"
+      ],
+      "inputBindingCount": 96,
+      "feedbackBindingCount": 42,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Select PC source and HC4500 MIDI mode. All three documented MIDI channel pairs control the same physical A/B players. The pitch slider follows app range. Configure audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Jog/contact and configurable pulse calibration, A2/Flip, Pitch-Key/TAP/FX, complete displays/state/lifecycle, hardware/audio routing, OS behaviour and physical/iPad/A10X acceptance remain open. The app range determines pitch; printed hardware percentages are not inferred. No stored setting or mode write."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -351876,6 +351959,78 @@
         },
         {
           "reason": "Full hardware modes, jog/pitch and encoder calibration, feedback, audio setup and physical acceptance remain open. Original Attack stutter and separate Pause, browser rotation, kills and sampler/FX are inactive."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:denon-dn-hc1000s-native-midi",
+      "name": "Denon DJ HC1000S",
+      "transport": "midi",
+      "source": {
+        "url": "https://cdn.inmusicbrands.com/denondj/legacy/dnhc1000s/DN-HC1000S_ownersmanual.pdf",
+        "sha256": "3ee803eafe162a7925d39e8b0d55174d2a16cb07d9ac87efb2b792df4bbbb8eb",
+        "cacheName": "hc1000s-manual.pdf",
+        "pages": [
+          1,
+          2
+        ],
+        "visuallyReviewedPages": [
+          1
+        ],
+        "review": "Own manufacturer A2 manual independently qualifies raw channels0..3, note press64/release0, each A/B address and separate LED74/75 trigger commands. Native keeps five Hot Cues, bends, loops, Load, library and loop-size encoders. Native Shift Cue1/2/3/4/5 give held Cue/Play/Sync/Load/PFL; Shift Censor gives key lock. All four channel aliases share one source-owned Shift input, with cleanup on both edges even if MIDI channel changes while held. Encoders accept exact0/127 only. Hot Cue/Auto Loop lamps retain normal state while native Shift transport is active. Legacy Cue deletion/instant doubles, TAP/reverse/roll/sampler, full mode feedback/lifecycle and physical/iPad/A10X acceptance remain open. No private SDK, stored setting, setup write or audio route is used."
+      },
+      "implementedInputCount": 244,
+      "implementedOutputCount": 48,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Legacy Cue deletion/instant doubles, TAP/reverse/roll/sampler, remaining modes, complete Shift feedback/lifecycle, OS behaviour and physical/iPad/A10X acceptance remain open. Audio requires a separate device."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:denon-dn-hc4500-native-midi",
+      "name": "Denon DJ HC4500",
+      "transport": "midi",
+      "source": {
+        "url": "https://cdn.inmusicbrands.com/denondj/legacy/dnhc4500/DN-HC4500_midicommandlist.pdf",
+        "sha256": "13d7ee9d3177fe2e1a9c55ecbc37755a0efccb555f20146b34a98ff66a7f712c",
+        "cacheName": "hc4500-midi.pdf",
+        "pages": [
+          1,
+          2
+        ],
+        "visuallyReviewedPages": [
+          1,
+          2
+        ],
+        "relatedSources": [
+          {
+            "url": "https://cdn.inmusicbrands.com/denondj/legacy/dnhc4500/DN-HC4500_ownersmanual.pdf",
+            "sha256": "d95a7ba9d9eba1572b5e0cf896575d65ee0e121783df47ff858b20db957be64a",
+            "cacheName": "hc4500-manual.pdf",
+            "pages": [
+              8,
+              9
+            ]
+          }
+        ],
+        "review": "Own manufacturer wire table independently qualifies note press64/release0, raw pitch centre8192 and reverse slider direction, strict browse0/127 and separate LED74/75 triggers. Its own manual documents MIDI channel pairs1/2,3/4,5/6, default HC4500 MIDI mode and configurable jog pulse counts. Native maps each pair to the same physical A/B players, not C/D. Source/Preset messages retire only source-owned holds and pickup. Pitch follows app range, not a claim of the hardware printed percentage. Native five Hot Cues, Play/Cue, bends, A1 loop In/B loop Out/Reloop and Parameter push Load are retained. Jog/contact and configurable pulse calibration, A2/Flip, Pitch-Key/TAP/FX, complete displays/state/lifecycle/audio and physical/iPad/A10X acceptance remain open. No HC5000 HID, private SDK, stored setting, SysEx request, hardware mode write or automatic audio assignment is inferred."
+      },
+      "implementedInputCount": 96,
+      "implementedOutputCount": 42,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Jog/contact and configurable pulse calibration, A2/Flip, Pitch-Key/TAP/FX, complete displays/state/lifecycle, hardware/audio routing, OS behaviour and physical/iPad/A10X acceptance remain open. The app range determines pitch; printed hardware percentages are not inferred. No stored setting or mode write."
         }
       ]
     },

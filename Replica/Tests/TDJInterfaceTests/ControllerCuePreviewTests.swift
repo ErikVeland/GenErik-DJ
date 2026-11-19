@@ -2920,3 +2920,20 @@ func controllerCatalogueRemainingPublicTransportKeepsRealAudioAndSavedSync(_ nam
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test(arguments:["Denon DJ HC1000S","Denon DJ HC4500"]) @MainActor
+func controllerCatalogueLegacyHCManufacturerPressureKeepsRealAudioAndSavedSync(_ name:String)async throws{
+    try await withControllerCuePlayback(name){model,input in
+        if name=="Denon DJ HC1000S"{
+            cuePreviewPacket([0x90,96,64,23,64],to:input);#expect(model.playbackSnapshot?.a.touchActive == true)
+            cuePreviewPacket([0x81,96,64,0x90,96,64,24,64,24,0,0x80,96,64,0x90,29,64,29,0],to:input)
+        }else{
+            cuePreviewPacket([0x90,66,64],to:input);#expect(model.playbackSnapshot?.a.touchActive == true)
+            cuePreviewPacket([0x80,66,64,0x90,67,64,67,0],to:input)
+        }
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        if name=="Denon DJ HC1000S"{#expect(model.playbackSnapshot?.a.loopEnabled == true)}
+    }
+}

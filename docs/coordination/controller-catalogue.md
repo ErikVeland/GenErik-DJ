@@ -11,10 +11,10 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 561 total catalogue records. 554 name physical models. The remainder identify software endpoints or protocol families.
-- 315 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 201 factory profiles select core controls automatically for 209 physical models.
+- 317 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 203 factory profiles select core controls automatically for 211 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
-- 339 physical models still lack automatic core controls.
+- 337 physical models still lack automatic core controls.
 - 554 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -223,13 +223,13 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 17 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 203 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 205 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
 | partial-midi-profile | 116 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 201 | The pinned references contain no implemented mapping for this model. |
+| protocol-needed | 199 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -527,8 +527,8 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | DJ-Tech RELOADED | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RELOADED) |
 | DJ-Tech VTT-101 | primary | protocol-needed | [Reference](https://asset.conrad.com/media10/add/160267/c1/-/gl/000092385ML01/mode-demploi-092385-mini-controleur-usb-dj-tech-vtt101.pdf) |
 | DJ-Tech i-Mix Reload | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJ-Tech%20i-Mix%20Reload.midi.xml) |
-| Denon DJ HC1000S | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DNHC1000S) |
-| Denon DJ HC4500 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=HC4500) |
+| Denon DJ HC1000S | accessory | automatic-core-profile | [Reference](https://cdn.inmusicbrands.com/denondj/legacy/dnhc1000s/DN-HC1000S_ownersmanual.pdf) |
+| Denon DJ HC4500 | primary | automatic-core-profile | [Reference](https://cdn.inmusicbrands.com/denondj/legacy/dnhc4500/DN-HC4500_midicommandlist.pdf) |
 | Denon DJ HC5000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=HC5000) |
 | Denon DJ HD2500 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=HD2500) |
 | Denon DJ MC6000 | primary | partial-midi-profile | [Reference](https://cdn.inmusicbrands.com/denondj/legacy/dnmc6000/DN-MC6000_ownersmanual.pdf) |
