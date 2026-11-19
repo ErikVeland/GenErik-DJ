@@ -96,7 +96,7 @@
           "model": "Seventy-Two MKII",
           "downloads": [
             {
-              "description": "Seventy-Two Control Panel \u2013 macOS v1.1.2",
+              "description": "Seventy-Two Control Panel – macOS v1.1.2",
               "type": "Editor",
               "url": "https://cdn.inmusicbrands.com/rane/seventy-two/MacRaneSeventy-Two_1.1.2.dmg"
             },
@@ -126,7 +126,7 @@
           "model": "Seventy-Two",
           "downloads": [
             {
-              "description": "Seventy-Two Control Panel \u2013 macOS v1.1.2",
+              "description": "Seventy-Two Control Panel – macOS v1.1.2",
               "type": "Editor",
               "url": "https://cdn.inmusicbrands.com/rane/seventy-two/MacRaneSeventy-Two_1.1.2.dmg"
             },
@@ -156,12 +156,12 @@
           "model": "Seventy",
           "downloads": [
             {
-              "description": "SEVENTY Firmware Update \u2013 macOS v1.1.0.127 (Latest Version)",
+              "description": "SEVENTY Firmware Update – macOS v1.1.0.127 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/seventy/Rane%20Seventy%20Firmware%20Updater%20For%20Firmware%201.1.0.127%20%28Updater%201.0.1%29.dmg"
             },
             {
-              "description": "SEVENTY Firmware Update \u2013 Windows v1.1.0.127 (Latest Version)",
+              "description": "SEVENTY Firmware Update – Windows v1.1.0.127 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/seventy/Install%20Rane%20Seventy%20Firmware%20Updater%20For%20Firmware%201.1.0.127%20%28Updater%201.0.0%29.exe"
             },
@@ -211,7 +211,7 @@
               "url": "https://cdn.inmusicbrands.com/rane/four/Install%20Rane%20FOUR%201.0.10.exe"
             },
             {
-              "description": "FOUR Firmware Update \u2013 macOS 1.8.0.18 (Latest Version)",
+              "description": "FOUR Firmware Update – macOS 1.8.0.18 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/Software/RD/RANE%20FOUR%20Firmware%20Updater%20For%20Firmware%201.8.0.18.dmg"
             },
@@ -226,7 +226,7 @@
               "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20FOUR%20Firmware%20-%20Release%20Note%20History%20v1.8.0.18.pdf"
             },
             {
-              "description": "FOUR Firmware Update \u2013 macOS v1.7.0.8",
+              "description": "FOUR Firmware Update – macOS v1.7.0.8",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/four/RANE%20FOUR%20Firmware%20Updater%20For%20Firmware%201.7.0.8%20%28Updater%201.1.6%29.dmg"
             },
@@ -306,12 +306,12 @@
               "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%201.0.2.exe"
             },
             {
-              "description": "PERFORMER Firmware Update \u2013 macOS v1.3.0.13 (Latest Version)",
+              "description": "PERFORMER Firmware Update – macOS v1.3.0.13 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.3.0.13.dmg"
             },
             {
-              "description": "PERFORMER Firmware Update \u2013 Windows v1.3.0.13 (Latest Version)",
+              "description": "PERFORMER Firmware Update – Windows v1.3.0.13 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/Software/RD/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.3.0.13.exe"
             },
@@ -321,12 +321,12 @@
               "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20PERFORMER%20Firmware%20-%20Release%20Note%20History%20v1.3.0.13.pdf"
             },
             {
-              "description": "PERFORMER Firmware Update \u2013 macOS v1.2.0.10",
+              "description": "PERFORMER Firmware Update – macOS v1.2.0.10",
               "type": "Driver",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.2.0.10%20%28Updater%201.0.5%29.dmg"
             },
             {
-              "description": "PERFORMER Firmware Update \u2013 Windows v1.2.0.10",
+              "description": "PERFORMER Firmware Update – Windows v1.2.0.10",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.2.0.10%20%28Updater%201.0.4%29.exe"
             },
@@ -336,12 +336,12 @@
               "url": "https://cdn.inmusicbrands.com/rane/performer/Release%20Notes%20-%20Rane%20PERFORMER%20Firmware%20v1.2.0.10.pdf"
             },
             {
-              "description": "PERFORMER Firmware Update \u2013 macOS v1.1.0.13",
+              "description": "PERFORMER Firmware Update – macOS v1.1.0.13",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.1.0.13%20%28Updater%201.0.3%29.dmg"
             },
             {
-              "description": "PERFORMER Firmware Update \u2013 Windows v1.1.0.13",
+              "description": "PERFORMER Firmware Update – Windows v1.1.0.13",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.1.0.13%20%28Updater%201.0.3%29.exe"
             },
@@ -356,12 +356,12 @@
           "model": "Rane One MKII",
           "downloads": [
             {
-              "description": " ONE MKII Firmware Update \u2013 macOS v1.2.0.2 (Latest Version)",
+              "description": " ONE MKII Firmware Update – macOS v1.2.0.2 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/one-mkii/FW1202/Rane%20ONE%20MKII%20Firmware%20Updater%20For%20Firmware%201.2.0.2%20%28Updater%201.0.2%29%201.dmg"
             },
             {
-              "description": " ONE MKII Firmware Update \u2013 Windows v1.2.0.2 (Latest Version) ",
+              "description": " ONE MKII Firmware Update – Windows v1.2.0.2 (Latest Version) ",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/one-mkii/FW1202/Install%20Rane%20ONE%20MKII%20Firmware%20Updater%20For%20Firmware%201.2.0.2%20%28Updater%201.0.2%29.exe"
             },
@@ -1807,6 +1807,55 @@
         }
       ],
       "result": "Two independent automatic Mode1 native accessories:114 MKII/113 original inputs and68 feedback bindings each. An explicit paired-unbanked schema contract admits only reviewed global channels with full16-channel Shift cleanup; track channels remain strict. Product41 and115 setup/Generic exits stay separate."
+    },
+    {
+      "request": "R405",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "model": "Novation Launch Control 3",
+          "url": "https://fael-downloads-prod.focusrite.com/customer/prod/downloads/launch_control_3_programmer_s_reference_guide.pdf",
+          "sha256": "a8eb5814ebb5214332aa378469db903986b327a9672483debaf9ccc3eca978e9",
+          "version": "1.1",
+          "pages": [
+            5,
+            6,
+            8,
+            9,
+            10,
+            11,
+            12,
+            16,
+            17
+          ],
+          "visuallyReviewedPages": [
+            9
+          ],
+          "review": "Independent manufacturer DAW-port contract and product identifier. Surface indices on page9 were visually reviewed. Mode, channel, colour, absolute-encoder and feature-control contracts were checked as extracted text. Native app functions use four adjacent column pairs. Temporary DAW mode and absolute encoder setup do not edit custom templates or non-volatile settings. The decoder normalises exact0/127 momentary button CCs to logical notes. Source-local mode changes retire holds and pickup. Complete modes/screen/state/feedback/lifecycle, OS port-name variants and physical/iPad/A10X acceptance remain open."
+        },
+        {
+          "model": "Novation LaunchControl XL3",
+          "url": "https://fael-downloads-prod.focusrite.com/customer/prod/downloads/launch_control_xl_3_programmer_s_reference_guide-pdf_en.pdf",
+          "sha256": "4ac520cae51280b6c21fee35cb6b30ef4f50d80d5e1161d921ffe3c36c2736ad",
+          "version": "1.0",
+          "pages": [
+            5,
+            6,
+            8,
+            9,
+            10,
+            11,
+            12,
+            16,
+            17
+          ],
+          "visuallyReviewedPages": [
+            9
+          ],
+          "review": "Independent manufacturer DAW-port contract and product identifier. Surface indices on page9 were visually reviewed. Mode, channel, colour, absolute-encoder and feature-control contracts were checked as extracted text. Native app functions use four adjacent column pairs. Temporary DAW mode and absolute encoder setup do not edit custom templates or non-volatile settings. The decoder normalises exact0/127 momentary button CCs to logical notes. Source-local mode changes retire holds and pickup. Complete modes/screen/state/feedback/lifecycle, OS port-name variants and physical/iPad/A10X acceptance remain open."
+        }
+      ],
+      "result": "Independent25/54-input automatic DAW cores,24/36 feedback bindings, strict paired ports, temporary setup/exit and source-local mode/Shift cleanup.276 source/38 native checks and iPad framework compilation pass. All299 earlier recipes remain identical. Full theoretical support and physical acceptance remain open."
     }
   ]
 }

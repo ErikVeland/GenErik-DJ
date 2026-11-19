@@ -4,9 +4,9 @@ import TDJCore
 struct ControllerProfileData: Decodable, Sendable {
     enum InputProtocol: String, Codable, Sendable {
         case smk25II, cdj101, ddjSR2, keyLabMKI, kontrolOne, midiFighterSpectra, p1Nano, sc5000M, denonPrimePlayer,
-            denonPrime4, nanoKontrol2Native, nanoPad2Native, nanoKontrolScene, xdjAN
+            denonPrime4, nanoKontrol2Native, nanoPad2Native, nanoKontrolScene, xdjAN, launchControlDAW
         var setupInputMode: ControllerSetupInputDecoder.Mode? {
-            self == .xdjAN ? .xdjAN : korgInputMode.map { .korg($0) }
+            self == .launchControlDAW ? .launchControlDAW : self == .xdjAN ? .xdjAN : korgInputMode.map { .korg($0) }
         }
         var preservesRawMappings: Bool { self == .nanoKontrolScene || self == .xdjAN }
         var korgNativeModel: ControllerKorgNativeDecoder.Model? {
@@ -313,7 +313,8 @@ struct ControllerProfileData: Decodable, Sendable {
 
     private var validStartupAbort: Bool {
         guard let startupAbort else { return true }
-        return autoSelect && inputProtocol == nil && !startup.isEmpty && !shutdown.isEmpty
+        return autoSelect && (inputProtocol == nil || (inputProtocol == .launchControlDAW && role == "accessory"))
+            && !startup.isEmpty && !shutdown.isEmpty
             && !startupAbort.isEmpty && startupAbort.count <= 4
     }
 
