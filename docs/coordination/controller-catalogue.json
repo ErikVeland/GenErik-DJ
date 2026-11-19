@@ -26261,12 +26261,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
         "https://virtualdj.com/products/hardware.html?model=ABMA1"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:bmi-abma1-normal"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "BeyondMusic (BMI) ABMA1",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "BeyondMusic (BMI) ABMA1",
@@ -26274,40 +26279,91 @@
           "source": "https://virtualdj.com/products/hardware.html?model=ABMA1"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "fixedLoopA:a",
+        "fixedLoopB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "loopUpA:a",
+        "loopUpB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
+      ],
+      "inputBindingCount": 55,
+      "feedbackBindingCount": 12,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Select this model manually. Native uses normal MIDI channel1 controls,330-count wheel bend and separate app audio. Software Scratch/FX/needle and copied vendor actions stay inactive."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Own separate public factory member qualifies normal transport, three Hot Cues, bends, key lock, PFL, loop controls, six mixer/pitch axes per deck, inverted crossfader, Cue mix and relative browser/wheel facts. Native uses channel1 and330-count wheel bend without software Scratch mode. Loop In/Out/Reloop use native independent anchors and loop state, not copied conditional software actions. Both source browser switches open groups. This member uses CuePlay/SetCue software commands, not held deckCue. Its Cue/CUP keys stay inactive. It has no monitor gainCC34. Each own output map qualifies different NoteOn127/0 lamp addresses for Play/PFL/three Hot Cues/loop state, plus ABMA3 Cue. No guessed Sync/key lamps or position strips. Source identity uses VID/PID/SysEx rather than a distinct port name. Native does not perform those probes. Manual selection and separate app audio are required. Copied JB Systems comments do not qualify any JB model. ABMA4, shared ABMA USB names, needle positions, relative cutoff curves, Scratch-mode toggles/contact, Clear/CUP/FX/reverse, full lifecycle/state/USB/OS/audio and physical/iPad/A10X acceptance remain open. No mapping action, startup reset, sleep, driver, firmware, stored preset or vendor program runs.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -26385,12 +26441,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
         "https://virtualdj.com/products/hardware.html?model=ABMA3"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:bmi-abma3-normal"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "BeyondMusic (BMI) ABMA3",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "BeyondMusic (BMI) ABMA3",
@@ -26398,40 +26459,94 @@
           "source": "https://virtualdj.com/products/hardware.html?model=ABMA3"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "fixedLoopA:a",
+        "fixedLoopB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "loopUpA:a",
+        "loopUpB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
+      ],
+      "inputBindingCount": 58,
+      "feedbackBindingCount": 14,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Select this model manually. Native uses normal MIDI channel1 controls,330-count wheel bend and separate app audio. Software Scratch/FX/needle and copied vendor actions stay inactive."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Own separate public factory member qualifies normal transport, three Hot Cues, bends, key lock, PFL, loop controls, six mixer/pitch axes per deck, inverted crossfader, Cue mix and relative browser/wheel facts. Native uses channel1 and330-count wheel bend without software Scratch mode. Loop In/Out/Reloop use native independent anchors and loop state, not copied conditional software actions. Both source browser switches open groups. Only this member explicitly uses deckCue on51/60 and monitor gainCC34. It also handles both standard NoteOn/Off statuses. Each own output map qualifies different NoteOn127/0 lamp addresses for Play/PFL/three Hot Cues/loop state, plus ABMA3 Cue. No guessed Sync/key lamps or position strips. Source identity uses VID/PID/SysEx rather than a distinct port name. Native does not perform those probes. Manual selection and separate app audio are required. Copied JB Systems comments do not qualify any JB model. ABMA4, shared ABMA USB names, needle positions, relative cutoff curves, Scratch-mode toggles/contact, Clear/CUP/FX/reverse, full lifecycle/state/USB/OS/audio and physical/iPad/A10X acceptance remain open. No mapping action, startup reset, sleep, driver, firmware, stored preset or vendor program runs.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -354996,6 +355111,64 @@
         },
         {
           "reason": "Own manufacturer-authored guide independently qualifies normal channels1/2, buttons and +63 alternate addresses, relative CC49/51/53 centred64, optional separate directional Notes49..54, touch19, default pulse1024 and literal NoteOn127/0 lamp packets. Firmware similarity is not protocol evidence. Manufacturer USB names DMC1K through DMC1KH qualify distinct identity. Its own distributed device definition corroborates full1024 jog, inverted pitch-bend and note lamps. Use MIDI source, unedited defaults, channel pair1/2, Shift Hold, relative CC type and pulse1024. Set hardware A/B per unit. NOTE encoders are also supported. Absolute encoder mode and pulse512 are not supported by this recipe. Native treats bank/Shift/wheel changes as source-owned cleanup before new controls. Fixed channel0/1 targets are app A/B, not automatic player assignment. Normal Play/Cue/bends/key lock/manual loops/Load/group and contact-gated wheel/library are implemented. Pads, cue-memory/sample/edit/Hold/FX/Sync, complete alternate controls, pitch except independently corroborated Synq, display/meters/lifecycle/audio/host/OS and physical/iPad/A10X acceptance remain open. Guides mislabel literal0x9n note status as Control Change. ProMixer CC lamp commands and copied software roles are not used. No source action, stored setting, firmware, driver or mode write runs."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:bmi-abma1-normal",
+      "name": "BeyondMusic (BMI) ABMA1",
+      "transport": "midi",
+      "source": {
+        "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+        "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+        "archiveMember": "Applications/DEX4.app/Contents/Resources/controllers/Beyond__Abma1.js",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r301/upstream/controllers/Beyond__Abma1.js",
+            "sha256": "a86abafd09b8147d5476aaf2cbf052fcb2ac65264d89e676a721e5c84da50f45"
+          }
+        ],
+        "review": "Own separate public factory member qualifies normal transport, three Hot Cues, bends, key lock, PFL, loop controls, six mixer/pitch axes per deck, inverted crossfader, Cue mix and relative browser/wheel facts. Native uses channel1 and330-count wheel bend without software Scratch mode. Loop In/Out/Reloop use native independent anchors and loop state, not copied conditional software actions. Both source browser switches open groups. This member uses CuePlay/SetCue software commands, not held deckCue. Its Cue/CUP keys stay inactive. It has no monitor gainCC34. Each own output map qualifies different NoteOn127/0 lamp addresses for Play/PFL/three Hot Cues/loop state, plus ABMA3 Cue. No guessed Sync/key lamps or position strips. Source identity uses VID/PID/SysEx rather than a distinct port name. Native does not perform those probes. Manual selection and separate app audio are required. Copied JB Systems comments do not qualify any JB model. ABMA4, shared ABMA USB names, needle positions, relative cutoff curves, Scratch-mode toggles/contact, Clear/CUP/FX/reverse, full lifecycle/state/USB/OS/audio and physical/iPad/A10X acceptance remain open. No mapping action, startup reset, sleep, driver, firmware, stored preset or vendor program runs."
+      },
+      "implementedInputCount": 55,
+      "implementedOutputCount": 12,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Own separate public factory member qualifies normal transport, three Hot Cues, bends, key lock, PFL, loop controls, six mixer/pitch axes per deck, inverted crossfader, Cue mix and relative browser/wheel facts. Native uses channel1 and330-count wheel bend without software Scratch mode. Loop In/Out/Reloop use native independent anchors and loop state, not copied conditional software actions. Both source browser switches open groups. This member uses CuePlay/SetCue software commands, not held deckCue. Its Cue/CUP keys stay inactive. It has no monitor gainCC34. Each own output map qualifies different NoteOn127/0 lamp addresses for Play/PFL/three Hot Cues/loop state, plus ABMA3 Cue. No guessed Sync/key lamps or position strips. Source identity uses VID/PID/SysEx rather than a distinct port name. Native does not perform those probes. Manual selection and separate app audio are required. Copied JB Systems comments do not qualify any JB model. ABMA4, shared ABMA USB names, needle positions, relative cutoff curves, Scratch-mode toggles/contact, Clear/CUP/FX/reverse, full lifecycle/state/USB/OS/audio and physical/iPad/A10X acceptance remain open. No mapping action, startup reset, sleep, driver, firmware, stored preset or vendor program runs."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:bmi-abma3-normal",
+      "name": "BeyondMusic (BMI) ABMA3",
+      "transport": "midi",
+      "source": {
+        "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+        "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+        "archiveMember": "Applications/DEX4.app/Contents/Resources/controllers/Beyond__Abma3.js",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r301/upstream/controllers/Beyond__Abma3.js",
+            "sha256": "db5c111cd25cea59b435a9e9fd872e1b84965e596f0b8eec8eb0e73e51983e05"
+          }
+        ],
+        "review": "Own separate public factory member qualifies normal transport, three Hot Cues, bends, key lock, PFL, loop controls, six mixer/pitch axes per deck, inverted crossfader, Cue mix and relative browser/wheel facts. Native uses channel1 and330-count wheel bend without software Scratch mode. Loop In/Out/Reloop use native independent anchors and loop state, not copied conditional software actions. Both source browser switches open groups. Only this member explicitly uses deckCue on51/60 and monitor gainCC34. It also handles both standard NoteOn/Off statuses. Each own output map qualifies different NoteOn127/0 lamp addresses for Play/PFL/three Hot Cues/loop state, plus ABMA3 Cue. No guessed Sync/key lamps or position strips. Source identity uses VID/PID/SysEx rather than a distinct port name. Native does not perform those probes. Manual selection and separate app audio are required. Copied JB Systems comments do not qualify any JB model. ABMA4, shared ABMA USB names, needle positions, relative cutoff curves, Scratch-mode toggles/contact, Clear/CUP/FX/reverse, full lifecycle/state/USB/OS/audio and physical/iPad/A10X acceptance remain open. No mapping action, startup reset, sleep, driver, firmware, stored preset or vendor program runs."
+      },
+      "implementedInputCount": 58,
+      "implementedOutputCount": 14,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Own separate public factory member qualifies normal transport, three Hot Cues, bends, key lock, PFL, loop controls, six mixer/pitch axes per deck, inverted crossfader, Cue mix and relative browser/wheel facts. Native uses channel1 and330-count wheel bend without software Scratch mode. Loop In/Out/Reloop use native independent anchors and loop state, not copied conditional software actions. Both source browser switches open groups. Only this member explicitly uses deckCue on51/60 and monitor gainCC34. It also handles both standard NoteOn/Off statuses. Each own output map qualifies different NoteOn127/0 lamp addresses for Play/PFL/three Hot Cues/loop state, plus ABMA3 Cue. No guessed Sync/key lamps or position strips. Source identity uses VID/PID/SysEx rather than a distinct port name. Native does not perform those probes. Manual selection and separate app audio are required. Copied JB Systems comments do not qualify any JB model. ABMA4, shared ABMA USB names, needle positions, relative cutoff curves, Scratch-mode toggles/contact, Clear/CUP/FX/reverse, full lifecycle/state/USB/OS/audio and physical/iPad/A10X acceptance remain open. No mapping action, startup reset, sleep, driver, firmware, stored preset or vendor program runs."
         }
       ]
     },

@@ -2987,6 +2987,20 @@ func controllerCatalogueLegacyRaneMixerAndLoopsKeepRealAudioAndSavedSync(_ name:
     }
 }
 
+@Test(arguments: ["BeyondMusic (BMI) ABMA1", "BeyondMusic (BMI) ABMA3"]) @MainActor
+func controllerCatalogueBMICoreKeepsRealAudioAndSavedSync(_ name: String) async throws {
+    try await withControllerCuePlayback(name, manual: true) { model, input in
+        if name.hasSuffix("3") {
+            cuePreviewPacket([0x90, 51, 127], to: input); #expect(model.playbackSnapshot?.a.touchActive == true)
+            cuePreviewPacket([0x80, 51, 127], to: input)
+        }
+        cuePreviewPacket([0x90, 67, 127, 67, 0, 109, 127, 109, 0], to: input)
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
 @Test(arguments: ["Audiophony CDX6", "CITRONIC MPCD-X3", "Stanton CMP.800", "Synq DMC-1000"]) @MainActor
 func controllerCatalogueLegacySinglePlayerKeepsRealAudioAndSavedSync(_ name: String) async throws {
     try await withControllerCuePlayback(name, manual: !name.hasPrefix("Synq")) { model, input in

@@ -3070,6 +3070,38 @@
         }
       ],
       "result": "Four independent normal player cores. Synq distinct-name automatic identity; three generic-name manual recipes. Source-owned bank/Shift cleanup, relative/NOTE wheels and note lamps checked. Full modes, audio, host and physical acceptance remain open."
+    },
+    {
+      "request": "R428",
+      "sources": [
+        {
+          "model": "BeyondMusic (BMI) ABMA1",
+          "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+          "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+          "archiveMember": "Applications/DEX4.app/Contents/Resources/controllers/Beyond__Abma1.js",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r301/upstream/controllers/Beyond__Abma1.js",
+              "sha256": "a86abafd09b8147d5476aaf2cbf052fcb2ac65264d89e676a721e5c84da50f45"
+            }
+          ],
+          "review": "Own separate public factory member qualifies normal transport, three Hot Cues, bends, key lock, PFL, loop controls, six mixer/pitch axes per deck, inverted crossfader, Cue mix and relative browser/wheel facts. Native uses channel1 and330-count wheel bend without software Scratch mode. Loop In/Out/Reloop use native independent anchors and loop state, not copied conditional software actions. Both source browser switches open groups. This member uses CuePlay/SetCue software commands, not held deckCue. Its Cue/CUP keys stay inactive. It has no monitor gainCC34. Each own output map qualifies different NoteOn127/0 lamp addresses for Play/PFL/three Hot Cues/loop state, plus ABMA3 Cue. No guessed Sync/key lamps or position strips. Source identity uses VID/PID/SysEx rather than a distinct port name. Native does not perform those probes. Manual selection and separate app audio are required. Copied JB Systems comments do not qualify any JB model. ABMA4, shared ABMA USB names, needle positions, relative cutoff curves, Scratch-mode toggles/contact, Clear/CUP/FX/reverse, full lifecycle/state/USB/OS/audio and physical/iPad/A10X acceptance remain open. No mapping action, startup reset, sleep, driver, firmware, stored preset or vendor program runs."
+        },
+        {
+          "model": "BeyondMusic (BMI) ABMA3",
+          "url": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+          "sha256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+          "archiveMember": "Applications/DEX4.app/Contents/Resources/controllers/Beyond__Abma3.js",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r301/upstream/controllers/Beyond__Abma3.js",
+              "sha256": "db5c111cd25cea59b435a9e9fd872e1b84965e596f0b8eec8eb0e73e51983e05"
+            }
+          ],
+          "review": "Own separate public factory member qualifies normal transport, three Hot Cues, bends, key lock, PFL, loop controls, six mixer/pitch axes per deck, inverted crossfader, Cue mix and relative browser/wheel facts. Native uses channel1 and330-count wheel bend without software Scratch mode. Loop In/Out/Reloop use native independent anchors and loop state, not copied conditional software actions. Both source browser switches open groups. Only this member explicitly uses deckCue on51/60 and monitor gainCC34. It also handles both standard NoteOn/Off statuses. Each own output map qualifies different NoteOn127/0 lamp addresses for Play/PFL/three Hot Cues/loop state, plus ABMA3 Cue. No guessed Sync/key lamps or position strips. Source identity uses VID/PID/SysEx rather than a distinct port name. Native does not perform those probes. Manual selection and separate app audio are required. Copied JB Systems comments do not qualify any JB model. ABMA4, shared ABMA USB names, needle positions, relative cutoff curves, Scratch-mode toggles/contact, Clear/CUP/FX/reverse, full lifecycle/state/USB/OS/audio and physical/iPad/A10X acceptance remain open. No mapping action, startup reset, sleep, driver, firmware, stored preset or vendor program runs."
+        }
+      ],
+      "result": "Separate manual ABMA1/3 normal cores. Only ABMA3 qualifies held Cue and monitor gain. Own source input/lamp addresses retained. JB rebrand comments and ABMA4 are not inherited. Full modes, identity, host, audio and physical acceptance remain open."
     }
   ]
 }
