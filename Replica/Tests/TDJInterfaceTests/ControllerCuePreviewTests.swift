@@ -3602,3 +3602,20 @@ func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+
+@Test @MainActor func controllerCatalogueDJ808ManualCueAndPairedMixerKeepAudioSynced() async throws {
+    try await withControllerCuePlayback("DJ-808",manual:true) {model,input in
+        input.receiveBytes([0x90,1,1],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x82,5,127,0x90,0,127,0,0],source:10);input.flushPendingActions()
+        input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+        for (msb,lsb):(UInt8,UInt8) in [(22,52),(23,53),(24,54),(25,55),(28,58)] {
+            for value:UInt8 in [0,127,64] {input.receiveBytes([0xB0,msb,value,lsb,0],source:10);input.flushPendingActions()}
+        }
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        #expect(abs((model.controllerValue(.levelA) ?? -1)-8192.0/16383)<0.0001)
+    }
+}

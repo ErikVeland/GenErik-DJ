@@ -4839,6 +4839,51 @@
         }
       ],
       "result": "Expanded G4V to39 manual native inputs using independently pinned primary-author PR4323 facts. The source PR is open/unmerged. All24 prior mixer rows and all395 other recipes remain identical.408 source/14 native checks and iPad framework compilation pass. Source mapper volume constant conflict is resolved using corroborated XML/owner-chart addresses. Complete modes, feedback/lifecycle/audio/host and physical acceptance remain open."
+    },
+    {
+      "request": "R469",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "model": "Roland DJ-808",
+          "url": "https://raw.githubusercontent.com/peter-vincze/mixxx/e1f90cde7a2904ae4c9de48614d1df85d3f2e34a/res/controllers/Roland_DJ-808.midi.xml",
+          "sha256": "08b3532bbc3f7754ba9e177bfe9e36f26f592e800470fd86987c24e4230a46e4",
+          "upstreamRevision": "e1f90cde7a2904ae4c9de48614d1df85d3f2e34a",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r469/upstream/dj808.midi.xml",
+              "sha256": "08b3532bbc3f7754ba9e177bfe9e36f26f592e800470fd86987c24e4230a46e4"
+            },
+            {
+              "cachePath": "TestBuilds/r469/upstream/dj808-scripts.js",
+              "sha256": "30277379bfc422fa03f3c81858cdbe0a508cb80b9e05f5d62904b89cb30fe927"
+            },
+            {
+              "cachePath": "TestBuilds/r469/upstream/dj808-manual.pdf",
+              "sha256": "796590acf6f3df4046776fbb4b9a354959b3853c2e5f9342983db845b8b910c7"
+            },
+            {
+              "cachePath": "TestBuilds/r469/upstream/dj808-pr15063.json",
+              "sha256": "32de39d784352caf22f91356ecbd595f8c635d3f97f709affe088efbbe3e6826"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://github.com/mixxxdj/mixxx/pull/15063",
+              "merged": false
+            },
+            {
+              "url": "https://static.roland.com/assets/media/pdf/DJ-808_eng03_W.pdf",
+              "sha256": "796590acf6f3df4046776fbb4b9a354959b3853c2e5f9342983db845b8b910c7",
+              "visuallyReviewedPages": [
+                21
+              ]
+            }
+          ],
+          "review": "Primary contributor peter-vincze supplies own-model DJ-808 XML and mapper in open/unmerged Mixxx PR15063 at e1f90cde7a2904ae4c9de48614d1df85d3f2e34a. This is community protocol evidence, not a released Mixxx profile or manufacturer numeric approval. The XML explicitly names DJ-808 and supplies all four raw0..3 deck assignments. Normal Play0, held Cue1, native Sync2 and Keylock13 retain shifted release-only aliases4/5/3/14. Opposite-side-bank negative aliases preserve source-owned release/rearm. Global Shift is raw15 Note0. Native uses its existing Sync toggle rather than importing source short/long-press leader/quantise logic. Shifted positive transport stays inactive. Five paired14-bit controls per deck are gain22/52, high23/53, mid24/54, low25/55 and level28/58. Both byte roles are explicit inputMSB/inputLSB XML references, not a plus32 guess; mistaken volume descriptions do not override callback keys. The mapper EQ output-address constants conflict with input XML, so only explicit input assignments and indexed EQ roles are used; no EQ feedback is sent. Separate normal filterCC26 and PFLNote27 are Shift-guarded. Raw4..7 Reloop51/Half52/Double53/In56/Out57 use native loop semantics. Own XML deck selectors are Note8 on raw0/1; positive reports clear owned holds/pickup for A/C or B/D without inventing native software banks. C/D require app opt-in; physical strip order is3/1/2/4. Roland own revision03 guide p21 visually confirms standalone controller MIDI through the PC port, except TR-S/VT; DIN MIDI OUT carries synchronization only. Its PC USB connection requires a driver. Manual use requires an already exposed CoreMIDI source or independently qualified bridge, PC input selection and separate app audio; no direct iPad driver/USB claim is made. Mixer controls also affect hardware audio in standalone mode. Native does not send the source SysEx/periodic keepalive, driver, firmware, preset, mode, feedback or audio-route writes. Shared Load ownership, dual-deck mode, tempo polarity/range, source-specific crossfader maximum16368, jog/touch calibration, pads/FX/TR-S/VT, full controls/modes/feedback/lifecycle/recovery, USB/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. No DJ-202/505/707M bytes or identities are inherited and no upstream script/component code executes or ships."
+        }
+      ],
+      "result": "Independent113-input manual DJ-808 normal subset from a pinned primary own-model XML/mapper and own manufacturer standalone guidance. The source PR is open/unmerged.411 source/13 native checks and iPad framework compilation pass. All396 earlier recipes remain identical. Direct iPad USB driver/bridge, complete modes/feedback/lifecycle/audio and physical acceptance remain open. No partial SysEx/keepalive or source code runs."
     }
   ]
 }

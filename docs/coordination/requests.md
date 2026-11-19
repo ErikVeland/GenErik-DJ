@@ -766,3 +766,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R467 | Implemented; full player/modes/audio/host gaps open | Add independent G4V normal mixer subset | Added24 manual owner-chart mixer positions.407 source/9 native checks and iPad framework compilation pass. All395 earlier recipes remain identical. [Scope](controller-coverage.md#r467-independent-g4v-owner-chart-mixer). |
 
 | R468 | Implemented; complete modes/feedback/audio/host gaps open | Expand G4V with independent primary native bank facts | Expanded to39 manual inputs with native A/C and B/D banks.408 source/14 native checks and iPad framework compilation pass. All395 other recipes and24 earlier G4V mixer rows remain identical. [Scope](controller-coverage.md#r468-g4v-primary-author-manual-banks). |
+
+| R469 | Implemented; driver/full modes/feedback/audio/host gaps open | Add independent DJ-808 normal MIDI subset | Added113 manual own-model inputs.411 source/13 native checks and iPad framework compilation pass. All396 earlier recipes remain identical. [Scope](controller-coverage.md#r469-independent-dj-808-normal-midi-core). |
