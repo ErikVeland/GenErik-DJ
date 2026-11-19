@@ -25,8 +25,7 @@ Both sizes have a 4:3 aspect ratio. No crop or change in proportions was needed.
 Apple accepted all four copies in the required 13-inch slot on 19 November 2026.
 The originals remain unchanged. `ipad-13-manifest.json` records source and output hashes.
 `ipad-13-upload-confirmed.png` records the accepted count and order.
-The required standard iPhone set is also missing. Duo screenshots have their own slot.
-Capture the missing iPhone size from the release candidate and check that all screenshots match its interface before submission.
+R430 added the required standard iPhone slot and native release captures for the Duo, iPad and Mac. See the [release capture record](../screenshots-r430/README.md).
 The Desktop files do not establish their source build numbers or performance acceptance.
 The app remains in Prepare for Submission. Uploading screenshots does not publish the app.
 
