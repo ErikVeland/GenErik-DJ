@@ -5467,6 +5467,31 @@
         }
       ],
       "result": "Added42 own-factory inputs and eight blue1/off0 pad LED outputs. Four Hot Cues and explicit clears per deck have both negative aliases. Temporary pitch bend uses factory minus12/plus11 on raw0/1, with shifted32/33 negative-only cleanup. The pinned XML incorrectly assigns plus13, colliding with existing factory Keylock13. Shifted Cue5 now releases the held normal Cue without a positive Track Start action. All49 earlier inputs and10 earlier outputs remain exact prefixes;403 other recipes remain identical.440 source/15 native checks and iPad framework compilation pass. Real-WAV checks preserve finite active playback, cue release, bend release, neighbours and saved Sync. Initial checks exposed an overbroad unrelated Platinum assertion edit, a conflict test that counted negative guards as active inputs, and a missing test MainActor annotation. These test-only corrections and failed runs remain in evidence. Advanced pad modes, positive search/Track Start, full FX/meters/audio/host/lifecycle and physical acceptance remain open. No mapper or upstream code executes."
+    },
+    {
+      "request": "R481",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "model": "Gemini MDJ-1000",
+          "url": "https://www.theseus.fi/bitstream/handle/10024/133340/opinnaytetyo_joakim_mattson_8.pdf?sequence=1",
+          "sha256": null,
+          "relatedSources": [
+            {
+              "url": "https://www.recordcase.de/media/94/11/39/1700636206/gemini-mdj-1000-manual.pdf?ts=",
+              "cachePath": "TestBuilds/r481/upstream/mdj1000-original-manual.pdf",
+              "sha256": "04a4cbb41e4df5b64909f143b3eb9f78a3dacbe94038ac23a8e0fb1ed6454995"
+            }
+          ],
+          "review": "Primary owner Joakim Mattson published Gemini MDJ-1000 midi programming for Mixxx DJ software in2017. Appendix1 records his own MIDI-OX captures, raw channels0..3, normal/Shift notes and values. The thesis is web-reviewed through its repository text; its PDF was not downloaded and no PDF hash or visual table proof is claimed. The separately cached original48-page manufacturer manual is hash-pinned; printed pages9..11 qualify held Cue, temporary bends, tempo direction, Hot Cue deletion and normal auto loops. Manual raw0 player A only, with separate audio. Load targets A rather than copying the owner's first-stopped-deck customisation. Temporary bends follow the physical held function rather than permanent rate-step customisation. The eight auto-loop lengths use native fixed loops in normal mode; Loop Roll/Slip remain inactive. Dedicated normal/Shift opcodes have paired negative aliases without an inferred app Shift button. No MDJ-900/500/600/V2/CDMP/GMX protocol is inherited. Relative jog/contact resolution, complete mode transitions, reverse/search/Track Search/Auto Cue/grid/FX/source/Link/eject, output/display/lifecycle/recovery and USB/channel/driver/OS/power/audio/DVS remain open. No unique USB identity or automatic channel assignment is established. No mapper, script, settings, query, reset, driver, firmware, installer or audio-route write executes. Physical/iPad/A10X acceptance remains open.",
+          "ownerTableReview": "2017 Appendix1, web-extracted text; no local thesis PDF/hash/visual proof",
+          "manufacturerManualVisuallyReviewedPrintedPages": [
+            9,
+            11
+          ]
+        }
+      ],
+      "result": "Added58 manual raw0 player-A inputs for the original MDJ-1000. Primary owner MIDI-OX captures qualify32 positive roles and26 negative aliases. Native uses held bends rather than the owner permanent rate-step customisation. Load targets manual A rather than the owner first-stopped-deck customisation. Eight fixed loops cover0.125/0.25/0.5/1/2/4/8/16 beats in normal mode with Loop Roll/Slip off. Own filterCC4 is included; no sibling protocol is inherited. The owner thesis remains web-reviewed without a downloaded PDF/hash or visual table proof. A separate original manufacturer manual is cached and hash-pinned; original manual pages9/11 were visually reviewed. Zzounds PDF download returned403; the documented Recordcase copy succeeded.443 source/14 native checks and iPad framework compilation pass. All404 earlier recipes remain identical. Checks cover both release forms, source-owned holds/pickup, dedicated negative aliases, exact loop arguments, browse pulses, inactive channels/wires/groups and foreign sources. The WAV case preserves held Cue/bend release, marker neighbours/position, filter, fractional loops, finite active playback and saved Sync. Missing-profile TDD is preserved. Automatic USB/channel assignment, uncalibrated motion, complete modes/output/display/lifecycle/host/audio and physical acceptance remain open. No mapper, vendor code or installer executes."
     }
   ]
 }

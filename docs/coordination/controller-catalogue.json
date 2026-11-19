@@ -36066,12 +36066,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://www.theseus.fi/bitstream/handle/10024/133340/opinnaytetyo_joakim_mattson_8.pdf?sequence=1",
         "https://virtualdj.com/products/hardware.html?model=GMMDJ1K"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:original-mdj1000-owner-manual-player-core"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Gemini MDJ-1000",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Gemini MDJ-1000",
@@ -36079,41 +36084,83 @@
           "source": "https://virtualdj.com/products/hardware.html?model=GMMDJ1K"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browseNext",
+        "browsePrevious",
+        "clearHotcue1A:a",
+        "clearHotcue2A:a",
+        "clearHotcue3A:a",
+        "clearHotcue4A:a",
+        "cuePreviewA:a",
+        "filterKnobA:a",
+        "fixedLoopA:a",
+        "hotcue1A:a",
+        "hotcue2A:a",
+        "hotcue3A:a",
+        "hotcue4A:a",
+        "keylockA:a",
+        "loadA:a",
+        "loopDownA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "loopUpA:a",
+        "pitchBendDownA:a",
+        "pitchBendUpA:a",
+        "playA:a",
+        "reloopA:a",
+        "syncA:a",
+        "tempoA:a"
+      ],
+      "inputBindingCount": 58,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual original MDJ-1000 MIDI raw channel0, native target A. Use normal MIDI and Auto Loop modes with Loop Roll/Slip off. Configure audio separately. Other channels, automatic identity, jog, output and V2 remain unqualified."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Primary owner Joakim Mattson published Gemini MDJ-1000 midi programming for Mixxx DJ software in2017. Appendix1 records his own MIDI-OX captures, raw channels0..3, normal/Shift notes and values. The thesis is web-reviewed through its repository text; its PDF was not downloaded and no PDF hash or visual table proof is claimed. The separately cached original48-page manufacturer manual is hash-pinned; printed pages9..11 qualify held Cue, temporary bends, tempo direction, Hot Cue deletion and normal auto loops. Manual raw0 player A only, with separate audio. Load targets A rather than copying the owner's first-stopped-deck customisation. Temporary bends follow the physical held function rather than permanent rate-step customisation. The eight auto-loop lengths use native fixed loops in normal mode; Loop Roll/Slip remain inactive. Dedicated normal/Shift opcodes have paired negative aliases without an inferred app Shift button. No MDJ-900/500/600/V2/CDMP/GMX protocol is inherited. Relative jog/contact resolution, complete mode transitions, reverse/search/Track Search/Auto Cue/grid/FX/source/Link/eject, output/display/lifecycle/recovery and USB/channel/driver/OS/power/audio/DVS remain open. No unique USB identity or automatic channel assignment is established. No mapper, script, settings, query, reset, driver, firmware, installer or audio-route write executes. Physical/iPad/A10X acceptance remains open.",
+        "Untranslated controls and script behaviour remain in the linked definition records.",
+        "Primary owner Joakim Mattson published Gemini MDJ-1000 midi programming for Mixxx DJ software in2017. Appendix1 records his own MIDI-OX captures, raw channels0..3, normal/Shift notes and values. The thesis is web-reviewed through its repository text; its PDF was not downloaded and no PDF hash or visual table proof is claimed. The separately cached original48-page manufacturer manual is hash-pinned; printed pages9..11 qualify held Cue, temporary bends, tempo direction, Hot Cue deletion and normal auto loops. Manual raw0 player A only, with separate audio. Load targets A rather than copying the owner's first-stopped-deck customisation. Temporary bends follow the physical held function rather than permanent rate-step customisation. The eight auto-loop lengths use native fixed loops in normal mode; Loop Roll/Slip remain inactive. Dedicated normal/Shift opcodes have paired negative aliases without an inferred app Shift button. No MDJ-900/500/600/V2/CDMP/GMX protocol is inherited. Relative jog/contact resolution, complete mode transitions, reverse/search/Track Search/Auto Cue/grid/FX/source/Link/eject, output/display/lifecycle/recovery and USB/channel/driver/OS/power/audio/DVS remain open. No unique USB identity or automatic channel assignment is established. No mapper, script, settings, query, reset, driver, firmware, installer or audio-route write executes. Physical/iPad/A10X acceptance remains open."
       ],
+      "playerSupport": {
+        "requiredHardwareMode": "Manual original MDJ-1000 MIDI raw channel0, native target A. Use normal MIDI and Auto Loop modes with Loop Roll/Slip off. Configure audio separately. Other channels, automatic identity, jog, output and V2 remain unqualified.",
+        "midiInputImplemented": true,
+        "recognisedNames": [
+          "Gemini MDJ-1000",
+          "Gemini MDJ1000",
+          "MDJ-1000",
+          "MDJ1000"
+        ],
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
@@ -360810,6 +360857,32 @@
       "unresolved": [
         {
           "reason": "Primary own-model contributor Peter Stein/LinuxGamesTV publishes MDJ-900 XML and mapper atcfa171fa3f7e758e212fc6edb2c711dba3a4a8eb. Its credit to an earlier MDJ-1000 project does not qualify sibling compatibility. Manual raw0 player A only; generic controller id gemini does not establish USB identity. Explicit normal transport, held Cue, Sync/Keylock/Load, manual loops, four Hot Cues/clears, repeated track browsing and inverted tempo use23 native inputs. The own manufacturer manual qualifies temporary pitch bend and held Cue/Play continuation. Native bends use held pitch bend rather than the owner permanent-step customisation. Clear presses reuse existing cue deletion without moving transport or changing saved Sync; releases do not delete. Tempo uses native pickup/range. No filter or unlisted alternate address is inherited from MDJ-1000. Full Shift edge cleanup, hardware channel/deck paging, source/Link/loop-roll/slip/reverse/search/grid/FX, range discovery, jog/contact calibration, output/display/lifecycle/recovery, USB/driver/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. Source reset loops use invalid note numbers225/255; no loop runs or ships. Requires existing MIDI input and separate audio. No setup, mapper/script, query, hardware mode, preset, reset, output, driver, firmware or audio-route write runs."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:original-mdj1000-owner-manual-player-core",
+      "name": "Gemini MDJ-1000",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.theseus.fi/bitstream/handle/10024/133340/opinnaytetyo_joakim_mattson_8.pdf?sequence=1",
+        "sha256": null,
+        "relatedSources": [
+          {
+            "url": "https://www.recordcase.de/media/94/11/39/1700636206/gemini-mdj-1000-manual.pdf?ts=",
+            "cachePath": "TestBuilds/r481/upstream/mdj1000-original-manual.pdf",
+            "sha256": "04a4cbb41e4df5b64909f143b3eb9f78a3dacbe94038ac23a8e0fb1ed6454995"
+          }
+        ],
+        "review": "Primary owner Joakim Mattson published Gemini MDJ-1000 midi programming for Mixxx DJ software in2017. Appendix1 records his own MIDI-OX captures, raw channels0..3, normal/Shift notes and values. The thesis is web-reviewed through its repository text; its PDF was not downloaded and no PDF hash or visual table proof is claimed. The separately cached original48-page manufacturer manual is hash-pinned; printed pages9..11 qualify held Cue, temporary bends, tempo direction, Hot Cue deletion and normal auto loops. Manual raw0 player A only, with separate audio. Load targets A rather than copying the owner's first-stopped-deck customisation. Temporary bends follow the physical held function rather than permanent rate-step customisation. The eight auto-loop lengths use native fixed loops in normal mode; Loop Roll/Slip remain inactive. Dedicated normal/Shift opcodes have paired negative aliases without an inferred app Shift button. No MDJ-900/500/600/V2/CDMP/GMX protocol is inherited. Relative jog/contact resolution, complete mode transitions, reverse/search/Track Search/Auto Cue/grid/FX/source/Link/eject, output/display/lifecycle/recovery and USB/channel/driver/OS/power/audio/DVS remain open. No unique USB identity or automatic channel assignment is established. No mapper, script, settings, query, reset, driver, firmware, installer or audio-route write executes. Physical/iPad/A10X acceptance remains open."
+      },
+      "implementedInputCount": 58,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Primary owner Joakim Mattson published Gemini MDJ-1000 midi programming for Mixxx DJ software in2017. Appendix1 records his own MIDI-OX captures, raw channels0..3, normal/Shift notes and values. The thesis is web-reviewed through its repository text; its PDF was not downloaded and no PDF hash or visual table proof is claimed. The separately cached original48-page manufacturer manual is hash-pinned; printed pages9..11 qualify held Cue, temporary bends, tempo direction, Hot Cue deletion and normal auto loops. Manual raw0 player A only, with separate audio. Load targets A rather than copying the owner's first-stopped-deck customisation. Temporary bends follow the physical held function rather than permanent rate-step customisation. The eight auto-loop lengths use native fixed loops in normal mode; Loop Roll/Slip remain inactive. Dedicated normal/Shift opcodes have paired negative aliases without an inferred app Shift button. No MDJ-900/500/600/V2/CDMP/GMX protocol is inherited. Relative jog/contact resolution, complete mode transitions, reverse/search/Track Search/Auto Cue/grid/FX/source/Link/eject, output/display/lifecycle/recovery and USB/channel/driver/OS/power/audio/DVS remain open. No unique USB identity or automatic channel assignment is established. No mapper, script, settings, query, reset, driver, firmware, installer or audio-route write executes. Physical/iPad/A10X acceptance remains open."
         }
       ]
     },
