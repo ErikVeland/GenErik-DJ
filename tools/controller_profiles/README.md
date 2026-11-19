@@ -1107,3 +1107,6 @@ R399 adds `wave_usb.py`:42 inputs and14 lamps, composed MODE Shift from both man
 
 
 R400 adds independent `twitch_basic.py` facts from the public Novation programmer guide:139 Basic inputs,44 static lamp mappings, source-local A/C and B/D loads, contact-gated signed SWIPE and absolute DROP. Automatic software banking is limited to paired load-only profiles. Advanced arbitration, full modes/audio and physical calibration remain open.261 source checks,19 native tests and iPad framework compilation pass. Earlier289 recipes remain identical.
+
+
+R401 adds independent `akiyama_charts.py` manual facts:98 Quattro,200 Quark SC and125 TTWO inputs. Separate manufacturer charts qualify each channel layout, normal controls, selected mixer fields and alternate release wires. Disputed pitch/jog/output rows remain inactive. No hardware write is sent.264 source checks,11 native tests and iPad framework compilation pass. Earlier290 recipes remain identical. Automatic setup and complete modes/audio/calibration remain open.

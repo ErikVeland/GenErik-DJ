@@ -11,7 +11,7 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 559 total catalogue records. 552 name physical models. The remainder identify software endpoints or protocol families.
-- 290 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 293 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 188 factory profiles select core controls automatically for 196 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - 350 physical models still lack automatic core controls.
@@ -228,8 +228,8 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 104 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 224 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 107 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 221 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -451,11 +451,11 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Akai Pro AMX | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AKAMX) |
 | Akiyama PULSAR | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=PULSAR) |
 | Akiyama QUARC | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=QUARK) |
-| Akiyama QUARK SC | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=QUARKSC) |
-| Akiyama QUATTRO | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=QUATTRO) |
+| Akiyama Quark SC | primary | partial-midi-profile | [Reference](https://media.djmania.net/manuales/pdf/Manual_Akiyama_Quark_SC.pdf) |
+| Akiyama Quattro | primary | partial-midi-profile | [Reference](https://media.djmania.net/manuales/pdf/118rOPK_Ym0.pdf) |
 | Akiyama SYNCRON | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=SYNCRON) |
 | Akiyama TEMPUS | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=TEMPUS) |
-| Akiyama TTWO | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=TTWO) |
+| Akiyama TTWO | primary | partial-midi-profile | [Reference](https://media.djmania.net/manuales/pdf/Manual_Akiyama_TTwo.pdf) |
 | Allen & Heath XONE 1D | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=XONE1D) |
 | Allen & Heath XONE 2D | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=XONE2D) |
 | Allen & Heath XONE 43C | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AH43C) |

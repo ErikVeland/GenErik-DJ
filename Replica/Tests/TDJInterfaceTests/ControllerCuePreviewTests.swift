@@ -2724,3 +2724,22 @@ func controllerCatalogueLegacyDJMDirectCueKeepsAppStartedRealAudioSynced(_ name:
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test(arguments: ["Akiyama Quattro","Akiyama Quark SC","Akiyama TTWO"])
+@MainActor func controllerCatalogueAkiyamaChartShiftCleanupRestoresRealAudioSync(_ name: String) async throws {
+    try await withControllerCuePlayback(name,manual:true) { model,input in
+        let quark = name == "Akiyama Quark SC"
+        let cue: UInt8 = name == "Akiyama Quattro" ? 50 : quark ? 53 : 46
+        let play: UInt8 = name == "Akiyama Quattro" ? 51 : quark ? 52 : 47
+        let shift: UInt8 = name == "Akiyama Quattro" ? 114 : quark ? 63 : 36
+        let status: UInt8 = quark ? 0x90 : 0x94
+        cuePreviewPacket([0x90,cue,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([status,shift,127,shift,0,0x90,play,127,play,0],to:input)
+        let audio = model.playback.core.renderOffline(frames:4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

@@ -5281,3 +5281,20 @@ Validation:261 Python checks and19 native tests passed, including163 automatic h
 The catalogue has290 recipes for552 physical models:202 automatic core and350 without automatic core. First-protocol gaps fall to224. Full theoretical support remains0/552. Advanced arbitration, full modes/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open.
 
 The public Roland707M MIDI chart was also recovered. Its owner manual explicitly excludes DJ software from the iOS Generic PC-B playback path; MIDI control uses PC-A. The public chart therefore does not close its iPad transport gap.
+
+## R401 independent Akiyama chart subsets
+
+Assumption: keep three independent manual profiles while chart conflicts, full mode negotiation and calibration remain unresolved. Use each model's published wire addresses. Do not infer sibling protocols, feedback or automatic audio.
+
+- [x] Pin and visually review each manufacturer's chart and cross-check visible factory facts.
+- [x] Add bounded normal controls with alternate-release and source-local Shift/deck cleanup.
+- [x] Verify channel isolation, four-deck opt-in, pickup, held Cue and real-WAV Sync.
+- [x] Run focused native/source checks, compile the iPad framework and preserve earlier recipes.
+
+Each profile uses its own manufacturer manual, mirrored by a retailer, with the relevant chart pages visually reviewed. Independent visible factory XML facts cross-check the selected normal mixer rows. Quattro has98 inputs, Quark SC200 and TTWO125. All remain manual, with no startup/shutdown, feedback or audio-route writes. The core retains four explicit deck channels, direct loads, PFL, Hot Cues, selected manual loops, mixer pickup and source-local held-Cue cleanup.
+
+Quattro uses fixed mixer channel4 and three alternate transport releases. Its unclear pitch data-byte scaling and jog calibration remain inactive. Quark SC retains six normal Cue pads, listed Shift CC aliases and composed physical Shift contacts across paged channels. Its normal loop encoder uses one native step per directional packet. AutoLoop/Roll and FX/sample-slot functions remain inactive. TTWO retains separate A/B load/PFL channel4 and C/D channel5. Its pitch/filter collision, ambiguous jog direction/Shift, crossfader type, browser press/release and conflicting lamp rows are not imported. No sibling protocol is substituted for a missing fact.
+
+Validation:264 Python checks and11 native tests passed, with three model cases on each shared fixture and all163 automatic held-Cue profiles retained. Checks cover manual identity, exact transport/hotcue/load channels, duplicate and both release forms, source ownership, Shift/deck cleanup, pickup, four-deck opt-in, disputed wires remaining inactive, stop cleanup and finite synced real-WAV playback. The iPad framework compiled and its bundled resource matches the source. All290 earlier recipes remain identical. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r401/validation.json`.
+
+The catalogue has293 recipes for552 physical models. First-protocol gaps fall from224 to221. Automatic coverage remains202 models, with350 without automatic core and0/552 with full theoretical support. Full modes/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. Quark SC's200 manual bindings also leave room for only56 other manual inputs under the existing256-input mapping limit.
