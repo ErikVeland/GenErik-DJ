@@ -71,7 +71,7 @@ def _definitions(data):
     return result
 
 
-def _device(payload):
+def _device(payload, include_unassigned=False):
     name, offset = _string(payload)
     fields = _frames(_one(_frames(payload[offset:]), "DDAT"))
     definitions = _frames(_one(fields, "DDDC"))
@@ -91,11 +91,14 @@ def _device(payload):
         signal = bindings.get(index)
         available = inputs if direction == 0 else outputs
         settings = _one(_frames(mapping[12:]), "CMAD")
-        if direction not in [0, 1] or signal not in available or len(settings) < 52:
+        unassigned = index not in bindings
+        if (direction not in [0, 1] or len(settings) < 52
+                or (unassigned and not include_unassigned)
+                or (not unassigned and signal not in available)):
             raise ValueError("Invalid TSI mapping reference or settings")
         comment_end = 52 + 2 * _uint(settings, 48)
-        if comment_end > len(settings):
-            raise ValueError("Truncated TSI mapping comment")
+        if comment_end + 24 > len(settings):
+            raise ValueError("Truncated TSI mapping comment or conditions")
         sensitivity, acceleration = struct.unpack_from(">ff", settings, 28)
         if not math.isfinite(sensitivity) or not math.isfinite(acceleration):
             raise ValueError("Non-finite TSI encoder setting")
@@ -104,12 +107,17 @@ def _device(payload):
             "controllerType": _uint(settings, 4), "interactionMode": _uint(settings, 8),
             "target": _uint(settings, 12), "inverted": _uint(settings, 20),
             "rotarySensitivity": sensitivity, "rotaryAcceleration": acceleration,
-            "encoderMode": available[signal],
+            "encoderMode": None if unassigned else available[signal],
+            "unassigned": unassigned,
+            "comment": settings[52:comment_end].decode("utf-16-be"),
+            "settingsHex": settings.hex(),
+            "conditions": [[_uint(settings, comment_end + at), _uint(settings, comment_end + at + 8)]
+                           for at in [0, 12]],
         })
     return {"name": name, "mappings": rows}
 
 
-def inspect_tsi(source):
+def inspect_tsi(source, *, include_unassigned=False):
     """Return used binding facts from a bounded XML/base64 TSI document."""
     if len(source) > LIMIT or b"<!DOCTYPE" in source.upper() or b"<!ENTITY" in source.upper():
         raise ValueError("Unsupported TSI size or document declaration")
@@ -125,7 +133,7 @@ def inspect_tsi(source):
         if len(root_frames) != 1:
             raise ValueError("Repeated TSI root frame")
         contents = _frames(_one(root_frames, "DIOM"))
-        return [_device(data) for data in _array(_one(contents, "DEVS"), "DEVI")]
+        return [_device(data, include_unassigned) for data in _array(_one(contents, "DEVS"), "DEVI")]
     except (ET.ParseError, binascii.Error, UnicodeError, struct.error) as error:
         raise ValueError("Invalid TSI document") from error
 
@@ -133,7 +141,9 @@ def inspect_tsi(source):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("path", type=Path)
+    parser.add_argument("--include-unassigned", action="store_true",
+                        help="Report unassigned records without inferring MIDI signals")
     args = parser.parse_args()
     if args.path.stat().st_size > LIMIT:
         parser.error("TSI file exceeds4 MiB")
-    print(json.dumps(inspect_tsi(args.path.read_bytes()), indent=2, allow_nan=False))
+    print(json.dumps(inspect_tsi(args.path.read_bytes(), include_unassigned=args.include_unassigned), indent=2, allow_nan=False))

@@ -105,7 +105,7 @@ func controllerCatalogueReviewedClearForeignSourcesAndGroupsCannotDelete(name: S
     }
 }
 
-private let reviewedPairNames = ["Pioneer DDJ-SB3", "Reloop Terminal Mix 2/4", "Hercules DJControl Jogvision", "Denon MC4000", "Reloop NEON", "DDJ-FLX10", "DDJ-1000", "Pioneer DDJ-200", "Pioneer DDJ-RB", "Pioneer DDJ-SX", "Pioneer DDJ-RX", "Pioneer DDJ-RZ", "Pioneer DDJ-RZX"]
+private let reviewedPairNames = ["Pioneer DDJ-SB3", "Reloop Terminal Mix 2/4", "Hercules DJControl Jogvision", "Denon MC4000", "Reloop NEON", "DDJ-FLX10", "DDJ-1000", "Pioneer DDJ-200", "Pioneer DDJ-RB", "Pioneer DDJ-SX", "Pioneer DDJ-RX", "Pioneer DDJ-RZ", "Pioneer DDJ-RZX", "Rane TWELVE MKII"]
 
 @Test(arguments: reviewedPairNames) @MainActor
 func controllerCatalogueReviewedPairDedicatedOpcodesWorkWithEitherShiftState(name: String) throws {

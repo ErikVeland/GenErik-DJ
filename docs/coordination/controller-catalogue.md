@@ -11,7 +11,7 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 563 total catalogue records. 556 name physical models. The remainder identify software endpoints or protocol families.
-- 405 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 406 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 235 factory profiles select core controls automatically for 244 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - 306 physical models still lack automatic core controls.
@@ -229,8 +229,8 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 169 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 115 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 170 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 114 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -351,7 +351,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Rane SEVENTY-TWO MKII | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Rane SYSTEM ONE | primary | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Rane TWELVE | accessory | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
-| Rane TWELVE MKII | accessory | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
+| Rane TWELVE MKII | accessory | Manual partial | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Reloop Beatmix 2 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Reloop Beatmix 4 | primary | Automatic core | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |
 | Reloop ELITE | dvs-only | protocol-needed | Unverified | [Reference](https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained) |

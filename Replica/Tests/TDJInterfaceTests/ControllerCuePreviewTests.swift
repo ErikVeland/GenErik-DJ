@@ -3836,6 +3836,31 @@ func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String
 }
 
 
+@Test @MainActor func controllerCatalogueTwelveMK2CueDeleteAndSeekKeepRealAudioAndSavedSync() async throws {
+    try await withControllerCuePlayback("Rane TWELVE MKII",manual:true) {model,input in
+        let track=try #require(model.track(.a))
+        model.performance.cues[track.id]=[0:.init(frame:0),1:.init(frame:100),2:.init(frame:200)]
+        model.pressPlay(deck:.a,vinylStop:false)
+        _ = model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        try #require(model.playbackSnapshot?.a.phase.active == true)
+        let before=try #require(model.playbackSnapshot?.a.sourceFrame)
+        cuePreviewPacket([0x94,28,127,28,0],to:input)
+        #expect(model.performance.cues[track.id]?[0] != nil)
+        cuePreviewPacket([0x84,29,127],to:input)
+        #expect(model.performance.cues[track.id]?[1] != nil)
+        cuePreviewPacket([0x94,29,127,29,0],to:input)
+        #expect(model.performance.cues[track.id]?[1] == nil)
+        #expect(model.performance.cues[track.id]?[0] != nil && model.performance.cues[track.id]?[2] != nil)
+        model.refreshPlayback()
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1)-before)<=1)
+        cuePreviewPacket([0xB0,102,64],to:input)
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
 @Test @MainActor func controllerCatalogueMC4000FactoryPadsCueAndBendsKeepAudioSynced() async throws {
     try await withControllerCuePlayback("MC4000") { model,input in
         cuePreviewPacket([0x90,1,127],to:input)

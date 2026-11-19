@@ -96,7 +96,7 @@
           "model": "Seventy-Two MKII",
           "downloads": [
             {
-              "description": "Seventy-Two Control Panel \u2013 macOS v1.1.2",
+              "description": "Seventy-Two Control Panel – macOS v1.1.2",
               "type": "Editor",
               "url": "https://cdn.inmusicbrands.com/rane/seventy-two/MacRaneSeventy-Two_1.1.2.dmg"
             },
@@ -126,7 +126,7 @@
           "model": "Seventy-Two",
           "downloads": [
             {
-              "description": "Seventy-Two Control Panel \u2013 macOS v1.1.2",
+              "description": "Seventy-Two Control Panel – macOS v1.1.2",
               "type": "Editor",
               "url": "https://cdn.inmusicbrands.com/rane/seventy-two/MacRaneSeventy-Two_1.1.2.dmg"
             },
@@ -156,12 +156,12 @@
           "model": "Seventy",
           "downloads": [
             {
-              "description": "SEVENTY Firmware Update \u2013 macOS v1.1.0.127 (Latest Version)",
+              "description": "SEVENTY Firmware Update – macOS v1.1.0.127 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/seventy/Rane%20Seventy%20Firmware%20Updater%20For%20Firmware%201.1.0.127%20%28Updater%201.0.1%29.dmg"
             },
             {
-              "description": "SEVENTY Firmware Update \u2013 Windows v1.1.0.127 (Latest Version)",
+              "description": "SEVENTY Firmware Update – Windows v1.1.0.127 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/seventy/Install%20Rane%20Seventy%20Firmware%20Updater%20For%20Firmware%201.1.0.127%20%28Updater%201.0.0%29.exe"
             },
@@ -211,7 +211,7 @@
               "url": "https://cdn.inmusicbrands.com/rane/four/Install%20Rane%20FOUR%201.0.10.exe"
             },
             {
-              "description": "FOUR Firmware Update \u2013 macOS 1.8.0.18 (Latest Version)",
+              "description": "FOUR Firmware Update – macOS 1.8.0.18 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/Software/RD/RANE%20FOUR%20Firmware%20Updater%20For%20Firmware%201.8.0.18.dmg"
             },
@@ -226,7 +226,7 @@
               "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20FOUR%20Firmware%20-%20Release%20Note%20History%20v1.8.0.18.pdf"
             },
             {
-              "description": "FOUR Firmware Update \u2013 macOS v1.7.0.8",
+              "description": "FOUR Firmware Update – macOS v1.7.0.8",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/four/RANE%20FOUR%20Firmware%20Updater%20For%20Firmware%201.7.0.8%20%28Updater%201.1.6%29.dmg"
             },
@@ -306,12 +306,12 @@
               "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%201.0.2.exe"
             },
             {
-              "description": "PERFORMER Firmware Update \u2013 macOS v1.3.0.13 (Latest Version)",
+              "description": "PERFORMER Firmware Update – macOS v1.3.0.13 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.3.0.13.dmg"
             },
             {
-              "description": "PERFORMER Firmware Update \u2013 Windows v1.3.0.13 (Latest Version)",
+              "description": "PERFORMER Firmware Update – Windows v1.3.0.13 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/Software/RD/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.3.0.13.exe"
             },
@@ -321,12 +321,12 @@
               "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20PERFORMER%20Firmware%20-%20Release%20Note%20History%20v1.3.0.13.pdf"
             },
             {
-              "description": "PERFORMER Firmware Update \u2013 macOS v1.2.0.10",
+              "description": "PERFORMER Firmware Update – macOS v1.2.0.10",
               "type": "Driver",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.2.0.10%20%28Updater%201.0.5%29.dmg"
             },
             {
-              "description": "PERFORMER Firmware Update \u2013 Windows v1.2.0.10",
+              "description": "PERFORMER Firmware Update – Windows v1.2.0.10",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.2.0.10%20%28Updater%201.0.4%29.exe"
             },
@@ -336,12 +336,12 @@
               "url": "https://cdn.inmusicbrands.com/rane/performer/Release%20Notes%20-%20Rane%20PERFORMER%20Firmware%20v1.2.0.10.pdf"
             },
             {
-              "description": "PERFORMER Firmware Update \u2013 macOS v1.1.0.13",
+              "description": "PERFORMER Firmware Update – macOS v1.1.0.13",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.1.0.13%20%28Updater%201.0.3%29.dmg"
             },
             {
-              "description": "PERFORMER Firmware Update \u2013 Windows v1.1.0.13",
+              "description": "PERFORMER Firmware Update – Windows v1.1.0.13",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.1.0.13%20%28Updater%201.0.3%29.exe"
             },
@@ -356,12 +356,12 @@
           "model": "Rane One MKII",
           "downloads": [
             {
-              "description": " ONE MKII Firmware Update \u2013 macOS v1.2.0.2 (Latest Version)",
+              "description": " ONE MKII Firmware Update – macOS v1.2.0.2 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/one-mkii/FW1202/Rane%20ONE%20MKII%20Firmware%20Updater%20For%20Firmware%201.2.0.2%20%28Updater%201.0.2%29%201.dmg"
             },
             {
-              "description": " ONE MKII Firmware Update \u2013 Windows v1.2.0.2 (Latest Version) ",
+              "description": " ONE MKII Firmware Update – Windows v1.2.0.2 (Latest Version) ",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/one-mkii/FW1202/Install%20Rane%20ONE%20MKII%20Firmware%20Updater%20For%20Firmware%201.2.0.2%20%28Updater%201.0.2%29.exe"
             },
@@ -2781,7 +2781,7 @@
               "review": "Read-only corroboration of channel0..3 targets and source scratch scale150. Primary charts override copied software-role assumptions."
             }
           ],
-          "review": "Separate manufacturer charts independently qualify the same default-channel input and lamp addresses for both editions. Native channels0..3 target A/B/C/D. Normal notes use Shift +64 release-only aliases; alternate positive commands remain inactive. Play39/Cue38/Sync40, eight independently addressed Hot Cues, Load9, native beat jumps20/21, Loop18/Reloop19, binary-offset loop-size22/browser9 and filter45 are explicit native controls. Normal47 and Scratch48 wheel/contact families use owned touch and source scale150; primary reports raw40\u00b1N. Other wheel modes, no-touch direction notes, modified positive commands and physical scale remain unqualified. Deck-selection notes5..8 retire owned holds across all targets; normal wheel-mode32..35 reports retire only their deck, and releases preserve fresh contacts. Note8 is a shifted deck selector, never Key Lock; there is no pitch slider or primary pitch-bend input. Shifted filter/pan CC109/110 are not treated as headphone/master knobs. No source software, startup, channel changer, stored setting or audio command runs."
+          "review": "Separate manufacturer charts independently qualify the same default-channel input and lamp addresses for both editions. Native channels0..3 target A/B/C/D. Normal notes use Shift +64 release-only aliases; alternate positive commands remain inactive. Play39/Cue38/Sync40, eight independently addressed Hot Cues, Load9, native beat jumps20/21, Loop18/Reloop19, binary-offset loop-size22/browser9 and filter45 are explicit native controls. Normal47 and Scratch48 wheel/contact families use owned touch and source scale150; primary reports raw40±N. Other wheel modes, no-touch direction notes, modified positive commands and physical scale remain unqualified. Deck-selection notes5..8 retire owned holds across all targets; normal wheel-mode32..35 reports retire only their deck, and releases preserve fresh contacts. Note8 is a shifted deck selector, never Key Lock; there is no pitch slider or primary pitch-bend input. Shifted filter/pan CC109/110 are not treated as headphone/master knobs. No source software, startup, channel changer, stored setting or audio command runs."
         }
       ],
       "result": "Separate CE and IE manufacturer charts qualify one shared default-channel wire recipe and two edition inventory rows. The generic VirtualDJ family reference is retained on both rows. Normal and Scratch contact/jog, eight Hot Cues per deck and Shift release aliases are implemented. Copied Key Lock/pitch/global-role assumptions are rejected. Full modes/audio/host/calibration and physical acceptance remain open."
@@ -5459,7 +5459,7 @@
               "sha256": "dbfbd0f0307e891e0f4a8f93eae93ff445c5aa7a97c5ff58670331c663127e70"
             }
           ],
-          "review": "Factory pages 30\u201331 specify controls and LED echo. The table labels pitch CC 9/41 as LSB/MSB. The pinned working XML instead pairs MSB 9 with LSB 41; this recipe follows that working order and rate_dir -1. R480 rechecks factory page30 and own Hot Cue behaviour on page5. Four Hot Cues per deck, separate clear notes and blue1/off0 LED values are explicit. The pinned XML assigns normal pitch-bend-plus to note13, which the factory chart and existing profile reserve for Keylock. Native uses factory pitch-bend-plus note11 and minus12. Shift notes32/33 release these holds without implementing search. Shifted Cue note5 releases the held normal Cue without implementing Track Start. Advanced modes and physical verification remain open.",
+          "review": "Factory pages 30–31 specify controls and LED echo. The table labels pitch CC 9/41 as LSB/MSB. The pinned working XML instead pairs MSB 9 with LSB 41; this recipe follows that working order and rate_dir -1. R480 rechecks factory page30 and own Hot Cue behaviour on page5. Four Hot Cues per deck, separate clear notes and blue1/off0 LED values are explicit. The pinned XML assigns normal pitch-bend-plus to note13, which the factory chart and existing profile reserve for Keylock. Native uses factory pitch-bend-plus note11 and minus12. Shift notes32/33 release these holds without implementing search. Shifted Cue note5 releases the held normal Cue without implementing Track Start. Advanced modes and physical verification remain open.",
           "cachePath": "TestBuilds/r193/manufacturer/MC4000.pdf",
           "visuallyReviewedPrintedPages": [
             30
@@ -6070,6 +6070,50 @@
         }
       ],
       "result": "Added32 dedicated clears and64 paired negative aliases per original SX/RX/RZ/RZX,128 clears/256 aliases total. Original139/148/154/153 inputs remain exact prefixes, yielding235/244/250/249 inputs. Outputs/setup/audio/aliases and401 other recipes remain identical.459 source/23 native checks and iPad framework compilation pass. Native pair tests cover13 profiles and all four new slot/deck layouts, both negative forms/directions, debounce, source/group isolation, C/D availability and inactive other pad modes. Prior DDJ/Serato-family transport, loops, mixer, feedback and SRT regression pass. Twelve pair-profile WAV cases preserve marker neighbours/position, finite active playback and saved Sync. Missing-clear source regression is preserved. Catalogue gates compare28106 inputs and205 automatic held-Cue recipes. Compact bundle2268271 bytes matches source and full review file remains excluded. Limits unchanged. No script or new hardware setting/output/audio-route write occurs. Complete modes/lifecycle/host and physical acceptance remain open."
+    },
+    {
+      "request": "R495",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "model": "Rane TWELVE MKII",
+          "url": "https://www.native-instruments.com/fileadmin/downloads/Traktor_Pro_4_Controller_Mappings/Rane/Rane_-_Rane_Twelve_MK2.zip",
+          "sha256": "0be4de350509142e1703a254cba075b5a402e289d717a6f0e2ff929079ce0544",
+          "archiveURL": "https://web.archive.org/web/20260214105609id_/https://www.native-instruments.com/fileadmin/downloads/Traktor_Pro_4_Controller_Mappings/Rane/Rane_-_Rane_Twelve_MK2.zip",
+          "archivePayloadSHA1Base32": "4QNUUXW577K76KCCPJD3SYZWY5WRCXRK",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r495/upstream/Rane-Twelve-MK2-NI.zip",
+              "sha256": "0be4de350509142e1703a254cba075b5a402e289d717a6f0e2ff929079ce0544"
+            },
+            {
+              "cachePath": "TestBuilds/r495/upstream/unpacked/Rane - Rane Twelve MK2.tsi",
+              "sha256": "637741b3bf0d53c18d232bd670d178be374018a3199dd3593c44d43cc0623126"
+            },
+            {
+              "cachePath": "TestBuilds/r355/upstream/twelve-mk2-guide-v1.1.pdf",
+              "sha256": "6ad794ab8fcc99d6ce5d7b3399a9ac4eb90b1989c11aaeac7f1a4390d7af438e"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://cdn.inmusicbrands.com/rane/twelveMKII/Twelve_MKII-UserGuide-v1.1.pdf"
+            },
+            {
+              "url": "https://github.com/ivanz/TraktorMappingFileFormat/wiki/File-Format-Specification"
+            },
+            {
+              "url": "https://github.com/ivanz/TraktorMappingFileFormat/wiki/Traktor-Commands-List"
+            }
+          ],
+          "review": "R495 recovers the own-model NI-published ZIP from the public20260214105609 archive. Its SHA1 matches the archive index payload digest. Read-only ZIP/XML/base64 inspection finds326 mapping rows,322 assigned and four deliberately unassigned cue1 deletes. The selected68 positive rows have no modifier conditions. Raw0/1/2/3 Note2 command3076 is A/B/C/D Load. CC102 command103 is absolute Seek Position, not pitch. Raw4/5/6/7 Note20..27 command2328 selects/stores cue1..8. Note29..35 command2331 deletes cue2..8. Slot integers at CMAD offset44 agree. Own manual printed7 visually confirms strip modes, full-track Needle Drop and held Cue Mode deletion. Note28 is not inferred. All Ports does not establish a USB identity. Manual input-only accessory role preserves explicit four-target channels. No original TWELVE/MKI alias, automatic selection, Play/main Cue/Sync/pitch/range/RPM/motor/DVS/audio/display/feedback/Instant Doubles/Back/browse/lifecycle or full-mode claim. Source output colour formulas and conditional commands remain inactive. No upstream code, TSI actions, settings or hardware writes execute or ship. Separate audio, exposed MIDI, hardware Traktor DVS/strip mode, host/driver/power compatibility and physical/iPad/A10X acceptance remain open.",
+          "visuallyReviewedPrintedPages": [
+            4,
+            7
+          ]
+        }
+      ],
+      "result": "Recovered the own-model public NI mapping. Added one manual input-only accessory recipe with124 bindings: four Load, four absolute Seek,32 Hot Cues,28 cue2..8 clears and56 negative aliases. Four intentionally unassigned cue1 clears remain inactive. No USB identity is inferred from All Ports. The bounded TSI inspector keeps its strict default and supports explicit unassigned-row inspection without inferred signals. Selected68 positive source rows have no modifier condition.462 source checks and22 focused native tests pass, including all four target channels, complete inactive-wire checks, both negative forms/directions, debounce, source/group isolation, C/D opt-in, prior original72 regressions and real-WAV marker/audio/Sync checks. All405 earlier recipes remain identical. The iPad framework compiled. Its2277217-byte compact resource matches source and excludes the full review file. Catalogue gates compare28230 inputs. Existing limits remain unchanged. No source scripts, TSI actions/settings, hardware setup/output or audio-route writes execute or ship. No motor/DVS/pitch/full transport/feedback or automatic selection claim. Complete modes, host/driver/audio and physical/iPad/A10X acceptance remain open."
     }
   ]
 }

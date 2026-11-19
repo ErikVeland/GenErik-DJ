@@ -56932,13 +56932,18 @@
       "benchmark": true,
       "sources": [
         "https://the-drop.serato.com/announcements/serato-dj-for-ios-hardware-compatibility-and-pricing-explained",
+        "https://www.native-instruments.com/fileadmin/downloads/Traktor_Pro_4_Controller_Mappings/Rane/Rane_-_Rane_Twelve_MK2.zip",
         "https://www.algoriddim.com/hardware/twelvemkii",
         "https://virtualdj.com/products/hardware.html?model=RN12MK2"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:twelve-mk2-ni-midi-accessory"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Rane TWELVE MKII",
+      "automaticControls": false,
       "comparisonSupport": {
         "djay": {
           "sourceName": "RANE TWELVE MKII",
@@ -56957,40 +56962,109 @@
           "source": "https://virtualdj.com/products/hardware.html?model=RN12MK2"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "clearHotcue2A:a",
+        "clearHotcue2A:c",
+        "clearHotcue2B:b",
+        "clearHotcue2B:d",
+        "clearHotcue3A:a",
+        "clearHotcue3A:c",
+        "clearHotcue3B:b",
+        "clearHotcue3B:d",
+        "clearHotcue4A:a",
+        "clearHotcue4A:c",
+        "clearHotcue4B:b",
+        "clearHotcue4B:d",
+        "clearHotcue5A:a",
+        "clearHotcue5A:c",
+        "clearHotcue5B:b",
+        "clearHotcue5B:d",
+        "clearHotcue6A:a",
+        "clearHotcue6A:c",
+        "clearHotcue6B:b",
+        "clearHotcue6B:d",
+        "clearHotcue7A:a",
+        "clearHotcue7A:c",
+        "clearHotcue7B:b",
+        "clearHotcue7B:d",
+        "clearHotcue8A:a",
+        "clearHotcue8A:c",
+        "clearHotcue8B:b",
+        "clearHotcue8B:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "seekA:a",
+        "seekA:c",
+        "seekB:b",
+        "seekB:d"
+      ],
+      "inputBindingCount": 124,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Select this manual input-only recipe on an exposed Twelve MKII MIDI endpoint. Use the hardware Traktor DVS mode. Needle Drop controls track position. Hot Cue mode supplies eight cues and deletion for cues2..8. Configure audio separately. Motor, timecode, pitch and automatic detection remain unqualified."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "R495 recovers the own-model NI-published ZIP from the public20260214105609 archive. Its SHA1 matches the archive index payload digest. Read-only ZIP/XML/base64 inspection finds326 mapping rows,322 assigned and four deliberately unassigned cue1 deletes. The selected68 positive rows have no modifier conditions. Raw0/1/2/3 Note2 command3076 is A/B/C/D Load. CC102 command103 is absolute Seek Position, not pitch. Raw4/5/6/7 Note20..27 command2328 selects/stores cue1..8. Note29..35 command2331 deletes cue2..8. Slot integers at CMAD offset44 agree. Own manual printed7 visually confirms strip modes, full-track Needle Drop and held Cue Mode deletion. Note28 is not inferred. All Ports does not establish a USB identity. Manual input-only accessory role preserves explicit four-target channels. No original TWELVE/MKI alias, automatic selection, Play/main Cue/Sync/pitch/range/RPM/motor/DVS/audio/display/feedback/Instant Doubles/Back/browse/lifecycle or full-mode claim. Source output colour formulas and conditional commands remain inactive. No upstream code, TSI actions, settings or hardware writes execute or ship. Separate audio, exposed MIDI, hardware Traktor DVS/strip mode, host/driver/power compatibility and physical/iPad/A10X acceptance remain open.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -361188,6 +361262,55 @@
         },
         {
           "reason": "Primary mapping author Dj-Ush own2020 Seventy-Two video bKg_l15MP9E links a public free Dropbox folder containing Basic and Complete TSI data. No installer or mapper runs. The archive hashes both separate TSI files. Complete contains229 used rows and Basic10, each Generic MIDI. Bounded read-only TSI parsing and explicit CMAD condition-field review qualify seven unique unconditional native inputs. Human Ch05/06 NoteE2=raw4/5 Note40 Parameter Left Play/Pause; NoteF2=41 Parameter Sync, commandIDs100/125. Own comments establish the roles despite the copied Parameter Left comment on Sync. Ch16/raw15 NoteD-1=2 and D#-1=3 are A/B Load with command3076 and comment Push Scroll72. Browse raw15 CC0 has command3200, no inversion and encoderMode1 signed7F/01, not centre64. Its two used identical assignments are one native input. These selected rows have no modifier condition in either CMAD slot; pad/Memo/FX modifier rows are not silently flattened. Basic independently agrees on Load/Browse. Manual original Seventy-Two only, already exposed MIDI source and separate app audio. No standalone mixer gain/EQ/fader ownership or factory audio route is inferred. Sampler LevelCC45 targets source C/D decks, not A/B channel gain. Pads/Cue/loops, modifier states and source assignments, FX/sampler/shift, output colour/blink/reset/display/touchscreen/lifecycle/recovery, exact USB/channel/driver/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. SEVENTY-TWO MKII, Seventy, Performer, System One and Twelve protocols are not inherited. No full Cue/transport or zero-config claim is made. No upstream source code, TSI actions/settings, hardware-mode, query, reset, firmware, driver, output or audio-route writes execute or ship."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:twelve-mk2-ni-midi-accessory",
+      "name": "Rane TWELVE MKII",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.native-instruments.com/fileadmin/downloads/Traktor_Pro_4_Controller_Mappings/Rane/Rane_-_Rane_Twelve_MK2.zip",
+        "sha256": "0be4de350509142e1703a254cba075b5a402e289d717a6f0e2ff929079ce0544",
+        "archiveURL": "https://web.archive.org/web/20260214105609id_/https://www.native-instruments.com/fileadmin/downloads/Traktor_Pro_4_Controller_Mappings/Rane/Rane_-_Rane_Twelve_MK2.zip",
+        "archivePayloadSHA1Base32": "4QNUUXW577K76KCCPJD3SYZWY5WRCXRK",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r495/upstream/Rane-Twelve-MK2-NI.zip",
+            "sha256": "0be4de350509142e1703a254cba075b5a402e289d717a6f0e2ff929079ce0544"
+          },
+          {
+            "cachePath": "TestBuilds/r495/upstream/unpacked/Rane - Rane Twelve MK2.tsi",
+            "sha256": "637741b3bf0d53c18d232bd670d178be374018a3199dd3593c44d43cc0623126"
+          },
+          {
+            "cachePath": "TestBuilds/r355/upstream/twelve-mk2-guide-v1.1.pdf",
+            "sha256": "6ad794ab8fcc99d6ce5d7b3399a9ac4eb90b1989c11aaeac7f1a4390d7af438e"
+          }
+        ],
+        "relatedSources": [
+          {
+            "url": "https://cdn.inmusicbrands.com/rane/twelveMKII/Twelve_MKII-UserGuide-v1.1.pdf"
+          },
+          {
+            "url": "https://github.com/ivanz/TraktorMappingFileFormat/wiki/File-Format-Specification"
+          },
+          {
+            "url": "https://github.com/ivanz/TraktorMappingFileFormat/wiki/Traktor-Commands-List"
+          }
+        ],
+        "review": "R495 recovers the own-model NI-published ZIP from the public20260214105609 archive. Its SHA1 matches the archive index payload digest. Read-only ZIP/XML/base64 inspection finds326 mapping rows,322 assigned and four deliberately unassigned cue1 deletes. The selected68 positive rows have no modifier conditions. Raw0/1/2/3 Note2 command3076 is A/B/C/D Load. CC102 command103 is absolute Seek Position, not pitch. Raw4/5/6/7 Note20..27 command2328 selects/stores cue1..8. Note29..35 command2331 deletes cue2..8. Slot integers at CMAD offset44 agree. Own manual printed7 visually confirms strip modes, full-track Needle Drop and held Cue Mode deletion. Note28 is not inferred. All Ports does not establish a USB identity. Manual input-only accessory role preserves explicit four-target channels. No original TWELVE/MKI alias, automatic selection, Play/main Cue/Sync/pitch/range/RPM/motor/DVS/audio/display/feedback/Instant Doubles/Back/browse/lifecycle or full-mode claim. Source output colour formulas and conditional commands remain inactive. No upstream code, TSI actions, settings or hardware writes execute or ship. Separate audio, exposed MIDI, hardware Traktor DVS/strip mode, host/driver/power compatibility and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 124,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "R495 recovers the own-model NI-published ZIP from the public20260214105609 archive. Its SHA1 matches the archive index payload digest. Read-only ZIP/XML/base64 inspection finds326 mapping rows,322 assigned and four deliberately unassigned cue1 deletes. The selected68 positive rows have no modifier conditions. Raw0/1/2/3 Note2 command3076 is A/B/C/D Load. CC102 command103 is absolute Seek Position, not pitch. Raw4/5/6/7 Note20..27 command2328 selects/stores cue1..8. Note29..35 command2331 deletes cue2..8. Slot integers at CMAD offset44 agree. Own manual printed7 visually confirms strip modes, full-track Needle Drop and held Cue Mode deletion. Note28 is not inferred. All Ports does not establish a USB identity. Manual input-only accessory role preserves explicit four-target channels. No original TWELVE/MKI alias, automatic selection, Play/main Cue/Sync/pitch/range/RPM/motor/DVS/audio/display/feedback/Instant Doubles/Back/browse/lifecycle or full-mode claim. Source output colour formulas and conditional commands remain inactive. No upstream code, TSI actions, settings or hardware writes execute or ship. Separate audio, exposed MIDI, hardware Traktor DVS/strip mode, host/driver/power compatibility and physical/iPad/A10X acceptance remain open."
         }
       ]
     },

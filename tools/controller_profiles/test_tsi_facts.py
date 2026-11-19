@@ -15,11 +15,11 @@ def string(value):
     return struct.pack(">I",len(value))+value.encode("utf-16-be")
 
 
-def fixture():
+def fixture(mapping_id=9):
     definition=frame("DCDT",string("Ch01.CC.036")+struct.pack(">IIfII",7,0,127,0,0xffffffff))
     definitions=frame("DDDC",frame("DDCI",struct.pack(">I",1)+definition)+frame("DDCO",struct.pack(">I",0)))
     settings=struct.pack(">IIIIIIIff",3,2,4,0,0,0,0,1.25,0)+bytes(80)
-    mapping=frame("CMAI",struct.pack(">III",9,0,120)+frame("CMAD",settings))
+    mapping=frame("CMAI",struct.pack(">III",mapping_id,0,120)+frame("CMAD",settings))
     bindings=frame("DCBM",struct.pack(">I",1)+frame("DCBM",struct.pack(">I",9)+string("Ch01.CC.036")))
     data=frame("DDAT",definitions+frame("DDCB",frame("CMAS",struct.pack(">I",1)+mapping)+bindings))
     blob=frame("DIOM",frame("DIOI",struct.pack(">I",1))+frame("DEVS",struct.pack(">I",1)+frame("DEVI",string("Generic MIDI")+data)))
@@ -27,6 +27,16 @@ def fixture():
 
 
 class TSIFactsTests(unittest.TestCase):
+    def test_explicit_inspection_preserves_unassigned_rows_without_inventing_signals(self):
+        source=fixture(mapping_id=20)
+        with self.assertRaises(ValueError):inspect_tsi(source)
+        rows=inspect_tsi(source,include_unassigned=True)[0]['mappings']
+        self.assertEqual(len(rows),1)
+        self.assertEqual((rows[0]['signal'],rows[0]['encoderMode'],rows[0]['unassigned']),(None,None,True))
+        self.assertEqual(rows[0]['comment'],'')
+        self.assertEqual(len(bytes.fromhex(rows[0]['settingsHex'])),116)
+        self.assertEqual(rows[0]['conditions'],[[0,0],[0,0]])
+
     def test_reads_used_binding_and_encoder_format_without_running_or_rewriting_source(self):
         source=fixture()
         result=inspect_tsi(source)
@@ -41,7 +51,8 @@ class TSIFactsTests(unittest.TestCase):
                        fixture().replace(b"RElPTQ",b"!!!!TQ"),fixture().replace(b"RElPTQ",b"RElPTw"),
                        fixture().replace(b"</TraktorSettings>",fixture()+b"</TraktorSettings>")]:
             with self.subTest(sourceLength=len(source)):
-                with self.assertRaises(ValueError):inspect_tsi(source)
+                for include in [False,True]:
+                    with self.assertRaises(ValueError):inspect_tsi(source,include_unassigned=include)
 
     def test_pinned_factory_beatmix_file_resolves_only_used_bindings(self):
         path=Path(__file__).resolve().parents[2]/"TestBuilds/r378/upstream/Beatmix_V1_(2-Deck)-WIN.tsi"
