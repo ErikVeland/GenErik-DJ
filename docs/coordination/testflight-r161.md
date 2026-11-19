@@ -39,6 +39,6 @@ Erik confirmed that the website and legal pages are live. Public HTTPS checks re
 
 The site lists `erik@veland.au` as the support and privacy contact. The privacy notice covers the development app and website, effective 18 November 2026. It describes automatic private CloudKit preparation sharing and local audio analysis.
 
-These links are saved in App Store Connect. TestFlight has the marketing and privacy URLs. Both store drafts have the marketing and support URLs. App Privacy has the policy and privacy-choices URLs. The App Privacy questionnaire remains incomplete for a public release.
+These links are saved in App Store Connect. TestFlight has the marketing and privacy URLs. Both store drafts have the marketing and support URLs. App Privacy has the policy and privacy-choices URLs. The App Privacy questionnaire was still open at this stage. The [R426 App Store record](../app-store/README.md) records the later publication.
 
 The beta review submissions and header replacement required no new app build or device installation. Apple beta approval and physical acceptance remain open.

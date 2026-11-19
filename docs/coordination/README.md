@@ -2,7 +2,7 @@
 
 **Build 227 (R425)** installed on the A10X iPad after an initial connection timeout. iPadOS accepted launch. Control labels stay on one line, and grid editing uses the full header width. Long help and error text remains readable. Erik checks both orientations, narrow panes, audio and touch. [Scope](ui-text-r425.md) · [Build record](../testing/builds/227.json).
 
-**R426 App Store:** Saved English (Australia) metadata in both 1.0 drafts. Both show the approved build 226 icon. The subtitle, Music category, 4+ rating and seven purchase draft localisations are saved. The privacy answer is an unpublished draft. Apple saved the Content Rights declaration. Current screenshots, pricing and release qualification remain open. [App Store record](../app-store/README.md).
+**R426 App Store:** Saved English (Australia) metadata in both 1.0 drafts. Both show the approved build 226 icon. The subtitle, Music category, 4+ rating and seven purchase draft localisations are saved. Erik confirmed publication of the Data Not Collected declaration in App Store Connect. Apple saved the Content Rights declaration. Current screenshots, pricing and release qualification remain open. [App Store record](../app-store/README.md).
 
 **R292–R295 websites:** All seven catalogue sites link back to GlassCode Academy About. PACtrack retains GlassCode Academy attribution and The Epstein Files link. R296 removes the unrelated DJ promotion. Project previews are live, and PiDay styles are repaired. [Publication evidence](website-links-r295.md).
 

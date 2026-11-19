@@ -15,10 +15,10 @@ The review phone remains in App Store Connect.
 The shared subtitle and Music category are saved. Apple calculated a 4+ age rating.
 
 The existing privacy policy and privacy choices links match the project URLs.
-The privacy questionnaire has an unpublished Data Not Collected draft.
+Erik confirmed that he published the **Data Not Collected** declaration in App Store Connect on 19 November 2026.
 The app uses private CloudKit for preparation sync and keeps analysis and diagnostic processing local.
 The privacy manifest lists no collected data and disables tracking.
-Check the privacy answer against the final release build before publication.
+As part of release qualification, check that the final build still matches the published declaration.
 Apple saved No for the shared Content Rights declaration on 19 November 2026.
 Erik confirmed that the app plays music from the user's own library. It includes no bundled music or streaming catalogue.
 Accessibility feature claims await platform checks.
