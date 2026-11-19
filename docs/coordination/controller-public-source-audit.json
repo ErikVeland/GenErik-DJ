@@ -1663,6 +1663,55 @@
         }
       ],
       "result": "Three independent manual chart subsets:98 Quattro,200 Quark SC,125 TTWO. No guessed jog calibration, disputed pitch packet or hardware output. Automatic and full theoretical support remain open."
+    },
+    {
+      "request": "R402",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "model": "Novation Launchpad X",
+          "url": "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/Launchpad%20X%20-%20Programmers%20Reference%20Manual.pdf",
+          "cacheName": "launchpad-x-programmer.pdf",
+          "sha256": "eca1842544e184e200a2134053acac8b1acb77df0247f23ef488fd9c2897db7a",
+          "pages": [
+            6,
+            7,
+            8,
+            10,
+            13,
+            15
+          ],
+          "review": "Independent X reference qualifies LPX MIDI In/Out, wire channel0 grid11+10*y+x, product12 Programmer/Live command14 and repeated static palette colour specs. Layout/mode/grid/lighting pages visually checked. Two32-pad104-byte clear packets remain within the native128-byte message limit. A bounded Live exit is attempted if any startup message fails. DAW port and persistent custom layouts are not used."
+        },
+        {
+          "model": "Novation Launchpad Pro MK3",
+          "url": "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/LPP3_prog_ref_guide_200415.pdf",
+          "cacheName": "launchpad-pro-mk3-programmer.pdf",
+          "sha256": "54654f0603bf62e8d378961c3d759ba0ac022cbb7049e7a271af6c3b6ce97004",
+          "pages": [
+            6,
+            12,
+            18,
+            19
+          ],
+          "review": "Independent Pro MK3 reference qualifies LPProMK3 MIDI In/Out, distinct DIN/DAW interfaces, wire channel0 grid11+10*y+x, product14 Programmer/Live command14 and static palette colour specs. Programmer grid, mode and lighting pages visually checked. A bounded Live exit is attempted if any startup message fails. No original Pro or Mini command is inherited. The new MK3 catalogue entry is separate from the original Pro."
+        },
+        {
+          "model": "Novation Launchpad Pro",
+          "url": "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/Launchpad%20Pro%20Programmers%20Reference%20Guide%201.01.pdf",
+          "cacheName": "launchpad-pro-programmer.pdf",
+          "sha256": "18675fcff65778d3d3ffa00ef7e6b4ce0dcb30e2edab9f95034bc1291c2001f7",
+          "pages": [
+            4,
+            5,
+            16,
+            17,
+            18
+          ],
+          "review": "Original Pro v1.01 independently specifies the same decimal grid in Programmer layout, Notes for square pads and CC for surrounding buttons. The grid and example bytes were visually checked. Its Standalone interface is USB port2, Programmer layout command is product16/44/3, and each layout has a saved MIDI channel. Native therefore retains manual channel1 Programmer setup without automatic mode/output writes. Manual feedback is a separate opt-in. No MK3 negotiation is inferred."
+        }
+      ],
+      "result": "X and Pro MK3 add automatic Programmer setup with bounded static clearing and a best-effort Live exit on startup failure. Original Pro stays manual because of its independent Standalone port and saved channel. Native four-quadrant64-pad/52-lamp layout per model; no downloaded script or DAW handshake."
     }
   ]
 }

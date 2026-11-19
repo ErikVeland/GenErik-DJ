@@ -126,6 +126,7 @@ struct ControllerProfileData: Decodable, Sendable {
     let startup: [[UInt8]]
     let startupDelaysMilliseconds: [UInt16]?
     let shutdown: [[UInt8]]
+    let startupAbort: [[UInt8]]?
     let autoSelect: Bool
     let scope: String
     let source: String
@@ -212,8 +213,9 @@ struct ControllerProfileData: Decodable, Sendable {
             && outputs.allSatisfy {
                 $0.binding(destination: 0).isValid
             }
-            && (startup + shutdown).count <= 64
-            && (startup + shutdown).allSatisfy(Self.validSetupMessage)
+            && validStartupAbort
+            && (startup + shutdown + (startupAbort ?? [])).count <= 64
+            && (startup + shutdown + (startupAbort ?? [])).allSatisfy(Self.validSetupMessage)
     }
 
     /**
@@ -280,7 +282,15 @@ struct ControllerProfileData: Decodable, Sendable {
             && outputs.allSatisfy { $0.action != .loadA && $0.action != .loadB }
     }
 
-    var requiresPairedSetup: Bool { hasDelayedStartup || inputProtocol?.setupInputMode != nil || hasAutomaticLoadBanks }
+    private var validStartupAbort: Bool {
+        guard let startupAbort else { return true }
+        return autoSelect && inputProtocol == nil && !startup.isEmpty && !shutdown.isEmpty
+            && !startupAbort.isEmpty && startupAbort.count <= 4
+    }
+
+    var requiresPairedSetup: Bool {
+        hasDelayedStartup || inputProtocol?.setupInputMode != nil || hasAutomaticLoadBanks || startupAbort != nil
+    }
 
     var hasDelayedStartup: Bool { startupDelaysMilliseconds?.contains { $0 > 0 } == true }
 

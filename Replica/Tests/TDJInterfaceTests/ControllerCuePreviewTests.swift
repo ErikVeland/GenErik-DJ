@@ -2743,3 +2743,19 @@ func controllerCatalogueLegacyDJMDirectCueKeepsAppStartedRealAudioSynced(_ name:
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test(arguments: ["Novation Launchpad X","Novation Launchpad Pro MK3","Novation Launchpad Pro"])
+@MainActor func controllerCatalogueProgrammerGridHeldCueAndPlayRestoreRealAudioSync(_ name: String) async throws {
+    let port = name.hasSuffix(" X") ? "LPX MIDI" : "LPProMK3 MIDI"
+    try await withControllerCuePlayback(name,manual:name == "Novation Launchpad Pro",ports:[port]) { model,input in
+        cuePreviewPacket([0x90,12,1],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        _ = model.playback.core.renderOffline(frames:1024)
+        cuePreviewPacket([0x80,12,127,0x90,11,127,11,0],to:input)
+        let audio = model.playback.core.renderOffline(frames:4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

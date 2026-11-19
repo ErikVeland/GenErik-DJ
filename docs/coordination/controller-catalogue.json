@@ -42845,12 +42845,17 @@
       "role": "accessory",
       "benchmark": false,
       "sources": [
+        "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/Launchpad%20Pro%20Programmers%20Reference%20Guide%201.01.pdf",
         "https://virtualdj.com/products/hardware.html?model=LAUNCHPADPRO"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:novation-launchpad-pro-native-grid"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Novation Launchpad Pro",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Novation Launchpad Pro",
@@ -42858,40 +42863,228 @@
           "source": "https://virtualdj.com/products/hardware.html?model=LAUNCHPADPRO"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "reloopB:d",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d"
+      ],
+      "inputBindingCount": 64,
+      "feedbackBindingCount": 52,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Original Pro Standalone MIDI port2, Programmer layout, channel1. Select and configure manually. Feedback needs separate manual opt-in."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "This is an app-selected DJ grid, separate from Ableton and other DJ mappings. Outer buttons, library navigation, mixer/FX, pressure/aftertouch expressions, persistent custom layouts, original saved-state restoration, complete modes/feedback/lifecycle and physical/iPad/A10X acceptance remain open. No audio route, DAW handshake, firmware/authentication or persistent preset is written.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "novationlaunchpadpromk3",
+      "name": "Novation Launchpad Pro MK3",
+      "manufacturer": "Novation",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/LPP3_prog_ref_guide_200415.pdf"
+      ],
+      "definitions": [
+        "manufacturer:novation-launchpad-pro-mk3-native-grid"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Novation Launchpad Pro MK3",
+      "automaticControls": true,
+      "controlActions": [
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "reloopB:d",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d"
+      ],
+      "inputBindingCount": 64,
+      "feedbackBindingCount": 52,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Use the documented MIDI interface. Native selects Programmer mode and restores Live mode at shutdown. Close other software that controls this device."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "This is an app-selected DJ grid, separate from Ableton and other DJ mappings. Outer buttons, library navigation, mixer/FX, pressure/aftertouch expressions, persistent custom layouts, original saved-state restoration, complete modes/feedback/lifecycle and physical/iPad/A10X acceptance remain open. No audio route, DAW handshake, firmware/authentication or persistent preset is written."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -42907,12 +43100,17 @@
       "role": "accessory",
       "benchmark": false,
       "sources": [
+        "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/Launchpad%20X%20-%20Programmers%20Reference%20Manual.pdf",
         "https://virtualdj.com/products/hardware.html?model=LAUNCHPADX"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:novation-launchpad-x-native-grid"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Novation Launchpad X",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Novation Launchpad X",
@@ -42920,40 +43118,104 @@
           "source": "https://virtualdj.com/products/hardware.html?model=LAUNCHPADX"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "reloopB:d",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d"
+      ],
+      "inputBindingCount": 64,
+      "feedbackBindingCount": 52,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Use the documented MIDI interface. Native selects Programmer mode and restores Live mode at shutdown. Close other software that controls this device."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "This is an app-selected DJ grid, separate from Ableton and other DJ mappings. Outer buttons, library navigation, mixer/FX, pressure/aftertouch expressions, persistent custom layouts, original saved-state restoration, complete modes/feedback/lifecycle and physical/iPad/A10X acceptance remain open. No audio route, DAW handshake, firmware/authentication or persistent preset is written."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -353966,6 +354228,96 @@
           "reason": "Conflicting pitch/filter54, paired resolution/order, jog direction/Shift/calibration, browser press/release, crossfader type, master channel and lamp rows remain inactive. Sampler/FX, alternate Shift actions, complete feedback/lifecycle/audio and physical/iPad/A10X acceptance remain open. The table labels do not authorise Quattro protocol inheritance."
         }
       ]
+    },
+    {
+      "id": "manufacturer:novation-launchpad-x-native-grid",
+      "name": "Novation Launchpad X",
+      "transport": "midi",
+      "source": {
+        "url": "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/Launchpad%20X%20-%20Programmers%20Reference%20Manual.pdf",
+        "cacheName": "launchpad-x-programmer.pdf",
+        "sha256": "eca1842544e184e200a2134053acac8b1acb77df0247f23ef488fd9c2897db7a",
+        "pages": [
+          6,
+          7,
+          8,
+          10,
+          13,
+          15
+        ],
+        "review": "Independent X reference qualifies LPX MIDI In/Out, wire channel0 grid11+10*y+x, product12 Programmer/Live command14 and repeated static palette colour specs. Layout/mode/grid/lighting pages visually checked. Two32-pad104-byte clear packets remain within the native128-byte message limit. A bounded Live exit is attempted if any startup message fails. DAW port and persistent custom layouts are not used."
+      },
+      "implementedInputCount": 64,
+      "implementedOutputCount": 52,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "This is an app-selected DJ grid, separate from Ableton and other DJ mappings. Outer buttons, library navigation, mixer/FX, pressure/aftertouch expressions, persistent custom layouts, original saved-state restoration, complete modes/feedback/lifecycle and physical/iPad/A10X acceptance remain open. No audio route, DAW handshake, firmware/authentication or persistent preset is written."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:novation-launchpad-pro-mk3-native-grid",
+      "name": "Novation Launchpad Pro MK3",
+      "transport": "midi",
+      "source": {
+        "url": "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/LPP3_prog_ref_guide_200415.pdf",
+        "cacheName": "launchpad-pro-mk3-programmer.pdf",
+        "sha256": "54654f0603bf62e8d378961c3d759ba0ac022cbb7049e7a271af6c3b6ce97004",
+        "pages": [
+          6,
+          12,
+          18,
+          19
+        ],
+        "review": "Independent Pro MK3 reference qualifies LPProMK3 MIDI In/Out, distinct DIN/DAW interfaces, wire channel0 grid11+10*y+x, product14 Programmer/Live command14 and static palette colour specs. Programmer grid, mode and lighting pages visually checked. A bounded Live exit is attempted if any startup message fails. No original Pro or Mini command is inherited. The new MK3 catalogue entry is separate from the original Pro."
+      },
+      "implementedInputCount": 64,
+      "implementedOutputCount": 52,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "This is an app-selected DJ grid, separate from Ableton and other DJ mappings. Outer buttons, library navigation, mixer/FX, pressure/aftertouch expressions, persistent custom layouts, original saved-state restoration, complete modes/feedback/lifecycle and physical/iPad/A10X acceptance remain open. No audio route, DAW handshake, firmware/authentication or persistent preset is written."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:novation-launchpad-pro-native-grid",
+      "name": "Novation Launchpad Pro",
+      "transport": "midi",
+      "source": {
+        "url": "https://fael-downloads-prod.focusrite.com/customer/prod/s3fs-public/downloads/Launchpad%20Pro%20Programmers%20Reference%20Guide%201.01.pdf",
+        "cacheName": "launchpad-pro-programmer.pdf",
+        "sha256": "18675fcff65778d3d3ffa00ef7e6b4ce0dcb30e2edab9f95034bc1291c2001f7",
+        "pages": [
+          4,
+          5,
+          16,
+          17,
+          18
+        ],
+        "review": "Original Pro v1.01 independently specifies the same decimal grid in Programmer layout, Notes for square pads and CC for surrounding buttons. The grid and example bytes were visually checked. Its Standalone interface is USB port2, Programmer layout command is product16/44/3, and each layout has a saved MIDI channel. Native therefore retains manual channel1 Programmer setup without automatic mode/output writes. Manual feedback is a separate opt-in. No MK3 negotiation is inferred."
+      },
+      "implementedInputCount": 64,
+      "implementedOutputCount": 52,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "This is an app-selected DJ grid, separate from Ableton and other DJ mappings. Outer buttons, library navigation, mixer/FX, pressure/aftertouch expressions, persistent custom layouts, original saved-state restoration, complete modes/feedback/lifecycle and physical/iPad/A10X acceptance remain open. No audio route, DAW handshake, firmware/authentication or persistent preset is written."
+        }
+      ]
     }
   ],
   "releaseGate": {
@@ -353977,7 +354329,7 @@
     "theoreticalSupport": {
       "complete": false,
       "implementedModels": 0,
-      "targetModels": 552,
+      "targetModels": 553,
       "requiresPhysicalTestForEveryModel": false
     },
     "reason": "Documented implementation gaps block theoretical completion. Physical tests are separate evidence, not a per-model completion requirement."

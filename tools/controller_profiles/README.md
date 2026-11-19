@@ -1110,3 +1110,6 @@ R400 adds independent `twitch_basic.py` facts from the public Novation programme
 
 
 R401 adds independent `akiyama_charts.py` manual facts:98 Quattro,200 Quark SC and125 TTWO inputs. Separate manufacturer charts qualify each channel layout, normal controls, selected mixer fields and alternate release wires. Disputed pitch/jog/output rows remain inactive. No hardware write is sent.264 source checks,11 native tests and iPad framework compilation pass. Earlier290 recipes remain identical. Automatic setup and complete modes/audio/calibration remain open.
+
+
+R402 adds `launchpad_programmer.py`: independently reviewed X, Pro MK3 and original Pro grids, each with64 inputs/52 static lamps in a native four-quadrant DJ layout. X/Pro MK3 use documented MIDI interfaces, Programmer/Live setup and two104-byte clear packets. Bounded startup-abort metadata attempts Live recovery after partial setup failure. Original Pro remains manual on its independent Standalone/channel1 contract.267 source checks,31 native tests and iPad framework compilation pass. Earlier293 recipes remain identical. Full modes/feedback/lifecycle and physical acceptance remain open.

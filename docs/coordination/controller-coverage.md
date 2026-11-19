@@ -5298,3 +5298,29 @@ Quattro uses fixed mixer channel4 and three alternate transport releases. Its un
 Validation:264 Python checks and11 native tests passed, with three model cases on each shared fixture and all163 automatic held-Cue profiles retained. Checks cover manual identity, exact transport/hotcue/load channels, duplicate and both release forms, source ownership, Shift/deck cleanup, pickup, four-deck opt-in, disputed wires remaining inactive, stop cleanup and finite synced real-WAV playback. The iPad framework compiled and its bundled resource matches the source. All290 earlier recipes remain identical. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r401/validation.json`.
 
 The catalogue has293 recipes for552 physical models. First-protocol gaps fall from224 to221. Automatic coverage remains202 models, with350 without automatic core and0/552 with full theoretical support. Full modes/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. Quark SC's200 manual bindings also leave room for only56 other manual inputs under the existing256-input mapping limit.
+
+## R402 independent Launchpad Programmer grids
+
+Assumption: use a native four-quadrant grid on independently documented Programmer layouts. A/B occupy the lower quadrants; opt-in C/D occupy the upper quadrants. This is an app layout, separate from Ableton and other DJ mappings. X and Pro MK3 select Programmer mode through their documented MIDI interfaces and return to Live at shutdown. Original Pro requires manual Standalone Programmer mode on channel1.
+
+- [x] Pin and visually review each independent manufacturer layout, interface, mode and lamp contract.
+- [x] Add64 grid inputs and52 static lamp mappings per model, with bounded setup for X/Pro MK3.
+- [x] Verify quadrant routing, C/D opt-in, contact/velocity release, source and port isolation, setup failure and cleanup.
+- [x] Run native/source checks, real-WAV playback, iPad framework compilation and earlier-recipe comparison.
+
+Each model has an independently pinned programmer guide and visually reviewed grid. The app uses the same native function arrangement on each independently qualified grid. Within each quadrant, rows run from bottom to top:
+
+| Row | Four pads, left to right |
+| --- | --- |
+| 1 | Play, held Cue, Sync, Load |
+| 2 | PFL, loop In, loop Out, Reloop |
+| 3 | Hot Cues1..4 |
+| 4 | Hot Cues5..8 |
+
+X uses the documented LPX MIDI pair and product12 command14. Pro MK3 uses LPProMK3 MIDI and product14 command14. Both enter Programmer1, clear64 grid lamps in two104-byte messages and return to Live0 after shutdown clears. Each message stays within the existing128-byte bound. The new optional startup-abort contract permits at most four reviewed exit messages, requires automatic paired setup, excludes protocol decoders, and counts towards the existing64-message lifecycle limit. Immediate and timed failure paths attempt the exit without enabling input. A failed exit still needs connection or power recovery; this is a best-effort software guarantee.
+
+The original Pro has its own product16/layout44 protocol, second USB Standalone interface and saved per-layout MIDI channel. Its64 inputs and52 lamps remain manual on Programmer channel1, with feedback as a separate opt-in and no automatic hardware write. The added Pro MK3 catalogue model is distinct from the original Pro. No sibling mode command or persistent custom template is inferred. These are native app mappings, not Ableton presets or copies of downloaded scripts.
+
+Validation:267 Python checks and31 native tests passed, including165 automatic held-Cue profiles. Tests cover all quadrants/pad slots, low-velocity Cue ownership and both release forms, pressure/foreign inputs, C/D opt-in, identity/port ambiguity, missing outputs, failure at each setup step with a Live exit attempt, schema bounds, exact clear/stop messages, static feedback and finite synced real-WAV playback. Existing Twitch, manual bank routing and Pioneer startup regressions also pass. The iPad framework compiled and its bundled resource matches the source. All293 earlier recipes remain identical. A retained first compile failed on an overly complex test expression; a later fixture expected full velocity for a low-velocity press. Both fixture issues are corrected. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r402/validation.json`.
+
+The catalogue has296 recipes for553 physical models:204 automatic core and349 without automatic core. First-protocol gaps fall to219. Full theoretical support remains0/553. Outer buttons, remaining modes/expressions, full feedback/lifecycle and physical/iPad/A10X acceptance remain open. Live-mode restoration does not restore an arbitrary pre-connection custom state. Unknown OS port-name variants still require qualification.

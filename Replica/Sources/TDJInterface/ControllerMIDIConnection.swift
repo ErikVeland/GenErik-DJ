@@ -963,9 +963,21 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         let messages = starting ? session.profile.definition?.startup : session.profile.definition?.shutdown
         guard let messages, !messages.isEmpty else { return true }
         for message in messages {
-            guard sendFactoryMessage(message, session: session, starting: starting) else { return false }
+            guard sendFactoryMessage(message, session: session, starting: starting) else {
+                if starting { abortFactoryStartup(session) }
+                return false
+            }
         }
         return true
+    }
+
+    /**
+     * Attempts the reviewed exit sequence after partial setup failure without enabling input.
+     */
+    private func abortFactoryStartup(_ session: ControllerFactorySession) {
+        for message in session.profile.definition?.startupAbort ?? [] {
+            _ = sendFactoryMessage(message, session: session, starting: false)
+        }
     }
 
     private func sendFactoryMessage(_ message: [UInt8], session: ControllerFactorySession, starting: Bool) -> Bool {
@@ -1041,6 +1053,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     }
 
     private func failFactorySetup(_ session: ControllerFactorySession) {
+        abortFactoryStartup(session)
         if session.profile.definition?.inputProtocol?.setupInputMode != nil {
             _ = sendFactorySetup(session, starting: false)
         }
