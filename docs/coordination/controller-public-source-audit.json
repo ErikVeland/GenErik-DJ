@@ -1744,6 +1744,69 @@
         }
       ],
       "result": "APC mini MK2 adds74 automatic Session-channel1 inputs and52 channel7 static lamps, with independent introduction/range-clear commands. Other modes/ports/channels, complete lifecycle and physical acceptance remain open."
+    },
+    {
+      "request": "R404",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "model": "Akai APC40 MKII",
+          "url": "https://cdn.inmusicbrands.com/akai/attachments/apc40II/APC40Mk2_Communications_Protocol_v1.2.pdf",
+          "sha256": "3af85d0b338a68581360633f38db9267119a34d3e9f7ffaf68be24658ce932b1",
+          "version": "1.2",
+          "pages": [
+            12,
+            13,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37
+          ],
+          "visuallyReviewedPages": [
+            12,
+            13,
+            32,
+            34,
+            35,
+            36,
+            37
+          ],
+          "review": "Independent MKII protocol: product41, Mode1 identifier65,40 distinct Clip Launch notes0..39 and per-track notes48..52 on0..7. Global note functions ignore MIDI channel. Native retains strict track channels and any-channel global input, with Shift cleanup on all16 channels. An explicit paired-unbanked contract permits these global inputs only with bounded mode setup/exit and one Shift selector covering every channel. Selected input/mode/LED header tables were visually checked; remaining sequential grid/global/ring rows were checked as extracted text. The inbound table repeats ring-type IDs24..31/56..63 and lists Cue Level as both absolute and relative. Native uses only unambiguous position families16..23/48..55, the explicit relative Cue Level assignment47 and relative Tempo13. Duplicated ring-type input rows remain inactive. Full geometry/mode/state/feedback/calibration and physical/iPad/A10X acceptance remain open."
+        },
+        {
+          "model": "Akai APC40",
+          "url": "https://cdn.inmusicbrands.com/akai/apc40/APC40_Communications_Protocol_rev_1.pdf_1db97c1fdba23bacf47df0f9bf64e913.pdf",
+          "sha256": "b8c62fb7e69ed2c8e926a72ff48b4c823eca586ff2f798d1c81d2bd98a80d698",
+          "version": "Rev1,1May2009",
+          "pages": [
+            7,
+            8,
+            9,
+            10,
+            11,
+            16,
+            17,
+            18,
+            19,
+            20
+          ],
+          "visuallyReviewedPages": [
+            7,
+            8,
+            9,
+            16,
+            18,
+            19,
+            20
+          ],
+          "review": "Independent original protocol: product115, Mode1 identifier65, Clip Launch rows53..57 repeated on track channels0..7 and explicit original1/3/5 pad colours. Selected mode/input/LED tables were visually checked; remaining global/ring rows were checked as extracted text. Global note functions ignore MIDI channel. An explicit paired-unbanked contract requires bounded mode setup/exit and all16 Shift cleanup channels. Relative Cue Level47 has its own signed table. No MKII product/grid/RGB or Tempo13 input is inherited. Native app column-pair functions follow documented control order; physical orientation, complete modes/state/feedback/calibration and physical/iPad/A10X acceptance remain open."
+        }
+      ],
+      "result": "Two independent automatic Mode1 native accessories:114 MKII/113 original inputs and68 feedback bindings each. An explicit paired-unbanked schema contract admits only reviewed global channels with full16-channel Shift cleanup; track channels remain strict. Product41 and115 setup/Generic exits stay separate."
     }
   ]
 }

@@ -1116,3 +1116,6 @@ R402 adds `launchpad_programmer.py`: independently reviewed X, Pro MK3 and origi
 
 
 R403 adds `apc_mini_mk2.py` from the independent manufacturer protocol:74 Session-channel1 inputs,52 channel7 full-brightness lamps, Control-port qualification, Shift cleanup, nine native faders and bounded introduction/range-clear messages. `native_dj_grid.py` reuses only app functions across separately reviewed wire grids; all296 earlier recipes remain identical.270 source checks,20 native tests and iPad framework compilation pass. Other modes/channels, full lifecycle and physical acceptance remain open.
+
+
+R404 adds independent `apc40_generations.py` facts:114 MKII/113 original inputs and68 feedback bindings each. Separate product/grid/colour contracts use public momentary unbanked Mode1 and bounded Generic exit. A narrowly validated paired-unbanked contract permits global channels with all16 Shift cleanup selectors; track channels remain explicit.273 source checks,37 native tests and iPad framework compilation pass. Earlier297 recipes remain identical. Complete modes/state/ring/lifecycle and physical acceptance remain open.

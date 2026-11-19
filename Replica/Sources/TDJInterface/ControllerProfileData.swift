@@ -127,6 +127,7 @@ struct ControllerProfileData: Decodable, Sendable {
     let startupDelaysMilliseconds: [UInt16]?
     let shutdown: [[UInt8]]
     let startupAbort: [[UInt8]]?
+    let unbankedGlobalInputs: Bool?
     let autoSelect: Bool
     let scope: String
     let source: String
@@ -138,7 +139,10 @@ struct ControllerProfileData: Decodable, Sendable {
     let inputProtocol: InputProtocol?
 
     var isValid: Bool {
-        (role == nil || role == "player" || role == "accessory") && !id.isEmpty && id.count <= 128 && !aliases.isEmpty
+        let pairedGlobals = hasPairedUnbankedGlobals
+        return (unbankedGlobalInputs != true || pairedGlobals)
+            && (role == nil || role == "player" || role == "accessory") && !id.isEmpty && id.count <= 128
+            && !aliases.isEmpty
             && aliases.count <= 24
             && aliases.allSatisfy { !$0.isEmpty && $0.count <= 128 }
             && (portAliases.map { !$0.isEmpty && $0.count <= 16 && $0.allSatisfy { !$0.isEmpty && $0.count <= 128 } }
@@ -163,7 +167,7 @@ struct ControllerProfileData: Decodable, Sendable {
                         ? $0.kind == .control && ($0.lowNumber.map { $0 < 128 } ?? ($0.number < 32))
                             && $0.lowNumber != $0.number
                         : $0.lowNumber == nil)
-                    && ($0.anyChannel != true || role == "player")
+                    && ($0.anyChannel != true || role == "player" || pairedGlobals)
                     && ($0.requiresTouch != true || ($0.action.isJog && $0.encoding.isRelative))
                     && (!$0.encoding.isContactGate
                         || ($0.kind == .note && [.jogTouchA, .jogTouchB].contains($0.action)))
@@ -280,6 +284,31 @@ struct ControllerProfileData: Decodable, Sendable {
             && inputs.allSatisfy { $0.deckBank == nil || $0.action == .loadA || $0.action == .loadB }
             && !startup.isEmpty && !shutdown.isEmpty
             && outputs.allSatisfy { $0.action != .loadA && $0.action != .loadB }
+    }
+
+    /**
+     * Allows reviewed global channels only after paired setup and complete Shift cleanup.
+     */
+    private var hasPairedUnbankedGlobals: Bool {
+        guard unbankedGlobalInputs == true, autoSelect, role == "accessory", inputProtocol == nil,
+            !startup.isEmpty, !shutdown.isEmpty, startupAbort?.isEmpty == false, inputs.count <= 512,
+            let changes = bankChanges, changes.count == 16
+        else { return false }
+        let globals = inputs.filter { $0.anyChannel == true }
+        let shifts = inputs.filter { $0.action == .shift }
+        guard !globals.isEmpty, shifts.count == 1, let shift = shifts.first,
+            shift.anyChannel == true, shift.kind == .note, shift.encoding == .absolute
+        else { return false }
+        return globals.allSatisfy {
+            $0.channel == 0 && ($0.kind == .note || $0.kind == .control)
+                && $0.deckBank == nil && $0.shiftChannel == nil
+        }
+            && Set(changes.map(\.channel)) == Set(UInt8(0)..<16)
+            && changes.allSatisfy {
+                ($0.kind == nil || $0.kind == .note) && $0.number == shift.number && $0.onValue == 127
+                    && Set($0.decks) == Set(DeckID.allCases)
+                    && $0.releaseShiftChannels == nil && $0.deckBank == nil
+            }
     }
 
     private var validStartupAbort: Bool {

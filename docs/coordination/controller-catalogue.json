@@ -19970,130 +19970,6 @@
       }
     },
     {
-      "id": "akaiapc40",
-      "name": "AKAI APC40",
-      "manufacturer": "Akai",
-      "role": "accessory",
-      "benchmark": false,
-      "sources": [
-        "https://virtualdj.com/products/hardware.html?model=AKAIAPC40"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "virtualDJ": {
-          "sourceName": "AKAI APC40",
-          "category": "Addon Units (FX,Pads,..)",
-          "source": "https://virtualdj.com/products/hardware.html?model=AKAIAPC40"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
-      "id": "akaiapc40mk2",
-      "name": "AKAI APC40 MKII",
-      "manufacturer": "Akai",
-      "role": "accessory",
-      "benchmark": false,
-      "sources": [
-        "https://virtualdj.com/products/hardware.html?model=APC40II"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "virtualDJ": {
-          "sourceName": "AKAI APC40 MKII",
-          "category": "Addon Units (FX,Pads,..)",
-          "source": "https://virtualdj.com/products/hardware.html?model=APC40II"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
       "id": "akaiapc64",
       "name": "AKAI APC64",
       "manufacturer": "Akai",
@@ -20536,6 +20412,367 @@
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
         "This is a native app grid/fader layout, separate from Ableton. Other Session channels, Drum/Note modes, full mode negotiation, remaining track/scene buttons, pressure/expression, user colour/state restoration, full feedback/lifecycle and physical/iPad/A10X acceptance remain open. Port-name variants and required iPad power need physical qualification. No DAW script, audio route or persistent template is written."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "akaiapc40",
+      "name": "Akai APC40",
+      "manufacturer": "Akai",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://cdn.inmusicbrands.com/akai/apc40/APC40_Communications_Protocol_rev_1.pdf_1db97c1fdba23bacf47df0f9bf64e913.pdf",
+        "https://virtualdj.com/products/hardware.html?model=AKAIAPC40"
+      ],
+      "definitions": [
+        "manufacturer:akai-apc40-native-mode1"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Akai APC40",
+      "automaticControls": true,
+      "comparisonSupport": {
+        "virtualDJ": {
+          "sourceName": "AKAI APC40",
+          "category": "Addon Units (FX,Pads,..)",
+          "source": "https://virtualdj.com/products/hardware.html?model=AKAIAPC40"
+        }
+      },
+      "controlActions": [
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
+        "browsePreviousGroup",
+        "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "keylockA:a",
+        "keylockA:c",
+        "keylockB:b",
+        "keylockB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "loopDownA:a",
+        "loopDownA:c",
+        "loopDownB:b",
+        "loopDownB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "loopUpA:a",
+        "loopUpA:c",
+        "loopUpB:b",
+        "loopUpB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor",
+        "openGroup",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "reloopB:d",
+        "shift",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d"
+      ],
+      "inputBindingCount": 113,
+      "feedbackBindingCount": 68,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Native selects the documented Mode1 for momentary buttons and unbanked device knobs. Close other controlling software. Adjacent track pairs1/2,3/4,5/6,7/8 target A/B/C/D. C/D require opt-in. Shutdown restores Generic Mode0."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "This is an app layout following published control order. Physical pad orientation, full source modes, global transport/foot controls, source-specific Shift/FX, remaining LEDs/ring styles/state, startup analogue response, complete feedback/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. Generic exit does not restore an arbitrary previous mode or state. No DAW script, private authentication, persistent preset or audio route is used."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "akaiapc40mk2",
+      "name": "Akai APC40 MKII",
+      "manufacturer": "Akai",
+      "role": "accessory",
+      "benchmark": false,
+      "sources": [
+        "https://cdn.inmusicbrands.com/akai/attachments/apc40II/APC40Mk2_Communications_Protocol_v1.2.pdf",
+        "https://virtualdj.com/products/hardware.html?model=APC40II"
+      ],
+      "definitions": [
+        "manufacturer:akai-apc40-mkii-native-mode1"
+      ],
+      "implementation": "automatic-core-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Akai APC40 MKII",
+      "automaticControls": true,
+      "comparisonSupport": {
+        "virtualDJ": {
+          "sourceName": "AKAI APC40 MKII",
+          "category": "Addon Units (FX,Pads,..)",
+          "source": "https://virtualdj.com/products/hardware.html?model=APC40II"
+        }
+      },
+      "controlActions": [
+        "browse",
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
+        "browsePreviousGroup",
+        "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cuePreviewA:a",
+        "cuePreviewA:c",
+        "cuePreviewB:b",
+        "cuePreviewB:d",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "hotcue1A:a",
+        "hotcue1A:c",
+        "hotcue1B:b",
+        "hotcue1B:d",
+        "hotcue2A:a",
+        "hotcue2A:c",
+        "hotcue2B:b",
+        "hotcue2B:d",
+        "hotcue3A:a",
+        "hotcue3A:c",
+        "hotcue3B:b",
+        "hotcue3B:d",
+        "hotcue4A:a",
+        "hotcue4A:c",
+        "hotcue4B:b",
+        "hotcue4B:d",
+        "hotcue5A:a",
+        "hotcue5A:c",
+        "hotcue5B:b",
+        "hotcue5B:d",
+        "hotcue6A:a",
+        "hotcue6A:c",
+        "hotcue6B:b",
+        "hotcue6B:d",
+        "hotcue7A:a",
+        "hotcue7A:c",
+        "hotcue7B:b",
+        "hotcue7B:d",
+        "hotcue8A:a",
+        "hotcue8A:c",
+        "hotcue8B:b",
+        "hotcue8B:d",
+        "keylockA:a",
+        "keylockA:c",
+        "keylockB:b",
+        "keylockB:d",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadA:c",
+        "loadB:b",
+        "loadB:d",
+        "loopA:a",
+        "loopA:c",
+        "loopB:b",
+        "loopB:d",
+        "loopDownA:a",
+        "loopDownA:c",
+        "loopDownB:b",
+        "loopDownB:d",
+        "loopInA:a",
+        "loopInA:c",
+        "loopInB:b",
+        "loopInB:d",
+        "loopOutA:a",
+        "loopOutA:c",
+        "loopOutB:b",
+        "loopOutB:d",
+        "loopUpA:a",
+        "loopUpA:c",
+        "loopUpB:b",
+        "loopUpB:d",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor",
+        "openGroup",
+        "playA:a",
+        "playA:c",
+        "playB:b",
+        "playB:d",
+        "reloopA:a",
+        "reloopA:c",
+        "reloopB:b",
+        "reloopB:d",
+        "shift",
+        "syncA:a",
+        "syncA:c",
+        "syncB:b",
+        "syncB:d"
+      ],
+      "inputBindingCount": 114,
+      "feedbackBindingCount": 68,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": true,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Native selects the documented Mode1 for momentary buttons and unbanked device knobs. Close other controlling software. Adjacent track pairs1/2,3/4,5/6,7/8 target A/B/C/D. C/D require opt-in. Shutdown restores Generic Mode0."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "core-implemented",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "This is an app layout following published control order. Physical pad orientation, full source modes, global transport/foot controls, source-specific Shift/FX, remaining LEDs/ring styles/state, startup analogue response, complete feedback/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. Generic exit does not restore an arbitrary previous mode or state. No DAW script, private authentication, persistent preset or audio route is used."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -354430,6 +354667,94 @@
         },
         {
           "reason": "This is a native app grid/fader layout, separate from Ableton. Other Session channels, Drum/Note modes, full mode negotiation, remaining track/scene buttons, pressure/expression, user colour/state restoration, full feedback/lifecycle and physical/iPad/A10X acceptance remain open. Port-name variants and required iPad power need physical qualification. No DAW script, audio route or persistent template is written."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:akai-apc40-mkii-native-mode1",
+      "name": "Akai APC40 MKII",
+      "transport": "midi",
+      "source": {
+        "url": "https://cdn.inmusicbrands.com/akai/attachments/apc40II/APC40Mk2_Communications_Protocol_v1.2.pdf",
+        "sha256": "3af85d0b338a68581360633f38db9267119a34d3e9f7ffaf68be24658ce932b1",
+        "version": "1.2",
+        "pages": [
+          12,
+          13,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37
+        ],
+        "visuallyReviewedPages": [
+          12,
+          13,
+          32,
+          34,
+          35,
+          36,
+          37
+        ],
+        "review": "Independent MKII protocol: product41, Mode1 identifier65,40 distinct Clip Launch notes0..39 and per-track notes48..52 on0..7. Global note functions ignore MIDI channel. Native retains strict track channels and any-channel global input, with Shift cleanup on all16 channels. An explicit paired-unbanked contract permits these global inputs only with bounded mode setup/exit and one Shift selector covering every channel. Selected input/mode/LED header tables were visually checked; remaining sequential grid/global/ring rows were checked as extracted text. The inbound table repeats ring-type IDs24..31/56..63 and lists Cue Level as both absolute and relative. Native uses only unambiguous position families16..23/48..55, the explicit relative Cue Level assignment47 and relative Tempo13. Duplicated ring-type input rows remain inactive. Full geometry/mode/state/feedback/calibration and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 114,
+      "implementedOutputCount": 68,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "This is an app layout following published control order. Physical pad orientation, full source modes, global transport/foot controls, source-specific Shift/FX, remaining LEDs/ring styles/state, startup analogue response, complete feedback/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. Generic exit does not restore an arbitrary previous mode or state. No DAW script, private authentication, persistent preset or audio route is used."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:akai-apc40-native-mode1",
+      "name": "Akai APC40",
+      "transport": "midi",
+      "source": {
+        "url": "https://cdn.inmusicbrands.com/akai/apc40/APC40_Communications_Protocol_rev_1.pdf_1db97c1fdba23bacf47df0f9bf64e913.pdf",
+        "sha256": "b8c62fb7e69ed2c8e926a72ff48b4c823eca586ff2f798d1c81d2bd98a80d698",
+        "version": "Rev1,1May2009",
+        "pages": [
+          7,
+          8,
+          9,
+          10,
+          11,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "visuallyReviewedPages": [
+          7,
+          8,
+          9,
+          16,
+          18,
+          19,
+          20
+        ],
+        "review": "Independent original protocol: product115, Mode1 identifier65, Clip Launch rows53..57 repeated on track channels0..7 and explicit original1/3/5 pad colours. Selected mode/input/LED tables were visually checked; remaining global/ring rows were checked as extracted text. Global note functions ignore MIDI channel. An explicit paired-unbanked contract requires bounded mode setup/exit and all16 Shift cleanup channels. Relative Cue Level47 has its own signed table. No MKII product/grid/RGB or Tempo13 input is inherited. Native app column-pair functions follow documented control order; physical orientation, complete modes/state/feedback/calibration and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 113,
+      "implementedOutputCount": 68,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "This is an app layout following published control order. Physical pad orientation, full source modes, global transport/foot controls, source-specific Shift/FX, remaining LEDs/ring styles/state, startup analogue response, complete feedback/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. Generic exit does not restore an arbitrary previous mode or state. No DAW script, private authentication, persistent preset or audio route is used."
         }
       ]
     }

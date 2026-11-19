@@ -56,7 +56,7 @@ import Testing
             }
         }
     }
-    #expect(covered == 166)
+    #expect(covered == 168)
 }
 
 @Test @MainActor func controllerCataloguePioneerPlayerCueReassignmentReleasesThePreviousDeck() throws {

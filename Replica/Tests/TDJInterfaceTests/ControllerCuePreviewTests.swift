@@ -2772,3 +2772,20 @@ func controllerCatalogueLegacyDJMDirectCueKeepsAppStartedRealAudioSynced(_ name:
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test(arguments:["Akai APC40 MKII","Akai APC40"])
+@MainActor func controllerCatalogueAPC40ModeOneCueAndShiftRestoreRealAudioSync(_ name:String)async throws {
+    try await withControllerCuePlayback(name) { model,input in
+        let mk2=name=="Akai APC40 MKII"
+        let channel:UInt8=mk2 ? 0:1;let cue:UInt8=mk2 ? 33:57
+        cuePreviewPacket([0x90+channel,cue,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        let play:UInt8=mk2 ? 32:57
+        cuePreviewPacket([0x9F,98,127,98,0,0x90,play,127,play,0],to:input)
+        let audio=model.playback.core.renderOffline(frames:4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

@@ -11,10 +11,10 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 560 total catalogue records. 553 name physical models. The remainder identify software endpoints or protocol families.
-- 297 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 191 factory profiles select core controls automatically for 199 physical models.
+- 299 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 193 factory profiles select core controls automatically for 201 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
-- 348 physical models still lack automatic core controls.
+- 346 physical models still lack automatic core controls.
 - 553 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -223,13 +223,13 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 17 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 193 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 195 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
 | partial-midi-profile | 108 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 218 | The pinned references contain no implemented mapping for this model. |
+| protocol-needed | 216 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -438,14 +438,14 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Pioneer XDJ-XZ | primary | automatic-core-profile | [Reference](https://downloads.support.alphatheta.com/software_info/all-in-one-dj-systems/XDJ-XZ/XDJ-XZ_MIDI_Message_List_E1.pdf) |
 | AKAI APC MINI | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=APCMINI) |
 | AKAI APC20 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AKAPC20) |
-| AKAI APC40 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AKAIAPC40) |
-| AKAI APC40 MKII | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=APC40II) |
 | AKAI APC64 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=APC64) |
 | AKAI LPD8 MK2 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=LPD8MK2) |
 | AKAI MPD 218 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MPD218) |
 | AKAI MPD 226 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MPD226) |
 | AKAI MPD 232 | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MPD232) |
 | Akai APC mini MK2 | accessory | automatic-core-profile | [Reference](https://cdn.inmusicbrands.com/akai/attachments/APC%20mini%20mk2%20-%20Communication%20Protocol%20-%20v1.0.pdf) |
+| Akai APC40 | accessory | automatic-core-profile | [Reference](https://cdn.inmusicbrands.com/akai/apc40/APC40_Communications_Protocol_rev_1.pdf_1db97c1fdba23bacf47df0f9bf64e913.pdf) |
+| Akai APC40 MKII | accessory | automatic-core-profile | [Reference](https://cdn.inmusicbrands.com/akai/attachments/apc40II/APC40Mk2_Communications_Protocol_v1.2.pdf) |
 | Akai LPD8 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Akai-LPD8-RK.midi.xml) |
 | Akai MPD24 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Akai%20MPD24.midi.xml) |
 | Akai Pro AMX | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AKAMX) |
