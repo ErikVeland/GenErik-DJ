@@ -3078,7 +3078,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
 
     def test_studio4a_retains_source_deck_channels_and_reversed_right_loop_buttons(self):
         result = studio4a_profiles()[0]
-        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (124, 24))
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (156, 24))
         self.assertEqual(len(result["startup"]) + len(result["shutdown"]), 40)
         self.assertEqual(result["audioOutput"], "masterAndHeadphones")
         self.assertTrue(all(r["onValue"] == 1 for r in result["outputs"]))

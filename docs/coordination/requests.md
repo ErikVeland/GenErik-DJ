@@ -798,3 +798,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R483 | Implemented; full modes/physical gaps open | Add manufacturer-qualified NEON Hot Cue clears | Added32 clears and32 inverse negative aliases.446 source/14 native checks and iPad framework compilation pass. Existing96 inputs and404 other recipes remain identical. [Scope](controller-coverage.md#r483-neon-first-layer-hot-cue-clears). |
 
 | R484 | Reviewed; bin-state protocol remains open | Correct QUARK Shift/Smart Cue provenance | Corrected the clear-wire label. All405 recipes retain their controls. Two targeted source/five native checks and iPad framework compilation pass. [Scope](controller-coverage.md#r484-quark-shift-is-not-a-clear-opcode). |
+
+| R485 | Implemented; full modes/physical gaps open | Add CMD STUDIO4a held-DEL Hot Cue clearing | Added32 clears behind the existing side-specific DEL hold.449 source/13 native checks and iPad framework compilation pass. Earlier124 inputs and404 other recipes remain identical. [Scope](controller-coverage.md#r485-studio4a-held-del-clearing). |

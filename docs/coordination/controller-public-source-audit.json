@@ -5701,6 +5701,29 @@
           "result": "Direct download fails certificate expiry. No TLS check is disabled. Own public web text confirms CC factory presets differ from the existing custom note mapping; no automatic equivalence is inferred."
         }
       ]
+    },
+    {
+      "request": "R485",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "model": "Behringer CMD STUDIO 4a",
+          "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20CMDStudio4a.midi.xml",
+          "sha256": "75c69da47993bef18003ae79ccbb21cd0860dcdbbbada64571f1319c25351cf4",
+          "relatedSources": [
+            {
+              "url": "https://github.com/mixxxdj/mixxx/blob/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer-CMDStudio4a-scripts.js",
+              "sha256": "84adc04600502c0dc5691db8c4f7e95eaaac77ef991c9581a6cfe4cc7105ccd1"
+            },
+            {
+              "url": "https://manual.mixxx.org/2.4/en_gb/hardware/controllers/behringer_cmd_studio_4a"
+            }
+          ],
+          "review": "Pinned XML and script document four deck channels, centre64 jogs, physical touch and600-count scratch. Native fixed touch scratch replaces the software scratch toggle. Right manual loop In/Out retain the XML's reversed37/38 order. Full pitch messages apply native source-rate inversion and pickup. Native held bend replaces source permanent rate steps and optional key-shift mode. DEL is a source-local physical-side hold guard across A/C and B/D channels: unsupported alternate presses stay inactive, while old Cue/contact/bend releases remain valid. R485 adds32 positive-only native clears while the existing physical-side DEL guard is held. The own hotcue function explicitly calls hotcue_clear when delPushed. Native retains its existing source-local A/C and B/D hold scope rather than copying the source global flag. Source latched DEL mode, reverse/slip/autoloops, held Hot Cue previews, scratch toggle and bank-contact qualification remain open. Mixer and quick-filter controls retain source software assignments. Native six transport/PFL/loop states per deck use source on1/off0 values. Eight mode indicators initialise fixed Scratch on and DEL off; shutdown clears those and24 native outputs. Pad LEDs, live meters, EQ kill, FX, full browser/mode cleanup, calibration and physical acceptance stay open. The mapping author's manual specifies master1/2 and headphones3/4. No JS, timers or beatgrid mutation run in the app.",
+          "heldDeleteFunction": "BehringerCMDStudio4a.hotcue, delPushed branch; lines182..219 in pinned mapper"
+        }
+      ],
+      "result": "Added32 clear bindings at existing own pad wires behind the native physical-side DEL hold. The pinned mapper explicitly calls hotcue_clear while DEL is held. Native retains its earlier source-local A/C and B/D hold guard rather than copying the source global delPushed flag, latched DEL state or timer callbacks. Every earlier124 input and output/setup/audio/alias remains unchanged;404 other recipes remain identical.449 source/13 native checks and iPad framework compilation pass. Checks cover all32 pads, both negative forms, debounce, modifier release before pad release, source/group and physical-side isolation, C/D opt-in, earlier Cue/jog/pitch/lifecycle regressions and real-WAV marker deletion without position/Sync/active-playback changes. Full latched modes, lifecycle/host/audio and physical acceptance remain open. No script, timer or source engine mutation executes."
     }
   ]
 }
