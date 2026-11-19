@@ -4168,6 +4168,46 @@
         }
       ],
       "result": "Own p25 device name and1/2 Main,3/4 Headphones routing visually reviewed. Exact wired MK2 output recognition is implemented without a MIDI profile. Output-only classification replaces DVS-only for the source catalogue row. Hardware encoders, current iPad/USB/firmware/power and full lifecycle remain unqualified. Manufacturer guidance explicitly excludes legacy Audio2DJ/Audio2MK1 direct iOS compatibility.377 source/16 native checks and iPad framework compilation pass. Both377-recipe files remain identical."
+    },
+    {
+      "request": "R454",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "url": "https://d295jznhem2tn9.cloudfront.net/ItemRelatedFiles/8330/encore_2000.pdf",
+          "sha256": "d014dd7cdded5ef6767e38e135b7281da589b217cfd4bf2548afce9c40b308c2",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r454/upstream/encore2000-manual.pdf",
+              "sha256": "d014dd7cdded5ef6767e38e135b7281da589b217cfd4bf2548afce9c40b308c2"
+            }
+          ],
+          "review": "Own manufacturer pp26/27 numeric MIDI table visually reviewed. NOTE switches and lamps use9n127/0. Absolute CCs useBn0..127. MIDI2(TAP) numbers are explicit normal+63 aliases. This manual68-input subset requires separately configured left MIDI channel1/raw0 and right channel2/raw1. The manual documents TAP+Pitch Bend channel changes but does not establish factory deck channel numbers or numeric Mix CH. No default or Mix CH is guessed. Normal Play17hex/Cue13hex/TempoLock06hex/In0F/Out0B/Reloop0C/BendDown08/Up10 have release-only TAP aliases. TAP Note04 both edges retire only the source/deck held controls, before possible channel changes. Both normal and TAP CC families21..25hex/60..64hex deliberately retain the same native gain/EQ/level functions. Native assigns normal Folder0D to group entry, TAP Folder4C to Load for that deck and opposite-layer releases to rearming. Track11/15hex step native tracks, TAP50/54hex step native groups; all four are directional pulses. Six optional normal Play/Cue/Keylock lamps use127/0. Mix CH controls/master/headphones/crossfader/relay, jog calibration, pitch polarity/range, other switches, full mode/channel discovery/feedback/lifecycle/recovery, USB/driver/OS/power/audio and physical/iPad/A10X acceptance remain open. Enter MIDI mode manually with Source Select held3seconds before using the profile. No source-mode, query, pickup, preset, driver, firmware or audio-route command runs. Encore1000/ELMC1/VMS protocols are not inherited."
+        }
+      ],
+      "additionalFindings": [
+        {
+          "url": "https://www.steinigke.de/download/11045050-Manual-89188-1.100-omnitronic-ddc-2000-controller-incl-vdj-de_en.pdf",
+          "cachePath": "TestBuilds/r454/upstream/ddc2000-manual.pdf",
+          "sha256": "a9e87f24c127c603b537dcf154592a5f2e6621d014937cd04019d5993effbef0",
+          "finding": "Own manufacturer manual includes a numeric MIDI table and factory channel set0..3. Shifted global decimal/hexadecimal fields disagree. Keep independent from Encore and leave disputed fields unimplemented until qualified."
+        },
+        {
+          "url": "https://d295jznhem2tn9.cloudfront.net/ItemRelatedFiles/8300/elmc1.pdf",
+          "cachePath": "TestBuilds/r454/upstream/elmc1-manual.pdf",
+          "sha256": "411a0183964f228caa93123203124af3c67b1941d3fd91904332b692d7b3f2bc",
+          "finding": "Own manual describes physical controls and USB MIDI but has no numeric mapping in the checked contents. No Encore or other American Audio bytes are inherited."
+        },
+        {
+          "url": "https://downloads.support.alphatheta.com/manuals/dj-mixers/DJM-V5/html/en/000DJM-V5_IM_01_EN_DRI1965-A_en/Additional_information/Additional_information.htm?rhtocid=_15",
+          "finding": "Fresh primary manual/product checks confirm assignable MIDI and exclude Lightning mobile devices, without recovering a numeric message table. No V10/A7 bytes or direct A10X route are inferred."
+        },
+        {
+          "url": "https://www.manualslib.com/manual/916717/Voxoa-C60.html?page=56",
+          "finding": "A background browser attempt remained at security verification. The tab was closed. No CAPTCHA or access control was bypassed and no table layout is inferred."
+        }
+      ],
+      "result": "Independent68-input configured-channel manual Encore2000 core and6 optional lamps.379 source/11 native checks and iPad framework compilation pass. All377 earlier recipes remain identical. Factory channels and numeric Mix CH are not established; full mode/USB/audio/lifecycle and physical acceptance remain open."
     }
   ]
 }

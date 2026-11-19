@@ -24167,15 +24167,20 @@
       "id": "americanaudioencore2000",
       "name": "American Audio ENCORE 2000",
       "manufacturer": "American Audio",
-      "role": "primary",
+      "role": "accessory",
       "benchmark": false,
       "sources": [
+        "https://d295jznhem2tn9.cloudfront.net/ItemRelatedFiles/8330/encore_2000.pdf",
         "https://virtualdj.com/products/hardware.html?model=AAEncore2000"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:encore2000-configured-core"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "American Audio ENCORE 2000",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "American Audio ENCORE 2000",
@@ -24183,40 +24188,74 @@
           "source": "https://virtualdj.com/products/hardware.html?model=AAEncore2000"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
+        "browsePreviousGroup",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b"
+      ],
+      "inputBindingCount": 68,
+      "feedbackBindingCount": 6,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual configured channels only. Enter MIDI mode before use. Configure left channel1 and right channel2 with the documented TAP/Pitch Bend controls. Factory channel defaults and numeric Mix CH are not established. Folder enters a group and TAP+Folder loads its deck. Full mode/audio/USB ownership remains open."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Own manufacturer pp26/27 numeric MIDI table visually reviewed. NOTE switches and lamps use9n127/0. Absolute CCs useBn0..127. MIDI2(TAP) numbers are explicit normal+63 aliases. This manual68-input subset requires separately configured left MIDI channel1/raw0 and right channel2/raw1. The manual documents TAP+Pitch Bend channel changes but does not establish factory deck channel numbers or numeric Mix CH. No default or Mix CH is guessed. Normal Play17hex/Cue13hex/TempoLock06hex/In0F/Out0B/Reloop0C/BendDown08/Up10 have release-only TAP aliases. TAP Note04 both edges retire only the source/deck held controls, before possible channel changes. Both normal and TAP CC families21..25hex/60..64hex deliberately retain the same native gain/EQ/level functions. Native assigns normal Folder0D to group entry, TAP Folder4C to Load for that deck and opposite-layer releases to rearming. Track11/15hex step native tracks, TAP50/54hex step native groups; all four are directional pulses. Six optional normal Play/Cue/Keylock lamps use127/0. Mix CH controls/master/headphones/crossfader/relay, jog calibration, pitch polarity/range, other switches, full mode/channel discovery/feedback/lifecycle/recovery, USB/driver/OS/power/audio and physical/iPad/A10X acceptance remain open. Enter MIDI mode manually with Source Select held3seconds before using the profile. No source-mode, query, pickup, preset, driver, firmware or audio-route command runs. Encore1000/ELMC1/VMS protocols are not inherited.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -357911,6 +357950,34 @@
         },
         {
           "reason": "Own original QUARK English manufacturer manual pp14..18 supplies separate NOTE/CC types, raw deck channels0/1/2/3 for A/B/C/D, global4, explicit64-offset relative encoders and127/0 switches/lamps. The pinned SHA identifies the public numeric-table text excerpt, not original PDF bytes. Direct PDF download and screenshots were unavailable; legible public table rows were checked against the own worked example Play34hex=52. The catalogue spelling QUARC comes from the VirtualDJ entry whose model identifier is QUARK. Native164 automatic inputs use normal Play52/Cue53/Sync54/PFL60/Load59, manual loops47/48/49, bends50/51 and normal AutoLoop44/current-loop toggle, with explicit shifted release aliases plus64. Six normal Hot Cues23/26/29/32/35/38 use shifted clear wires only as release guards. AutoLoop/Roll pad wires are distinct and remain inactive. Gain9/high10/mid11/low12/level59 are7bit CC per deck. LoopSizeCC44 and global browseCC2 use binary offset64. Native assigns Track List push2 to group entry. Global CC1 is master and CC4 crossfader. Forty-four optional normal static lamps include six yellow Hot Cues per deck and five transport/loop/PFL lamps; Loop In/Out/Reloop lamps and green/shifted/mode/FX/sample/meter outputs stay inactive. Deck selector7 retires only its physical A/C or B/D pair, and mode selectors41/42/43 retire their own deck. Jog/contact calibration, tempo polarity/range, full shifted continuous pickup/alternate functions, remaining pad/FX/sample/modes, full feedback/lifecycle/recovery, USB/OS/power/audio and physical/iPad/A10X acceptance remain open. Own power specification is USB5V500mA or DC6V1.75A; iPad power is not qualified. No setup, identity query, preset, firmware, driver or audio-route packet runs. QUARK SC bytes are not inherited."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:encore2000-configured-core",
+      "name": "American Audio ENCORE 2000",
+      "transport": "midi",
+      "source": {
+        "url": "https://d295jznhem2tn9.cloudfront.net/ItemRelatedFiles/8330/encore_2000.pdf",
+        "sha256": "d014dd7cdded5ef6767e38e135b7281da589b217cfd4bf2548afce9c40b308c2",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r454/upstream/encore2000-manual.pdf",
+            "sha256": "d014dd7cdded5ef6767e38e135b7281da589b217cfd4bf2548afce9c40b308c2"
+          }
+        ],
+        "review": "Own manufacturer pp26/27 numeric MIDI table visually reviewed. NOTE switches and lamps use9n127/0. Absolute CCs useBn0..127. MIDI2(TAP) numbers are explicit normal+63 aliases. This manual68-input subset requires separately configured left MIDI channel1/raw0 and right channel2/raw1. The manual documents TAP+Pitch Bend channel changes but does not establish factory deck channel numbers or numeric Mix CH. No default or Mix CH is guessed. Normal Play17hex/Cue13hex/TempoLock06hex/In0F/Out0B/Reloop0C/BendDown08/Up10 have release-only TAP aliases. TAP Note04 both edges retire only the source/deck held controls, before possible channel changes. Both normal and TAP CC families21..25hex/60..64hex deliberately retain the same native gain/EQ/level functions. Native assigns normal Folder0D to group entry, TAP Folder4C to Load for that deck and opposite-layer releases to rearming. Track11/15hex step native tracks, TAP50/54hex step native groups; all four are directional pulses. Six optional normal Play/Cue/Keylock lamps use127/0. Mix CH controls/master/headphones/crossfader/relay, jog calibration, pitch polarity/range, other switches, full mode/channel discovery/feedback/lifecycle/recovery, USB/driver/OS/power/audio and physical/iPad/A10X acceptance remain open. Enter MIDI mode manually with Source Select held3seconds before using the profile. No source-mode, query, pickup, preset, driver, firmware or audio-route command runs. Encore1000/ELMC1/VMS protocols are not inherited."
+      },
+      "implementedInputCount": 68,
+      "implementedOutputCount": 6,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Own manufacturer pp26/27 numeric MIDI table visually reviewed. NOTE switches and lamps use9n127/0. Absolute CCs useBn0..127. MIDI2(TAP) numbers are explicit normal+63 aliases. This manual68-input subset requires separately configured left MIDI channel1/raw0 and right channel2/raw1. The manual documents TAP+Pitch Bend channel changes but does not establish factory deck channel numbers or numeric Mix CH. No default or Mix CH is guessed. Normal Play17hex/Cue13hex/TempoLock06hex/In0F/Out0B/Reloop0C/BendDown08/Up10 have release-only TAP aliases. TAP Note04 both edges retire only the source/deck held controls, before possible channel changes. Both normal and TAP CC families21..25hex/60..64hex deliberately retain the same native gain/EQ/level functions. Native assigns normal Folder0D to group entry, TAP Folder4C to Load for that deck and opposite-layer releases to rearming. Track11/15hex step native tracks, TAP50/54hex step native groups; all four are directional pulses. Six optional normal Play/Cue/Keylock lamps use127/0. Mix CH controls/master/headphones/crossfader/relay, jog calibration, pitch polarity/range, other switches, full mode/channel discovery/feedback/lifecycle/recovery, USB/driver/OS/power/audio and physical/iPad/A10X acceptance remain open. Enter MIDI mode manually with Source Select held3seconds before using the profile. No source-mode, query, pickup, preset, driver, firmware or audio-route command runs. Encore1000/ELMC1/VMS protocols are not inherited."
         }
       ]
     },

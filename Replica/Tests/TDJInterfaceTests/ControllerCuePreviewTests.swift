@@ -3376,3 +3376,17 @@ func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueEncoreTAPCueAndBendReleasesKeepRealAudioSync() async throws {
+    try await withControllerCuePlayback("Encore 2000",manual:true) { model,input in
+        input.receiveBytes([0x90,19,1],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x90,4,127],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        input.receiveBytes([0x80,82,127,0x90,4,0,23,127,23,0,8,127],source:10);input.flushPendingActions()
+        input.receiveBytes([0x90,71,0],source:10);input.flushPendingActions()
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}

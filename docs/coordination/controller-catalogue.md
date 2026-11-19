@@ -11,7 +11,7 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 562 total catalogue records. 555 name physical models. The remainder identify software endpoints or protocol families.
-- 377 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 378 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 230 factory profiles select core controls automatically for 239 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - 310 physical models still lack automatic core controls.
@@ -228,8 +228,8 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 149 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 139 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 150 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 138 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -472,7 +472,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | American Audio DP2 | primary | automatic-core-profile | [Reference](https://assets.centryngroup.com/dl/files/DP2__DL__003.zip) |
 | American Audio DV2 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AADV2) |
 | American Audio ELMC-1 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ELMC1) |
-| American Audio ENCORE 2000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AAEncore2000) |
+| American Audio ENCORE 2000 | accessory | partial-midi-profile | [Reference](https://d295jznhem2tn9.cloudfront.net/ItemRelatedFiles/8330/encore_2000.pdf) |
 | American Audio RADIUS 1000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RADIUS1000) |
 | American Audio RADIUS 3000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RADIUS3000) |
 | American Audio Radius 2000 CH1 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/American%20Audio%20RADIUS%202000%20CH1.midi.xml) |
