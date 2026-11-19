@@ -2987,6 +2987,17 @@ func controllerCatalogueLegacyRaneMixerAndLoopsKeepRealAudioAndSavedSync(_ name:
     }
 }
 
+@Test(arguments: ["JB Systems DJ KONTROL2", "JB Systems DJ KONTROL3"]) @MainActor
+func controllerCatalogueJBKontrolKeepsRealAudioAndSavedSync(_ name: String) async throws {
+    try await withControllerCuePlayback(name, manual: true) { model, input in
+        cuePreviewPacket([0x90, 67, 127, 67, 0], to: input)
+        cuePreviewPacket([0xB0, 11, 64], to: input)
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
 @Test(arguments: ["BeyondMusic (BMI) ABMA1", "BeyondMusic (BMI) ABMA3"]) @MainActor
 func controllerCatalogueBMICoreKeepsRealAudioAndSavedSync(_ name: String) async throws {
     try await withControllerCuePlayback(name, manual: true) { model, input in

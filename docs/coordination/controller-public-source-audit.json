@@ -3102,6 +3102,68 @@
         }
       ],
       "result": "Separate manual ABMA1/3 normal cores. Only ABMA3 qualifies held Cue and monitor gain. Own source input/lamp addresses retained. JB rebrand comments and ABMA4 are not inherited. Full modes, identity, host, audio and physical acceptance remain open."
+    },
+    {
+      "request": "R429",
+      "sources": [
+        {
+          "model": "JB Systems DJ KONTROL2",
+          "url": "https://jb-systems.eu/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1438086881.zip&name=DJ-KONTROL2_TR2",
+          "archiveMember": "JBS - DJ KONTROL 2.tsi",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r428/upstream/jb-kontrol2-traktor-response.bin",
+              "sha256": "81985dd3c3e63d70ab29b47abd0fc417967a34db2576717335cc54d11733f82a"
+            },
+            {
+              "cachePath": "TestBuilds/r428/upstream/jb-kontrol2-mapping/JBS - DJ KONTROL 2.tsi",
+              "sha256": "91b3d2ca7e5ec15916a62a9b8c281b0f87a7cdcd63c0265080eddbfb5d2184a7"
+            },
+            {
+              "cachePath": "TestBuilds/r429/upstream/cmdr-commands.cs",
+              "sha256": "7594c34a77b2f72480f2e0d0b70db500e4cddc71f30fae08043b87d8fde8e6e9"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://jb-systems.eu/dj-kontrol-2"
+            },
+            {
+              "url": "https://raw.githubusercontent.com/cmdr-editor/cmdr/5b7950272a55f73034d2df15de2917248e2e9616/cmdr/cmdr.TsiLib/Commands/Interpretation/KnownCommands.cs"
+            }
+          ],
+          "review": "Own manufacturer product page identifies this separate Traktor download. Bounded read-only TSI inspection qualifies normal channel1 Play100, Load3076, PFL119, loop anchors2392/2393, volume102/gain117/high303/mid302/low301/tempo123, crossfader5, Cue mix17 and list browse3200. Pinned CMDR source independently names the numeric software commands. Traktor MIDI note naming uses C-1=0. Every active role, target, wire and inversion is checked against this own file. Pitch and crossfader are explicitly inverted, unlike the separate Beyond Music native assignments. Encoder mode1 qualifies only1/127 steps. Source Cue is CUP204, not a held native Cue contract. Shared Key Lock/modifiers, Sync/bends, conditional pads/Shift/FX/kill/loop functions, wheel format/calibration/contact, position strips, all output ranges/polarity, full lifecycle/identity/USB/OS/audio and physical/iPad/A10X acceptance remain open. Native uses independent loop anchors and app pitch range. Manual selection and separate app audio are required. No Beyond Music, KONTROL1/3S/4 identity or protocol is inherited. No TSI/software action, saved preference, preset, firmware or driver executes."
+        },
+        {
+          "model": "JB Systems DJ KONTROL3",
+          "url": "https://jb-systems.eu/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1438088622.zip&name=DJ-KONTROL3_TR2",
+          "archiveMember": "JBS - DJ KONTROL 3.tsi",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r429/upstream/jb-kontrol3-traktor.zip",
+              "sha256": "2642779fd7a8f56561bd3622a101b6d6febb84bf69f068c0b33bcf99a7084119"
+            },
+            {
+              "cachePath": "TestBuilds/r429/upstream/jb-kontrol3-mapping/JBS - DJ KONTROL 3.tsi",
+              "sha256": "f784eeb79f1fc983a0e8fa89418aa2317cf8b0c682a3fe89eaa3c9392303858a"
+            },
+            {
+              "cachePath": "TestBuilds/r429/upstream/cmdr-commands.cs",
+              "sha256": "7594c34a77b2f72480f2e0d0b70db500e4cddc71f30fae08043b87d8fde8e6e9"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://jb-systems.eu/dj-kontrol-3"
+            },
+            {
+              "url": "https://raw.githubusercontent.com/cmdr-editor/cmdr/5b7950272a55f73034d2df15de2917248e2e9616/cmdr/cmdr.TsiLib/Commands/Interpretation/KnownCommands.cs"
+            }
+          ],
+          "review": "Own manufacturer product page identifies this separate Traktor download. Bounded read-only TSI inspection qualifies normal channel1 Play100, Load3076, PFL119, loop anchors2392/2393, volume102/gain117/high303/mid302/low301/tempo123, crossfader5, Cue mix17 and list browse3200. Pinned CMDR source independently names the numeric software commands. Traktor MIDI note naming uses C-1=0. Every active role, target, wire and inversion is checked against this own file. Pitch and crossfader are explicitly inverted, unlike the separate Beyond Music native assignments. Encoder mode1 qualifies only1/127 steps. Source Cue is CUP204, not a held native Cue contract. Shared Key Lock/modifiers, Sync/bends, conditional pads/Shift/FX/kill/loop functions, wheel format/calibration/contact, position strips, all output ranges/polarity, full lifecycle/identity/USB/OS/audio and physical/iPad/A10X acceptance remain open. Native uses independent loop anchors and app pitch range. Manual selection and separate app audio are required. No Beyond Music, KONTROL1/3S/4 identity or protocol is inherited. No TSI/software action, saved preference, preset, firmware or driver executes."
+        }
+      ],
+      "result": "Each own manufacturer TSI qualifies25 manual normal inputs. Every active role, wire, target and inversion is checked independently. CUP, conditional modes, wheel and feedback remain inactive. Full identity/audio/host and physical acceptance remain open."
     }
   ]
 }

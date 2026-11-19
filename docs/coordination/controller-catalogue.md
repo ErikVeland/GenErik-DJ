@@ -11,7 +11,7 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 562 total catalogue records. 555 name physical models. The remainder identify software endpoints or protocol families.
-- 353 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 355 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 219 factory profiles select core controls automatically for 228 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - 321 physical models still lack automatic core controls.
@@ -228,8 +228,8 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 136 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 163 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 138 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 161 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -617,8 +617,8 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Ion Discover DJ Pro | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Ion-Discover-DJ-Pro.midi.xml) |
 | Ion iDJ2GO | primary | partial-midi-profile | [Reference](https://download.algoriddim.com/djay/202010171657/djay_Pro_2.2.9.zip) |
 | JB Systems DJ KONTROL1 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=JBSDJKTRL1) |
-| JB Systems DJ KONTROL2 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=JBSDJKTRL2) |
-| JB Systems DJ KONTROL3 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=JBSDJKTRL3) |
+| JB Systems DJ KONTROL2 | primary | partial-midi-profile | [Reference](https://jb-systems.eu/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1438086881.zip&name=DJ-KONTROL2_TR2) |
+| JB Systems DJ KONTROL3 | primary | partial-midi-profile | [Reference](https://jb-systems.eu/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1438088622.zip&name=DJ-KONTROL3_TR2) |
 | JB Systems DJ KONTROL3S | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=JBSKT3S) |
 | JB Systems DJ KONTROL4 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=JBKTRL4) |
 | Keith McMillen Instruments QuNeo | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/KANE_QuNeo.midi.xml) |
