@@ -17,12 +17,21 @@ private final class BrowserFreezeCounter: @unchecked Sendable {
     var base = URL(fileURLWithPath: #filePath)
     for _ in 0..<4 { base.deleteLastPathComponent() }
     let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
-    let model = try ReplicaModel(root: root, playback: PlaybackController(offline: true))
-    await model.importFiles([
-        base.appendingPathComponent("Analysis/Traktor-DJ-1x/fixtures/clock-a-120.wav"),
-        base.appendingPathComponent("Analysis/Traktor-DJ-1x/fixtures/clock-b-128.wav"),
-    ])
-    #expect(model.library.tracks.count == 2)
+    let store = try WorkspaceStore(root: root)
+    var library = LibrarySnapshot()
+    // Use the generator's known grids. This check does not test music analysis.
+    for (name, frames, bpm) in [("clock-a-120.wav", Int64(705600), 120.0), ("clock-b-128.wav", Int64(661500), 128.0)] {
+        let source = base.appendingPathComponent("Analysis/Traktor-DJ-1x/fixtures/" + name)
+        try FileManager.default.copyItem(at: source, to: store.mediaDirectory.appendingPathComponent(name))
+        let analysis = AudioAnalysis(
+            implementation: "browser-freeze-fixture", configurationID: "fixture",
+            contentSHA256: try AudioAnalyzer.sha256(url: source), sampleRate: 44100, frameCount: frames,
+            channelCount: 2, waveformFramesPerBin: 441, waveform: [], bpm: bpm, beatAnchorFrame: 0,
+            tempoConfidence: 1, key: nil, keyConfidence: 0, chroma: [], timbre: [])
+        library.tracks.append(try Track(title: name, mediaFilename: name, analysis: analysis))
+    }
+    try store.save(library)
+    let model = try ReplicaModel(root: root, playback: PlaybackController(offline: true), automaticTraktorSources: [])
     let track = try #require(model.library.tracks.first)
     model.load(trackID: track.id, deck: .a)
     await model.flushWrites()
