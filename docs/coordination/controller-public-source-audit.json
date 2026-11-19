@@ -2693,6 +2693,47 @@
         }
       ],
       "result": "Added separate manual 4TRAK main and default-bank Xponent cores. Manufacturer and djay Shift44 override copied PCDJ Shift18/Load44. Detailed R416-R420 references now reach catalogue definitions. Earlier333 runtime recipes remain identical. No vendor software, driver, preset or SDK runs. Full modes/audio/host and physical acceptance remain open."
+    },
+    {
+      "request": "R422",
+      "sources": [
+        {
+          "model": "American Audio 10MXR",
+          "url": "https://www.adj.eu/mwdownloads/download/link/id/522",
+          "sha256": "6ea2a7ef819f5a8988017fef599222cf9938ec463c2048e8b21658d36f41399d",
+          "cachePath": "TestBuilds/r422/upstream/10mxr.pdf",
+          "reviewedPages": [
+            15
+          ],
+          "review": "Own two-strip manufacturer table qualifies normal raw channel0 and Shift1, two Hot Cues per side, right Sync54 and USB selectors89/6. Hardware mixer/audio ownership differs from the larger models. Manual selection requires separate app audio to avoid applying hardware mixing twice. No Controller-mode channel offset is inferred from 14/19MXR. Native alternate positive commands remain inactive and alternate releases retire held controls. Source Sync55 and reversed browse direction are overridden by the primary table. No source actions or hardware writes run."
+        },
+        {
+          "model": "American Audio 14MXR",
+          "url": "https://www.adj.com/cdn/shop/files/f1f0c1c8837d984226dd0e8bf00bea2ad37f7a6c_14mxr.pdf?v=10788332160262280223",
+          "sha256": "a8777d31871455f53e5abcf87c891e37eeb833502b50443ca5a9f0d6f6e170a2",
+          "cachePath": "TestBuilds/r422/upstream/14mxr.pdf",
+          "reviewedPages": [
+            16,
+            17
+          ],
+          "visuallyReviewedPages": [
+            16
+          ],
+          "review": "Own manufacturer table explicitly adds2 to input channels in Controller mode, except LED messages. Native normal input raw2, Shift releases raw3, lamps raw0. Four physical strips map C/A/B/D as in the separate named PCDJ volume mapping. Primary per-strip five mixer controls, filter and PFL override the script copied fourth-strip EQ target error. Three Hot Cues per side and right Sync55 are independent of 10MXR. Hold Controller Mode while powering on to select the documented software-mixing route; native does not change that setting. Mixer-mode channels0/1 stay inactive. Software-owned steady lamps only; no hardware-owned audio/mic/route/preset writes."
+        },
+        {
+          "model": "American Audio 19MXR",
+          "url": "https://assets.centryngroup.com/dl/files/MXR941__DL__002.pdf",
+          "sha256": "93e5c0edfecd27f57aa8f793f8f51f4570f7ae232f47f29651975aca1c831cb1",
+          "cachePath": "TestBuilds/r422/upstream/19mxr.pdf",
+          "reviewedPages": [
+            14,
+            15
+          ],
+          "review": "Own manufacturer table explicitly adds2 to inputs in Controller mode, except LED messages. Native normal raw2, Shift release guards raw3 and lamps raw0. Four physical strips map C/A/B/D with primary mixer/PFL addresses; the script copied fourth-strip EQ target error is not retained. Three Hot Cues and right Sync55 match this model table. The two filter controls depend on hardware crossfader assignments and remain inactive. PFL rows do not identify lamps, so no PFL LED is invented. Hold Controller Mode during power-on for software mixing; native sends no mode or stored-setting write. Mixer-mode channels0/1 stay inactive."
+        }
+      ],
+      "result": "Separate primary tables override copied PCDJ errors. 14/19MXR Controller inputs use raw2/3 while lamps remain raw0. 10MXR keeps its separate raw0/1 manual hardware-mixer contract and Sync54. 14/19 use Sync55. Alternate positive commands and hardware/route writes remain inactive. Full modes/audio/USB/physical acceptance remain open."
     }
   ]
 }

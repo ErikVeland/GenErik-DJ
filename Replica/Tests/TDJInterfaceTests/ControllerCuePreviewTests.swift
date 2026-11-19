@@ -2987,6 +2987,19 @@ func controllerCatalogueLegacyRaneMixerAndLoopsKeepRealAudioAndSavedSync(_ name:
     }
 }
 
+@Test(arguments: ["American Audio 10MXR", "American Audio 14MXR", "American Audio 19MXR"]) @MainActor
+func controllerCatalogueMXRKeepsRealAudioAndSavedSync(_ name: String) async throws {
+    try await withControllerCuePlayback(name, manual: name == "American Audio 10MXR") { model, input in
+        let ch: UInt8 = name == "American Audio 10MXR" ? 0 : 2
+        cuePreviewPacket([0x90 + ch, 12, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x81 + ch, 12, 127, 0x90 + ch, 13, 127, 13, 0], to: input)
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
 @Test(arguments: ["Numark 4TRAK", "M-Audio Xponent"]) @MainActor
 func controllerCatalogueLegacyPCDJKeepsRealAudioAndSavedSync(_ name: String) async throws {
     try await withControllerCuePlayback(name, manual: true) { model, input in

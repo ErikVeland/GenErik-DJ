@@ -22908,12 +22908,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://www.adj.eu/mwdownloads/download/link/id/522",
         "https://virtualdj.com/products/hardware.html?model=AA10MXR"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:mxr-10"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "American Audio 10MXR",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "American Audio 10MXR",
@@ -22921,40 +22926,76 @@
           "source": "https://virtualdj.com/products/hardware.html?model=AA10MXR"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
+        "browsePreviousGroup",
+        "crossfader",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "filterKnobA:a",
+        "filterKnobB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "openGroup",
+        "playA:a",
+        "playB:b",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 51,
+      "feedbackBindingCount": 8,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Select manually with separate app audio. The 10MXR hardware mixer route is not configured by this profile."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Own two-strip manufacturer table qualifies normal raw channel0 and Shift1, two Hot Cues per side, right Sync54 and USB selectors89/6. Hardware mixer/audio ownership differs from the larger models. Manual selection requires separate app audio to avoid applying hardware mixing twice. No Controller-mode channel offset is inferred from 14/19MXR. Native alternate positive commands remain inactive and alternate releases retire held controls. Source Sync55 and reversed browse direction are overridden by the primary table. No source actions or hardware writes run.",
+        "Full Shift/sampler/FX modes, mic/booth/crossfader assignments, complete state/feedback/lifecycle/audio/USB/OS and physical/iPad/A10X acceptance remain open. No driver, firmware, vendor application, script action or hardware setting runs.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -22970,12 +23011,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://www.adj.com/cdn/shop/files/f1f0c1c8837d984226dd0e8bf00bea2ad37f7a6c_14mxr.pdf?v=10788332160262280223",
         "https://virtualdj.com/products/hardware.html?model=AA14MXR"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:mxr-14"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "American Audio 14MXR",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "American Audio 14MXR",
@@ -22983,40 +23029,93 @@
           "source": "https://virtualdj.com/products/hardware.html?model=AA14MXR"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
+        "browsePreviousGroup",
+        "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "filterKnobA:a",
+        "filterKnobA:c",
+        "filterKnobB:b",
+        "filterKnobB:d",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadB:b",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor",
+        "openGroup",
+        "playA:a",
+        "playB:b",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 75,
+      "feedbackBindingCount": 14,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Enter Controller mode by holding its button during power-on. Use the Controller-mode MIDI input; normal and Shift input channels are3/4. Lamps remain on MIDI channel1. Enable C/D separately. Configure app audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Own manufacturer table explicitly adds2 to input channels in Controller mode, except LED messages. Native normal input raw2, Shift releases raw3, lamps raw0. Four physical strips map C/A/B/D as in the separate named PCDJ volume mapping. Primary per-strip five mixer controls, filter and PFL override the script copied fourth-strip EQ target error. Three Hot Cues per side and right Sync55 are independent of 10MXR. Hold Controller Mode while powering on to select the documented software-mixing route; native does not change that setting. Mixer-mode channels0/1 stay inactive. Software-owned steady lamps only; no hardware-owned audio/mic/route/preset writes.",
+        "Full Shift/sampler/FX modes, mic/booth/crossfader assignments, complete state/feedback/lifecycle/audio/USB/OS and physical/iPad/A10X acceptance remain open. No driver, firmware, vendor application, script action or hardware setting runs."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -23032,12 +23131,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://assets.centryngroup.com/dl/files/MXR941__DL__002.pdf",
         "https://virtualdj.com/products/hardware.html?model=AA19MXR"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:mxr-19"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "American Audio 19MXR",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "American Audio 19MXR",
@@ -23045,40 +23149,89 @@
           "source": "https://virtualdj.com/products/hardware.html?model=AA19MXR"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
+        "browsePreviousGroup",
+        "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainA:c",
+        "gainB:b",
+        "gainB:d",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadB:b",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "monitor",
+        "openGroup",
+        "playA:a",
+        "playB:b",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 71,
+      "feedbackBindingCount": 10,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Enter Controller mode by holding its button during power-on. Use the Controller-mode MIDI input; normal and Shift input channels are3/4. Lamps remain on MIDI channel1. Enable C/D separately. Configure app audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Own manufacturer table explicitly adds2 to inputs in Controller mode, except LED messages. Native normal raw2, Shift release guards raw3 and lamps raw0. Four physical strips map C/A/B/D with primary mixer/PFL addresses; the script copied fourth-strip EQ target error is not retained. Three Hot Cues and right Sync55 match this model table. The two filter controls depend on hardware crossfader assignments and remain inactive. PFL rows do not identify lamps, so no PFL LED is invented. Hold Controller Mode during power-on for software mixing; native sends no mode or stored-setting write. Mixer-mode channels0/1 stay inactive.",
+        "Full Shift/sampler/FX modes, mic/booth/crossfader assignments, complete state/feedback/lifecycle/audio/USB/OS and physical/iPad/A10X acceptance remain open. No driver, firmware, vendor application, script action or hardware setting runs."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -353595,6 +353748,98 @@
         },
         {
           "reason": "Manufacturer Appendix A and independent djay mapping override the PCDJ script: real Shift is Note44 per deck, not Note18, and Note44 must never load a track. Pitch uses the complete MIDI pitch-bend value with exact centre, inverted as in the djay definition. Default bank A channels0/1 and channel2 globals qualify normal transport, five Hot Cues, fixed1/2/4/8-beat loops, direct manual loops, mixer and cue-mix. Owned Note22 touch gates binary-offset CC22 jog at source scratch scale300; physical scale remains unmeasured. Native Shift suppresses unsupported alternate functions and retires held contacts. Bank B, source scratch-toggle/search, trackpad/mouse, transform, EQ kills, FX, remaining lamps/meters, complete lifecycle/host/audio/OS and physical/iPad/A10X acceptance remain open. No source code, driver, setup or stored setting runs. Manual selection is required."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:mxr-10",
+      "name": "American Audio 10MXR",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.adj.eu/mwdownloads/download/link/id/522",
+        "sha256": "6ea2a7ef819f5a8988017fef599222cf9938ec463c2048e8b21658d36f41399d",
+        "cachePath": "TestBuilds/r422/upstream/10mxr.pdf",
+        "reviewedPages": [
+          15
+        ],
+        "review": "Own two-strip manufacturer table qualifies normal raw channel0 and Shift1, two Hot Cues per side, right Sync54 and USB selectors89/6. Hardware mixer/audio ownership differs from the larger models. Manual selection requires separate app audio to avoid applying hardware mixing twice. No Controller-mode channel offset is inferred from 14/19MXR. Native alternate positive commands remain inactive and alternate releases retire held controls. Source Sync55 and reversed browse direction are overridden by the primary table. No source actions or hardware writes run."
+      },
+      "implementedInputCount": 51,
+      "implementedOutputCount": 8,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Own two-strip manufacturer table qualifies normal raw channel0 and Shift1, two Hot Cues per side, right Sync54 and USB selectors89/6. Hardware mixer/audio ownership differs from the larger models. Manual selection requires separate app audio to avoid applying hardware mixing twice. No Controller-mode channel offset is inferred from 14/19MXR. Native alternate positive commands remain inactive and alternate releases retire held controls. Source Sync55 and reversed browse direction are overridden by the primary table. No source actions or hardware writes run."
+        },
+        {
+          "reason": "Full Shift/sampler/FX modes, mic/booth/crossfader assignments, complete state/feedback/lifecycle/audio/USB/OS and physical/iPad/A10X acceptance remain open. No driver, firmware, vendor application, script action or hardware setting runs."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:mxr-14",
+      "name": "American Audio 14MXR",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.adj.com/cdn/shop/files/f1f0c1c8837d984226dd0e8bf00bea2ad37f7a6c_14mxr.pdf?v=10788332160262280223",
+        "sha256": "a8777d31871455f53e5abcf87c891e37eeb833502b50443ca5a9f0d6f6e170a2",
+        "cachePath": "TestBuilds/r422/upstream/14mxr.pdf",
+        "reviewedPages": [
+          16,
+          17
+        ],
+        "visuallyReviewedPages": [
+          16
+        ],
+        "review": "Own manufacturer table explicitly adds2 to input channels in Controller mode, except LED messages. Native normal input raw2, Shift releases raw3, lamps raw0. Four physical strips map C/A/B/D as in the separate named PCDJ volume mapping. Primary per-strip five mixer controls, filter and PFL override the script copied fourth-strip EQ target error. Three Hot Cues per side and right Sync55 are independent of 10MXR. Hold Controller Mode while powering on to select the documented software-mixing route; native does not change that setting. Mixer-mode channels0/1 stay inactive. Software-owned steady lamps only; no hardware-owned audio/mic/route/preset writes."
+      },
+      "implementedInputCount": 75,
+      "implementedOutputCount": 14,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Own manufacturer table explicitly adds2 to input channels in Controller mode, except LED messages. Native normal input raw2, Shift releases raw3, lamps raw0. Four physical strips map C/A/B/D as in the separate named PCDJ volume mapping. Primary per-strip five mixer controls, filter and PFL override the script copied fourth-strip EQ target error. Three Hot Cues per side and right Sync55 are independent of 10MXR. Hold Controller Mode while powering on to select the documented software-mixing route; native does not change that setting. Mixer-mode channels0/1 stay inactive. Software-owned steady lamps only; no hardware-owned audio/mic/route/preset writes."
+        },
+        {
+          "reason": "Full Shift/sampler/FX modes, mic/booth/crossfader assignments, complete state/feedback/lifecycle/audio/USB/OS and physical/iPad/A10X acceptance remain open. No driver, firmware, vendor application, script action or hardware setting runs."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:mxr-19",
+      "name": "American Audio 19MXR",
+      "transport": "midi",
+      "source": {
+        "url": "https://assets.centryngroup.com/dl/files/MXR941__DL__002.pdf",
+        "sha256": "93e5c0edfecd27f57aa8f793f8f51f4570f7ae232f47f29651975aca1c831cb1",
+        "cachePath": "TestBuilds/r422/upstream/19mxr.pdf",
+        "reviewedPages": [
+          14,
+          15
+        ],
+        "review": "Own manufacturer table explicitly adds2 to inputs in Controller mode, except LED messages. Native normal raw2, Shift release guards raw3 and lamps raw0. Four physical strips map C/A/B/D with primary mixer/PFL addresses; the script copied fourth-strip EQ target error is not retained. Three Hot Cues and right Sync55 match this model table. The two filter controls depend on hardware crossfader assignments and remain inactive. PFL rows do not identify lamps, so no PFL LED is invented. Hold Controller Mode during power-on for software mixing; native sends no mode or stored-setting write. Mixer-mode channels0/1 stay inactive."
+      },
+      "implementedInputCount": 71,
+      "implementedOutputCount": 10,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Own manufacturer table explicitly adds2 to inputs in Controller mode, except LED messages. Native normal raw2, Shift release guards raw3 and lamps raw0. Four physical strips map C/A/B/D with primary mixer/PFL addresses; the script copied fourth-strip EQ target error is not retained. Three Hot Cues and right Sync55 match this model table. The two filter controls depend on hardware crossfader assignments and remain inactive. PFL rows do not identify lamps, so no PFL LED is invented. Hold Controller Mode during power-on for software mixing; native sends no mode or stored-setting write. Mixer-mode channels0/1 stay inactive."
+        },
+        {
+          "reason": "Full Shift/sampler/FX modes, mic/booth/crossfader assignments, complete state/feedback/lifecycle/audio/USB/OS and physical/iPad/A10X acceptance remain open. No driver, firmware, vendor application, script action or hardware setting runs."
         }
       ]
     },

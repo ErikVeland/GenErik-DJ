@@ -11,10 +11,10 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 561 total catalogue records. 554 name physical models. The remainder identify software endpoints or protocol families.
-- 335 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 211 factory profiles select core controls automatically for 219 physical models.
+- 338 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 213 factory profiles select core controls automatically for 221 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
-- 329 physical models still lack automatic core controls.
+- 327 physical models still lack automatic core controls.
 - 554 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -223,13 +223,13 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 17 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 213 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 215 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 126 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 181 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 127 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 178 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -466,9 +466,9 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Allen & Heath Xone:K2 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Allen%20and%20Heath%20Xone%20K2.midi.xml) |
 | Allen & Heath Xone:K3 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Allen%20and%20Heath%20Xone%20K2.midi.xml) |
 | Allen & Heath Xone:PX5 | primary | partial-midi-profile | [Reference](https://virtualdj.com/forums/264850/VirtualDJ_Plugins/Mapping_the_XONE:PX5_Mixer.html) |
-| American Audio 10MXR | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AA10MXR) |
-| American Audio 14MXR | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AA14MXR) |
-| American Audio 19MXR | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AA19MXR) |
+| American Audio 10MXR | primary | partial-midi-profile | [Reference](https://www.adj.eu/mwdownloads/download/link/id/522) |
+| American Audio 14MXR | primary | automatic-core-profile | [Reference](https://www.adj.com/cdn/shop/files/f1f0c1c8837d984226dd0e8bf00bea2ad37f7a6c_14mxr.pdf?v=10788332160262280223) |
+| American Audio 19MXR | primary | automatic-core-profile | [Reference](https://assets.centryngroup.com/dl/files/MXR941__DL__002.pdf) |
 | American Audio DP2 | primary | automatic-core-profile | [Reference](https://assets.centryngroup.com/dl/files/DP2__DL__003.zip) |
 | American Audio DV2 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AADV2) |
 | American Audio ELMC-1 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=ELMC1) |
