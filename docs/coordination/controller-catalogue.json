@@ -35956,12 +35956,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://ts.hercules.com/download/sound/MIDI_Mapping/DJ_InstinctP8/DJControl_Instinct_P8_MIDI_Command_List.pdf",
         "https://virtualdj.com/products/hardware.html?model=HCINSP8"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:hercules-instinct-p8-independent-factory-core"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Hercules DJControl Instinct P8",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Hercules Instinct P8",
@@ -35969,40 +35974,99 @@
           "source": "https://virtualdj.com/products/hardware.html?model=HCINSP8"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "highA:a",
+        "highA:c",
+        "highB:b",
+        "highB:d",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "levelA:a",
+        "levelA:c",
+        "levelB:b",
+        "levelB:d",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "loopSizeA:a",
+        "loopSizeB:b",
+        "loopUpA:a",
+        "loopUpB:b",
+        "lowA:a",
+        "lowA:c",
+        "lowB:b",
+        "lowB:d",
+        "master",
+        "midA:a",
+        "midA:c",
+        "midB:b",
+        "midB:d",
+        "openGroup",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
+      ],
+      "inputBindingCount": 86,
+      "feedbackBindingCount": 22,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Default MIDI channel1 on the independently reviewed P8. Normal mixer targets A/B; Shift mixer targets C/D with app opt-in. Native uses fixed contact/wheel handling and four normal loop-encoder pages. Configure audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "FX/sampler/held roll, Hot Cue deletion, shifted loop movement and conditional FX encoder modes, source-software pitch-curve equivalence, HP buttons, complete feedback/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. No All Controls query or mode write is sent."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -353093,6 +353157,48 @@
         },
         {
           "reason": "Source mode entry and changes, full search/memory/Jog Break modes, pitch-range feedback, lamps/screens, complete lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. No hardware output chart is published in this manual."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:hercules-instinct-p8-independent-factory-core",
+      "name": "Hercules DJControl Instinct P8",
+      "transport": "midi",
+      "source": {
+        "url": "https://ts.hercules.com/download/sound/MIDI_Mapping/DJ_InstinctP8/DJControl_Instinct_P8_MIDI_Command_List.pdf",
+        "sha256": "7b94d78365244f8f77e3354ee18572d60ed95a185a4bab92e231e9b650f08b7d",
+        "pages": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "relatedSources": [
+          {
+            "url": "https://ts.hercules.com/download/djuced/6.8/DJUCED_6.8.1.dmg",
+            "sha256": "a76200de7cc2fced9b765d83edd02c8a07aa302d77c87c81ddf2f4c91330e2a2",
+            "member": "DJControl InstinctP8.djm",
+            "memberSHA256": "96f8e201cb49b47cdc09efb5b4ece662834759ba0cdd08953ab07adb0f406045",
+            "memberVersion": "1.7"
+          },
+          {
+            "url": "https://ts.hercules.com/faqs/eng/her_eng_00492.pdf"
+          }
+        ],
+        "review": "All six pages of the independent P8 Version1.1 manufacturer MIDI chart were visually reviewed. Current public DJUCED6.8.1 factory XML, read without execution, fixes channel0,256-count wheel/contact streams, separate touch notes, four cue keys per side, native loop-button/encoder functions and shifted mixer targets C/D. The manufacturer gives EQ0 full clockwise and127 full anticlockwise; native inverts EQ. Positive alternate transport stays inactive; release-only aliases retain ownership. Shift press/release retires only the corresponding A/C or B/D contacts/pickup. Mode press retires all four. Native uses a fine pitch position delta of count/1024 on the separate Shift-wheel wire; exact source-software range equivalence is not claimed. All four normal loop-encoder pages deliberately use native loop size; source conditional FX/loop-move functions remain open. Cue pads use documented blue125; transport/PFL use127, all off0. Startup/shutdown clear only22 selected lamp addresses. No All Controls query, mode SysEx, audio route, original Instinct/Wave/Universal protocol or full modes/lifecycle/calibration/device acceptance is inferred."
+      },
+      "implementedInputCount": 86,
+      "implementedOutputCount": 22,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "FX/sampler/held roll, Hot Cue deletion, shifted loop movement and conditional FX encoder modes, source-software pitch-curve equivalence, HP buttons, complete feedback/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. No All Controls query or mode write is sent."
         }
       ]
     }

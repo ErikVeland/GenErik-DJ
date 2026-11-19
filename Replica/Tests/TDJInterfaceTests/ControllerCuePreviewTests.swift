@@ -2661,3 +2661,19 @@ func controllerCatalogueLegacyDJMDirectCueKeepsAppStartedRealAudioSynced(_ name:
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+
+@Test @MainActor func controllerCatalogueInstinctP8ModeCleanupRestoresRealAudioSync() async throws {
+    try await withControllerCuePlayback("Hercules DJControl Instinct P8") {model,input in
+        cuePreviewPacket([0x90,34,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x90,99,127,99,0,33,127,33,0,97,127,0xB0,105,3],to:input)
+        _ = model.playback.core.renderOffline(frames:4096)
+        cuePreviewPacket([0x90,48,127,48,0],to:input)
+        let audio = model.playback.core.renderOffline(frames:4096)
+        model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

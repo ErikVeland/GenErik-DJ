@@ -1420,6 +1420,44 @@
         "MEP automatic app selection uses the independent default channel1/2 MIDI table. Hardware PC/Load entry, source mode changes, external audio, screens/lamps and physical calibration remain open.",
         "Published legacy manufacturer support URLs for both manuals return404. The current model/manual-identifier locations supplied the pinned PDF bytes. The third-party MEP mirror returned403."
       ]
+    },
+    {
+      "request": "R397",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "model": "Hercules DJControl Instinct P8",
+          "url": "https://ts.hercules.com/download/sound/MIDI_Mapping/DJ_InstinctP8/DJControl_Instinct_P8_MIDI_Command_List.pdf",
+          "sha256": "7b94d78365244f8f77e3354ee18572d60ed95a185a4bab92e231e9b650f08b7d",
+          "pages": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "relatedSources": [
+            {
+              "url": "https://ts.hercules.com/download/djuced/6.8/DJUCED_6.8.1.dmg",
+              "sha256": "a76200de7cc2fced9b765d83edd02c8a07aa302d77c87c81ddf2f4c91330e2a2",
+              "member": "DJControl InstinctP8.djm",
+              "memberSHA256": "96f8e201cb49b47cdc09efb5b4ece662834759ba0cdd08953ab07adb0f406045",
+              "memberVersion": "1.7"
+            },
+            {
+              "url": "https://ts.hercules.com/faqs/eng/her_eng_00492.pdf"
+            }
+          ],
+          "review": "All six pages of the independent P8 Version1.1 manufacturer MIDI chart were visually reviewed. Current public DJUCED6.8.1 factory XML, read without execution, fixes channel0,256-count wheel/contact streams, separate touch notes, four cue keys per side, native loop-button/encoder functions and shifted mixer targets C/D. The manufacturer gives EQ0 full clockwise and127 full anticlockwise; native inverts EQ. Positive alternate transport stays inactive; release-only aliases retain ownership. Shift press/release retires only the corresponding A/C or B/D contacts/pickup. Mode press retires all four. Native uses a fine pitch position delta of count/1024 on the separate Shift-wheel wire; exact source-software range equivalence is not claimed. All four normal loop-encoder pages deliberately use native loop size; source conditional FX/loop-move functions remain open. Cue pads use documented blue125; transport/PFL use127, all off0. Startup/shutdown clear only22 selected lamp addresses. No All Controls query, mode SysEx, audio route, original Instinct/Wave/Universal protocol or full modes/lifecycle/calibration/device acceptance is inferred."
+        }
+      ],
+      "limits": [
+        "Independent P8 core. No original Instinct or other Hercules model is an alias.",
+        "Native Shift pitch is count/1024 of the bounded native pitch position, not a source-software curve-equivalence claim. All normal loop encoder pages deliberately control native loop size.",
+        "Source conditional FX/loop-move, Hot Cue deletion, held roll/sampler, HP buttons, complete modes/feedback/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open.",
+        "Universal DJ older manufacturer table conflicts with current factory/DEX mixer rows and has impossible128+ MIDI values. Those source differences need separate qualification. Wave has a distinct factory setup sequence; its bytes alone do not establish full lifecycle/mode semantics. Neither profile is added by this request."
+      ]
     }
   ]
 }

@@ -5199,3 +5199,24 @@ MEP7000 has26 automatically selected MIDI inputs on default A/centre1 and B2. It
 Validation:249 Python checks and12 native tests passed, including the159-profile automatic held-Cue corpus. Fixtures check all T1 mixer layers, alternate Note Off/zero releases, source ownership, all selected control families, MEP speed/pitch boundaries, loading, inactive modes, stop/disconnect cleanup and all fourteen lamp byte mappings. Two real-WAV tests retain finite, synced playback after alternate Cue and speed-touch/bend releases. The iPad framework compiled; its bundled resource matches the source. All284 earlier recipes remain identical. Failed fixture compilation and normalised-value assertions remain in the evidence history. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r396/validation.json`.
 
 The catalogue has286 recipes for552 physical models. Automatic core coverage increases to198, with354 without automatic core. First-protocol gaps fall from230 to228. Full theoretical support and physical/iPad/A10X acceptance remain open.
+
+
+## R397 independent Instinct P8 core
+
+Assumption: qualify P8 independently of original Instinct. Use default channel1, documented separate wheel/contact streams and factory256-count resolution. Preserve factory Shift mixer targets C/D behind app opt-in. Native Shift jog uses a bounded fine pitch response; source-software curve equivalence remains open.
+
+- [x] Pin and review the manufacturer table and current DJUCED factory facts.
+- [x] Add independent controls with explicit mode/Shift cleanup and bounded lamps.
+- [x] Verify wire families, pickup, source ownership, C/D availability and real-WAV Sync.
+- [x] Run source/native checks, compile the iPad framework and preserve earlier recipes.
+
+
+All six pages of the P8 Version1.1 manufacturer table were visually reviewed and byte-hashed. The current public DJUCED6.8.1 factory member was parsed without running code or copying its image. Its own channel0 and256-count wheel/contact facts qualify P8 independently of original Instinct.
+
+The86-input core includes two independent Shift keys, normal transport with alternate release aliases, direct loads, PFL, source-local touch gates, separate wheel/contact streams, four Hot Cues per side, loop buttons and encoders, selected A/B mixer fields and factory Shift mixer targets C/D. C/D need app opt-in. EQ follows the table's reversed physical direction. Both Shift edges retire their own A/C or B/D contacts/pickup through the existing releaseShiftChannels contract. A Mode press retires all four decks. No decoder or catalogue guardrail was weakened.
+
+Native Shift jog changes the bounded pitch position by count/1024. Exact source-software pitch-curve equivalence remains open. All four normal loop-encoder pages deliberately control native loop size. Source conditional FX and loop movement remain open. Normal pads use documented blue125 and transport/PFL use127, all off0. Startup/shutdown clear only22 selected lamps. No All Controls query or mode SysEx is sent. Source held roll/sampler, Hot Cue deletion, HP buttons, complete feedback/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open.
+
+Validation:252 Python checks and11 native tests passed, including the160-profile automatic held-Cue corpus. Fixtures check wheel/contact separation and signed64, all selected mixer targets and pickup, C/D availability, independent Shift/source ownership, transport release aliases, cue/loop/library families, fine pitch, master increments, lamp bytes and disconnect cleanup. A real-WAV fixture retains finite, synced playback after Cue and jog mode cleanup. The iPad framework compiled and its bundled resource matches the source. All286 earlier recipes remain identical. The rejected duplicate/zero-valued bank declaration run remains in the evidence history. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r397/validation.json`.
+
+The catalogue has287 recipes for552 physical models. Automatic core coverage increases to199, with353 without automatic core. First-protocol gaps fall from228 to227. Full theoretical support and physical acceptance remain open.

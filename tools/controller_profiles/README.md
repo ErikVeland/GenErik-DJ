@@ -1095,3 +1095,6 @@ R395 adds separate original2000 and2000NXS manufacturer facts in `djm2000_mixers
 
 
 R396 adds `legacy_pioneer_transport.py`: T1 manual60-input/14-lamp mappings with three-layer mixer aliases and release-only alternate Cue; MEP7000 automatic26-input controls with independently qualified speed jogs, centred pitch and direct loading. T1 feedback needs separate manual opt-in and has no automatic startup/shutdown.249 source checks,12 native tests and iPad framework compilation pass. Earlier284 recipes remain identical.
+
+
+R397 adds independent `instinct_p8.py` facts:86 inputs,256-count wheel/contact streams, native count/1024 Shift pitch, four cue pads per side, loops, A/B plus opt-in Shift C/D mixer fields and22 bounded lamps. Both Shift edges use the existing per-side cleanup contract.252 source checks,11 native tests and iPad framework compilation pass. Earlier286 recipes remain identical.
