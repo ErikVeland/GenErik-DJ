@@ -6566,3 +6566,14 @@ Only24 B/C/D input channel fields change. The SRT retains142 inputs and20 output
 The new packet regression reproduces57 failed expectations before the fix.457 source checks and18 native tests now pass. Checks cover all32 SRT positions, exact deck/slot routes, inactive raw11..15, original DDJ-1000 boundaries, Serato-family transport/loops/feedback and real-WAV loop/Sync regressions. The iPad framework compiled. Its2,249,891-byte compact resource matches source and excludes the full review file. Catalogue gates compare27,722 inputs and205 automatic held-Cue recipes. Existing limits remain unchanged. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r493/validation.json`.
 
 Counts remain405 JSON recipes plus five built-ins,556 physical models,250 automatic core models and115 protocol-needed records. Full theoretical support remains0/556. Complete modes/lifecycle/host, the manufacturer audit and physical/iPad/A10X acceptance remain open.
+
+
+## R494 — Own-table SX, RX, RZ and RZX clears
+
+Each own manufacturer numeric table independently qualifies32 Hot Cue pairs. Raw7/8/9/10 normal notes0..7 activate. Shift notes8..15 clear on the same channels. Printed pad page4 was visually reviewed for SX/RX, and page5 for RZ/RZX. Each own manufacturer-hosted software guide or hardware diagram independently identifies Shift deletion. Role documents are web-reviewed. No local role-document hash or visual role-document proof is claimed. Saved Flip overlaps from other models are not inherited.
+
+Each existing recipe gains32 clears and64 negative aliases. Original139/148/154/153 inputs remain exact prefixes, yielding235/244/250/249 inputs. Both release wires rearm their own action and deck. Existing outputs, setup, audio and aliases remain unchanged.401 other recipes remain identical.
+
+459 source checks and23 focused native tests pass. Pair tests cover13 profiles and every new slot/deck, both negative forms/directions, debounce, source/group isolation, C/D availability and inactive other pad modes. Existing DDJ/Serato-family transport, loops, mixer, feedback and SRT correction pass. Twelve pair-profile WAV cases preserve marker neighbours/position, finite active playback and saved Sync. The missing-clear source regression remains preserved. The iPad framework compiled. Its2,268,271-byte compact resource matches source and excludes the full review file. Existing limits remain unchanged. Catalogue gates compare28,106 inputs and205 automatic held-Cue recipes. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r494/validation.json`.
+
+Counts remain405 JSON recipes plus five built-ins,556 physical models,250 automatic core models and115 protocol-needed records. Full theoretical support remains0/556. Complete modes/lifecycle/host, the manufacturer audit and physical/iPad/A10X acceptance remain open.

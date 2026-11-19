@@ -11482,6 +11482,38 @@
       },
       "controlActions": [
         "browse",
+        "clearHotcue1A:a",
+        "clearHotcue1A:c",
+        "clearHotcue1B:b",
+        "clearHotcue1B:d",
+        "clearHotcue2A:a",
+        "clearHotcue2A:c",
+        "clearHotcue2B:b",
+        "clearHotcue2B:d",
+        "clearHotcue3A:a",
+        "clearHotcue3A:c",
+        "clearHotcue3B:b",
+        "clearHotcue3B:d",
+        "clearHotcue4A:a",
+        "clearHotcue4A:c",
+        "clearHotcue4B:b",
+        "clearHotcue4B:d",
+        "clearHotcue5A:a",
+        "clearHotcue5A:c",
+        "clearHotcue5B:b",
+        "clearHotcue5B:d",
+        "clearHotcue6A:a",
+        "clearHotcue6A:c",
+        "clearHotcue6B:b",
+        "clearHotcue6B:d",
+        "clearHotcue7A:a",
+        "clearHotcue7A:c",
+        "clearHotcue7B:b",
+        "clearHotcue7B:d",
+        "clearHotcue8A:a",
+        "clearHotcue8A:c",
+        "clearHotcue8B:b",
+        "clearHotcue8B:d",
         "crossfader",
         "cueA:a",
         "cueA:c",
@@ -11613,7 +11645,7 @@
         "wheelJogB:b",
         "wheelJogB:d"
       ],
-      "inputBindingCount": 148,
+      "inputBindingCount": 244,
       "feedbackBindingCount": 20,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -11643,7 +11675,8 @@
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "R494 qualifies eight Hot Cue clear pairs per deck from this own manufacturer MIDI table and own software guide or hardware diagram. Raw7/8/9/10 normal notes0..7 and clear notes8..15 are independently reviewed for each model. Both negative aliases rearm their own role without an inferred app Shift state. Other pad modes remain inactive. Saved Flip overlap on other models is not inherited. Earlier controls, output/setup/audio/aliases remain unchanged. Complete modes/lifecycle/host and physical acceptance remain open."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -11679,6 +11712,38 @@
       },
       "controlActions": [
         "browse",
+        "clearHotcue1A:a",
+        "clearHotcue1A:c",
+        "clearHotcue1B:b",
+        "clearHotcue1B:d",
+        "clearHotcue2A:a",
+        "clearHotcue2A:c",
+        "clearHotcue2B:b",
+        "clearHotcue2B:d",
+        "clearHotcue3A:a",
+        "clearHotcue3A:c",
+        "clearHotcue3B:b",
+        "clearHotcue3B:d",
+        "clearHotcue4A:a",
+        "clearHotcue4A:c",
+        "clearHotcue4B:b",
+        "clearHotcue4B:d",
+        "clearHotcue5A:a",
+        "clearHotcue5A:c",
+        "clearHotcue5B:b",
+        "clearHotcue5B:d",
+        "clearHotcue6A:a",
+        "clearHotcue6A:c",
+        "clearHotcue6B:b",
+        "clearHotcue6B:d",
+        "clearHotcue7A:a",
+        "clearHotcue7A:c",
+        "clearHotcue7B:b",
+        "clearHotcue7B:d",
+        "clearHotcue8A:a",
+        "clearHotcue8A:c",
+        "clearHotcue8B:b",
+        "clearHotcue8B:d",
         "crossfader",
         "cueA:a",
         "cueA:c",
@@ -11813,7 +11878,7 @@
         "wheelJogB:b",
         "wheelJogB:d"
       ],
-      "inputBindingCount": 154,
+      "inputBindingCount": 250,
       "feedbackBindingCount": 20,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -11843,7 +11908,8 @@
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "R494 qualifies eight Hot Cue clear pairs per deck from this own manufacturer MIDI table and own software guide or hardware diagram. Raw7/8/9/10 normal notes0..7 and clear notes8..15 are independently reviewed for each model. Both negative aliases rearm their own role without an inferred app Shift state. Other pad modes remain inactive. Saved Flip overlap on other models is not inherited. Earlier controls, output/setup/audio/aliases remain unchanged. Complete modes/lifecycle/host and physical acceptance remain open."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -11879,6 +11945,38 @@
       },
       "controlActions": [
         "browse",
+        "clearHotcue1A:a",
+        "clearHotcue1A:c",
+        "clearHotcue1B:b",
+        "clearHotcue1B:d",
+        "clearHotcue2A:a",
+        "clearHotcue2A:c",
+        "clearHotcue2B:b",
+        "clearHotcue2B:d",
+        "clearHotcue3A:a",
+        "clearHotcue3A:c",
+        "clearHotcue3B:b",
+        "clearHotcue3B:d",
+        "clearHotcue4A:a",
+        "clearHotcue4A:c",
+        "clearHotcue4B:b",
+        "clearHotcue4B:d",
+        "clearHotcue5A:a",
+        "clearHotcue5A:c",
+        "clearHotcue5B:b",
+        "clearHotcue5B:d",
+        "clearHotcue6A:a",
+        "clearHotcue6A:c",
+        "clearHotcue6B:b",
+        "clearHotcue6B:d",
+        "clearHotcue7A:a",
+        "clearHotcue7A:c",
+        "clearHotcue7B:b",
+        "clearHotcue7B:d",
+        "clearHotcue8A:a",
+        "clearHotcue8A:c",
+        "clearHotcue8B:b",
+        "clearHotcue8B:d",
         "crossfader",
         "cueA:a",
         "cueA:c",
@@ -12009,7 +12107,7 @@
         "wheelJogB:b",
         "wheelJogB:d"
       ],
-      "inputBindingCount": 153,
+      "inputBindingCount": 249,
       "feedbackBindingCount": 20,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -12039,7 +12137,8 @@
         ]
       },
       "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "R494 qualifies eight Hot Cue clear pairs per deck from this own manufacturer MIDI table and own software guide or hardware diagram. Raw7/8/9/10 normal notes0..7 and clear notes8..15 are independently reviewed for each model. Both negative aliases rearm their own role without an inferred app Shift state. Other pad modes remain inactive. Saved Flip overlap on other models is not inherited. Earlier controls, output/setup/audio/aliases remain unchanged. Complete modes/lifecycle/host and physical acceptance remain open."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -15635,6 +15734,38 @@
       },
       "controlActions": [
         "browse",
+        "clearHotcue1A:a",
+        "clearHotcue1A:c",
+        "clearHotcue1B:b",
+        "clearHotcue1B:d",
+        "clearHotcue2A:a",
+        "clearHotcue2A:c",
+        "clearHotcue2B:b",
+        "clearHotcue2B:d",
+        "clearHotcue3A:a",
+        "clearHotcue3A:c",
+        "clearHotcue3B:b",
+        "clearHotcue3B:d",
+        "clearHotcue4A:a",
+        "clearHotcue4A:c",
+        "clearHotcue4B:b",
+        "clearHotcue4B:d",
+        "clearHotcue5A:a",
+        "clearHotcue5A:c",
+        "clearHotcue5B:b",
+        "clearHotcue5B:d",
+        "clearHotcue6A:a",
+        "clearHotcue6A:c",
+        "clearHotcue6B:b",
+        "clearHotcue6B:d",
+        "clearHotcue7A:a",
+        "clearHotcue7A:c",
+        "clearHotcue7B:b",
+        "clearHotcue7B:d",
+        "clearHotcue8A:a",
+        "clearHotcue8A:c",
+        "clearHotcue8B:b",
+        "clearHotcue8B:d",
         "crossfader",
         "cueA:a",
         "cueA:c",
@@ -15761,7 +15892,7 @@
         "wheelJogB:b",
         "wheelJogB:d"
       ],
-      "inputBindingCount": 139,
+      "inputBindingCount": 235,
       "feedbackBindingCount": 52,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -15792,7 +15923,8 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Deck D filter is unmapped. The factory CC32/64 pair conflicts with browser CC64. Clarify the protocol before enabling it."
+        "Deck D filter is unmapped. The factory CC32/64 pair conflicts with browser CC64. Clarify the protocol before enabling it.",
+        "R494 qualifies eight Hot Cue clear pairs per deck from this own manufacturer MIDI table and own software guide or hardware diagram. Raw7/8/9/10 normal notes0..7 and clear notes8..15 are independently reviewed for each model. Both negative aliases rearm their own role without an inferred app Shift state. Other pad modes remain inactive. Saved Flip overlap on other models is not inherited. Earlier controls, output/setup/audio/aliases remain unchanged. Complete modes/lifecycle/host and physical acceptance remain open."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -352827,7 +352959,7 @@
           5
         ]
       },
-      "implementedInputCount": 139,
+      "implementedInputCount": 235,
       "implementedOutputCount": 52,
       "sourceInputCount": null,
       "sourceOutputCount": null,
@@ -352837,6 +352969,9 @@
         },
         {
           "reason": "Deck D filter is unmapped. The factory CC32/64 pair conflicts with browser CC64. Clarify the protocol before enabling it."
+        },
+        {
+          "reason": "R494 qualifies eight Hot Cue clear pairs per deck from this own manufacturer MIDI table and own software guide or hardware diagram. Raw7/8/9/10 normal notes0..7 and clear notes8..15 are independently reviewed for each model. Both negative aliases rearm their own role without an inferred app Shift state. Other pad modes remain inactive. Saved Flip overlap on other models is not inherited. Earlier controls, output/setup/audio/aliases remain unchanged. Complete modes/lifecycle/host and physical acceptance remain open."
         }
       ]
     },
@@ -352856,13 +352991,16 @@
           6
         ]
       },
-      "implementedInputCount": 148,
+      "implementedInputCount": 244,
       "implementedOutputCount": 20,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "R494 qualifies eight Hot Cue clear pairs per deck from this own manufacturer MIDI table and own software guide or hardware diagram. Raw7/8/9/10 normal notes0..7 and clear notes8..15 are independently reviewed for each model. Both negative aliases rearm their own role without an inferred app Shift state. Other pad modes remain inactive. Saved Flip overlap on other models is not inherited. Earlier controls, output/setup/audio/aliases remain unchanged. Complete modes/lifecycle/host and physical acceptance remain open."
         }
       ]
     },
@@ -352884,13 +353022,16 @@
           8
         ]
       },
-      "implementedInputCount": 154,
+      "implementedInputCount": 250,
       "implementedOutputCount": 20,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "R494 qualifies eight Hot Cue clear pairs per deck from this own manufacturer MIDI table and own software guide or hardware diagram. Raw7/8/9/10 normal notes0..7 and clear notes8..15 are independently reviewed for each model. Both negative aliases rearm their own role without an inferred app Shift state. Other pad modes remain inactive. Saved Flip overlap on other models is not inherited. Earlier controls, output/setup/audio/aliases remain unchanged. Complete modes/lifecycle/host and physical acceptance remain open."
         }
       ]
     },
@@ -352913,13 +353054,16 @@
           9
         ]
       },
-      "implementedInputCount": 153,
+      "implementedInputCount": 249,
       "implementedOutputCount": 20,
       "sourceInputCount": null,
       "sourceOutputCount": null,
       "unresolved": [
         {
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "R494 qualifies eight Hot Cue clear pairs per deck from this own manufacturer MIDI table and own software guide or hardware diagram. Raw7/8/9/10 normal notes0..7 and clear notes8..15 are independently reviewed for each model. Both negative aliases rearm their own role without an inferred app Shift state. Other pad modes remain inactive. Saved Flip overlap on other models is not inherited. Earlier controls, output/setup/audio/aliases remain unchanged. Complete modes/lifecycle/host and physical acceptance remain open."
         }
       ]
     },

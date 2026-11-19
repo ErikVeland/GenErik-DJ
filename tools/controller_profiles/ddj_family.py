@@ -1,5 +1,6 @@
 """Reviewed SX and RX-family MIDI controls, with explicit model differences."""
 from curated import BASE, add, profile
+from pioneer_pad_clears import add_pioneer_pad_clears
 
 DDJ_REFERENCES = {
     "Pioneer DDJ-SX3": ("DDJ-SX3_MIDI_Message_List_E1.pdf", "1cc35dc29a1df56ebb22cc4d19a87913de5d2b95b770d7d93d196a8e755bb41f", 6),
@@ -98,5 +99,7 @@ def ddj_profiles():
             add(result, "monitor", 6, 13, "control", "paired14Bit")
         if model == "DDJ-RZ" or sz or srt:
             add(result, "master", 6, 8, "control", "paired14Bit")
+        if name in {'Pioneer DDJ-SX', 'Pioneer DDJ-RX', 'Pioneer DDJ-RZ', 'Pioneer DDJ-RZX'}:
+            add_pioneer_pad_clears(result)
         results.append(result)
     return results

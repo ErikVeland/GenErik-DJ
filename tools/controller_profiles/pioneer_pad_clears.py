@@ -10,6 +10,10 @@ def add_pioneer_pad_clears(profile):
         'DDJ-1000': [(7, 8, 0, 'a'), (9, 10, 0, 'b'), (11, 12, 0, 'c'), (13, 14, 0, 'd')],
         'Pioneer DDJ-200': [(7, 8, 0, 'a'), (9, 10, 0, 'b')],
         'Pioneer DDJ-RB': [(7, 7, 8, 'a'), (8, 8, 8, 'b')],
+        'Pioneer DDJ-SX': [(7, 7, 8, 'a'), (8, 8, 8, 'b'), (9, 9, 8, 'c'), (10, 10, 8, 'd')],
+        'Pioneer DDJ-RX': [(7, 7, 8, 'a'), (8, 8, 8, 'b'), (9, 9, 8, 'c'), (10, 10, 8, 'd')],
+        'Pioneer DDJ-RZ': [(7, 7, 8, 'a'), (8, 8, 8, 'b'), (9, 9, 8, 'c'), (10, 10, 8, 'd')],
+        'Pioneer DDJ-RZX': [(7, 7, 8, 'a'), (8, 8, 8, 'b'), (9, 9, 8, 'c'), (10, 10, 8, 'd')],
     }
     if name not in layouts or profile.get('inputProtocol') is not None or profile.get('inputModes') is not None:
         raise ValueError('Pioneer clear layout requires its own model and mode review: ' + name)
@@ -27,7 +31,10 @@ def add_pioneer_pad_clears(profile):
             clear.update(action=action.replace('hotcue', 'clearHotcue'), channel=clear_channel, number=slot + clear_offset)
             pending.extend([clear, {**clear, 'action': action, 'releaseOnly': True}, {**clear, 'channel': channel, 'number': slot, 'releaseOnly': True}])
     profile['inputs'].extend(pending)
-    if name in {'Pioneer DDJ-200', 'Pioneer DDJ-RB'}:
+    if name in {'Pioneer DDJ-SX', 'Pioneer DDJ-RX', 'Pioneer DDJ-RZ', 'Pioneer DDJ-RZX'}:
+        profile['scope'] += ' Dedicated Hot Cue clears and paired negative aliases cover all four decks.'
+        profile.setdefault('gaps', []).append('R494 qualifies eight Hot Cue clear pairs per deck from this own manufacturer MIDI table and own software guide or hardware diagram. Raw7/8/9/10 normal notes0..7 and clear notes8..15 are independently reviewed for each model. Both negative aliases rearm their own role without an inferred app Shift state. Other pad modes remain inactive. Saved Flip overlap on other models is not inherited. Earlier controls, output/setup/audio/aliases remain unchanged. Complete modes/lifecycle/host and physical acceptance remain open.')
+    elif name in {'Pioneer DDJ-200', 'Pioneer DDJ-RB'}:
         profile['scope'] += ' Dedicated Hot Cue clears and paired negative aliases cover both decks.'
         profile.setdefault('gaps', []).append('R492 qualifies eight Hot Cue clear pairs per deck from this own manufacturer MIDI table and hardware diagram. DDJ-200 normal raw7/9 and clear raw8/10 use notes0..7. RB uses raw7/8 normal notes0..7 and clear notes8..15. These are separate own-model facts. Both negative aliases rearm their own role without an inferred app Shift state. Existing controls, output/setup/audio and aliases remain unchanged. Complete modes/lifecycle/host, Bluetooth/USB audio and physical acceptance remain open.')
     else:

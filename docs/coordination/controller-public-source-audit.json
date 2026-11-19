@@ -5995,6 +5995,81 @@
         }
       ],
       "result": "Reproduced57 failed native expectations across all32 factory pad positions and unsupported old channels. Corrected only24 B/C/D Hot Cue input channel fields. SRT remains142 inputs/20 outputs; every other field, output/setup/audio/alias and404 other recipes remains identical. Catalogue JSON remains byte-identical.457 source/18 native checks and iPad framework compilation pass. Tests verify all32 exact source/deck/slot routes, inactive raw11..15, original DDJ-1000 channel boundaries, Serato-family recognition/transport/loop/jump/feedback and real-WAV loop/Sync regressions. Catalogue gates compare27722 inputs and205 automatic held-Cue recipes. Compact resource2249891 bytes matches compiled bundle and full review file stays excluded. No clear feature or other mode behaviour is added. Complete modes/lifecycle/host and physical acceptance remain open."
+    },
+    {
+      "request": "R494",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "model": "Pioneer DDJ-SX",
+          "url": "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-SX/DDJ-SX_List_of_MIDI_Messages_E.pdf",
+          "sha256": "f76c9b061000812be7a54616e021468b6fddca8e0022401b67b8e03da1c7a44a",
+          "cachePath": "TestBuilds/r179/manufacturer/DDJ-SX.pdf",
+          "visuallyReviewedPrintedPages": [
+            4
+          ],
+          "relatedSources": [
+            {
+              "url": "https://www.pioneerdj.com/-/media/pioneerdj/software-info/controller/ddj-sx/pioneer-ddj-sx-virtualdj-operation-guide.pdf",
+              "sha256": null,
+              "review": "Own manufacturer-hosted software guide or hardware diagram is web-reviewed and explicitly identifies Shift Hot Cue deletion. No downloaded role-document hash or visual role-document proof is claimed."
+            }
+          ],
+          "review": "Own numeric Hot Cue rows independently assign raw7/8/9/10 normal notes0..7 and Shift notes8..15. Other pad-mode ranges remain distinct and inactive. Saved Flip overlap from other models is not inherited."
+        },
+        {
+          "model": "Pioneer DDJ-RX",
+          "url": "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-RX/DDJ-RX_List_of_MIDI_Message_E.pdf",
+          "sha256": "f3228c2dbf2335ed8be00fb9ba9f3050db350a91d024ece244b0a3abc3bf07b4",
+          "cachePath": "TestBuilds/r179/manufacturer/DDJ-RX.pdf",
+          "visuallyReviewedPrintedPages": [
+            4
+          ],
+          "relatedSources": [
+            {
+              "url": "https://www.pioneerdj.com/-/media/pioneerdj/software-info/controller/ddj-rx/ddj-rx_rekordbox_dj_hardware_diagram_e.pdf",
+              "sha256": null,
+              "review": "Own manufacturer-hosted software guide or hardware diagram is web-reviewed and explicitly identifies Shift Hot Cue deletion. No downloaded role-document hash or visual role-document proof is claimed."
+            }
+          ],
+          "review": "Own numeric Hot Cue rows independently assign raw7/8/9/10 normal notes0..7 and Shift notes8..15. Other pad-mode ranges remain distinct and inactive. Saved Flip overlap from other models is not inherited."
+        },
+        {
+          "model": "Pioneer DDJ-RZ",
+          "url": "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-RZ/DDJ-RZ_MIDI_Message_List_E.pdf",
+          "sha256": "d6860c824e9bf825f7609276e332632bf6602a087c6c2afe70325479784e9859",
+          "cachePath": "TestBuilds/r179/manufacturer/DDJ-RZ.pdf",
+          "visuallyReviewedPrintedPages": [
+            5
+          ],
+          "relatedSources": [
+            {
+              "url": "https://www.pioneerdj.com/en-au/support/software-information/ddj-rz/-/media/pioneerdj/downloads/software/ddj-rz/ddj-rz_hardware_diagram_for_rekordbox_dj_e.pdf?hash=1FF8C38AE671C5D1AA07DA0FBB4CC403332D3E5E&la=en",
+              "sha256": null,
+              "review": "Own manufacturer-hosted software guide or hardware diagram is web-reviewed and explicitly identifies Shift Hot Cue deletion. No downloaded role-document hash or visual role-document proof is claimed."
+            }
+          ],
+          "review": "Own numeric Hot Cue rows independently assign raw7/8/9/10 normal notes0..7 and Shift notes8..15. Other pad-mode ranges remain distinct and inactive. Saved Flip overlap from other models is not inherited."
+        },
+        {
+          "model": "Pioneer DDJ-RZX",
+          "url": "https://downloads.support.alphatheta.com/software_info/dj-controllers/DDJ-RZX/DDJ-RZX_MIDI_Message_List_E.pdf",
+          "sha256": "c15554ec850bd041dc171d608ae959e8a74c7af8134b3e48fb3590cbedd87249",
+          "cachePath": "TestBuilds/r179/manufacturer/DDJ-RZX.pdf",
+          "visuallyReviewedPrintedPages": [
+            5
+          ],
+          "relatedSources": [
+            {
+              "url": "https://www.pioneerdj.com/-/media/pioneerdj/software-info/controller/ddj-rzx/ddj-rzx_hardware_diagram_for_rekordbox_dj_e.pdf",
+              "sha256": null,
+              "review": "Own manufacturer-hosted software guide or hardware diagram is web-reviewed and explicitly identifies Shift Hot Cue deletion. No downloaded role-document hash or visual role-document proof is claimed."
+            }
+          ],
+          "review": "Own numeric Hot Cue rows independently assign raw7/8/9/10 normal notes0..7 and Shift notes8..15. Other pad-mode ranges remain distinct and inactive. Saved Flip overlap from other models is not inherited."
+        }
+      ],
+      "result": "Added32 dedicated clears and64 paired negative aliases per original SX/RX/RZ/RZX,128 clears/256 aliases total. Original139/148/154/153 inputs remain exact prefixes, yielding235/244/250/249 inputs. Outputs/setup/audio/aliases and401 other recipes remain identical.459 source/23 native checks and iPad framework compilation pass. Native pair tests cover13 profiles and all four new slot/deck layouts, both negative forms/directions, debounce, source/group isolation, C/D availability and inactive other pad modes. Prior DDJ/Serato-family transport, loops, mixer, feedback and SRT regression pass. Twelve pair-profile WAV cases preserve marker neighbours/position, finite active playback and saved Sync. Missing-clear source regression is preserved. Catalogue gates compare28106 inputs and205 automatic held-Cue recipes. Compact bundle2268271 bytes matches source and full review file remains excluded. Limits unchanged. No script or new hardware setting/output/audio-route write occurs. Complete modes/lifecycle/host and physical acceptance remain open."
     }
   ]
 }

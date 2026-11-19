@@ -105,7 +105,7 @@ func controllerCatalogueReviewedClearForeignSourcesAndGroupsCannotDelete(name: S
     }
 }
 
-private let reviewedPairNames = ["Pioneer DDJ-SB3", "Reloop Terminal Mix 2/4", "Hercules DJControl Jogvision", "Denon MC4000", "Reloop NEON", "DDJ-FLX10", "DDJ-1000", "Pioneer DDJ-200", "Pioneer DDJ-RB"]
+private let reviewedPairNames = ["Pioneer DDJ-SB3", "Reloop Terminal Mix 2/4", "Hercules DJControl Jogvision", "Denon MC4000", "Reloop NEON", "DDJ-FLX10", "DDJ-1000", "Pioneer DDJ-200", "Pioneer DDJ-RB", "Pioneer DDJ-SX", "Pioneer DDJ-RX", "Pioneer DDJ-RZ", "Pioneer DDJ-RZX"]
 
 @Test(arguments: reviewedPairNames) @MainActor
 func controllerCatalogueReviewedPairDedicatedOpcodesWorkWithEitherShiftState(name: String) throws {
@@ -265,4 +265,34 @@ func controllerCatalogueReviewedPairEntryKeepsOtherPadsAndChannelsInactive(name:
         #expect(p.feedback(destination: 20).count == 22)
         #expect(!p.feedback(destination: 20).contains { $0.action.clearHotcueSlot != nil })
     }
+}
+
+@Test(arguments: ["Pioneer DDJ-SX", "Pioneer DDJ-RX", "Pioneer DDJ-RZ", "Pioneer DDJ-RZX"]) @MainActor
+func controllerCatalogueReviewedPairOlderPioneerCapacityAndOtherModesStayInactive(name: String) throws {
+    let suite = "older-pioneer-clear-\(UUID().uuidString)"
+    let preferences = UserDefaults(suiteName: suite)!
+    defer { preferences.removePersistentDomain(forName: suite) }
+    let input = ControllerMIDIConnection(
+        preferences: preferences, factoryPacketSender: { _, _ in
+            Issue.record("Input-only clear checks must not send packets."); return false
+        }, deckAvailability: { DeckID.primary })
+    input.sources = [.init(id: 10, reference: 100, name: name, identity: .init(id: 10, device: 1, names: [name]))]
+    input.select(10)
+    input.applyFactoryProfile(try #require(ControllerFactoryProfile.matching([name])))
+    var events: [ControllerActionTarget] = []
+    input.onTargetAction = { target, _ in events.append(target) }
+    for channel: UInt8 in 9...10 {
+        for number: UInt8 in 0..<16 {
+            reviewedClearPacket([0x90 + channel, number, 127, number, 0], input)
+        }
+    }
+    #expect(events.isEmpty)
+    for channel: UInt8 in 7...10 {
+        for number: UInt8 in 16..<128 {
+            reviewedClearPacket([0x90 + channel, number, 127, number, 0], input)
+        }
+    }
+    #expect(events.isEmpty)
+    reviewedClearPacket([0x97, 8, 127, 8, 0, 0x98, 15, 127, 15, 0], input)
+    #expect(events == [.init(.clearHotcue1A, deck: .a), .init(.clearHotcue8B, deck: .b)])
 }
