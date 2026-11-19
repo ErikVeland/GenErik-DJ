@@ -31,9 +31,11 @@ Apple takes each icon from the selected build.
 Build 226 predates the label fix and the product ID correction. Build 227 is the installed iPad development build.
 The release candidate needs the current source.
 
-The checked iPhone, iPhone Duo, iPad and Mac screenshot slots are empty.
+R427 uploaded three iPhone Duo screenshots and four native 10.5-inch iPad screenshots to the English (Australia) iOS 1.0 draft.
+Apple accepted all seven files in the recorded order. [Files and upload evidence](screenshots-r427/README.md).
+The required standard iPhone and 13-inch iPad slots remain empty. Mac screenshots also remain open.
 The existing website images are historical captures or development previews.
-Capture the matching App Store release build before uploading screenshots.
+Check the supplied captures against the release candidate and capture the missing device sizes before submission.
 
 ## Purchase drafts
 

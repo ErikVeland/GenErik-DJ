@@ -1,0 +1,56 @@
+[
+  {
+    "source": "/Users/veland/Desktop/IMG_0032.PNG",
+    "file": "ipad-10.5/01-two-decks.png",
+    "sha256": "a01e9648a05daf6f57409a23bd01009ca54d7fb085eb1af4aedaa54483c85839",
+    "selected": true
+  },
+  {
+    "source": "/Users/veland/Desktop/IMG_0035.PNG",
+    "file": "ipad-10.5/02-effects-and-eq.png",
+    "sha256": "4861ee28c802bdf61b9cec4633a675ba933e2a4734d5e4427bcb4cbcc918cc5a",
+    "selected": true
+  },
+  {
+    "source": "/Users/veland/Desktop/IMG_0031.PNG",
+    "file": "ipad-10.5/03-library.png",
+    "sha256": "fa271d703dc29893119eb673f7d3505f452eb3f0df94c92f2daab6b15b4d7f00",
+    "selected": true
+  },
+  {
+    "source": "/Users/veland/Desktop/IMG_0033.PNG",
+    "file": "ipad-10.5/04-beat-grid.png",
+    "sha256": "e4d4966764ddb0c75e47620bd8896e4948c4fe898dc6f4b2ab61b4c6f2083339",
+    "selected": true
+  },
+  {
+    "source": "/Users/veland/Desktop/IMG_8786.PNG",
+    "file": "iphone-duo/01-inner-two-decks.png",
+    "sha256": "ae7af81a84f37573e4091abe8715213ed74f88c28e6a18dd11e50e539ac43196",
+    "selected": true
+  },
+  {
+    "source": "/Users/veland/Desktop/IMG_8783.PNG",
+    "file": "iphone-duo/02-inner-library.png",
+    "sha256": "893cb5723015c0cba667b7b1a95e546ea21ae330b4c343e150e9146c8049bce1",
+    "selected": true
+  },
+  {
+    "source": "/Users/veland/Desktop/IMG_8788.PNG",
+    "file": "iphone-duo/03-outer-performance.png",
+    "sha256": "c4e9143d3c3f91d5ed5993459038cd8943a6079add9583664f01bfab95dee524",
+    "selected": true
+  },
+  {
+    "source": "/Users/veland/Desktop/IMG_0034.PNG",
+    "file": "alternates/ipad-effects-alternate.png",
+    "sha256": "f5483c92e5632400e9bf1f6ac8cfebdcbf95828842840276e008f572995d1ef5",
+    "selected": false
+  },
+  {
+    "source": "/Users/veland/Desktop/IMG_8787.PNG",
+    "file": "alternates/duo-library-explicit-titles.png",
+    "sha256": "efd8d6d4a4db4de7d0c3428a458e82e4bf9b909633453faf507e3ffb354e9adb",
+    "selected": false
+  }
+]
