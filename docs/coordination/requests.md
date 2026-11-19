@@ -707,6 +707,10 @@ Every request ID is retained. “Implemented” describes source availability, n
 
 | R423 | Implemented; full modes/audio/calibration gaps open | Add independently checked Contour CE/IE contract | One164-input automatic recipe and48 lamps serve two independently checked edition rows.314 source/8 native checks and iPad framework compilation pass. All338 earlier recipes remain identical. [Scope](controller-coverage.md#r423-independently-checked-contour-editions). |
 
+<<<<<<< HEAD
 | R409 | Website source checked. Production publication open. | Group the current mapped controllers by manufacturer. Keep words intact and show searchable, sortable results with totals. | The site build lists 317 physical models across 40 manufacturers. The 13-route check passed. A local directory script check covered combined filters, sorting and counts. Browser layout and production checks remain open. |
 
 | R410 | Source implementation; Mac and iPad checks open | Show all four decks on large Mac and iPad workspaces | Enable Four decks in Settings. Wide workspaces show A/B and C/D with independent deck controls and a shared crossfader. Smaller workspaces keep deck banks. No audio engine changes. |
+=======
+| R424 | Implemented; full modes/audio/host gaps open | Add independent HD2500, SCS.4DJ and FirstMix I/O cores | Added24/44/31 inputs and4/6/8 lamps, with a bounded directional-count decoder.316 source/11 native checks and iPad framework compilation pass. All339 earlier recipes remain identical. [Scope](controller-coverage.md#r424-independent-legacy-standalone-cores-and-directional-wheel-counts). |
+>>>>>>> feature/controller-support
