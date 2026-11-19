@@ -29,10 +29,13 @@ struct PlaybackSettings: View {
         VStack(alignment: .leading, spacing: 18) {
             SettingsGroup("Loading tracks") {
                 Toggle("Protect playing decks", isOn: $protectPlayingDecks)
-                Text("Prevents loading another track onto a playing deck.").font(.caption).foregroundStyle(.secondary)
+                Text("Prevents loading another track onto a playing deck.").lineLimit(nil).font(.caption)
+                    .foregroundStyle(.secondary)
                 Toggle("Keylock on load", isOn: $model.primaryKeylockEnabled)
-                Text("Keeps pitch steady when tempo changes. Applies to the next track loaded on A or B.")
-                    .font(.caption).foregroundStyle(.secondary)
+                Text("Keeps pitch steady when tempo changes. Applies to the next track loaded on A or B.").lineLimit(
+                    nil
+                )
+                .font(.caption).foregroundStyle(.secondary)
                 Toggle("Freeze on load", isOn: preference(\.freezeOnLoad))
             }
             SettingsGroup("Loop defaults") {
@@ -42,6 +45,7 @@ struct PlaybackSettings: View {
                     }
                 }
                 Text("Used until you choose a loop length for that deck. Change live loops in the utility drawer.")
+                    .lineLimit(nil)
                     .font(.caption).foregroundStyle(.secondary)
             }
             SettingsGroup("Timing · all decks") { QuantizeSettings(model: model) }
@@ -51,7 +55,9 @@ struct PlaybackSettings: View {
                         Text(mode.title).tag(mode)
                     }
                 }
-                Text("Follows the crossfader and reduces competing lows. Keeps your timing, EQ values and headphone cue.")
+                Text(
+                    "Follows the crossfader and reduces competing lows. Keeps your timing, EQ values and headphone cue."
+                ).lineLimit(nil)
                     .font(.caption).foregroundStyle(.secondary)
                 if model.bassAssistanceMode != .off {
                     BassAssistanceReadout(mode: model.bassAssistanceMode, meter: model.bassAssistanceMeter)
@@ -135,7 +141,8 @@ struct LayoutSettings: View {
             SettingsGroup("Waveforms") { Toggle("Section colours", isOn: $colours) }
             SettingsGroup("Touch & visibility") {
                 Toggle("Large resize handles", isOn: $handles)
-                Text("Larger, labelled grips for moving the pane dividers.").font(.caption).foregroundStyle(.secondary)
+                Text("Larger, labelled grips for moving the pane dividers.").lineLimit(nil).font(.caption)
+                    .foregroundStyle(.secondary)
                 Toggle("Notification centre", isOn: $notifications)
             }
         }
@@ -150,7 +157,7 @@ struct DeckUtilitySettings: View {
             VStack(alignment: .leading, spacing: 16) {
                 Text("Deck \(deck.rawValue.uppercased()) · Utility").font(.title3.bold())
                 if let track = model.track(deck) {
-                    Text(track.title).font(.subheadline).foregroundStyle(.secondary).lineLimit(2)
+                    Text(track.title).font(.subheadline).foregroundStyle(.secondary).lineLimit(1)
                 }
                 SettingsGroup("This deck") {
                     Picker(
@@ -194,8 +201,9 @@ struct DeckUtilitySettings: View {
                         }
                     }
                 }
-                Text("Control visibility and loading defaults are in Settings.").font(.caption).foregroundStyle(
-                    .secondary)
+                Text("Control visibility and loading defaults are in Settings.").lineLimit(nil).font(.caption)
+                    .foregroundStyle(
+                        .secondary)
                 Button("Gesture guide") { model.helpVisible = true }
             }.padding(16)
         }.frame(width: 360).frame(maxHeight: 580).background(PerformancePalette.panel)
@@ -272,7 +280,7 @@ struct SettingsPageLink<Destination: View>: View {
             HStack(spacing: 12) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(title).font(.body.weight(.semibold))
-                    Text(detail).font(.caption).foregroundStyle(PerformancePalette.secondaryText)
+                    Text(detail).lineLimit(nil).font(.caption).foregroundStyle(PerformancePalette.secondaryText)
                 }
                 Spacer(minLength: 8)
                 Image(systemName: "chevron.right").font(.caption.weight(.semibold))

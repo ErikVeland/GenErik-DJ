@@ -100,7 +100,7 @@ struct LibraryGroupList: View {
                                         Image(systemName: "internaldrive").foregroundStyle(.secondary)
                                             .accessibilityHidden(true)
                                     }
-                                    Text(group.name).lineLimit(2)
+                                    Text(group.name).lineLimit(1)
                                     Spacer()
                                     if let count = counts[group.id] {
                                         Text("\(count)").monospacedDigit().foregroundStyle(.secondary)

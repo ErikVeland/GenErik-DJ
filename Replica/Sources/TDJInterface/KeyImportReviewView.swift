@@ -27,7 +27,7 @@ struct KeyImportReviewView: View {
             Text("Key review file").font(.headline)
             Text(
                 "Review the governed JSON interchange or ID3 Initial Key tags. Direct Mixed In Key export files are not supported here."
-            ).font(.caption).foregroundStyle(.secondary)
+            ).lineLimit(nil).font(.caption).foregroundStyle(.secondary)
             Button {
                 importing = true
             } label: {
@@ -40,9 +40,9 @@ struct KeyImportReviewView: View {
             }.disabled(preparingReview)
             Text(
                 "Each selected audio file must match a track in this library byte-for-byte. Retagged files need to be imported into the library first."
-            ).font(.caption).foregroundStyle(.secondary)
+            ).lineLimit(nil).font(.caption).foregroundStyle(.secondary)
             if preparingReview { ProgressView("Checking selected audio tags…") }
-            if let errorMessage { Text(errorMessage).font(.caption).foregroundStyle(.red) }
+            if let errorMessage { Text(errorMessage).lineLimit(nil).font(.caption).foregroundStyle(.red) }
         }.fileImporter(isPresented: $importing, allowedContentTypes: [.json], allowsMultipleSelection: false) {
             result in
             switch result {
@@ -91,9 +91,10 @@ struct KeyImportReviewView: View {
                             LabeledContent("Producer", value: preview.manifest.source.rawValue)
                             LabeledContent("Attribution", value: preview.manifest.attribution.rawValue)
                             LabeledContent("Description", value: preview.manifest.sourceDescription)
-                            Text("Attribution is a declaration. It does not verify the vendor or key accuracy.").font(
-                                .caption
-                            ).foregroundStyle(.secondary)
+                            Text("Attribution is a declaration. It does not verify the vendor or key accuracy.")
+                                .lineLimit(nil).font(
+                                    .caption
+                                ).foregroundStyle(.secondary)
                             if preview.manifest.source == .mixedInKey {
                                 Toggle(
                                     "I confirm these key results came from Mixed In Key and match the listed tracks.",
@@ -161,7 +162,8 @@ struct KeyImportReviewView: View {
                 ).font(.caption).foregroundStyle(.orange)
             }
             if !change.addsEvidence {
-                Text("Already imported; no new evidence will be added.").font(.caption).foregroundStyle(.secondary)
+                Text("Already imported; no new evidence will be added.").lineLimit(nil).font(.caption).foregroundStyle(
+                    .secondary)
             }
             if protectedTrackIDs.contains(change.trackID) {
                 Text("Loaded on a deck").font(.caption).foregroundStyle(.orange)

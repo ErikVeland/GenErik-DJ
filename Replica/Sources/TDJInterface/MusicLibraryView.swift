@@ -25,7 +25,8 @@ import TDJCore
     var body: some View {
         NavigationStack {
             VStack(spacing: 12) {
-                Text("This list shows songs stored on this device.").font(.subheadline).foregroundStyle(.secondary)
+                Text("This list shows songs stored on this device.").lineLimit(nil).font(.subheadline).foregroundStyle(
+                    .secondary)
                 if let catalog = model.musicLibraryCatalog {
                     Picker("Playlist", selection: $playlistID) {
                         Text("All songs (\(catalog.onDeviceItemCount))").tag(String?.none)
@@ -35,18 +36,18 @@ import TDJCore
                         .accessibilityLabel("Search music library")
                 }
                 if model.musicLibraryRefreshing {
-                    ProgressView("Reading your music library…").frame(maxHeight: .infinity)
+                    ProgressView("Reading your music library…").lineLimit(nil).frame(maxHeight: .infinity)
                 } else if let error = model.musicLibraryError {
                     ContentUnavailableView(
                         "Music library access", systemImage: "music.note.list", description: Text(error)
-                    ).frame(maxHeight: .infinity)
+                    ).lineLimit(nil).frame(maxHeight: .infinity)
                 } else if searching && songs.isEmpty {
-                    ProgressView("Searching music library…").frame(maxHeight: .infinity)
+                    ProgressView("Searching music library…").lineLimit(nil).frame(maxHeight: .infinity)
                 } else if songs.isEmpty {
                     ContentUnavailableView(
                         "No songs", systemImage: "music.note.list",
                         description: Text("Check the playlist or search. Sync local music in Music, then refresh.")
-                    ).frame(maxHeight: .infinity)
+                    ).lineLimit(nil).frame(maxHeight: .infinity)
                 } else {
                     List(songs) { item in
                         let prepared = preparedIDs.contains(item.id)
@@ -64,9 +65,10 @@ import TDJCore
                                     Text([item.artist, item.album].filter { !$0.isEmpty }.joined(separator: " · "))
                                         .font(.caption).foregroundStyle(.secondary).lineLimit(1)
                                     if let failure = model.musicLibraryFailures[item.id] {
-                                        Text(failure).font(.caption).foregroundStyle(.orange)
+                                        Text(failure).lineLimit(nil).font(.caption).foregroundStyle(.orange)
                                     } else if !item.isOnDevice {
-                                        Text(item.availability.message).font(.caption).foregroundStyle(.secondary)
+                                        Text(item.availability.message).lineLimit(nil).font(.caption).foregroundStyle(
+                                            .secondary)
                                     }
                                 }
                                 Spacer()

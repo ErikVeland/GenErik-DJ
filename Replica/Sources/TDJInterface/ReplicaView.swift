@@ -59,14 +59,15 @@ private let surface = PerformancePalette.panel
             let phonePortrait = isPhone && width < height
             workspaceRoot(presentation: presentation, innerPortrait: phonePortrait && presentation == .standard)
                 .ignoresSafeArea(.container, edges: phonePortrait ? .horizontal : [])
-        }.environment(\.touchSurfaceInterruption, touchInterruption).background(
-            PerformancePalette.frame.ignoresSafeArea()
-        ).onChange(of: liveStemTrial, initial: true) { _, enabled in
-            model.liveStems.setEnabled(enabled && LiveStemTrial.isAvailable, playback: model.playback)
-        }
-        #if os(iOS)
-            .statusBarHidden(true).persistentSystemOverlays(.hidden)
-        #endif
+        }.lineLimit(1).minimumScaleFactor(0.8)
+            .environment(\.touchSurfaceInterruption, touchInterruption).background(
+                PerformancePalette.frame.ignoresSafeArea()
+            ).onChange(of: liveStemTrial, initial: true) { _, enabled in
+                model.liveStems.setEnabled(enabled && LiveStemTrial.isAvailable, playback: model.playback)
+            }
+            #if os(iOS)
+                .statusBarHidden(true).persistentSystemOverlays(.hidden)
+            #endif
     }
 
     private func workspaceRoot(presentation: BrowserPresentation, innerPortrait: Bool) -> some View {
@@ -78,17 +79,17 @@ private let surface = PerformancePalette.panel
             }.frame(width: geometry.size.width, height: geometry.size.height, alignment: .topLeading).onChange(
                 of: geometry.size
             ) { _, _ in touchInterruption = UUID() }
-                .allowsHitTesting(sectionEdit == nil).accessibilityHidden(sectionEdit != nil)
-                .overlay {
-                    if let sectionEdit {
-                        ArrangementEditor(
-                            model: model, deck: sectionEdit.deck, identity: sectionEdit.identity,
-                            isPresented: true, usesColumns: true, close: { self.sectionEdit = nil }
-                        ).id(sectionEdit.identity.id).frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .background(PerformancePalette.panel).padding(6)
-                            .background(PerformancePalette.frame)
-                    }
-                }.onChange(of: sectionEdit?.identity.id) { _, _ in touchInterruption = UUID() }
+            .allowsHitTesting(sectionEdit == nil).accessibilityHidden(sectionEdit != nil)
+            .overlay {
+                if let sectionEdit {
+                    ArrangementEditor(
+                        model: model, deck: sectionEdit.deck, identity: sectionEdit.identity,
+                        isPresented: true, usesColumns: true, close: { self.sectionEdit = nil }
+                    ).id(sectionEdit.identity.id).frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(PerformancePalette.panel).padding(6)
+                        .background(PerformancePalette.frame)
+                }
+            }.onChange(of: sectionEdit?.identity.id) { _, _ in touchInterruption = UUID() }
         }
     }
     private var isPhone: Bool {
@@ -153,8 +154,10 @@ private let surface = PerformancePalette.panel
                 } label: {
                     Image(systemName: "repeat").frame(width: 48, height: 44).contentShape(Rectangle())
                 }
-                .foregroundStyle(model.playbackSnapshot?[deck].loopEnabled == true
-                    ? PerformancePalette.syncGreen : PerformancePalette.text)
+                .foregroundStyle(
+                    model.playbackSnapshot?[deck].loopEnabled == true
+                        ? PerformancePalette.syncGreen : PerformancePalette.text
+                )
                 .disabled(model.track(deck) == nil)
                 .accessibilityLabel("Loop on deck \(deck.rawValue.uppercased())")
                 Spacer(minLength: 0)
@@ -185,8 +188,10 @@ private let surface = PerformancePalette.panel
                     let split = deckSplit.geometry(
                         width: workspace.deckArea.width - 2 * deckInset, height: workspace.deckArea.height,
                         handleExtent: handleExtent)
-                    let showsFour = fourDecks && WideDeckLayout.fits(
-                        width: workspace.deckArea.width - 2 * deckInset, height: workspace.deckArea.height)
+                    let showsFour =
+                        fourDecks
+                        && WideDeckLayout.fits(
+                            width: workspace.deckArea.width - 2 * deckInset, height: workspace.deckArea.height)
                     ZStack(alignment: .topTrailing) {
                         VStack(alignment: .leading, spacing: 0) {
                             Group {
@@ -237,11 +242,13 @@ private let surface = PerformancePalette.panel
                                                     height: workspace.deckArea.height, handleExtent: handleExtent)
                                             }, update: { deckSplit.updateDrag(translation: $0) },
                                             end: {
-                                                deckSplit.endDrag(height: workspace.deckArea.height, handleExtent: handleExtent)
+                                                deckSplit.endDrag(
+                                                    height: workspace.deckArea.height, handleExtent: handleExtent)
                                             }, cancel: { deckSplit.cancelDrag() }, balance: { deckSplit.balance() },
                                             adjust: {
                                                 deckSplit.adjust(
-                                                    by: $0, height: workspace.deckArea.height, handleExtent: handleExtent)
+                                                    by: $0, height: workspace.deckArea.height,
+                                                    handleExtent: handleExtent)
                                             }
                                         ).frame(height: split.handle.height).clipped()
                                         DeckView(
@@ -320,7 +327,8 @@ private let surface = PerformancePalette.panel
                                 libraryPanel.updateViewport(
                                     width: size.width, height: size.height, presented: model.browserVisible,
                                     handleExtent: workspaceHandle)
-                                deckSplit.updateViewport(width: size.width, height: size.height, innerPortrait: innerPortrait)
+                                deckSplit.updateViewport(
+                                    width: size.width, height: size.height, innerPortrait: innerPortrait)
                                 model.browserVisible = libraryPanel.extent > 0
                             }.onChange(of: innerPortrait) { _, value in
                                 deckSplit.updateViewport(
@@ -402,13 +410,14 @@ private let surface = PerformancePalette.panel
                 case .success(let urls): if let url = urls.first { Task { await model.importTraktorPreparation(url) } }
                 case .failure(let error): model.status = error.localizedDescription
                 }
-            }.fileImporter(isPresented: $importPresented, allowedContentTypes: [.audio, .mpeg4Movie], allowsMultipleSelection: true)
-        { result in
-            switch result {
-            case .success(let urls): Task { await model.importFiles(urls) }
-            case .failure(let error): model.status = error.localizedDescription
+            }.fileImporter(
+                isPresented: $importPresented, allowedContentTypes: [.audio, .mpeg4Movie], allowsMultipleSelection: true
+            ) { result in
+                switch result {
+                case .success(let urls): Task { await model.importFiles(urls) }
+                case .failure(let error): model.status = error.localizedDescription
+                }
             }
-        }
     }
 }
 
@@ -461,12 +470,15 @@ private struct DeckPanelHorizontalBounds: Shape {
     private var waveformZoom: Binding<Double> {
         let loadID = model.loadIdentity(deck)
         return Binding {
-            if let frozenSpan, frozenSpan.loadID == model.loadIdentity(deck), model.pendingNativeSelection[deck] == nil {
+            if let frozenSpan, frozenSpan.loadID == model.loadIdentity(deck), model.pendingNativeSelection[deck] == nil
+            {
                 return frozenSpan.seconds
             }
             return model.waveformZoomSeconds(deck: deck)
         } set: { seconds in
-            guard let loadID, loadID == model.loadIdentity(deck), model.pendingNativeSelection[deck] == nil else { return }
+            guard let loadID, loadID == model.loadIdentity(deck), model.pendingNativeSelection[deck] == nil else {
+                return
+            }
             if frozenSpan?.loadID == loadID {
                 frozenSpan = (loadID, seconds)
             } else {
@@ -586,7 +598,8 @@ private struct DeckPanelHorizontalBounds: Shape {
                         }
                     }.overlay(alignment: .topLeading) {
                         #if os(iOS)
-                            if liveStemTrial, UIDevice.current.userInterfaceIdiom == .pad, DeckID.primary.contains(deck),
+                            if liveStemTrial, UIDevice.current.userInterfaceIdiom == .pad,
+                                DeckID.primary.contains(deck),
                                 track != nil, !editing, layout.waveformHeight >= 96
                             {
                                 LiveStemPane(experiment: model.liveStems, deck: deck, playback: model.playback)
@@ -798,7 +811,7 @@ private struct DeckPanelHorizontalBounds: Shape {
             }
         }.frame(maxWidth: .infinity, alignment: .leading).environment(\.deckPanelPresented, panels.extraVisible)
             .protectsFrontDeckSwipe().animation(
-            reduceMotion ? nil : .spring(response: 0.25, dampingFraction: 0.9), value: panels.extraVisible)
+                reduceMotion ? nil : .spring(response: 0.25, dampingFraction: 0.9), value: panels.extraVisible)
     }
 
     private var controls: some View {
@@ -815,7 +828,8 @@ struct DeckRailButtonStyle: ButtonStyle {
     var grouped = false
 
     func makeBody(configuration: Configuration) -> some View {
-        let label = configuration.label.frame(maxWidth: .infinity, maxHeight: .infinity)
+        let label = configuration.label.lineLimit(1).minimumScaleFactor(0.8).frame(
+            maxWidth: .infinity, maxHeight: .infinity)
         Group {
             if grouped {
                 label.background(configuration.isPressed ? PerformancePalette.sunken : PerformancePalette.panel)
@@ -854,7 +868,8 @@ struct DeckRailButtonStyle: ButtonStyle {
                 TouchSurface(geometryPolicy: .retainContactSpace) { event in
                     session.handle(
                         event, model: model, deck: deck, visibleSeconds: visibleSeconds,
-                        width: geometry.size.width) { visibleSeconds = $0 }
+                        width: geometry.size.width
+                    ) { visibleSeconds = $0 }
                 }.id(track.id)
             }
             #if os(macOS)
@@ -1070,9 +1085,10 @@ extension EnvironmentValues {
     private var maximumTravel: Double { tall ? TallLoadSliderMetrics.maximumTravel : 18 }
     var body: some View {
         VStack(spacing: 0) {
-            Text(displayedTargets.upper.rawValue.uppercased()).font(.system(size: tall ? 28 : 9, weight: .heavy)).foregroundStyle(
-                gesture.armedDeck == .a ? PerformancePalette.cyan : Color(white: tall ? 0.45 : 0.88)
-            ).frame(height: tall ? TallLoadSliderMetrics.labelHeight : nil)
+            Text(displayedTargets.upper.rawValue.uppercased()).font(.system(size: tall ? 28 : 9, weight: .heavy))
+                .foregroundStyle(
+                    gesture.armedDeck == .a ? PerformancePalette.cyan : Color(white: tall ? 0.45 : 0.88)
+                ).frame(height: tall ? TallLoadSliderMetrics.labelHeight : nil)
             ZStack {
                 if tall { RoundedRectangle(cornerRadius: 4).fill(Color.black.opacity(0.3)) }
                 VStack(spacing: 2) {
@@ -1083,9 +1099,10 @@ extension EnvironmentValues {
                     height: tall ? TallLoadSliderMetrics.handleHeight : nil
                 ).bevelPanel(cornerRadius: 4).offset(y: gesture.offset)
             }.frame(height: tall ? TallLoadSliderMetrics.railHeight : nil)
-            Text(displayedTargets.lower.rawValue.uppercased()).font(.system(size: tall ? 28 : 9, weight: .heavy)).foregroundStyle(
-                gesture.armedDeck == .b ? PerformancePalette.cyan : Color(white: tall ? 0.45 : 0.88)
-            ).frame(height: tall ? TallLoadSliderMetrics.labelHeight : nil)
+            Text(displayedTargets.lower.rawValue.uppercased()).font(.system(size: tall ? 28 : 9, weight: .heavy))
+                .foregroundStyle(
+                    gesture.armedDeck == .b ? PerformancePalette.cyan : Color(white: tall ? 0.45 : 0.88)
+                ).frame(height: tall ? TallLoadSliderMetrics.labelHeight : nil)
         }.frame(width: tall ? 96 : 64, height: tall ? TallLoadSliderMetrics.height : 56).padding(tall ? 4 : 0)
             .background(RoundedRectangle(cornerRadius: 6).fill(PerformancePalette.sunken)).contentShape(Rectangle())
             .overlay {
@@ -1167,7 +1184,8 @@ extension ReplicaView {
         for deck in DeckID.primary {
             if let track = model.track(deck) {
                 _ = try? PCMCache.prepare(track: track, store: model.store)
-                bands[track.id] = await BandWaveforms.shared.load(track: track, store: model.store, core: model.playback.core, patience: 5)
+                bands[track.id] = await BandWaveforms.shared.load(
+                    track: track, store: model.store, core: model.playback.core, patience: 5)
             }
         }
         return environment(\.snapshotWaveformIndexes, indexes).environment(\.snapshotCollectionProjection, collection)
@@ -1309,7 +1327,7 @@ extension ReplicaView {
             Button("Record") { Task { await model.toggleRecording() } }
             Button("Cancel", role: .cancel) {}
         } message: {
-            Text("Add a venue or location for the recording filename.")
+            Text("Add a venue or location for the recording filename.").lineLimit(nil)
         }
     }
     private var outputSummary: String {
@@ -1402,20 +1420,22 @@ extension ReplicaView {
     {
         guard (0...1).contains(level) else { return nil }
         let percent = Int((level * 100).rounded())
-        let fill = switch percent {
-        case 100: 100
-        case 63...: 75
-        case 38...: 50
-        case 1...: 25
-        default: 0
-        }
-        let tint: Color = if level < 0.10 {
-            PerformancePalette.red
-        } else if level < 0.20 {
-            .orange
-        } else {
-            PerformancePalette.text
-        }
+        let fill =
+            switch percent {
+            case 100: 100
+            case 63...: 75
+            case 38...: 50
+            case 1...: 25
+            default: 0
+            }
+        let tint: Color =
+            if level < 0.10 {
+                PerformancePalette.red
+            } else if level < 0.20 {
+                .orange
+            } else {
+                PerformancePalette.text
+            }
         return (percent, "battery.\(fill)percent", tint, isCharging ? "bolt.fill" : nil)
     }
 }
@@ -1519,7 +1539,9 @@ extension ReplicaView {
                             RoundedRectangle(cornerRadius: 3).strokeBorder(Color.black.opacity(0.7)))
                     }.accessibilityLabel("Suggestions for deck \(deck.rawValue.uppercased())")
                 }
-                if let focus {
+                if editing {
+                    GridEditBar(model: model, deck: deck).protectsFrontDeckSwipe()
+                } else if let focus {
                     Button(action: focus) {
                         trackDetails.frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
                             .contentShape(Rectangle())
@@ -1529,9 +1551,7 @@ extension ReplicaView {
                     trackDetails
                     Spacer()
                 }
-                if editing {
-                    GridEditBar(model: model, deck: deck).protectsFrontDeckSwipe()
-                } else {
+                if !editing {
                     if beatJump && track != nil {
                         ForEach([-1.0, 1.0], id: \.self) { direction in
                             Button {
@@ -1568,8 +1588,10 @@ extension ReplicaView {
                             .accessibilityLabel("Edit grid on deck \(deck.rawValue.uppercased())")
                     }.background(PerformancePalette.sunken, in: RoundedRectangle(cornerRadius: 5))
                         .overlay {
-                            RoundedRectangle(cornerRadius: 5).strokeBorder(PerformancePalette.secondaryText.opacity(0.5))
-                                .allowsHitTesting(false)
+                            RoundedRectangle(cornerRadius: 5).strokeBorder(
+                                PerformancePalette.secondaryText.opacity(0.5)
+                            )
+                            .allowsHitTesting(false)
                         }.layoutPriority(1)
                 }
             }.frame(minWidth: 0, maxWidth: .infinity).clipped().contentShape(Rectangle())
@@ -1632,7 +1654,7 @@ extension ReplicaView {
     var body: some View {
         Group {
             if let failure = model.trackLoadFailures[deck], !model.preparingTrack.contains(deck) {
-                Text(failure).font(.callout).foregroundStyle(.orange).padding()
+                Text(failure).lineLimit(nil).font(.callout).foregroundStyle(.orange).padding()
                     .frame(maxWidth: .infinity, maxHeight: .infinity).background(Color.black)
             } else if model.pendingNativeSelection[deck] != nil {
                 if let preview = model.pendingNativeWaveforms[deck], !preview.analysis.waveform.isEmpty {
@@ -1720,7 +1742,9 @@ extension ReplicaView {
                 span: visibleSeconds * track.analysis.sampleRate)
         }.task(id: track.id) {
             let id = track.id
-            guard let loaded = await BandWaveforms.shared.load(track: track, store: model.store, core: model.playback.core), !Task.isCancelled
+            guard
+                let loaded = await BandWaveforms.shared.load(
+                    track: track, store: model.store, core: model.playback.core), !Task.isCancelled
             else { return }
             band = (id, loaded)
         }
@@ -1836,9 +1860,17 @@ extension ReplicaView {
     @Bindable var model: ReplicaModel
     let deck: DeckID
     var body: some View {
+        ViewThatFits(in: .horizontal) {
+            controls.fixedSize(horizontal: true, vertical: false)
+            ScrollView(.horizontal) {
+                controls.fixedSize(horizontal: true, vertical: false)
+            }.scrollIndicators(.visible)
+        }.frame(height: 44).lineLimit(1)
+    }
+    private var controls: some View {
         let locked = model.gridLocked.contains(deck)
         let tapping = model.gridTapMode.contains(deck)
-        HStack(spacing: 6) {
+        return HStack(spacing: 6) {
             Menu {
                 Button("Automatic") { model.selectGridMode(.automatic, deck: deck) }
                 Button("Fixed") { model.selectGridMode(.fixed, deck: deck) }
@@ -1860,12 +1892,12 @@ extension ReplicaView {
                     Text("Candidate confidence estimate: \(Int(confidence * 100))%")
                 }
             } label: {
-                Image(systemName: "slider.horizontal.3")
+                Image(systemName: "slider.horizontal.3").frame(width: 44, height: 44)
             }
             button(locked ? "lock.fill" : "lock.open", label: "Lock grid") {
                 if model.gridLocked.remove(deck) == nil { model.gridLocked.insert(deck) }
                 model.setGridLocked(model.gridLocked.contains(deck), deck: deck)
-            }.frame(width: 40)
+            }.frame(width: 44)
             text("TAP MODE", active: tapping) {
                 if model.gridTapMode.remove(deck) == nil { model.gridTapMode.insert(deck) }
             }.disabled(locked)
@@ -1898,9 +1930,10 @@ extension ReplicaView {
     }
     private func text(_ title: String, active: Bool = false, action: @escaping () -> Void) -> some View {
         Button(action: action) {
-            Text(title).padding(.horizontal, 10).frame(height: 44).foregroundStyle(
-                active ? PerformancePalette.cyan : PerformancePalette.text
-            ).bevelPanel(cornerRadius: 3)
+            Text(title).lineLimit(1).fixedSize(horizontal: true, vertical: false)
+                .padding(.horizontal, 10).frame(minWidth: 44, minHeight: 44).foregroundStyle(
+                    active ? PerformancePalette.cyan : PerformancePalette.text
+                ).bevelPanel(cornerRadius: 3)
         }
     }
 }

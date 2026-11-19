@@ -291,9 +291,10 @@ import TDJCore
 
 private struct FrontControlButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
-        configuration.label.font(.subheadline.weight(.bold)).frame(maxWidth: .infinity, minHeight: 44).background(
-            configuration.isPressed ? PerformancePalette.raised : PerformancePalette.panel,
-            in: RoundedRectangle(cornerRadius: 4))
+        configuration.label.lineLimit(1).minimumScaleFactor(0.8)
+            .font(.subheadline.weight(.bold)).frame(maxWidth: .infinity, minHeight: 44).background(
+                configuration.isPressed ? PerformancePalette.raised : PerformancePalette.panel,
+                in: RoundedRectangle(cornerRadius: 4))
     }
 }
 

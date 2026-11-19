@@ -22,7 +22,7 @@ struct GestureHelp: View {
                         }
                         Text(selected.title).font(.headline)
                         ForEach(Array(selected.steps.enumerated()), id: \.offset) { index, step in
-                            Text("\(index+1). \(step)").frame(maxWidth: .infinity, alignment: .leading)
+                            Text("\(index+1). \(step)").lineLimit(nil).frame(maxWidth: .infinity, alignment: .leading)
                         }
                     } else {
                         ForEach(GestureLesson.allCases) { lesson in

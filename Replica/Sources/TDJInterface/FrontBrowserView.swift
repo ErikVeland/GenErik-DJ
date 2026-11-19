@@ -180,7 +180,8 @@ struct FrontBrowserView: View {
                     model.status = error.localizedDescription
                     playlistError = error.localizedDescription
                 }
-            }.onChange(of: playlists) { _, _ in collectionVersion = UUID() }.onChange(of: model.browserHintsVersion) { _, _ in
+            }.onChange(of: playlists) { _, _ in collectionVersion = UUID() }.onChange(of: model.browserHintsVersion) {
+                _, _ in
                 collectionVersion = UUID()
             }.task(id: request) {
                 let current = request
@@ -641,8 +642,8 @@ extension FrontBrowserView {
                 switch libraryPresentation {
                 case .loading: ProgressView("Loading library…")
                 case .failed(let error): Text("Music library unavailable: \(error)").foregroundStyle(.secondary)
-                case .noMatches: Text("No matching songs.").foregroundStyle(.secondary)
-                case .empty: Text("No songs available.").foregroundStyle(.secondary)
+                case .noMatches: Text("No matching songs.").lineLimit(nil).foregroundStyle(.secondary)
+                case .empty: Text("No songs available.").lineLimit(nil).foregroundStyle(.secondary)
                 case .content: EmptyView()
                 }
                 Spacer()
@@ -691,7 +692,7 @@ extension FrontBrowserView {
                         width < 440)
                     VStack(alignment: .leading, spacing: 5) {
                         HStack(spacing: 6) {
-                            Text(entry?.title ?? "Choose a song").font(.system(size: 18, weight: .bold)).lineLimit(2)
+                            Text(entry?.title ?? "Choose a song").font(.system(size: 18, weight: .bold)).lineLimit(1)
                                 .minimumScaleFactor(0.8)
                             if entry?.isMix == true { MixBadge(size: 14) }
                         }.foregroundStyle(PerformancePalette.text)
@@ -761,8 +762,10 @@ extension FrontBrowserView {
                                 : "No matching tracks yet."
                         ).font(.subheadline).foregroundStyle(.secondary).padding(24)
                     } else if !recommendations.contains(where: { matchesSearch($0.entry, query: suggestionQuery) }) {
-                        Text("No suggestions match this search.").font(.subheadline).foregroundStyle(.secondary)
-                            .padding(24)
+                        Text("No suggestions match this search.").lineLimit(nil).font(.subheadline).foregroundStyle(
+                            .secondary
+                        )
+                        .padding(24)
                     } else {
                         ForEach(recommendations.filter { matchesSearch($0.entry, query: suggestionQuery) }) { match in
                             songRow(match.entry, keyOK: match.keyCompatible, tempoOK: match.tempoCompatible)
@@ -777,11 +780,14 @@ extension FrontBrowserView {
         ScrollView {
             LazyVStack(spacing: 0) {
                 if model.queuedIDs.isEmpty {
-                    Text("Select a song and add it to the prep list.").font(.subheadline).foregroundStyle(.secondary)
+                    Text("Select a song and add it to the prep list.").lineLimit(nil).font(.subheadline)
+                        .foregroundStyle(.secondary)
                         .padding(24)
                 } else if !prepQuery.isEmpty && !queuedEntries.contains(where: { matchesSearch($0, query: prepQuery) })
                 {
-                    Text("No prep songs match this search.").font(.subheadline).foregroundStyle(.secondary).padding(24)
+                    Text("No prep songs match this search.").lineLimit(nil).font(.subheadline).foregroundStyle(
+                        .secondary
+                    ).padding(24)
                 }
                 ForEach(queuedEntries.filter { matchesSearch($0, query: prepQuery) }, id: \.id) { entry in
                     songRow(entry).contextMenu {
@@ -909,6 +915,5 @@ extension FrontBrowserView {
         }
         return projection?.allEntries.first { $0.id == id }
     }
-
 
 }

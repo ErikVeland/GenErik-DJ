@@ -85,8 +85,9 @@ struct EffectsView: View {
                     if let source = model.track(deck)?.key, let target = model.track(otherDeck)?.key,
                         source.mode != target.mode
                     {
-                        Text("Key Match requires the same major or minor mode.").font(.caption2).foregroundStyle(
-                            .secondary)
+                        Text("Key Match requires the same major or minor mode.").lineLimit(nil).font(.caption2)
+                            .foregroundStyle(
+                                .secondary)
                     }
                 }
             }
