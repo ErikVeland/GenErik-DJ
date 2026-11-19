@@ -2819,3 +2819,18 @@ func controllerCatalogueLegacyDJMDirectCueKeepsAppStartedRealAudioSynced(_ name:
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test @MainActor func controllerCatalogueLaunchControlXLTemplateChangeRestoresRealAudioSync()async throws{
+    try await withControllerCuePlayback("Novation Launch Control XL",ports:["Launch Control XL"],prepareInput:{input in input.receiveBytes(launchControlXLTemplateFixture(),source:10)}){model,input in
+        input.receiveBytes([0x94,61,127],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([240,0,32,41,2,17,119,8,247],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        input.receiveBytes([240,0,32,41,2,17,119,0,247],source:10)
+        input.receiveBytes(launchControlXLTemplateFixture(),source:10)
+        input.receiveBytes([0x94,60,127,60,0],source:10);input.flushPendingActions()
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+    }
+}

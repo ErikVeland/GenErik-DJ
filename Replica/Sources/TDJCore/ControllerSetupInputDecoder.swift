@@ -7,6 +7,7 @@ public struct ControllerSetupInputDecoder: Sendable {
         case xdjAN
         case launchControlDAW
         case launchControlTemplate
+        case launchControlXLTemplate
     }
     private var korg: ControllerKorgInputDecoder?
     private var xdj: ControllerXDJANDecoder?
@@ -19,6 +20,7 @@ public struct ControllerSetupInputDecoder: Sendable {
         case .xdjAN: xdj = .init()
         case .launchControlDAW: launchControl = .init()
         case .launchControlTemplate: launchTemplate = .init()
+        case .launchControlXLTemplate: launchTemplate = .init(model: .xl)
         }
     }
     public var isReady: Bool {

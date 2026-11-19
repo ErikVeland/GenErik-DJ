@@ -173,7 +173,8 @@ func launchControlTemplateFixture(_ template: UInt8 = 0) -> [UInt8] {
     }
 }
 
-@Test @MainActor func controllerCatalogueLaunchControlTemplateKeepsSavedRawMappingsUntilExplicitReplacement() throws {
+@Test(arguments: ["Novation Launch Control", "Novation Launch Control XL"]) @MainActor
+func controllerCatalogueLaunchControlTemplateKeepsSavedRawMappingsUntilExplicitReplacement(_ name: String) throws {
     for overCapacity in [false, true] {
         let suite = "lc-template-raw-\(UUID().uuidString)"; let preferences = UserDefaults(suiteName: suite)!
         defer { preferences.removePersistentDomain(forName: suite) }
@@ -198,16 +199,16 @@ func launchControlTemplateFixture(_ template: UInt8 = 0) -> [UInt8] {
             factoryPacketSender: { bytes, _ in
                 packets.append(bytes); return true
             }, factoryInputConnector: { _ in true })
-        let name = "Novation Launch Control"
+        let port = name.replacingOccurrences(of: "Novation ", with: "")
         input.sources = [
             .init(
                 id: 10, reference: 10, name: name,
-                identity: .init(id: 10, device: 1, names: [name], portNames: ["Launch Control"]))
+                identity: .init(id: 10, device: 1, names: [name], portNames: [port]))
         ]
         input.destinations = [
             .init(
                 id: 20, reference: 20, name: name,
-                identity: .init(id: 20, device: 1, names: [name], portNames: ["Launch Control"]))
+                identity: .init(id: 20, device: 1, names: [name], portNames: [port]))
         ]
         input.reconcileFactoryProfiles(); #expect(input.isInputActive(10) && packets.isEmpty)
         #expect(preferences.data(forKey: "controllers.midiBindings.v1") == saved)
@@ -221,8 +222,12 @@ func launchControlTemplateFixture(_ template: UInt8 = 0) -> [UInt8] {
                 preferences.data(forKey: "controllers.midiBindings.v1") == saved && packets.isEmpty
                     && input.isInputActive(10))
         } else {
-            #expect(input.bindingCount == 40 && !input.isInputActive(10) && packets.count == 2)
-            originalLCPacket(launchControlTemplateFixture(), input); #expect(input.isInputActive(10))
+            #expect(
+                input.bindingCount == (name.hasSuffix("XL") ? 60 : 40) && !input.isInputActive(10) && packets.count == 2
+            )
+            originalLCPacket(
+                name.hasSuffix("XL") ? launchControlXLTemplateFixture() : launchControlTemplateFixture(), input);
+            #expect(input.isInputActive(10))
         }
     }
 }

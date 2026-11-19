@@ -1881,6 +1881,40 @@
         }
       ],
       "result": "Original40-input automatic configured-template core. Bounded177-byte read, unambiguous wires/ranges, momentary buttons, source-owned template/Shift cleanup and raw mapping priority.278 source/50 native checks and iPad framework compilation pass. All301 earlier recipes remain identical. Full Factory/feedback/timeout and physical acceptance remain open."
+    },
+    {
+      "request": "R407",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "model": "Novation Launch Control XL",
+          "url": "https://fael-downloads-prod.focusrite.com/customer/prod/downloads/launch_control_xl_programmer_s_reference_guide.pdf",
+          "sha256": "076985fa9a0859a2ecce0c35d1e843fc5815bd67062c0019de9a8cdca07f7c06",
+          "version": "V2",
+          "pages": [
+            3,
+            7,
+            8
+          ],
+          "visuallyReviewedPages": [
+            8
+          ],
+          "componentsURL": "https://components.novationmusic.com/assets/main-D3lNZfPT.js",
+          "componentsSHA256": "2322dc9fd409e5910e69f83cf5a6d4127c71322ded94e9bbc99cbba4be5a673a",
+          "componentsRelease": "1.72.5",
+          "reviewedSymbols": [
+            "qoe.getFromDevice",
+            "Woe",
+            "H9.binary",
+            "z9.binary",
+            "B9.binary",
+            "t9.binary"
+          ],
+          "familyURL": "https://downloads.novationmusic.com/novation/launch/launch-control-xl-mk1mk2",
+          "review": "Independent XL manufacturer guide and public Components source qualify product17, read query121, exact417-byte reply119,24 pots at0,8 faders at144,16 buttons at192,4 menu buttons at288 and4 arrow buttons at312, all six-byte records. Shared manufacturer button schema gives kind/number/min/max/pressType/channel. The remaining72 bytes describe pot LED settings and do not become controls or output writes. Both generations are explicitly covered by the manufacturer download page. Only public wire/schema facts were read. The Components app and its MIDI actions were not executed or copied. Native temporarily selects User0 and reads saved wires/ranges. Factory/HUI/XL3, unsupported/duplicate/toggle controls, complete feedback/state/lifecycle/timeout and physical/iPad/A10X acceptance remain open."
+        }
+      ],
+      "result": "Independent60-input automatic legacy XL configured-template core. Explicit product17/417-byte schema, shared bounded framing and unambiguous wire/range handling. No stored-template or colour write.280 source/57 native checks and iPad framework compilation pass. All302 earlier recipes remain identical. Full Factory/HUI/feedback/timeout and physical acceptance remain open."
     }
   ]
 }

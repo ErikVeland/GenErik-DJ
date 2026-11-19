@@ -1,7 +1,14 @@
 /**
- * Reads original Launch Control User-template assignments without writing stored data.
+ * Reads independently qualified Launch Control User-template assignments without writing stored data.
  */
 public struct ControllerLaunchControlTemplateDecoder: Sendable {
+    public enum Model: UInt8, Sendable {
+        case original = 10, xl = 17
+        fileprivate var replySize: Int { self == .original ? 177 : 417 }
+        fileprivate var continuousCount: Int { self == .original ? 16 : 32 }
+        fileprivate var recordCount: Int { self == .original ? 28 : 56 }
+    }
+    private let model: Model
     private struct Key: Hashable, Sendable {
         let note: Bool
         let channel: UInt8
@@ -15,8 +22,8 @@ public struct ControllerLaunchControlTemplateDecoder: Sendable {
         let button: Bool
         let usable: Bool
     }
-    private static let header: [UInt8] = [240, 0, 32, 41, 2, 10]
-    public static let initialRequest: [UInt8] = header + [121, 0, 247]
+    private var header: [UInt8] { [240, 0, 32, 41, 2, model.rawValue] }
+    public static let initialRequest: [UInt8] = [240, 0, 32, 41, 2, 10, 121, 0, 247]
     private var selected: UInt8 = 0
     private var waiting = true
     private var assignments: [Key: Assignment] = [:]
@@ -26,7 +33,7 @@ public struct ControllerLaunchControlTemplateDecoder: Sendable {
     public private(set) var isReady = false
     public var mappedControlCount: Int { assignments.count }
 
-    public init() {}
+    public init(model: Model = .original) { self.model = model }
 
     /**
      * Reads only bounded replies for the selected template and normalises unambiguous physical controls.
@@ -48,7 +55,7 @@ public struct ControllerLaunchControlTemplateDecoder: Sendable {
                     result += decode(pending + [byte])
                     continue
                 }
-                if byte < 128, pending.count < 176 {
+                if byte < 128, pending.count < model.replySize - 1 {
                     packet?.append(byte)
                     continue
                 }
@@ -97,7 +104,7 @@ public struct ControllerLaunchControlTemplateDecoder: Sendable {
     }
 
     private mutating func decode(_ bytes: [UInt8]) -> [ControllerKorgNativeEvent] {
-        guard bytes.last == 247, Array(bytes.prefix(6)) == Self.header,
+        guard bytes.last == 247, Array(bytes.prefix(6)) == header,
             bytes.dropFirst().dropLast().allSatisfy({ $0 < 128 }), bytes.count >= 9,
             bytes[6] == 119, bytes[7] < 16
         else { return [] }
@@ -108,10 +115,10 @@ public struct ControllerLaunchControlTemplateDecoder: Sendable {
             waiting = template < 8
             isReady = false
             assignments.removeAll()
-            return [.modeChanged(false)] + (waiting ? [.request(Self.header + [121, template, 247])] : [])
+            return [.modeChanged(false)] + (waiting ? [.request(header + [121, template, 247])] : [])
         }
-        guard waiting, selected < 8, template == selected, bytes.count == 177,
-            let entries = Self.entries(Array(bytes[8..<176]))
+        guard waiting, selected < 8, template == selected, bytes.count == model.replySize,
+            let entries = entries(Array(bytes[8..<(model.replySize - 1)]))
         else { return [] }
         let counts = entries.reduce(into: [Key: Int]()) { $0[$1.key, default: 0] += 1 }
         assignments = Dictionary(
@@ -124,12 +131,12 @@ public struct ControllerLaunchControlTemplateDecoder: Sendable {
     /**
      * Counts inactive wires too, so duplicate or unsupported assignments cannot trigger a different control.
      */
-    private static func entries(_ data: [UInt8]) -> [Assignment]? {
-        guard data.count == 168 else { return nil }
+    private func entries(_ data: [UInt8]) -> [Assignment]? {
+        guard data.count == model.replySize - 9 else { return nil }
         var result: [Assignment] = []
-        for index in 0..<28 {
+        for index in 0..<model.recordCount {
             let base = index * 6
-            let button = index >= 16
+            let button = index >= model.continuousCount
             let low = data[base + 2], high = data[base + 3]
             let channel = data[base + (button ? 5 : 4)]
             guard channel < 16 else { return nil }
