@@ -3590,3 +3590,15 @@ func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String
         for action in [ControllerAction.gainA,.highA,.midA,.lowA,.filterKnobA,.levelA] {#expect(abs((model.controllerValue(action) ?? -1)-64.0/127)<0.0001)}
     }
 }
+
+
+@Test @MainActor func controllerCatalogueG4VMixerHeldCueReleaseKeepsRealAudioSync() async throws {
+    try await withControllerCuePlayback("G4V",manual:true) {model,input in
+        input.receiveBytes([0x90,2,1],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x80,2,127,0x90,1,127,1,0],source:10);input.flushPendingActions()
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}

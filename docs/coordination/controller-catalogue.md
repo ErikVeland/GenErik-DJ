@@ -570,7 +570,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Gemini FirstMix | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Gemini%20FirstMix.midi.xml) |
 | Gemini FirstMix I/O | primary | automatic-core-profile | [Reference](https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg) |
 | Gemini G2V | primary | automatic-core-profile | [Reference](https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg) |
-| Gemini G4V | accessory | partial-midi-profile | [Reference](https://forum.djtechtools.com/t/midi-out-issues-with-traktor-2/74377) |
+| Gemini G4V | primary | partial-midi-profile | [Reference](https://forum.djtechtools.com/t/midi-out-issues-with-traktor-2/74377) |
 | Gemini GMX | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GMGMX) |
 | Gemini GMX DRIVE | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GMGMXDRIVE) |
 | Gemini MDJ-1000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=GMMDJ1K) |

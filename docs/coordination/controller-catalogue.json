@@ -35526,14 +35526,14 @@
       "id": "geminig4v",
       "name": "Gemini G4V",
       "manufacturer": "Gemini",
-      "role": "accessory",
+      "role": "primary",
       "benchmark": false,
       "sources": [
         "https://forum.djtechtools.com/t/midi-out-issues-with-traktor-2/74377",
         "https://virtualdj.com/products/hardware.html?model=GEMINI_G4V"
       ],
       "definitions": [
-        "reviewed:g4v-owner-chart-normal-mixer"
+        "reviewed:g4v-primary-native-manual-banks"
       ],
       "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
@@ -35548,6 +35548,14 @@
         }
       },
       "controlActions": [
+        "crossfader",
+        "cueA:a",
+        "cueA:c",
+        "cueB:b",
+        "cueB:d",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
         "filterKnobA:a",
         "filterKnobA:c",
         "filterKnobB:b",
@@ -35560,6 +35568,8 @@
         "highA:c",
         "highB:b",
         "highB:d",
+        "keylockA:a",
+        "keylockB:b",
         "levelA:a",
         "levelA:c",
         "levelB:b",
@@ -35568,12 +35578,17 @@
         "lowA:c",
         "lowB:b",
         "lowB:d",
+        "master",
         "midA:a",
         "midA:c",
         "midB:b",
-        "midB:d"
+        "midB:d",
+        "playA:a",
+        "playB:b",
+        "syncA:a",
+        "syncB:b"
       ],
-      "inputBindingCount": 24,
+      "inputBindingCount": 39,
       "feedbackBindingCount": 0,
       "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
@@ -35581,7 +35596,7 @@
         "automaticControls": false,
         "completeFeatureParity": false,
         "acceptedOnA10X": false,
-        "requiredHardwareMode": "Select this manual mixer subset on an exposed G4V MIDI source. Use channel4/raw3 normal knobs and faders. Physical CH1..4 map A..D; C/D require app opt-in. Configure app audio separately. Player/deck-switch modes remain unsupported."
+        "requiredHardwareMode": "Manual G4V native layout on an exposed MIDI source. Apply/reconnect starts A/B; Deck Select toggles A/C and B/D. Native does not drive the bank lamps. Physical mixer CH1..4 stay A..D on raw3. C/D require app opt-in. Configure app audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
@@ -35604,7 +35619,7 @@
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "Primary owner khan.cross published the G4V MIDI chart on29June2016 in the DJ TechTools controller-mapping discussion. The image identifies its creation on18April2016 with Traktor2.10.013. Visually reviewed all four physical strips in order3/1/2/4. Their fixed MIDI channel4/raw3 absolute knobs/faders are CH1..4 gainCC1..4, mid5..8, high9..12, low13..16, filter17..20 and level21..24. Logical CH1..4 map to native A..D, with C/D opt-in and per-source pickup. The separately attached manufacturer-branded G2V/G4V Traktor layout establishes the normal one-to-one mixer functions. These are owner-reported protocol facts, not a manufacturer numeric specification or native hardware test. The separately recovered Deck-B TSI concerns player/FX/pad commands and is not used to infer missing mixer addresses, state, polarity or sibling support. Native imports only24 normal seven-bit mixer positions on an already exposed MIDI port. Manual selection is required; no automatic USB identity, stored-state discovery or audio ownership is claimed. Deck switching/modifiers, transport/Cue, pads/loops/FX, pitch/jog/touch calibration, globals/crossfader, feedback/meters, full lifecycle/recovery and exact USB/driver/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. No G2V or Slate map is inherited. No source mapping executes or ships, and no setup/query/preset/driver/firmware/output/audio-route packet runs.",
+        "Primary owner khan.cross published the G4V MIDI chart on29June2016 in the DJ TechTools controller-mapping discussion. The image identifies its creation on18April2016 with Traktor2.10.013. Visually reviewed all four physical strips in order3/1/2/4. Their fixed MIDI channel4/raw3 absolute knobs/faders are CH1..4 gainCC1..4, mid5..8, high9..12, low13..16, filter17..20 and level21..24. Logical CH1..4 map to native A..D, with C/D opt-in and per-source pickup. The separately attached manufacturer-branded G2V/G4V Traktor layout establishes the normal one-to-one mixer functions. These are owner-reported protocol facts, not a manufacturer numeric specification or native hardware test.  R468 independently reviews primary author Javier Vilarroig PR4323 head c7826ca66632be6c88b5138cf2d07ab42726f7fb. The PR is open/unmerged, not a released Mixxx claim. Its XML and component roles qualify manual normal Play1/held Cue2/Sync4/Keylock5 on raw0/1; positive Note38 toggles native A/C or B/D. Manual apply/reconnect starts A/B; optional hardware bank lamps are not driven, so they are not a native state indicator. C/D require app opt-in. Physical mixer targets stay fixed as player banks change. Own raw3 PFL Notes13..16 toggle four fixed targets. Raw3 masterCC27 and cueMix26 are normal; crossCC25 is explicitly inverted. The mapper volumePot constant mistakenly overlaps filterCC17..20; its separate XML and earlier owner chart independently confirm levelCC21..24, which native retains. Duplicate low-pot construction and source shutdown/FX setup are not copied. CUP3 is not held Cue; Load/eject/Shift, pad modes, relative browse/jog formats and calibration, tempo, orientation, booth/monitor and complete feedback/lifecycle/audio remain inactive or open. The earlier mixer-only scope is expanded only by these independently qualified native facts. Every active wire is present in the pinned XML; no script/component code executes or ships.",
         "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
@@ -359552,7 +359567,7 @@
       ]
     },
     {
-      "id": "reviewed:g4v-owner-chart-normal-mixer",
+      "id": "reviewed:g4v-primary-native-manual-banks",
       "name": "Gemini G4V",
       "transport": "midi",
       "source": {
@@ -359570,6 +359585,18 @@
           {
             "cachePath": "TestBuilds/r467/upstream/g4v-deck-b.tsi",
             "sha256": "df77724f9a3d44fc1c661e1b9cbdc3817e39efd0b1fbdc57bf3427bb8ccdb802"
+          },
+          {
+            "cachePath": "TestBuilds/r468/upstream/g4v.midi.xml",
+            "sha256": "4b2d33cf8b92c33cca878c715ee185e1cfe69c0b8aea98494ff40d74fbae6480"
+          },
+          {
+            "cachePath": "TestBuilds/r468/upstream/g4v-scripts.js",
+            "sha256": "eb8cec0fdb970637bfe6bc6c8cd286f3680754a0fa26b89208e3804239de6b14"
+          },
+          {
+            "cachePath": "TestBuilds/r468/upstream/g4v-pr4323.json",
+            "sha256": "09892b938d3eefcc6eb83628d917ce738ed41cf099e9c9469100acdc0e7cdf5e"
           }
         ],
         "relatedSources": [
@@ -359581,11 +359608,16 @@
           },
           {
             "url": "https://www.geminisound.com/blogs/kb/g2v-g4v-traktor-setup-guide-legacy-kb"
+          },
+          {
+            "url": "https://github.com/mixxxdj/mixxx/pull/4323",
+            "upstreamRevision": "c7826ca66632be6c88b5138cf2d07ab42726f7fb",
+            "merged": false
           }
         ],
-        "review": "Primary owner khan.cross published the G4V MIDI chart on29June2016 in the DJ TechTools controller-mapping discussion. The image identifies its creation on18April2016 with Traktor2.10.013. Visually reviewed all four physical strips in order3/1/2/4. Their fixed MIDI channel4/raw3 absolute knobs/faders are CH1..4 gainCC1..4, mid5..8, high9..12, low13..16, filter17..20 and level21..24. Logical CH1..4 map to native A..D, with C/D opt-in and per-source pickup. The separately attached manufacturer-branded G2V/G4V Traktor layout establishes the normal one-to-one mixer functions. These are owner-reported protocol facts, not a manufacturer numeric specification or native hardware test. The separately recovered Deck-B TSI concerns player/FX/pad commands and is not used to infer missing mixer addresses, state, polarity or sibling support. Native imports only24 normal seven-bit mixer positions on an already exposed MIDI port. Manual selection is required; no automatic USB identity, stored-state discovery or audio ownership is claimed. Deck switching/modifiers, transport/Cue, pads/loops/FX, pitch/jog/touch calibration, globals/crossfader, feedback/meters, full lifecycle/recovery and exact USB/driver/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. No G2V or Slate map is inherited. No source mapping executes or ships, and no setup/query/preset/driver/firmware/output/audio-route packet runs."
+        "review": "Primary owner khan.cross published the G4V MIDI chart on29June2016 in the DJ TechTools controller-mapping discussion. The image identifies its creation on18April2016 with Traktor2.10.013. Visually reviewed all four physical strips in order3/1/2/4. Their fixed MIDI channel4/raw3 absolute knobs/faders are CH1..4 gainCC1..4, mid5..8, high9..12, low13..16, filter17..20 and level21..24. Logical CH1..4 map to native A..D, with C/D opt-in and per-source pickup. The separately attached manufacturer-branded G2V/G4V Traktor layout establishes the normal one-to-one mixer functions. These are owner-reported protocol facts, not a manufacturer numeric specification or native hardware test.  R468 independently reviews primary author Javier Vilarroig PR4323 head c7826ca66632be6c88b5138cf2d07ab42726f7fb. The PR is open/unmerged, not a released Mixxx claim. Its XML and component roles qualify manual normal Play1/held Cue2/Sync4/Keylock5 on raw0/1; positive Note38 toggles native A/C or B/D. Manual apply/reconnect starts A/B; optional hardware bank lamps are not driven, so they are not a native state indicator. C/D require app opt-in. Physical mixer targets stay fixed as player banks change. Own raw3 PFL Notes13..16 toggle four fixed targets. Raw3 masterCC27 and cueMix26 are normal; crossCC25 is explicitly inverted. The mapper volumePot constant mistakenly overlaps filterCC17..20; its separate XML and earlier owner chart independently confirm levelCC21..24, which native retains. Duplicate low-pot construction and source shutdown/FX setup are not copied. CUP3 is not held Cue; Load/eject/Shift, pad modes, relative browse/jog formats and calibration, tempo, orientation, booth/monitor and complete feedback/lifecycle/audio remain inactive or open. The earlier mixer-only scope is expanded only by these independently qualified native facts. Every active wire is present in the pinned XML; no script/component code executes or ships."
       },
-      "implementedInputCount": 24,
+      "implementedInputCount": 39,
       "implementedOutputCount": 0,
       "sourceInputCount": null,
       "sourceOutputCount": null,
@@ -359594,7 +359626,7 @@
           "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
         },
         {
-          "reason": "Primary owner khan.cross published the G4V MIDI chart on29June2016 in the DJ TechTools controller-mapping discussion. The image identifies its creation on18April2016 with Traktor2.10.013. Visually reviewed all four physical strips in order3/1/2/4. Their fixed MIDI channel4/raw3 absolute knobs/faders are CH1..4 gainCC1..4, mid5..8, high9..12, low13..16, filter17..20 and level21..24. Logical CH1..4 map to native A..D, with C/D opt-in and per-source pickup. The separately attached manufacturer-branded G2V/G4V Traktor layout establishes the normal one-to-one mixer functions. These are owner-reported protocol facts, not a manufacturer numeric specification or native hardware test. The separately recovered Deck-B TSI concerns player/FX/pad commands and is not used to infer missing mixer addresses, state, polarity or sibling support. Native imports only24 normal seven-bit mixer positions on an already exposed MIDI port. Manual selection is required; no automatic USB identity, stored-state discovery or audio ownership is claimed. Deck switching/modifiers, transport/Cue, pads/loops/FX, pitch/jog/touch calibration, globals/crossfader, feedback/meters, full lifecycle/recovery and exact USB/driver/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. No G2V or Slate map is inherited. No source mapping executes or ships, and no setup/query/preset/driver/firmware/output/audio-route packet runs."
+          "reason": "Primary owner khan.cross published the G4V MIDI chart on29June2016 in the DJ TechTools controller-mapping discussion. The image identifies its creation on18April2016 with Traktor2.10.013. Visually reviewed all four physical strips in order3/1/2/4. Their fixed MIDI channel4/raw3 absolute knobs/faders are CH1..4 gainCC1..4, mid5..8, high9..12, low13..16, filter17..20 and level21..24. Logical CH1..4 map to native A..D, with C/D opt-in and per-source pickup. The separately attached manufacturer-branded G2V/G4V Traktor layout establishes the normal one-to-one mixer functions. These are owner-reported protocol facts, not a manufacturer numeric specification or native hardware test.  R468 independently reviews primary author Javier Vilarroig PR4323 head c7826ca66632be6c88b5138cf2d07ab42726f7fb. The PR is open/unmerged, not a released Mixxx claim. Its XML and component roles qualify manual normal Play1/held Cue2/Sync4/Keylock5 on raw0/1; positive Note38 toggles native A/C or B/D. Manual apply/reconnect starts A/B; optional hardware bank lamps are not driven, so they are not a native state indicator. C/D require app opt-in. Physical mixer targets stay fixed as player banks change. Own raw3 PFL Notes13..16 toggle four fixed targets. Raw3 masterCC27 and cueMix26 are normal; crossCC25 is explicitly inverted. The mapper volumePot constant mistakenly overlaps filterCC17..20; its separate XML and earlier owner chart independently confirm levelCC21..24, which native retains. Duplicate low-pot construction and source shutdown/FX setup are not copied. CUP3 is not held Cue; Load/eject/Shift, pad modes, relative browse/jog formats and calibration, tempo, orientation, booth/monitor and complete feedback/lifecycle/audio remain inactive or open. The earlier mixer-only scope is expanded only by these independently qualified native facts. Every active wire is present in the pinned XML; no script/component code executes or ships."
         }
       ]
     },
