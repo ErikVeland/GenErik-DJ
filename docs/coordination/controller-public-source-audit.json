@@ -3164,6 +3164,53 @@
         }
       ],
       "result": "Each own manufacturer TSI qualifies25 manual normal inputs. Every active role, wire, target and inversion is checked independently. CUP, conditional modes, wheel and feedback remain inactive. Full identity/audio/host and physical acceptance remain open."
+    },
+    {
+      "request": "R430",
+      "sources": [
+        {
+          "model": "JB Systems DJ KONTROL1",
+          "url": "https://jb-systems.eu/dj-kontrol-1",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r429/upstream/jb-kontrol1-traktor.zip",
+              "url": "https://jb-systems.eu/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1438336605.zip&name=jb-kontrol1-traktor.zip",
+              "sha256": "022ff58f4fcfa45618233e2af97e93a79aac81ddb9690c9a7471bf39b3641317"
+            }
+          ],
+          "result": "Manufacturer download contains only a Word document linking to a community Traktor mapping page. That page was unavailable to the web reader. The download does not contain numeric MIDI definitions."
+        },
+        {
+          "model": "JB Systems DJ KONTROL3S",
+          "url": "https://jb-systems.eu/dj-kontrol-3s",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r429/upstream/jb-kontrol3s.pdf",
+              "url": "https://jb-systems.eu/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1450187503.pdf&name=jb-kontrol3s.pdf",
+              "sha256": "e018ff062c267251fab45f34f7a305b56fe65b0144ac861e00e45cf5b652b968"
+            }
+          ],
+          "result": "Own manufacturer guide describes controls and generic MIDI use. It does not establish numeric messages. No KONTROL3 protocol is inherited."
+        },
+        {
+          "model": "JB Systems DJ KONTROL4",
+          "url": "https://jb-systems.eu/dj-kontrol-4",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r429/upstream/jb-kontrol4.pdf",
+              "url": "https://jb-systems.eu/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1500996134.pdf&name=jb-kontrol4.pdf",
+              "sha256": "46e41cf51222658b055b511d50dc4985e1e205e061cd291d24aa33eaf9f47432"
+            },
+            {
+              "cachePath": "TestBuilds/r430/upstream/jb-kontrol4-2008-mapping.zip",
+              "url": "https://jb-systems.eu/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1651579289.zip&name=DJ-KONTROL4_2008_Mapping",
+              "sha256": "c9a7b508f42178eab7db88a67a28c80977dfff0c00fd052ef1de6903fd37da9a"
+            }
+          ],
+          "result": "Manufacturer specifically limits this mapping to serial numbers starting2008. Its guide identifies the unit as MD1311. The XML mapper device is W1311. Only symbolic controls and software actions are present. The numeric device definition is not included. No Welljoint or earlier serial protocol is inferred."
+        }
+      ],
+      "result": "Three separate primary-source reviews retain first-protocol gaps. Manufacturer semantic mappings, shared model names and unavailable external mappings do not qualify numeric wire implementations. No runtime recipes or claims changed."
     }
   ]
 }

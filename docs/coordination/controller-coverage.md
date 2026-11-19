@@ -5768,3 +5768,11 @@ The manufacturer files explicitly invert pitch and crossfader. Native preserves 
 Validation:327 source checks and8 focused native tests passed. Checks cover source hashes, every active TSI role/target/direction, separate manual identity/capacity, native buttons and duplicate/release handling, inactive sibling roles/channels, all mixer axes, inverted pitch/crossfader, source-specific pickup and strict encoder limits. Both retain finite synced real-WAV playback. All three catalogue gates and190 automatic held-Cue recipes pass. The iPad framework compiled and its resource matches the source. All353 earlier recipes remain identical. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r429/validation.json`.
 
 The catalogue has355 recipes and562 records for555 physical models. Automatic core remains234, with321 without it. First-protocol gaps decrease to161. Full theoretical support remains0/555. Physical/iPad/A10X acceptance remains open.
+
+## R430 — Remaining JB Systems primary-source limits
+
+The manufacturer’s KONTROL1 Traktor download contains a Word document with an external community mapping link. The community page was unavailable to the web reader. The manufacturer download itself has no numeric messages. The KONTROL3S guide also lacks a numeric MIDI table. Neither model inherits KONTROL2/3 or Beyond Music bindings.
+
+The KONTROL4 product page has a separate VirtualDJ mapping for serial numbers starting2008. Its instructions identify that hardware as MD1311. The XML mapper names device W1311 and contains77 symbolic controls/software actions. It does not include the numeric device definition. This qualifies the source’s identity description and serial scope, not a MIDI implementation. No older serial, Welljoint MD1311 or similar controller protocol is inferred. The public numeric definition remains to be found.
+
+Hashed primary downloads and source limits are recorded in the public-source audit. Archives and documents were read without running vendor software, source actions, drivers or firmware. Runtime recipes and counts remain unchanged:355 recipes,161 first-protocol gaps and0/555 full theoretical models. This review does not close those gaps or establish device acceptance.
