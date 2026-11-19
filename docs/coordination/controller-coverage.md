@@ -6149,3 +6149,22 @@ Validation:387 source checks and17 focused native tests pass. Tests cover the bo
 The separate M70 manual has legible numeric tables, but the checked text does not explicitly identify input status bytes. Direct PDF downloads returned403 and screenshot retrieval failed. No CMX-2000 protocol equivalence is inferred. Its public table excerpt is retained as research evidence. The ELMC1 manufacturer page returned429, so that request was not repeated.
 
 The catalogue has384 recipes and555 physical models. Automatic core stays247, with308 without it. First-protocol gaps decrease to133. Full theoretical support remains0/555. The wider manufacturer audit and physical acceptance remain open.
+
+
+## R459 — Independent DJinn players and manual Mode3 mixer
+
+The own manufacturer v3 English manual qualifies64 automatic common-player inputs and a separate90-input manual Mode3 layout. Each has14 optional normal lamps. The manual declares default channels1-2-3 for A-mixer-B and Hold TAP. Native therefore uses raw0/2 for players and raw1 for the manual mixer. No additional physical-model record is created for Mode3.
+
+All three MIDI/audio modes provide player controls. Mode2 excludes mixer MIDI. Mode1 excludes crossfader/master MIDI. The automatic profile therefore contains only common player controls. It provides Play, held Cue/bends, Keylock, four Hot Cues, normal loops, Load and relative native track/group browse. The manual explicitly defines encoder offset64, with positive3 and negative15 examples. Both normal/TAP browser families deliberately retain the same native assignments. Folder push opens a group. Track push loads its own deck.
+
+Explicit plus63 release aliases preserve held ownership and button rearming. TAP33 retires only its source-owned deck holds. CuePlay30 does not become held Cue. SGL/CTN and BPM do not toggle native Sync. Fourteen optional127/0 lamps cover Play, Cue, Keylock and four red Hot Cues per deck. Green/mode/meter outputs remain inactive.
+
+The manual Mode3 profile adds26 gain/EQ/level/master/crossfader/headphone-level input rows. It preserves the own asymmetric left/right CC numbers and both published wire families. Mode3 is controller-only and disables internal USB/Input audio use. Configure separate app audio. Cue Pan blends hardware channels1/2, so it does not become native Cue/Master blend. No PFL selector is invented.
+
+Jog calibration and complete cue/vinyl/classic modes remain unqualified. No isolated touch hold is added without motion. Pitch polarity/range, source/menu/channel/preset discovery, sample/save/clear/loop-pad/FX/kill/centre/mic/booth/relay/meter/fader-start/curve controls remain open. Full feedback/screens/lifecycle/recovery, USB/Link/OS/audio/DVS routing and physical/iPad/A10X acceptance also remain open. No setup, query, mode change, preset, driver, firmware or audio-route write runs. Other Audiophony/Voxoa/OEM protocols are not inherited.
+
+Validation:389 source checks and13 focused native tests pass. Tests cover mode identities, optional lamps, raw0/2 deck ownership, shifted rearming, both momentary releases at three velocities, four Hot Cues and relative browser families. They also cover26 manual mixer rows/pickup, automatic mixer exclusion, source-owned TAP cleanup and inactive functions/channels/groups/sources. Real-WAV checks retain finite synced playback in both profiles. All three catalogue gates,203 automatic held-Cue recipes and25,374 native binding comparisons pass. The iPad framework compiled and its compact resource matches the source. All384 earlier recipes remain identical. Missing-profile failures remain in evidence. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r459/validation.json`.
+
+Own NI AUDIO6/10 manuals were also recovered. Both manuals document headphone MAIN monitoring and default Direct Thru on A/B. The AUDIO10 headphone source can also select incoming audio. The current fixed split route is not inferred from AUDIO2MK2. Mode, source, channel-map and direct-through ownership remain separate work.
+
+The catalogue has386 recipes and555 physical models. Automatic core increases to248, with307 without it. First-protocol gaps decrease to132. Full theoretical support remains0/555. The wider manufacturer audit and physical acceptance remain open.

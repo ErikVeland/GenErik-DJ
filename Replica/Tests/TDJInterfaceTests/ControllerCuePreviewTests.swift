@@ -3448,3 +3448,26 @@ func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String
         #expect(model.controllerValue(.cueA)==1)
     }
 }
+
+
+@Test @MainActor func controllerCatalogueDJinnCommonAndMode3KeepRealAudioSync() async throws {
+    for (name,manual):(String,Bool) in [("Audiophony DJINN",false),("Audiophony DJINN (MIDI mode 3)",true)] {
+        try await withControllerCuePlayback(name,manual:manual) {model,input in
+            input.receiveBytes([0x90,31,1],source:10);input.flushPendingActions()
+            #expect(model.playbackSnapshot?.a.touchActive == true)
+            input.receiveBytes([0x80,94,127,0x90,32,127,32,0,34,127,97,0],source:10);input.flushPendingActions()
+            if manual {
+                input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+                for (ch,n):(UInt8,UInt8) in [(0,16),(1,49)] {
+                    for value:UInt8 in [0,127,64] {
+                        input.receiveBytes([0xB0+ch,n,value],source:10);input.flushPendingActions()
+                    }
+                }
+            }
+            let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+            if manual {#expect(abs((model.controllerValue(.levelA) ?? -1)-64.0/127)<0.000001)}
+        }
+    }
+}

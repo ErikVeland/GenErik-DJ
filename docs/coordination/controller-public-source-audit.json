@@ -4324,6 +4324,32 @@
         }
       ],
       "result": "Independent16-input manual DV2 USB core. A narrow mixer exception adds only two explicit A/B PFL note targets.387 source/17 native checks and iPad framework compilation pass. All383 earlier recipes remain identical. Automatic ownership, complete lifecycle/audio/host and physical acceptance remain open."
+    },
+    {
+      "request": "R459",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "url": "https://www.audiophony.com/downloads/DJinn_v3-EN.pdf",
+          "sha256": "dc003a9729ca46458f8d9c521c6bf721a81ddede1e5d0f7843d6ce2401bf846a",
+          "finding": "Own MIDI pages15..19 visually reviewed. Default raw0/1/2 A/mixer/B and Hold TAP are explicit. Player controls work in all three MIDI/audio modes. A separate manual Mode3 layout qualifies mixer inputs while preserving controller-only audio ownership. Own encoder examples explicitly establish offset64."
+        }
+      ],
+      "additionalFindings": [
+        {
+          "url": "https://www.native-instruments.com/fileadmin/ni_media/downloads/manuals/traktor/traktor_audio_6_manual_english.pdf",
+          "sha256": "1ed313c60544042a527beda4fddca11cde82aaee77c9f65128fc68d9a068c928",
+          "cachePath": "TestBuilds/r459/upstream/audio6-manual.pdf",
+          "finding": "Own manual identifies headphone MAIN monitoring and rear-port Direct Thru defaults. No AUDIO2MK2 fixed split route or unverified hardware mode write is inherited."
+        },
+        {
+          "url": "https://www.native-instruments.com/fileadmin/ni_media/downloads/manuals/traktor/traktor_audio_10_manual_english.pdf",
+          "sha256": "66757ebc35a975e575d84514aecd5c23fd4bd5f3a35b68d55464b3326f124660",
+          "cachePath": "TestBuilds/r459/upstream/audio10-manual.pdf",
+          "finding": "Own manual identifies headphone MAIN output or direct-input monitoring and Direct Thru configuration. Automatic split routing, physical headphone-source state and complete mode ownership remain unqualified."
+        }
+      ],
+      "result": "Independent64-input automatic common-player core and separate90-input manual Mode3 variant,14 optional lamps each.389 source/13 native checks and iPad framework compilation pass. All384 earlier recipes remain identical. Full modes/motion/feedback/lifecycle/audio/physical acceptance remain open."
     }
   ]
 }

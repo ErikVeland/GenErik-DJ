@@ -25591,12 +25591,18 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://www.audiophony.com/downloads/DJinn_v3-EN.pdf",
         "https://virtualdj.com/products/hardware.html?model=DJINN"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:djinn-manual-mode3",
+        "reviewed:djinn-common-player-core"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Audiophony DJINN",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Audiophony DJINN",
@@ -25604,40 +25610,69 @@
           "source": "https://virtualdj.com/products/hardware.html?model=DJINN"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "browseGroups",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "keylockA:a",
+        "keylockB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutOrExitA:a",
+        "loopOutOrExitB:b",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b"
+      ],
+      "inputBindingCount": 64,
+      "feedbackBindingCount": 14,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Hardware MIDI mode with factory channels1-2-3 (A-mixer-B) and Hold TAP. The common player subset works in all three MIDI/audio modes. Mixer/automatic audio ownership remains unqualified. Select the separate manual Mode3 layout only after hardware configuration."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Own manufacturer v3 English manual pp12/15..19/21. Numeric tables visually reviewed. Factory MIDI channels1-2-3 mean raw0 Deck A, raw1 mixer and raw2 Deck B. Default TAP is Hold. All three MIDI/audio modes expose player controls; Mode2 excludes mixer MIDI and Mode1 excludes crossfader/master MIDI. The automatic64-input core therefore excludes the mixer. The manual90-input Mode3 variant adds only qualified software-mixer controls and requires separate audio. Native normal Play32/Cue31/Keylock29/In2/Out3/Reloop4/Bends34/35/Load1 and four Hot Cues8..11 keep explicit shifted plus63 release-only guards. CuePlay30 is not held Cue and stays inactive. Folder push5 opens a native group. Track push1 loads that deck. Per-deck Track CC22/38 and Folder CC23/39, plus63 alternatives, use explicitly defined offset64 relative messages; both wire families deliberately step native tracks/groups. TAP33 both edges retire only the source-owned deck holds. No global Shift latch is invented. Fourteen optional normal Play/Cue/Keylock/red Hot Cue lamps use127/0. Mode3 adds gain17/33, high18/34, mid19/35, low20/36, level16/32 on their own raw0/2 channels, and each explicit shifted plus63 CC family. Global raw1 master49/crossfader48/headphone level51 and their plus63 families retain the same native actions. Cue Pan CC52 blends hardware channels1/2, not Cue/Master, so it is not native cueMix. No PFL selector is invented. Jog encodings are published but physical calibration/complete cue/vinyl/classic modes remain unqualified; no standalone touch hold is added without motion. Pitch polarity/range, source/menu/channel/preset discovery, sample/save/clear/loop-pad/FX/kill/centres/mic/booth/relay/meter/fader-start/curve controls, full feedback/screens/lifecycle/recovery, USB/Link/OS/audio/DVS routing and physical/iPad/A10X acceptance remain open. SGL/CTN and BPM are not assigned a native Sync toggle. Mode3 is controller-only and disables internal USB/Input audio use. No setup, mode query/change, preset, driver, firmware or audio-route packet runs. Other Audiophony/Voxoa/OEM protocols are not inherited."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -358507,6 +358542,62 @@
         },
         {
           "reason": "Own manufacturer manual pp11/12 qualifies MIDI-enabled internal mixing and explicitly defines continuous VR as Bn0..127 and SW as9n127/0, with n the channel. The manufacturer-hosted AADV2.xml and mapper are authored by Leo_V and independently corroborate NOTE/CC types and addresses; read as data, not executed. Their DV2_USB device/description identifies the catalogue DV2 entry as DV2 USB. No fixed factory channel is established. This16-input manual accessory accepts the documented n only through the bounded unbanked mixer contract:14 unique continuous controls and two unique A/B PFL notes, no momentary/transport/Shift/mode/bank/output/setup/audio contract. CH1 gain47/high48/mid49/low50/level58 and CH2 gain51/high52/mid53/low54/level59 remain independent. Global master55/cueMix56/headphone57/crossfader60 and PFL Note9/10 are direct manufacturer facts. Press hardware MIDI before use and keep fader reverse off. MIDI mode changes internal hardware/audio ownership; native does not select or discover it. The manual assigns software headphones to Core/ASIO3/4, while MIDI-off routes separate decks to1/2 and3/4. No automatic audio route is safe before mode ownership is qualified. EQ kill1..6, meter mode7, talkover8, fader reverse11..13, mic CC44..46, curves61..63 and Q-Start32/33 remain inactive. Fader-start notes are not Play. Full feedback/meters/mode/shutdown/recovery, USB/OS/driver or bridge requirements, direct iPad route, DVS/input routing and physical/iPad/A10X acceptance remain open. Requires an already available CoreMIDI source. The product Mac MIDI driver listing is not proof of either class compliance or a mandatory driver. No source SysEx prefix, identity query, MIDI-mode, preset, driver, firmware, mapper or audio-route command runs. No VMS/KUT/DP2 protocol is inherited."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:djinn-manual-mode3",
+      "name": "Audiophony DJINN (MIDI mode 3)",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.audiophony.com/downloads/DJinn_v3-EN.pdf",
+        "sha256": "dc003a9729ca46458f8d9c521c6bf721a81ddede1e5d0f7843d6ce2401bf846a",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r459/upstream/djinn-manual.pdf",
+            "sha256": "dc003a9729ca46458f8d9c521c6bf721a81ddede1e5d0f7843d6ce2401bf846a"
+          }
+        ],
+        "review": "Own manufacturer v3 English manual pp12/15..19/21. Numeric tables visually reviewed. Factory MIDI channels1-2-3 mean raw0 Deck A, raw1 mixer and raw2 Deck B. Default TAP is Hold. All three MIDI/audio modes expose player controls; Mode2 excludes mixer MIDI and Mode1 excludes crossfader/master MIDI. The automatic64-input core therefore excludes the mixer. The manual90-input Mode3 variant adds only qualified software-mixer controls and requires separate audio. Native normal Play32/Cue31/Keylock29/In2/Out3/Reloop4/Bends34/35/Load1 and four Hot Cues8..11 keep explicit shifted plus63 release-only guards. CuePlay30 is not held Cue and stays inactive. Folder push5 opens a native group. Track push1 loads that deck. Per-deck Track CC22/38 and Folder CC23/39, plus63 alternatives, use explicitly defined offset64 relative messages; both wire families deliberately step native tracks/groups. TAP33 both edges retire only the source-owned deck holds. No global Shift latch is invented. Fourteen optional normal Play/Cue/Keylock/red Hot Cue lamps use127/0. Mode3 adds gain17/33, high18/34, mid19/35, low20/36, level16/32 on their own raw0/2 channels, and each explicit shifted plus63 CC family. Global raw1 master49/crossfader48/headphone level51 and their plus63 families retain the same native actions. Cue Pan CC52 blends hardware channels1/2, not Cue/Master, so it is not native cueMix. No PFL selector is invented. Jog encodings are published but physical calibration/complete cue/vinyl/classic modes remain unqualified; no standalone touch hold is added without motion. Pitch polarity/range, source/menu/channel/preset discovery, sample/save/clear/loop-pad/FX/kill/centres/mic/booth/relay/meter/fader-start/curve controls, full feedback/screens/lifecycle/recovery, USB/Link/OS/audio/DVS routing and physical/iPad/A10X acceptance remain open. SGL/CTN and BPM are not assigned a native Sync toggle. Mode3 is controller-only and disables internal USB/Input audio use. No setup, mode query/change, preset, driver, firmware or audio-route packet runs. Other Audiophony/Voxoa/OEM protocols are not inherited."
+      },
+      "implementedInputCount": 90,
+      "implementedOutputCount": 14,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Own manufacturer v3 English manual pp12/15..19/21. Numeric tables visually reviewed. Factory MIDI channels1-2-3 mean raw0 Deck A, raw1 mixer and raw2 Deck B. Default TAP is Hold. All three MIDI/audio modes expose player controls; Mode2 excludes mixer MIDI and Mode1 excludes crossfader/master MIDI. The automatic64-input core therefore excludes the mixer. The manual90-input Mode3 variant adds only qualified software-mixer controls and requires separate audio. Native normal Play32/Cue31/Keylock29/In2/Out3/Reloop4/Bends34/35/Load1 and four Hot Cues8..11 keep explicit shifted plus63 release-only guards. CuePlay30 is not held Cue and stays inactive. Folder push5 opens a native group. Track push1 loads that deck. Per-deck Track CC22/38 and Folder CC23/39, plus63 alternatives, use explicitly defined offset64 relative messages; both wire families deliberately step native tracks/groups. TAP33 both edges retire only the source-owned deck holds. No global Shift latch is invented. Fourteen optional normal Play/Cue/Keylock/red Hot Cue lamps use127/0. Mode3 adds gain17/33, high18/34, mid19/35, low20/36, level16/32 on their own raw0/2 channels, and each explicit shifted plus63 CC family. Global raw1 master49/crossfader48/headphone level51 and their plus63 families retain the same native actions. Cue Pan CC52 blends hardware channels1/2, not Cue/Master, so it is not native cueMix. No PFL selector is invented. Jog encodings are published but physical calibration/complete cue/vinyl/classic modes remain unqualified; no standalone touch hold is added without motion. Pitch polarity/range, source/menu/channel/preset discovery, sample/save/clear/loop-pad/FX/kill/centres/mic/booth/relay/meter/fader-start/curve controls, full feedback/screens/lifecycle/recovery, USB/Link/OS/audio/DVS routing and physical/iPad/A10X acceptance remain open. SGL/CTN and BPM are not assigned a native Sync toggle. Mode3 is controller-only and disables internal USB/Input audio use. No setup, mode query/change, preset, driver, firmware or audio-route packet runs. Other Audiophony/Voxoa/OEM protocols are not inherited."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:djinn-common-player-core",
+      "name": "Audiophony DJINN",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.audiophony.com/downloads/DJinn_v3-EN.pdf",
+        "sha256": "dc003a9729ca46458f8d9c521c6bf721a81ddede1e5d0f7843d6ce2401bf846a",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r459/upstream/djinn-manual.pdf",
+            "sha256": "dc003a9729ca46458f8d9c521c6bf721a81ddede1e5d0f7843d6ce2401bf846a"
+          }
+        ],
+        "review": "Own manufacturer v3 English manual pp12/15..19/21. Numeric tables visually reviewed. Factory MIDI channels1-2-3 mean raw0 Deck A, raw1 mixer and raw2 Deck B. Default TAP is Hold. All three MIDI/audio modes expose player controls; Mode2 excludes mixer MIDI and Mode1 excludes crossfader/master MIDI. The automatic64-input core therefore excludes the mixer. The manual90-input Mode3 variant adds only qualified software-mixer controls and requires separate audio. Native normal Play32/Cue31/Keylock29/In2/Out3/Reloop4/Bends34/35/Load1 and four Hot Cues8..11 keep explicit shifted plus63 release-only guards. CuePlay30 is not held Cue and stays inactive. Folder push5 opens a native group. Track push1 loads that deck. Per-deck Track CC22/38 and Folder CC23/39, plus63 alternatives, use explicitly defined offset64 relative messages; both wire families deliberately step native tracks/groups. TAP33 both edges retire only the source-owned deck holds. No global Shift latch is invented. Fourteen optional normal Play/Cue/Keylock/red Hot Cue lamps use127/0. Mode3 adds gain17/33, high18/34, mid19/35, low20/36, level16/32 on their own raw0/2 channels, and each explicit shifted plus63 CC family. Global raw1 master49/crossfader48/headphone level51 and their plus63 families retain the same native actions. Cue Pan CC52 blends hardware channels1/2, not Cue/Master, so it is not native cueMix. No PFL selector is invented. Jog encodings are published but physical calibration/complete cue/vinyl/classic modes remain unqualified; no standalone touch hold is added without motion. Pitch polarity/range, source/menu/channel/preset discovery, sample/save/clear/loop-pad/FX/kill/centres/mic/booth/relay/meter/fader-start/curve controls, full feedback/screens/lifecycle/recovery, USB/Link/OS/audio/DVS routing and physical/iPad/A10X acceptance remain open. SGL/CTN and BPM are not assigned a native Sync toggle. Mode3 is controller-only and disables internal USB/Input audio use. No setup, mode query/change, preset, driver, firmware or audio-route packet runs. Other Audiophony/Voxoa/OEM protocols are not inherited."
+      },
+      "implementedInputCount": 64,
+      "implementedOutputCount": 14,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Own manufacturer v3 English manual pp12/15..19/21. Numeric tables visually reviewed. Factory MIDI channels1-2-3 mean raw0 Deck A, raw1 mixer and raw2 Deck B. Default TAP is Hold. All three MIDI/audio modes expose player controls; Mode2 excludes mixer MIDI and Mode1 excludes crossfader/master MIDI. The automatic64-input core therefore excludes the mixer. The manual90-input Mode3 variant adds only qualified software-mixer controls and requires separate audio. Native normal Play32/Cue31/Keylock29/In2/Out3/Reloop4/Bends34/35/Load1 and four Hot Cues8..11 keep explicit shifted plus63 release-only guards. CuePlay30 is not held Cue and stays inactive. Folder push5 opens a native group. Track push1 loads that deck. Per-deck Track CC22/38 and Folder CC23/39, plus63 alternatives, use explicitly defined offset64 relative messages; both wire families deliberately step native tracks/groups. TAP33 both edges retire only the source-owned deck holds. No global Shift latch is invented. Fourteen optional normal Play/Cue/Keylock/red Hot Cue lamps use127/0. Mode3 adds gain17/33, high18/34, mid19/35, low20/36, level16/32 on their own raw0/2 channels, and each explicit shifted plus63 CC family. Global raw1 master49/crossfader48/headphone level51 and their plus63 families retain the same native actions. Cue Pan CC52 blends hardware channels1/2, not Cue/Master, so it is not native cueMix. No PFL selector is invented. Jog encodings are published but physical calibration/complete cue/vinyl/classic modes remain unqualified; no standalone touch hold is added without motion. Pitch polarity/range, source/menu/channel/preset discovery, sample/save/clear/loop-pad/FX/kill/centres/mic/booth/relay/meter/fader-start/curve controls, full feedback/screens/lifecycle/recovery, USB/Link/OS/audio/DVS routing and physical/iPad/A10X acceptance remain open. SGL/CTN and BPM are not assigned a native Sync toggle. Mode3 is controller-only and disables internal USB/Input audio use. No setup, mode query/change, preset, driver, firmware or audio-route packet runs. Other Audiophony/Voxoa/OEM protocols are not inherited."
         }
       ]
     },
