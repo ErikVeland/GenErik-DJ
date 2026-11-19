@@ -2883,3 +2883,17 @@ func controllerCatalogueLegacyDJMDirectCueKeepsAppStartedRealAudioSynced(_ name:
         #expect(model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test(arguments:["American Audio VERSADECK","Synq DMC-2000"]) @MainActor
+func controllerCatalogueLegacyUSBTransportCueAndManualLoopsKeepRealAudioSync(_ name:String)async throws{
+    try await withControllerCuePlayback(name){model,input in
+        input.receiveBytes([0x90,31,127],source:10);input.flushPendingActions();#expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x80,94,127,0x90,32,127,32,0,2,127,2,0],source:10);input.flushPendingActions()
+        _=model.playback.core.renderOffline(frames:32768);model.refreshPlayback()
+        input.receiveBytes([0x90,3,127,3,0,34,127,0x80,97,127],source:10);input.flushPendingActions()
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.loopEnabled == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}

@@ -96,7 +96,7 @@
           "model": "Seventy-Two MKII",
           "downloads": [
             {
-              "description": "Seventy-Two Control Panel – macOS v1.1.2",
+              "description": "Seventy-Two Control Panel \u2013 macOS v1.1.2",
               "type": "Editor",
               "url": "https://cdn.inmusicbrands.com/rane/seventy-two/MacRaneSeventy-Two_1.1.2.dmg"
             },
@@ -126,7 +126,7 @@
           "model": "Seventy-Two",
           "downloads": [
             {
-              "description": "Seventy-Two Control Panel – macOS v1.1.2",
+              "description": "Seventy-Two Control Panel \u2013 macOS v1.1.2",
               "type": "Editor",
               "url": "https://cdn.inmusicbrands.com/rane/seventy-two/MacRaneSeventy-Two_1.1.2.dmg"
             },
@@ -156,12 +156,12 @@
           "model": "Seventy",
           "downloads": [
             {
-              "description": "SEVENTY Firmware Update – macOS v1.1.0.127 (Latest Version)",
+              "description": "SEVENTY Firmware Update \u2013 macOS v1.1.0.127 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/seventy/Rane%20Seventy%20Firmware%20Updater%20For%20Firmware%201.1.0.127%20%28Updater%201.0.1%29.dmg"
             },
             {
-              "description": "SEVENTY Firmware Update – Windows v1.1.0.127 (Latest Version)",
+              "description": "SEVENTY Firmware Update \u2013 Windows v1.1.0.127 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/seventy/Install%20Rane%20Seventy%20Firmware%20Updater%20For%20Firmware%201.1.0.127%20%28Updater%201.0.0%29.exe"
             },
@@ -211,7 +211,7 @@
               "url": "https://cdn.inmusicbrands.com/rane/four/Install%20Rane%20FOUR%201.0.10.exe"
             },
             {
-              "description": "FOUR Firmware Update – macOS 1.8.0.18 (Latest Version)",
+              "description": "FOUR Firmware Update \u2013 macOS 1.8.0.18 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/Software/RD/RANE%20FOUR%20Firmware%20Updater%20For%20Firmware%201.8.0.18.dmg"
             },
@@ -226,7 +226,7 @@
               "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20FOUR%20Firmware%20-%20Release%20Note%20History%20v1.8.0.18.pdf"
             },
             {
-              "description": "FOUR Firmware Update – macOS v1.7.0.8",
+              "description": "FOUR Firmware Update \u2013 macOS v1.7.0.8",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/four/RANE%20FOUR%20Firmware%20Updater%20For%20Firmware%201.7.0.8%20%28Updater%201.1.6%29.dmg"
             },
@@ -306,12 +306,12 @@
               "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%201.0.2.exe"
             },
             {
-              "description": "PERFORMER Firmware Update – macOS v1.3.0.13 (Latest Version)",
+              "description": "PERFORMER Firmware Update \u2013 macOS v1.3.0.13 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.3.0.13.dmg"
             },
             {
-              "description": "PERFORMER Firmware Update – Windows v1.3.0.13 (Latest Version)",
+              "description": "PERFORMER Firmware Update \u2013 Windows v1.3.0.13 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/Software/RD/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.3.0.13.exe"
             },
@@ -321,12 +321,12 @@
               "url": "https://cdn.inmusicbrands.com/Software/RD/Rane%20PERFORMER%20Firmware%20-%20Release%20Note%20History%20v1.3.0.13.pdf"
             },
             {
-              "description": "PERFORMER Firmware Update – macOS v1.2.0.10",
+              "description": "PERFORMER Firmware Update \u2013 macOS v1.2.0.10",
               "type": "Driver",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.2.0.10%20%28Updater%201.0.5%29.dmg"
             },
             {
-              "description": "PERFORMER Firmware Update – Windows v1.2.0.10",
+              "description": "PERFORMER Firmware Update \u2013 Windows v1.2.0.10",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.2.0.10%20%28Updater%201.0.4%29.exe"
             },
@@ -336,12 +336,12 @@
               "url": "https://cdn.inmusicbrands.com/rane/performer/Release%20Notes%20-%20Rane%20PERFORMER%20Firmware%20v1.2.0.10.pdf"
             },
             {
-              "description": "PERFORMER Firmware Update – macOS v1.1.0.13",
+              "description": "PERFORMER Firmware Update \u2013 macOS v1.1.0.13",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.1.0.13%20%28Updater%201.0.3%29.dmg"
             },
             {
-              "description": "PERFORMER Firmware Update – Windows v1.1.0.13",
+              "description": "PERFORMER Firmware Update \u2013 Windows v1.1.0.13",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/performer/Install%20Rane%20PERFORMER%20Firmware%20Updater%20For%20Firmware%201.1.0.13%20%28Updater%201.0.3%29.exe"
             },
@@ -356,12 +356,12 @@
           "model": "Rane One MKII",
           "downloads": [
             {
-              "description": " ONE MKII Firmware Update – macOS v1.2.0.2 (Latest Version)",
+              "description": " ONE MKII Firmware Update \u2013 macOS v1.2.0.2 (Latest Version)",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/one-mkii/FW1202/Rane%20ONE%20MKII%20Firmware%20Updater%20For%20Firmware%201.2.0.2%20%28Updater%201.0.2%29%201.dmg"
             },
             {
-              "description": " ONE MKII Firmware Update – Windows v1.2.0.2 (Latest Version) ",
+              "description": " ONE MKII Firmware Update \u2013 Windows v1.2.0.2 (Latest Version) ",
               "type": "Firmware Update",
               "url": "https://cdn.inmusicbrands.com/rane/one-mkii/FW1202/Install%20Rane%20ONE%20MKII%20Firmware%20Updater%20For%20Firmware%201.2.0.2%20%28Updater%201.0.2%29.exe"
             },
@@ -2029,6 +2029,62 @@
         }
       ],
       "result": "Independent automatic42-control MC-1000 native core with96 release-only guards and typed per-side/source context observation. Every wire appears in the manufacturer TSI. Load conditions and full modes/feedback/audio remain open.287 source/51 native checks and iPad framework compilation pass. All307 earlier recipes remain identical."
+    },
+    {
+      "request": "R411",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "model": "American Audio VERSADECK",
+          "url": "https://www.adj.com/cdn/shop/files/5be308675de7801329d188d3f0cf44323069d6d2_versadeck_user_manual.pdf?v=11627430234356086881",
+          "sha256": "31c2ccf88db7d83704c8eea49c8761690d016feccf2fdd7b41078edea59b9bf9",
+          "cacheName": "versadeck-manual.pdf",
+          "pages": [
+            10,
+            11,
+            13,
+            19,
+            37,
+            38,
+            39
+          ],
+          "visuallyReviewedPages": [
+            37,
+            38
+          ],
+          "productURL": "https://www.adj.com/products/versadeck",
+          "review": "Own manufacturer table independently qualifies default wire channels0/1/2, selected normal and Shift addresses, 64-centred encoder deltas and note127/0 switches. Both source selectors must be PC and TAP must be Hold. Native Track push loads, Folder push opens groups, the lamp button13 controls app PFL. TAP21 and Cue Play30 stay inactive. Red Hot Cue feedback uses1, not127: manufacturer colour ranges are1..31 red and33..63 green. ProMixer uses conflicting channels/zero addresses and is not inherited. Jog/tempo calibration, complete alternate/FX/kill controls, display/meters, lifecycle/audio and physical/iPad/A10X acceptance remain open."
+        },
+        {
+          "model": "Synq DMC-2000",
+          "url": "https://synq-audio.com/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1466605574.pdf&name=DMC-2000_Manual_v2.0",
+          "sha256": "8531ac0d5857cf028e55c7480fd9cf7f4ffae6830747bedb68fc4361ae9dcc1f",
+          "cacheName": "dmc2000-v2.pdf",
+          "pages": [
+            9,
+            10,
+            12,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21
+          ],
+          "visuallyReviewedPages": [
+            18,
+            19
+          ],
+          "pageNumbering": "PDF page numbers",
+          "productURL": "https://synq-audio.com/dmc-2000",
+          "mappingURL": "https://synq-audio.com/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1438607731.zip&name=DMC-2000_Traktor2_mappings",
+          "mappingSHA256": "d569f63552022c84d7aa66d6c8295ba85b35ab11d332941076afa0759510a0ab",
+          "mappingMember": "DMC2000-TRAKTOR2_PRO-BASIC_mapping/DMC2000-TRAKTOR2_PRO-BASIC_mapping (WITH XFADER).tsi",
+          "mappingMemberSHA256": "1667c7fdda330cb18d7c9b53456a4f70076a0c75239414960040df6ce61ce505",
+          "review": "Own v2.0 manufacturer manual independently qualifies default wire channels0/1/2, normal/Shift addresses, 64-centred encoder deltas and note127/0 switches. Both deck selectors must be MIDI, mixer mode MIDI and TAP Hold. Native Track push and Load Track13 load the deck; Folder push opens groups. TAP/Shift30 and Database33 stay inactive. The separate official basic Traktor TSI independently corroborates overlapping raw wires without executing Traktor commands. Red Hot Cue lamps use127 on their dedicated addresses; green addresses differ from VERSADECK and stay inactive. ProMixer conflicts are not inherited. Jog/tempo calibration, complete alternate/FX/kill controls, display/meters, lifecycle/audio and physical/iPad/A10X acceptance remain open."
+        }
+      ],
+      "result": "Independent automatic48-control normal-layer cores with30 alternate release guards and16 owned lamps each. Source-local channel observation resets pickup and held controls on qualified Shift wire changes.290 source/22 native checks and iPad framework compilation pass. All308 earlier recipes remain identical. Jog/tempo calibration, full modes/audio/lifecycle and physical acceptance remain open."
     }
   ]
 }

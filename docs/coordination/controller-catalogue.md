@@ -11,10 +11,10 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 561 total catalogue records. 554 name physical models. The remainder identify software endpoints or protocol families.
-- 308 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 198 factory profiles select core controls automatically for 206 physical models.
+- 310 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 200 factory profiles select core controls automatically for 208 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
-- 342 physical models still lack automatic core controls.
+- 340 physical models still lack automatic core controls.
 - 554 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -223,13 +223,13 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 17 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 200 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 202 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
 | partial-midi-profile | 112 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 208 | The pinned references contain no implemented mapping for this model. |
+| protocol-needed | 206 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -476,7 +476,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | American Audio RADIUS 1000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RADIUS1000) |
 | American Audio RADIUS 3000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RADIUS3000) |
 | American Audio Radius 2000 CH1 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/American%20Audio%20RADIUS%202000%20CH1.midi.xml) |
-| American Audio VERSADECK | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=VERSADECKM) |
+| American Audio VERSADECK | primary | automatic-core-profile | [Reference](https://www.adj.com/cdn/shop/files/5be308675de7801329d188d3f0cf44323069d6d2_versadeck_user_manual.pdf?v=11627430234356086881) |
 | American Audio VMS2 | primary | partial-midi-profile | [Reference](https://cdn-docs.av-iq.com/other/VMS2_User%20Manual.pdf) |
 | American Audio VMS4 | primary | partial-midi-profile | [Reference](https://manual.mixxx.org/2.5/en/hardware/controllers/american_audio_vms4) |
 | American Audio VMS4.1 | primary | partial-midi-profile | [Reference](https://manual.mixxx.org/2.5/en/hardware/controllers/american_audio_vms4) |
@@ -766,7 +766,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Stanton SCS.3m | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton%20SCS.3m.midi.xml) |
 | Stanton SCS.4DJ | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=SCS4DJ) |
 | Synq DMC-1000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DMC1000) |
-| Synq DMC-2000 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DMC2000) |
+| Synq DMC-2000 | primary | automatic-core-profile | [Reference](https://synq-audio.com/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1466605574.pdf&name=DMC-2000_Manual_v2.0) |
 | Synq PCM-1 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=PCM-1) |
 | Tascam US-428 | primary | partial-midi-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/us428.midi.xml) |
 | The Next Beat SX1 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=NBSX1) |

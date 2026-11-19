@@ -23512,12 +23512,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://www.adj.com/cdn/shop/files/5be308675de7801329d188d3f0cf44323069d6d2_versadeck_user_manual.pdf?v=11627430234356086881",
         "https://virtualdj.com/products/hardware.html?model=VERSADECKM"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:versadeck-default-native"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "American Audio VERSADECK",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "American Audio VERSADECK",
@@ -23525,40 +23530,85 @@
           "source": "https://virtualdj.com/products/hardware.html?model=VERSADECKM"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "browseGroups",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b"
+      ],
+      "inputBindingCount": 78,
+      "feedbackBindingCount": 16,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Set both source selectors to PC. Use default MIDI channels1/2/3 and TAP Hold. Configure audio separately. Native uses normal controls; alternate positive commands are inactive."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Jog/touch/tempo calibration, dedicated Sync, complete Shift/FX/kill/pad and configurable channel modes, display/meters, complete lifecycle/audio routing and physical/iPad/A10X acceptance remain open. Shift alone does not select an app layer; the next qualified wire change clears held controls/pickup. No stored preset, firmware, source mapping action or automatic audio route is written."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -58268,12 +58318,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://synq-audio.com/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1466605574.pdf&name=DMC-2000_Manual_v2.0",
         "https://virtualdj.com/products/hardware.html?model=DMC2000"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "manufacturer:synq-dmc-2000-default-native"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Synq DMC-2000",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Synq DMC-2000",
@@ -58281,40 +58336,83 @@
           "source": "https://virtualdj.com/products/hardware.html?model=DMC2000"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "browseGroups",
+        "crossfader",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "lowA:a",
+        "lowB:b",
+        "master",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "openGroup",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "reloopA:a",
+        "reloopB:b"
+      ],
+      "inputBindingCount": 78,
+      "feedbackBindingCount": 16,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Set both deck selectors to MIDI and mixer mode to MIDI. Use default MIDI channels1/2/3 and TAP Hold. Configure audio separately. Native uses normal controls; alternate positive commands are inactive."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Jog/touch/tempo calibration, dedicated Sync, complete Shift/FX/kill/pad and configurable channel modes, display/meters, complete lifecycle/audio routing and physical/iPad/A10X acceptance remain open. Shift alone does not select an app layer; the next qualified wire change clears held controls/pickup. No stored preset, firmware, source mapping action or automatic audio route is written."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -351330,6 +351428,87 @@
         },
         {
           "reason": "Global Load-bank software conditions, full FX/Shift/Bend and hold functions, additional channel-switch positions, complete feedback/state/lifecycle/audio, OS driver/port behaviour and physical/iPad/A10X acceptance remain open. No TSI action, stored preset, private SDK, hardware setup or audio route is written."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:versadeck-default-native",
+      "name": "American Audio VERSADECK",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.adj.com/cdn/shop/files/5be308675de7801329d188d3f0cf44323069d6d2_versadeck_user_manual.pdf?v=11627430234356086881",
+        "sha256": "31c2ccf88db7d83704c8eea49c8761690d016feccf2fdd7b41078edea59b9bf9",
+        "cacheName": "versadeck-manual.pdf",
+        "pages": [
+          10,
+          11,
+          13,
+          19,
+          37,
+          38,
+          39
+        ],
+        "visuallyReviewedPages": [
+          37,
+          38
+        ],
+        "productURL": "https://www.adj.com/products/versadeck",
+        "review": "Own manufacturer table independently qualifies default wire channels0/1/2, selected normal and Shift addresses, 64-centred encoder deltas and note127/0 switches. Both source selectors must be PC and TAP must be Hold. Native Track push loads, Folder push opens groups, the lamp button13 controls app PFL. TAP21 and Cue Play30 stay inactive. Red Hot Cue feedback uses1, not127: manufacturer colour ranges are1..31 red and33..63 green. ProMixer uses conflicting channels/zero addresses and is not inherited. Jog/tempo calibration, complete alternate/FX/kill controls, display/meters, lifecycle/audio and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 78,
+      "implementedOutputCount": 16,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Jog/touch/tempo calibration, dedicated Sync, complete Shift/FX/kill/pad and configurable channel modes, display/meters, complete lifecycle/audio routing and physical/iPad/A10X acceptance remain open. Shift alone does not select an app layer; the next qualified wire change clears held controls/pickup. No stored preset, firmware, source mapping action or automatic audio route is written."
+        }
+      ]
+    },
+    {
+      "id": "manufacturer:synq-dmc-2000-default-native",
+      "name": "Synq DMC-2000",
+      "transport": "midi",
+      "source": {
+        "url": "https://synq-audio.com/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1466605574.pdf&name=DMC-2000_Manual_v2.0",
+        "sha256": "8531ac0d5857cf028e55c7480fd9cf7f4ffae6830747bedb68fc4361ae9dcc1f",
+        "cacheName": "dmc2000-v2.pdf",
+        "pages": [
+          9,
+          10,
+          12,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21
+        ],
+        "visuallyReviewedPages": [
+          18,
+          19
+        ],
+        "pageNumbering": "PDF page numbers",
+        "productURL": "https://synq-audio.com/dmc-2000",
+        "mappingURL": "https://synq-audio.com/fileuploader/download/download/?d=0&file=custom%2Fupload%2FFile-1438607731.zip&name=DMC-2000_Traktor2_mappings",
+        "mappingSHA256": "d569f63552022c84d7aa66d6c8295ba85b35ab11d332941076afa0759510a0ab",
+        "mappingMember": "DMC2000-TRAKTOR2_PRO-BASIC_mapping/DMC2000-TRAKTOR2_PRO-BASIC_mapping (WITH XFADER).tsi",
+        "mappingMemberSHA256": "1667c7fdda330cb18d7c9b53456a4f70076a0c75239414960040df6ce61ce505",
+        "review": "Own v2.0 manufacturer manual independently qualifies default wire channels0/1/2, normal/Shift addresses, 64-centred encoder deltas and note127/0 switches. Both deck selectors must be MIDI, mixer mode MIDI and TAP Hold. Native Track push and Load Track13 load the deck; Folder push opens groups. TAP/Shift30 and Database33 stay inactive. The separate official basic Traktor TSI independently corroborates overlapping raw wires without executing Traktor commands. Red Hot Cue lamps use127 on their dedicated addresses; green addresses differ from VERSADECK and stay inactive. ProMixer conflicts are not inherited. Jog/tempo calibration, complete alternate/FX/kill controls, display/meters, lifecycle/audio and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 78,
+      "implementedOutputCount": 16,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Jog/touch/tempo calibration, dedicated Sync, complete Shift/FX/kill/pad and configurable channel modes, display/meters, complete lifecycle/audio routing and physical/iPad/A10X acceptance remain open. Shift alone does not select an app layer; the next qualified wire change clears held controls/pickup. No stored preset, firmware, source mapping action or automatic audio route is written."
         }
       ]
     },

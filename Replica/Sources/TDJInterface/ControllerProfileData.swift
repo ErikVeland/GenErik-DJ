@@ -5,7 +5,7 @@ struct ControllerProfileData: Decodable, Sendable {
     enum InputProtocol: String, Codable, Sendable {
         case smk25II, cdj101, ddjSR2, keyLabMKI, kontrolOne, midiFighterSpectra, p1Nano, sc5000M, denonPrimePlayer,
             denonPrime4, nanoKontrol2Native, nanoPad2Native, nanoKontrolScene, xdjAN, launchControlDAW,
-            launchControlTemplate, launchControlXLTemplate, mc1000
+            launchControlTemplate, launchControlXLTemplate, mc1000, legacyUSBPlayer
         var setupInputMode: ControllerSetupInputDecoder.Mode? {
             self == .launchControlXLTemplate
                 ? .launchControlXLTemplate
