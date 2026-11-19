@@ -2111,6 +2111,38 @@
         }
       ],
       "result": "Independent manual32-input TOUR1 primary-bus mixer with24 positive input-selector pickup reset messages.292 source/17 native checks and iPad framework compilation pass. All310 earlier recipes remain identical. V5 own MIDI FAQ points to its Software Information section, which currently lists no MIDI table; the V5 protocol gap remains open."
+    },
+    {
+      "request": "R413",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "model": "CITRONIC MPX10",
+          "url": "https://www.billebro.se/proddoc/PRID_6104_doc_170700.pdf",
+          "sha256": "caa911c15469f79a80a9ee3e0e20e6f7b81fadd9e53911f3bd7bb0f13ecc7e04",
+          "cacheName": "citronic-mpx10-v3.pdf",
+          "cacheRequest": "r413",
+          "version": "3.0",
+          "pages": [
+            3,
+            11,
+            15,
+            16,
+            20,
+            21,
+            22,
+            23,
+            24
+          ],
+          "visuallyReviewedPages": [
+            20,
+            21,
+            22
+          ],
+          "review": "Independent manufacturer-authored MP-X10 Version3.0 manual from a public retailer mirror qualifies default wire channels0/1/2 and selected normal/Shift note/CC families. Both deck selectors must be PC and Mixer Setup must be MIDI, not its documented default Mixer. TAP Hold and default channels1/2/3 are required. Selected wires independently match the bounded legacy USB observer; no sibling protocol or calibration is inferred. Native Track push loads, Folder push opens groups and lamp button13 controls app PFL. Dedicated red Hot Cue lamps use127; green Note48..51 differs from VERSADECK/DMC and remains inactive. The ProMixer MPX10/DJINN/Syncron XMLs are byte-identical and disagree with this primary default table, so they do not qualify this model. Full alternate/FX/kill/pad functions, jog/touch/tempo calibration, displays/meters, complete lifecycle/audio ownership and physical/iPad/A10X acceptance remain open. No stored setting, firmware, installer or mapping action is executed."
+        }
+      ],
+      "result": "Independent manufacturer-qualified48-control automatic normal core with30 release guards and16 dedicated lamps.292 source/17 native checks and iPad framework compilation pass. All311 earlier recipes remain identical. Default standalone Mixer mode must be changed to MIDI; full modes/calibration/audio and physical acceptance remain open."
     }
   ]
 }

@@ -4,7 +4,7 @@ import Testing
 
 @testable import TDJInterface
 
-private let legacyUSBModels = ["American Audio VERSADECK", "Synq DMC-2000"]
+private let legacyUSBModels = ["American Audio VERSADECK", "Synq DMC-2000", "CITRONIC MPX10"]
 @MainActor private func withLegacyUSBPlayer(_ name: String, _ body: (ControllerMIDIConnection) throws -> Void) throws {
     let suite = "legacy-usb-\(UUID().uuidString)"; let preferences = UserDefaults(suiteName: suite)!
     defer { preferences.removePersistentDomain(forName: suite) }
@@ -38,7 +38,7 @@ func controllerCatalogueLegacyUSBDefaultButtonsAndBothCueReleasesUseManufacturer
             for (number, action): (UInt8, ControllerAction) in [
                 (32, .playA), (29, .keylockA), (2, .loopInA), (3, .loopOutA), (4, .reloopA), (1, .loadA),
                 (8, .hotcue1A), (9, .hotcue2A), (10, .hotcue3A), (11, .hotcue4A),
-                (13, name == legacyUSBModels[0] ? .cueA : .loadA),
+                (13, name == legacyUSBModels[1] ? .loadA : .cueA),
             ] {
                 events.removeAll(); legacyUSBPacket([0x90 + channel, number, 127, number, 127, number, 0], input)
                 #expect(events.count == 1 && events.first?.0 == .init(action.assigned(to: deck), deck: deck))

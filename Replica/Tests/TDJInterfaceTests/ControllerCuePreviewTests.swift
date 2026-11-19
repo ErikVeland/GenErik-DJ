@@ -2884,7 +2884,7 @@ func controllerCatalogueLegacyDJMDirectCueKeepsAppStartedRealAudioSynced(_ name:
     }
 }
 
-@Test(arguments:["American Audio VERSADECK","Synq DMC-2000"]) @MainActor
+@Test(arguments:["American Audio VERSADECK","Synq DMC-2000","CITRONIC MPX10"]) @MainActor
 func controllerCatalogueLegacyUSBTransportCueAndManualLoopsKeepRealAudioSync(_ name:String)async throws{
     try await withControllerCuePlayback(name){model,input in
         input.receiveBytes([0x90,31,127],source:10);input.flushPendingActions();#expect(model.playbackSnapshot?.a.touchActive == true)

@@ -4,7 +4,7 @@ import json
 import unittest
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2]
-NAMES=['American Audio VERSADECK','Synq DMC-2000']
+NAMES=['American Audio VERSADECK','Synq DMC-2000','CITRONIC MPX10']
 
 class LegacyUSBPlayersTests(unittest.TestCase):
     def test_primary_default_cores_have_bounded_release_guards_and_owned_lamps(self):
@@ -26,7 +26,7 @@ class LegacyUSBPlayersTests(unittest.TestCase):
     def test_independent_manufacturer_documents_are_pinned(self):
         from legacy_usb_players import LEGACY_USB_REFERENCES
         for name in NAMES:
-            r=LEGACY_USB_REFERENCES[name];p=ROOT/'TestBuilds/r411/upstream'/r['cacheName']
+            r=LEGACY_USB_REFERENCES[name];p=ROOT/f"TestBuilds/{r.get('cacheRequest','r411')}/upstream"/r['cacheName']
             if p.exists():self.assertEqual(hashlib.sha256(p.read_bytes()).hexdigest(),r['sha256'])
 
     def test_dmc_native_wires_and_guards_exist_in_its_own_official_tsi(self):

@@ -11,10 +11,10 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 561 total catalogue records. 554 name physical models. The remainder identify software endpoints or protocol families.
-- 311 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 200 factory profiles select core controls automatically for 208 physical models.
+- 312 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 201 factory profiles select core controls automatically for 209 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
-- 340 physical models still lack automatic core controls.
+- 339 physical models still lack automatic core controls.
 - 554 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -223,13 +223,13 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 17 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 202 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 203 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
 | partial-midi-profile | 113 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 205 | The pinned references contain no implemented mapping for this model. |
+| protocol-needed | 204 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -508,7 +508,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Casio XW-DJ1 | primary | automatic-core-profile | [Reference](https://www.casio.com/content/dam/casio/global/support/manuals/electronic-musical-instruments/pdf/008-en/w/Web_XWDJ1-E-2A_EN.pdf) |
 | Casio XW-J1 | primary | partial-midi-profile | [Reference](https://gist.github.com/samba2/5af83e947297ab99a4745a5be3e13d55/a8c441c832affebb59415abdc80872967bc8c0e6) |
 | CITRONIC MPCD-X3 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MPCDX3) |
-| CITRONIC MPX10 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=MPX10) |
+| CITRONIC MPX10 | primary | automatic-core-profile | [Reference](https://www.billebro.se/proddoc/PRID_6104_doc_170700.pdf) |
 | DAP KONTROL D2 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=DAPKONTROLD2) |
 | DJ TechTools MIDI Fighter | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/DJTechTools%20MIDI%20Fighter.midi.xml) |
 | DJ TechTools MIDI Fighter 3D | accessory | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=FIGHTER3D) |
