@@ -220,7 +220,8 @@ enum FourDeckTrial {
     static var isAvailable: Bool {
         #if os(iOS)
             UIDevice.current.userInterfaceIdiom == .pad
-                && Bundle.main.object(forInfoDictionaryKey: "GenErikFourDeckTrial") as? String == "YES"
+        #elseif os(macOS)
+            true
         #else
             false
         #endif

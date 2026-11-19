@@ -137,6 +137,34 @@ private let surface = PerformancePalette.panel
         }
     }
 
+    private func wideDeck(_ deck: DeckID, panels: DeckPanelPresentation, height: Double) -> some View {
+        VStack(spacing: 0) {
+            DeckView(
+                model: model, deck: deck, panels: panels,
+                snapshotEffects: snapshotEffectsDeck == deck,
+                snapshotMixer: snapshotMixerDecks.contains(deck),
+                snapshotFilter: snapshotFilterDecks.contains(deck),
+                openFullHeightSections: openFullHeightSections
+            )
+            HStack(spacing: 0) {
+                DeckPlaybackButton(model: model, deck: deck).frame(width: 48, height: 44)
+                Button {
+                    model.toggleLoop(deck: deck)
+                } label: {
+                    Image(systemName: "repeat").frame(width: 48, height: 44).contentShape(Rectangle())
+                }
+                .foregroundStyle(model.playbackSnapshot?[deck].loopEnabled == true
+                    ? PerformancePalette.syncGreen : PerformancePalette.text)
+                .disabled(model.track(deck) == nil)
+                .accessibilityLabel("Loop on deck \(deck.rawValue.uppercased())")
+                Spacer(minLength: 0)
+            }.background(PerformancePalette.stage)
+        }
+        .frame(maxWidth: .infinity)
+        .frame(height: height)
+        .clipped()
+    }
+
     private func performanceSurface(presentation: BrowserPresentation, innerPortrait: Bool) -> some View {
         VStack(spacing: 0) {
             PerformanceToolbar(
@@ -157,74 +185,92 @@ private let surface = PerformancePalette.panel
                     let split = deckSplit.geometry(
                         width: workspace.deckArea.width - 2 * deckInset, height: workspace.deckArea.height,
                         handleExtent: handleExtent)
+                    let showsFour = fourDecks && WideDeckLayout.fits(
+                        width: workspace.deckArea.width - 2 * deckInset, height: workspace.deckArea.height)
                     ZStack(alignment: .topTrailing) {
                         VStack(alignment: .leading, spacing: 0) {
-                            VStack(spacing: 0) {
-                                DeckView(
-                                    model: model, deck: upper, panels: upper == .a ? deckAPanels : deckCPanels,
-                                    snapshotEffects: snapshotEffectsDeck == .a,
-                                    snapshotMixer: snapshotMixerDecks.contains(.a),
-                                    snapshotFilter: snapshotFilterDecks.contains(.a),
-                                    isFocused: innerPortrait && deckSplit.focusedUpper,
-                                    focus: innerPortrait ? { deckSplit.focus(upper: true) } : nil,
-                                    openFullHeightSections: openFullHeightSections,
-                                    deckSelector: fourDecks ? AnyView(deckSelector(upper: true)) : nil,
-                                    requestPerformanceSpace: { minimum in
-                                        if model.browserVisible {
-                                            libraryPanel.makeRoom(
-                                                by: max(
-                                                    minimum - split.a.height,
-                                                    minimum + DeckSplitGeometry.minimumDeckHeight + handleExtent
-                                                        - workspace.deckArea.height))
+                            Group {
+                                if showsFour {
+                                    let rowHeight = (workspace.deckArea.height - WideDeckLayout.gap) / 2
+                                    VStack(spacing: WideDeckLayout.gap) {
+                                        HStack(spacing: WideDeckLayout.gap) {
+                                            wideDeck(.a, panels: deckAPanels, height: rowHeight)
+                                            wideDeck(.b, panels: deckBPanels, height: rowHeight)
                                         }
-                                        let available = PerformanceWorkspaceGeometry(
-                                            width: space.size.width, height: space.size.height,
-                                            libraryExtent: libraryPanel.extent, handleExtent: workspaceHandle)
-                                        deckSplit.ensureHeight(
-                                            upper: true, minimum: minimum, height: available.deckArea.height,
-                                            handleExtent: handleExtent)
-                                    }
-                                ).id(upper).frame(height: split.a.height).contentShape(Rectangle()).clipped()
-                                DeckSplitHandle(
-                                    interruption: touchInterruption,
-                                    aShare: split.a.height / max(1, split.a.height + split.b.height),
-                                    begin: {
-                                        deckSplit.beginDrag(
-                                            height: workspace.deckArea.height, handleExtent: handleExtent)
-                                    }, update: { deckSplit.updateDrag(translation: $0) },
-                                    end: {
-                                        deckSplit.endDrag(height: workspace.deckArea.height, handleExtent: handleExtent)
-                                    }, cancel: { deckSplit.cancelDrag() }, balance: { deckSplit.balance() },
-                                    adjust: {
-                                        deckSplit.adjust(
-                                            by: $0, height: workspace.deckArea.height, handleExtent: handleExtent)
-                                    }
-                                ).frame(height: split.handle.height).clipped()
-                                DeckView(
-                                    model: model, deck: lower, panels: lower == .b ? deckBPanels : deckDPanels,
-                                    snapshotEffects: snapshotEffectsDeck == .b,
-                                    snapshotMixer: snapshotMixerDecks.contains(.b),
-                                    snapshotFilter: snapshotFilterDecks.contains(.b),
-                                    isFocused: innerPortrait && !deckSplit.focusedUpper,
-                                    focus: innerPortrait ? { deckSplit.focus(upper: false) } : nil,
-                                    openFullHeightSections: openFullHeightSections,
-                                    deckSelector: fourDecks ? AnyView(deckSelector(upper: false)) : nil,
-                                    requestPerformanceSpace: { minimum in
-                                        if model.browserVisible {
-                                            libraryPanel.makeRoom(
-                                                by: max(
-                                                    minimum - split.b.height,
-                                                    minimum + DeckSplitGeometry.minimumDeckHeight + handleExtent
-                                                        - workspace.deckArea.height))
+                                        HStack(spacing: WideDeckLayout.gap) {
+                                            wideDeck(.c, panels: deckCPanels, height: rowHeight)
+                                            wideDeck(.d, panels: deckDPanels, height: rowHeight)
                                         }
-                                        let available = PerformanceWorkspaceGeometry(
-                                            width: space.size.width, height: space.size.height,
-                                            libraryExtent: libraryPanel.extent, handleExtent: workspaceHandle)
-                                        deckSplit.ensureHeight(
-                                            upper: false, minimum: minimum, height: available.deckArea.height,
-                                            handleExtent: handleExtent)
                                     }
-                                ).id(lower).frame(height: split.b.height).contentShape(Rectangle()).clipped()
+                                } else {
+                                    VStack(spacing: 0) {
+                                        DeckView(
+                                            model: model, deck: upper, panels: upper == .a ? deckAPanels : deckCPanels,
+                                            snapshotEffects: snapshotEffectsDeck == .a,
+                                            snapshotMixer: snapshotMixerDecks.contains(.a),
+                                            snapshotFilter: snapshotFilterDecks.contains(.a),
+                                            isFocused: innerPortrait && deckSplit.focusedUpper,
+                                            focus: innerPortrait ? { deckSplit.focus(upper: true) } : nil,
+                                            openFullHeightSections: openFullHeightSections,
+                                            deckSelector: fourDecks ? AnyView(deckSelector(upper: true)) : nil,
+                                            requestPerformanceSpace: { minimum in
+                                                if model.browserVisible {
+                                                    libraryPanel.makeRoom(
+                                                        by: max(
+                                                            minimum - split.a.height,
+                                                            minimum + DeckSplitGeometry.minimumDeckHeight + handleExtent
+                                                                - workspace.deckArea.height))
+                                                }
+                                                let available = PerformanceWorkspaceGeometry(
+                                                    width: space.size.width, height: space.size.height,
+                                                    libraryExtent: libraryPanel.extent, handleExtent: workspaceHandle)
+                                                deckSplit.ensureHeight(
+                                                    upper: true, minimum: minimum, height: available.deckArea.height,
+                                                    handleExtent: handleExtent)
+                                            }
+                                        ).id(upper).frame(height: split.a.height).contentShape(Rectangle()).clipped()
+                                        DeckSplitHandle(
+                                            interruption: touchInterruption,
+                                            aShare: split.a.height / max(1, split.a.height + split.b.height),
+                                            begin: {
+                                                deckSplit.beginDrag(
+                                                    height: workspace.deckArea.height, handleExtent: handleExtent)
+                                            }, update: { deckSplit.updateDrag(translation: $0) },
+                                            end: {
+                                                deckSplit.endDrag(height: workspace.deckArea.height, handleExtent: handleExtent)
+                                            }, cancel: { deckSplit.cancelDrag() }, balance: { deckSplit.balance() },
+                                            adjust: {
+                                                deckSplit.adjust(
+                                                    by: $0, height: workspace.deckArea.height, handleExtent: handleExtent)
+                                            }
+                                        ).frame(height: split.handle.height).clipped()
+                                        DeckView(
+                                            model: model, deck: lower, panels: lower == .b ? deckBPanels : deckDPanels,
+                                            snapshotEffects: snapshotEffectsDeck == .b,
+                                            snapshotMixer: snapshotMixerDecks.contains(.b),
+                                            snapshotFilter: snapshotFilterDecks.contains(.b),
+                                            isFocused: innerPortrait && !deckSplit.focusedUpper,
+                                            focus: innerPortrait ? { deckSplit.focus(upper: false) } : nil,
+                                            openFullHeightSections: openFullHeightSections,
+                                            deckSelector: fourDecks ? AnyView(deckSelector(upper: false)) : nil,
+                                            requestPerformanceSpace: { minimum in
+                                                if model.browserVisible {
+                                                    libraryPanel.makeRoom(
+                                                        by: max(
+                                                            minimum - split.b.height,
+                                                            minimum + DeckSplitGeometry.minimumDeckHeight + handleExtent
+                                                                - workspace.deckArea.height))
+                                                }
+                                                let available = PerformanceWorkspaceGeometry(
+                                                    width: space.size.width, height: space.size.height,
+                                                    libraryExtent: libraryPanel.extent, handleExtent: workspaceHandle)
+                                                deckSplit.ensureHeight(
+                                                    upper: false, minimum: minimum, height: available.deckArea.height,
+                                                    handleExtent: handleExtent)
+                                            }
+                                        ).id(lower).frame(height: split.b.height).contentShape(Rectangle()).clipped()
+                                    }
+                                }
                             }.padding(.horizontal, deckInset).frame(
                                 width: workspace.deckArea.width, height: workspace.deckArea.height)
                             HStack(spacing: 0) {
@@ -294,12 +340,19 @@ private let surface = PerformancePalette.panel
                                     model.browserVisible = libraryPanel.extent > 0
                                 }
                             }
-                        PerformanceDock(
-                            model: model, panelsA: upper == .a ? deckAPanels : deckCPanels,
-                            panelsB: lower == .b ? deckBPanels : deckDPanels, deckA: upper, deckB: lower,
-                            geometry: PerformanceDockGeometry(
-                                width: space.size.width, height: workspace.deckArea.height,
-                                deckBoundary: split.handle.midY, verticalInset: innerPortrait ? 8 : 0))
+                        if showsFour {
+                            CrossfaderView(model: model, width: 80, showsDeckLabels: false, verticalPadding: 0)
+                                .frame(height: 88)
+                                .frame(width: PerformanceDockGeometry.dockWidth, height: workspace.deckArea.height)
+                                .background(PerformancePalette.frame)
+                        } else {
+                            PerformanceDock(
+                                model: model, panelsA: upper == .a ? deckAPanels : deckCPanels,
+                                panelsB: lower == .b ? deckBPanels : deckDPanels, deckA: upper, deckB: lower,
+                                geometry: PerformanceDockGeometry(
+                                    width: space.size.width, height: workspace.deckArea.height,
+                                    deckBoundary: split.handle.midY, verticalInset: innerPortrait ? 8 : 0))
+                        }
                     }.frame(width: space.size.width, height: space.size.height, alignment: .topLeading).environment(
                         \.performancePanelPortrait, space.size.width < space.size.height
                     ).environment(\.waveformContactChanged, fourDecks ? updateWaveformContact : nil)

@@ -356,7 +356,7 @@ struct SettingsBrowser: View {
                     if FourDeckTrial.isAvailable {
                         Toggle("Four decks", isOn: $fourDecks)
                             .disabled(fourDecks && [.c, .d].contains { model.playbackSnapshot?[$0].phase.active == true })
-                        Text("A10X trial. Stop decks C and D before switching back to two decks.")
+                        Text("Wide windows show all four decks. Smaller windows show two decks with bank selectors. Stop decks C and D before turning this off.")
                             .font(.caption).foregroundStyle(.secondary)
                     }
                     if LiveStemTrial.isAvailable {

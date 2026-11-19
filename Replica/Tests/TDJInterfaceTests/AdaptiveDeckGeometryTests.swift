@@ -26,3 +26,13 @@ import Testing
     #expect(decks == AdaptivePerformanceLayout.minimumDeckHeight)
     #expect(height - decks - AdaptivePerformanceLayout.dividerHeight > 0)
 }
+
+@Test func fourDeckGridRequiresRoomForTwoFullRowsAndColumns() {
+    let width = 2 * WideDeckLayout.minimumDeckWidth + WideDeckLayout.gap
+    let height = 2 * WideDeckLayout.minimumDeckHeight + WideDeckLayout.gap
+    #expect(WideDeckLayout.fits(width: width, height: height))
+    #expect(!WideDeckLayout.fits(width: width - 1, height: height))
+    #expect(!WideDeckLayout.fits(width: width, height: height - 1))
+    #expect(!WideDeckLayout.fits(width: .infinity, height: height))
+    #expect(!WideDeckLayout.fits(width: width, height: .nan))
+}
