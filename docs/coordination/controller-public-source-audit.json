@@ -4435,6 +4435,37 @@
         }
       ],
       "result": "Separate DJazz211-input automatic core and DJam157-input common-player/213-input manual CTRL MIDI mixer cores. Own jog counts150/800 preserved.391 source/16 native checks and iPad framework compilation pass. All386 earlier recipes remain identical. Full theoretical/device acceptance remains open."
+    },
+    {
+      "request": "R461",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "model": "Audiophony PLAY",
+          "url": "https://www.audiophony.com/downloads/m9280.pdf",
+          "sha256": "8ebb89aad5920699bd356f931c7e22dfce0f6818e95eafc7fb79fa8d97af147c",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r461/upstream/virtuality-play-manual.pdf",
+              "sha256": "8ebb89aad5920699bd356f931c7e22dfce0f6818e95eafc7fb79fa8d97af147c"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://virtualdj.com/products/hardware.html?model=CDMP700"
+            }
+          ],
+          "review": "Own VIRTUALITY-PLAY manufacturer guide9280 v1 June2008, MIDI diagram p11 visually reviewed. Grey circles explicitly identify decimal MIDI Notes, distinct from outlined CC circles. Play53, main Cue52, Key/Master Tone29, In38, Out/Exit37, Reloop36 and bend-/+33/32 are unambiguous. START CUE51 is a different button and is not held Cue. Manual source menu p10 distinguishes HID and MIDI; select MIDI and remain on hardware DECK A. RELAY changes hardware A/B and a long press exits MIDI. The chart does not qualify channel/bank encoding or RELAY47/56 state meanings. Manual single-player A only accepts the unspecified channel through the existing bounded player contract; selector wires only retire its own source holds. They do not switch native decks. No default channel, automatic identity, protocol-equivalent CDMP700, HID or hardware B bank is inferred. Dual-number memory Cue buttons45/57,44/58,39/59, MEMO46, START CUE51, jog55/CC25, track24/CC26, pitchCC14, browser/search/FX/start/brake/relay state, mode/range and all feedback remain inactive. BPM54 does not toggle persistent native Sync. Source note types establish the standard MIDI-note input family; native accepts positive Note On and both release forms. Exact physical edge behaviour, complete modes/controls, lifecycle/discovery/recovery, USB/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. Requires an already exposed CoreMIDI source and separate app audio. No setup, HID report, identity query, source-mode, bank, firmware, driver or audio-route write runs. Other Audiophony and OEM bytes are not inherited."
+        }
+      ],
+      "additionalFindings": [
+        {
+          "url": "https://support.native-instruments.com/support/solutions/articles/69000879390-third-party-traktor-ready-controllers-with-enhanced-traktor-integration",
+          "mappingURL": "https://www.native-instruments.com/fileadmin/downloads/Traktor_Pro_4_Controller_Mappings/Rane/Rane_-_Rane_Twelve_MK2.zip",
+          "finding": "Current official support index lists a Twelve MK2 download. Both web retrieval and curl returned404 for that exact public link. No TSI bytes or motor/platter protocol was recovered; no support is inferred from the listing."
+        }
+      ],
+      "result": "Own eight-button manual single-player A profile.393 source/10 native checks and iPad framework compilation pass. All389 earlier recipes remain identical. Original hardware A/B bank, motion, feedback/lifecycle/audio and physical acceptance remain open."
     }
   ]
 }

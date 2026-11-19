@@ -25895,12 +25895,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://www.audiophony.com/downloads/m9280.pdf",
         "https://virtualdj.com/products/hardware.html?model=CDMP700"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:audiophony-virtuality-play-manual-a"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Audiophony PLAY",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Audiophony PLAY",
@@ -25908,41 +25913,66 @@
           "source": "https://virtualdj.com/products/hardware.html?model=CDMP700"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "cuePreviewA:a",
+        "keylockA:a",
+        "loopInA:a",
+        "loopOutOrExitA:a",
+        "pitchBendDownA:a",
+        "pitchBendUpA:a",
+        "playA:a",
+        "reloopA:a"
+      ],
+      "inputBindingCount": 8,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual original VIRTUALITY-PLAY only. Select SOURCE=MIDI, not HID, and remain on hardware DECK A. Native controls deck A only. Hardware A/B switching is unqualified. Requires an exposed CoreMIDI source and separate app audio."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Own VIRTUALITY-PLAY manufacturer guide9280 v1 June2008, MIDI diagram p11 visually reviewed. Grey circles explicitly identify decimal MIDI Notes, distinct from outlined CC circles. Play53, main Cue52, Key/Master Tone29, In38, Out/Exit37, Reloop36 and bend-/+33/32 are unambiguous. START CUE51 is a different button and is not held Cue. Manual source menu p10 distinguishes HID and MIDI; select MIDI and remain on hardware DECK A. RELAY changes hardware A/B and a long press exits MIDI. The chart does not qualify channel/bank encoding or RELAY47/56 state meanings. Manual single-player A only accepts the unspecified channel through the existing bounded player contract; selector wires only retire its own source holds. They do not switch native decks. No default channel, automatic identity, protocol-equivalent CDMP700, HID or hardware B bank is inferred. Dual-number memory Cue buttons45/57,44/58,39/59, MEMO46, START CUE51, jog55/CC25, track24/CC26, pitchCC14, browser/search/FX/start/brake/relay state, mode/range and all feedback remain inactive. BPM54 does not toggle persistent native Sync. Source note types establish the standard MIDI-note input family; native accepts positive Note On and both release forms. Exact physical edge behaviour, complete modes/controls, lifecycle/discovery/recovery, USB/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. Requires an already exposed CoreMIDI source and separate app audio. No setup, HID report, identity query, source-mode, bank, firmware, driver or audio-route write runs. Other Audiophony and OEM bytes are not inherited.",
+        "Untranslated controls and script behaviour remain in the linked definition records.",
+        "Own VIRTUALITY-PLAY manufacturer guide9280 v1 June2008, MIDI diagram p11 visually reviewed. Grey circles explicitly identify decimal MIDI Notes, distinct from outlined CC circles. Play53, main Cue52, Key/Master Tone29, In38, Out/Exit37, Reloop36 and bend-/+33/32 are unambiguous. START CUE51 is a different button and is not held Cue. Manual source menu p10 distinguishes HID and MIDI; select MIDI and remain on hardware DECK A. RELAY changes hardware A/B and a long press exits MIDI. The chart does not qualify channel/bank encoding or RELAY47/56 state meanings. Manual single-player A only accepts the unspecified channel through the existing bounded player contract; selector wires only retire its own source holds. They do not switch native decks. No default channel, automatic identity, protocol-equivalent CDMP700, HID or hardware B bank is inferred. Dual-number memory Cue buttons45/57,44/58,39/59, MEMO46, START CUE51, jog55/CC25, track24/CC26, pitchCC14, browser/search/FX/start/brake/relay state, mode/range and all feedback remain inactive. BPM54 does not toggle persistent native Sync. Source note types establish the standard MIDI-note input family; native accepts positive Note On and both release forms. Exact physical edge behaviour, complete modes/controls, lifecycle/discovery/recovery, USB/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. Requires an already exposed CoreMIDI source and separate app audio. No setup, HID report, identity query, source-mode, bank, firmware, driver or audio-route write runs. Other Audiophony and OEM bytes are not inherited."
       ],
+      "playerSupport": {
+        "requiredHardwareMode": "Manual original VIRTUALITY-PLAY only. Select SOURCE=MIDI, not HID, and remain on hardware DECK A. Native controls deck A only. Hardware A/B switching is unqualified. Requires an exposed CoreMIDI source and separate app audio.",
+        "midiInputImplemented": true,
+        "recognisedNames": [
+          "Audiophony PLAY",
+          "Audiophony VIRTUALITY-PLAY",
+          "VIRTUALITY-PLAY",
+          "Virtuality Play"
+        ],
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
@@ -358961,6 +358991,36 @@
         },
         {
           "reason": "Own DJam-ultimate v1 December2011 manual and separate Atomix factory XML/mapper from the public reseller archive, read only as data. Catalogue DJAM identity follows the official linked manufacturer model. Published mapping channels1..4, Hold Shift default. Normal NOTE Play24/Cue23/Sync18/Keylock16/PFL28/Loop1/In4/Out5/Active6/Bends19/20, Hot Cues8..11, Load34 on A/C and35 on B/D, contact38; shifted note releases plus50. Shifted Hot Cues58/59 seek native -4/+4 beats; other shifted positives remain inactive. Normal CC2 jog uses offset64 and own full count 800. Normal loopCC1 and browser14/44 also use offset64. Own inverted14bit pitch is mapped to native +/-8percent. Shift45 guards normal jog/tempo/loop/Mid/Low; Shift Low36 controls native filter. Gain3/33, High4/34 and Level7/37 mirror their actions. Global cross16/46, cueMix19/49 and monitor20/50 are independently listed. Normal browser push39 enters a group and89 only rearms. Deck17/67 retires only its source-owned A/C or B/D pair. Normal optional lamps exclude unpublished AutoLoop/meter/mode lamps. DJam master12/42 is corroborated by its own manual and XML. Rear MIXER STATUS selects analogue MIX or MIDI. Automatic core excludes all mixer/PFL/global browser controls; full mixer is manual CTRL MIDI only, with normal reverse/curve settings and separate audio configuration. Saved channel presets, exact startup state/discovery, complete jog/search/tempo-range/FX/sample/key/kill/delete modes, full feedback/screens/lifecycle/recovery, USB/OS/power/audio/DVS routing and physical/iPad/A10X acceptance remain open. No mapper, executable, setup, identity query, source-mode, preset, driver, firmware or audio-route write runs. Other Audiophony/DDC/Voxoa model bytes are not inherited."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:audiophony-virtuality-play-manual-a",
+      "name": "Audiophony PLAY",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.audiophony.com/downloads/m9280.pdf",
+        "sha256": "8ebb89aad5920699bd356f931c7e22dfce0f6818e95eafc7fb79fa8d97af147c",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r461/upstream/virtuality-play-manual.pdf",
+            "sha256": "8ebb89aad5920699bd356f931c7e22dfce0f6818e95eafc7fb79fa8d97af147c"
+          }
+        ],
+        "relatedSources": [
+          {
+            "url": "https://virtualdj.com/products/hardware.html?model=CDMP700"
+          }
+        ],
+        "review": "Own VIRTUALITY-PLAY manufacturer guide9280 v1 June2008, MIDI diagram p11 visually reviewed. Grey circles explicitly identify decimal MIDI Notes, distinct from outlined CC circles. Play53, main Cue52, Key/Master Tone29, In38, Out/Exit37, Reloop36 and bend-/+33/32 are unambiguous. START CUE51 is a different button and is not held Cue. Manual source menu p10 distinguishes HID and MIDI; select MIDI and remain on hardware DECK A. RELAY changes hardware A/B and a long press exits MIDI. The chart does not qualify channel/bank encoding or RELAY47/56 state meanings. Manual single-player A only accepts the unspecified channel through the existing bounded player contract; selector wires only retire its own source holds. They do not switch native decks. No default channel, automatic identity, protocol-equivalent CDMP700, HID or hardware B bank is inferred. Dual-number memory Cue buttons45/57,44/58,39/59, MEMO46, START CUE51, jog55/CC25, track24/CC26, pitchCC14, browser/search/FX/start/brake/relay state, mode/range and all feedback remain inactive. BPM54 does not toggle persistent native Sync. Source note types establish the standard MIDI-note input family; native accepts positive Note On and both release forms. Exact physical edge behaviour, complete modes/controls, lifecycle/discovery/recovery, USB/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. Requires an already exposed CoreMIDI source and separate app audio. No setup, HID report, identity query, source-mode, bank, firmware, driver or audio-route write runs. Other Audiophony and OEM bytes are not inherited."
+      },
+      "implementedInputCount": 8,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Own VIRTUALITY-PLAY manufacturer guide9280 v1 June2008, MIDI diagram p11 visually reviewed. Grey circles explicitly identify decimal MIDI Notes, distinct from outlined CC circles. Play53, main Cue52, Key/Master Tone29, In38, Out/Exit37, Reloop36 and bend-/+33/32 are unambiguous. START CUE51 is a different button and is not held Cue. Manual source menu p10 distinguishes HID and MIDI; select MIDI and remain on hardware DECK A. RELAY changes hardware A/B and a long press exits MIDI. The chart does not qualify channel/bank encoding or RELAY47/56 state meanings. Manual single-player A only accepts the unspecified channel through the existing bounded player contract; selector wires only retire its own source holds. They do not switch native decks. No default channel, automatic identity, protocol-equivalent CDMP700, HID or hardware B bank is inferred. Dual-number memory Cue buttons45/57,44/58,39/59, MEMO46, START CUE51, jog55/CC25, track24/CC26, pitchCC14, browser/search/FX/start/brake/relay state, mode/range and all feedback remain inactive. BPM54 does not toggle persistent native Sync. Source note types establish the standard MIDI-note input family; native accepts positive Note On and both release forms. Exact physical edge behaviour, complete modes/controls, lifecycle/discovery/recovery, USB/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. Requires an already exposed CoreMIDI source and separate app audio. No setup, HID report, identity query, source-mode, bank, firmware, driver or audio-route write runs. Other Audiophony and OEM bytes are not inherited."
         }
       ]
     },

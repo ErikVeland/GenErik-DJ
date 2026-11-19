@@ -11,7 +11,7 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 562 total catalogue records. 555 name physical models. The remainder identify software endpoints or protocol families.
-- 389 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 390 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
 - 235 factory profiles select core controls automatically for 244 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
 - 305 physical models still lack automatic core controls.
@@ -40,7 +40,7 @@ Other models have no claimed popularity rank. Within that tier, finish documente
 ## Club and XDJ players — R176/R177
 
 The club-player order balances established models and recent releases. It is an implementation order, not a measured global sales ranking.
-All 30 players select core controls automatically after the hardware enters its PC or USB-MIDI mode.
+All 31 players select core controls automatically after the hardware enters its PC or USB-MIDI mode.
 Connected players receive separate A/B assignments. Saved endpoint identities retain their assignments. C/D require the existing four-deck trial.
 HID, screens, lights and automatic routing across multiple player audio interfaces remain unimplemented.
 
@@ -228,8 +228,8 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
-| partial-midi-profile | 153 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 130 | The pinned references contain no implemented mapping for this model. |
+| partial-midi-profile | 154 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
+| protocol-needed | 129 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -487,7 +487,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Audiophony DJAM | primary | automatic-core-profile | [Reference](https://www.audiophony.com/downloads/DJam-ultimate_manuel-V1-2011-12.pdf) |
 | Audiophony DJAZZ | primary | automatic-core-profile | [Reference](https://www.audiophony.com/downloads/DJazz-Pro_manuel-V1-2011-12.pdf) |
 | Audiophony DJINN | primary | automatic-core-profile | [Reference](https://www.audiophony.com/downloads/DJinn_v3-EN.pdf) |
-| Audiophony PLAY | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=CDMP700) |
+| Audiophony PLAY | primary | partial-midi-profile | [Reference](https://www.audiophony.com/downloads/m9280.pdf) |
 | Behringer BCD2000 | primary | partial-midi-profile | [Reference](https://github.com/anyc/snd-bcd2000) |
 | Behringer BCD3000 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20BCD3000%20Advanced.midi.xml) |
 | Behringer BCR2000 | primary | automatic-core-profile | [Reference](https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Behringer%20BCR2000.midi.xml) |
