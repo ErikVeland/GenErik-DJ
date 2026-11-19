@@ -11,10 +11,10 @@ Base inventory reviewed 17 November 2026. Later profile reviews appear in the re
 - All 18 existing NI Traktor variants and the original Reloop Beatpad adapter.
 - Manufacturer-confirmed additions include AlphaTheta DJM-A7/XDJ-AN/RMX-IGNITE, RANE PERFORMER/FOUR, Reloop Buddy/Mixtour/Beatpad 2 and Denon standalone units.
 - 562 total catalogue records. 555 name physical models. The remainder identify software endpoints or protocol families.
-- 372 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
-- 227 factory profiles select core controls automatically for 236 physical models.
+- 374 bundled data recipes, plus 5 existing code profiles. Most data recipes cover only part of the hardware.
+- 229 factory profiles select core controls automatically for 238 physical models.
 - Existing native adapters provide automatic core controls for 6 other models.
-- 313 physical models still lack automatic core controls.
+- 311 physical models still lack automatic core controls.
 - 555 physical models still need complete theoretical support.
 - Every one of the 17,295 source input rows and 2,318 output rows has a conversion disposition.
 
@@ -40,7 +40,7 @@ Other models have no claimed popularity rank. Within that tier, finish documente
 ## Club and XDJ players — R176/R177
 
 The club-player order balances established models and recent releases. It is an implementation order, not a measured global sales ranking.
-All 26 players select core controls automatically after the hardware enters its PC or USB-MIDI mode.
+All 28 players select core controls automatically after the hardware enters its PC or USB-MIDI mode.
 Connected players receive separate A/B assignments. Saved endpoint identities retain their assignments. C/D require the existing four-deck trial.
 HID, screens, lights and automatic routing across multiple player audio interfaces remain unimplemented.
 
@@ -223,13 +223,13 @@ See [R202 Terminal Mix](controller-coverage.md#r202-terminal-mix-2-and-4-core-co
 | State | Records | Meaning |
 | --- | ---: | --- |
 | adapter-needed | 17 | A referenced HID, bulk or script protocol needs an adapter. |
-| automatic-core-profile | 230 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
+| automatic-core-profile | 232 | Reviewed core MIDI controls. Additional modes and acceptance remain open. |
 | automatic-profile | 5 | Existing factory controls and lights. Physical acceptance remains open. |
 | linux-bridge | 13 | An existing Linux USB bridge adapter is present. This is not direct iPad USB support. |
 | native-accessory | 5 | An existing native accessory adapter is present. |
 | native-midi | 1 | The existing native Beatpad MIDI adapter is present. |
 | partial-midi-profile | 147 | Explicit XML controls are available. Script-dependent behaviour is unresolved. |
-| protocol-needed | 144 | The pinned references contain no implemented mapping for this model. |
+| protocol-needed | 142 | The pinned references contain no implemented mapping for this model. |
 
 ## Release blockers
 
@@ -748,8 +748,8 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Reloop Mixtour | primary | automatic-core-profile | [Reference](https://www.reloop.com/djing-with-smart-devices-controllercomparisonchart) |
 | Reloop Mixtour Pro | primary | partial-midi-profile | [Reference](https://www.reloop.com/reloop-mixtour-pro) |
 | Reloop PTB-2 | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware/ptb-2) |
-| Reloop RMP-2.5a | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RMP25A) |
-| Reloop RMP-3 | primary | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RMP3A) |
+| Reloop RMP-2.5a | primary | automatic-core-profile | [Reference](https://www.reloop.com/media/catalog/product/pdf/2/2/4/224803_Reloop_IM.pdf) |
+| Reloop RMP-3 | primary | automatic-core-profile | [Reference](https://www.reloop.com/media/catalog/product/pdf/2/2/2/222609_Reloop_IM.pdf) |
 | Reloop RMP-4 | primary | automatic-core-profile | [Reference](https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg) |
 | Reloop RMX-95 | primary | protocol-needed | [Reference](https://www.algoriddim.com/hardware/rmx95) |
 | Reloop SPIN2 | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=RSPIN2) |

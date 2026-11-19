@@ -58649,12 +58649,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://www.reloop.com/media/catalog/product/pdf/2/2/4/224803_Reloop_IM.pdf",
         "https://virtualdj.com/products/hardware.html?model=RMP25A"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:rmp25-preset-buttons"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Reloop RMP-2.5a",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Reloop RMP-2.5a",
@@ -58662,41 +58667,93 @@
           "source": "https://virtualdj.com/products/hardware.html?model=RMP25A"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
+        "browsePreviousGroup",
+        "cuePreviewA:a",
+        "hotcue1A:a",
+        "hotcue2A:a",
+        "hotcue3A:a",
+        "hotcue4A:a",
+        "hotcue5A:a",
+        "hotcue6A:a",
+        "hotcue7A:a",
+        "hotcue8A:a",
+        "keylockA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "pitchBendDownA:a",
+        "pitchBendUpA:a",
+        "playA:a",
+        "reloopA:a"
+      ],
+      "inputBindingCount": 38,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Select MIDI USB mode and Edit Off preset commands on this player. Native assigns one app deck per connected player. Hardware channel changes keep that assigned deck. Track-wheel navigation works only in NOTE format. Jog, tempo, feedback, alternate presets and hardware multi-deck paging remain open."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Own manufacturer manual p37 MIDI map visually reviewed, with separate normal/shifted numbers. Native38-input automatic single-player preset uses Play, held Cue, Loop In/Out/Reloop, Keylock, held bends, eight Hot Cues and navigation. Explicit shifted release-only aliases retire held Cue/bends and rearm normal transport; paired Hot Cue release aliases rearm either physical layer. Source Hot Cue mapping confirms normal slots1..4 and shifted5..8. MIDI channels1..16 stay on the app deck assigned to that physical source, not a hardware channel-selected virtual deck. Hardware multi-deck paging is not implemented. Named USB identities come from this model's own Name menu. Use MIDI USB mode and Edit Off preset commands. Track navigation accepts only the documented NOTE format (normal50/51, shifted113/114); configurable relative/absolute CC variants remain inactive. Folder buttons step native groups. No global Shift latch is created; the hardware already supplies explicit alternate note numbers. Original RMP-3 alone has a Shift42hex/shifted TAP42hex collision and a concatenated Loop Out shifted field6D2E. That field supplies only a defensive6D release alias, never a positive shifted Loop Out. Jog/contact formats and calibration, pitch polarity/types, alternate encodings/presets, FX, full feedback/last-channel ownership, lifecycle/recovery, USB/OS/power/audio and physical/iPad/A10X acceptance remain open. No output, setup, source-mode change, query, preset, driver, firmware or audio-route write runs. RMP-3 Alpha/RMP-4 and the other RMP chart remain separate.",
+        "Own manufacturer manual p37 MIDI map visually reviewed, with separate normal/shifted numbers. Native38-input automatic single-player preset uses Play, held Cue, Loop In/Out/Reloop, Keylock, held bends, eight Hot Cues and navigation. Explicit shifted release-only aliases retire held Cue/bends and rearm normal transport; paired Hot Cue release aliases rearm either physical layer. Source Hot Cue mapping confirms normal slots1..4 and shifted5..8. MIDI channels1..16 stay on the app deck assigned to that physical source, not a hardware channel-selected virtual deck. Hardware multi-deck paging is not implemented. Named USB identities come from this model's own Name menu. Use MIDI USB mode and Edit Off preset commands. Track navigation accepts only the documented NOTE format (normal50/51, shifted113/114); configurable relative/absolute CC variants remain inactive. Folder buttons step native groups. No global Shift latch is created; the hardware already supplies explicit alternate note numbers. Original RMP-3 alone has a Shift42hex/shifted TAP42hex collision and a concatenated Loop Out shifted field6D2E. That field supplies only a defensive6D release alias, never a positive shifted Loop Out. Jog/contact formats and calibration, pitch polarity/types, alternate encodings/presets, FX, full feedback/last-channel ownership, lifecycle/recovery, USB/OS/power/audio and physical/iPad/A10X acceptance remain open. No output, setup, source-mode change, query, preset, driver, firmware or audio-route write runs. RMP-3 Alpha/RMP-4 and the other RMP chart remain separate."
       ],
+      "playerSupport": {
+        "requiredHardwareMode": "Select MIDI USB mode and Edit Off preset commands on this player. Native assigns one app deck per connected player. Hardware channel changes keep that assigned deck. Track-wheel navigation works only in NOTE format. Jog, tempo, feedback, alternate presets and hardware multi-deck paging remain open.",
+        "midiInputImplemented": true,
+        "recognisedNames": [
+          "Reloop RMP-2.5a",
+          "RMP-2.5a",
+          "RMP-25",
+          "RMP-25B",
+          "RMP-25C",
+          "RMP-25D",
+          "RMP-25E",
+          "RMP-25F",
+          "RMP-25G",
+          "RMP-25H",
+          "Reloop RMP-25",
+          "Reloop RMP-25B",
+          "Reloop RMP-25C",
+          "Reloop RMP-25D",
+          "Reloop RMP-25E",
+          "Reloop RMP-25F",
+          "Reloop RMP-25G",
+          "Reloop RMP-25H",
+          "RMP-2.5 Alpha",
+          "Reloop RMP-2.5 Alpha"
+        ],
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
@@ -58711,12 +58768,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://www.reloop.com/media/catalog/product/pdf/2/2/2/222609_Reloop_IM.pdf",
         "https://virtualdj.com/products/hardware.html?model=RMP3A"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:rmp3-preset-buttons"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Reloop RMP-3",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Reloop RMP-3",
@@ -58724,41 +58786,87 @@
           "source": "https://virtualdj.com/products/hardware.html?model=RMP3A"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browseNext",
+        "browseNextGroup",
+        "browsePrevious",
+        "browsePreviousGroup",
+        "cuePreviewA:a",
+        "hotcue1A:a",
+        "hotcue2A:a",
+        "hotcue3A:a",
+        "hotcue4A:a",
+        "hotcue5A:a",
+        "hotcue6A:a",
+        "hotcue7A:a",
+        "hotcue8A:a",
+        "keylockA:a",
+        "loopInA:a",
+        "loopOutA:a",
+        "pitchBendDownA:a",
+        "pitchBendUpA:a",
+        "playA:a",
+        "reloopA:a"
+      ],
+      "inputBindingCount": 38,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Select MIDI USB mode and Edit Off preset commands on this player. Native assigns one app deck per connected player. Hardware channel changes keep that assigned deck. Track-wheel navigation works only in NOTE format. Jog, tempo, feedback, alternate presets and hardware multi-deck paging remain open."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Own manufacturer manual p44 MIDI map visually reviewed, with separate normal/shifted numbers. Native38-input automatic single-player preset uses Play, held Cue, Loop In/Out/Reloop, Keylock, held bends, eight Hot Cues and navigation. Explicit shifted release-only aliases retire held Cue/bends and rearm normal transport; paired Hot Cue release aliases rearm either physical layer. Source Hot Cue mapping confirms normal slots1..4 and shifted5..8. MIDI channels1..16 stay on the app deck assigned to that physical source, not a hardware channel-selected virtual deck. Hardware multi-deck paging is not implemented. Named USB identities come from this model's own Name menu. Use MIDI USB mode and Edit Off preset commands. Track navigation accepts only the documented NOTE format (normal50/51, shifted113/114); configurable relative/absolute CC variants remain inactive. Folder buttons step native groups. No global Shift latch is created; the hardware already supplies explicit alternate note numbers. Original RMP-3 alone has a Shift42hex/shifted TAP42hex collision and a concatenated Loop Out shifted field6D2E. That field supplies only a defensive6D release alias, never a positive shifted Loop Out. Jog/contact formats and calibration, pitch polarity/types, alternate encodings/presets, FX, full feedback/last-channel ownership, lifecycle/recovery, USB/OS/power/audio and physical/iPad/A10X acceptance remain open. No output, setup, source-mode change, query, preset, driver, firmware or audio-route write runs. RMP-3 Alpha/RMP-4 and the other RMP chart remain separate.",
+        "Own manufacturer manual p44 MIDI map visually reviewed, with separate normal/shifted numbers. Native38-input automatic single-player preset uses Play, held Cue, Loop In/Out/Reloop, Keylock, held bends, eight Hot Cues and navigation. Explicit shifted release-only aliases retire held Cue/bends and rearm normal transport; paired Hot Cue release aliases rearm either physical layer. Source Hot Cue mapping confirms normal slots1..4 and shifted5..8. MIDI channels1..16 stay on the app deck assigned to that physical source, not a hardware channel-selected virtual deck. Hardware multi-deck paging is not implemented. Named USB identities come from this model's own Name menu. Use MIDI USB mode and Edit Off preset commands. Track navigation accepts only the documented NOTE format (normal50/51, shifted113/114); configurable relative/absolute CC variants remain inactive. Folder buttons step native groups. No global Shift latch is created; the hardware already supplies explicit alternate note numbers. Original RMP-3 alone has a Shift42hex/shifted TAP42hex collision and a concatenated Loop Out shifted field6D2E. That field supplies only a defensive6D release alias, never a positive shifted Loop Out. Jog/contact formats and calibration, pitch polarity/types, alternate encodings/presets, FX, full feedback/last-channel ownership, lifecycle/recovery, USB/OS/power/audio and physical/iPad/A10X acceptance remain open. No output, setup, source-mode change, query, preset, driver, firmware or audio-route write runs. RMP-3 Alpha/RMP-4 and the other RMP chart remain separate."
       ],
+      "playerSupport": {
+        "requiredHardwareMode": "Select MIDI USB mode and Edit Off preset commands on this player. Native assigns one app deck per connected player. Hardware channel changes keep that assigned deck. Track-wheel navigation works only in NOTE format. Jog, tempo, feedback, alternate presets and hardware multi-deck paging remain open.",
+        "midiInputImplemented": true,
+        "recognisedNames": [
+          "Reloop RMP-3",
+          "RMP-3",
+          "RMP-3B",
+          "RMP-3C",
+          "RMP-3D",
+          "RMP-3F",
+          "RMP-3G",
+          "RMP-3H",
+          "Reloop RMP-3B",
+          "Reloop RMP-3C",
+          "Reloop RMP-3D",
+          "Reloop RMP-3F",
+          "Reloop RMP-3G",
+          "Reloop RMP-3H"
+        ],
+        "automaticDeckAssignment": true,
+        "hidImplemented": false,
+        "displayFeedbackImplemented": false,
+        "ledFeedbackImplemented": false,
+        "automaticMultiDeviceAudioImplemented": false
+      },
       "priority": {
         "regionalSalesRank": null,
         "brandTier": 1,
@@ -357317,6 +357425,66 @@
         },
         {
           "reason": "Own manufacturer PMX-10 manual p8/p9 visually reviewed. Independent raw0/1 Hot Cue notes8..1, distinct Sample09..0F/20hex, Loop35, PFL50 and mixer Level49/Filter51/Low52/Mid53/High54/Gain55 are explicit. Globalraw4 Load64/65, directory push66, Back67, Master80, Cue Blend83, Cue Level84 and Crossfader96 are separately qualified. Native assigns Back to previous library group. Mode selectors33/34 rearm only their source/deck. No transport is inferred from another control. Nineteen optional static lamps:16 green1 Hot Cues, two on1 Loop and one on1 PFL-B, all off0. CH1 PFL MIDI Input is explicitly None in the own chart, so PFL-A feedback stays inactive. No PMX20 lamp, C/D, preset, SysEx or mode assumption is inherited. Loop-size/browse encoders are only labelled Relative without a byte encoding and stay inactive. Sampler/FX, fader start/reverse/curves, mic/booth and output Pad Mode CC40hex remain inactive. Manual input requires separately qualified Controller mode and audio ownership: the own manual selects Mixer without a host, Hybrid with another audio interface, and Controller with the PMX-10 audio interface selected. Native does not configure or discover those audio modes. Automatic selection, complete mode/source/feedback/lifecycle/recovery, USB/OS/power and physical/iPad/A10X acceptance remain open. No setup, reset, query, persistent mode, preset, driver, firmware or audio-route packet runs."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:rmp3-preset-buttons",
+      "name": "Reloop RMP-3",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.reloop.com/media/catalog/product/pdf/2/2/2/222609_Reloop_IM.pdf",
+        "sha256": "09e1e9c755e2543c27e46b4510fa8d47ccdf3b03acb5fcff360bc639a8d34c33",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r447/upstream/rmp3-manual.pdf",
+            "sha256": "09e1e9c755e2543c27e46b4510fa8d47ccdf3b03acb5fcff360bc639a8d34c33"
+          }
+        ],
+        "relatedSources": [
+          {
+            "url": "https://www.reloop.com/reloop-rmp-3"
+          }
+        ],
+        "review": "Own manufacturer manual p44 MIDI map visually reviewed, with separate normal/shifted numbers. Native38-input automatic single-player preset uses Play, held Cue, Loop In/Out/Reloop, Keylock, held bends, eight Hot Cues and navigation. Explicit shifted release-only aliases retire held Cue/bends and rearm normal transport; paired Hot Cue release aliases rearm either physical layer. Source Hot Cue mapping confirms normal slots1..4 and shifted5..8. MIDI channels1..16 stay on the app deck assigned to that physical source, not a hardware channel-selected virtual deck. Hardware multi-deck paging is not implemented. Named USB identities come from this model's own Name menu. Use MIDI USB mode and Edit Off preset commands. Track navigation accepts only the documented NOTE format (normal50/51, shifted113/114); configurable relative/absolute CC variants remain inactive. Folder buttons step native groups. No global Shift latch is created; the hardware already supplies explicit alternate note numbers. Original RMP-3 alone has a Shift42hex/shifted TAP42hex collision and a concatenated Loop Out shifted field6D2E. That field supplies only a defensive6D release alias, never a positive shifted Loop Out. Jog/contact formats and calibration, pitch polarity/types, alternate encodings/presets, FX, full feedback/last-channel ownership, lifecycle/recovery, USB/OS/power/audio and physical/iPad/A10X acceptance remain open. No output, setup, source-mode change, query, preset, driver, firmware or audio-route write runs. RMP-3 Alpha/RMP-4 and the other RMP chart remain separate."
+      },
+      "implementedInputCount": 38,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Own manufacturer manual p44 MIDI map visually reviewed, with separate normal/shifted numbers. Native38-input automatic single-player preset uses Play, held Cue, Loop In/Out/Reloop, Keylock, held bends, eight Hot Cues and navigation. Explicit shifted release-only aliases retire held Cue/bends and rearm normal transport; paired Hot Cue release aliases rearm either physical layer. Source Hot Cue mapping confirms normal slots1..4 and shifted5..8. MIDI channels1..16 stay on the app deck assigned to that physical source, not a hardware channel-selected virtual deck. Hardware multi-deck paging is not implemented. Named USB identities come from this model's own Name menu. Use MIDI USB mode and Edit Off preset commands. Track navigation accepts only the documented NOTE format (normal50/51, shifted113/114); configurable relative/absolute CC variants remain inactive. Folder buttons step native groups. No global Shift latch is created; the hardware already supplies explicit alternate note numbers. Original RMP-3 alone has a Shift42hex/shifted TAP42hex collision and a concatenated Loop Out shifted field6D2E. That field supplies only a defensive6D release alias, never a positive shifted Loop Out. Jog/contact formats and calibration, pitch polarity/types, alternate encodings/presets, FX, full feedback/last-channel ownership, lifecycle/recovery, USB/OS/power/audio and physical/iPad/A10X acceptance remain open. No output, setup, source-mode change, query, preset, driver, firmware or audio-route write runs. RMP-3 Alpha/RMP-4 and the other RMP chart remain separate."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:rmp25-preset-buttons",
+      "name": "Reloop RMP-2.5a",
+      "transport": "midi",
+      "source": {
+        "url": "https://www.reloop.com/media/catalog/product/pdf/2/2/4/224803_Reloop_IM.pdf",
+        "sha256": "450afae345171d763c36854401a398b842eb87bc594a39d2e6a66c24a346ddb6",
+        "files": [
+          {
+            "cachePath": "TestBuilds/r447/upstream/rmp25-manual.pdf",
+            "sha256": "450afae345171d763c36854401a398b842eb87bc594a39d2e6a66c24a346ddb6"
+          }
+        ],
+        "relatedSources": [
+          {
+            "url": "https://www.reloop.com/reloop-rmp-2-5-alpha"
+          }
+        ],
+        "review": "Own manufacturer manual p37 MIDI map visually reviewed, with separate normal/shifted numbers. Native38-input automatic single-player preset uses Play, held Cue, Loop In/Out/Reloop, Keylock, held bends, eight Hot Cues and navigation. Explicit shifted release-only aliases retire held Cue/bends and rearm normal transport; paired Hot Cue release aliases rearm either physical layer. Source Hot Cue mapping confirms normal slots1..4 and shifted5..8. MIDI channels1..16 stay on the app deck assigned to that physical source, not a hardware channel-selected virtual deck. Hardware multi-deck paging is not implemented. Named USB identities come from this model's own Name menu. Use MIDI USB mode and Edit Off preset commands. Track navigation accepts only the documented NOTE format (normal50/51, shifted113/114); configurable relative/absolute CC variants remain inactive. Folder buttons step native groups. No global Shift latch is created; the hardware already supplies explicit alternate note numbers. Original RMP-3 alone has a Shift42hex/shifted TAP42hex collision and a concatenated Loop Out shifted field6D2E. That field supplies only a defensive6D release alias, never a positive shifted Loop Out. Jog/contact formats and calibration, pitch polarity/types, alternate encodings/presets, FX, full feedback/last-channel ownership, lifecycle/recovery, USB/OS/power/audio and physical/iPad/A10X acceptance remain open. No output, setup, source-mode change, query, preset, driver, firmware or audio-route write runs. RMP-3 Alpha/RMP-4 and the other RMP chart remain separate."
+      },
+      "implementedInputCount": 38,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Own manufacturer manual p37 MIDI map visually reviewed, with separate normal/shifted numbers. Native38-input automatic single-player preset uses Play, held Cue, Loop In/Out/Reloop, Keylock, held bends, eight Hot Cues and navigation. Explicit shifted release-only aliases retire held Cue/bends and rearm normal transport; paired Hot Cue release aliases rearm either physical layer. Source Hot Cue mapping confirms normal slots1..4 and shifted5..8. MIDI channels1..16 stay on the app deck assigned to that physical source, not a hardware channel-selected virtual deck. Hardware multi-deck paging is not implemented. Named USB identities come from this model's own Name menu. Use MIDI USB mode and Edit Off preset commands. Track navigation accepts only the documented NOTE format (normal50/51, shifted113/114); configurable relative/absolute CC variants remain inactive. Folder buttons step native groups. No global Shift latch is created; the hardware already supplies explicit alternate note numbers. Original RMP-3 alone has a Shift42hex/shifted TAP42hex collision and a concatenated Loop Out shifted field6D2E. That field supplies only a defensive6D release alias, never a positive shifted Loop Out. Jog/contact formats and calibration, pitch polarity/types, alternate encodings/presets, FX, full feedback/last-channel ownership, lifecycle/recovery, USB/OS/power/audio and physical/iPad/A10X acceptance remain open. No output, setup, source-mode change, query, preset, driver, firmware or audio-route write runs. RMP-3 Alpha/RMP-4 and the other RMP chart remain separate."
         }
       ]
     },

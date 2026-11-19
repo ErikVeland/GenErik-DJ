@@ -5983,3 +5983,17 @@ Validation:365 source checks and nine focused native tests passed. Native checks
 The manufacturer’s current MDJ-1000 download points to a V2 manual. It has MIDI/HID/settings instructions without a numeric control chart. The original model does not inherit V2 behaviour. The own GMX manual also lacks numeric addresses and states that entering MIDI mode stops standalone playback. No mode command or GMX DRIVE equivalence is inferred. Both source findings are pinned in the public-source audit.
 
 The catalogue has372 recipes and562 records for555 physical models. Automatic core stays242, with313 without it. First-protocol gaps decrease to144. Full theoretical support remains0/555. Physical/iPad/A10X acceptance remains open.
+
+## R447 — Independent RMP-3 and RMP-2.5 Alpha preset cores
+
+Separate manufacturer manuals qualify two38-input automatic player cores. The original RMP-3 uses its own p44 chart. RMP-2.5 Alpha uses its own p37 chart. Play, loops, Keylock, bends and Hot Cue addresses differ and remain independently pinned. USB names come from each model’s own Name menu. RMP-3 Alpha/RMP-4 protocols are not inherited.
+
+Each core provides Play, held Cue, held bends, Keylock, Loop In/Out/Reloop, eight Hot Cues and navigation. Explicit shifted release-only aliases retire held Cue/bends and rearm normal buttons. Paired Hot Cue aliases rearm either physical layer. Track navigation accepts only the documented NOTE format. Folder buttons step native groups. Jog, pitch and configurable relative/absolute CC formats remain inactive.
+
+No global Shift latch is created. Each physical layer already has explicit note numbers. Original RMP-3’s Shift42hex collides with shifted TAP42hex in its chart. Its concatenated Loop Out shifted field6D2E supplies only a defensive6D release alias, never a positive shifted Loop Out action.
+
+Use MIDI USB mode and Edit Off preset commands. Native assigns one app deck per physical source across MIDI channels1..16. Changing the hardware channel keeps that assigned deck. Hardware multi-deck paging remains unimplemented. C/D need app opt-in. Jog/contact calibration, pitch polarity/types, other presets/encodings, FX, complete last-channel/Shift feedback, lifecycle/recovery, USB/OS/power/audio and physical/iPad/A10X acceptance remain open. No output, setup, source-mode change, query, preset, driver, firmware or audio-route command runs.
+
+Validation:367 source checks and10 focused native tests passed. Native checks cover separate identities, normal buttons/shifted releases, Cue/bends at velocity1/64/127 across all16 channels and both release forms, eight Hot Cues/rearming across layers, note navigation, four source-owned deck assignments, independent Cue release, C/D opt-in and inactive variable formats/Shift wires. Both real-WAV cases retain Cue until its explicit release, then restore finite synced playback after bend release. All three catalogue gates and199 automatic held-Cue recipes pass. The iPad framework compiled and its bundled resource matches the source. All372 earlier recipes remain identical. Initial missing-profile failures remain in evidence. Repository checking retains12 historical missing-file links. Evidence: `TestBuilds/r447/validation.json`.
+
+The catalogue has374 recipes and562 records for555 physical models. It has244 automatic core models and311 without automatic core. First-protocol gaps decrease to142. Full theoretical support remains0/555. Physical/iPad/A10X acceptance remains open.

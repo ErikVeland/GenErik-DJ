@@ -3002,6 +3002,22 @@ func controllerCatalogueLegacyRaneMixerAndLoopsKeepRealAudioAndSavedSync(_ name:
     }
 }
 
+@Test @MainActor func controllerCatalogueRMPPlayersShiftedCueAndBendReleasesKeepRealAudioSync() async throws {
+    for (name,play,bend,bendRelease):(String,UInt8,UInt8,UInt8) in [("Reloop RMP-3",1,8,71),("Reloop RMP-2.5a",6,21,84)] {
+        try await withControllerCuePlayback(name) { model,input in
+            input.receiveBytes([0x9F,7,1],source:10);input.flushPendingActions()
+            #expect(model.playbackSnapshot?.a.touchActive == true)
+            input.receiveBytes([0x9F,66,127,66,0],source:10);input.flushPendingActions()
+            #expect(model.playbackSnapshot?.a.touchActive == true)
+            input.receiveBytes([0x8F,70,127,0x9F,play,127,play,0,bend,127],source:10);input.flushPendingActions()
+            input.receiveBytes([0x8F,bendRelease,127],source:10);input.flushPendingActions()
+            let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        }
+    }
+}
+
 @Test @MainActor func controllerCataloguePMX10ManualLoopKeepsRealAudioSync() async throws {
     try await withControllerCuePlayback("Gemini PMX10", manual: true) { model, input in
         model.pressPlay(deck: .a, vinylStop: false)
