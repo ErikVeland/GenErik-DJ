@@ -1915,6 +1915,58 @@
         }
       ],
       "result": "Independent60-input automatic legacy XL configured-template core. Explicit product17/417-byte schema, shared bounded framing and unambiguous wire/range handling. No stored-template or colour write.280 source/57 native checks and iPad framework compilation pass. All302 earlier recipes remain identical. Full Factory/HUI/feedback/timeout and physical acceptance remain open."
+    },
+    {
+      "request": "R408",
+      "reviewDate": "2026-11-19",
+      "sources": [
+        {
+          "model": "Akiyama Pulsar",
+          "url": "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+          "sha256": "0557173bb5cb8bce866bbd439bd10140d8c281fd550486541dc4ddfff46edbec",
+          "members": [
+            {
+              "path": "Devices/AKIYAMA PULSAR.xml",
+              "sha256": "88965a83c862f1f555ec0d2cf61d8c36fe793b9ec013754702afefc0334c5ac6"
+            }
+          ],
+          "review": "Independent visible public factory XML qualifies only a manual A/B normal-layer subset on wire channels0/1 and centre controls on0. Each model file was checked separately. No sibling controls or factory release/action code is copied. Shift45 appears in the factory unused-control declarations on both side channels. Native uses Hold mode, composes the two held inputs and retires source-owned holds. Normal buttons, four Hot Cues, five strip controls and three global controls are retained. C/D, configurable channels/modes, alternate commands, calibration, feedback/lifecycle/audio and physical/iPad/A10X acceptance remain open."
+        },
+        {
+          "model": "Akiyama Tempus",
+          "url": "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+          "sha256": "0557173bb5cb8bce866bbd439bd10140d8c281fd550486541dc4ddfff46edbec",
+          "members": [
+            {
+              "path": "Devices/AKIYAMA TEMPUS.xml",
+              "sha256": "8dd48dd36698d64ed452f7bcb7ab4dccc949404fdc090707a0831218f723d274"
+            }
+          ],
+          "review": "Independent visible public factory XML qualifies only a manual A/B normal-layer subset on wire channels0/1 and centre controls on0. Each model file was checked separately. No sibling controls or factory release/action code is copied. Shift45 appears in the factory unused-control declarations on both side channels. Native uses Hold mode, composes the two held inputs and retires source-owned holds. Normal buttons, four Hot Cues, five strip controls and three global controls are retained. C/D, configurable channels/modes, alternate commands, calibration, feedback/lifecycle/audio and physical/iPad/A10X acceptance remain open."
+        },
+        {
+          "model": "Akiyama Syncron",
+          "url": "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+          "sha256": "0557173bb5cb8bce866bbd439bd10140d8c281fd550486541dc4ddfff46edbec",
+          "members": [
+            {
+              "path": "Devices/AKIYAMA SYNCRON.xml",
+              "sha256": "52d924e47918e87247a450e95d9b920ee541d535ebc9dc044a544f59e6fb28cc"
+            }
+          ],
+          "review": "Separate public ProMixer XML and DEX Syncron script agree on eleven absolute mixer wires: five per deck on explicit channels0/1, and crossfader48 on centre channel4. Native retains only those shared facts. ProMixer Sync96 differs from DEX33. ProMixer loop In/Out0 conflicts with DEX2/3. ProMixer headphone51 overlaps the DEX multi-byte jog interpretation. Those disputed controls, all transport/Shift/pads/jog/tempo, feedback/lifecycle/audio and physical/iPad/A10X acceptance remain inactive/open. No source executable or downloaded mapping action is bundled or executed.",
+          "secondaryURL": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+          "secondarySHA256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+          "secondaryMember": "controllers/Akiyama__Syncron.js",
+          "secondaryMemberSHA256": "8aeda2fa4517b8423c15849c2f31a2047fe5cba8d7f50d5c1ce0c5c2dc659685",
+          "disputedInputs": [
+            "Sync96 versus33",
+            "Loop In/Out0 versus2/3",
+            "Headphone51 versus multi-byte jog interpretation"
+          ]
+        }
+      ],
+      "result": "Independent45/45-input manual Pulsar/Tempus normal-layer subsets and eleven shared Syncron mixer inputs. Disputed Syncron controls stay inactive.282 source/18 native checks and iPad framework compilation pass. All303 earlier recipes remain identical. No hardware writes or automatic support claim."
     }
   ]
 }

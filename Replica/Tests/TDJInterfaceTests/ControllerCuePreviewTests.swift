@@ -2834,3 +2834,25 @@ func controllerCatalogueLegacyDJMDirectCueKeepsAppStartedRealAudioSynced(_ name:
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
     }
 }
+
+@Test(arguments:["Akiyama Pulsar","Akiyama Tempus"])
+@MainActor func controllerCatalogueRemainingAkiyamaNormalCueAndShiftKeepRealAudioSync(_ name:String)async throws{
+    try await withControllerCuePlayback(name,manual:true){model,input in
+        cuePreviewPacket([0x90,23,127],to:input);#expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x90,45,127],to:input);#expect(model.playbackSnapshot?.a.touchActive == false)
+        cuePreviewPacket([0x90,45,0,24,127,24,0],to:input)
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+    }
+}
+
+@Test @MainActor func controllerCatalogueRemainingAkiyamaSyncronCommonMixerKeepsRealAudioSync()async throws{
+    try await withControllerCuePlayback("Akiyama Syncron",manual:true){model,input in
+        model.pressPlay(deck:.a,vinylStop:false)
+        cuePreviewPacket([0xB0,16,64,17,64,18,64,19,64,20,64,0xB4,48,64],to:input)
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+    }
+}

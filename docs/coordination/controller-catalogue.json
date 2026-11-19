@@ -21109,17 +21109,22 @@
     },
     {
       "id": "akiyamapulsar",
-      "name": "Akiyama PULSAR",
+      "name": "Akiyama Pulsar",
       "manufacturer": "Akiyama",
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
         "https://virtualdj.com/products/hardware.html?model=PULSAR"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:akiyama-pulsar-public-subset"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Akiyama Pulsar",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Akiyama PULSAR",
@@ -21127,40 +21132,85 @@
           "source": "https://virtualdj.com/products/hardware.html?model=PULSAR"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 45,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual A/B normal-mode subset. Set deck MIDI channels1/2 and centre channel1, Shift to Hold, and mixer strips to MIDI. Do not use C/D or alternate modes. Configure audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "C/D and configurable channels/modes, full Shift/FX/pad controls, jog/tempo calibration, feedback/state/lifecycle/audio and physical/iPad/A10X acceptance remain open. Source scripts and installers are not executed or bundled. Factory software sensitivity values are not physical calibration.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -21557,17 +21607,22 @@
     },
     {
       "id": "akiyamasyncron",
-      "name": "Akiyama SYNCRON",
+      "name": "Akiyama Syncron",
       "manufacturer": "Akiyama",
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
         "https://virtualdj.com/products/hardware.html?model=SYNCRON"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:akiyama-syncron-public-subset"
+      ],
+      "implementation": "partial-midi-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Akiyama Syncron",
+      "automaticControls": false,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Akiyama SYNCRON",
@@ -21575,102 +21630,52 @@
           "source": "https://virtualdj.com/products/hardware.html?model=SYNCRON"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "crossfader",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "levelA:a",
+        "levelB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b"
+      ],
+      "inputBindingCount": 11,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
         "automaticControls": false,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual mixer-only subset. Select MIDI A and MIDI B, enable MIDI mixer control and use deck channels1/2 with centre channel5. Use app transport/jogs and configure audio separately."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "partial",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
-      ],
-      "priority": {
-        "regionalSalesRank": null,
-        "brandTier": 1,
-        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
-        "clubImplementationOrder": null
-      }
-    },
-    {
-      "id": "akiyamatempus",
-      "name": "Akiyama TEMPUS",
-      "manufacturer": "Akiyama",
-      "role": "primary",
-      "benchmark": false,
-      "sources": [
-        "https://virtualdj.com/products/hardware.html?model=TEMPUS"
-      ],
-      "definitions": [],
-      "implementation": "protocol-needed",
-      "hardwareAcceptance": "not-verified",
-      "releaseReady": false,
-      "comparisonSupport": {
-        "virtualDJ": {
-          "sourceName": "Akiyama TEMPUS",
-          "category": "All-in-one",
-          "source": "https://virtualdj.com/products/hardware.html?model=TEMPUS"
-        }
-      },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
-      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
-      "zeroConfig": {
-        "automaticControls": false,
-        "completeFeatureParity": false,
-        "acceptedOnA10X": false
-      },
-      "isPhysicalModel": true,
-      "theoreticalSupport": {
-        "status": "protocol-needed",
-        "complete": false,
-        "criteria": {
-          "protocolImplemented": false,
-          "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
-          "audioRoutingImplemented": false,
-          "completeProtocolFixturePassed": false
-        },
-        "untranslatedSourceRows": 0,
-        "completionRequiresPhysicalTest": false,
-        "remainingWork": [
-          "protocolImplemented",
-          "documentedControlsComplete",
-          "lifecycleReviewed",
-          "audioRoutingImplemented",
-          "completeProtocolFixturePassed"
-        ]
-      },
-      "gaps": [
-        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Sync, loop and headphone rows disagree across the two sources. All transport/Shift/pad/jog/tempo, complete feedback/state/lifecycle/audio and physical/iPad/A10X acceptance remain open. No DEX or ProMixer action, hardware reset, preset or audio route is executed.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -21823,6 +21828,118 @@
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
         "Conflicting pitch/filter54, paired resolution/order, jog direction/Shift/calibration, browser press/release, crossfader type, master channel and lamp rows remain inactive. Sampler/FX, alternate Shift actions, complete feedback/lifecycle/audio and physical/iPad/A10X acceptance remain open. The table labels do not authorise Quattro protocol inheritance.",
+        "Untranslated controls and script behaviour remain in the linked definition records."
+      ],
+      "priority": {
+        "regionalSalesRank": null,
+        "brandTier": 1,
+        "basis": "Coolblue regional sales rank where available. Pioneer/AlphaTheta first follows the 2026 DJ Census. Other model ranks are unknown.",
+        "clubImplementationOrder": null
+      }
+    },
+    {
+      "id": "akiyamatempus",
+      "name": "Akiyama Tempus",
+      "manufacturer": "Akiyama",
+      "role": "primary",
+      "benchmark": false,
+      "sources": [
+        "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+        "https://virtualdj.com/products/hardware.html?model=TEMPUS"
+      ],
+      "definitions": [
+        "reviewed:akiyama-tempus-public-subset"
+      ],
+      "implementation": "partial-midi-profile",
+      "hardwareAcceptance": "not-verified",
+      "releaseReady": false,
+      "profile": "Akiyama Tempus",
+      "automaticControls": false,
+      "comparisonSupport": {
+        "virtualDJ": {
+          "sourceName": "Akiyama TEMPUS",
+          "category": "All-in-one",
+          "source": "https://virtualdj.com/products/hardware.html?model=TEMPUS"
+        }
+      },
+      "controlActions": [
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cueMix",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "keylockA:a",
+        "keylockB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "monitor",
+        "pitchBendDownA:a",
+        "pitchBendDownB:b",
+        "pitchBendUpA:a",
+        "pitchBendUpB:b",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b"
+      ],
+      "inputBindingCount": 45,
+      "feedbackBindingCount": 0,
+      "connection": "USB MIDI",
+      "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
+      "zeroConfig": {
+        "automaticControls": false,
+        "completeFeatureParity": false,
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "Manual A/B normal-mode subset. Set deck MIDI channels1/2 and centre channel1, Shift to Hold, and mixer strips to MIDI. Do not use C/D or alternate modes. Configure audio separately."
+      },
+      "isPhysicalModel": true,
+      "theoreticalSupport": {
+        "status": "partial",
+        "complete": false,
+        "criteria": {
+          "protocolImplemented": true,
+          "documentedControlsComplete": false,
+          "lifecycleReviewed": true,
+          "audioRoutingImplemented": false,
+          "completeProtocolFixturePassed": false
+        },
+        "untranslatedSourceRows": 0,
+        "completionRequiresPhysicalTest": false,
+        "remainingWork": [
+          "documentedControlsComplete",
+          "audioRoutingImplemented",
+          "completeProtocolFixturePassed"
+        ]
+      },
+      "gaps": [
+        "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
+        "C/D and configurable channels/modes, full Shift/FX/pad controls, jog/tempo calibration, feedback/state/lifecycle/audio and physical/iPad/A10X acceptance remain open. Source scripts and installers are not executed or bundled. Factory software sensitivity values are not physical calibration.",
         "Untranslated controls and script behaviour remain in the linked definition records."
       ],
       "priority": {
@@ -354779,6 +354896,99 @@
         },
         {
           "reason": "Conflicting pitch/filter54, paired resolution/order, jog direction/Shift/calibration, browser press/release, crossfader type, master channel and lamp rows remain inactive. Sampler/FX, alternate Shift actions, complete feedback/lifecycle/audio and physical/iPad/A10X acceptance remain open. The table labels do not authorise Quattro protocol inheritance."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:akiyama-pulsar-public-subset",
+      "name": "Akiyama Pulsar",
+      "transport": "midi",
+      "source": {
+        "url": "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+        "sha256": "0557173bb5cb8bce866bbd439bd10140d8c281fd550486541dc4ddfff46edbec",
+        "members": [
+          {
+            "path": "Devices/AKIYAMA PULSAR.xml",
+            "sha256": "88965a83c862f1f555ec0d2cf61d8c36fe793b9ec013754702afefc0334c5ac6"
+          }
+        ],
+        "review": "Independent visible public factory XML qualifies only a manual A/B normal-layer subset on wire channels0/1 and centre controls on0. Each model file was checked separately. No sibling controls or factory release/action code is copied. Shift45 appears in the factory unused-control declarations on both side channels. Native uses Hold mode, composes the two held inputs and retires source-owned holds. Normal buttons, four Hot Cues, five strip controls and three global controls are retained. C/D, configurable channels/modes, alternate commands, calibration, feedback/lifecycle/audio and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 45,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "C/D and configurable channels/modes, full Shift/FX/pad controls, jog/tempo calibration, feedback/state/lifecycle/audio and physical/iPad/A10X acceptance remain open. Source scripts and installers are not executed or bundled. Factory software sensitivity values are not physical calibration."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:akiyama-tempus-public-subset",
+      "name": "Akiyama Tempus",
+      "transport": "midi",
+      "source": {
+        "url": "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+        "sha256": "0557173bb5cb8bce866bbd439bd10140d8c281fd550486541dc4ddfff46edbec",
+        "members": [
+          {
+            "path": "Devices/AKIYAMA TEMPUS.xml",
+            "sha256": "8dd48dd36698d64ed452f7bcb7ab4dccc949404fdc090707a0831218f723d274"
+          }
+        ],
+        "review": "Independent visible public factory XML qualifies only a manual A/B normal-layer subset on wire channels0/1 and centre controls on0. Each model file was checked separately. No sibling controls or factory release/action code is copied. Shift45 appears in the factory unused-control declarations on both side channels. Native uses Hold mode, composes the two held inputs and retires source-owned holds. Normal buttons, four Hot Cues, five strip controls and three global controls are retained. C/D, configurable channels/modes, alternate commands, calibration, feedback/lifecycle/audio and physical/iPad/A10X acceptance remain open."
+      },
+      "implementedInputCount": 45,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "C/D and configurable channels/modes, full Shift/FX/pad controls, jog/tempo calibration, feedback/state/lifecycle/audio and physical/iPad/A10X acceptance remain open. Source scripts and installers are not executed or bundled. Factory software sensitivity values are not physical calibration."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:akiyama-syncron-public-subset",
+      "name": "Akiyama Syncron",
+      "transport": "midi",
+      "source": {
+        "url": "https://dmsdown.com/descargas/DMS_DJPROMIXER/DJProMixer_3.0_Setup.exe",
+        "sha256": "0557173bb5cb8bce866bbd439bd10140d8c281fd550486541dc4ddfff46edbec",
+        "members": [
+          {
+            "path": "Devices/AKIYAMA SYNCRON.xml",
+            "sha256": "52d924e47918e87247a450e95d9b920ee541d535ebc9dc044a544f59e6fb28cc"
+          }
+        ],
+        "review": "Separate public ProMixer XML and DEX Syncron script agree on eleven absolute mixer wires: five per deck on explicit channels0/1, and crossfader48 on centre channel4. Native retains only those shared facts. ProMixer Sync96 differs from DEX33. ProMixer loop In/Out0 conflicts with DEX2/3. ProMixer headphone51 overlaps the DEX multi-byte jog interpretation. Those disputed controls, all transport/Shift/pads/jog/tempo, feedback/lifecycle/audio and physical/iPad/A10X acceptance remain inactive/open. No source executable or downloaded mapping action is bundled or executed.",
+        "secondaryURL": "https://pcdj.com/downloads/dex4/setup_dex4.0_mac.pkg",
+        "secondarySHA256": "55aaca2c33e7f1b84b420ab20f2c261f1c98ee73b62b3c012e25616f39070030",
+        "secondaryMember": "controllers/Akiyama__Syncron.js",
+        "secondaryMemberSHA256": "8aeda2fa4517b8423c15849c2f31a2047fe5cba8d7f50d5c1ce0c5c2dc659685",
+        "disputedInputs": [
+          "Sync96 versus33",
+          "Loop In/Out0 versus2/3",
+          "Headphone51 versus multi-byte jog interpretation"
+        ]
+      },
+      "implementedInputCount": 11,
+      "implementedOutputCount": 0,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Sync, loop and headphone rows disagree across the two sources. All transport/Shift/pad/jog/tempo, complete feedback/state/lifecycle/audio and physical/iPad/A10X acceptance remain open. No DEX or ProMixer action, hardware reset, preset or audio route is executed."
         }
       ]
     },
