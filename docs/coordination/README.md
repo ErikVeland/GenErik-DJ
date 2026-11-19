@@ -1,6 +1,6 @@
 # Current work
 
-**R428 blocking freeze:** Erik reported that build 227 froze for at least eight minutes after tapping Deck B album art for a matching track. Device inventory confirms build 227. Diagnostic capture is incomplete because profiler finalisation and later device requests stalled. Cause and recovery remain unresolved. See the [request ledger](requests.md).
+**Build 228 (R428)** installed over Wi-Fi. The build 227 watchdog report identifies a stall in browser-opening observation notifications. Build 228 bypasses the observed request ID setter. Compilation and signing passed. Host tests are incomplete, and remote launch timed out. Erik opens the app and checks Deck B recommendations, audio and touch. Freeze acceptance remains open. [Evidence and scope](ipad-freeze-r428.md) · [Build record](../testing/builds/228.json).
 
 **R427 screenshots:** Apple accepted four native 10.5-inch iPad captures and three Duo captures in the English (Australia) iOS 1.0 draft. R429 added four accepted 2752 × 2064 copies to the required 13-inch iPad slot. The required standard iPhone set remains open. [Files and upload evidence](../app-store/screenshots-r427/README.md).
 

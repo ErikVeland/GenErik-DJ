@@ -1,0 +1,49 @@
+{
+  "notes": "R428: Bypass the observed browser request ID setter identified in the build 227 watchdog report. Browser-open events preserve destination and repeated taps. Check Deck B album-art recommendations for Love Parade, continued touch response and continuous audio, including after an extended session. Freeze acceptance remains open.",
+  "sourceCommit": "591dfd9d09f77ee88cdda236cf8989989a766f6f",
+  "sourceSHA256": "382a934ad5bd3cd579d459db46b3788bf2e2d1462028d6ab7bb16c98ee74e416",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 846.47,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-228.log",
+  "build": 228,
+  "app": "TestBuilds/ipad/228/GenErikDJ.app",
+  "appSHA256": "2d0d50cda56648094aa36dade6e72e105d4cfcf8a29b954934db6958064b6a2b",
+  "state": "installed",
+  "createdUTC": "2026-11-19T12:23:13.109942+00:00",
+  "focusedHostTests": {
+    "result": "incomplete",
+    "detail": "Initial test compiled but did not return a test result. Candidate test compilation was stopped to prioritise the iPad build under host resource pressure.",
+    "logs": [
+      "TestBuilds/r428/test-before.log",
+      "TestBuilds/r428/test-after.log"
+    ]
+  },
+  "installAttempts": [
+    {
+      "date": "2026-11-19",
+      "result": "connection_timeout",
+      "detail": "Standard devicectl installation timed out after 20 seconds. The signed saved app remains preserved."
+    },
+    {
+      "date": "2026-11-19",
+      "result": "installed",
+      "detail": "Direct installation of the saved signed app succeeded over Wi-Fi. Installation proxy reported InstallComplete. Log: TestBuilds/r428/install-usb.log."
+    }
+  ],
+  "installedUTC": "2026-11-19T12:35:16+00:00",
+  "launchVerification": "Remote launch requests timed out. Erik opens the installed app and checks operation. No launch confirmation or physical acceptance is claimed.",
+  "launchAttempts": [
+    {
+      "result": "timeout",
+      "seconds": 10,
+      "log": "TestBuilds/r428/launch-228.log"
+    },
+    {
+      "result": "timeout",
+      "seconds": 25,
+      "log": "TestBuilds/r428/launch-direct-228.log"
+    }
+  ]
+}
