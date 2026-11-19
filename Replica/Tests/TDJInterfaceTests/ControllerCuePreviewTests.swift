@@ -3505,3 +3505,22 @@ func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+
+@Test @MainActor func controllerCatalogueXone43CManualFaderAndCueStateKeepAudioSynced() async throws {
+    try await withControllerCuePlayback("Xone:43C",manual:true) {model,input in
+        model.pressPlay(deck:.a,vinylStop:false)
+        input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+        for value:UInt8 in [0,127,64] {
+            input.receiveBytes([0xBF,0,value],source:10);input.flushPendingActions()
+        }
+        input.receiveBytes([0x9F,77,127,77,127],source:10);input.flushPendingActions()
+        #expect(model.controllerValue(.cueA) == 1)
+        input.receiveBytes([0x8F,77,0],source:10);input.flushPendingActions()
+        #expect(model.controllerValue(.cueA) == 0)
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        #expect(abs((model.controllerValue(.levelA) ?? -1)-64.0/127)<0.0001)
+    }
+}

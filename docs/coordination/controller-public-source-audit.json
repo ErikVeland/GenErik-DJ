@@ -4559,6 +4559,33 @@
         }
       ],
       "result": "PTB-2 and Xone:23C are explicitly reviewed external audio mixers without own control MIDI. X:Link passthrough remains separate. Their audio/DVS implementation and acceptance remain open.395 source checks pass. Both runtime resources are byte-identical to R461; no Swift source or runtime behaviour changed."
+    },
+    {
+      "request": "R463",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "model": "Allen & Heath XONE 43C",
+          "url": "https://www.allen-heath.com/content/uploads/2023/07/AP9967_2_X43C_UG.pdf",
+          "sha256": "0e38e210810d1a50f6682ca6575ef29473eb9027f00caf2ef073ab66014b2f54",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r463/upstream/xone43c-manual.pdf",
+              "sha256": "0e38e210810d1a50f6682ca6575ef29473eb9027f00caf2ef073ab66014b2f54"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://www.allen-heath.com/hardware/legacy-products/xone43c-2/resources/"
+            },
+            {
+              "url": "https://virtualdj.com/manuals/hardware/allenheath/43c/advanced.html"
+            }
+          ],
+          "review": "Own manufacturer AP9967 issue2 guide pp21..23 visually reviewed. Default MIDI channel16/raw15 is explicit and saved channel changes are possible. Own faders CH1..4 send CC0..3 with00..7F; native assigns physical CH1..4 to A..D with pickup and C/D opt-in. Own Cue switch states send NOTE77/57/37/17 (hex4D/39/25/11), ON9n7F and OFF8n00. Native cueState sets headphone PFL directly, including both Note Off families; it does not toggle on every report or become main held Cue. Manual selection and separate app audio are required because these faders/switches also change analogue audio. No automatic mixer or audio ownership is claimed. The other ten documented MIDI controls remain inactive: MicCue92/MicOn93, channel-filter73/53/33/13, XFX4 and HPF/BPF/LPF1/2/3. Their analogue mic/filter/FX states have no qualified native equivalent here. Analogue EQ/gain/filter-frequency/headphone/master/crossfader controls are not invented as MIDI knobs. The numeric MIDI note conversion appendix contains errors; the explicit hex message table is authoritative. No native output packet is sent because received MIDI can change real hardware state. Alternate channel discovery, complete controls/modes/feedback/lifecycle/recovery, USB/X:Link/OS/power/audio/DVS routing and physical/iPad/A10X acceptance remain open. Mac CoreAudio/CoreMIDI class compliance does not prove current direct iPad acceptance. No setup, identity query, preset, hardware Cue/filter, firmware, driver, internal jumper or audio-route write runs. No Xone23C/24C/PX5/96 protocol is inherited."
+        }
+      ],
+      "result": "Own eight-input manual fader/Cue-state subset on documented default MIDI channel16. Ten other MIDI controls and analogue audio ownership remain outside native scope.397 source/10 native checks and iPad framework compilation pass. All390 earlier recipes remain identical. No output-state or audio-route write runs."
     }
   ]
 }
