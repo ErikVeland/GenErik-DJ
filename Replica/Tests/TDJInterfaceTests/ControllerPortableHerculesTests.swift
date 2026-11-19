@@ -42,7 +42,7 @@ private let portableNames = ["Hercules DJControl Starlight", "Hercules DJControl
             let profile = try #require(ControllerFactoryProfile.matching([name], automaticOnly: true))
             let data = try #require(profile.definition)
             let mix = name.hasSuffix("MIX")
-            #expect(data.inputs.count == (mix ? 60 : 58) && data.outputs.count == 22)
+            #expect(data.inputs.count == (mix ? 68 : 66) && data.outputs.count == 22)
             #expect(
                 packets
                     == (mix
@@ -52,7 +52,7 @@ private let portableNames = ["Hercules DJControl Starlight", "Hercules DJControl
             #expect(data.inputs.contains { $0.action == .master } == mix)
         }
     }
-    #expect(ControllerFactoryProfile.matching(["Hercules DJControl MIX ULTRA"], automaticOnly: true) == nil)
+    #expect(ControllerFactoryProfile.matching(["Hercules DJControl MIX ULTRA"], automaticOnly: true)?.rawValue != "Hercules DJControl MIX")
     #expect(ControllerFactoryProfile.matching(["Hercules DJControl Starlight 2"], automaticOnly: true) == nil)
 }
 
@@ -66,7 +66,7 @@ private let portableNames = ["Hercules DJControl Starlight", "Hercules DJControl
             targets.removeAll()
             portablePacket(
                 [0x97, 0, 127, 1, 127, 2, 127, 3, 127, 8, 127, 9, 127, 10, 127, 11, 127, 32, 127], to: input)
-            #expect(targets.map(\.action) == [.hotcue1B, .hotcue2B, .hotcue3B, .hotcue4B])
+            #expect(targets.map(\.action) == [.hotcue1B, .hotcue2B, .hotcue3B, .hotcue4B, .clearHotcue1B, .clearHotcue2B, .clearHotcue3B, .clearHotcue4B])
             #expect(targets.allSatisfy { $0.deck == .b })
         }
     }
@@ -130,13 +130,13 @@ private let portableNames = ["Hercules DJControl Starlight", "Hercules DJControl
     }
 }
 
-@Test @MainActor func controllerCataloguePortableHerculesCueDeleteReleasesRearmWithoutDeleting() {
+@Test @MainActor func controllerCataloguePortableHerculesCueDeletePressClearsAndReleaseRearms() {
     for name in portableNames {
         withPortable(name) { input, _ in
             var targets: [ControllerActionTarget] = []
             input.onTargetAction = { target, _ in targets.append(target) }
             portablePacket([0x96, 0, 127, 0x90, 3, 127, 0x96, 8, 127, 8, 0, 0x80, 3, 0, 0x96, 0, 127], to: input)
-            #expect(targets == [.init(.hotcue1A, deck: .a), .init(.hotcue1A, deck: .a)])
+            #expect(targets == [.init(.hotcue1A, deck: .a), .init(.clearHotcue1A, deck: .a), .init(.hotcue1A, deck: .a)])
         }
     }
 }

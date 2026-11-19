@@ -3788,3 +3788,26 @@ func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
     }
 }
+
+@Test @MainActor func controllerCatalogueReviewedClearProfilesDeleteOnlyTheirMarkerDuringPlayback() async throws {
+    for name in ["Hercules DJControl Compact","Novation Dicer","MixVibes U-Mix Control Pro 2"] {
+        try await withControllerCuePlayback(name,manual:true) {model,input in
+            let track=try #require(model.track(.a))
+            model.performance.cues[track.id]=[0:.init(frame:0),1:.init(frame:100)]
+            model.pressPlay(deck:.a,vinylStop:false)
+            _ = model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+            try #require(model.playbackSnapshot?.a.phase.active == true)
+            let p=try #require(ControllerFactoryProfile.matching([name]))
+            let b=try #require(p.bindings(source:10).first{$0.action == .clearHotcue1A && $0.targetDeck == .a})
+            let before=try #require(model.playbackSnapshot?.a.sourceFrame)
+            cuePreviewPacket([0x80+b.channel,b.number,127],to:input)
+            #expect(model.performance.cues[track.id]?[0] != nil)
+            cuePreviewPacket([0x90+b.channel,b.number,127,b.number,0],to:input)
+            #expect(model.performance.cues[track.id]?[0]==nil && model.performance.cues[track.id]?[1] != nil)
+            model.refreshPlayback();#expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1)-before)<=1)
+            let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        }
+    }
+}

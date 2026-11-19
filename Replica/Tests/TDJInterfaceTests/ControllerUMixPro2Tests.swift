@@ -31,7 +31,7 @@ import Testing
 @Test @MainActor func controllerCatalogueUMixPro2KeepsDistinctModelAddressesAndSyncLEDPolarity() throws {
     let profile = try #require(ControllerFactoryProfile.matching(["U-Mix Control Pro 2"], automaticOnly: true))
     let data = try #require(profile.definition)
-    #expect(data.inputs.count == 54 && data.outputs.count == 20)
+    #expect(data.inputs.count == 62 && data.outputs.count == 20)
     #expect(data.startup.count == 12 && data.shutdown.count == 20)
     #expect(!profile.hasAutomaticSplitOutput)
     for name in ["U-Mix Control 2", "U-Mix Control Pro"] {
@@ -82,12 +82,12 @@ import Testing
     }
 }
 
-@Test @MainActor func controllerCatalogueUMixPro2DeleteChannelReleasesRearmCuesWithoutDeleting() {
+@Test @MainActor func controllerCatalogueUMixPro2DeletePressClearsAndItsReleaseRearmsCue() {
     withUMix { input, _ in
         var actions: [ControllerAction] = []
         input.onTargetAction = { target, _ in actions.append(target.action) }
         umixPacket([0x90, 9, 127, 0x83, 9, 127, 0x93, 9, 127, 0x90, 9, 127], to: input)
-        #expect(actions == [.hotcue1A, .hotcue1A])
+        #expect(actions == [.hotcue1A, .clearHotcue1A, .hotcue1A])
     }
 }
 

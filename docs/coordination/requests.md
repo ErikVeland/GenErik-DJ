@@ -784,3 +784,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R476 | Implemented; full modes/Cue/mixer/host gaps open | Add independent original Seventy-Two unconditional input subset | Added seven manual own-author inputs.428 source/10 native checks and iPad framework compilation pass. All402 earlier recipes remain identical. [Scope](controller-coverage.md#r476-original-seventy-two-unconditional-owner-subset). |
 
 | R477 | Implemented; full modes/motion/host gaps open | Add independent MDJ-900 core and native Hot Cue clearing | Added23 manual own-model inputs and16 native marker-clear actions.431 source/12 native checks and iPad framework compilation pass. All403 earlier recipes remain identical. [Scope](controller-coverage.md#r477-independent-mdj-900-and-native-hot-cue-clearing). |
+
+| R478 | Implemented; full modes/physical gaps open | Reuse native Hot Cue clearing on13 independently mapped profiles | Added130 own-source dedicated clear inputs.434 source/81 native checks and iPad framework compilation pass. All earlier inputs and391 other recipes remain unchanged. [Scope](controller-coverage.md#r478-reviewed-hot-cue-clear-opcodes). |

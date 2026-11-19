@@ -29,7 +29,7 @@ import Testing
     #expect(profile != ControllerFactoryProfile.matching(["U-Mix Control Pro"]))
     #expect(!profile.hasAutomaticSplitOutput)
     let data = try #require(profile.definition)
-    #expect(data.inputs.count == 84 && data.outputs.count == 28)
+    #expect(data.inputs.count == 96 && data.outputs.count == 28)
     #expect(data.startup.count == 31 && data.shutdown.count == 31)
     #expect(!data.inputs.contains { [.jogTouchA, .jogTouchB, .jogA, .jogB, .monitor, .cueMix].contains($0.action) })
     #expect(data.inputs.filter { $0.action.isJog }.allSatisfy { $0.argument == nil })
@@ -58,13 +58,13 @@ import Testing
     }
 }
 
-@Test @MainActor func controllerCatalogueUMixControl2ShiftedAliasesReleaseButCannotStartCueBendOrDeletePads() {
+@Test @MainActor func controllerCatalogueUMixControl2ShiftedAliasesReleaseCueBendsAndExplicitDeleteClearsPad() {
     withUMixControl2 { input in
         var events: [(ControllerAction, Double)] = []
         input.onTargetAction = { events.append(($0.action, $1)) }
         umixControl2Packet([0x90, 1, 127, 4, 127, 26, 127, 0x92, 2, 127], to: input)
         umixControl2Packet([0x93, 1, 127, 4, 127, 26, 127, 127, 127], to: input)
-        #expect(events.map(\.0) == [.cuePreviewA, .pitchBendDownA, .hotcue6A])
+        #expect(events.map(\.0) == [.cuePreviewA, .pitchBendDownA, .hotcue6A, .clearHotcue6A])
         umixControl2Packet([0x83, 1, 127, 4, 127, 26, 127, 127, 127], to: input)
         #expect(events.suffix(2).map(\.0) == [.cuePreviewA, .pitchBendDownA])
         #expect(events.suffix(2).allSatisfy { $0.1 == 0 })

@@ -5282,6 +5282,130 @@
         }
       ],
       "result": "Added the newly found MDJ-900 physical model and23 manual own-source inputs. Added16 distinct native Hot Cue clear actions through existing cue deletion.431 source/12 native checks and iPad framework compilation pass. All403 earlier recipes remain identical. The original fixture recalled the pre-existing grid Cue before Play, so it was already paused before deletion. A separate precondition run confirmed this. Empty marker setup fixes the fixture; production deletion code did not change. No earlier recipe gains a guessed clear wire. Full modes/Shift edges/motion/audio/lifecycle/host and physical acceptance remain open."
+    },
+    {
+      "request": "R478",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "model": "Hercules DJControl Compact",
+          "path": "res/controllers/Hercules DJControl Compact.midi.xml",
+          "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20Compact.midi.xml",
+          "git_blob": "75cb4f7b508190fd1bbeb8bee5435b2b57d37ae4",
+          "sha256": "a598e43feda6b1d48efda26e33a41fa258e88bc15b4100ec6fae399dac1374dd",
+          "bytes": 46108,
+          "clearInputCount": 8
+        },
+        {
+          "model": "Hercules DJControl Inpulse 200",
+          "path": "res/controllers/Hercules_DJControl_Inpulse_200.midi.xml",
+          "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Inpulse_200.midi.xml",
+          "git_blob": "b9d10873f59606296be6c27f316734680140a8ca",
+          "sha256": "c0927a1bbc75c1c1727034d2bd0f0f01d018ee264c1c63c203d3f9d8e06b6587",
+          "bytes": 65627,
+          "clearInputCount": 8
+        },
+        {
+          "model": "Hercules DJControl Inpulse 300",
+          "path": "res/controllers/Hercules_DJControl_Inpulse_300.midi.xml",
+          "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules_DJControl_Inpulse_300.midi.xml",
+          "git_blob": "c1c0a58cdd6299909a593b5bfba005e28de6c09f",
+          "sha256": "43c8c84c8832af0c26d038851be8280ffb8b9a9c7c0e8b1d9811b520333114c4",
+          "bytes": 109415,
+          "clearInputCount": 16
+        },
+        {
+          "model": "Hercules DJControl MIX",
+          "path": "res/controllers/Hercules DJControl MIX.midi.xml",
+          "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20MIX.midi.xml",
+          "git_blob": "f4a0e34d3c7751bfd4c15e5305976aaa5faedc7a",
+          "sha256": "7d64670a5235dcde14373a700f1aec70124f1f3880d1efa65ee2459faa32ee18",
+          "bytes": 54397,
+          "clearInputCount": 8
+        },
+        {
+          "model": "Hercules DJControl Starlight",
+          "path": "res/controllers/Hercules DJControl Starlight.midi.xml",
+          "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Hercules%20DJControl%20Starlight.midi.xml",
+          "git_blob": "4d6a3a244526c4eea4e3079ad6a92a0bd41a330c",
+          "sha256": "e47b766a85f4fa234c41c4bf91ae456ca35dacc507184f69d3b2d458bf35d6c1",
+          "bytes": 53608,
+          "clearInputCount": 8
+        },
+        {
+          "model": "Korg KAOSS DJ",
+          "path": "res/controllers/Korg-KAOSS-DJ.midi.xml",
+          "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg-KAOSS-DJ.midi.xml",
+          "git_blob": "ca502503245c940dc03c070edf941dc2167f78e9",
+          "sha256": "85d2555f1ff54adee404f0443df3f2af4363090f1cde762371d11413c8aa6285",
+          "bytes": 34494,
+          "clearInputCount": 6
+        },
+        {
+          "model": "MixVibes U-Mix Control 2",
+          "path": "res/controllers/MixVibes U-Mix Control 2.midi.xml",
+          "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MixVibes%20U-Mix%20Control%202.midi.xml",
+          "git_blob": "291507b777356ce42ee6478f5fb283a3c6f1fa40",
+          "sha256": "89a62e4ba79ded920dca67e16b2632b1e9020bdd7a79d78cb5f2feecdefa7b0a",
+          "bytes": 26114,
+          "clearInputCount": 12
+        },
+        {
+          "model": "MixVibes U-Mix Control Pro 2",
+          "path": "res/controllers/MixVibes U-Mix Control Pro 2.midi.xml",
+          "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/MixVibes%20U-Mix%20Control%20Pro%202.midi.xml",
+          "git_blob": "c9b62423c5d2785c5f4c5cbde85360ba21b2f5ff",
+          "sha256": "d460da29d06de95265297711fadae4d55ea77ca08821a778ba055ce0452e7840",
+          "bytes": 31039,
+          "clearInputCount": 8
+        },
+        {
+          "model": "Novation Dicer",
+          "path": "res/controllers/Novation Dicer.midi.xml",
+          "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Novation%20Dicer.midi.xml",
+          "git_blob": "d080b82737dfc69535eb4dc14d90e27f88eb141d",
+          "sha256": "1ebe1d435a086e02e819b57f2ca6e61993269ed9971c5748f01726189baf5f46",
+          "bytes": 33611,
+          "clearInputCount": 10
+        },
+        {
+          "model": "Reloop Beatmix 2/4 MK2",
+          "path": "res/controllers/Reloop-Beatmix-2-4-MK2.midi.xml",
+          "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Reloop-Beatmix-2-4-MK2.midi.xml",
+          "git_blob": "488960e2c7a48be27e68fe9607a0759388b69766",
+          "sha256": "9ad44392c28b9221126520cf1afb1fa7a379b2974a20cafcdcef5ae7a4bd6832",
+          "bytes": 122238,
+          "clearInputCount": 16
+        },
+        {
+          "model": "Stanton DJC.4",
+          "path": "res/controllers/Stanton-DJC-4.midi.xml",
+          "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Stanton-DJC-4.midi.xml",
+          "git_blob": "fa56a0511284bd2af5e6e97175028e0d8bcb203d",
+          "sha256": "e7b4cca84354be02d3c627054e187d7e0b66cbfb51bbae6dced9b2b339c97f26",
+          "bytes": 92406,
+          "clearInputCount": 16
+        },
+        {
+          "model": "Vestax VCI-100MKII",
+          "path": "res/controllers/Vestax VCI-100MKII.midi.xml",
+          "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Vestax%20VCI-100MKII.midi.xml",
+          "git_blob": "499c54e97061ef5d230e02d7f2ef3dd69c954526",
+          "sha256": "ca8cd77428b7cf6133158b048a002e77f5db43a3aa27ab7e8195c71df35b9677",
+          "bytes": 54523,
+          "clearInputCount": 8
+        },
+        {
+          "model": "Korg KAOSS DJ (Audioless)",
+          "path": "res/controllers/Korg-KAOSS-DJ.midi.xml",
+          "url": "https://raw.githubusercontent.com/mixxxdj/mixxx/20f2c218ae1b762ac39fd76ff408c8428056f4f7/res/controllers/Korg-KAOSS-DJ.midi.xml",
+          "git_blob": "ca502503245c940dc03c070edf941dc2167f78e9",
+          "sha256": "85d2555f1ff54adee404f0443df3f2af4363090f1cde762371d11413c8aa6285",
+          "bytes": 34494,
+          "clearInputCount": 6
+        }
+      ],
+      "result": "Added130 dedicated normal Note-On Hot Cue clear inputs across13 existing own-model profiles. Each wire already had one matching native negative guard and no positive collision. All earlier inputs and outputs/setup/audio/aliases remain unchanged;391 other recipes remain identical.434 source/81 focused native checks and iPad framework compilation pass. Dedicated clear opcodes work with either app Shift state. Both negative forms, duplicate presses, cue rearming, source/group isolation and three real-WAV cases pass. Older tests expected nil for separately supported sibling models and an obsolete MIX input count/shifted jog scale. Baseline inputs prove these assumptions predate R478. Revised MIX checks preserve blocked search and248-count normal jogs without relying on dictionary event order. Failed and interrupted runs remain in evidence. No mapper or vendor code executes. Full modes, lifecycle, host routes and physical acceptance remain open."
     }
   ]
 }

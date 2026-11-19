@@ -31,7 +31,7 @@ import Testing
     }
     #expect(ControllerFactoryProfile.matching(["Beatmix 4 MK3"]) == nil)
     let data = try #require(profile.definition)
-    #expect(data.inputs.count == 148 && data.outputs.count == 28)
+    #expect(data.inputs.count == 164 && data.outputs.count == 28)
     for deck in DeckID.allCases {
         let outputs = profile.feedback(destination: 20).filter { $0.targetDeck == deck }
         #expect(outputs.first { $0.action == .playA || $0.action == .playB }?.number == 35)
@@ -76,13 +76,13 @@ import Testing
         var events: [(ControllerActionTarget, Double)] = []
         input.onTargetAction = { target, value in events.append((target, value)) }
         beatmixPacket([0x91, 0, 127, 35, 127, 63, 127, 32, 127, 8, 127, 99, 127, 127, 127], to: input)
-        #expect(events.map(\.0.action) == [.hotcue1A, .cuePreviewA, .jogTouchA])
+        #expect(events.map(\.0.action) == [.hotcue1A, .cuePreviewA, .jogTouchA, .clearHotcue1A])
         beatmixPacket([0x81, 8, 0, 99, 0, 127, 0, 32, 0, 0x91, 0, 127, 35, 127], to: input)
         #expect(
             events.map(\.0.action) == [
-                .hotcue1A, .cuePreviewA, .jogTouchA, .cuePreviewA, .jogTouchA, .hotcue1A, .cuePreviewA,
+                .hotcue1A, .cuePreviewA, .jogTouchA, .clearHotcue1A, .cuePreviewA, .jogTouchA, .hotcue1A, .cuePreviewA,
             ])
-        #expect(events.map(\.1) == [1, 1, 1, 0, 0, 1, 1])
+        #expect(events.map(\.1) == [1, 1, 1, 1, 0, 0, 1, 1])
     }
 }
 

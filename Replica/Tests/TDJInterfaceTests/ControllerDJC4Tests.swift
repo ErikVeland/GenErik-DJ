@@ -28,7 +28,7 @@ import Testing
 @Test @MainActor func controllerCatalogueDJC4KeepsNativeLEDsAndBoundedFixedScratchLifecycle() throws {
     let profile = try #require(ControllerFactoryProfile.matching(["DJC-4"], automaticOnly: true))
     let data = try #require(profile.definition)
-    #expect(data.inputs.count == 202 && data.outputs.count == 40)
+    #expect(data.inputs.count == 218 && data.outputs.count == 40)
     #expect(data.startup.count == 4 && data.shutdown.count == 44)
     #expect(data.bankChanges?.count == 8 && profile.hasAutomaticSplitOutput)
     let feedback = profile.feedback(destination: 20)
@@ -100,12 +100,12 @@ import Testing
     }
 }
 
-@Test @MainActor func controllerCatalogueDJC4ShiftedPlaySetsCueAndClearReleaseRearmsNativePad() {
+@Test @MainActor func controllerCatalogueDJC4ShiftedPlaySetsCueAndClearPressRetainsNativePadRearm() {
     withDJC4 { input in
         var actions: [ControllerAction] = []
         input.onTargetAction = { target, _ in actions.append(target.action) }
         djc4Packet([0x90, 8, 127, 45, 127, 58, 127, 58, 0, 74, 127, 74, 0, 45, 0, 8, 127], to: input)
-        #expect(actions == [.hotcue1A, .cueSetA, .hotcue1A])
+        #expect(actions == [.hotcue1A, .clearHotcue1A, .cueSetA, .hotcue1A])
     }
 }
 
