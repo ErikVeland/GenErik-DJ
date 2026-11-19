@@ -12,7 +12,8 @@ class GMXTests(unittest.TestCase):
     def test_manual_core_uses_independent_midi_channels_and_no_hid_or_mode_guess(self):
         rows=json.loads((ROOT/'Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json').read_text())['profiles']
         p=next((p for p in rows if p['id']=='Gemini GMX'),None);self.assertIsNotNone(p)
-        self.assertEqual((p['autoSelect'],len(p['inputs']),p['outputs'],p['startup'],p['shutdown']),(False,46,[],[],[]))
+        self.assertEqual((p['autoSelect'],len(p['inputs']),p['startup'],p['shutdown']),(False,46,[],[]))
+        self.assertEqual(len(p['outputs']),8)
         self.assertNotIn('audioOutput',p);self.assertFalse(p.get('bankChanges') or p.get('inputModes') or p.get('inputProtocol'))
         self.assertEqual({r['channel'] for r in p['inputs']},{0,1,3})
         self.assertEqual(sum(r['inverted'] for r in p['inputs']),6)

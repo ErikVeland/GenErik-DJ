@@ -12,7 +12,8 @@ class DJTechLegacyFactoryTests(unittest.TestCase):
         profiles=json.loads((ROOT/'Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json').read_text())['profiles']
         for name,count in [('DJ-Tech DRAGON TWO',220),('DJ-Tech 4MIX',164)]:
             p=next((p for p in profiles if p['id']==name),None);self.assertIsNotNone(p,name)
-            self.assertEqual((p['autoSelect'],len(p['inputs']),p['outputs'],p['startup'],p['shutdown']),(False,count,[],[],[]))
+            self.assertEqual((p['autoSelect'],len(p['inputs']),p['startup'],p['shutdown']),(False,count,[],[]))
+            self.assertEqual(len(p['outputs']),32 if name=='DJ-Tech DRAGON TWO' else 28)
             self.assertNotIn('audioOutput',p);self.assertFalse(p.get('bankChanges') or p.get('inputModes'))
             self.assertTrue(all(1<=r['channel']<=4 and not r.get('anyChannel') for r in p['inputs']))
             self.assertFalse(any(r['action'].startswith(('tempo','jog','keylock')) or r['action'] in ['crossfader','master','monitor','cueMix','browse'] for r in p['inputs']))

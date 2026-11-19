@@ -774,3 +774,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R471 | Implemented; full modes/HID/feedback/audio/host gaps open | Add independent GMX MIDI core | Added46 manual independent MIDI inputs.417 source/12 native checks and iPad framework compilation pass. All399 earlier recipes remain identical. [Scope](controller-coverage.md#r471-independent-gmx-midi-core). |
 
 | R472 | Audited; conflicting pads/modes remain open | Review the separate GMX pad contribution | Recorded two numeric/mode conflicts in open PR2. No runtime support inferred.417 source checks pass; both runtime resources and catalogue JSON remain byte-identical to R471. [Scope](controller-coverage.md#r472-gmx-pad-contribution-conflicts). |
+
+| R473 | Implemented; full feedback/lifecycle/physical gaps open | Add explicit steady lamps to Dragon Two, 4MIX and GMX | Added68 optional steady lamps.419 source/24 native checks and iPad framework compilation pass. All400 input layouts and397 other recipes remain identical. [Scope](controller-coverage.md#r473-explicit-steady-legacy-lamps). |

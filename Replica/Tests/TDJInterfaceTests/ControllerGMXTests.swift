@@ -29,12 +29,12 @@ import Testing
     let p = try #require(ControllerFactoryProfile.matching(["Gemini GMX"])); let d = try #require(p.definition)
     #expect(d.isValid && d.inputs.count == 46 && !p.selectsAutomatically && !p.hasAutomaticSplitOutput)
     #expect(
-        d.outputs.isEmpty && d.startup.isEmpty && d.shutdown.isEmpty && d.audioOutput == nil && d.inputProtocol == nil)
+        d.outputs.count == 8 && d.startup.isEmpty && d.shutdown.isEmpty && d.audioOutput == nil && d.inputProtocol == nil)
     #expect(ControllerFactoryProfile.matching(["GMX"], automaticOnly: true) == nil)
     for name in ["GMX DRIVE", "Gemini GMX DRIVE", "G2V", "G4V"] {
         #expect(ControllerFactoryProfile.matching([name]) != p)
     }
-    #expect(p.feedback(destination: 20).isEmpty)
+    #expect(p.feedback(destination: 20).count == 8)
     try withGMX { _ in }
 }
 

@@ -43,14 +43,14 @@ private let djTechLegacyLayouts = [
     input.receiveBytes(bytes, source: source); input.flushPendingActions()
 }
 
-@Test(arguments: djTechLegacyLayouts) @MainActor func controllerCatalogueDJTechLegacyManualIdentityHasNoSetupOrOutputs(
+@Test(arguments: djTechLegacyLayouts) @MainActor func controllerCatalogueDJTechLegacyManualIdentityHasNoSetupAndBoundedLamps(
     layout: DJTechLegacyLayout
 ) throws {
     let p = try #require(ControllerFactoryProfile.matching([layout.name])); let d = try #require(p.definition)
     #expect(d.isValid && d.inputs.count == layout.count && !p.selectsAutomatically && !p.hasAutomaticSplitOutput)
-    #expect(d.outputs.isEmpty && d.startup.isEmpty && d.shutdown.isEmpty && d.audioOutput == nil)
+    #expect(d.outputs.count == (layout.dragon ? 32 : 28) && d.startup.isEmpty && d.shutdown.isEmpty && d.audioOutput == nil)
     #expect(ControllerFactoryProfile.matching([layout.name], automaticOnly: true) == nil)
-    #expect(p.feedback(destination: 20).isEmpty)
+    #expect(p.feedback(destination: 20).count == (layout.dragon ? 32 : 28))
     #expect(ControllerFactoryProfile.matching([layout.dragon ? "4MIX" : "DRAGON TWO"]) != p)
     try withDJTechLegacy(layout) { _ in }
 }
