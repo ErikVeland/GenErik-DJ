@@ -55,12 +55,12 @@ private let speaker = AudioOutputDevice(name: "iPad Speaker", wired: false)
     "Traktor Kontrol Z1", "Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct",
     "Behringer BCD3000", "Hercules DJ Control AIR", "Behringer CMD STUDIO 4a", "Stanton DJC.4", "Hercules P32 DJ",
     "Korg KAOSS DJ", "Reloop Digital Jockey 2 Interface Edition", "Numark Mixtrack Quad", "MixVibes U-Mix Control Pro",
-    "Reloop Mixtour", "Reloop Beatpad 2", "Behringer CMD STUDIO 2a",
+    "Reloop Mixtour", "Reloop Beatpad 2", "Behringer CMD STUDIO 2a", "Traktor Audio 2 MK2",
 ])
 @MainActor func documentedControllerAudioRoutingRecoveryPreservesTransportWithoutSpeakerLeak(deviceName: String) throws
 {
     let device = AudioOutputDevice(name: deviceName, wired: true)
-    let expectedName = deviceName == "Traktor Kontrol Z1" ? "Z1" : deviceName
+    let expectedName = ["Traktor Kontrol Z1": "Z1", "Traktor Audio 2 MK2": "Audio 2 Mk2"][deviceName] ?? deviceName
     let controller = try PlaybackController(offline: true)
     let core = controller.core
     let asset = try PCMAsset(interleavedStereo: Array(repeating: 0.25, count: 192000), sampleRate: 48000)
@@ -106,7 +106,7 @@ private let speaker = AudioOutputDevice(name: "iPad Speaker", wired: false)
     "Traktor Kontrol Z1", "Numark Scratch", "Hercules DJControl Inpulse 200", "Hercules DJ Control Instinct",
     "Behringer BCD3000", "Hercules DJ Control AIR", "Behringer CMD STUDIO 4a", "Stanton DJC.4", "Hercules P32 DJ",
     "Korg KAOSS DJ", "Reloop Digital Jockey 2 Interface Edition", "Numark Mixtrack Quad", "MixVibes U-Mix Control Pro",
-    "Reloop Mixtour", "Reloop Beatpad 2", "Behringer CMD STUDIO 2a",
+    "Reloop Mixtour", "Reloop Beatpad 2", "Behringer CMD STUDIO 2a", "Traktor Audio 2 MK2",
 ])
 @MainActor func documentedControllerAudioRoutingRepeatedDetectionDoesNotAlterSamples(deviceName: String) throws {
     let device = AudioOutputDevice(name: deviceName, wired: true)

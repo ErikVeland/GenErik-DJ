@@ -467,6 +467,13 @@ def build(cache, serato_html, djay_html=None):
         model["audioRouting"] = "Automatic master 1–2 / headphones 3–4" if model["id"] in {canonical("Pioneer DDJ-FLX4"), canonical("Pioneer DDJ-400")} or bool(profile and profile.get("audioOutput") == "masterAndHeadphones") else "Existing native routing. Physical acceptance is open." if model["implementation"] in {"native-accessory", "native-midi"} else "Unverified. Automatic channel assignment is not enabled."
         if model["id"] in VMS_MODELS:
             model["audioRouting"] = VMS_AUDIO_GAP
+        audits = [audit for name, audit in SOURCE_AUDITS.items() if model["id"] == canonical(name)]
+        for audit in audits:
+            if audit.get("automaticAudioOutputAdded"):
+                model["role"] = "audio-output-interface"
+                model["audioOutputSupport"] = audit["audioOutput"]
+                model["audioRouting"] = "Automatic master 1–2 / headphones 3–4 for the named wired MK2 endpoint only. Hardware controls and physical acceptance remain open."
+                model["connection"] = "MK2 wired CoreAudio audio endpoint only. Power, cable, firmware and current iPad compatibility need separate qualification. Legacy models do not inherit this route."
         model["zeroConfig"] = {"automaticControls": automatic or bool(profile and profile["autoSelect"]),
                                "completeFeatureParity": False, "acceptedOnA10X": False}
         if profile and profile.get("hardwareMode"):
@@ -481,7 +488,6 @@ def build(cache, serato_html, djay_html=None):
         model["gaps"] = [] if model["theoreticalSupport"]["complete"] else [
             "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures."]
         model["gaps"].extend(profile.get("gaps", []) if profile else [])
-        audits = [audit for name, audit in SOURCE_AUDITS.items() if model["id"] == canonical(name)]
         if audits:
             model["sourceAudits"] = audits
             for audit in audits:
@@ -495,7 +501,9 @@ def build(cache, serato_html, djay_html=None):
             if model["id"] == canonical(name):
                 model["gaps"].append(pending["gap"])
         if model["implementation"] == "protocol-needed":
-            if model.get("comparisonSupport", {}).get("virtualDJ", {}).get("category") == "Sound cards":
+            if model.get("audioOutputSupport"):
+                model["gaps"].append("Documented MK2 output routing is implemented. Hardware encoders and complete host/USB/lifecycle support remain unimplemented or unqualified.")
+            elif model.get("comparisonSupport", {}).get("virtualDJ", {}).get("category") == "Sound cards":
                 model["gaps"].append("Audio interface or DVS kit. Native audio input/DVS routing and OS compatibility require review. A MIDI controller mapping is not implied.")
             else:
                 model["gaps"].append("No implemented protocol is present in the pinned references. Manufacturer protocol work is required.")

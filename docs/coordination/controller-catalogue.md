@@ -646,7 +646,7 @@ Detailed actions, source hashes, row dispositions, connection routes and remaini
 | Native Instruments AUDIO 8DJ | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=AUDIO8DJ) |
 | Native Instruments AUDIO KONTROL1 | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=TRAKTORAUDIO2MK2) |
 | Native Instruments TRAKTOR AUDIO 10 | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=TRAKTORAUDIO10) |
-| Native Instruments TRAKTOR AUDIO 2 | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=TRAKTORAUDIO2) |
+| Native Instruments TRAKTOR AUDIO 2 | audio-output-interface | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=TRAKTORAUDIO2) |
 | Native Instruments TRAKTOR AUDIO 6 | dvs-only | protocol-needed | [Reference](https://virtualdj.com/products/hardware.html?model=TRAKTORAUDIO6) |
 | Native Instruments Traktor Kontrol D2 | accessory | linux-bridge | [Reference](../../docs/coordination/controller-coverage.md) |
 | Native Instruments Traktor Kontrol F1 | accessory | linux-bridge | [Reference](../../docs/coordination/controller-coverage.md) |

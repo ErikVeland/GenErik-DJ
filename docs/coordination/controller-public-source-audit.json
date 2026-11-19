@@ -4147,6 +4147,27 @@
         }
       ],
       "result": "Independent original QUARK164-input automatic core and44 optional lamps.373 source/10 native checks and iPad framework compilation pass. All376 prior recipes remain identical. Source hash pins public text, not original PDF. QUARK SC and full modes/lifecycle/audio remain separate."
+    },
+    {
+      "request": "R453",
+      "sources": [
+        {
+          "url": "https://www.native-instruments.com/fileadmin/ni_media/downloads/manuals/traktor/traktor_audio_2_mk2_manual_english.pdf",
+          "sha256": "8454159b9bbe9e5e0488e6fc1d48f43d5a7bc73f23f1e17d1eddda93e23ba490",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r453/upstream/traktor-audio2-mk2-manual.pdf",
+              "sha256": "8454159b9bbe9e5e0488e6fc1d48f43d5a7bc73f23f1e17d1eddda93e23ba490"
+            }
+          ]
+        }
+      ],
+      "relatedSources": [
+        {
+          "url": "https://support.native-instruments.com/support/solutions/articles/69000879440-traktor-dj-ios-audio-interface-compatibility"
+        }
+      ],
+      "result": "Own p25 device name and1/2 Main,3/4 Headphones routing visually reviewed. Exact wired MK2 output recognition is implemented without a MIDI profile. Output-only classification replaces DVS-only for the source catalogue row. Hardware encoders, current iPad/USB/firmware/power and full lifecycle remain unqualified. Manufacturer guidance explicitly excludes legacy Audio2DJ/Audio2MK1 direct iOS compatibility.377 source/16 native checks and iPad framework compilation pass. Both377-recipe files remain identical."
     }
   ]
 }

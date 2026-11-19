@@ -1130,3 +1130,10 @@ The compact file shortens input field names and omits only Note/absolute/non-inv
 Keep the existing4MiB,512-profile,512-input and128-output limits. Add any new input field to both the compact producer and native decoder. Unknown producer fields stop generation. Source tests must expand the compact file to the full reviewed values. Native binding comparisons must remain exact. See the [storage contract](../../docs/coordination/controller-catalogue-storage.md).
 
 R452 reduces the application resource from4,157,594 to2,051,892 bytes for377 unchanged recipes. All24,689 native input bindings match. Physical/iPad/A10X timing remains unverified.
+
+
+### TRAKTOR AUDIO 2 MK2 audio subset (R453)
+
+`audio2_output.py` pins the manufacturer’s MK2 name and Main1–2/Headphones3–4 layout. The native audio-device policy matches only the documented wired MK2 name. It does not add a MIDI recipe. The source catalogue records automatic output routing while keeping controller encoders and full theoretical support open.
+
+The device has no audio inputs and is not a DVS input interface. Legacy Audio2DJ/Audio2MK1, bare names, current iPad exposure, power/cables/firmware and physical acceptance remain separate. Both generated controller resources stay unchanged.

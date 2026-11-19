@@ -15,6 +15,7 @@ struct AudioOutputDevice: Equatable, Sendable {
             return profile.rawValue
         }
         switch normalizedName {
+        case "traktor audio 2 mk2": return "Audio 2 Mk2"
         case "traktor kontrol z1": return "Z1"
         case "traktor z1 mk2", "traktor kontrol z1 mk2": return "Z1 Mk2"
         case "generik z1 mk2 bridge": return "Z1 Mk2 Bridge"

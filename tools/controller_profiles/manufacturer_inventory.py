@@ -4,6 +4,7 @@ from rane_seventy import SEVENTY_AUDITS
 from mixtour_pro import MIXTOUR_PRO_AUDIT
 from hercules_t7 import T7_PROTOCOL_SOURCES
 from buddy import BUDDY_AUDIT
+from audio2_output import AUDIO2_OUTPUT
 from mixon8 import MIXON8_SOURCE, MIXON8_SHA, MIXON8_DISCUSSION
 
 REVIEWED = "2026-11-17"
@@ -43,6 +44,8 @@ SOURCE_AUDITS["Novation Launchpad"] = {
     "format": "Upstream hardware manual", "automaticSupportAdded": False,
     "gaps": ["The original full-size Launchpad is not USB MIDI class compliant. Desktop drivers translate its signals. Direct iPad USB control and a qualified bridge remain unimplemented. MK2 and Mini controllers have separate contracts."],
 }
+
+SOURCE_AUDITS[AUDIO2_OUTPUT["model"]] = AUDIO2_OUTPUT
 
 SOURCE_AUDITS["Reloop Mixtour Pro"] = MIXTOUR_PRO_AUDIT
 SOURCE_AUDITS["Reloop Buddy"] = BUDDY_AUDIT

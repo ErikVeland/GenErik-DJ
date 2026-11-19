@@ -34,7 +34,12 @@ class VirtualDJInventoryTests(unittest.TestCase):
             self.assertFalse(model['zeroConfig']['automaticControls'] or model['theoreticalSupport']['complete'])
         soundcards = [by[canonical(r['name'])] for r in source['rows'] if r['category'] == 'Sound cards']
         self.assertEqual(len(soundcards), 18)
-        self.assertTrue(all('Audio interface or DVS kit.' in ' '.join(m['gaps']) for m in soundcards if m['implementation'] == 'protocol-needed'))
+        for model in soundcards:
+            if model.get('audioOutputSupport'):
+                self.assertEqual(model['role'],'audio-output-interface')
+                self.assertFalse(model['zeroConfig']['automaticControls'])
+            elif model['implementation'] == 'protocol-needed':
+                self.assertIn('Audio interface or DVS kit.',' '.join(model['gaps']))
         self.assertEqual(catalogue['virtualDJRows'], source['rows'])
         self.assertFalse(catalogue['releaseGate']['manufacturerAuditComplete'])
 
