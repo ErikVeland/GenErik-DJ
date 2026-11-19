@@ -5220,3 +5220,24 @@ Native Shift jog changes the bounded pitch position by count/1024. Exact source-
 Validation:252 Python checks and11 native tests passed, including the160-profile automatic held-Cue corpus. Fixtures check wheel/contact separation and signed64, all selected mixer targets and pickup, C/D availability, independent Shift/source ownership, transport release aliases, cue/loop/library families, fine pitch, master increments, lamp bytes and disconnect cleanup. A real-WAV fixture retains finite, synced playback after Cue and jog mode cleanup. The iPad framework compiled and its bundled resource matches the source. All286 earlier recipes remain identical. The rejected duplicate/zero-valued bank declaration run remains in the evidence history. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r397/validation.json`.
 
 The catalogue has287 recipes for552 physical models. Automatic core coverage increases to199, with353 without automatic core. First-protocol gaps fall from228 to227. Full theoretical support and physical acceptance remain open.
+
+
+## R398 reconciled Universal DJ USB core
+
+Assumption: the manufacturer's separately published djay and Traktor mappings plus current DJUCED facts qualify the USB MIDI core. Their common mixer addresses take precedence over conflicting older PDF rows. Use explicit pitch pairs and a fixed two-deck native layout. Bluetooth, tablet transport and automatic audio remain separate.
+
+- [x] Pin and reconcile the independent manufacturer archives and current factory member.
+- [x] Add selected USB controls with source-local contacts, per-side Shift and bounded lamps.
+- [x] Verify both pitch pair families,512-count streams, pickup, loops, cleanup and real-WAV Sync.
+- [x] Run source/native checks, compile the iPad framework and preserve earlier recipes.
+
+
+The manufacturer's support page directly links separate djay Pro and Traktor archives. The djay plist, used Mac/PC TSI binding records and current DJUCED factory member agree on mixer addresses: A level57/high59/mid60/low61; B level58/high62/mid63/low64; cross65. This resolves the older PDF conflicts. The current factory output bounds qualify0/127 instead of the PDF's impossible128. No source mapping action or downloaded code was executed.
+
+Used Mac and PC TSI rows explicitly qualify MSB/LSB pairs1/33,2/34 and55/71,56/72, all inverted. The independent current factory member supplies512-count separate wheel/contact calibration, eight cue keys, loop controls and bounded lamps. Native uses111 inputs and30 selected lamp mappings. Both pitch families maintain separate decoder state and pickup. Per-side Shift reports retire source-local contacts and pickup on both edges. The native layout fixes A/B; no source-software C/D selection is inferred.
+
+The core includes transport, loads, PFL, contact/wheel jogs, paired pitch, selected mixer fields, eight Hot Cues and eight fixed-loop sizes per deck, selected manual loop controls, shifted gain encoders and library navigation. EQ follows the manufacturer's printed physical direction pending capture. Startup/shutdown clear only30 selected lamps, within60 total lifecycle messages. There is no All Controls query, setup SysEx or automatic audio route. Bluetooth/tablet, FX/sampler, Hot Cue deletion, cue-loop extraction, complete modes/feedback/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open.
+
+Validation:255 Python checks and11 native tests passed, including the161-profile automatic held-Cue corpus. Fixtures check both pitch families, endpoints, pickup, source/pair separation,512-count contact/wheel streams, both Note Off forms, independent Shift/source cleanup, mixer rows, all cue/loop families, shifted gain, library, lamp bytes and disconnect cleanup. A real-WAV fixture retains finite, synced playback after Shift contact cleanup. The iPad framework compiled and its bundled resource matches the source. All287 earlier recipes remain identical. The repository checker retains12 historical missing-file links. Evidence: `TestBuilds/r398/validation.json`.
+
+The catalogue has288 recipes for552 physical models. Automatic core coverage increases to200, with352 without automatic core. First-protocol gaps fall from227 to226. Full theoretical support and physical acceptance remain open.

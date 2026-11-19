@@ -1098,3 +1098,6 @@ R396 adds `legacy_pioneer_transport.py`: T1 manual60-input/14-lamp mappings with
 
 
 R397 adds independent `instinct_p8.py` facts:86 inputs,256-count wheel/contact streams, native count/1024 Shift pitch, four cue pads per side, loops, A/B plus opt-in Shift C/D mixer fields and22 bounded lamps. Both Shift edges use the existing per-side cleanup contract.252 source checks,11 native tests and iPad framework compilation pass. Earlier286 recipes remain identical.
+
+
+R398 adds `universal_dj.py`:111 inputs and30 lamps from independently reconciled manufacturer djay/Traktor archives and current factory XML. Explicit pitch pairs1/33,2/34 and55/71,56/72 stay separate. Current mixer consensus resolves the older PDF errors. The fixed A/B USB core keeps Bluetooth/tablet and automatic audio open.255 source checks,11 native tests and iPad framework compilation pass. Earlier287 recipes remain identical.

@@ -36940,12 +36940,17 @@
       "role": "primary",
       "benchmark": false,
       "sources": [
+        "https://ts.hercules.com/download/sound/MIDI_Mapping/UniversalDJ/DJay_Pro_Hercules_Universal_DJ.zip",
         "https://virtualdj.com/products/hardware.html?model=HCUNIV"
       ],
-      "definitions": [],
-      "implementation": "protocol-needed",
+      "definitions": [
+        "reviewed:hercules-universal-dj-reconciled-usb-core"
+      ],
+      "implementation": "automatic-core-profile",
       "hardwareAcceptance": "not-verified",
       "releaseReady": false,
+      "profile": "Hercules Universal DJ",
+      "automaticControls": true,
       "comparisonSupport": {
         "virtualDJ": {
           "sourceName": "Hercules UNIVERSAL DJ",
@@ -36953,40 +36958,102 @@
           "source": "https://virtualdj.com/products/hardware.html?model=HCUNIV"
         }
       },
-      "controlActions": [],
-      "inputBindingCount": null,
-      "feedbackBindingCount": null,
-      "connection": "Protocol and iPad connection route require review",
+      "controlActions": [
+        "browse",
+        "crossfader",
+        "cueA:a",
+        "cueB:b",
+        "cuePreviewA:a",
+        "cuePreviewB:b",
+        "gainA:a",
+        "gainB:b",
+        "highA:a",
+        "highB:b",
+        "hotcue1A:a",
+        "hotcue1B:b",
+        "hotcue2A:a",
+        "hotcue2B:b",
+        "hotcue3A:a",
+        "hotcue3B:b",
+        "hotcue4A:a",
+        "hotcue4B:b",
+        "hotcue5A:a",
+        "hotcue5B:b",
+        "hotcue6A:a",
+        "hotcue6B:b",
+        "hotcue7A:a",
+        "hotcue7B:b",
+        "hotcue8A:a",
+        "hotcue8B:b",
+        "jogA:a",
+        "jogB:b",
+        "jogTouchA:a",
+        "jogTouchB:b",
+        "levelA:a",
+        "levelB:b",
+        "loadA:a",
+        "loadB:b",
+        "loopA:a",
+        "loopB:b",
+        "loopDownA:a",
+        "loopDownB:b",
+        "loopInA:a",
+        "loopInB:b",
+        "loopOutA:a",
+        "loopOutB:b",
+        "loopSizeA:a",
+        "loopSizeB:b",
+        "loopUpA:a",
+        "loopUpB:b",
+        "lowA:a",
+        "lowB:b",
+        "midA:a",
+        "midB:b",
+        "openGroup",
+        "playA:a",
+        "playB:b",
+        "shift",
+        "syncA:a",
+        "syncB:b",
+        "tempoA:a",
+        "tempoB:b",
+        "toggleFixedLoopA:a",
+        "toggleFixedLoopB:b",
+        "wheelJogA:a",
+        "wheelJogB:b"
+      ],
+      "inputBindingCount": 111,
+      "feedbackBindingCount": 30,
+      "connection": "USB MIDI",
       "audioRouting": "Unverified. Automatic channel assignment is not enabled.",
       "zeroConfig": {
-        "automaticControls": false,
+        "automaticControls": true,
         "completeFeatureParity": false,
-        "acceptedOnA10X": false
+        "acceptedOnA10X": false,
+        "requiredHardwareMode": "USB computer MIDI mode with default deck channels1/2 and both-byte pitch reports. Fixed native A/B layout. Configure audio separately. Bluetooth and tablet transport are not qualified."
       },
       "isPhysicalModel": true,
       "theoreticalSupport": {
-        "status": "protocol-needed",
+        "status": "core-implemented",
         "complete": false,
         "criteria": {
-          "protocolImplemented": false,
+          "protocolImplemented": true,
           "documentedControlsComplete": false,
-          "lifecycleReviewed": false,
+          "lifecycleReviewed": true,
           "audioRoutingImplemented": false,
           "completeProtocolFixturePassed": false
         },
         "untranslatedSourceRows": 0,
         "completionRequiresPhysicalTest": false,
         "remainingWork": [
-          "protocolImplemented",
           "documentedControlsComplete",
-          "lifecycleReviewed",
           "audioRoutingImplemented",
           "completeProtocolFixturePassed"
         ]
       },
       "gaps": [
         "Complete documented controls, modes, lifecycle, audio routing and automated protocol fixtures.",
-        "No implemented protocol is present in the pinned references. Manufacturer protocol work is required."
+        "Bluetooth/tablet transport and source-software C/D deck layers remain open. FX/sampler, Hot Cue deletion, cue-loop extraction, full conditional encoder modes, live meters, complete feedback/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. EQ physical polarity and the complete hardware pitch range need capture. No All Controls query or mode write is sent."
       ],
       "priority": {
         "regionalSalesRank": null,
@@ -353199,6 +353266,60 @@
         },
         {
           "reason": "FX/sampler/held roll, Hot Cue deletion, shifted loop movement and conditional FX encoder modes, source-software pitch-curve equivalence, HP buttons, complete feedback/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. No All Controls query or mode write is sent."
+        }
+      ]
+    },
+    {
+      "id": "reviewed:hercules-universal-dj-reconciled-usb-core",
+      "name": "Hercules Universal DJ",
+      "transport": "midi",
+      "source": {
+        "url": "https://ts.hercules.com/download/sound/MIDI_Mapping/UniversalDJ/DJay_Pro_Hercules_Universal_DJ.zip",
+        "cacheName": "universal-djay.zip",
+        "sha256": "5ea31750f3032576d713afa0ec9b1e7d8f879ea3173f97e538bb5b79b3602dfc",
+        "member": "Hercules UniversalDJ.djayMidiMapping",
+        "memberSHA256": "eaf80b23b1a2bad34be5a3f710996c20e8aa4a6554b2e191d3834644b8d888a2",
+        "relatedSources": [
+          {
+            "url": "https://ts.hercules.com/download/sound/TDJS/current/TP2_Uni_DJ.zip",
+            "cacheName": "universal-traktor.zip",
+            "sha256": "b15cec7ae21b414431acc63723f615b2d9f77b7a614972a6f5f2265af92b7be9",
+            "members": {
+              "DJ_Uni_TP2_v271(MAC).tsi": "a4212f1e9d491a8b0c5f15d099e02e4c9b82b6e762d669691eb4e00dd616c684",
+              "DJ_Uni_TP2_v271(PC).tsi": "aecd87c936e532fe04316b85fadb566a11e539b6a35a841f165ce38d9ef1a716"
+            }
+          },
+          {
+            "url": "https://ts.hercules.com/download/djuced/6.8/DJUCED_6.8.1.dmg",
+            "sha256": "a76200de7cc2fced9b765d83edd02c8a07aa302d77c87c81ddf2f4c91330e2a2",
+            "member": "DJControlUniversal.djm",
+            "memberSHA256": "2bef8dc759848f85ecd94ffd04f8f1098c70f937d4034ae2277414c3497861e7",
+            "memberVersion": "4.1"
+          },
+          {
+            "url": "https://ts.hercules.com/download/sound/manuals/Universal_DJ/Universal_DJ-MIDI_controls.pdf",
+            "sha256": "427f6bbcb0e90645c9db3d047acdf8ecd93467ef802d29bd98e64d56445f8260",
+            "evidenceLimit": "Older table conflicts with current primary mappings on mixer rows and prints impossible128+ MIDI values. It is not the authority for those rows."
+          },
+          {
+            "url": "https://ts.hercules.com/faqs/eng/her_eng_00471.pdf"
+          },
+          {
+            "url": "https://support.hercules.com/en/product/universaldj-en/"
+          }
+        ],
+        "review": "Manufacturer support directly publishes both djay and Traktor archives. Their independently readable mappings agree with current DJUCED factory facts: A level57/high59/mid60/low61, B level58/high62/mid63/low64, global cross65. These override conflicting older PDF mixer rows and impossible128+ values. Used Mac/PC TSI bindings explicitly qualify pitch MSB/LSB1/33,2/34 and55/71,56/72, all inverted; no plus32 guess is used. Pinned factory XML independently qualifies512-count separate wheel/contact streams, eight cue keys, fixed loops and0/127 lamp bounds. The native layout fixes two decks, source-local touch, per-side Shift cleanup, eight Hot Cues, selected manual/fixed loops and gain encoders. Normal EQ polarity follows the manufacturer printed physical direction; physical response remains unverified. Thirty selected lamps clear in60 total lifecycle messages. No state query, software installation/execution, generic USB alias, Bluetooth/tablet transport, automatic audio route, full modes/lifecycle/calibration or physical/iPad/A10X acceptance is inferred."
+      },
+      "implementedInputCount": 111,
+      "implementedOutputCount": 30,
+      "sourceInputCount": null,
+      "sourceOutputCount": null,
+      "unresolved": [
+        {
+          "reason": "Additional modes, FX, displays and audio routing remain unimplemented."
+        },
+        {
+          "reason": "Bluetooth/tablet transport and source-software C/D deck layers remain open. FX/sampler, Hot Cue deletion, cue-loop extraction, full conditional encoder modes, live meters, complete feedback/lifecycle/audio/calibration and physical/iPad/A10X acceptance remain open. EQ physical polarity and the complete hardware pitch range need capture. No All Controls query or mode write is sent."
         }
       ]
     }
