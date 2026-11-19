@@ -5657,6 +5657,50 @@
         }
       ],
       "result": "Added32 dedicated first-layer Hot Cue clears on raw channels7..10 notes48..55 and32 inverse negative aliases on normal notes16..23. Own MIDI map page4 gives all four deck wires; own Quick Start guide printed7 qualifies Shift plus Cue as delete. Every earlier96 input is retained. Setup, bank reports, aliases, output/audio and404 other recipes remain identical.446 source/14 native checks and iPad framework compilation pass. Five parameterised profiles retain both release directions/forms, either app Shift state, debounce and source/group isolation. NEON deck reports rearm both normal and clear roles; app C/D opt-in remains required. Four real-WAV pair cases preserve marker neighbours/position, finite active playback and saved Sync. Other modes, pressure, shared encoders/Load/Sync, colours, full lifecycle/host/audio and physical acceptance remain open. No script executes."
+    },
+    {
+      "request": "R484",
+      "reviewDate": "2026-11-20",
+      "sources": [
+        {
+          "model": "Akiyama QUARC",
+          "url": "https://device.report/m/9d92b3513df25546696fa6025330c3e39fcac4c7165d91b0137a53259af71fa6.pdf",
+          "sha256": "39abfa44a2409b983d76457a9706f2f0adebd87f9d52eddab8e8533d8feda10a",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r451/upstream/quark-midi-public-text.txt",
+              "sha256": "39abfa44a2409b983d76457a9706f2f0adebd87f9d52eddab8e8533d8feda10a"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://virtualdj.com/products/hardware.html?model=QUARK"
+            }
+          ],
+          "review": "Own original QUARK English manufacturer manual pp14..18 supplies separate NOTE/CC types, raw deck channels0/1/2/3 for A/B/C/D, global4, explicit64-offset relative encoders and127/0 switches/lamps. The pinned SHA identifies the public numeric-table text excerpt, not original PDF bytes. Direct PDF download and screenshots were unavailable; legible public table rows were checked against the own worked example Play34hex=52. The catalogue spelling QUARC comes from the VirtualDJ entry whose model identifier is QUARK. Native164 automatic inputs use normal Play52/Cue53/Sync54/PFL60/Load59, manual loops47/48/49, bends50/51 and normal AutoLoop44/current-loop toggle, with explicit shifted release aliases plus64. Six normal Hot Cues23/26/29/32/35/38 use shifted negative wires only as release guards. R484 rechecks the own guide printed10/12: Shift plus Hot Cue1 selects Smart Hot Cue, while deletion requires the separate bin button. Shifted Hot Cue wires are not established clear opcodes. The bin-state contract remains unqualified. AutoLoop/Roll pad wires are distinct and remain inactive. Gain9/high10/mid11/low12/level59 are7bit CC per deck. LoopSizeCC44 and global browseCC2 use binary offset64. Native assigns Track List push2 to group entry. Global CC1 is master and CC4 crossfader. Forty-four optional normal static lamps include six yellow Hot Cues per deck and five transport/loop/PFL lamps; Loop In/Out/Reloop lamps and green/shifted/mode/FX/sample/meter outputs stay inactive. Deck selector7 retires only its physical A/C or B/D pair, and mode selectors41/42/43 retire their own deck. Jog/contact calibration, tempo polarity/range, full shifted continuous pickup/alternate functions, remaining pad/FX/sample/modes, full feedback/lifecycle/recovery, USB/OS/power/audio and physical/iPad/A10X acceptance remain open. Own power specification is USB5V500mA or DC6V1.75A; iPad power is not qualified. No setup, identity query, preset, firmware, driver or audio-route packet runs. QUARK SC bytes are not inherited.",
+          "behaviourReview": "Own manufacturer guide printed10/12, web text; direct PDF and screenshots remain unavailable. Shift plus Hot Cue1 controls Smart Hot Cue. Bin-button state is required for deletion."
+        }
+      ],
+      "result": "Corrected provenance that called the shifted Hot Cue wires clear opcodes. They remain negative-only rearming aliases. No Clear action or bin-state mapping is added. All405 recipes retain every input/output/setup/audio/identity field. Only QUARK scope metadata and the inactive-Shift regression name change. Two targeted source checks, five native checks and iPad framework compilation pass. The native regression still rejects shifted Smart Cue/alternate pad presses. Complete bin-state protocol and physical acceptance remain open.",
+      "researchExclusions": [
+        {
+          "url": "https://github.com/Bsquared11787/Serato-DJ",
+          "result": "Public repository search metadata reports size0; tree lookup returns409. No usable NS7II mapping files were recovered."
+        },
+        {
+          "url": "https://github.com/ChasonDeshotel/Reloop-RP-8000-MIDI",
+          "revision": "7bc9dfbef0057e719d5cb192081a61a35fd387ba",
+          "result": "Author explicitly limits this project to LCD tempo/BPM. It does not qualify RP-8000 MK2 pad inputs."
+        },
+        {
+          "url": "https://maps.djtechtools.com/mappings/9866",
+          "result": "Primary mapping page requires sign-in for download. No authenticated download or access bypass occurs."
+        },
+        {
+          "url": "https://www.synthmanuals.com/manuals/m-audio/x-session_uc-17/user_guide/050103_xsession_ug_01en_v1.pdf",
+          "result": "Direct download fails certificate expiry. No TLS check is disabled. Own public web text confirms CC factory presets differ from the existing custom note mapping; no automatic equivalence is inferred."
+        }
+      ]
     }
   ]
 }

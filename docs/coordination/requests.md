@@ -796,3 +796,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R482 | Implemented; physical edge capture open | Rearm the first13 clear profiles when Shift changes before release | Added130 inverse negative aliases.444 source/82 native checks and iPad framework compilation pass. Positive roles and392 other recipes remain identical. The new regression reproduced the fault before the fix. [Scope](controller-coverage.md#r482-clear-release-after-hardware-shift-changes). |
 
 | R483 | Implemented; full modes/physical gaps open | Add manufacturer-qualified NEON Hot Cue clears | Added32 clears and32 inverse negative aliases.446 source/14 native checks and iPad framework compilation pass. Existing96 inputs and404 other recipes remain identical. [Scope](controller-coverage.md#r483-neon-first-layer-hot-cue-clears). |
+
+| R484 | Reviewed; bin-state protocol remains open | Correct QUARK Shift/Smart Cue provenance | Corrected the clear-wire label. All405 recipes retain their controls. Two targeted source/five native checks and iPad framework compilation pass. [Scope](controller-coverage.md#r484-quark-shift-is-not-a-clear-opcode). |

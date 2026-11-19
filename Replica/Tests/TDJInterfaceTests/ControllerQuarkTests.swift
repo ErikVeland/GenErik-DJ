@@ -83,7 +83,7 @@ import Testing
     }
 }
 
-@Test @MainActor func controllerCatalogueQuarkSixNormalHotCuesBlockAlternatePadsAndShiftedClears() {
+@Test @MainActor func controllerCatalogueQuarkSixNormalHotCuesBlockAlternatePadsAndShiftedSmartFunctions() {
     withQuark { input in
         var events: [ControllerActionTarget] = []; input.onTargetAction = { target, _ in events.append(target) }
         for (ch, deck): (UInt8, DeckID) in [(0, .a), (1, .b), (2, .c), (3, .d)] {
