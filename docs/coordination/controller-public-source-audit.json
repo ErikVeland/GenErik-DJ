@@ -3928,6 +3928,45 @@
         }
       ],
       "result": "Independent76-input manual Full MIDI subset with40 optional static lamps. Own2018 manual and separate public2021 technical export disagree on C/D Load, Forward and browse channel. Conflicts stay inactive. Technical-export authorship is not established beyond admin metadata; its extra C/D performance/mode/encoding facts remain explicitly attributed. No persistent Flat/Toggle or query/reset/audio command runs.363 source/10 native checks and framework compilation pass. All370 earlier recipes remain identical. Full modes/disputed controls/lifecycle/audio and physical acceptance remain open."
+    },
+    {
+      "request": "R446",
+      "sources": [
+        {
+          "model": "Gemini PMX10",
+          "url": "https://www.geminisound.com/cdn/shop/files/PMX10_Manual.pdf?v=3857980637559190502",
+          "sha256": "3219e8110efe8f567122b1adb7b2263f8768e9f88f583bb299ac5ad85b7644c1",
+          "files": [
+            {
+              "cachePath": "TestBuilds/r446/upstream/pmx10-manual.pdf",
+              "sha256": "3219e8110efe8f567122b1adb7b2263f8768e9f88f583bb299ac5ad85b7644c1"
+            }
+          ],
+          "relatedSources": [
+            {
+              "url": "https://www.geminisound.com/pages/downloads"
+            }
+          ],
+          "review": "Own manufacturer PMX-10 manual p8/p9 visually reviewed. Independent raw0/1 Hot Cue notes8..1, distinct Sample09..0F/20hex, Loop35, PFL50 and mixer Level49/Filter51/Low52/Mid53/High54/Gain55 are explicit. Globalraw4 Load64/65, directory push66, Back67, Master80, Cue Blend83, Cue Level84 and Crossfader96 are separately qualified. Native assigns Back to previous library group. Mode selectors33/34 rearm only their source/deck. No transport is inferred from another control. Nineteen optional static lamps:16 green1 Hot Cues, two on1 Loop and one on1 PFL-B, all off0. CH1 PFL MIDI Input is explicitly None in the own chart, so PFL-A feedback stays inactive. No PMX20 lamp, C/D, preset, SysEx or mode assumption is inherited. Loop-size/browse encoders are only labelled Relative without a byte encoding and stay inactive. Sampler/FX, fader start/reverse/curves, mic/booth and output Pad Mode CC40hex remain inactive. Manual input requires separately qualified Controller mode and audio ownership: the own manual selects Mixer without a host, Hybrid with another audio interface, and Controller with the PMX-10 audio interface selected. Native does not configure or discover those audio modes. Automatic selection, complete mode/source/feedback/lifecycle/recovery, USB/OS/power and physical/iPad/A10X acceptance remain open. No setup, reset, query, persistent mode, preset, driver, firmware or audio-route packet runs."
+        }
+      ],
+      "result": "Independent40-input manual PMX-10 manufacturer core with19 optional lamps. CH1 PFL feedback is explicitly None and remains inactive. Relative loop/browse formats are unspecified and are not inherited from PMX20. No hardware mode/audio setup runs.365 source/9 native checks and framework compilation pass. All371 earlier recipes remain identical. Automatic/audio/encoders/full modes/lifecycle and physical acceptance remain open.",
+      "otherCheckedSources": [
+        {
+          "model": "Gemini MDJ-1000",
+          "url": "https://www.geminisound.com/cdn/shop/files/MDJ-1000V2_Manual.pdf?v=17466465707487182175",
+          "cachePath": "TestBuilds/r446/upstream/mdj1000-manual.pdf",
+          "sha256": "d1db52b1cce5d94ed31a13393b628fc21f829e9ec0c4da01897a44f6fd9b8623",
+          "result": "Current manufacturer MDJ-1000 download points to a V2 manual. MIDI/HID/settings instructions do not provide numeric controller addresses. No V2/original equivalence or protocol is inferred."
+        },
+        {
+          "model": "Gemini GMX",
+          "url": "https://www.geminisound.com/cdn/shop/files/GMX_user_manual.pdf?v=6780214146587148454",
+          "cachePath": "TestBuilds/r446/upstream/gmx-manual.pdf",
+          "sha256": "549fe6d30b7cdc02f28375b7f893005efcf62f69ff0eb455b824027c3a3ceb77",
+          "result": "Own manual documents MIDI mode, including stopping standalone playback when switching, but no numeric control chart. Native sends no mode change; GMX DRIVE is not inferred."
+        }
+      ]
     }
   ]
 }
