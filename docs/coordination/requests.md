@@ -870,3 +870,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R497 | Reviewed; protocol gaps remain open | Inspect archived Deckadance preset documents | Verified the archived publisher payload and14 documents. The MIDI template has no assigned wires. Runtime and catalogue JSON remain identical. [Scope](controller-coverage.md#r497-archived-deckadance-preset-documents). |
 
 | R498 | Reviewed; protocol gaps remain open | Inspect public Cross DJ and UltraMixer mapping resources | Read103 plain UltraMixer mapping/config documents without running the app. Cross DJ Free exposes no standalone mapping document. Runtime/catalogue JSON stay identical. [Scope](controller-coverage.md#r498-public-cross-dj-and-ultramixer-resources). |
+
+| R499 | Prepared; Account Holder and final-build sign-off open | Prepare App Store compliance readiness record | Recorded the current App Store evidence and required checks for privacy, encryption, Content Rights, age rating, regional declarations, licences, and agreements. App Store Connect agreement states and final-build reconciliation remain unverified. [Readiness record](../app-store/compliance-readiness.md). |
