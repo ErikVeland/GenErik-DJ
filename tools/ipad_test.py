@@ -92,6 +92,7 @@ def build(config, notes):
                  "-jobs", "2", f"PRODUCT_BUNDLE_IDENTIFIER={BUNDLE}",
                  f"CURRENT_PROJECT_VERSION={number}", f"DEVELOPMENT_TEAM={config['team']}",
                  "CODE_SIGN_STYLE=Automatic", "INFOPLIST_KEY_CFBundleDisplayName=GenErik DJ",
+                 "GENERIK_DEVELOPER_ACCESS=YES",
                  f"GENERIK_FOUR_DECK_TRIAL={'YES' if config.get('four_deck_trial') else 'NO'}",
                  "TARGETED_DEVICE_FAMILY=1,2", "build"], stdout=output, stderr=subprocess.STDOUT)
         except subprocess.CalledProcessError:
@@ -101,10 +102,13 @@ def build(config, notes):
         raise ValueError("Source or build identity changed. Installation stopped.")
     if (info(app).get("GenErikFourDeckTrial") == "YES") != bool(config.get("four_deck_trial")):
         raise ValueError("The signed app does not match the requested four-deck trial setting.")
+    if info(app).get("GenErikDeveloperAccess") != "YES":
+        raise ValueError("Developer access is missing. Installation stopped.")
     frameworks = verify_embedded_frameworks(app)
     print(f"Runtime search paths resolve {frameworks} embedded framework(s).", flush=True)
     run(["codesign", "--verify", "--deep", "--strict", str(app)])
     archive(app, {"notes": notes, "sourceCommit": commit, "sourceSHA256": before,
+                  "developerAccess": True,
                   "uncommittedAppChanges": dirty, "buildSeconds": round(time.monotonic() - started, 2),
                   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
                   "feedback": [], "log": str(log.relative_to(ROOT))})
@@ -184,10 +188,13 @@ def testflight(config, notes):
                  "-jobs", "2", f"PRODUCT_BUNDLE_IDENTIFIER={BUNDLE}",
                  f"CURRENT_PROJECT_VERSION={number}", f"DEVELOPMENT_TEAM={config['team']}",
                  "CODE_SIGN_STYLE=Automatic", "INFOPLIST_KEY_CFBundleDisplayName=GenErik DJ",
+                 "GENERIK_DEVELOPER_ACCESS=NO",
                  "TARGETED_DEVICE_FAMILY=1,2", "archive"], stdout=output, stderr=subprocess.STDOUT, env=environment)
         app = archive_path / "Products/Applications/GenErikDJ.app"
         if before != source_identity() or int(info(app)["CFBundleVersion"]) != number:
             raise ValueError("The source or archive identity changed. Export stopped.")
+        if info(app).get("GenErikDeveloperAccess") != "NO":
+            raise ValueError("Developer access must be disabled. Export stopped.")
         verify_embedded_frameworks(app)
         run(["codesign", "--verify", "--deep", "--strict", str(app)])
         record.update(state="archived", app=str(app.relative_to(ROOT)),
@@ -210,6 +217,8 @@ def export_testflight(config, number, upload=False):
     archive_path = ROOT / record["archive"]
     if record.get("archiveSHA256") != digest(archive_path.rglob("*"), archive_path):
         raise ValueError("The saved archive changed. Export stopped.")
+    if info(archive_path / "Products/Applications/GenErikDJ.app").get("GenErikDeveloperAccess") == "YES":
+        raise ValueError("Developer access is enabled. Export and upload stopped.")
     folder = archive_path.parent
     action = "upload" if upload else "export"
     attempt = 1

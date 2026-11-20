@@ -19,6 +19,11 @@ class DistributionTests(unittest.TestCase):
         self.archive = self.local / "145/GenErikDJ.xcarchive"
         self.archive.mkdir(parents=True)
         (self.archive / "evidence").write_text("signed archive")
+        self.app = self.archive / "Products/Applications/GenErikDJ.app"
+        self.app.mkdir(parents=True)
+        (self.app / "Info.plist").write_bytes(plistlib.dumps({
+            "CFBundleIdentifier": ipad_test.BUNDLE, "CFBundleVersion": "145",
+        }))
         for name, value in [("ROOT", self.root), ("LOCAL", self.local), ("RECORDS", self.records)]:
             active = patch.object(ipad_test, name, value)
             active.start()
@@ -58,6 +63,18 @@ class DistributionTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 ipad_test.export_testflight({"team": "TEAM"}, 145)
             run.assert_not_called()
+
+    def test_developer_access_stops_export_and_upload(self):
+        value = plistlib.loads((self.app / "Info.plist").read_bytes())
+        value["GenErikDeveloperAccess"] = "YES"
+        (self.app / "Info.plist").write_bytes(plistlib.dumps(value))
+        self.record["archiveSHA256"] = ipad_test.digest(self.archive.rglob("*"), self.archive)
+        ipad_test.write(self.records / "145.json", self.record)
+        for upload in (False, True):
+            with self.subTest(upload=upload), patch.object(ipad_test, "run") as run:
+                with self.assertRaisesRegex(ValueError, "Developer access"):
+                    ipad_test.export_testflight({"team": "TEAM"}, 145, upload=upload)
+                run.assert_not_called()
 
     def test_release_requires_clean_main(self):
         for branch, dirty in [("feature/change\n", ""), ("main\n", " M source.swift")]:

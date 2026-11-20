@@ -17,49 +17,55 @@ struct StoreAccessSettings: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            SettingsGroup("14-day all-access preview") {
-                Text(
-                    access.previewIsActive
-                        ? "All features are unlocked for \(previewDaysRemaining) more days. No subscription starts automatically."
-                        : "Your preview has ended. Choose a monthly or lifetime unlock below."
-                ).lineLimit(nil)
-                Text(
-                    "Monthly plans include ongoing feature updates and support. Purchases work across your Apple devices."
-                ).lineLimit(nil)
-                    .font(.caption).foregroundStyle(.secondary)
-                Text("Monthly plans renew each month until you cancel them. The price above is charged each month.")
-                    .lineLimit(nil)
-                    .font(.caption).foregroundStyle(.secondary)
-            }
-            ForEach(StoreAccessFeature.allCases) { feature in
-                SettingsGroup(feature.title) {
+            if access.developerAccess {
+                SettingsGroup("Developer access") {
+                    Text("All features are unlocked without purchases or time limits.").lineLimit(nil)
+                }
+            } else {
+                SettingsGroup("14-day all-access preview") {
                     Text(
-                        access.hasPurchase(for: feature)
-                            ? "Unlocked" : access.previewIsActive ? "Included in preview" : "Available to unlock"
-                    )
-                    .font(.caption).foregroundStyle(.secondary)
-                    let offerings = access.products(for: feature)
-                    if offerings.isEmpty {
-                        Text(access.loading ? "Loading purchase options…" : "Purchase option unavailable")
-                            .font(.caption).foregroundStyle(.secondary)
-                    }
-                    ForEach(offerings, id: \.id) { product in
-                        purchaseButton(product, title: product.id.hasSuffix(".monthly") ? "Monthly" : "Lifetime")
-                        if product.id.hasSuffix(".lifetime") {
-                            Text("Lifetime includes your own DJ name and logo in the app.").lineLimit(nil)
+                        access.previewIsActive
+                            ? "All features are unlocked for \(previewDaysRemaining) more days. No subscription starts automatically."
+                            : "Your preview has ended. Choose a monthly or lifetime unlock below."
+                    ).lineLimit(nil)
+                    Text(
+                        "Monthly plans include ongoing feature updates and support. Purchases work across your Apple devices."
+                    ).lineLimit(nil)
+                        .font(.caption).foregroundStyle(.secondary)
+                    Text("Monthly plans renew each month until you cancel them. The price above is charged each month.")
+                        .lineLimit(nil)
+                        .font(.caption).foregroundStyle(.secondary)
+                }
+                ForEach(StoreAccessFeature.allCases) { feature in
+                    SettingsGroup(feature.title) {
+                        Text(
+                            access.hasPurchase(for: feature)
+                                ? "Unlocked" : access.previewIsActive ? "Included in preview" : "Available to unlock"
+                        )
+                        .font(.caption).foregroundStyle(.secondary)
+                        let offerings = access.products(for: feature)
+                        if offerings.isEmpty {
+                            Text(access.loading ? "Loading purchase options…" : "Purchase option unavailable")
                                 .font(.caption).foregroundStyle(.secondary)
+                        }
+                        ForEach(offerings, id: \.id) { product in
+                            purchaseButton(product, title: product.id.hasSuffix(".monthly") ? "Monthly" : "Lifetime")
+                            if product.id.hasSuffix(".lifetime") {
+                                Text("Lifetime includes your own DJ name and logo in the app.").lineLimit(nil)
+                                    .font(.caption).foregroundStyle(.secondary)
+                            }
                         }
                     }
                 }
-            }
-            SettingsGroup("All-in-One") {
-                if let product = access.allInOneProduct {
-                    purchaseButton(product, title: "Lifetime · \(product.displayPrice)")
-                    Text("Includes all three feature unlocks and your own DJ name and logo in the app.").lineLimit(nil)
-                        .font(.caption).foregroundStyle(.secondary)
-                } else {
-                    Text(access.loading ? "Loading purchase option…" : "Purchase option unavailable")
-                        .font(.caption).foregroundStyle(.secondary)
+                SettingsGroup("All-in-One") {
+                    if let product = access.allInOneProduct {
+                        purchaseButton(product, title: "Lifetime · \(product.displayPrice)")
+                        Text("Includes all three feature unlocks and your own DJ name and logo in the app.").lineLimit(nil)
+                            .font(.caption).foregroundStyle(.secondary)
+                    } else {
+                        Text(access.loading ? "Loading purchase option…" : "Purchase option unavailable")
+                            .font(.caption).foregroundStyle(.secondary)
+                    }
                 }
             }
             if access.personalisationIsUnlocked {
@@ -89,8 +95,10 @@ struct StoreAccessSettings: View {
                     importLogo($0)
                 }
             }
-            Button("Restore Purchases") { Task { await access.restorePurchases() } }
-                .disabled(access.loading)
+            if !access.developerAccess {
+                Button("Restore Purchases") { Task { await access.restorePurchases() } }
+                    .disabled(access.loading)
+            }
             if let privacyURL = URL(string: "https://dj.generik.au/privacy") {
                 Link("Privacy Policy", destination: privacyURL)
             }

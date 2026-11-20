@@ -65,6 +65,7 @@ private enum StoreAccessProductID: String, CaseIterable {
     public private(set) var loading = false
     public private(set) var clockNow = Date()
     public let previewStartedAt: Date
+    public let developerAccess: Bool
 
     @ObservationIgnored private var activeProductIDs = Set<String>()
     @ObservationIgnored private var updatesTask: Task<Void, Never>?
@@ -75,7 +76,11 @@ private enum StoreAccessProductID: String, CaseIterable {
     @ObservationIgnored private var recordingStartedAt: Date?
     @ObservationIgnored private var hasStarted = false
 
-    public init(root: URL, now: Date = Date()) {
+    public init(
+        root: URL, now: Date = Date(),
+        developerAccess: Bool = Bundle.main.object(forInfoDictionaryKey: "GenErikDeveloperAccess") as? String == "YES"
+    ) {
+        self.developerAccess = developerAccess
         performanceURL = root.appendingPathComponent("access-performance.json")
         let previewURL = root.appendingPathComponent("access-preview-start.json")
         if let data = try? Data(contentsOf: previewURL),
@@ -100,7 +105,8 @@ private enum StoreAccessProductID: String, CaseIterable {
     public var previewEndsAt: Date { previewStartedAt.addingTimeInterval(Self.previewDuration) }
     public var previewIsActive: Bool { Date() < previewEndsAt }
     public var personalisationIsUnlocked: Bool {
-        previewIsActive || activeProductIDs.contains { StoreAccessProductID(rawValue: $0)?.isLifetime == true }
+        developerAccess || previewIsActive
+            || activeProductIDs.contains { StoreAccessProductID(rawValue: $0)?.isLifetime == true }
     }
     public var performanceElapsed: TimeInterval {
         guard let performanceStartedAt else { return 0 }
@@ -139,6 +145,7 @@ private enum StoreAccessProductID: String, CaseIterable {
         hasStarted = true
         clockNow = Date()
         startPerformanceClock()
+        guard !developerAccess else { return }
         updatesTask = Task { [weak self] in
             await self?.refreshProducts()
             await self?.refreshEntitlements()
@@ -183,6 +190,7 @@ private enum StoreAccessProductID: String, CaseIterable {
     }
 
     public func isUnlocked(_ feature: StoreAccessFeature, now: Date = Date()) -> Bool {
+        if developerAccess { return true }
         if now < previewEndsAt { return true }
         return hasPurchase(for: feature)
     }
