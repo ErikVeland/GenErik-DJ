@@ -1,0 +1,31 @@
+{
+  "notes": "R505: Permanent full access for Erik in local developer builds. Controllers, recording, Open Format and personalisation unlocked without purchases or preview expiry.",
+  "sourceCommit": "15426a846fe598e77c0f03cc14c2844b7bc97203",
+  "sourceSHA256": "2949dbd76b7a234ac599a3011ce84b0bea32c6a934c721f2020a48eb7e08223b",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 108.46,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-232.log",
+  "build": 232,
+  "app": "TestBuilds/ipad/232/GenErikDJ.app",
+  "appSHA256": "482add4e69abcece19aa3d63263402833f28a5ccd1c8560547da0eee6da15b37",
+  "state": "testing",
+  "createdUTC": "2026-11-20T07:35:27.087064+00:00",
+  "installationAttempts": [
+    {
+      "state": "timed-out",
+      "timeoutSeconds": 20,
+      "log": "TestBuilds/r505/ipad-run-232.log"
+    },
+    {
+      "state": "installed-and-launch-accepted",
+      "timeoutSeconds": 60,
+      "log": "TestBuilds/r505/ipad-deploy-232.log"
+    }
+  ],
+  "installedUTC": "2026-11-20T07:36:02.069131+00:00",
+  "launchedUTC": "2026-11-20T07:36:02.633490+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}
