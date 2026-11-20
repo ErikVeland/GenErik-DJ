@@ -106,6 +106,7 @@ def build():
         if not is_home:
             body = f'<div class="document-heading"><h1>{html.escape(title)}</h1><a href="/">GenErik DJ</a></div><div class="document-body">{body}</div>'
         robots = '<meta name="robots" content="noindex,follow">' if source in ('404', '503') else ''
+        page_class = 'home' if is_home else 'document document--wide' if source == 'controllers' else 'document'
         page = f'''<!doctype html>
 <html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{html.escape(title_full)}</title><meta name="description" content="{html.escape(description, quote=True)}">
@@ -118,7 +119,7 @@ def build():
 <script type="application/ld+json">{json.dumps(schema,ensure_ascii=False).replace('<', chr(92)+'u003c')}</script>
 {controllers_script}</head><body><a class="skip" href="#main">Skip to content</a>
 <header class="site-header"><div class="header-inner"><a class="brand" href="/" aria-label="GenErik DJ home"><img src="/assets/mark.png" alt="" width="37" height="37">GenErik DJ</a><nav class="primary-nav" aria-label="Primary">{links(navigation, route)}</nav></div></header>
-<main id="main" class="page {'home' if is_home else 'document'}">{body}</main>
+<main id="main" class="page {page_class}">{body}</main>
 <footer class="site-footer"><div class="footer-inner"><nav class="footer-nav" aria-label="Footer">{links(footer, route)}</nav><div class="footer-meta"><p>© 2026 Erik Veland</p><p>Independent software. In development.</p><p><a href="mailto:{CONFIG['contact']}">{CONFIG['contact']}</a></p></div></div></footer></body></html>'''
         target = OUT / ('index.html' if is_home else route.lstrip('/') + '/index.html')
         target.parent.mkdir(parents=True,exist_ok=True)
