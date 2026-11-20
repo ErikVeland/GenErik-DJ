@@ -895,4 +895,4 @@ Every request ID is retained. “Implemented” describes source availability, n
 
 | R507 | Build 234 installed. Device acceptance open. | Make workspace preferences available from the top toolbar | Open Settings beside Notification Center. Find Four decks under Decks & Playback and Live stem separation under Library & Preparation on supported devices. Verify access with the library closed and notifications hidden. |
 
-| R511 | Device acceptance open | Check iCloud analysis before local analysis on iPad | Show the sync stage. Check stale track replacement and the transition to local analysis on A10X. |
+| R511 | Device acceptance open | Check iCloud analysis before local analysis on iPad | Use retained iCloud analysis first. Allow three seconds for the network check before starting local analysis. Check stale track replacement and the transition to local analysis on A10X. |

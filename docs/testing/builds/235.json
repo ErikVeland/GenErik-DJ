@@ -1,0 +1,16 @@
+{
+  "notes": "R511: Check iCloud analysis before local analysis and show sync progress.",
+  "sourceCommit": "7a4ec8b47ca18892fb7690aa06e3cdad6dd592c7",
+  "sourceSHA256": "1e7d4f16529c87374d83ad81e10f7aa5be86e3f7ffb024f56502c32bbb08e855",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 127.91,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-235.log",
+  "build": 235,
+  "app": "TestBuilds/ipad/235/GenErikDJ.app",
+  "appSHA256": "31014496ef0902646ba5422bbcdd80ebcafe8e7b7ba22e23e609e31ea33bc979",
+  "state": "ready",
+  "createdUTC": "2026-11-20T09:16:16.540702+00:00"
+}

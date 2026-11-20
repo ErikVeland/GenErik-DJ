@@ -38,6 +38,7 @@ extension ReplicaModel {
         logAnalysis("Cloud sync started. Automatic: \(automatic).")
         if !automatic { cancelNativeMusicAnalysis() }
         cloudTask = Task {
+            var startupWait: Task<Void, Never>?
             let timeout = Task { [weak self, cloudSync] in
                 do {
                     try await Task.sleep(for: .seconds(automatic ? 45 : 120))
@@ -47,6 +48,7 @@ extension ReplicaModel {
                 } catch {}
             }
             defer {
+                startupWait?.cancel()
                 timeout.cancel()
                 cloudBusy = false
                 cloudSyncIsAutomatic = false
@@ -59,6 +61,23 @@ extension ReplicaModel {
                 await flushPerformanceWrites()
                 try Task.checkCancellation()
                 guard cloudPlaybackIsIdle else { throw CancellationError() }
+                if automatic, !nativeMusic.checkedStartupCloud {
+                    let directory = store.root.appendingPathComponent("CloudPreparation")
+                    let cached = await cloudFiles.run { () -> CloudPreparationSync.Result? in
+                        guard let account = try? String(contentsOf: directory.appendingPathComponent("last-account"), encoding: .utf8),
+                            account.count == 64, account.allSatisfy(\.isHexDigit)
+                        else { return nil }
+                        let root = directory.appendingPathComponent(account)
+                        guard let revisions = try? CloudPreparationVault(root: root).list() else { return nil }
+                        return .init(root: root, revisions: revisions, message: "Checking saved iCloud analysis…")
+                    }
+                    if let cached { try await adoptAutomaticCloudResults(cached) }
+                    startupWait = Task {
+                        do { try await Task.sleep(for: .seconds(3)) } catch { return }
+                        nativeMusic.checkedStartupCloud = true
+                        startNativeMusicAnalysis()
+                    }
+                }
                 var result = try await cloudSync.synchronize(
                     store: store, tracks: library.tracks,
                     performance: performance, automatic: automatic,
@@ -92,6 +111,7 @@ extension ReplicaModel {
                 cloudStatus = "Sync paused. Saved analysis will retry while the decks are idle."
                 logAnalysis("Cloud sync cancelled at: \(cloudStatus)")
             } catch {
+                if automatic { nativeMusic.checkedStartupCloud = true }
                 cloudStatus = "Sync did not finish. Local preparation is retained. \(error.localizedDescription)"
                 logAnalysis("Cloud sync failed: \(Self.cloudErrorSummary(error))")
                 automaticCloudRetryAt = Date().addingTimeInterval(300)
