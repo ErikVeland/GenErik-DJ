@@ -15,10 +15,10 @@ App Store Connect set the base app to free and saved availability in 175 territo
 | Open Format | 2.99 | 19.99 |
 | All-in-One | | 39.99 |
 
-Apple supplied the equivalent prices for other territories. The [djay](https://apps.apple.com/au/app/djay-dj-app-ai-mixer/id450527929) and [Cross DJ](https://apps.apple.com/au/app/cross-dj-music-mixer-app/id584824960) listings informed the AUD tiers.
+The first price audit found empty lifetime schedules. App Store Connect saved the approved lifetime prices. The final audit read back the Australian amounts and verified prices and availability in 175 territories for each product. The [djay](https://apps.apple.com/au/app/djay-dj-app-ai-mixer/id450527929) and [Cross DJ](https://apps.apple.com/au/app/cross-dj-music-mixer-app/id584824960) listings informed the AUD tiers.
 
 The Mac artwork uses two captures from build 230 with original demo tracks. The iPhone 17 Pro and 13-inch iPad artwork use genuine simulator captures of build 231. Apple accepted the three compositions. The iPhone artwork replaced the older workspace menu placement. The website uses these compositions and lists the current controller catalogue and Australian purchase prices. The original captures, build archives and verification logs are in `TestBuilds/r499-worldwide-release`.
 
-App Store Connect saved the reviewer directions for all seven purchases. The verified route on iPad is Music library, Settings, Help & About, then Unlock features. The simulator opened Feature access. StoreKit returned no purchase options, so genuine review screenshots remain open. All seven products still show Missing Metadata.
+App Store Connect saved the reviewer directions for all seven purchases. The verified route on iPad is Music library, Settings, Help & About, then Unlock features. The simulator opened Feature access. StoreKit returned no purchase options. The command-line test session could not save its StoreKit configuration, and the Mac was locked when the Xcode interface was needed. All seven products still show Missing Metadata and need genuine review screenshots.
 
 The Duo capture remains open. The simulator library stalled during the capture, and the physical Duo was unavailable. Both app versions remain in Prepare for Submission.
