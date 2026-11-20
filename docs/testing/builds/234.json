@@ -1,0 +1,19 @@
+{
+  "notes": "R507: Open Settings beside Notification Center. Move deck count and stem preparation into their preference sections.",
+  "sourceCommit": "ff0257378e307845ea55f626d4537da20d39b86d",
+  "sourceSHA256": "f4fe9f94c2f04dc5c55aad30ba02329928fd170085c9fcca4cdbd6774463573b",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 190.51,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-234.log",
+  "build": 234,
+  "app": "TestBuilds/ipad/234/GenErikDJ.app",
+  "appSHA256": "01e868182fc9492861fa481eeda2b1aa4dd097172a1c3b16a1085926a5a70d6b",
+  "state": "testing",
+  "createdUTC": "2026-11-20T09:01:06.407722+00:00",
+  "installedUTC": "2026-11-20T09:01:48.676836+00:00",
+  "launchedUTC": "2026-11-20T09:01:55.375579+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}
