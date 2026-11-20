@@ -1,0 +1,19 @@
+{
+  "notes": "R511: Use cached iCloud analysis first and limit the launch wait for online sync to three seconds.",
+  "sourceCommit": "2d7e27f30ab78c6f8f7b1bd0845c27710c4bf20e",
+  "sourceSHA256": "312f0c2f088eb504ca6b453c79703b6e9f590d778cdcdb9fe2997740e7be710b",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 170.1,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-236.log",
+  "build": 236,
+  "app": "TestBuilds/ipad/236/GenErikDJ.app",
+  "appSHA256": "cf4499507284621dda6dc4645d294ed51309358372cdf0e3e7f225fa92b78d08",
+  "state": "testing",
+  "createdUTC": "2026-11-20T09:20:08.222713+00:00",
+  "installedUTC": "2026-11-20T09:21:14.324949+00:00",
+  "launchedUTC": "2026-11-20T09:21:14.725203+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}
