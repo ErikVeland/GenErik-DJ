@@ -18,6 +18,7 @@ extension ReplicaModel {
     }
 
     var cloudPlaybackIsIdle: Bool {
+        guard !storeAccess.hasActivePerformance, !playback.core.performanceWorkGate.isProtected else { return false }
         guard !playback.isRecording, !playback.recordingFinishing, !importing,
             !musicLibraryRefreshing, !musicLibraryPreparing, !deckAnalysisIsRunning,
             preparingTrack.isEmpty, preparingSourceActions.isEmpty,

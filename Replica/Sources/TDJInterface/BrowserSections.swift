@@ -57,10 +57,7 @@ struct RecordingsBrowser: View {
                             Text(Self.title(url)).font(.system(size: 18, weight: .bold)).lineLimit(1)
                             Text(length.map { String(format: "%d:%02d", Int($0) / 60, Int($0) % 60) } ?? "—")
                                 .foregroundStyle(PerformancePalette.secondaryText).monospacedDigit()
-                            ShareLink(item: url) {
-                                Image(systemName: "square.and.arrow.up").frame(width: 48, height: 38).bevelPanel(
-                                    cornerRadius: 4)
-                            }.accessibilityLabel("Share recording")
+                            RecordingExportButton(model: model, recording: url)
                         }
                         Spacer(minLength: 0)
                         LoadSlider(tall: true) { deck in Task { await model.loadRecording(url, deck: deck) } }.disabled(
@@ -349,6 +346,17 @@ struct SettingsBrowser: View {
         case .controllers:
             SettingsGroup("Devices & controls") { ControllerSettingsView(model: model) }
         case .about:
+            if model.performanceReportAvailable {
+                SettingsGroup("Performance report") {
+                    ShareLink("Share performance report", item: model.performanceReportURL)
+                    Text("Audio counters, memory and thermal state from this app session.")
+                        .font(.caption).foregroundStyle(.secondary)
+                }
+            }
+            if !model.performanceReportError.isEmpty {
+                Text("The performance report could not be saved. \(model.performanceReportError)")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
             SettingsPageLink("Unlock features", detail: "Controller support, recording and Open Format") {
                 SettingsDetailPage("Feature access") { StoreAccessSettings(model: model) }
             }

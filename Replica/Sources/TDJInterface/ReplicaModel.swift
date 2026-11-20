@@ -174,6 +174,15 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     public var recordingLocation = ""
     public func loadRecording(_ url: URL, deck: DeckID) async {
         guard !importing, recordings.contains(url), playbackSnapshot?[deck].phase.active != true else { return }
+        guard !storeAccess.hasActivePerformance, !playback.core.performanceWorkGate.isProtected,
+            !playback.isRecording, !playback.recordingFinishing,
+            playback.core.playingPads == 0, !playback.core.loopRecorderState.isActive,
+            let snapshot = playback.core.snapshot(),
+            DeckID.allCases.allSatisfy({ !snapshot[$0].phase.active && !snapshot[$0].touchActive })
+        else {
+            status = "End the performance before preparing a recording. Prepared tracks remain available in the library."
+            return
+        }
         importing = true
         defer { importing = false }
         do {
@@ -218,6 +227,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
                 status = "The free recording limit has been reached for this performance. End the performance or choose a Recording purchase."
                 return
             }
+            beginProtectedPerformance()
             do { try await playback.startRecording(directory: recordingsDirectory, location: recordingLocation) } catch
             { status = error.localizedDescription }
             if playback.isRecording {
@@ -338,6 +348,10 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     }
     private let mixerPersistence = CoalescingFileWriter<MixerPreferences>()
     private let collectionPersistence = CoalescingFileWriter<CollectionPlaylists>()
+    @ObservationIgnored let performanceHealth = PerformanceHealthRecorder()
+    @ObservationIgnored let performanceHealthWriter = CoalescingFileWriter<PerformanceHealthReport>()
+    public internal(set) var performanceReportAvailable = false
+    public internal(set) var performanceReportError = ""
     private var mixerPreferencesURL: URL { store.root.appendingPathComponent("mixer-preferences.json") }
     public func persistMixerPreferences() {
         let url = mixerPreferencesURL
@@ -357,6 +371,8 @@ enum PlaybackInputSource: Equatable { case touch, controller }
         for writer in Array(arrangementWriters.values) { await writer.flush() }
     }
     public func finishForShutdown() async {
+        savePerformanceHealth(force: true)
+        await performanceHealthWriter.flush()
         stopAutomaticPreparationSharing()
         await macSourceTransferWork?.value
         await cloudTask?.value
@@ -382,10 +398,13 @@ enum PlaybackInputSource: Equatable { case touch, controller }
         await drainQueuedBackgroundRetirements()
     }
     public func pauseVisualUpdates() {
+        savePerformanceHealth(force: true)
+        performanceHealth.resetMonitorClock()
         playbackMonitor?.cancel()
         playbackMonitor = nil
     }
     public func prepareForBackground() async {
+        await performanceHealthWriter.flush()
         persistMixerPreferences()
         await flushPreferenceWrites()
         await flushHistoryWrites()
@@ -698,6 +717,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
             store: store, initial: initialLibrary, discoverSyncedTraktor: discoverSyncedTraktor,
             automaticTraktorSources: automaticTraktorSources)
         self.playback = try playback ?? PlaybackController()
+        self.playback.core.performanceWorkGate.setProtected(storeAccess.hasActivePerformance)
         mixerPreferences = try MixerPreferences.load(from: root.appendingPathComponent("mixer-preferences.json"))
         self.playback.core.setBassAssistance(mixerPreferences.bassAssistance ?? .off)
         self.playback.setPrimaryKeylockDefault(mixerPreferences.primaryKeylock ?? true)
@@ -1384,7 +1404,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     }
 
     func scheduleDeckAnalysis(deck: DeckID) {
-        guard !waveformShutdown, !arrangementPlaybackActive, !preparingTrack.contains(deck),
+        guard !waveformShutdown, !playback.core.performanceWorkGate.isProtected, !arrangementPlaybackActive, !preparingTrack.contains(deck),
             deckAnalysisTasks[deck] == nil, let pin = loadPreparations[deck], let generation = pin.generation,
             deckAnalysisAttempts[deck] != pin.token,
             pin.track.needsFullPreparationAnalysis
@@ -1471,7 +1491,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     }
 
     func updateDeckAnalysisScheduling(wasPlaying: Bool) {
-        if arrangementPlaybackActive {
+        if playback.core.performanceWorkGate.isProtected || arrangementPlaybackActive {
             cancelNativeMusicAnalysis()
             for task in deckAnalysisTasks.values { task.cancel() }
         } else if wasPlaying {
@@ -1769,6 +1789,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
 
     public func startPlaybackMonitor() {
         guard playbackMonitor == nil else { return }
+        performanceHealth.resetMonitorClock()
         #if os(iOS)
             if !z1Enabled, UserDefaults.standard.object(forKey: "controllers.nativeZ1.enabled") as? Bool != false {
                 toggleZ1()
@@ -1884,8 +1905,8 @@ enum PlaybackInputSource: Equatable { case touch, controller }
         if outputRoute != playback.outputRoute { outputRoute = playback.outputRoute }
         if automaticOutputDevice != playback.automaticOutputDevice { automaticOutputDevice = playback.automaticOutputDevice }
         let wasRecording = isRecording || recordingFinishing
-        isRecording = playback.isRecording
-        recordingFinishing = playback.recordingFinishing
+        if isRecording != playback.isRecording { isRecording = playback.isRecording }
+        if recordingFinishing != playback.recordingFinishing { recordingFinishing = playback.recordingFinishing }
         if wasRecording && !isRecording && !recordingFinishing {
             recordingLimitTask?.cancel()
             recordingLimitTask = nil
@@ -1893,6 +1914,11 @@ enum PlaybackInputSource: Equatable { case touch, controller }
             if let error = playback.recordingError { status = error }
         }
         let (snapshot, messages) = playback.snapshotAndMessages()
+        if !storeAccess.hasActivePerformance, snapshot?.anyDeckActive == true || isRecording {
+            storeAccess.beginPerformance()
+        }
+        protectPerformanceWork()
+        savePerformanceHealth()
         if cloudTask != nil || macSourceTransferWork != nil,
             isRecording || recordingFinishing
                 || snapshot.map({ value in DeckID.allCases.contains { value[$0].phase.active || value[$0].touchActive }
@@ -1900,13 +1926,14 @@ enum PlaybackInputSource: Equatable { case touch, controller }
         {
             cancelCloudSyncForPlayback()
         }
-        preparingSourceActions = playback.preparingSourceDecks
+        let sourceActions = playback.preparingSourceDecks
+        if preparingSourceActions != sourceActions { preparingSourceActions = sourceActions }
         if let snapshot {
             playbackSnapshot = snapshot
             retainPerformedPair(snapshot)
             maintainRecovery(snapshot)
             #if os(macOS) || os(iOS)
-                z1Connection?.send(z1Feedback(snapshot))
+                if let z1Connection, z1Connection.isReceiving { z1Connection.send(z1Feedback(snapshot)) }
             #endif
             if controllerInput.originalZ1Bridge {
                 controllerInput.queueZ1Feedback(z1Feedback(snapshot))
@@ -1914,7 +1941,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
             for deck in DeckID.allCases
             where !editing.contains(deck) && !previewing.contains(deck) && !frozen.contains(deck) {
                 if let state = waveformPlayback(deck), state.phase != .empty {
-                    viewport[deck] = state.sourceFrame
+                    if viewport[deck] != state.sourceFrame { viewport[deck] = state.sourceFrame }
                 }
             }
         }
@@ -1949,7 +1976,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
                 pendingLoadPlay[deck] = nil
                 pendingControllerPlay.remove(deck)
             } else {
-                storeAccess.beginPerformance(controllerInput: source == .controller)
+                beginProtectedPerformance(controllerInput: source == .controller)
                 pendingLoadPlay[deck] = owner
                 if source == .controller { pendingControllerPlay.insert(deck) }
                 else { pendingControllerPlay.remove(deck) }
@@ -1980,7 +2007,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
             } else {
                 try playback.play(deck)
             }
-            if !wasActive { storeAccess.beginPerformance(controllerInput: source == .controller) }
+            if !wasActive { beginProtectedPerformance(controllerInput: source == .controller) }
             if !wasActive { recoveryState.attempted[deck] = nil }
             previewing.remove(deck)
             refreshPlayback()
@@ -1998,21 +2025,45 @@ enum PlaybackInputSource: Equatable { case touch, controller }
         return true
     }
     public func endPerformance() {
-        guard let snapshot = playback.core.snapshot(), DeckID.allCases.allSatisfy({ snapshot[$0].phase.active == false }),
+        guard let snapshot = playback.core.snapshot(), DeckID.allCases.allSatisfy({ !snapshot[$0].phase.active && !snapshot[$0].touchActive }),
+            pendingLoadPlay.isEmpty, playback.core.playingPads == 0, !playback.core.loopRecorderState.isActive,
             !playback.isRecording,
             !playback.recordingFinishing
         else {
-            status = "Stop all decks and finish recording before ending the performance."
+            status = "Stop all decks, sample pads and the loop recorder. Finish recording before ending the performance."
             return
         }
+        savePerformanceHealth(force: true)
         storeAccess.endPerformance()
-        status = "Performance ended. The time limits have reset."
+        playback.core.performanceWorkGate.setProtected(false)
+        updateDeckAnalysisScheduling(wasPlaying: true)
+        updateArrangementScheduling(wasPlaying: true)
+        startNativeMusicAnalysis()
+        status = "Performance ended. Preparation can resume, and the time limits have reset."
         refreshPlayback()
     }
     public var canEndPerformance: Bool {
         storeAccess.hasActivePerformance
-            && playback.core.snapshot().map { snapshot in DeckID.allCases.allSatisfy({ snapshot[$0].phase.active == false }) } == true
+            && pendingLoadPlay.isEmpty && playback.core.playingPads == 0 && !playback.core.loopRecorderState.isActive
+            && playback.core.snapshot().map { snapshot in DeckID.allCases.allSatisfy({ !snapshot[$0].phase.active && !snapshot[$0].touchActive }) } == true
             && !playback.isRecording && !playback.recordingFinishing
+    }
+
+    private func beginProtectedPerformance(controllerInput: Bool = false) {
+        storeAccess.beginPerformance(controllerInput: controllerInput)
+        protectPerformanceWork()
+    }
+
+    private func protectPerformanceWork() {
+        guard storeAccess.hasActivePerformance, !playback.core.performanceWorkGate.isProtected else { return }
+        playback.core.performanceWorkGate.setProtected(true)
+        cancelNativeMusicAnalysis()
+        for task in deckAnalysisTasks.values { task.cancel() }
+        for task in arrangementTasks.values { task.cancel() }
+        if analysisProgress != nil {
+            analysisProgress?.message = "Paused during performance. End the performance to resume preparation."
+        }
+        cancelCloudSyncForPlayback()
     }
     public func setMixer(_ parameter: MixerParameter, value: Double, deck: DeckID = .a) {
         if submitMixer(parameter, value: value, deck: deck) { refreshPlayback() }

@@ -383,6 +383,7 @@ public final class SampleTransport: @unchecked Sendable {
     private let pointer: OpaquePointer
     private let keylockDiagnostics: AudioCallbackMetrics?
     public let recording: RecordingBuffer
+    public let performanceWorkGate = PerformanceWorkGate()
     private var capturingFirstSubmission = false
     private var firstSubmission: NativeControlSubmissionTiming?
     private var nextCommand: UInt64 = 0

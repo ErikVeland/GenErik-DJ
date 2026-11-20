@@ -47,7 +47,17 @@ public enum RecordingError: Error, LocalizedError {
 public final class SetRecorder: @unchecked Sendable {
     public let url: URL
     public var hasFailed: Bool { ring.hasFailed }
-    private let partialURL: URL
+    private var partialURL: URL
+    private var partURL: URL
+    private let maximumPartFrames: Int64
+    private var partFrames: Int64 = 0
+    private struct Part {
+        let url: URL
+        let partial: URL
+        let start: Int64
+        let frames: Int64
+    }
+    private var parts: [Part] = []
     private let ring: RecordingBuffer
     private let writerQueue: DispatchQueue
     private var file: AIFFWriter?
@@ -57,7 +67,6 @@ public final class SetRecorder: @unchecked Sendable {
     private var failure: Error?
     private var frames: Int64 = 0
     private let sampleRate: Double
-    private var tracklist: [(UInt64, String)] = []
     private var trackMetadata: [String: (String, String)] = [:]
 
     public convenience init(directory: URL, sampleRate: Double, buffer ring: RecordingBuffer, location: String = "")
@@ -65,11 +74,16 @@ public final class SetRecorder: @unchecked Sendable {
     {
         try self.init(
             directory: directory, sampleRate: sampleRate, buffer: ring, location: location,
-            writerQueue: DispatchQueue(label: "org.generikdj.set-recording", qos: .utility))
+            writerQueue: DispatchQueue(label: "org.generikdj.set-recording", qos: .utility, autoreleaseFrequency: .workItem))
     }
-    init(directory: URL, sampleRate: Double, buffer ring: RecordingBuffer, location: String, writerQueue: DispatchQueue)
+    init(directory: URL, sampleRate: Double, buffer ring: RecordingBuffer, location: String, writerQueue: DispatchQueue,
+         maximumPartFrames: Int64 = (Int64(UInt32.max) - 16 * 1024 * 1024) / 6)
         throws
     {
+        guard maximumPartFrames >= 8192, maximumPartFrames <= (Int64(UInt32.max) - 4096) / 6 else {
+            throw RecordingError.sizeLimit
+        }
+        self.maximumPartFrames = maximumPartFrames
         self.writerQueue = writerQueue
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         let allowed = CharacterSet.controlCharacters.union(CharacterSet(charactersIn: "/:"))
@@ -96,6 +110,7 @@ public final class SetRecorder: @unchecked Sendable {
         formatter.dateFormat = "yyyy-MM-dd HH-mm-ss"
         let name = "\(place) - \(formatter.string(from: Date())) - \(UUID().uuidString.prefix(8))"
         url = directory.appendingPathComponent(name + ".aiff")
+        partURL = url
         partialURL = directory.appendingPathComponent(name + ".incomplete.aiff")
         self.ring = ring
         self.sampleRate = sampleRate
@@ -125,9 +140,10 @@ public final class SetRecorder: @unchecked Sendable {
             guard count > 0 else { return }
             if failure == nil {
                 do {
-                    guard (frames + Int64(count)) * 6 < Int64(UInt32.max) - 4096 else { throw RecordingError.sizeLimit }
-                    try file?.write(buffer)
+                    if partFrames > 0, partFrames + Int64(count) > maximumPartFrames { try rotatePart() }
+                    try autoreleasepool { try file?.write(buffer) }
                     frames += Int64(count)
+                    partFrames += Int64(count)
                 } catch {
                     failure = error
                     ring.stop()
@@ -136,6 +152,24 @@ public final class SetRecorder: @unchecked Sendable {
             }
         }
     }
+    private func closePart() throws {
+        try file?.close()
+        file = nil
+        if partFrames > 0 {
+            parts.append(.init(url: partURL, partial: partialURL, start: frames - partFrames, frames: partFrames))
+            partFrames = 0
+        }
+    }
+
+    private func rotatePart() throws {
+        try closePart()
+        let base = url.deletingPathExtension().lastPathComponent
+        let name = base + String(format: "-part-%03d", parts.count + 1)
+        partURL = url.deletingLastPathComponent().appendingPathComponent(name + ".aiff")
+        partialURL = url.deletingLastPathComponent().appendingPathComponent(name + ".incomplete.aiff")
+        file = try AIFFWriter(url: partialURL, format: buffer.format)
+    }
+
     /// Close capture immediately. Finish before reusing the recording buffer.
     public func stopCapture() { ring.requestStop() }
     public func registerTrack(deck: UInt32, generation: UInt64, artist: String, title: String) {
@@ -164,7 +198,7 @@ public final class SetRecorder: @unchecked Sendable {
                 // Join an accepted sample copy on the writer, before the final drain.
                 ring.stop()
                 drain(finishing: true)
-                do { try file?.close() } catch { if failure == nil { failure = error } }
+                do { try closePart() } catch { if failure == nil { failure = error } }
                 file = nil
                 finished = true
                 do {
@@ -177,20 +211,39 @@ public final class SetRecorder: @unchecked Sendable {
                         try? FileManager.default.removeItem(at: partialURL)
                         throw RecordingError.empty
                     }
-                    let tracklistURL = url.deletingPathExtension().appendingPathExtension("txt")
+                    var events: [(frame: UInt64, deck: UInt32, artist: String, title: String)] = []
                     for index in 0..<tdj_recording_track_count(ring.nativeAudioRenderPointer) {
                         var event = tdj_recorded_track()
                         guard tdj_recording_track(ring.nativeAudioRenderPointer, index, &event) else { continue }
                         let metadata = trackMetadata["\(event.deck):\(event.generation)"] ?? ("", "")
-                        tracklist.append(
-                            (event.frame, trackLine(frame: event.frame, artist: metadata.0, title: metadata.1)))
+                        events.append((event.frame, event.deck, metadata.0, metadata.1))
                     }
-                    tracklist.sort { $0.0 < $1.0 }
-                    let text = tracklist.isEmpty ? "" : tracklist.map(\.1).joined(separator: "\n") + "\n"
-                    try text.write(to: tracklistURL, atomically: true, encoding: .utf8)
-                    do { try FileManager.default.moveItem(at: partialURL, to: url) } catch {
-                        try? FileManager.default.removeItem(at: tracklistURL)
-                        throw error
+                    events.sort { $0.frame == $1.frame ? $0.deck < $1.deck : $0.frame < $1.frame }
+                    for part in parts {
+                        let start = UInt64(part.start)
+                        let end = UInt64(part.start + part.frames)
+                        let current = events.filter { $0.frame >= start && $0.frame < end }
+                        var carried: [UInt32: (artist: String, title: String)] = [:]
+                        for event in events where event.frame < start { carried[event.deck] = (event.artist, event.title) }
+                        for event in current where event.frame == start { carried[event.deck] = nil }
+                        var lines = carried.keys.sorted().compactMap { deck in
+                            carried[deck].map { trackLine(frame: 0, artist: $0.artist, title: $0.title) }
+                        }
+                        lines += current.map { trackLine(frame: $0.frame - start, artist: $0.artist, title: $0.title) }
+                        let text = lines.isEmpty ? "" : lines.joined(separator: "\n") + "\n"
+                        try text.write(to: part.url.deletingPathExtension().appendingPathExtension("txt"), atomically: true, encoding: .utf8)
+                    }
+                    if parts.count > 1 {
+                        let lines = events.map { trackLine(frame: $0.frame, artist: $0.artist, title: $0.title) }
+                        let text = lines.isEmpty ? "" : lines.joined(separator: "\n") + "\n"
+                        let timeline = url.deletingPathExtension().appendingPathExtension("session.txt")
+                        try text.write(to: timeline, atomically: true, encoding: .utf8)
+                    }
+                    for part in parts {
+                        do { try FileManager.default.moveItem(at: part.partial, to: part.url) } catch {
+                            try? FileManager.default.removeItem(at: part.url.deletingPathExtension().appendingPathExtension("txt"))
+                            throw error
+                        }
                     }
                     continuation.resume(returning: url)
                 } catch { continuation.resume(throwing: error) }

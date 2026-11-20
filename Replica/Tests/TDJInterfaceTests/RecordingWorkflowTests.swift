@@ -83,6 +83,7 @@ import Testing
     _ = model.playback.core.renderOffline(frames: 48000)
     await model.toggleRecording()
     let recording = try #require(model.recordings.first)
+    model.endPerformance()
     await model.loadRecording(recording, deck: .b)
     await model.flushWaveforms()
     #expect(model.library.tracks.count == 1)

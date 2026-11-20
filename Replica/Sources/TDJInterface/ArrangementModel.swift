@@ -177,7 +177,7 @@ extension ReplicaModel {
             installSectionCues(value, trackID: id, cachedCues: old?.automaticCues)
             return
         }
-        guard !nativeMusic.wanted, !arrangementPlaybackActive, !analysis.waveform.isEmpty else { return }
+        guard !nativeMusic.wanted, !playback.core.performanceWorkGate.isProtected, !arrangementPlaybackActive, !analysis.waveform.isEmpty else { return }
         structureAnalyzing.insert(id)
         let task: Task<ArrangementPreparationResult, Never>
         if let pending = arrangementTasks[id], !pending.isCancelled, arrangementTaskContexts[id] == context {
@@ -214,7 +214,7 @@ extension ReplicaModel {
             arrangementTaskContexts[id] = nil
             structureAnalyzing.remove(id)
         }
-        guard !Task.isCancelled, !task.isCancelled, !arrangementPlaybackActive, loaded[deck] == id,
+        guard !Task.isCancelled, !task.isCancelled, !playback.core.performanceWorkGate.isProtected, !arrangementPlaybackActive, loaded[deck] == id,
             self.track(deck).map({ MusicalStructureContext(title: $0.title, genre: $0.genre) }) == context
         else { return }
         switch result {
@@ -239,7 +239,7 @@ extension ReplicaModel {
         }
     }
     func updateArrangementScheduling(wasPlaying: Bool) {
-        if arrangementPlaybackActive {
+        if playback.core.performanceWorkGate.isProtected || arrangementPlaybackActive {
             for task in arrangementTasks.values { task.cancel() }
             for task in gridDetectionTasks.values { task.cancel() }
         } else if wasPlaying {

@@ -53,6 +53,11 @@ actor WaveformIndexes {
     private var pending: [WaveformIndexKey: Task<WaveformRangeIndex, Never>] = [:]
     private var bytes = 0
     private let budget = 16 * 1024 * 1024
+    func trimCache() {
+        cache.removeAll()
+        order.removeAll()
+        bytes = 0
+    }
     func load(_ analysis: AudioAnalysis) async -> WaveformRangeIndex {
         let key = WaveformIndexKey(analysis)
         if let result = cache[key] { return result }

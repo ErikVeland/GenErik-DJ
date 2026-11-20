@@ -446,6 +446,7 @@ extension ReplicaModel {
     }
 
     private var libraryAnalysisPlaybackIsIdle: Bool {
+        guard !storeAccess.hasActivePerformance, !playback.core.performanceWorkGate.isProtected else { return false }
         if playback.core.playingPads != 0 { return false }
         #if os(iOS)
             if playback.s2MicrophoneActive || playback.s3ExtEnabled || playback.s4InputChannels > 0

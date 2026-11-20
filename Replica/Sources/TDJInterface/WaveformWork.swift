@@ -5,6 +5,7 @@ struct WaveformWorkPaused: Error {}
 
 enum WaveformWork {
     static func isPaused(_ core: SampleTransport) -> Bool {
+        if core.performanceWorkGate.isProtected { return true }
         guard let state = core.snapshot() else { return true }
         return DeckID.allCases.contains { state[$0].phase.active || state[$0].touchActive }
     }

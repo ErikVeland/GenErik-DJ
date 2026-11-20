@@ -48,13 +48,15 @@ import Testing
         ])
 }
 
-@Test @MainActor func beatpadSelectsFourChannelAudioOnlyForTheOriginalWiredDevice() throws {
+@Test @MainActor func beatpadRoutesGenerationsSeparatelyAndRejectsWirelessAudio() throws {
     let controller = try PlaybackController(offline: true)
     controller.updateOutputDevice([.init(name: "Reloop Beatpad", wired: true)])
     #expect(controller.automaticOutputDevice == "Beatpad")
     #expect(controller.outputRoute == .masterAndHeadphones)
     controller.updateOutputDevice([.init(name: "Beatpad 2", wired: true)])
-    #expect(controller.automaticOutputDevice == nil)
+    #expect(!BeatpadIdentity.matches("Beatpad 2"))
+    #expect(controller.automaticOutputDevice == "Reloop Beatpad 2")
+    #expect(controller.outputRoute == .masterAndHeadphones)
     controller.updateOutputDevice([.init(name: "Beatpad", wired: false)])
     #expect(controller.outputRoute == .stereoMaster)
 }

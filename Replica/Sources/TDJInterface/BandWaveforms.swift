@@ -11,11 +11,39 @@ extension EnvironmentValues {
     }
 }
 
-/// Builds detailed band waveforms from the playback cache in the background. Keeps the last four.
+/// Builds detailed band waveforms off the UI thread. Retention is bounded by bytes and track count.
 actor BandWaveforms {
     static let shared = BandWaveforms()
     private var cache: [String: BandWaveform] = [:]
     private var order: [String] = []
+    private let byteBudget: Int
+    private(set) var cachedBytes = 0
+    var cachedCount: Int { cache.count }
+    init(byteBudget: Int = 32 * 1024 * 1024) { self.byteBudget = max(0, byteBudget) }
+
+    func retain(_ result: BandWaveform, trackID: String) {
+        let bytes = result.levels.reduce(0) { $0 + $1.count * MemoryLayout<BandWaveform.Bin>.stride }
+        guard bytes <= byteBudget else { return }
+        if let old = cache.removeValue(forKey: trackID) {
+            cachedBytes -= old.levels.reduce(0) { $0 + $1.count * MemoryLayout<BandWaveform.Bin>.stride }
+            order.removeAll { $0 == trackID }
+        }
+        while cachedBytes + bytes > byteBudget || order.count >= 4 {
+            guard !order.isEmpty else { break }
+            if let old = cache.removeValue(forKey: order.removeFirst()) {
+                cachedBytes -= old.levels.reduce(0) { $0 + $1.count * MemoryLayout<BandWaveform.Bin>.stride }
+            }
+        }
+        cache[trackID] = result
+        order.append(trackID)
+        cachedBytes += bytes
+    }
+
+    func trimCache() {
+        cache.removeAll()
+        order.removeAll()
+        cachedBytes = 0
+    }
     private struct Pending {
         let token: UUID
         let task: Task<BandWaveform?, Never>
@@ -75,9 +103,7 @@ actor BandWaveforms {
             if pending[trackID]?.token == work.token {
                 pending[trackID] = nil
                 if let result {
-                    cache[trackID] = result
-                    order.append(trackID)
-                    if order.count > 4 { cache[order.removeFirst()] = nil }
+                    retain(result, trackID: trackID)
                 }
             }
             return Task.isCancelled ? nil : result

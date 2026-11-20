@@ -160,9 +160,10 @@ private enum StoreAccessProductID: String, CaseIterable {
 
     public func beginPerformance(controllerInput: Bool = false, now: Date = Date()) {
         clockNow = now
+        let changed = performanceStartedAt == nil || (controllerInput && controllerStartedAt == nil)
         if performanceStartedAt == nil { performanceStartedAt = now }
         if controllerInput && controllerStartedAt == nil { controllerStartedAt = now }
-        persistPerformance()
+        if changed { persistPerformance() }
         startPerformanceClock()
     }
 

@@ -57,6 +57,8 @@ extension ReplicaModel {
                 self, selector: #selector(changed), name: UIDevice.batteryStateDidChangeNotification, object: nil)
             center.addObserver(
                 self, selector: #selector(changed), name: ProcessInfo.thermalStateDidChangeNotification, object: nil)
+            center.addObserver(
+                self, selector: #selector(memoryWarning), name: UIApplication.didReceiveMemoryWarningNotification, object: nil)
             refresh()
         }
 
@@ -64,6 +66,13 @@ extension ReplicaModel {
 
         @objc private nonisolated func changed() {
             Task { @MainActor [weak self] in self?.refresh() }
+        }
+
+        @objc private nonisolated func memoryWarning() {
+            Task {
+                await BandWaveforms.shared.trimCache()
+                await WaveformIndexes.shared.trimCache()
+            }
         }
 
         static var current: LibraryAnalysisConditions {
