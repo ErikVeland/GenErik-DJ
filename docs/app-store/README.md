@@ -50,7 +50,7 @@ Pricing, availability and review assets are pending for all products.
 
 Both platform drafts are in Prepare for Submission.
 
-On 20 November 2026, App Store Connect showed both agreements as Active and Data Not Collected as published. Erik confirmed that the developer and vendors cannot access private music or CloudKit records outside users' apps and Apple accounts. China mainland remains enabled, with the ICP Filing Number section at Set Up. The corrected licence-notice asset is ready for publication. The Shared Location and Dating and Relationships answers are saved as No, with a calculated rating of 4+. Content Rights remains saved as No; the proposed Yes answer is not saved. See the [compliance readiness record](compliance-readiness.md) and [China ICP filing guide](china-icp-filing.md).
+On 20 November 2026, App Store Connect showed both agreements as Active and Data Not Collected as published. Erik confirmed that the developer and vendors cannot access private music or CloudKit records outside users' apps and Apple accounts. China mainland remains enabled, with the ICP Filing Number section at Set Up. Shared Location and Dating and Relationships are saved as No, with a calculated rating of 4+. Content Rights is saved as Yes after Erik confirmed the rights basis for user-owned local music. The corrected licence notice is built, but publication is pending because the configured SSH host alias is unavailable. See the [compliance readiness record](compliance-readiness.md) and [China ICP filing guide](china-icp-filing.md).
 
 ## References
 
