@@ -46,7 +46,7 @@ Independent ffprobe/ffmpeg checks recover the PNG artwork, Unicode title and ful
 
 The first independent ID3 check rejected the empty lyrics-description field without a UTF-16 byte-order marker. Adding that marker fixed the cross-reader failure. Both initial failures and passing results are retained under `TestBuilds/r510`, with output files, a reproducible independent-check script and source hashes. The website build and 358-target link check also pass.
 
-Combined build 233 passed compilation and signing. Three device-service failures blocked installation. Physical share-sheet checks and sustained-performance acceptance remain open. AIFF size-limit errors direct the user to lossless ALAC. R506 reserves 16 MiB for metadata before recording rollover.
+Combined build 233 passed compilation and signing. It installed after Mac device-service recovery, and iPadOS accepted launch. Physical share-sheet checks and sustained-performance acceptance remain open. AIFF size-limit errors direct the user to lossless ALAC. R506 reserves 16 MiB for metadata before recording rollover.
 
 ### Combined handover
 

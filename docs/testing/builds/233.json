@@ -11,7 +11,7 @@
   "build": 233,
   "app": "TestBuilds/ipad/233/GenErikDJ.app",
   "appSHA256": "2126796a81e94ab3da9ee67d5c20dd0cfda02395cff8cd47938f60ba7cbf385b",
-  "state": "ready",
+  "state": "testing",
   "createdUTC": "2026-11-20T08:31:06.279403+00:00",
   "verification": {
     "interfaceTests": 34,
@@ -44,7 +44,30 @@
       "recordedUTC": "2026-11-20T08:33:25.127927+00:00",
       "error": "CoreDevice failed to allocate RSD device (0xE8000003).",
       "installTimeoutSeconds": 60
+    },
+    {
+      "result": "failed",
+      "toolchain": "Xcode",
+      "log": "TestBuilds/r506/ipad-deploy-reconnected.log",
+      "recordedUTC": "2026-11-20T08:41:01.484631+00:00",
+      "installTimeoutSeconds": 60,
+      "error": "CoreDevice failed to allocate RSD device (0xE8000003) after the user reconnected and unlocked the iPad."
+    },
+    {
+      "result": "installed-and-launch-accepted",
+      "toolchain": "Xcode",
+      "log": "TestBuilds/r506/ipad-deploy-service-restarted.log",
+      "recordedUTC": "2026-11-20T08:43:37.436109+00:00",
+      "installTimeoutSeconds": 60
     }
   ],
-  "installationBlockedBy": "Apple device connection. The iPad is listed as connected. Erik was asked to unlock it and reconnect USB."
+  "installedUTC": "2026-11-20T08:43:36.815277+00:00",
+  "launchedUTC": "2026-11-20T08:43:37.435347+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "connectionRecovery": "Paused the R156 transfer coordinators, restarted the user-owned CoreDeviceService, and confirmed an unlocked connection. Installed and launched the same signed build. Resumed both coordinators without removing analysis results. No further device actions.",
+  "connectionEvidence": [
+    "TestBuilds/r506/devices-reconnected.json",
+    "TestBuilds/r506/coredevice-service.log",
+    "TestBuilds/r506/lock-state-after-service-restart.json"
+  ]
 }
