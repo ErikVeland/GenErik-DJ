@@ -4,7 +4,7 @@
 
 **R501 App Store legal pages:** The public terms and credits pages load. The linked licence notices include development cache content that needs comparison with the final binaries. [Readiness record](../app-store/compliance-readiness.md).
 
-**R502 App Store compliance:** Erik confirmed the private CloudKit access model and that music comes only from each user's local library. The published Data Not Collected answer is consistent with that access model. Shared Location and Dating and Relationships are saved as No, with a 4+ rating. Content Rights remains saved as No, pending review of the proposed Yes answer. China mainland is enabled, but its ICP Filing Number section is still at Set Up. [Readiness record](../app-store/compliance-readiness.md).
+**R502 App Store compliance:** Erik confirmed the private CloudKit access model and that music comes only from each user's local library. The published Data Not Collected answer is consistent with that access model. Shared Location and Dating and Relationships are saved as No, with a 4+ rating. Content Rights is saved as Yes. China mainland is enabled, but its ICP Filing Number section is still at Set Up. The corrected notice passed the site check, but deployment awaits the `glasscode` SSH host configuration. [Readiness record](../app-store/compliance-readiness.md).
 
 **R503 China filing:** Prepared an MIIT filing guide with GenErik DJ's app details. Erik must confirm eligibility with a filing provider and complete real-name identity checks. The filing number is still required before China mainland distribution. [Guide](../app-store/china-icp-filing.md).
 
