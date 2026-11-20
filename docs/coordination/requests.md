@@ -6,6 +6,7 @@ Every request ID is retained. “Implemented” describes source availability, n
 
 | ID | Priority | Request | Current state and remaining work |
 | --- | --- | --- | --- |
+| R507 | Website copy corrected; publication open | Present four decks as an implemented core feature | Use “Add C and D when you need them”. Lead with “Simple when you want it. Complex when you need it.” Remove feature-preview and four-deck-trial claims from public copy. Site build and link checks pass. Publication remains open. |
 | R01 | First | Continuous, clean audio during real performance | Primary acceptance requirement, reinforced by R49. Any gap or dropout blocks acceptance. Current-source A10X listening and sustained stress remain open. |
 | R02 | First | Keep the TDJ1 touch-first workflow | Touch workflow implemented. Physical gesture equivalence remains open. |
 | R03 | First | Persistent Sync and audible waveform manipulation | Sync and waveform transport corrections included. Verify interaction edges on hardware. |
