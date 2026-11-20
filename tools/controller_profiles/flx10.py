@@ -1,5 +1,6 @@
 """FLX10 core facts from the factory message list and function diagram."""
 from curated import BASE, add, profile
+from pioneer_pad_clears import add_pioneer_pad_clears
 
 FLX10_TABLE = BASE + "dj-controllers/DDJ-FLX10/DDJ-FLX10_MIDI_Message_List_E1.pdf"
 FLX10_DIAGRAM = BASE + "dj-controllers/DDJ-FLX10/DDJ-FLX10_HardwareDiagram_rekordbox_E1.pdf"
@@ -56,4 +57,4 @@ def flx10_profiles():
     for action, number in [("crossfader", 31), ("master", 8), ("cueMix", 12), ("monitor", 13)]:
         add(result, action, 6, number, "control", "paired14Bit")
     add(result, "browse", 6, 64, "control", "twosComplement")
-    return [result]
+    return [add_pioneer_pad_clears(result)]

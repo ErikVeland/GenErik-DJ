@@ -49,7 +49,7 @@ import Testing
 
 @Test @MainActor func ddjREV1InputProfileUsesPublishedDeckChannelsAndControlEncodings() throws {
     let bindings = ControllerMIDIConnection.ddjREV1Bindings(source: 42)
-    #expect(bindings.count == 57)
+    #expect(bindings.count == 105)
     #expect(bindings.allSatisfy { $0.source == 42 && $0.group == 0 && $0.shifted == false })
 
     func first(_ action: ControllerAction) throws -> ControllerBinding {
@@ -81,11 +81,11 @@ import Testing
     let wheelJog = bindings.filter { $0.action == .wheelJogA }
     #expect(wheelJog.map(\.number) == [33, 38])
     #expect(
-        bindings.filter { $0.action.hotcueSlot != nil && $0.action.deck == .a }.map { ($0.channel, $0.number) }.map {
+        bindings.filter { $0.releaseOnly != true && $0.action.hotcueSlot != nil && $0.action.deck == .a }.map { ($0.channel, $0.number) }.map {
             "\($0.0):\($0.1)"
         } == (0..<8).map { "7:\($0)" })
     #expect(
-        bindings.filter { $0.action.hotcueSlot != nil && $0.action.deck == .b }.map { ($0.channel, $0.number) }.map {
+        bindings.filter { $0.releaseOnly != true && $0.action.hotcueSlot != nil && $0.action.deck == .b }.map { ($0.channel, $0.number) }.map {
             "\($0.0):\($0.1)"
         } == (0..<8).map { "9:\($0)" })
 }
@@ -109,7 +109,7 @@ import Testing
 
 @Test @MainActor func ddjFLX10InputProfileUsesPublishedFourDeckChannelsAndEncodings() throws {
     let bindings = ControllerMIDIConnection.ddjFLX10Bindings(source: 44)
-    #expect(bindings.count == 145)
+    #expect(bindings.count == 241)
     #expect(bindings.allSatisfy { $0.source == 44 && $0.group == 0 })
     for (channel, deck) in DeckID.allCases.enumerated() {
         let scoped = bindings.filter { $0.targetDeck == deck }
@@ -119,7 +119,7 @@ import Testing
         #expect(scoped.contains { [.loopInOrHalveA, .loopInOrHalveB].contains($0.action) && $0.number == 16 })
         #expect(scoped.contains { [.loopOutOrDoubleA, .loopOutOrDoubleB].contains($0.action) && $0.number == 17 })
         #expect(scoped.contains { [.toggleFixedLoopA, .toggleFixedLoopB].contains($0.action) && $0.argument == 4 })
-        let pads = scoped.filter { $0.action.hotcueSlot != nil }
+        let pads = scoped.filter { $0.action.hotcueSlot != nil && $0.releaseOnly != true }
         #expect(pads.map(\.channel) == Array(repeating: UInt8(7 + channel * 2), count: 8))
         #expect(pads.map(\.number) == (0..<8).map { UInt8($0) })
         #expect(scoped.contains { [.jogA, .jogB].contains($0.action) && $0.number == 34 && $0.mode == .binaryOffset })
@@ -132,7 +132,7 @@ import Testing
 
 @Test @MainActor func ddjREV5InputProfileUsesPublishedTwoDeckChannelsAndEncodings() throws {
     let bindings = ControllerMIDIConnection.ddjREV5Bindings(source: 43)
-    #expect(bindings.count == 63)
+    #expect(bindings.count == 111)
     #expect(bindings.allSatisfy { $0.source == 43 && $0.group == 0 })
 
     func first(_ action: ControllerAction) throws -> ControllerBinding {
@@ -167,11 +167,11 @@ import Testing
     #expect(bindings.filter { $0.action == .wheelJogB }.map(\.number) == [33, 38])
     #expect(bindings.filter { $0.action == .wheelJogB && $0.isShifted }.map(\.number) == [38])
     #expect(
-        bindings.filter { $0.action.hotcueSlot != nil && $0.action.deck == .a }.map { "\($0.channel):\($0.number)" }
+        bindings.filter { $0.releaseOnly != true && $0.action.hotcueSlot != nil && $0.action.deck == .a }.map { "\($0.channel):\($0.number)" }
             == (0..<8).map { "7:\($0)" })
     #expect(
-        bindings.filter { $0.action.hotcueSlot != nil && $0.action.deck == .b }.map { "\($0.channel):\($0.number)" }
-            == (0..<8).map { "8:\($0)" })
+        bindings.filter { $0.releaseOnly != true && $0.action.hotcueSlot != nil && $0.action.deck == .b }.map { "\($0.channel):\($0.number)" }
+            == (0..<8).map { "9:\($0)" })
 }
 
 @Test @MainActor func ddjREV5FeedbackProfileUsesPublishedStatusAndPadMessages() {
@@ -187,7 +187,7 @@ import Testing
     #expect(bindings.first { $0.action == .syncB }?.channel == 1)
     #expect(bindings.first { $0.action == .syncB }?.number == 9)
     let hotcueB = bindings.filter { $0.action.hotcueSlot != nil && $0.action.deck == .b }
-    #expect(hotcueB.map(\.channel) == Array(repeating: 8, count: 8))
+    #expect(hotcueB.map(\.channel) == Array(repeating: 9, count: 8))
     #expect(hotcueB.map(\.number) == (0..<8).map { UInt8($0) })
 }
 

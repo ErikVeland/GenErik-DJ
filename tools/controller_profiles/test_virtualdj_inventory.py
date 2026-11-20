@@ -28,13 +28,19 @@ class VirtualDJInventoryTests(unittest.TestCase):
                 evidence = by[canonical(name)]['comparisonSupport']['virtualDJ']
                 self.assertEqual(evidence['sourceName'], row['sourceName'])
                 self.assertEqual(evidence['category'], row['category'])
-        for name in ['AlphaTheta DJM-V5', 'Roland DJ-808', 'Numark NS7 III']:
+        for name, implementation in [('AlphaTheta DJM-V5', 'protocol-needed'), ('Roland DJ-808', 'partial-midi-profile'),
+                                     ('Numark NS7 III', 'partial-midi-profile')]:
             model = by[canonical(name)]
-            self.assertEqual(model['implementation'], 'protocol-needed')
+            self.assertEqual(model['implementation'], implementation)
             self.assertFalse(model['zeroConfig']['automaticControls'] or model['theoreticalSupport']['complete'])
         soundcards = [by[canonical(r['name'])] for r in source['rows'] if r['category'] == 'Sound cards']
         self.assertEqual(len(soundcards), 18)
-        self.assertTrue(all('Audio interface or DVS kit.' in ' '.join(m['gaps']) for m in soundcards if m['implementation'] == 'protocol-needed'))
+        for model in soundcards:
+            if model.get('audioOutputSupport'):
+                self.assertEqual(model['role'],'audio-output-interface')
+                self.assertFalse(model['zeroConfig']['automaticControls'])
+            elif model['implementation'] == 'protocol-needed':
+                self.assertIn('Audio interface or DVS kit.',' '.join(model['gaps']))
         self.assertEqual(catalogue['virtualDJRows'], source['rows'])
         self.assertFalse(catalogue['releaseGate']['manufacturerAuditComplete'])
 

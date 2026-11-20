@@ -47,7 +47,7 @@ private let seratoPioneerNames = ["DDJ-1000SRT", "DDJ-SZ2", "DDJ-SZ", "XDJ-RX2"]
             input.onTargetAction = { target, _ in targets.append(target) }
             for (channel, deck) in zip(UInt8(0)..<4, DeckID.allCases) {
                 let club = name == "XDJ-RX2"
-                let pad = club ? 5 + channel : 7 + (name == "DDJ-1000SRT" ? 2 * channel : channel)
+                let pad = club ? 5 + channel : 7 + channel
                 seratoPioneerPacket([0x90 | channel, club ? 0 : 11, 127, 0x90 | pad, 7, 127], to: input)
                 seratoPioneerPacket(club ? [0x90 | channel, 81, 127] : [0x96, 70 + channel, 127], to: input)
                 let actions: [ControllerAction] =
@@ -131,4 +131,30 @@ private let seratoPioneerNames = ["DDJ-1000SRT", "DDJ-SZ2", "DDJ-SZ", "XDJ-RX2"]
         #expect(model.playbackSnapshot?.b.loopEnabled == false)
         #expect(model.performance.loopBeats(for: .b) == 4)
     }
+}
+
+@Test @MainActor func controllerSeratoPioneerSRTUsesOwnConsecutivePadChannelsWithoutDDJ1000Aliases() throws {
+    withSeratoPioneer("DDJ-1000SRT") { input in
+        var targets: [ControllerActionTarget] = []
+        input.onTargetAction = { target, _ in targets.append(target) }
+        for (channel, deck) in zip(UInt8(7)...10, DeckID.allCases) {
+            for slot: UInt8 in 0..<8 {
+                targets.removeAll()
+                seratoPioneerPacket([0x90 + channel, slot, 127, slot, 0], to: input)
+                #expect(targets.count == 1)
+                #expect(targets.first?.action.hotcueSlot == Int(slot))
+                #expect(targets.first?.deck == deck)
+            }
+        }
+        targets.removeAll()
+        for channel: UInt8 in 11..<16 {
+            for slot: UInt8 in 0..<8 {
+                seratoPioneerPacket([0x90 + channel, slot, 127, slot, 0], to: input)
+            }
+        }
+        #expect(targets.isEmpty)
+    }
+    let bindings = ControllerFactoryProfile.ddj1000.bindings(source: 10)
+    #expect(bindings.contains { $0.action == .hotcue1B && $0.targetDeck == .b && $0.channel == 9 && $0.releaseOnly != true })
+    #expect(bindings.contains { $0.action == .hotcue1A && $0.targetDeck == .c && $0.channel == 11 && $0.releaseOnly != true })
 }

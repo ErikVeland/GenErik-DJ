@@ -29,7 +29,9 @@ import Testing
         let profile = try #require(ControllerFactoryProfile.matching([name], automaticOnly: true))
         #expect(profile.definition?.startup.first == [240, 0, 2, 11, 127, 1, 96, 0, 4, 4, 1, 0, 0, 247])
         #expect(
-            profile.feedback(destination: 20).allSatisfy { $0.kind == .note && $0.onValue == 127 && $0.offValue == 0 })
+            profile.feedback(destination: 20).allSatisfy {
+                $0.kind == .note && $0.onValue == ($0.action.hotcueSlot == nil ? 127 : 1) && $0.offValue == 0
+            })
     }
     withMC4000 { input in
         var received: [ControllerActionTarget] = []
@@ -70,14 +72,14 @@ import Testing
     }
 }
 
-@Test @MainActor func controllerCatalogueMC4000RejectsUnsupportedPadsAndReleasesHeldTouch() {
+@Test @MainActor func controllerCatalogueMC4000SeparatesHotCuesFromUnsupportedPadModesAndReleasesHeldTouch() {
     withMC4000 { input in
         var received: [(ControllerAction, Double)] = []
         input.onAction = { action, value in received.append((action, value)) }
         mc4000Packet(
-            [0x94, 20, 127, 0x9A, 127, 127, 0x94, 20, 127, 0x90, 11, 127, 6, 127, 0x9F, 50, 127, 0x80, 6, 0], to: input)
-        #expect(received.map(\.0) == [.jogTouchA, .jogTouchA])
-        #expect(received.map(\.1) == [1, 0])
+            [0x94, 20, 127, 0x9A, 127, 127, 0x94, 20, 127, 0x90, 10, 127, 6, 127, 0x9F, 50, 127, 0x80, 6, 0], to: input)
+        #expect(received.map(\.0) == [.hotcue1A, .jogTouchA, .jogTouchA])
+        #expect(received.map(\.1) == [1, 1, 0])
         let sources = input.sources
         input.sources = []
         input.reconcileFactoryProfiles()
@@ -86,4 +88,58 @@ import Testing
         mc4000Packet([0x90, 0, 127], to: input)
         #expect(received.last?.0 == .playA)
     }
+}
+
+@Test @MainActor func controllerCatalogueMC4000BendsUseFactoryNotesAndBothAlternateReleaseForms() throws {
+    withMC4000 { input in
+        var events: [(ControllerActionTarget, Double)] = []
+        input.onTargetAction = { events.append(($0, $1)) }
+        for channel: UInt8 in [0, 1] {
+            for (number, alternate, action): (UInt8, UInt8, ControllerAction) in [
+                (12, 32, channel == 0 ? .pitchBendDownA : .pitchBendDownB),
+                (11, 33, channel == 0 ? .pitchBendUpA : .pitchBendUpB),
+            ] {
+                for off: UInt8 in [0x80, 0x90] {
+                    events.removeAll()
+                    mc4000Packet([0x90 + channel, number, 127, number, 127, alternate, 127], to: input)
+                    input.receiveBytes([off + channel, alternate, off == 0x80 ? 127 : 0], source: 999)
+                    #expect(events.map(\.1) == [1])
+                    mc4000Packet([off + channel, alternate, off == 0x80 ? 127 : 0], to: input)
+                    #expect(events.map { $0.0.action } == [action, action])
+                    #expect(events.map(\.1) == [1, 0])
+                }
+            }
+        }
+    }
+}
+
+@Test @MainActor func controllerCatalogueMC4000ShiftedCueNegativeReleasesOnlyItsOwnHeldCue() {
+    withMC4000 { input in
+        var events: [(ControllerActionTarget, Double)] = []
+        input.onTargetAction = { events.append(($0, $1)) }
+        for channel: UInt8 in [0, 1] {
+            for off: UInt8 in [0x80, 0x90] {
+                events.removeAll()
+                mc4000Packet([0x90 + channel, 1, 127, 5, 127], to: input)
+                input.receiveBytes([off + channel, 5, off == 0x80 ? 127 : 0], source: 999)
+                #expect(events.map(\.1) == [1])
+                mc4000Packet([off + channel, 5, off == 0x80 ? 127 : 0], to: input)
+                #expect(
+                    events.map { $0.0.action } == Array(repeating: channel == 0 ? .cuePreviewA : .cuePreviewB, count: 2)
+                )
+                #expect(events.map(\.1) == [1, 0])
+            }
+        }
+    }
+}
+
+@Test @MainActor func controllerCatalogueMC4000HotCueFeedbackUsesOnlyBlueAndOffFactoryValues() throws {
+    let p = try #require(ControllerFactoryProfile.matching(["MC4000"]))
+    let leds = p.feedback(destination: 20).filter { $0.action.hotcueSlot != nil }
+    #expect(leds.count == 8)
+    for led in leds {
+        #expect(led.message(value: 1) == [0x90 + led.channel, led.number, 1])
+        #expect(led.message(value: 0) == [0x90 + led.channel, led.number, 0])
+    }
+    #expect(!p.feedback(destination: 20).contains { $0.action.clearHotcueSlot != nil })
 }

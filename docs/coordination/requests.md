@@ -723,4 +723,150 @@ Every request ID is retained. “Implemented” describes source availability, n
 
 | R430 | Four release screenshots uploaded and verified | Build the release candidate and capture iPhone, iPhone Duo, iPad and Mac screenshots | Signed archives for 1.0 (228) passed verification. Apple accepted one new screenshot per platform layout in the English (Australia) drafts. Release qualification remains open. [Build and placement record](../app-store/screenshots-r430/README.md). |
 
-| R431 | Release build 229 exported. iPhone capture blocked. | Rebuild with the R428 browser fix and replace the iPhone workspace-menu screenshot | Both signed archives and package exports passed. iPhone simulators stalled before app launch. The draft still shows the R430 image. [Build and capture record](../app-store/release-r431.md). |
+| R425 | Implemented; buttons/maps/audio/host gaps open | Add independent Xone1D/2D/4D Map2 axis contracts | Added18/19/35 manual numeric axis inputs with explicit native targets; no button or lamp bytes are guessed.318 source/8 native checks and iPad framework compilation pass. All342 earlier recipes remain identical. [Scope](controller-coverage.md#r425-independent-xone-map2-axis-contracts). |
+
+| R426 | Implemented; full modes/feedback/audio gaps open | Add independent NDX800/900 normal player cores | Added two10-input automatic player cores with own wire and manufacturer mode evidence.321 source/9 native checks and iPad framework compilation pass. Only900 uses its real selector69. All345 earlier recipes remain identical. [Scope](controller-coverage.md#r426-independent-ndx800-and-ndx900-player-cores). |
+
+| R427 | Implemented; full modes/audio/host gaps open | Add independent CDX6/MPCD-X3/CMP.800/DMC-1000 cores | Added66/66/66/68 inputs and8 lamps each. Synq has distinct documented USB names. Others require manual selection.323 source/13 native checks and iPad framework compilation pass. All347 earlier recipes remain identical. [Scope](controller-coverage.md#r427-independent-legacy-single-player-cores). |
+
+| R428 | Implemented; full modes/identity/audio gaps open | Add independent Beyond Music ABMA1/3 normal cores | Added55/58 manual inputs and12/14 lamps from separate factory members.325 source/9 native checks and iPad framework compilation pass. All351 earlier recipes remain identical. [Scope](controller-coverage.md#r428-independent-beyond-music-normal-cores). |
+
+| R429 | Implemented; full modes/identity/audio gaps open | Add independent JB Systems DJ KONTROL2/3 normal cores | Added two25-input manual cores from separate manufacturer TSI downloads.327 source/8 native checks and iPad framework compilation pass. All353 earlier recipes remain identical. [Scope](controller-coverage.md#r429-independent-jb-systems-kontrol2-and-kontrol3-cores). |
+
+| R430 | Public-source review recorded; numeric gaps open | Review remaining JB Systems primary downloads | Own KONTROL1 download links to an unavailable community mapping.3S guide has no numeric table. KONTROL4 serial2008 mapper is symbolic W1311/MD1311, without a device definition. Runtime remains unchanged. [Scope](controller-coverage.md#r430-remaining-jb-systems-primary-source-limits). |
+
+| R431 | Implemented; knobs/motion/feedback/lifecycle gaps open | Add native Orbit factory pad banks | Added64 automatic pad inputs from the manufacturer factory template.329 source/10 native checks and iPad framework compilation pass. All355 earlier recipes remain identical. [Scope](controller-coverage.md#r431-orbit-factory-pad-banks). |
+
+| R432 | Implemented; other presets/modes/feedback/lifecycle gaps open | Add independent MPD218 preset1 native contract | Added66 automatic factory-preset inputs:48 pads and18 knobs.331 source/11 native checks and iPad framework compilation pass. All356 earlier recipes remain identical. [Scope](controller-coverage.md#r432-independent-mpd218-chroma10-contract). |
+
+| R433 | Implemented; other presets/modes/feedback/lifecycle gaps open | Add independent MPD226/232 Bitwig-mode native cores | Added two100-input manual cores from separate manufacturer members.333 source/12 native checks and iPad framework compilation pass. All357 earlier recipes remain identical. [Scope](controller-coverage.md#r433-independent-mpd226-and-mpd232-bitwig-cores). |
+
+| R434 | Implemented; factory defaults/other modes/feedback/lifecycle gaps open | Add LPD8 MK2 published-preset accessory controls | Added16 manual inputs from the publisher Program1 reference.335 source/7 native checks and iPad framework compilation pass. All359 earlier recipes remain identical. [Scope](controller-coverage.md#r434-lpd8-mk2-published-program1-accessory). |
+
+| R435 | Implemented; outer buttons/other layouts/full lifecycle gaps open | Add independent Launchpad S native grid | Added64 automatic inputs/52 lamps from its own protocol manual.337 source/9 native checks and iPad framework compilation pass. All360 earlier recipes remain identical. [Scope](controller-coverage.md#r435-independent-launchpad-s-native-grid). |
+
+| R436 | Implemented; full modes/jog/pads/feedback/lifecycle gaps open | Add independent Roland DJ-202 normal MIDI core | Added110 manual inputs from its own hardware-owner XML/script.340 source/10 native checks and iPad framework compilation pass. All361 earlier recipes remain identical. [Scope](controller-coverage.md#r436-independent-roland-dj-202-normal-core). |
+
+| R437 | Implemented; other modes/motion/full feedback/lifecycle gaps open | Add independent MIDI Fighter 3D banked native core | Added64 manual inputs/52 optional lamps from separate maker protocol tables.343 source/10 native checks and iPad framework compilation pass. All362 earlier recipes remain identical. [Scope](controller-coverage.md#r437-independent-midi-fighter-3d-banked-native-core). |
+
+| R438 | Implemented; other outer controls/full lifecycle gaps open | Add independent original APC mini grid and faders | Added74 automatic inputs/52 lamps from its own hardware-owner facts.346 source/11 native checks and iPad framework compilation pass. All363 earlier recipes remain identical. [Scope](controller-coverage.md#r438-independent-original-apc-mini-grid-and-faders). |
+
+| R439 | Implemented; other modes/screens/full feedback/state-restoration gaps open | Add independent APC64 Session-mode native core | Added73 automatic inputs/52 lamps from primary Bitwig facts.348 source/14 native checks and iPad framework compilation pass. Own identity/mode gating and every shutdown-write failure are covered. All364 earlier recipes remain identical. [Scope](controller-coverage.md#r439-independent-apc64-session-mode-core). |
+
+| R440 | Implemented; other controls/modes/full lifecycle/state-restoration gaps open | Add independent APC20 mode2 native core | Added63 automatic inputs/48 lamps from own mode2 and QLC+ facts.351 source/11 native checks and iPad framework compilation pass. All365 earlier recipes remain identical. [Scope](controller-coverage.md#r440-independent-apc20-mode2-native-core). |
+
+| R441 | Implemented; jog/tempo/full modes/feedback/lifecycle/audio gaps open | Add independent Vestax VCI-380 documented MIDI core | Added44 automatic input rows from its own manufacturer table. Pads require explicit Hot Cue and shifted Sampler invalidates only its deck.353 source/17 native checks and iPad framework compilation pass. All366 earlier recipes remain identical. [Scope](controller-coverage.md#r441-independent-vci-380-documented-midi-core). |
+
+| R442 | Implemented; automatic/mixer/audio/full modes/feedback/lifecycle gaps open | Add independent Mixars QUATTRO owner performance subset | Added109 manual input rows from an independently pinned owner export and own manufacturer manual.356 source/10 native checks and iPad framework compilation pass. All367 earlier recipes remain identical. [Scope](controller-coverage.md#r442-independent-mixars-quattro-owner-performance-subset). |
+
+| R443 | Implemented; held Cue/full modes/paging/feedback/lifecycle gaps open | Add independent MIDIPLUS SmartPAD default Clip grid | Added60 automatic non-momentary Clip inputs from the own manufacturer manual and independent factory-owner grid.358 source/9 native checks and iPad framework compilation pass. All368 earlier recipes remain identical. [Scope](controller-coverage.md#r443-independent-smartpad-default-clip-grid). |
+
+| R444 | Implemented; automatic/audio/PFL/FX/lifecycle gaps open | Add independent Reloop KUT continuous MIDI subset | Added14 manual continuous mixer inputs from the own manufacturer chart. A narrow manual wildcard contract accepts documented Bn without guessing a fixed channel.360 source/11 native checks and iPad framework compilation pass. All369 earlier recipes remain identical. [Scope](controller-coverage.md#r444-independent-reloop-kut-continuous-midi-subset). |
+
+| R445 | Implemented; automatic/disputed controls/full modes/lifecycle/audio gaps open | Add independent Gemini PMX-20 documented MIDI core | Added76 manual inputs/40 optional lamps from the own manual and separately attributed technical table. Conflicting Load/browse addresses stay inactive.363 source/10 native checks and iPad framework compilation pass. All370 earlier recipes remain identical. [Scope](controller-coverage.md#r445-independent-pmx-20-documented-midi-core). |
+
+| R446 | Implemented; automatic/audio/encoders/full modes/lifecycle gaps open | Add independent Gemini PMX-10 manufacturer MIDI core | Added40 manual inputs/19 optional lamps from its own chart. CH1 PFL feedback and unspecified relative encoders stay inactive.365 source/9 native checks and iPad framework compilation pass. All371 earlier recipes remain identical. [Scope](controller-coverage.md#r446-independent-pmx-10-manufacturer-midi-core). |
+
+| R447 | Implemented; jog/tempo/feedback/hardware paging/lifecycle gaps open | Add independent original RMP-3 and RMP-2.5 Alpha preset player cores | Added two38-input automatic cores from separate manufacturer charts. Explicit shifted releases and source-owned player assignment pass across16 MIDI channels.367 source/10 native checks and iPad framework compilation pass. All372 earlier recipes remain identical. [Scope](controller-coverage.md#r447-independent-rmp-3-and-rmp-25-alpha-preset-cores). |
+
+| R448 | Implemented; automatic/jog/tempo/full modes/audio/lifecycle gaps open | Add independent Jockey 3 Remix manufacturer Track core | Added144 manual input rows/32 optional lamps from its own manual.369 source/10 native checks and iPad framework compilation pass. All374 earlier recipes remain identical. [Scope](controller-coverage.md#r448-independent-jockey-3-remix-track-core). |
+
+| R449 | Implemented; physical acceptance open | Preserve pad-mode guards for manual controller profiles | Initialises manual modes on apply/restore and preserves them across unrelated discovery.26 focused native tests and iPad framework compilation pass. All375 runtime recipes remain identical. [Scope](controller-coverage.md#r449-manual-profile-pad-mode-guards). |
+
+| R450 | Implemented; direct iPad/bridge/full modes/audio/lifecycle gaps open | Add independent DJ-707M bridge-only MIDI subset | Added107 manual input rows from its own manufacturer chart. Pads require explicit Hot Cue selection.371 source/11 native checks and iPad framework compilation pass. All375 earlier recipes remain identical. [Scope](controller-coverage.md#r450-independent-dj-707m-bridge-only-midi-subset). |
+
+| R451 | Implemented; jog/tempo/full modes/lifecycle/audio gaps open | Add independent original Akiyama QUARK core | Added164 automatic input rows/44 optional lamps from its own manufacturer table.373 source/10 native checks and iPad framework compilation pass. All376 earlier recipes remain identical. [Scope](controller-coverage.md#r451-independent-original-akiyama-quark-core). |
+
+| R452 | Implemented; physical/A10X timing open | Fit the controller catalogue inside existing resource limits | Bundled JSON decreases to2,051,892 bytes. All377 recipes and24,689 native bindings remain equivalent.375 source/40 native checks and iPad framework compilation pass. Existing limits stay unchanged. [Scope](controller-coverage.md#r452-compact-controller-resource-with-unchanged-limits). |
+
+| R453 | Implemented; encoder/USB/physical acceptance open | Add documented TRAKTOR AUDIO 2 MK2 audio output routing | The exact wired MK2 name selects Main1–2/Headphones3–4.377 source/16 native checks and iPad framework compilation pass. Both377-recipe resources remain identical. [Scope](controller-coverage.md#r453-traktor-audio-2-mk2-output-routing). |
+
+| R454 | Implemented; factory/Mix channels/jog/tempo/audio/lifecycle gaps open | Add independent Encore 2000 configured-channel core | Added68 manual input rows/6 optional lamps from its own manufacturer chart.379 source/11 native checks and iPad framework compilation pass. All377 earlier recipes remain identical. [Scope](controller-coverage.md#r454-independent-encore-2000-configured-channel-core). |
+
+| R455 | Implemented; full modes/audio/host/lifecycle gaps open | Add independent DDC-2000 factory Mode1/Hold core | Added211 automatic input rows/36 optional lamps from its own manual and manufacturer factory XML.381 source/14 native checks and iPad framework compilation pass. All378 earlier recipes remain identical. Factory Mode1/Hold only. [Scope](controller-coverage.md#r455-independent-ddc-2000-factory-mode1hold-core). |
+
+| R456 | Implemented; automatic/ownership/full modes/host gaps open | Add independent CMX-2000 native banked core | Added119 manual inputs and guarded shifted bank releases from own manufacturer manual and two factory mappings.383 source/32 native checks and iPad framework compilation pass. All379 earlier recipes remain identical. [Scope](controller-coverage.md#r456-independent-cmx-2000-native-banks). |
+
+| R457 | Implemented; revision/full modes/feedback/audio/host gaps open | Add independent Radius1000/3000 player cores | Added separate39-input2009/38-input2010 manual1000 profiles and an independent40-input automatic3000 core.385 source/20 native checks and iPad framework compilation pass. All380 earlier recipes remain identical. [Scope](controller-coverage.md#r457-independent-radius1000-revisions-and-radius3000). |
+
+| R458 | Implemented; automatic/host/audio/ownership gaps open | Add independent DV2 USB manual mixer core | Added16 manual inputs from the own manual and manufacturer-hosted Leo_V definition. The bounded n-channel mixer contract permits two explicit PFL buttons.387 source/17 native checks and iPad framework compilation pass. All383 earlier recipes remain identical. [Scope](controller-coverage.md#r458-independent-dv2-usb-manual-mixer). |
+
+| R459 | Implemented; motion/full modes/audio/host gaps open | Add independent DJinn player and Mode3 mixer cores | Added64 automatic common-player inputs and a separate90-input manual Mode3 layout, each with14 optional lamps.389 source/13 native checks and iPad framework compilation pass. All384 earlier recipes remain identical. [Scope](controller-coverage.md#r459-independent-djinn-players-and-manual-mode3-mixer). |
+
+| R460 | Implemented; full modes/audio/host gaps open | Add independent DJazz Pro and DJam Ultimate factory cores | Added211 automatic DJazz inputs and157 automatic DJam player inputs, plus a separate213-input manual DJam mixer. Preserved own150/800 jog scales.391 source/16 native checks and iPad framework compilation pass. All386 earlier recipes remain identical. [Scope](controller-coverage.md#r460-independent-djazz-pro-and-djam-ultimate-factories). |
+
+| R461 | Implemented; bank/motion/audio/host gaps open | Add original Audiophony PLAY manual note core | Added eight own-manual buttons for native deck A, with source-owned RELAY cleanup.393 source/10 native checks and iPad framework compilation pass. All389 earlier recipes remain identical. [Scope](controller-coverage.md#r461-original-audiophony-play-manual-note-core). |
+
+| R462 | Audited; external audio/DVS implementation open | Qualify PTB-2 and Xone:23C as external audio mixers | Recorded own4x4 audio requirements and confirmed that their own controls send no MIDI. Kept X:Link passthrough separate.395 source checks pass; both runtime resources remain byte-identical to R461. [Scope](controller-coverage.md#r462-external-audio-mixers-are-not-midi-controllers). |
+
+| R463 | Implemented; full controls/audio/host gaps open | Add independent Xone:43C fader/Cue-state subset | Added eight own-manual inputs on channel16: four faders and four direct Cue states.397 source/10 native checks and iPad framework compilation pass. All390 earlier recipes remain identical. [Scope](controller-coverage.md#r463-independent-xone43c-faders-and-cue-states). |
+
+| R464 | Implemented; motors/full controls/audio/host gaps open | Add owner-probed NS7III EQ subset | Added12 owner-reported probed EQ addresses as a manual7-bit coarse subset.399 source/9 native checks and iPad framework compilation pass. All391 earlier recipes remain identical. [Scope](controller-coverage.md#r464-owner-reported-ns7iii-eq-subset). |
+
+| R465 | Implemented; modes/motion/feedback/audio/host gaps open | Add original i-Mix normal MIDI core | Added31 manual normal inputs from intact own-model publisher data.402 source/12 native checks and iPad framework compilation pass. All392 earlier recipes remain identical. [Scope](controller-coverage.md#r465-original-i-mix-normal-core-from-intact-publisher-data). |
+
+| R466 | Implemented; automatic/full modes/audio/host gaps open | Add bounded manual ABMA4/KONTROL1 cores from public publisher definitions | Added two manual33-input cores from the explicitly paired own-model publisher definition.405 source/14 native checks and iPad framework compilation pass. All393 earlier recipes remain identical. [Scope](controller-coverage.md#r466-publisher-paired-abma4-and-dj-kontrol1-cores). |
+
+| R467 | Implemented; full player/modes/audio/host gaps open | Add independent G4V normal mixer subset | Added24 manual owner-chart mixer positions.407 source/9 native checks and iPad framework compilation pass. All395 earlier recipes remain identical. [Scope](controller-coverage.md#r467-independent-g4v-owner-chart-mixer). |
+
+| R468 | Implemented; complete modes/feedback/audio/host gaps open | Expand G4V with independent primary native bank facts | Expanded to39 manual inputs with native A/C and B/D banks.408 source/14 native checks and iPad framework compilation pass. All395 other recipes and24 earlier G4V mixer rows remain identical. [Scope](controller-coverage.md#r468-g4v-primary-author-manual-banks). |
+
+| R469 | Implemented; driver/full modes/feedback/audio/host gaps open | Add independent DJ-808 normal MIDI subset | Added113 manual own-model inputs.411 source/13 native checks and iPad framework compilation pass. All396 earlier recipes remain identical. [Scope](controller-coverage.md#r469-independent-dj-808-normal-midi-core). |
+
+| R470 | Implemented; full modes/global channels/audio/host gaps open | Add independent manufacturer Dragon Two and 4MIX Pitch normal cores | Added220/164 manual explicit-channel inputs from separate manufacturer archives.414 source/13 native checks and iPad framework compilation pass. All397 earlier recipes remain identical. [Scope](controller-coverage.md#r470-manufacturer-dragon-two-and-4mix-pitch-cores). |
+
+| R471 | Implemented; full modes/HID/feedback/audio/host gaps open | Add independent GMX MIDI core | Added46 manual independent MIDI inputs.417 source/12 native checks and iPad framework compilation pass. All399 earlier recipes remain identical. [Scope](controller-coverage.md#r471-independent-gmx-midi-core). |
+
+| R472 | Audited; conflicting pads/modes remain open | Review the separate GMX pad contribution | Recorded two numeric/mode conflicts in open PR2. No runtime support inferred.417 source checks pass; both runtime resources and catalogue JSON remain byte-identical to R471. [Scope](controller-coverage.md#r472-gmx-pad-contribution-conflicts). |
+
+| R473 | Implemented; full feedback/lifecycle/physical gaps open | Add explicit steady lamps to Dragon Two, 4MIX and GMX | Added68 optional steady lamps.419 source/24 native checks and iPad framework compilation pass. All400 input layouts and397 other recipes remain identical. [Scope](controller-coverage.md#r473-explicit-steady-legacy-lamps). |
+
+| R474 | Implemented; full controls/channel/audio/host gaps open | Add own DAP D2 core and distinct Cue Stop | Added33 manual own-manual inputs.422 source/23 native checks and iPad framework compilation pass. All400 earlier recipes remain identical. [Scope](controller-coverage.md#r474-own-dap-d2-core-and-distinct-cue-stop). |
+
+| R475 | Implemented; full modes/mixer/host gaps open | Add independent CDMP-7000 owner player core | Added13 manual raw0 player inputs.425 source/11 native checks and iPad framework compilation pass. All401 earlier recipes remain identical. [Scope](controller-coverage.md#r475-independent-cdmp-7000-owner-player-core). |
+
+| R476 | Implemented; full modes/Cue/mixer/host gaps open | Add independent original Seventy-Two unconditional input subset | Added seven manual own-author inputs.428 source/10 native checks and iPad framework compilation pass. All402 earlier recipes remain identical. [Scope](controller-coverage.md#r476-original-seventy-two-unconditional-owner-subset). |
+
+| R477 | Implemented; full modes/motion/host gaps open | Add independent MDJ-900 core and native Hot Cue clearing | Added23 manual own-model inputs and16 native marker-clear actions.431 source/12 native checks and iPad framework compilation pass. All403 earlier recipes remain identical. [Scope](controller-coverage.md#r477-independent-mdj-900-and-native-hot-cue-clearing). |
+
+| R478 | Implemented; full modes/physical gaps open | Reuse native Hot Cue clearing on13 independently mapped profiles | Added130 own-source dedicated clear inputs.434 source/81 native checks and iPad framework compilation pass. All earlier inputs and391 other recipes remain unchanged. [Scope](controller-coverage.md#r478-reviewed-hot-cue-clear-opcodes). |
+
+| R479 | Implemented; full modes/physical gaps open | Add own-source clear pairs for DDJ-SB3, Terminal Mix2/4 and Jogvision | Added80 direct clear inputs and160 paired negative guards.437 source/27 native checks and iPad framework compilation pass.401 other recipes remain identical. [Scope](controller-coverage.md#r479-independent-hot-cue-pairs-on-three-controller-families). |
+
+| R480 | Implemented; complete modes/host gaps open | Complete the documented MC4000 Hot Cue subset and temporary bend edges | Added42 factory inputs and eight blue/off pad LEDs.440 source/15 native checks and iPad framework compilation pass.403 other recipes remain identical. [Scope](controller-coverage.md#r480-mc4000-factory-pads-temporary-bends-and-cue-release). |
+
+| R481 | Implemented; complete modes/host gaps open | Add an independent original MDJ-1000 manual player core | Added58 own-source manual inputs.443 source/14 native checks and iPad framework compilation pass. All404 earlier recipes remain identical. Owner thesis PDF/hash/visual-table evidence remains unavailable. [Scope](controller-coverage.md#r481-original-mdj-1000-owner-protocol-subset). |
+
+| R482 | Implemented; physical edge capture open | Rearm the first13 clear profiles when Shift changes before release | Added130 inverse negative aliases.444 source/82 native checks and iPad framework compilation pass. Positive roles and392 other recipes remain identical. The new regression reproduced the fault before the fix. [Scope](controller-coverage.md#r482-clear-release-after-hardware-shift-changes). |
+
+| R483 | Implemented; full modes/physical gaps open | Add manufacturer-qualified NEON Hot Cue clears | Added32 clears and32 inverse negative aliases.446 source/14 native checks and iPad framework compilation pass. Existing96 inputs and404 other recipes remain identical. [Scope](controller-coverage.md#r483-neon-first-layer-hot-cue-clears). |
+
+| R484 | Reviewed; bin-state protocol remains open | Correct QUARK Shift/Smart Cue provenance | Corrected the clear-wire label. All405 recipes retain their controls. Two targeted source/five native checks and iPad framework compilation pass. [Scope](controller-coverage.md#r484-quark-shift-is-not-a-clear-opcode). |
+
+| R485 | Implemented; full modes/physical gaps open | Add CMD STUDIO4a held-DEL Hot Cue clearing | Added32 clears behind the existing side-specific DEL hold.449 source/13 native checks and iPad framework compilation pass. Earlier124 inputs and404 other recipes remain identical. [Scope](controller-coverage.md#r485-studio4a-held-del-clearing). |
+
+| R486 | Implemented; full modes/physical gaps open | Add own-source clearing to built-in FLX4 and DDJ-400 profiles | Added16 clears and32 paired negative aliases per model.450 source/37 native checks and iPad framework compilation pass. All405 JSON recipes remain byte-identical. [Scope](controller-coverage.md#r486-built-in-flx4-and-ddj-400-clears). |
+
+| R487 | Implemented; full modes/physical gaps open | Add independent FLX2 Hot Cue clear pairs | Added16 clears and32 negative aliases from its own E1 table and manufacturer hardware diagram.451 source/37 native checks and iPad framework compilation pass. Other built-ins and all405 JSON recipes remain unchanged. [Scope](controller-coverage.md#r487-independent-flx2-clear-pairs). |
+
+| R488 | Corrected; physical acceptance open | Correct REV5 right-deck Hot Cue input and feedback channels | Corrected eight input/eight output channels after reproducing the fault.451 source/38 native checks and iPad framework compilation pass. All405 JSON recipes remain identical. [Scope](controller-coverage.md#r488-rev5-right-deck-pad-channel-correction). |
+
+| R489 | Implemented; complete modes/physical gaps open | Add independent REV1 and REV5 Hot Cue clear pairs | Added16 clears and32 negative aliases per model.451 source/38 native checks and iPad framework compilation pass. All405 JSON recipes remain byte-identical. [Scope](controller-coverage.md#r489-independent-rev1-and-rev5-clears). |
+
+| R490 | Implemented; full pages/physical gaps open | Add own-manufacturer FLX10 and DDJ-1000 first-page clear pairs | Added32 clears and64 negative aliases per model.454 source/60 native checks and iPad framework compilation pass.403 other recipes remain identical. [Scope](controller-coverage.md#r490-flx10-and-original-ddj-1000-first-page-clears). |
+
+| R491 | Audited; numeric mapping access/ambiguities remain open | Review additional public libraries and ELITE/SX1 leads | Pinned public resources without execution or protected-data decoding. ELITE owner download requires sign-in. All runtime/catalogue bytes remain identical. [Scope](controller-coverage.md#r491-additional-public-mapping-libraries-and-elitesx1-leads). |
+
+| R492 | Implemented; full modes/physical gaps open | Add independent DDJ-200 and DDJ-RB clears | Added16 clears and32 negative aliases per model.456 source/69 native checks and iPad framework compilation pass.403 other recipes remain identical. [Scope](controller-coverage.md#r492-independent-ddj-200-and-ddj-rb-clears). |
+
+| R493 | Corrected; physical acceptance open | Correct own DDJ-1000SRT pad channel assignment | Corrected24 input channel fields after57 failed regression expectations.457 source/18 native checks and iPad framework compilation pass.404 other recipes remain identical. [Scope](controller-coverage.md#r493-own-ddj-1000srt-pad-channel-correction). |
+
+| R494 | Implemented; full modes/physical gaps open | Add own-table clears to original SX, RX, RZ and RZX | Added128 clears and256 negative aliases.459 source/23 native checks and iPad framework compilation pass.401 other recipes remain identical. [Scope](controller-coverage.md#r494-own-table-sx-rx-rz-and-rzx-clears). |
+
+| R495 | Implemented; motor/host/physical gaps open | Recover own Twelve MKII MIDI accessory controls | Added124 manual input-only bindings from the archived NI mapping.462 source/22 native checks and iPad framework compilation pass.405 earlier recipes remain identical. [Scope](controller-coverage.md#r495-recovered-twelve-mkii-midi-accessory-subset). |
+
+| R496 | Implemented; protocol gaps remain open | Inspect public NI factory documents and guard legacy TSI conditions | Read297 preset documents without installation. Confirmed the exact Twelve MKII mapping. Older condition layouts stay unknown.465 source checks pass. Runtime resources remain identical. [Scope](controller-coverage.md#r496-published-ni-factory-documents-and-legacy-condition-guard). |
+
+| R497 | Reviewed; protocol gaps remain open | Inspect archived Deckadance preset documents | Verified the archived publisher payload and14 documents. The MIDI template has no assigned wires. Runtime and catalogue JSON remain identical. [Scope](controller-coverage.md#r497-archived-deckadance-preset-documents). |
+
+| R498 | Reviewed; protocol gaps remain open | Inspect public Cross DJ and UltraMixer mapping resources | Read103 plain UltraMixer mapping/config documents without running the app. Cross DJ Free exposes no standalone mapping document. Runtime/catalogue JSON stay identical. [Scope](controller-coverage.md#r498-public-cross-dj-and-ultramixer-resources). |

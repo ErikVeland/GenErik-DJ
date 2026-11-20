@@ -26,7 +26,7 @@ import Testing
     let profile = try #require(
         ControllerFactoryProfile.matching(["Hercules DJControl Inpulse 300"], automaticOnly: true))
     let data = try #require(profile.definition)
-    #expect(data.inputs.count == 102 && data.outputs.count == 8)
+    #expect(data.inputs.count == 134 && data.outputs.count == 8)
     #expect(data.startup == [[0x91, 3, 127], [0x92, 3, 127], [0x90, 4, 5], [0xB0, 127, 127]])
     #expect(!profile.hasAutomaticSplitOutput)
     #expect(ControllerFactoryProfile.matching(["Hercules DJControl Inpulse 300 MK2"], automaticOnly: true) != profile)
@@ -82,7 +82,7 @@ import Testing
             ], to: input)
         #expect(
             actions == [
-                .init(.hotcue1A, deck: .a), .init(.hotcue1A, deck: .a), .init(.hotcue8A, deck: .a),
+                .init(.hotcue1A, deck: .a), .init(.clearHotcue1A, deck: .a), .init(.hotcue1A, deck: .a), .init(.hotcue8A, deck: .a),
                 .init(.hotcue8B, deck: .b), .init(.fixedLoopA, deck: .a, argument: 4),
                 .init(.loopDisableA, deck: .a), .init(.loopDownA, deck: .a), .init(.loopUpA, deck: .a),
             ])

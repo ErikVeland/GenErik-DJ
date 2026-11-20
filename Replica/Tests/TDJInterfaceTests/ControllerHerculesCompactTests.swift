@@ -25,7 +25,7 @@ import Testing
 @Test @MainActor func controllerCatalogueHerculesCompactKeepsFactoryVolumeAndNoInventedTouchOrRouting() throws {
     let profile = try #require(ControllerFactoryProfile.matching(["Hercules DJControl Compact"], automaticOnly: true))
     let data = try #require(profile.definition)
-    #expect(data.inputs.count == 55 && data.outputs.count == 8)
+    #expect(data.inputs.count == 71 && data.outputs.count == 8)
     #expect(data.startup.count == 12 && data.shutdown == data.startup)
     #expect(data.startup.allSatisfy { $0[0] == 0x90 && $0[2] == 0 })
     #expect(!profile.hasAutomaticSplitOutput)
@@ -87,7 +87,7 @@ import Testing
             ], to: input)
         #expect(
             targets == [
-                .init(.hotcue1A, deck: .a), .init(.hotcue1A, deck: .a), .init(.hotcue1B, deck: .b),
+                .init(.hotcue1A, deck: .a), .init(.clearHotcue1A, deck: .a), .init(.hotcue1A, deck: .a), .init(.hotcue1B, deck: .b),
                 .init(.reloopA, deck: .a), .init(.toggleFixedLoopA, deck: .a, argument: 8),
                 .init(.loopDownA, deck: .a), .init(.loopUpA, deck: .a),
                 .init(.toggleFixedLoopB, deck: .b, argument: 8),

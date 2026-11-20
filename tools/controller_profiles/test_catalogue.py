@@ -251,7 +251,7 @@ class ConversionTests(unittest.TestCase):
     def test_original_ddj1000_uses_its_own_factory_addresses_and_bank_events(self):
         result = ddj1000_profiles()[0]
         self.assertEqual(result["id"], "DDJ-1000")
-        self.assertEqual(len(result["inputs"]), 125)
+        self.assertEqual(len(result["inputs"]), 221)
         self.assertEqual(len(result["outputs"]), 48)
         self.assertEqual([(row["channel"], row["number"]) for row in result["bankChanges"]], [(2, 114), (3, 114)])
         for action, number in [("syncA", 88), ("tempoA", 0), ("toggleFixedLoopA", 20)]:
@@ -268,7 +268,7 @@ class ConversionTests(unittest.TestCase):
         result = flx10_profiles()[0]
         self.assertEqual(result["id"], "DDJ-FLX10")
         self.assertEqual(result["catalogueName"], "Pioneer DDJ-FLX10")
-        self.assertEqual(len(result["inputs"]), 145)
+        self.assertEqual(len(result["inputs"]), 241)
         self.assertEqual(len(result["outputs"]), 44)
         self.assertEqual([row["channel"] for row in result["bankChanges"]], [0, 1, 2, 3])
         self.assertEqual([row["shiftInput"] for row in result["inputs"] if row["action"] == "shift"], [0, 1, 0, 1])
@@ -334,9 +334,9 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(canonical("Denon DJ MC4000"), canonical("Denon MC4000"))
         self.assertEqual(len(split_models("Mixars DUO (incl. MKII)")), 2)
 
-    def test_curated_addresses_have_no_conflicts(self):
+    def test_curated_positive_addresses_have_no_conflicts(self):
         for profile in curated_profiles() + cdj_profiles() + player_profiles() + controller_profiles() + ddj_profiles() + legacy_xdj_profiles() + entry_profiles() + opus_profiles() + legacy_ddj_profiles() + s1_profiles() + legacy_system_profiles() + numark_profiles() + mixtrack3_profiles() + platinum_profiles() + mixtrack2_profiles() + denon_profiles() + mc6000_profiles() + mc7000_profiles() + original_mixtrack_profiles() + party_mix_profiles() + t1_profiles() + pad_accessory_profiles() + party_mix2_profiles() + terminal_mix_profiles():
-            for left, right in combinations(profile["inputs"], 2):
+            for left, right in combinations([row for row in profile["inputs"] if not row.get("releaseOnly")], 2):
                 address = lambda item: (item["kind"], item["channel"], item["number"])
                 if address(left) != address(right):
                     continue
@@ -443,7 +443,7 @@ class ConversionTests(unittest.TestCase):
             decks = {entry["targetDeck"] for entry in item["inputs"] if "targetDeck" in entry}
             self.assertEqual(decks, set("abcd") if name.endswith(("DDJ-SB2", "DDJ-RR")) else set("ab"))
             self.assertEqual(item["startup"], [[0x9B, 9, 127]] if name.endswith(("DDJ-SB", "DDJ-SB2", "DDJ-RR")) else [])
-            self.assertEqual(sum(entry.get("releaseOnly", False) for entry in item["inputs"]), len(decks) if name.endswith(("DDJ-SB", "DDJ-SB2")) else 0)
+            self.assertEqual(sum(entry.get("releaseOnly", False) for entry in item["inputs"]), len(decks) if name.endswith(("DDJ-SB", "DDJ-SB2")) else 32 if name.endswith(("DDJ-200", "DDJ-RB")) else 0)
         small = profiles["Pioneer DDJ-200"]
         self.assertFalse(any(entry["action"].startswith(("load", "browse", "loop", "keylock", "gain")) for entry in small["inputs"]))
         wego = profiles["Pioneer DDJ-WeGO4"]
@@ -571,7 +571,7 @@ class ConversionTests(unittest.TestCase):
         item = denon_profiles()[0]
         self.assertEqual(item["aliases"], ["Denon MC4000", "MC4000", "Denon DJ MC4000"])
         self.assertTrue(all(binding["inverted"] for binding in item["inputs"] if binding["action"] in {"tempoA", "tempoB"}))
-        self.assertFalse(any(binding["action"].startswith("hotcue") for binding in item["inputs"]))
+        self.assertEqual(len([binding for binding in item["inputs"] if binding["action"].startswith("hotcue") and not binding.get("releaseOnly")]), 8)
         self.assertIn("LSB/MSB", denon_references()["Denon MC4000"]["review"])
         self.assertEqual(item["startup"][0], [240, 0, 2, 11, 127, 1, 96, 0, 4, 4, 1, 0, 0, 247])
         for path, digest in MC4000_SOURCES:
@@ -1634,7 +1634,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
                 self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), digest)
 
     def test_bundled_runtime_fits_the_native_four_mib_limit(self):
-        path=ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.json"
+        path=ROOT/"Replica/Sources/TDJInterface/Resources/factory-controller-profiles.compact.json"
         self.assertLessEqual(path.stat().st_size,4*1024*1024,"The native loader rejects larger catalogues")
 
     def test_runtime_encoder_preserves_data_and_rejects_oversized_utf8(self):
@@ -3078,7 +3078,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
 
     def test_studio4a_retains_source_deck_channels_and_reversed_right_loop_buttons(self):
         result = studio4a_profiles()[0]
-        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (124, 24))
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (156, 24))
         self.assertEqual(len(result["startup"]) + len(result["shutdown"]), 40)
         self.assertEqual(result["audioOutput"], "masterAndHeadphones")
         self.assertTrue(all(r["onValue"] == 1 for r in result["outputs"]))
@@ -3481,7 +3481,7 @@ class GeneratedCatalogueTests(unittest.TestCase):
 
     def test_neon_uses_distinct_factory_pages_without_context_free_encoders(self):
         result = neon_profiles()[0]
-        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (96, 0))
+        self.assertEqual((len(result["inputs"]), len(result["outputs"])), (160, 0))
         self.assertEqual(result["role"], "accessory")
         self.assertEqual(result["startup"], [[240, 10, 0, 247]])
         cues = [row for row in result["inputs"] if row["action"].startswith("hotcue") and not row.get("releaseOnly")]

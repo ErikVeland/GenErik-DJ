@@ -1445,6 +1445,21 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
     }
 }
 
+@Test @MainActor func controllerCatalogueDJ202ManualCueAcrossShiftBankKeepsNativeAudioAndSync() async throws {
+    try await withControllerCuePlayback("DJ-202", manual: true) { model, input in
+        cuePreviewPacket([0x90, 1, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x9F, 0, 127, 0x82, 5, 127, 0x8F, 0, 127, 0x90, 0, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        cuePreviewPacket([0xB0, 28, 127, 58, 127, 0x90, 27, 127], to: input)
+        let samples = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+        #expect(samples.left.allSatisfy(\.isFinite) && samples.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.mixer.volume == 1 && model.playbackSnapshot?.a.mixer.cue == true)
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+    }
+}
+
 @Test @MainActor func controllerCatalogueDJ505ManualCueAcrossShiftBankKeepsNativeAudioAndSync() async throws {
     try await withControllerCuePlayback("DJ-505", manual: true) { model, input in
         cuePreviewPacket([0x90, 1, 127], to: input)
@@ -2987,6 +3002,273 @@ func controllerCatalogueLegacyRaneMixerAndLoopsKeepRealAudioAndSavedSync(_ name:
     }
 }
 
+@Test @MainActor func controllerCatalogueRMPPlayersShiftedCueAndBendReleasesKeepRealAudioSync() async throws {
+    for (name,play,bend,bendRelease):(String,UInt8,UInt8,UInt8) in [("Reloop RMP-3",1,8,71),("Reloop RMP-2.5a",6,21,84)] {
+        try await withControllerCuePlayback(name) { model,input in
+            input.receiveBytes([0x9F,7,1],source:10);input.flushPendingActions()
+            #expect(model.playbackSnapshot?.a.touchActive == true)
+            input.receiveBytes([0x9F,66,127,66,0],source:10);input.flushPendingActions()
+            #expect(model.playbackSnapshot?.a.touchActive == true)
+            input.receiveBytes([0x8F,70,127,0x9F,play,127,play,0,bend,127],source:10);input.flushPendingActions()
+            input.receiveBytes([0x8F,bendRelease,127],source:10);input.flushPendingActions()
+            let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        }
+    }
+}
+
+@Test @MainActor func controllerCataloguePMX10ManualLoopKeepsRealAudioSync() async throws {
+    try await withControllerCuePlayback("Gemini PMX10", manual: true) { model, input in
+        model.pressPlay(deck: .a, vinylStop: false)
+        input.receiveBytes([0x90, 35, 127, 35, 0, 0xB0, 36, 65, 0xB4, 66, 65], source: 10); input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.loopEnabled == true)
+    }
+}
+
+@Test @MainActor func controllerCataloguePMX20ManualLoopAndCommonMixerKeepRealAudioSync() async throws {
+    try await withControllerCuePlayback("Gemini PMX20", manual: true) { model, input in
+        model.pressPlay(deck: .a, vinylStop: false)
+        input.receiveBytes([0x90, 35, 127, 35, 0, 0xB0, 36, 65, 49, 64], source: 10); input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.loopEnabled == true)
+    }
+}
+
+@Test @MainActor func controllerCatalogueKUTManualMIDILevelAndMasterKeepRealAudioSync() async throws {
+    try await withControllerCuePlayback("Reloop KUT", manual: true) { model, input in
+        model.pressPlay(deck: .a, vinylStop: false)
+        input.currentTargetValue = { model.controllerValue($0.action, targetDeck: $0.deck) }
+        for number: UInt8 in [5, 16] {
+            for value: UInt8 in [0, 127, 64] {
+                input.receiveBytes([0xBF, number, value], source: 10); input.flushPendingActions()
+            }
+        }
+        input.receiveBytes([0x9F, 7, 127, 7, 0], source: 10); input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(abs((model.controllerValue(.levelA) ?? -1) - 64.0 / 127) < 0.000001)
+        #expect(abs((model.controllerValue(.master) ?? -1) - 64.0 / 127) < 0.000001)
+    }
+}
+
+@Test @MainActor func controllerCatalogueSmartPADClipPlayAndInactiveModesKeepRealAudioSync() async throws {
+    try await withControllerCuePlayback("SmartPAD") { model, input in
+        input.receiveBytes([0x90, 112, 127, 112, 0, 113, 127, 113, 0, 0x91, 20, 127, 20, 0, 0xB0, 0, 127], source: 10)
+        input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test @MainActor func controllerCatalogueMixarsQuattroManualPlayLoopAndComposedShiftKeepRealAudioSync() async throws {
+    try await withControllerCuePlayback("Mixars QUATTRO", manual: true) { model, input in
+        input.receiveBytes([0x90, 32, 127, 0x94, 27, 127, 27, 0], source: 10); input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.phase.active == false)
+        input.receiveBytes([0x82, 32, 127, 0x94, 27, 127, 27, 0, 64, 127, 64, 0], source: 10)
+        input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+    }
+}
+
+@Test @MainActor func controllerCatalogueVCI380ShiftReleasesSoftCueAndKeepsRealAudioSync() async throws {
+    try await withControllerCuePlayback("VCI-380") { model, input in
+        input.receiveBytes([0x97, 22, 1], source: 10); input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x97, 12, 127], source: 10); input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        input.receiveBytes([0x87, 22, 127, 0x97, 12, 0, 23, 127, 23, 0, 0xB7, 7, 64], source: 10)
+        input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test @MainActor func controllerCatalogueAPC20ShiftReleasesSoftCueAndKeepsRealAudioSync() async throws {
+    try await withControllerCuePlayback("APC20") { model, input in
+        input.receiveBytes([0x91, 57, 1], source: 10); input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x90, 81, 127], source: 10); input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        input.receiveBytes([0x81, 57, 127, 0x80, 81, 127, 0x90, 57, 127, 57, 0, 0xB0, 7, 64], source: 10); input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test @MainActor func controllerCatalogueAPC64ModeLossReleasesSoftCueThenSessionRestoresRealAudioSync() async throws {
+    try await withControllerCuePlayback("APC64", ports: ["APC64 DAW (APC64)"], prepareInput: { input in
+        input.receiveBytes([0xF0, 0x7E, 0, 6, 2, 0x47, 0x53, 0, 0x19, 1, 1, 0, 14, 0, 0xF7], source: 10)
+    }) { model, input in
+        input.receiveBytes([0x96, 1, 1], source: 10); input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0xF0, 0x47, 0, 0x53, 0x19, 0, 1, 2, 0xF7], source: 10); input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        input.receiveBytes([0xF0, 0x47, 0, 0x53, 0x19, 0, 1, 0, 0xF7], source: 10)
+        input.receiveBytes([0x86, 1, 127, 0x96, 0, 127, 0, 0, 0xE0, 0, 64], source: 10); input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test @MainActor func controllerCatalogueAPCMiniOriginalShiftImmediatelyReleasesSoftCueAndKeepsRealAudioSync() async throws {
+    try await withControllerCuePlayback("APC MINI") { model, input in
+        input.receiveBytes([0x90, 1, 1], source: 10); input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x90, 98, 127], source: 10); input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        input.receiveBytes([0x80, 1, 127, 98, 127, 0x90, 0, 127, 0, 0, 0xB0, 48, 64], source: 10); input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test @MainActor func controllerCatalogueMF3DSelectorImmediatelyReleasesSoftCueAndKeepsRealAudioSync() async throws {
+    try await withControllerCuePlayback("Midi Fighter 3D", manual: true) { model, input in
+        input.receiveBytes([0x92, 45, 1], source: 10); input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x93, 1, 1], source: 10); input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        input.receiveBytes([0x82, 45, 127, 0x92, 44, 127, 44, 0], source: 10); input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test @MainActor func controllerCatalogueLaunchpadSKeepsSoftCueRealAudioAndSavedSync() async throws {
+    try await withControllerCuePlayback("Launchpad S") { model, input in
+        input.receiveBytes([0x90, 113, 1], source: 10); input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x80, 113, 127, 0x90, 112, 127, 112, 0], source: 10); input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test @MainActor func controllerCatalogueLPD8MK2KeepsRealAudioAndSavedSync() async throws {
+    try await withControllerCuePlayback("Akai LPD8 MK2", manual: true) { model, input in
+        model.pressPlay(deck: .a, vinylStop: false)
+        input.receiveBytes([0xB0, 36, 64, 37, 64, 38, 64, 39, 64, 0xA0, 36, 127, 0xC0, 0], source: 10); input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test(arguments: ["Akai MPD226", "Akai MPD232"]) @MainActor
+func controllerCatalogueMPD2BitwigKeepsSoftCueRealAudioAndSavedSync(_ name: String) async throws {
+    try await withControllerCuePlayback(name, manual: true) { model, input in
+        input.receiveBytes([0x99, 45, 1], source: 10); input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0xB1, 40, 127, 0xB2, 40, 127], source: 10); input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x99, 52, 127, 52, 0, 0x89, 45, 127, 0x99, 44, 1, 44, 0], source: 10); input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test @MainActor func controllerCatalogueMPD218KeepsSoftCueRealAudioAndSavedSync() async throws {
+    try await withControllerCuePlayback("Akai MPD218") { model, input in
+        input.receiveBytes([0x99, 45, 1], source: 10); input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x99, 52, 127, 52, 0, 0x89, 45, 127], source: 10); input.flushPendingActions()
+        input.receiveBytes([0x99, 44, 1, 44, 0, 0xB0, 3, 64], source: 10); input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test @MainActor func controllerCatalogueOrbitKeepsRealAudioAndSavedSync() async throws {
+    try await withControllerCuePlayback("Numark Orbit") { model, input in
+        input.receiveBytes([0x90, 45, 127], source: 10); input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x91, 36, 127, 36, 0, 0x80, 45, 127], source: 10); input.flushPendingActions()
+        input.receiveBytes([0x90, 44, 127, 44, 0], source: 10); input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test(arguments: ["JB Systems DJ KONTROL2", "JB Systems DJ KONTROL3"]) @MainActor
+func controllerCatalogueJBKontrolKeepsRealAudioAndSavedSync(_ name: String) async throws {
+    try await withControllerCuePlayback(name, manual: true) { model, input in
+        cuePreviewPacket([0x90, 67, 127, 67, 0], to: input)
+        cuePreviewPacket([0xB0, 11, 64], to: input)
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test(arguments: ["BeyondMusic (BMI) ABMA1", "BeyondMusic (BMI) ABMA3"]) @MainActor
+func controllerCatalogueBMICoreKeepsRealAudioAndSavedSync(_ name: String) async throws {
+    try await withControllerCuePlayback(name, manual: true) { model, input in
+        if name.hasSuffix("3") {
+            cuePreviewPacket([0x90, 51, 127], to: input); #expect(model.playbackSnapshot?.a.touchActive == true)
+            cuePreviewPacket([0x80, 51, 127], to: input)
+        }
+        cuePreviewPacket([0x90, 67, 127, 67, 0, 109, 127, 109, 0], to: input)
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test(arguments: ["Audiophony CDX6", "CITRONIC MPCD-X3", "Stanton CMP.800", "Synq DMC-1000"]) @MainActor
+func controllerCatalogueLegacySinglePlayerKeepsRealAudioAndSavedSync(_ name: String) async throws {
+    try await withControllerCuePlayback(name, manual: !name.hasPrefix("Synq")) { model, input in
+        input.receiveBytes([0x90, 46, 127], source: 10); input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x90, 69, 127, 0x80, 69, 127], source: 10); input.flushPendingActions()
+        input.receiveBytes([0x90, 2, 127, 2, 0], source: 10); input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test(arguments: ["Numark NDX800", "Numark NDX900"]) @MainActor
+func controllerCatalogueNDXLegacyKeepsRealAudioAndSavedSync(_ name: String) async throws {
+    try await withControllerCuePlayback(name) { model, input in
+        cuePreviewPacket([0x9B, 56, 127], to: input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes(name == "Numark NDX800" ? [0x8B, 56, 127] : [0x9F, 69, 64], source: 10); input.flushPendingActions()
+        input.receiveBytes([0x9B, 58, 127, 58, 0, 0xEB, 0, 64], source: 10); input.flushPendingActions()
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test(arguments: ["Allen & Heath XONE 1D", "Allen & Heath XONE 2D", "Allen & Heath XONE 4D"]) @MainActor
+func controllerCatalogueLegacyXoneAxesKeepRealAudioAndSavedSync(_ name: String) async throws {
+    try await withControllerCuePlayback(name, manual: true) { model, input in
+        model.pressPlay(deck: .a, vinylStop: false)
+        let number: UInt8 = name == "Allen & Heath XONE 2D" ? 40 : 32
+        cuePreviewPacket([0xBF, number, 1], to: input)
+        let audio = model.playback.core.renderOffline(frames: 4096); model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
 @Test(arguments: ["Denon DJ HD2500", "Stanton SCS.4DJ", "Gemini FirstMix I/O"]) @MainActor
 func controllerCatalogueLegacyStandaloneKeepsRealAudioAndSavedSync(_ name: String) async throws {
     try await withControllerCuePlayback(name, manual: name == "Denon DJ HD2500") { model, input in
@@ -3057,5 +3339,628 @@ func controllerCatalogueCMDNativeControlsKeepRealAudioAndSavedSync(_ name:String
         let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
         #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
         #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test @MainActor func controllerCatalogueJockeyRemixShiftedCueAndBendKeepRealAudioSync() async throws {
+    try await withControllerCuePlayback("Reloop Jockey 3 Remix",manual:true) { model,input in
+        input.receiveBytes([0x90,25,1],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x80,88,127,0x90,26,127,26,0,41,127],source:10);input.flushPendingActions()
+        input.receiveBytes([0x90,104,0],source:10);input.flushPendingActions()
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test @MainActor func controllerCatalogueDJ707MManualBridgeCueShiftKeepsRealAudioSync() async throws {
+    try await withControllerCuePlayback("Roland DJ-707M",manual:true) { model,input in
+        input.receiveBytes([0x90,1,1],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x9F,0,127,0x90,5,127,0x80,5,127,0x9F,0,0,0x90,0,127,0,0],source:10);input.flushPendingActions()
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test @MainActor func controllerCatalogueQuarkShiftedCueBendReleasesKeepRealAudioSync() async throws {
+    try await withControllerCuePlayback("Akiyama QUARK") { model,input in
+        input.receiveBytes([0x90,53,1,63,127,63,0],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x80,117,127,0x90,52,127,52,0,50,127],source:10);input.flushPendingActions()
+        input.receiveBytes([0x90,114,0],source:10);input.flushPendingActions()
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test @MainActor func controllerCatalogueEncoreTAPCueAndBendReleasesKeepRealAudioSync() async throws {
+    try await withControllerCuePlayback("Encore 2000",manual:true) { model,input in
+        input.receiveBytes([0x90,19,1],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x90,4,127],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        input.receiveBytes([0x80,82,127,0x90,4,0,23,127,23,0,8,127],source:10);input.flushPendingActions()
+        input.receiveBytes([0x90,71,0],source:10);input.flushPendingActions()
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test @MainActor func controllerCatalogueDDCShiftedCueAndBendReleasesKeepRealAudioSync() async throws {
+    try await withControllerCuePlayback("DDC2000") { model,input in
+        input.receiveBytes([0x90,23,1],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x90,45,127,0x80,73,127,0x90,45,0,24,127,24,0,19,127],source:10);input.flushPendingActions()
+        input.receiveBytes([0x90,69,0],source:10);input.flushPendingActions()
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test @MainActor func controllerCatalogueCMXShiftedCueAndBendReleasesKeepRealAudioSync() async throws {
+    try await withControllerCuePlayback("CMX-2000",manual:true) {model,input in
+        input.receiveBytes([0x90,37,1],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x90,9,127,0x80,87,127,0x90,9,0,38,127,38,0,26,127],source:10);input.flushPendingActions()
+        input.receiveBytes([0x90,76,0],source:10);input.flushPendingActions()
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+
+@Test @MainActor func controllerCatalogueRadiusLegacyVariantsKeepRealAudioSync() async throws {
+    for (name,manual,offset,tap):(String,Bool,UInt8,UInt8) in [("American Audio RADIUS 1000 (2009 factory mapping)",true,63,32),("American Audio RADIUS 1000",true,61,46),("American Audio RADIUS 3000",false,63,32)] {
+        try await withControllerCuePlayback(name,manual:manual) {model,input in
+            input.receiveBytes([0x90,48,1],source:10);input.flushPendingActions()
+            #expect(model.playbackSnapshot?.a.touchActive == true)
+            input.receiveBytes([0x90,tap,127,0x80,48+offset,127,0x90,tap,0,42,127,42,0,7,127],source:10);input.flushPendingActions()
+            input.receiveBytes([0x90,7+offset,0],source:10);input.flushPendingActions()
+            let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        }
+    }
+}
+
+@Test @MainActor func controllerCatalogueDV2ManualMixerAndPFLKeepRealAudioSync() async throws {
+    try await withControllerCuePlayback("DV2 USB",manual:true) {model,input in
+        model.pressPlay(deck:.a,vinylStop:false)
+        input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+        for number:UInt8 in [58,55] {
+            for value:UInt8 in [0,127,64] {
+                input.receiveBytes([0xBF,number,value],source:10);input.flushPendingActions()
+            }
+        }
+        input.receiveBytes([0x9F,9,127,9,0],source:10);input.flushPendingActions()
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(abs((model.controllerValue(.levelA) ?? -1)-64.0/127)<0.000001)
+        #expect(abs((model.controllerValue(.master) ?? -1)-64.0/127)<0.000001)
+        #expect(model.controllerValue(.cueA)==1)
+    }
+}
+
+
+@Test @MainActor func controllerCatalogueDJinnCommonAndMode3KeepRealAudioSync() async throws {
+    for (name,manual):(String,Bool) in [("Audiophony DJINN",false),("Audiophony DJINN (MIDI mode 3)",true)] {
+        try await withControllerCuePlayback(name,manual:manual) {model,input in
+            input.receiveBytes([0x90,31,1],source:10);input.flushPendingActions()
+            #expect(model.playbackSnapshot?.a.touchActive == true)
+            input.receiveBytes([0x80,94,127,0x90,32,127,32,0,34,127,97,0],source:10);input.flushPendingActions()
+            if manual {
+                input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+                for (ch,n):(UInt8,UInt8) in [(0,16),(1,49)] {
+                    for value:UInt8 in [0,127,64] {
+                        input.receiveBytes([0xB0+ch,n,value],source:10);input.flushPendingActions()
+                    }
+                }
+            }
+            let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+            if manual {#expect(abs((model.controllerValue(.levelA) ?? -1)-64.0/127)<0.000001)}
+        }
+    }
+}
+
+
+@Test @MainActor func controllerCatalogueAudiophonyFactoryVariantsKeepRealAudioSync() async throws {
+    for name in ["Audiophony DJAZZ","Audiophony DJAM","Audiophony DJAM (CTRL MIDI mixer)"] {
+        try await withControllerCuePlayback(name,manual:name.contains("CTRL MIDI")) {model,input in
+            input.receiveBytes([0x90,23,1],source:10);input.flushPendingActions()
+            #expect(model.playbackSnapshot?.a.touchActive == true)
+            input.receiveBytes([0x90,45,127,0x80,73,127,0x90,45,0,24,127,24,0,19,127],source:10);input.flushPendingActions()
+            input.receiveBytes([0x90,69,0],source:10);input.flushPendingActions()
+            if name != "Audiophony DJAM" {
+                input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+                for value:UInt8 in [0,127,64] {
+                    input.receiveBytes([0xB0,7,value],source:10);input.flushPendingActions()
+                }
+            }
+            let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        }
+    }
+}
+
+
+@Test @MainActor func controllerCatalogueVirtualityPlayManualCueBendsKeepRealAudioSync() async throws {
+    try await withControllerCuePlayback("Audiophony PLAY",manual:true) {model,input in
+        input.receiveBytes([0x90,52,1],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x80,52,127,0x90,53,127,53,0,33,127],source:10);input.flushPendingActions()
+        input.receiveBytes([0x90,33,0],source:10);input.flushPendingActions()
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+
+@Test @MainActor func controllerCatalogueXone43CManualFaderAndCueStateKeepAudioSynced() async throws {
+    try await withControllerCuePlayback("Xone:43C",manual:true) {model,input in
+        model.pressPlay(deck:.a,vinylStop:false)
+        input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+        for value:UInt8 in [0,127,64] {
+            input.receiveBytes([0xBF,0,value],source:10);input.flushPendingActions()
+        }
+        input.receiveBytes([0x9F,77,127,77,127],source:10);input.flushPendingActions()
+        #expect(model.controllerValue(.cueA) == 1)
+        input.receiveBytes([0x8F,77,0],source:10);input.flushPendingActions()
+        #expect(model.controllerValue(.cueA) == 0)
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        #expect(abs((model.controllerValue(.levelA) ?? -1)-64.0/127)<0.0001)
+    }
+}
+
+
+@Test @MainActor func controllerCatalogueNS7IIIEQManualKnobsKeepRealAudioSynced() async throws {
+    try await withControllerCuePlayback("NS7III",manual:true) {model,input in
+        model.pressPlay(deck:.a,vinylStop:false)
+        input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+        for number:UInt8 in [9,10,11] {
+            for value:UInt8 in [0,127,64] {
+                input.receiveBytes([0xB0,number,value],source:10);input.flushPendingActions()
+            }
+        }
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        for action in [ControllerAction.lowA,.midA,.highA] {#expect(abs((model.controllerValue(action) ?? -1)-64.0/127)<0.0001)}
+    }
+}
+
+
+@Test @MainActor func controllerCatalogueOriginalIMixCueBendsAndMixerKeepRealAudioSync() async throws {
+    try await withControllerCuePlayback("DJ-Tech I-MIX",manual:true) {model,input in
+        input.receiveBytes([0x90,13,1],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x80,13,127,0x90,20,127,20,0,14,127],source:10);input.flushPendingActions()
+        input.receiveBytes([0x90,14,0],source:10);input.flushPendingActions()
+        input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+        for value:UInt8 in [0,127,64] {input.receiveBytes([0xB0,67,value],source:10);input.flushPendingActions()}
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        #expect(abs((model.controllerValue(.levelA) ?? -1)-64.0/127)<0.0001)
+    }
+}
+
+
+@Test @MainActor func controllerCatalogueABMA4CoreVariantsKeepCueBendsAndMixerAudioSynced() async throws {
+    for name in ["BeyondMusic (BMI) ABMA4","JB Systems DJ KONTROL1"] {
+        try await withControllerCuePlayback(name,manual:true) {model,input in
+            input.receiveBytes([0x9F,51,1],source:10);input.flushPendingActions()
+            #expect(model.playbackSnapshot?.a.touchActive == true)
+            input.receiveBytes([0x80,51,127,0x94,67,127,67,0,121,127],source:10);input.flushPendingActions()
+            input.receiveBytes([0x92,121,0],source:10);input.flushPendingActions()
+            input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+            for value:UInt8 in [0,127,64] {input.receiveBytes([0xB8,8,value],source:10);input.flushPendingActions()}
+            let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+            #expect(abs((model.controllerValue(.levelA) ?? -1)-64.0/127)<0.0001)
+        }
+    }
+}
+
+
+@Test @MainActor func controllerCatalogueG4VMixerKnobsKeepRealAudioSynced() async throws {
+    try await withControllerCuePlayback("G4V",manual:true) {model,input in
+        model.pressPlay(deck:.a,vinylStop:false)
+        input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+        for number:UInt8 in [1,9,5,13,17,21] {
+            for value:UInt8 in [0,127,64] {input.receiveBytes([0xB3,number,value],source:10);input.flushPendingActions()}
+        }
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        for action in [ControllerAction.gainA,.highA,.midA,.lowA,.filterKnobA,.levelA] {#expect(abs((model.controllerValue(action) ?? -1)-64.0/127)<0.0001)}
+    }
+}
+
+
+@Test @MainActor func controllerCatalogueG4VMixerHeldCueReleaseKeepsRealAudioSync() async throws {
+    try await withControllerCuePlayback("G4V",manual:true) {model,input in
+        input.receiveBytes([0x90,2,1],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x80,2,127,0x90,1,127,1,0],source:10);input.flushPendingActions()
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+
+@Test @MainActor func controllerCatalogueDJ808ManualCueAndPairedMixerKeepAudioSynced() async throws {
+    try await withControllerCuePlayback("DJ-808",manual:true) {model,input in
+        input.receiveBytes([0x90,1,1],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x82,5,127,0x90,0,127,0,0],source:10);input.flushPendingActions()
+        input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+        for (msb,lsb):(UInt8,UInt8) in [(22,52),(23,53),(24,54),(25,55),(28,58)] {
+            for value:UInt8 in [0,127,64] {input.receiveBytes([0xB0,msb,value,lsb,0],source:10);input.flushPendingActions()}
+        }
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        #expect(abs((model.controllerValue(.levelA) ?? -1)-8192.0/16383)<0.0001)
+    }
+}
+
+
+@Test @MainActor func controllerCatalogueDJTechLegacyFactoryCueAndMixerKeepAudioSynced() async throws {
+    for (name,dragon) in [("DRAGON TWO",true),("4MIX",false)] {
+        try await withControllerCuePlayback(name,manual:true) {model,input in
+            let cue:UInt8=dragon ? 22:11,play:UInt8=dragon ? 23:12
+            input.receiveBytes([0x91,cue,1],source:10);input.flushPendingActions()
+            #expect(model.playbackSnapshot?.a.touchActive == true)
+            input.receiveBytes([0x83,dragon ? cue:75,127,0x91,play,127,play,0],source:10);input.flushPendingActions()
+            if dragon {
+                input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+                for value:UInt8 in [0,127,64] {input.receiveBytes([0xB1,9,value],source:10);input.flushPendingActions()}
+                #expect(abs((model.controllerValue(.levelA) ?? -1)-64.0/127)<0.0001)
+            }
+            let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        }
+    }
+}
+
+
+@Test @MainActor func controllerCatalogueGMXManualCueAndMixerKeepRealAudioSynced() async throws {
+    try await withControllerCuePlayback("GMX",manual:true) {model,input in
+        input.receiveBytes([0x90,2,1],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x80,2,127,0x90,1,127,1,0],source:10);input.flushPendingActions()
+        input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+        for n:UInt8 in [1,3,5,7,9] {
+            for value:UInt8 in [0,127,64] {input.receiveBytes([0xB3,n,value],source:10);input.flushPendingActions()}
+        }
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        #expect(abs((model.controllerValue(.levelA) ?? -1)-64.0/127)<0.0001)
+    }
+}
+
+
+@Test @MainActor func controllerCatalogueCueStopReturnsWithoutRemarkingOrChangingSync() async throws {
+    try await withControllerCuePlayback {model,_ in
+        let action=try #require(ControllerAction(rawValue:"cueStopA"))
+        let sampleRate=try #require(model.track(.a)?.analysis.sampleRate)
+        model.cuePoints[.a]=0;model.jump(sampleRate,deck:.a,quantized:false);model.refreshPlayback()
+        #expect((model.playbackSnapshot?.a.sourceFrame ?? 0)>0)
+        model.applyController(action,value:0);model.refreshPlayback()
+        #expect((model.playbackSnapshot?.a.sourceFrame ?? 0)>0)
+        model.applyController(action,value:1);model.refreshPlayback()
+        #expect(model.cuePoints[.a] == 0 && abs(model.playbackSnapshot?.a.sourceFrame ?? -1)<=1)
+        #expect(model.playbackSnapshot?.a.phase.active == false && model.playbackSnapshot?.a.synced == true)
+        model.pressPlay(deck:.a,vinylStop:false);_ = model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        model.applyController(action,value:1);_ = model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(model.cuePoints[.a] == 0 && abs(model.playbackSnapshot?.a.sourceFrame ?? -1)<=1)
+        #expect(model.playbackSnapshot?.a.phase.active == false && model.playbackSnapshot?.a.synced == true)
+        model.applyController(.cuePreviewA,value:1);model.refreshPlayback()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        model.applyController(action,value:1);model.refreshPlayback()
+        #expect(model.playbackSnapshot?.a.touchActive == false && model.playbackSnapshot?.a.phase.active == false && model.playbackSnapshot?.a.synced == true)
+    }
+}
+
+
+@Test @MainActor func controllerCatalogueDAPD2CoreDistinctCueControlsAndMixerKeepSync() async throws {
+    try await withControllerCuePlayback("DAP KONTROL D2",manual:true) {model,input in
+        input.receiveBytes([0x9F,59,1],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        input.receiveBytes([0x80,59,127,0x94,67,127,67,0],source:10);input.flushPendingActions()
+        _ = model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(model.playbackSnapshot?.a.phase.active == true)
+        input.receiveBytes([0x98,51,127,51,0],source:10);input.flushPendingActions()
+        #expect(model.playbackSnapshot?.a.phase.active == false && model.playbackSnapshot?.a.touchActive == false && model.playbackSnapshot?.a.synced == true)
+        input.receiveBytes([0x90,67,127,67,0],source:10);input.flushPendingActions()
+        input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+        for value:UInt8 in [0,127,64] {input.receiveBytes([0xB7,8,value],source:10);input.flushPendingActions()}
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        #expect(abs((model.controllerValue(.levelA) ?? -1)-64.0/127)<0.0001)
+    }
+}
+
+@Test @MainActor func controllerCatalogueCDMP7000OwnCueAnd128CountScratchRestoreSync() async throws {
+    try await withControllerCuePlayback("Gemini CDMP-7000",manual:true) {model,input in
+        cuePreviewPacket([0x90,1,1],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80,1,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        cuePreviewPacket([0x90,24,127,0xB0,32,65],to:input)
+        try await Task.sleep(for:.milliseconds(80))
+        _ = model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        let sampleRate=try #require(model.track(.a)?.analysis.sampleRate)
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1)-sampleRate*1.8/128)<=1)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x90,24,0,2,127,2,0,4,127,4,0],to:input)
+        input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+        for value:UInt8 in [0,127,64] {cuePreviewPacket([0xB0,33,value],to:input)}
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test @MainActor func controllerCatalogueRane72OwnerParameterPlayKeepsFiniteSyncedAudio() async throws {
+    try await withControllerCuePlayback("Rane SEVENTY-TWO",manual:true) {model,input in
+        cuePreviewPacket([0x94,40,127,40,0],to:input)
+        let first=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        let start=try #require(model.playbackSnapshot?.a.sourceFrame)
+        #expect(first.left.allSatisfy(\.isFinite) && first.right.allSatisfy(\.isFinite))
+        cuePreviewPacket([0xBF,0,1,0,127],to:input)
+        let second=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(second.left.allSatisfy(\.isFinite) && second.right.allSatisfy(\.isFinite))
+        #expect((model.playbackSnapshot?.a.sourceFrame ?? 0)>start)
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test @MainActor func controllerCatalogueClearHotcueDeletesOnlyOnPressWithoutChangingTransport() async throws {
+    try await withControllerCuePlayback {model,_ in
+        let track=try #require(model.track(.a))
+        model.performance.cues[track.id]=[:]
+        for slot in 0..<8 {model.cue(slot:slot,deck:.a,quantized:false)}
+        model.pressPlay(deck:.a,vinylStop:false)
+        _ = model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        try #require(model.playbackSnapshot?.a.phase.active == true)
+        for slot in 0..<8 {
+            let action=try #require(ControllerAction(rawValue:"clearHotcue\(slot+1)A"))
+            let frame=try #require(model.playbackSnapshot?.a.sourceFrame)
+            model.applyController(action,value:0)
+            #expect(model.performance.cues[track.id]?[slot] != nil)
+            model.applyController(action,value:1)
+            #expect(model.performance.cues[track.id]?[slot] == nil)
+            model.applyController(action,value:1)
+            #expect(model.performance.cues[track.id]?[slot] == nil)
+            for other in (slot+1)..<8 {#expect(model.performance.cues[track.id]?[other] != nil)}
+            model.refreshPlayback()
+            #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1)-frame)<=1)
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        }
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+    }
+}
+
+@Test @MainActor func controllerCatalogueMDJ900CueClearsAndTempoPreserveFiniteSyncedPlayback() async throws {
+    try await withControllerCuePlayback("Gemini MDJ-900",manual:true) {model,input in
+        let track=try #require(model.track(.a))
+        cuePreviewPacket([0x90,1,1],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80,1,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+        model.performance.cues[track.id]=[:]
+        for n:UInt8 in 38...41 {cuePreviewPacket([0x90,n,127,n,0],to:input)}
+        try #require(model.playbackSnapshot?.a.phase.active == false)
+        #expect((0..<4).allSatisfy{model.performance.cues[track.id]?[$0] != nil})
+        cuePreviewPacket([0x90,42,127,42,0,2,127,2,0],to:input)
+        #expect(model.performance.cues[track.id]?[0]==nil && model.performance.cues[track.id]?[1] != nil)
+        _ = model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        try #require(model.playbackSnapshot?.a.phase.active == true)
+        cuePreviewPacket([0x90,43,127,43,0,18,127,18,0],to:input)
+        #expect(model.performance.cues[track.id]?[1]==nil && model.performance.cues[track.id]?[2] != nil)
+        input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+        for value:UInt8 in [0,127,64] {cuePreviewPacket([0xB0,1,value],to:input)}
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test @MainActor func controllerCatalogueReviewedClearProfilesDeleteOnlyTheirMarkerDuringPlayback() async throws {
+    for name in ["Hercules DJControl Compact","Novation Dicer","MixVibes U-Mix Control Pro 2"] {
+        try await withControllerCuePlayback(name,manual:true) {model,input in
+            let track=try #require(model.track(.a))
+            model.performance.cues[track.id]=[0:.init(frame:0),1:.init(frame:100)]
+            model.pressPlay(deck:.a,vinylStop:false)
+            _ = model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+            try #require(model.playbackSnapshot?.a.phase.active == true)
+            let p=try #require(ControllerFactoryProfile.matching([name]))
+            let b=try #require(p.bindings(source:10).first{$0.action == .clearHotcue1A && $0.targetDeck == .a})
+            let before=try #require(model.playbackSnapshot?.a.sourceFrame)
+            cuePreviewPacket([0x80+b.channel,b.number,127],to:input)
+            #expect(model.performance.cues[track.id]?[0] != nil)
+            cuePreviewPacket([0x90+b.channel,b.number,127,b.number,0],to:input)
+            #expect(model.performance.cues[track.id]?[0]==nil && model.performance.cues[track.id]?[1] != nil)
+            model.refreshPlayback();#expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1)-before)<=1)
+            let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        }
+    }
+}
+
+@Test @MainActor func controllerCatalogueReviewedPairProfilesDeleteOnlyTheirMarkerDuringPlayback() async throws {
+    for name in ["Pioneer DDJ-SB3","Reloop Terminal Mix 2/4","Hercules DJControl Jogvision","Reloop NEON","DDJ-FLX10","DDJ-1000","Pioneer DDJ-200","Pioneer DDJ-RB","Pioneer DDJ-SX","Pioneer DDJ-RX","Pioneer DDJ-RZ","Pioneer DDJ-RZX"] {
+        try await withControllerCuePlayback(name,manual:true) {model,input in
+            let track=try #require(model.track(.a))
+            model.performance.cues[track.id]=[0:.init(frame:0),1:.init(frame:100)]
+            model.pressPlay(deck:.a,vinylStop:false)
+            _ = model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+            try #require(model.playbackSnapshot?.a.phase.active == true)
+            let p=try #require(ControllerFactoryProfile.matching([name]))
+            let b=try #require(p.bindings(source:10).first{$0.action == .clearHotcue1A && $0.targetDeck == .a})
+            let before=try #require(model.playbackSnapshot?.a.sourceFrame)
+            cuePreviewPacket([0x80+b.channel,b.number,127],to:input)
+            #expect(model.performance.cues[track.id]?[0] != nil)
+            cuePreviewPacket([0x90+b.channel,b.number,127,b.number,0],to:input)
+            #expect(model.performance.cues[track.id]?[0]==nil && model.performance.cues[track.id]?[1] != nil)
+            model.refreshPlayback();#expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1)-before)<=1)
+            let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        }
+    }
+}
+
+
+@Test @MainActor func controllerCatalogueTwelveMK2CueDeleteAndSeekKeepRealAudioAndSavedSync() async throws {
+    try await withControllerCuePlayback("Rane TWELVE MKII",manual:true) {model,input in
+        let track=try #require(model.track(.a))
+        model.performance.cues[track.id]=[0:.init(frame:0),1:.init(frame:100),2:.init(frame:200)]
+        model.pressPlay(deck:.a,vinylStop:false)
+        _ = model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        try #require(model.playbackSnapshot?.a.phase.active == true)
+        let before=try #require(model.playbackSnapshot?.a.sourceFrame)
+        cuePreviewPacket([0x94,28,127,28,0],to:input)
+        #expect(model.performance.cues[track.id]?[0] != nil)
+        cuePreviewPacket([0x84,29,127],to:input)
+        #expect(model.performance.cues[track.id]?[1] != nil)
+        cuePreviewPacket([0x94,29,127,29,0],to:input)
+        #expect(model.performance.cues[track.id]?[1] == nil)
+        #expect(model.performance.cues[track.id]?[0] != nil && model.performance.cues[track.id]?[2] != nil)
+        model.refreshPlayback()
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1)-before)<=1)
+        cuePreviewPacket([0xB0,102,64],to:input)
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true)
+        #expect(model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+@Test @MainActor func controllerCatalogueMC4000FactoryPadsCueAndBendsKeepAudioSynced() async throws {
+    try await withControllerCuePlayback("MC4000") { model,input in
+        cuePreviewPacket([0x90,1,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80,5,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == false && model.playbackSnapshot?.a.phase.active == false)
+        let track=try #require(model.track(.a))
+        model.performance.cues[track.id]=[0:.init(frame:0),1:.init(frame:100)]
+        model.pressPlay(deck:.a,vinylStop:false)
+        _ = model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        try #require(model.playbackSnapshot?.a.phase.active == true)
+        let before=try #require(model.playbackSnapshot?.a.sourceFrame)
+        cuePreviewPacket([0x94,28,127,28,0],to:input)
+        model.refreshPlayback()
+        #expect(model.performance.cues[track.id]?[0] == nil && model.performance.cues[track.id]?[1] != nil)
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1)-before)<=1)
+        for (note,alternate,action):(UInt8,UInt8,ControllerAction) in [(12,32,.pitchBendDownA),(11,33,.pitchBendUpA)] {
+            cuePreviewPacket([0x90,note,127],to:input)
+            #expect(model.controllerValue(action)==1)
+            cuePreviewPacket([0x80,alternate,127],to:input)
+            #expect(model.controllerValue(action)==0)
+        }
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+
+@Test @MainActor func controllerCatalogueMDJ1000OwnCoreKeepsRealAudioAndSavedSync() async throws {
+    try await withControllerCuePlayback("MDJ-1000",manual:true) { model,input in
+        cuePreviewPacket([0x90,1,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == true)
+        cuePreviewPacket([0x80,1,127],to:input)
+        #expect(model.playbackSnapshot?.a.touchActive == false && model.playbackSnapshot?.a.phase.active == false)
+        let track=try #require(model.track(.a))
+        model.performance.cues[track.id]=[0:.init(frame:0),1:.init(frame:100)]
+        cuePreviewPacket([0x90,2,127,2,0],to:input)
+        _ = model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        try #require(model.playbackSnapshot?.a.phase.active == true)
+        let before=try #require(model.playbackSnapshot?.a.sourceFrame)
+        cuePreviewPacket([0x90,42,127,42,0],to:input)
+        model.refreshPlayback()
+        #expect(model.performance.cues[track.id]?[0] == nil && model.performance.cues[track.id]?[1] != nil)
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1)-before)<=1)
+        for (note,alternate,action):(UInt8,UInt8,ControllerAction) in [(18,24,.pitchBendDownA),(17,21,.pitchBendUpA)] {
+            cuePreviewPacket([0x90,note,127],to:input);#expect(model.controllerValue(action)==1)
+            cuePreviewPacket([0x80,alternate,127],to:input);#expect(model.controllerValue(action)==0)
+        }
+        input.currentTargetValue={model.controllerValue($0.action,targetDeck:$0.deck)}
+        for value:UInt8 in [0,127,64] {cuePreviewPacket([0xB0,4,value],to:input)}
+        #expect(abs((model.controllerValue(.filterKnobA) ?? -1)-64.0/127)<0.0001)
+        cuePreviewPacket([0x90,34,127,34,0],to:input)
+        #expect(model.performance.loopBeats(for:.a)==2 && model.playbackSnapshot?.a.loopEnabled == true)
+        cuePreviewPacket([0x90,30,127,30,0],to:input)
+        #expect(model.performance.loopBeats(for:.a)==0.125 && model.playbackSnapshot?.a.loopEnabled == true)
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+
+@Test @MainActor func controllerCatalogueStudio4aHeldDeletePreservesRealPlaybackAndSavedSync() async throws {
+    try await withControllerCuePlayback("Behringer CMD STUDIO 4a") { model,input in
+        let track=try #require(model.track(.a))
+        model.performance.cues[track.id]=[0:.init(frame:0),1:.init(frame:100)]
+        model.pressPlay(deck:.a,vinylStop:false)
+        _ = model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        try #require(model.playbackSnapshot?.a.phase.active == true)
+        let before=try #require(model.playbackSnapshot?.a.sourceFrame)
+        cuePreviewPacket([0x90,42,127,34,127,0x80,42,127,34,127],to:input)
+        model.refreshPlayback()
+        #expect(model.performance.cues[track.id]?[0] == nil && model.performance.cues[track.id]?[1] != nil)
+        #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1)-before)<=1)
+        let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+        #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+        #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+    }
+}
+
+
+@Test @MainActor func controllerBuiltinPioneerClearsDeleteWithoutMovingRealPlaybackOrSavedSync() async throws {
+    for name in ["DDJ-FLX4","DDJ-400","DDJ-FLX2","DDJ-REV1","DDJ-REV5"] {
+        try await withControllerCuePlayback(name) { model,input in
+            let track=try #require(model.track(.a))
+            model.performance.cues[track.id]=[0:.init(frame:0),1:.init(frame:100)]
+            model.pressPlay(deck:.a,vinylStop:false)
+            _ = model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+            try #require(model.playbackSnapshot?.a.phase.active == true)
+            let before=try #require(model.playbackSnapshot?.a.sourceFrame)
+            cuePreviewPacket([0x88,0,127],to:input)
+            #expect(model.performance.cues[track.id]?[0] != nil)
+            cuePreviewPacket([0x90,63,127,0x98,0,127,0x80,63,127,0x87,0,127],to:input)
+            model.refreshPlayback()
+            #expect(model.performance.cues[track.id]?[0] == nil && model.performance.cues[track.id]?[1] != nil)
+            #expect(abs((model.playbackSnapshot?.a.sourceFrame ?? -1)-before)<=1)
+            let audio=model.playback.core.renderOffline(frames:4096);model.refreshPlayback()
+            #expect(audio.left.allSatisfy(\.isFinite) && audio.right.allSatisfy(\.isFinite))
+            #expect(model.playbackSnapshot?.a.phase.active == true && model.playbackSnapshot?.a.synced == true && model.playbackSnapshot?.a.touchActive == false)
+        }
     }
 }

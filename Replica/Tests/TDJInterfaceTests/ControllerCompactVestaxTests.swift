@@ -37,7 +37,7 @@ import Testing
             #expect(data.inputs.count == count && data.outputs.count == 8)
             #expect(packets.first == [0x90, 36, name == "Typhoon" ? 0 : 127])
             #expect(packets.count == (name == "Typhoon" ? 2 : 3))
-            #expect(ControllerFactoryProfile.matching([name + " 2"]) == nil)
+            #expect(ControllerFactoryProfile.matching([name + " 2"]) != profile)
             #expect(!data.inputs.contains { [.master, .monitor, .cueMix].contains($0.action) })
         }
     }

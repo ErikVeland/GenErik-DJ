@@ -4,6 +4,29 @@ import Testing
 
 @testable import TDJInterface
 
+@Test func controllerCataloguePadModesAllowUnknownStartupAndCrossChannelInvalidation() throws {
+    let data = Data(#"{"channel":7,"numbers":[56,57,58,59],"invalidatingSelectors":[{"channel":9,"number":56}]}"#.utf8)
+    let mode = try JSONDecoder().decode(ControllerProfileData.InputMode.self, from: data)
+    #expect(mode.isValid)
+    var state = ControllerPadModeState(modes: [mode])
+    let binding = ControllerBinding(
+        source: 10, group: nil, channel: 7, kind: .note, number: 60,
+        parameter: nil, noteNumber: nil, action: .hotcue1A, encoding: .absolute, inverted: false,
+        shifted: nil, requiredMode: 56)
+    #expect(!state.allows(binding))
+    _ = state.receive(.init(kind: .note, channel: 7, number: 56, value: 1))
+    #expect(state.allows(binding))
+    _ = state.receive(.init(kind: .note, channel: 9, number: 56, value: 0))
+    #expect(state.allows(binding))
+    _ = state.receive(.init(kind: .note, group: 1, channel: 9, number: 56, value: 127))
+    #expect(state.allows(binding))
+    _ = state.receive(.init(kind: .note, channel: 9, number: 56, value: 64))
+    #expect(!state.allows(binding))
+    #expect(!state.isSelected(56, channel: 7))
+    _ = state.receive(.init(kind: .note, channel: 7, number: 56, value: 127))
+    #expect(state.allows(binding))
+}
+
 @MainActor private func withProFXPads(
     sender: @escaping ([UInt8], Int32) -> Bool = { _, _ in true },
     body: (ControllerMIDIConnection) throws -> Void
@@ -130,4 +153,81 @@ import Testing
     var invalidInput = input
     invalidInput["requiredMode"] = 99
     #expect(throws: (any Error).self) { try ControllerProfileCatalogue.decode(data([valid], binding: invalidInput)) }
+    var unknown = inputOnly
+    unknown["initial"] = nil
+    unknown["invalidatingSelectors"] = [["channel": 6, "number": 0]]
+    #expect(try ControllerProfileCatalogue.decode(data([unknown])).profiles.count == 1)
+    for selectors: [[String: Int]] in [
+        [["channel": 16, "number": 0]], [["channel": 6, "number": 128]],
+        [["channel": 6, "number": 0], ["channel": 6, "number": 0]],
+        [["channel": 4, "number": 13]], Array(repeating: ["channel": 6, "number": 0], count: 17),
+    ] {
+        var invalid = unknown; invalid["invalidatingSelectors"] = selectors
+        #expect(throws: (any Error).self) { try ControllerProfileCatalogue.decode(data([invalid])) }
+    }
+    var other = unknown; other["channel"] = 5
+    #expect(throws: (any Error).self) { try ControllerProfileCatalogue.decode(data([unknown, other])) }
+    other["invalidatingSelectors"] = [["channel": 4, "number": 0]]
+    #expect(throws: (any Error).self) { try ControllerProfileCatalogue.decode(data([unknown, other])) }
+}
+
+@Test @MainActor func controllerCatalogueManualPadModesInitialiseRestoreAndSurviveOtherDiscovery() throws {
+    let suite = "manual-pad-modes-\(UUID().uuidString)"
+    let preferences = UserDefaults(suiteName: suite)!
+    defer { preferences.removePersistentDomain(forName: suite) }
+    let p = try #require(ControllerFactoryProfile.matching(["Vestax VCI-380"]))
+    func connection() -> ControllerMIDIConnection {
+        let input = ControllerMIDIConnection(preferences: preferences, factoryInputConnector: { _ in true })
+        input.sources = [
+            .init(
+                id: 10, reference: 10, name: "Manual bridge",
+                identity: .init(id: 10, device: 10, names: ["Manual bridge"]))
+        ]
+        input.reconcileFactoryProfiles()
+        return input
+    }
+    let input = connection(); input.select(10); input.applyFactoryProfile(p)
+    var events: [ControllerActionTarget] = []; input.onTargetAction = { target, _ in events.append(target) }
+    func packet(_ bytes: [UInt8], to target: ControllerMIDIConnection) {
+        target.receiveBytes(bytes, source: 10); target.flushPendingActions()
+    }
+    packet([0x97, 60, 127, 60, 0], to: input); #expect(events.isEmpty)
+    packet([0x97, 56, 127, 56, 0, 60, 127, 60, 0], to: input)
+    #expect(events == [.init(.hotcue1A, deck: .a)])
+    input.sources.append(
+        .init(
+            id: 11, reference: 11, name: "Mixtrack Pro FX",
+            identity: .init(id: 11, device: 11, names: ["Mixtrack Pro FX"])))
+    input.reconcileFactoryProfiles(); events.removeAll()
+    packet([0x97, 60, 127, 60, 0], to: input); #expect(events == [.init(.hotcue1A, deck: .a)])
+    let restored = connection(); var restoredEvents: [ControllerActionTarget] = []
+    restored.onTargetAction = { target, _ in restoredEvents.append(target) }
+    packet([0x97, 60, 127, 60, 0], to: restored); #expect(restoredEvents.isEmpty)
+    packet([0x97, 56, 127, 56, 0, 60, 127, 60, 0], to: restored)
+    #expect(restoredEvents == [.init(.hotcue1A, deck: .a)])
+    restoredEvents.removeAll(); packet([0x99, 56, 127, 56, 0, 0x97, 60, 127, 60, 0], to: restored);
+    #expect(restoredEvents.isEmpty)
+}
+
+@Test @MainActor func controllerCatalogueManualPadModesResetOnMissingSourceAndUseDocumentedInitialMode() throws {
+    let suite = "manual-pad-reset-\(UUID().uuidString)"; let preferences = UserDefaults(suiteName: suite)!
+    defer { preferences.removePersistentDomain(forName: suite) }
+    let input = ControllerMIDIConnection(preferences: preferences, factoryInputConnector: { _ in true })
+    let source = ControllerMIDIConnection.Source(
+        id: 10, reference: 10, name: "Manual bridge", identity: .init(id: 10, device: 10, names: ["Manual bridge"]))
+    input.sources = [source]; input.select(10)
+    let p = try #require(ControllerFactoryProfile.matching(["Vestax VCI-380"]))
+    input.applyFactoryProfile(p)
+    var events: [ControllerActionTarget] = []; input.onTargetAction = { target, _ in events.append(target) }
+    input.receiveBytes([0x97, 56, 127, 56, 0, 60, 127, 60, 0], source: 10); input.flushPendingActions()
+    #expect(events == [.init(.hotcue1A, deck: .a)])
+    input.sources = []; input.reconcileFactoryProfiles()
+    input.sources = [source]; input.reconcileFactoryProfiles(); events.removeAll()
+    input.receiveBytes([0x97, 60, 127, 60, 0], source: 10); input.flushPendingActions(); #expect(events.isEmpty)
+    input.receiveBytes([0x97, 56, 127, 56, 0, 60, 127, 60, 0], source: 10); input.flushPendingActions()
+    #expect(events == [.init(.hotcue1A, deck: .a)])
+    let proFX = try #require(ControllerFactoryProfile.matching(["Mixtrack Pro FX"]))
+    input.select(10); input.applyFactoryProfile(proFX); events.removeAll()
+    input.receiveBytes([0x94, 20, 127, 20, 0], source: 10); input.flushPendingActions()
+    #expect(events == [.init(.hotcue1A, deck: .a)])
 }
