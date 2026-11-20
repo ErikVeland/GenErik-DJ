@@ -766,7 +766,7 @@ func controllerCatalogueTotalOmniNativeInReplacesAnOldLoopBeforeOutCreatesANewOn
 }
 
 @Test @MainActor func controllerCatalogueRDJ2ControllerNativeWheelNeverStartsTouchAndLoopsKeepSync() async throws {
-    try await withControllerCuePlayback("DIGITAL JOCKEY") { model, input in
+    try await withControllerCuePlayback("Reloop Digital Jockey 2 Controller Edition") { model, input in
         cuePreviewPacket([0x90, 29, 127, 0xB0, 11, 65], to: input)
         try await Task.sleep(for: .milliseconds(80))
         let samples = model.playback.core.renderOffline(frames: 4096)

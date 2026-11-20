@@ -51,3 +51,14 @@ html { overflow-wrap: normal; word-break: normal; hyphens: none; }
  @keyframes deck-warp{from{transform:perspective(650px) scaleX(.94) rotateY(-4deg);opacity:.35}to{transform:none;opacity:1}}
 }
 @media(max-width:600px){.deck-switch legend,.deck-switch label:first-of-type{margin-left:var(--gutter)}}
+
+.release-phone {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 400px);
+  align-items: center;
+  gap: clamp(24px, 5vw, 64px);
+}
+.release-phone img { width: 100%; }
+@media (max-width: 799px) {
+  .release-phone { grid-template-columns: minmax(0, 400px); }
+}

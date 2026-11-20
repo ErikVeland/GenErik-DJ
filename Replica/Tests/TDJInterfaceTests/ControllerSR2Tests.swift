@@ -123,16 +123,21 @@ import Testing
 @Test @MainActor func controllerCatalogueSR2SelectorBoundariesReleaseOnlyTheirSideAndSource() throws {
     try withSR2 { input in
         input.select(11)
-        input.applyFactoryProfile(try #require(ControllerFactoryProfile.matching(["DDJ-SR2"])))
+        input.learning = .cuePreviewB
+        sr2Packet([0x90, 12, 127, 12, 0], source: 11, to: input)
         var events: [(ControllerActionTarget, Double)] = []
         input.onTargetAction = { target, value in if target.action.isMomentary { events.append((target, value)) } }
         sr2Packet([0x90, 85, 127, 12, 127, 0x91, 12, 127], to: input)
         sr2Packet([0x90, 12, 127], source: 11, to: input)
+        #expect(events.map { $0.0.action } == [.cuePreviewA, .cuePreviewB, .cuePreviewB])
         sr2Packet([0x92, 86, 0], to: input)
-        #expect(events.map(\.1) == [1, 1])
-        sr2Packet([0x90, 87, 127], source: 11, to: input)
-        #expect(events.map { $0.0.action } == [.cuePreviewA, .cuePreviewB, .cuePreviewA])
-        #expect(events.map(\.1) == [1, 1, 0])
+        #expect(events.map(\.1) == [1, 1, 1])
+        sr2Packet([0x90, 87, 127], to: input)
+        #expect(events.map(\.1) == [1, 1, 1, 0])
+        #expect(events.last?.0 == .init(.cuePreviewA, deck: .a))
+        sr2Packet([0x80, 12, 127], source: 11, to: input)
+        #expect(events.map(\.1) == [1, 1, 1, 0, 0])
+        #expect(events.last?.0 == .init(.cuePreviewB))
         sr2Packet([0x81, 12, 127], to: input)
         #expect(events.last?.0 == .init(.cuePreviewB, deck: .b) && events.last?.1 == 0)
     }
