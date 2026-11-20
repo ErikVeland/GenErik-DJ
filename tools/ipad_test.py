@@ -92,7 +92,7 @@ def build(config, notes):
                  "-jobs", "2", f"PRODUCT_BUNDLE_IDENTIFIER={BUNDLE}",
                  f"CURRENT_PROJECT_VERSION={number}", f"DEVELOPMENT_TEAM={config['team']}",
                  "CODE_SIGN_STYLE=Automatic", "INFOPLIST_KEY_CFBundleDisplayName=GenErik DJ",
-                 "GENERIK_DEVELOPER_ACCESS=YES",
+                 "GENERIK_DEVELOPER_ACCESS=YES", "INFOPLIST_FILE=Info.plist",
                  f"GENERIK_FOUR_DECK_TRIAL={'YES' if config.get('four_deck_trial') else 'NO'}",
                  "TARGETED_DEVICE_FAMILY=1,2", "build"], stdout=output, stderr=subprocess.STDOUT)
         except subprocess.CalledProcessError:
@@ -219,6 +219,8 @@ def export_testflight(config, number, upload=False):
         raise ValueError("The saved archive changed. Export stopped.")
     if info(archive_path / "Products/Applications/GenErikDJ.app").get("GenErikDeveloperAccess") == "YES":
         raise ValueError("Developer access is enabled. Export and upload stopped.")
+    if info(archive_path / "Products/Applications/GenErikDJ.app").get("UISupportedExternalAccessoryProtocols"):
+        raise ValueError("Remove external accessory protocols before distribution.")
     folder = archive_path.parent
     action = "upload" if upload else "export"
     attempt = 1

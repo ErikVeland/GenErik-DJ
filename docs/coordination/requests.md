@@ -898,3 +898,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R511 | Device acceptance open | Check iCloud analysis before local analysis on iPad | Use retained iCloud analysis first. Allow three seconds for the network check before starting local analysis. Check stale track replacement and the transition to local analysis on A10X. |
 
 | R512 | Device acceptance open | Resume local analysis when startup sync cannot start | Bound the wait for sync admission. Identify a saved performance hold. Check offline launch and End Performance on A10X. |
+
+| R513 | Store submission pending | Separate iOS store and personal accessory support | Release archives omit the five NI protocols. Personal iPad builds keep them. Verify the signed archive and App Review submission. |

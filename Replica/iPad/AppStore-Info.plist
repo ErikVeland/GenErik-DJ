@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+    <key>NSBluetoothAlwaysUsageDescription</key><string>Connect to your wireless DJ controller.</string>
+    <key>GenErikFourDeckTrial</key><string>$(GENERIK_FOUR_DECK_TRIAL)</string>
+    <key>GenErikDeveloperAccess</key><string>$(GENERIK_DEVELOPER_ACCESS)</string>
+    <key>UILaunchStoryboardName</key><string>LaunchScreen</string>
+    <key>UISupportedInterfaceOrientations</key><array>
+        <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationPortraitUpsideDown</string>
+        <string>UIInterfaceOrientationLandscapeLeft</string>
+        <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
+    <key>UISupportedInterfaceOrientations~ipad</key><array>
+        <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationPortraitUpsideDown</string>
+        <string>UIInterfaceOrientationLandscapeLeft</string>
+        <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
+    <key>NSMicrophoneUsageDescription</key><string>Mix microphone and line audio from your Traktor controller.</string>
+    <key>UIBackgroundModes</key><array><string>audio</string><string>processing</string><string>remote-notification</string></array>
+    <key>ITSAppUsesNonExemptEncryption</key><false/>
+    <key>BGTaskSchedulerPermittedIdentifiers</key><array>
+        <string>$(PRODUCT_BUNDLE_IDENTIFIER).library-analysis.idle</string>
+        <string>$(PRODUCT_BUNDLE_IDENTIFIER).library-analysis.continued.*</string>
+    </array>
+    <key>UIFileSharingEnabled</key><true/>
+    <key>LSSupportsOpeningDocumentsInPlace</key><true/>
+</dict></plist>
