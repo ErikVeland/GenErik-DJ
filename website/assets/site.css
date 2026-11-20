@@ -65,3 +65,5 @@ html { overflow-wrap: normal; word-break: normal; hyphens: none; }
 @media (max-width: 799px) {
   .release-phone { grid-template-columns: minmax(0, 400px); }
 }
+
+.full-interface{margin:32px 0}.full-interface img{width:100%;height:auto;aspect-ratio:auto;object-fit:contain}

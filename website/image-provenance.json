@@ -20,5 +20,17 @@
     "sha256": "084ae4bf424b011519a0f4012919e4177c719c13f1dc552488f27308f4d7a1f2",
     "asset": "assets/preview-four-decks.webp",
     "status": "Synthetic track fixtures; development preview, not an App Store capture"
+  },
+  {
+    "source": "docs/app-store/screenshots-r427/ipad-10.5/03-library.png",
+    "sha256": "fa271d703dc29893119eb673f7d3505f452eb3f0df94c92f2daab6b15b4d7f00",
+    "asset": "assets/library-screen.png",
+    "status": "Full uncropped iPad capture from R427"
+  },
+  {
+    "source": "docs/app-store/screenshots-r427/ipad-10.5/04-beat-grid.png",
+    "sha256": "e4d4966764ddb0c75e47620bd8896e4948c4fe898dc6f4b2ab61b4c6f2083339",
+    "asset": "assets/beat-grid-screen.png",
+    "status": "Full uncropped iPad capture from R427"
   }
 ]
