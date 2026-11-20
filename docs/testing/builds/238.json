@@ -1,0 +1,32 @@
+{
+  "build": 238,
+  "notes": "R513 iOS 1.0.1 App Store replacement without native accessory protocols.",
+  "sourceCommit": "8730178873eb5d8eaa67c0440f4d08404e64530d",
+  "sourceSHA256": "254c29f8bede6fec5226685de58c05a19baa6236745e43f9795186f97dbe6a1d",
+  "state": "waiting-for-review",
+  "distribution": "iOS App Store",
+  "feedback": [],
+  "xcode": "Xcode 27.1\nBuild version 27A9275",
+  "developerDirectory": "/Applications/Xcode.app/Contents/Developer",
+  "createdUTC": "2026-11-20T21:27:58.982303+00:00",
+  "archive": "TestBuilds/ipad/238/GenErikDJ.xcarchive",
+  "log": "TestBuilds/ipad/238/archive.log",
+  "app": "TestBuilds/ipad/238/GenErikDJ.xcarchive/Products/Applications/GenErikDJ.app",
+  "appSHA256": "9ddd9608ff94a4302e9deaea2a0111a5387f77b9f5f9bcb50e71bfc3e3944103",
+  "archiveSHA256": "440fb611942deb44c4b084c06ada78e29ab40e8bcbe0bac342d3877da320014f",
+  "buildSeconds": 163.71,
+  "distributionAttempts": [
+    {
+      "action": "export",
+      "log": "TestBuilds/ipad/238/export-1.log",
+      "state": "failed",
+      "failure": "Command '['xcodebuild', '-exportArchive', '-archivePath', '/Users/veland/GenErik DJ/TestBuilds/ipad/238/GenErikDJ.xcarchive', '-exportPath', '/Users/veland/GenErik DJ/TestBuilds/ipad/238/export-1', '-exportOptionsPlist', '/Users/veland/GenErik DJ/TestBuilds/ipad/238/export-1.plist', '-allowProvisioningUpdates']' returned non-zero exit status 70."
+    }
+  ],
+  "version": "1.0.1",
+  "ipa": "TestBuilds/ipad/238/store-export/GenErikDJ.ipa",
+  "ipaSHA256": "2c978999655c4c91d8ca81353e2bab639efd434c825497e50f405b9f4ac6bf3d",
+  "deliveryID": "7808826e-3199-4915-8b0d-54a2bcdfcb87",
+  "storeExportLog": "TestBuilds/ipad/238/store-export-retry.log",
+  "storeUploadLog": "TestBuilds/ipad/238/store-upload.log"
+}
