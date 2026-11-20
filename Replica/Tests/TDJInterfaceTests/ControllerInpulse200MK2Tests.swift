@@ -34,7 +34,8 @@ import Testing
         #expect(data.startup.isEmpty && data.shutdown.isEmpty)
         #expect(!data.inputs.contains { $0.action == .midA || $0.action == .midB })
         #expect(ControllerFactoryProfile.matching(["DJControl Inpulse 200"]) != profile)
-        #expect(ControllerFactoryProfile.matching(["DJControl Inpulse 200 MK3"]) == nil)
+        let mk3 = try #require(ControllerFactoryProfile.matching(["DJControl Inpulse 200 MK3"]))
+        #expect(mk3 != profile)
         var events: [ControllerActionTarget] = []
         input.onTargetAction = { target, _ in events.append(target) }
         inpulse200Packet([0x91, 7, 127, 13, 127, 0x92, 12, 127, 0xB1, 5, 100, 4, 127, 2, 0], to: input)

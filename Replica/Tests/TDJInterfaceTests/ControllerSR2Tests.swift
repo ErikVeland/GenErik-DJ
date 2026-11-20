@@ -126,9 +126,9 @@ import Testing
         input.applyFactoryProfile(try #require(ControllerFactoryProfile.matching(["DDJ-SR2"])))
         var events: [(ControllerActionTarget, Double)] = []
         input.onTargetAction = { target, value in if target.action.isMomentary { events.append((target, value)) } }
-        sr2Packet([0x90, 12, 127, 0x91, 12, 127], to: input)
+        sr2Packet([0x90, 85, 127, 12, 127, 0x91, 12, 127], to: input)
         sr2Packet([0x90, 12, 127], source: 11, to: input)
-        sr2Packet([0x90, 85, 0], to: input)
+        sr2Packet([0x92, 86, 0], to: input)
         #expect(events.map(\.1) == [1, 1])
         sr2Packet([0x90, 87, 127], source: 11, to: input)
         #expect(events.map { $0.0.action } == [.cuePreviewA, .cuePreviewB, .cuePreviewA])

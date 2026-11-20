@@ -9,7 +9,13 @@ struct CloudRecoveryChoice: Identifiable, Sendable {
 }
 
 extension ReplicaModel {
-    public var canSyncCloud: Bool { !cloudBusy && !macSourceTransferActive && cloudPlaybackIsIdle }
+    public var canSyncCloud: Bool {
+        #if targetEnvironment(simulator)
+            false
+        #else
+            !cloudBusy && !macSourceTransferActive && cloudPlaybackIsIdle
+        #endif
+    }
 
     var cloudPlaybackIsIdle: Bool {
         guard !playback.isRecording, !playback.recordingFinishing, !importing,

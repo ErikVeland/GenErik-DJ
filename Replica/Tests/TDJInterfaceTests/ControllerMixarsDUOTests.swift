@@ -87,9 +87,12 @@ import Testing
     }
 }
 
-@Test @MainActor func controllerCatalogueDUORejectsRelatedModelsAndKeepsOnlyReviewedManualBindings() {
+@Test @MainActor func controllerCatalogueDUOSeparatesRelatedModelsAndKeepsOnlyReviewedManualBindings() {
     for name in ["Mixars PRIMO", "Mixars QUATTRO"] {
-        #expect(ControllerFactoryProfile.matching([name]) == nil)
+        let profile = ControllerFactoryProfile.matching([name])
+        #expect(profile != nil)
+        #expect(profile != ControllerFactoryProfile.matching(["Mixars DUO"]))
+        #expect(profile != ControllerFactoryProfile.matching(["Mixars DUO MKII"]))
     }
     for name in ["Mixars DUO", "Mixars DUO MKII"] {
         withDUO(name) { input, _ in

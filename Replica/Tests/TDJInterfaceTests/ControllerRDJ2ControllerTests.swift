@@ -9,7 +9,7 @@ import Testing
     let preferences = UserDefaults(suiteName: suite)!
     defer { preferences.removePersistentDomain(forName: suite) }
     let input = ControllerMIDIConnection(preferences: preferences, factoryPacketSender: { _, _ in true })
-    let name = "DIGITAL JOCKEY"
+    let name = "Reloop Digital Jockey 2 Controller Edition"
     input.sources = [.init(id: 10, reference: 100, name: name, identity: .init(id: 10, device: 1, names: [name]))]
     input.destinations = [.init(id: 20, reference: 200, name: name, identity: .init(id: 20, device: 1, names: [name]))]
     input.reconcileFactoryProfiles()
@@ -24,14 +24,15 @@ import Testing
 }
 
 @Test @MainActor func controllerCatalogueRDJ2ControllerKeepsIdentityWithoutTouchOrAudio() throws {
-    let profile = try #require(ControllerFactoryProfile.matching(["DIGITAL JOCKEY"], automaticOnly: true))
-    #expect(
-        profile
-            == ControllerFactoryProfile.matching(["Reloop Digital Jockey 2 Controller Edition"], automaticOnly: true))
+    let profile = try #require(
+        ControllerFactoryProfile.matching(["Reloop Digital Jockey 2 Controller Edition"], automaticOnly: true))
+    #expect(ControllerFactoryProfile.matching(["DIGITAL JOCKEY"], automaticOnly: true) == nil)
+    #expect(profile != ControllerFactoryProfile.matching(["Reloop Digital Jockey original"]))
     #expect(profile != ControllerFactoryProfile.matching(["DIGITALJOCKEY2"], automaticOnly: true))
     #expect(
         ControllerFactoryProfile.matching(
-            ["DIGITAL JOCKEY", "Reloop Digital Jockey 2 Master Edition"], automaticOnly: true) == nil)
+            ["Reloop Digital Jockey 2 Controller Edition", "Reloop Digital Jockey 2 Master Edition"],
+            automaticOnly: true) == nil)
     let data = try #require(profile.definition)
     #expect(data.inputs.count == 45 && data.outputs.count == 10)
     #expect(data.startup.count == 30 && data.shutdown.count == 30)

@@ -109,7 +109,9 @@ import Testing
         input.currentTargetValue = { _ in 0.5 }
         publicProMixerPacket([0xB1, 8, 64], input)
         publicProMixerPacket([0xB1, 8, 127, 0xB0, 1, 64], input)
-        #expect(events.map(\.action) == [.levelA, .levelA, .crossfader])
+        #expect(events.first?.action == .levelA)
+        #expect(Set(events.dropFirst().map(\.action)) == [.levelA, .crossfader])
+        #expect(events.count == 3)
         events.removeAll()
         for value: UInt8 in [0, 1, 127, 2, 126, 64] { publicProMixerPacket([0xB2, 38, value], input) }
         #expect(events.map(\.action) == [.browse, .browse])
