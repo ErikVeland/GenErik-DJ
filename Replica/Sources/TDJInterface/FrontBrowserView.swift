@@ -459,7 +459,6 @@ extension FrontBrowserView {
                     Divider()
                     sourceButton("Recordings", symbol: "recordingtape", target: .recordings)
                     sourceButton("History", symbol: "clock.fill", target: .history)
-                    sourceButton("Settings", symbol: "gearshape.fill", target: .settings)
                 }
             }
         }.alert("New playlist", isPresented: $newPlaylistPresented) {

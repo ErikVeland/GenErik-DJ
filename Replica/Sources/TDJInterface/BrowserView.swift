@@ -453,7 +453,6 @@ extension BrowserView {
             railButton("recordingtape", "Recordings", active: displayedSection == .recordings) { open(.recordings) }
             railButton("clock.fill", "History", active: displayedSection == .history) { open(.history) }
             Spacer()
-            railButton("gearshape.fill", "Settings", active: displayedSection == .settings) { open(.settings) }
         }.padding(.vertical, 14).frame(maxHeight: .infinity).background(PerformancePalette.panel)
     }
     private func open(_ target: BrowserSection) {
