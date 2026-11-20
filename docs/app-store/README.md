@@ -1,5 +1,7 @@
 # R426 App Store metadata
 
+The current compliance readiness review is in [compliance-readiness.md](compliance-readiness.md). It records the account states checked on 20 November 2026 and the remaining final-build and Account Holder decisions.
+
 `en-AU.json` holds the prepared English (Australia) metadata for app `6832211854`.
 The text reflects the current interface, local music requirements, private preparation sharing and R175 purchase design.
 It includes seven purchase localisations. Prices are not inferred or changed.
@@ -47,6 +49,8 @@ Swift syntax and the seven ID matches passed. StoreKit purchase and restore chec
 Pricing, availability and review assets are pending for all products.
 
 Both platform drafts are in Prepare for Submission.
+
+On 20 November 2026, App Store Connect showed both agreements as Active and Data Not Collected as published. Erik confirmed that the developer and vendors cannot access private music or CloudKit records outside users' apps and Apple accounts. China mainland remains enabled, with the ICP Filing Number section at Set Up. Shared Location and Dating and Relationships are saved as No, with a calculated rating of 4+. Content Rights is saved as Yes after Erik confirmed the rights basis for user-owned local music. The corrected licence notice is live. The deployed build record identifies source revision `ac40c10602384c9093fd0492dbf112c772c8ac9b`, and the public file no longer contains the candidate-cache entries. See the [compliance readiness record](compliance-readiness.md) and [China ICP filing guide](china-icp-filing.md).
 
 ## References
 
