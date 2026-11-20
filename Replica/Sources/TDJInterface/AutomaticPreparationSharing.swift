@@ -45,7 +45,7 @@ extension ReplicaModel {
             guard cloudPlaybackIsIdle, !nativeMusic.backgrounded, !nativeMusic.closed else { throw CancellationError() }
             let matches = byHash[revision.audioSHA256] ?? []
             guard !matches.isEmpty else { continue }
-            guard batch.count < 32 else { break }
+
             let read = await cloudFiles.run {
                 Result { try CloudPreparationVault(root: result.root).read(revision.id) }
             }

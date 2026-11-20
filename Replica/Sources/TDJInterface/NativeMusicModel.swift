@@ -2,6 +2,7 @@ import Foundation
 import TDJCore
 
 @MainActor final class NativeMusicSessionState {
+    var checkedStartupCloud = false
     var wanted = false
     var deferredDeepTracks = Set<String>()
     var activeTrackID: String?
@@ -85,7 +86,7 @@ extension ReplicaModel {
         guard !nativeMusic.closed else { return }
         nativeMusic.wanted = true
         if analysisProgress == nil {
-            analysisProgress = .init(done: 0, total: 0, title: "Checking library…", isLibraryAnalysis: true)
+            analysisProgress = .init(done: 0, total: 0, title: "Reading local music catalogue…", isLibraryAnalysis: true)
         }
         await refreshMusicLibrary()
         guard !Task.isCancelled else { return }
@@ -182,6 +183,19 @@ extension ReplicaModel {
 
     public func startNativeMusicAnalysis() {
         let state = nativeMusic
+        #if os(iOS) && !targetEnvironment(simulator)
+            if state.wanted, !state.closed, !state.checkedStartupCloud {
+                guard !musicLibraryRefreshing, musicLibraryCatalog != nil || musicLibraryError != nil else { return }
+                if !cloudBusy, Date() >= automaticCloudRetryAt, !state.backgrounded {
+                    startCloudSync(automatic: true)
+                }
+                let title = cloudBusy ? cloudStatus : "Waiting to check iCloud analysis while idle"
+                if analysisProgress?.isLibraryAnalysis == true, analysisProgress?.title != title {
+                    analysisProgress?.title = title
+                }
+                return
+            }
+        #endif
         guard state.wanted, !state.closed, !macSourceTransferActive, !arrangementPlaybackActive, libraryAnalysisPlaybackIsIdle,
             !deckAnalysisIsRunning, !cloudBusy || cloudSyncIsAutomatic,
             !state.backgrounded || (state.backgroundRun != nil && libraryAnalysisPlaybackIsIdle),

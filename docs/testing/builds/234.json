@@ -6,7 +6,7 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 190.51,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": ["R511: Erik reports Checking Library stays on screen from launch. Build inferred from the last installation."],
   "log": "TestBuilds/ipad/build-234.log",
   "build": 234,
   "app": "TestBuilds/ipad/234/GenErikDJ.app",

@@ -64,6 +64,9 @@ extension ReplicaModel {
                     performance: performance, automatic: automatic,
                     retainedResults: { [self] in try await adoptAutomaticCloudResults($0) }
                 ) { [self] message in
+                    if !self.nativeMusic.checkedStartupCloud, self.analysisProgress?.isLibraryAnalysis == true {
+                        self.analysisProgress?.title = message
+                    }
                     self.cloudStatus = message
                     self.logAnalysis("Cloud sync: \(message)")
                 }
@@ -79,6 +82,7 @@ extension ReplicaModel {
                 }
                 try Task.checkCancellation()
                 try await adoptAutomaticCloudResults(result)
+                nativeMusic.checkedStartupCloud = true
                 cloudStatus = result.message
                 logAnalysis("Cloud sync finished: \(result.message)")
                 automaticCloudRetryAt = Date().addingTimeInterval(60)
