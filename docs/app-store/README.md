@@ -1,6 +1,6 @@
 # R426 App Store metadata
 
-The current compliance readiness review is in [compliance-readiness.md](compliance-readiness.md). It records existing declarations, required checks, and pending human sign-off.
+The current compliance readiness review is in [compliance-readiness.md](compliance-readiness.md). It records the account states checked on 20 November 2026 and the remaining final-build and Account Holder decisions.
 
 `en-AU.json` holds the prepared English (Australia) metadata for app `6832211854`.
 The text reflects the current interface, local music requirements, private preparation sharing and R175 purchase design.
@@ -49,6 +49,8 @@ Swift syntax and the seven ID matches passed. StoreKit purchase and restore chec
 Pricing, availability and review assets are pending for all products.
 
 Both platform drafts are in Prepare for Submission.
+
+On 20 November 2026, App Store Connect showed the Free Apps Agreement and Paid Apps Agreement as Active. The Data Not Collected privacy declaration was published, but it needs review against the live privacy policy's persistent private CloudKit sync disclosure. The App Compliance page showed active China mainland Security Assessment and AI Generated or Synthetic Content entries, and a DSA trader declaration. New age-rating answers and the local-library Content Rights rationale still need Account Holder review. See the [compliance readiness record](compliance-readiness.md).
 
 ## References
 
