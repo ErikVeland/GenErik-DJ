@@ -1,0 +1,19 @@
+{
+  "notes": "R512: Bound the wait to start cloud sync and identify a saved performance pause.",
+  "sourceCommit": "d6d5a86e43ee6e8384a997751a461fe247cf11b2",
+  "sourceSHA256": "f68463131a315d9be04fd8d8e15a652aee5f7d62d61a6d490475dfe666f2f4eb",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 218.75,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-237.log",
+  "build": 237,
+  "app": "TestBuilds/ipad/237/GenErikDJ.app",
+  "appSHA256": "439cf78c1f12a3f113bf23e24735d1a301e5a381cd95f2215092939be309a71c",
+  "state": "testing",
+  "createdUTC": "2026-11-20T09:33:50.619006+00:00",
+  "installedUTC": "2026-11-20T09:34:17.146594+00:00",
+  "launchedUTC": "2026-11-20T09:34:18.135464+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}
