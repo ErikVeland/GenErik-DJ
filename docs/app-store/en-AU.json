@@ -1,7 +1,7 @@
 {
   "appID": "6832211854",
   "locale": "en-AU",
-  "status": "Proposed 1.0 release copy for the English (Australia) iOS and macOS drafts. Current controller coverage is tied to release source 6e3927d32.",
+  "status": "Saved and verified in the English (Australia) 1.0 iOS and Mac drafts on 20 November 2026.",
   "appInformation": {
     "name": "GenErik DJ",
     "subtitle": "Touch mixing & DJ controllers",
@@ -43,7 +43,7 @@
   "publication": {
     "submitForReview": false,
     "releasePublicly": false,
-    "notes": "App Store versions and purchase records are in Prepare for Submission. Purchase pricing, availability, review assets and release qualification remain open."
+    "notes": "Worldwide availability is saved for 175 territories. The base app is free and the seven purchase prices are set in AUD with local equivalents. Capture, product review assets and review submission are still in progress."
   },
   "inAppPurchaseLocalizations": [
     {
