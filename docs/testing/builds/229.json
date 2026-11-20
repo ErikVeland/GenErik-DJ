@@ -1,0 +1,9 @@
+{
+  "build": 229,
+  "state": "cancelled-before-install",
+  "sourceCommit": "e3752f3a1",
+  "notes": "R505 build stopped before installation because release builds 230 and 231 were absent from the local test ledger. Preserve this attempt and continue at 232.",
+  "log": "TestBuilds/ipad/build-229.log",
+  "feedback": [],
+  "createdUTC": "2026-11-20T07:33:33.971929+00:00"
+}

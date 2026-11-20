@@ -1,0 +1,11 @@
+{
+  "build": 231,
+  "state": "historical-release-archive",
+  "sourceCommit": null,
+  "app": "TestBuilds/r499-worldwide-release/ios/GenErikDJ-231.xcarchive/Products/Applications/GenErikDJ.app",
+  "appSHA256": "75eb65d0f33b0fadcc871b61c496f288228be6b5b18fe9b245dde0b0c1199d78",
+  "archive": "TestBuilds/r499-worldwide-release/ios/GenErikDJ-231.xcarchive",
+  "notes": "R499 release archive recovered into the test ledger during R505. App identity and content hash checked. Original source identity and deployment evidence remain in the R499 release record. This recovery is not a new build or installation.",
+  "evidence": "docs/app-store/release-r499.md",
+  "feedback": []
+}
