@@ -1,5 +1,6 @@
 """Published MIDI facts for common entry-level Pioneer controllers."""
 from curated import BASE, add, profile
+from pioneer_pad_clears import add_pioneer_pad_clears
 
 ENTRY_REFERENCES = {
     "Pioneer DDJ-SB2": ("DDJ-SB2_List_of_MIDI_Messages_E.pdf", "80eab8ee08d43e855b757b46ca6ae7bf5d2b5940b30c07f0566a76efb18e26cb", 3),
@@ -97,5 +98,7 @@ def entry_profiles():
             add(result, "openGroup", 6, 66)
         if model == "DDJ-SB" or rr:
             add(result, "openGroup", 6, 101)
+        if name in {'Pioneer DDJ-200', 'Pioneer DDJ-RB'}:
+            add_pioneer_pad_clears(result)
         results.append(result)
     return results

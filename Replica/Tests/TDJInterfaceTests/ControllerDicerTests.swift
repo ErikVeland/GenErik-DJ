@@ -42,7 +42,7 @@ import Testing
         let profile = try #require(ControllerFactoryProfile.matching(["Novation Dicers"], automaticOnly: true))
         #expect(profile.rawValue == "Novation Dicer")
         let data = try #require(profile.definition)
-        #expect(data.role == "accessory" && data.inputs.count == 42 && data.outputs.count == 20)
+        #expect(data.role == "accessory" && data.inputs.count == 62 && data.outputs.count == 20)
         #expect(data.shutdown == [[0xBA, 0, 0]])
         #expect(ControllerFactoryProfile.matching(["Dicer 2"]) == nil)
         #expect(data.outputs.allSatisfy { $0.onValue == 14 && $0.offValue == 0 })
@@ -66,7 +66,7 @@ import Testing
     }
 }
 
-@Test @MainActor func controllerCatalogueDicerAlternateDeleteReleaseRearmsCueWithoutDeletingIt() {
+@Test @MainActor func controllerCatalogueDicerAlternateDeletePressClearsAndReleaseRearmsCue() {
     for release in [UInt8(0x9A), UInt8(0x8A)] {
         withDicer { input, _ in
             var cues = 0

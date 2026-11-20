@@ -146,7 +146,9 @@ private let entryPioneerNames = ["DDJ-SB2", "DDJ-SB", "DDJ-RB", "DDJ-RR", "DDJ-2
         let button = base.merging(["action": action]) { _, value in value }
         #expect(try ControllerProfileCatalogue.decode(data(button)).profiles.count == 1)
     }
-    for mutation in [["action": "levelA"], ["action": "shift"], ["kind": "control"]] {
+    let cc = base.merging(["kind": "control"]) { _, value in value }
+    #expect(try ControllerProfileCatalogue.decode(data(cc)).profiles.count == 1)
+    for mutation in [["action": "levelA"], ["action": "shift"], ["kind": "pitch"]] {
         let invalid = base.merging(mutation) { _, value in value }
         #expect(throws: (any Error).self) { try ControllerProfileCatalogue.decode(data(invalid)) }
     }

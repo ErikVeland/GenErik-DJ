@@ -1,0 +1,20 @@
+"""Independent MDJ-900 owner inputs with distinct native Hot Cue clearing."""
+from curated import add, profile
+
+MDJ900_REFERENCES={'Gemini MDJ-900': {'url': 'https://raw.githubusercontent.com/LinuxGamesTV/Gemini-MDJ900/cfa171fa3f7e758e212fc6edb2c711dba3a4a8eb/Gemini-MDJ-900.midi.xml', 'sha256': '58d3fbce53b7a73231e2b5c50049eebed5bce0a1b732d2e684182661c0225c7f', 'upstreamRevision': 'cfa171fa3f7e758e212fc6edb2c711dba3a4a8eb', 'files': [{'cachePath': 'TestBuilds/r477/upstream/mdj900.midi.xml', 'sha256': '58d3fbce53b7a73231e2b5c50049eebed5bce0a1b732d2e684182661c0225c7f'}, {'cachePath': 'TestBuilds/r477/upstream/mdj900-scripts.js', 'sha256': '104d353e78a5893f470dbf1d934f1f86962950ef680aabec36753dfd6a22db69'}, {'cachePath': 'TestBuilds/r477/upstream/mdj900-manual.pdf', 'sha256': '9c73d00987001918bb7f4adcd7f3238b6aadcbbee381cced3066f0d567144c02'}], 'relatedSources': [{'url': 'https://github.com/LinuxGamesTV/Gemini-MDJ900'}, {'url': 'https://www.eprodance.cz/user/documents/related_files/Gemini/Gemini_MDJ_900_en.pdf', 'sha256': '9c73d00987001918bb7f4adcd7f3238b6aadcbbee381cced3066f0d567144c02'}], 'review': 'Primary own-model contributor Peter Stein/LinuxGamesTV publishes MDJ-900 XML and mapper atcfa171fa3f7e758e212fc6edb2c711dba3a4a8eb. Its credit to an earlier MDJ-1000 project does not qualify sibling compatibility. Manual raw0 player A only; generic controller id gemini does not establish USB identity. Explicit normal transport, held Cue, Sync/Keylock/Load, manual loops, four Hot Cues/clears, repeated track browsing and inverted tempo use23 native inputs. The own manufacturer manual qualifies temporary pitch bend and held Cue/Play continuation. Native bends use held pitch bend rather than the owner permanent-step customisation. Clear presses reuse existing cue deletion without moving transport or changing saved Sync; releases do not delete. Tempo uses native pickup/range. No filter or unlisted alternate address is inherited from MDJ-1000. Full Shift edge cleanup, hardware channel/deck paging, source/Link/loop-roll/slip/reverse/search/grid/FX, range discovery, jog/contact calibration, output/display/lifecycle/recovery, USB/driver/OS/power/audio/DVS and physical/iPad/A10X acceptance remain open. Source reset loops use invalid note numbers225/255; no loop runs or ships. Requires existing MIDI input and separate audio. No setup, mapper/script, query, hardware mode, preset, reset, output, driver, firmware or audio-route write runs.'}}
+
+
+def mdj900_profiles():
+    """Keep an explicit raw0 player subset separate from unresolved source modes."""
+    ref=MDJ900_REFERENCES['Gemini MDJ-900'];p=profile('Gemini MDJ-900',ref['url'])
+    p.update(definition='reviewed:mdj900-own-manual-player-core',autoSelect=False,role='player',
+        aliases=['Gemini MDJ-900','Gemini MDJ900','MDJ-900','MDJ900'],
+        excludedAliases=['MDJ-1000','MDJ1000','MDJ-500','MDJ-600','CDMP-7000','GMX'],
+        hardwareMode='Manual MDJ-900 MIDI channel1/raw0. Native target A. Use normal documented controls. Native held Cue/bends, four Hot Cues and separate clear buttons. Other channels, hardware Shift edges, jog/modes and USB identity remain unqualified. Configure app audio separately.',
+        scope='Manual23-input player core: Play/held Cue/bends, Sync/Keylock/Load, five manual-loop controls, four Hot Cues with separate clears, track browse pulses and inverted tempo. No inherited MDJ-1000/filter/jog/output or audio-route claim.',gaps=[ref['review']])
+    for action,n in [('play',2),('cuePreview',1),('loopIn',4),('loopOut',5),('reloop',6),('loopDown',7),('loopUp',8),('keylock',19),('load',9),('sync',52),('pitchBendDown',18),('pitchBendUp',17)]:add(p,action,0,n,deck='a')
+    for slot in range(1,5):
+        add(p,f'hotcue{slot}',0,37+slot,deck='a');add(p,f'clearHotcue{slot}',0,41+slot,deck='a')
+    for action,n in [('browsePrevious',11),('browseNext',12)]:add(p,action,0,n);p['inputs'][-1]['pulse']=True
+    add(p,'tempo',0,1,'control',deck='a');p['inputs'][-1]['inverted']=True
+    return [p]

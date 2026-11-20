@@ -25,13 +25,13 @@ import Testing
 @Test @MainActor func controllerCatalogueOriginalInpulse200KeepsPhysicalBandsSetupAndAudioLayout() throws {
     let profile = try #require(ControllerFactoryProfile.matching(["DJControl Inpulse 200"], automaticOnly: true))
     let data = try #require(profile.definition)
-    #expect(data.inputs.count == 81 && data.outputs.count == 22)
+    #expect(data.inputs.count == 97 && data.outputs.count == 22)
     #expect(data.startup == [[0x91, 3, 127], [0x92, 3, 127], [0x90, 4, 5], [0xB0, 127, 127]])
     #expect(!data.inputs.contains { [.master, .monitor, .midA, .midB].contains($0.action) })
     #expect(profile.hasAutomaticSplitOutput)
     #expect(AudioOutputDevice(name: "DJControl Inpulse 200", wired: true).automaticSplitOutputName == profile.rawValue)
     #expect(AudioOutputDevice(name: "DJControl Inpulse 200", wired: false).automaticSplitOutputName == nil)
-    #expect(ControllerFactoryProfile.matching(["DJControl Inpulse 200 MK3"], automaticOnly: true) == nil)
+    #expect(ControllerFactoryProfile.matching(["DJControl Inpulse 200 MK3"], automaticOnly: true) != profile)
 }
 
 @Test @MainActor func controllerCatalogueOriginalInpulse200MixerPairsRetainLowBitsAndLocalShiftPickup() {
@@ -63,7 +63,8 @@ import Testing
         #expect(events.filter { $0.0.action == .cuePreviewA }.map(\.1) == [1, 0])
         #expect(events.filter { $0.0.action == .playA }.count == 2)
         #expect(events.filter { $0.0.action == .hotcue1A }.count == 2)
-        #expect(events.count == 6)
+        #expect(events.count == 7)
+        #expect(events.filter { $0.0.action == .clearHotcue1A }.count == 1)
     }
 }
 

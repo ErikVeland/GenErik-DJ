@@ -5,14 +5,15 @@ struct ControllerProfileData: Decodable, Sendable {
     enum InputProtocol: String, Codable, Sendable {
         case smk25II, cdj101, ddjSR2, keyLabMKI, kontrolOne, midiFighterSpectra, p1Nano, sc5000M, denonPrimePlayer,
             denonPrime4, nanoKontrol2Native, nanoPad2Native, nanoKontrolScene, xdjAN, launchControlDAW,
-            launchControlTemplate, launchControlXLTemplate, mc1000, legacyUSBPlayer
+            launchControlTemplate, launchControlXLTemplate, mc1000, legacyUSBPlayer, legacySinglePlayer, orbit,
+            mpd218Chroma, mpd2Bitwig, apc64
         var setupInputMode: ControllerSetupInputDecoder.Mode? {
             self == .launchControlXLTemplate
                 ? .launchControlXLTemplate
                 : self == .launchControlTemplate
                     ? .launchControlTemplate
                     : self == .launchControlDAW
-                        ? .launchControlDAW : self == .xdjAN ? .xdjAN : korgInputMode.map { .korg($0) }
+                        ? .launchControlDAW : self == .apc64 ? .apc64 : self == .xdjAN ? .xdjAN : korgInputMode.map { .korg($0) }
         }
         var preservesRawMappings: Bool {
             self == .nanoKontrolScene || self == .xdjAN || self == .launchControlTemplate
@@ -33,7 +34,7 @@ struct ControllerProfileData: Decodable, Sendable {
         case masterAndHeadphones
     }
 
-    struct Input: Decodable, Sendable {
+    struct Input: Sendable {
         let action: ControllerAction
         let kind: ControllerMIDIMessage.Kind
         let channel: UInt8
@@ -68,16 +69,26 @@ struct ControllerProfileData: Decodable, Sendable {
     }
 
     struct InputMode: Decodable, Sendable {
+        struct Selector: Decodable, Hashable, Sendable {
+            let channel: UInt8
+            let number: UInt8
+        }
+
         let channel: UInt8
-        let initial: UInt8
+        let initial: UInt8?
         let numbers: [UInt8]
         let onValue: UInt8?
         let offValue: UInt8?
+        let invalidatingSelectors: [Selector]?
 
         var isValid: Bool {
             channel < 16 && !numbers.isEmpty && numbers.count <= 16
                 && numbers.allSatisfy { $0 < 128 } && Set(numbers).count == numbers.count
-                && numbers.contains(initial)
+                && (initial.map { numbers.contains($0) } ?? true)
+                && (invalidatingSelectors.map {
+                    $0.count <= 16 && $0.allSatisfy { $0.channel < 16 && $0.number < 128 }
+                        && Set($0).count == $0.count
+                } ?? true)
                 && ((onValue == nil && offValue == nil)
                     || (onValue.map { $0 < 128 } == true && offValue.map { $0 < 128 } == true))
         }
@@ -93,6 +104,7 @@ struct ControllerProfileData: Decodable, Sendable {
         let decks: [DeckID]
         let releaseShiftChannels: [UInt8]?
         let deckBank: UInt8?
+        let releaseNumber: UInt8?
 
         var isValid: Bool {
             (kind == nil || kind == .note || kind == .control)
@@ -102,6 +114,7 @@ struct ControllerProfileData: Decodable, Sendable {
                     : (onValue.map { $0 < 128 && (kind == .control || $0 > 0) } ?? (kind == .control)))
                 && (kind != .control || releaseShiftChannels == nil)
                 && !decks.isEmpty && decks.count <= 4 && Set(decks).count == decks.count
+                && (releaseNumber.map { deckBank != nil && $0 < 128 && $0 != number } ?? true)
                 && (releaseShiftChannels.map {
                     $0.count <= 16 && $0.allSatisfy { $0 < 16 } && Set($0).count == $0.count
                 } ?? true)
@@ -153,6 +166,8 @@ struct ControllerProfileData: Decodable, Sendable {
 
     var isValid: Bool {
         let pairedGlobals = hasPairedUnbankedGlobals
+        let manualMixer = hasManualUnbankedMixer
+        let manualTwoDeckCore = hasManualUnbankedTwoDeckCore
         return (unbankedGlobalInputs != true || pairedGlobals)
             && (role == nil || role == "player" || role == "accessory") && !id.isEmpty && id.count <= 128
             && !aliases.isEmpty
@@ -180,7 +195,7 @@ struct ControllerProfileData: Decodable, Sendable {
                         ? $0.kind == .control && ($0.lowNumber.map { $0 < 128 } ?? ($0.number < 32))
                             && $0.lowNumber != $0.number
                         : $0.lowNumber == nil)
-                    && ($0.anyChannel != true || role == "player" || pairedGlobals)
+                    && ($0.anyChannel != true || role == "player" || pairedGlobals || manualMixer || manualTwoDeckCore)
                     && ($0.requiresTouch != true || ($0.action.isJog && $0.encoding.isRelative))
                     && ($0.encoding != .unsignedCount || ($0.kind == .control && $0.action.isJog && $0.requiresTouch == true))
                     && (!$0.encoding.isContactGate
@@ -265,8 +280,13 @@ struct ControllerProfileData: Decodable, Sendable {
                     let sameAddress = (change.kind ?? .note) == (previous.kind ?? .note)
                         && (change.channel == previous.channel || change.anyChannel == true || previous.anyChannel == true)
                         && change.number == previous.number
-                    return !sameAddress || (change.kind == .control && change.onValue != nil
+                    let aliasCollision = (change.kind ?? .note) == .note && (previous.kind ?? .note) == .note
+                        && (change.channel == previous.channel || change.anyChannel == true || previous.anyChannel == true)
+                        && (change.releaseNumber == previous.number || previous.releaseNumber == change.number
+                            || (change.releaseNumber != nil && change.releaseNumber == previous.releaseNumber))
+                    return !aliasCollision && (!sameAddress || (change.kind == .control && change.onValue != nil
                         && previous.onValue != nil && change.onValue != previous.onValue)
+                    )
                 }
             }
     }
@@ -278,6 +298,7 @@ struct ControllerProfileData: Decodable, Sendable {
         let selectors = (bankChanges ?? []).filter { $0.deckBank != nil }
         guard !selectors.isEmpty || inputs.contains(where: { $0.deckBank != nil }) else { return true }
         return ((!autoSelect && outputs.isEmpty) || hasAutomaticLoadBanks) && inputProtocol == nil && role == nil
+            && (!autoSelect || selectors.allSatisfy { $0.releaseNumber == nil })
             && Set(selectors.compactMap(\.deckBank)).count == selectors.count
             && selectors.allSatisfy { selector in inputs.contains { $0.deckBank == selector.deckBank } }
             && inputs.allSatisfy { input in
@@ -288,14 +309,22 @@ struct ControllerProfileData: Decodable, Sendable {
                     && selectors.contains { $0.deckBank == bank }
             }
             && selectors.allSatisfy { selector in
-                !inputs.contains { $0.kind == .note && $0.channel == selector.channel && $0.number == selector.number }
+                !inputs.contains {
+                    $0.kind == .note && $0.channel == selector.channel
+                        && ($0.number == selector.number || $0.number == selector.releaseNumber)
+                }
             }
     }
 
     private var validInputModes: Bool {
         let modes = inputModes ?? []
+        let selectors = Set(modes.flatMap { mode in
+            mode.numbers.map { InputMode.Selector(channel: mode.channel, number: $0) }
+        })
+        let invalidators = modes.flatMap { $0.invalidatingSelectors ?? [] }
         return modes.count <= 16 && modes.allSatisfy { $0.isValid }
             && Set(modes.map(\.channel)).count == modes.count
+            && Set(invalidators).count == invalidators.count && selectors.isDisjoint(with: invalidators)
             && inputs.allSatisfy { input in
                 guard let required = input.requiredMode else { return true }
                 return input.kind == .note && input.action.isButton && !input.action.isMomentary
@@ -309,6 +338,72 @@ struct ControllerProfileData: Decodable, Sendable {
             && inputs.allSatisfy { $0.deckBank == nil || $0.action == .loadA || $0.action == .loadB }
             && !startup.isEmpty && !shutdown.isEmpty
             && outputs.allSatisfy { $0.action != .loadA && $0.action != .loadB }
+    }
+
+    /**
+     * Accepts manufacturer Bn controls and two PFL notes in a manual mixer contract.
+     */
+    private var hasManualUnbankedMixer: Bool {
+        let actions: Set<ControllerAction> = [
+            .gainA, .gainB, .highA, .highB, .midA, .midB, .lowA, .lowB, .levelA, .levelB,
+            .crossfader, .master, .monitor, .cueMix,
+        ]
+        let buttons = inputs.filter { $0.kind == .note }
+        return !autoSelect && role == "accessory" && !inputs.isEmpty && inputs.count <= 32
+            && inputs.contains { $0.kind == .control } && buttons.count <= 2
+            && Set(buttons.map(\.action)).count == buttons.count
+            && outputs.isEmpty && startup.isEmpty && shutdown.isEmpty && startupAbort == nil
+            && startupDelaysMilliseconds == nil && audioOutput == nil && inputProtocol == nil
+            && inputModes == nil && bankChanges == nil
+            && Set(inputs.map(\.number)).count == inputs.count
+            && inputs.allSatisfy {
+                let matchesKind = ($0.kind == .control && actions.contains($0.action))
+                    || ($0.kind == .note && (($0.action == .cueA && $0.targetDeck == .a)
+                        || ($0.action == .cueB && $0.targetDeck == .b)))
+                return $0.anyChannel == true && $0.channel == 0 && matchesKind && $0.encoding == .absolute
+                    && !$0.inverted && $0.shifted == nil
+                    && $0.requiredMode == nil && $0.shiftChannel == nil && $0.shiftInput == nil && $0.holdInput == nil
+                    && $0.releaseOnly == nil && $0.lowNumber == nil && $0.pulse == nil && $0.requiresTouch == nil
+                    && $0.directionStep == nil && $0.argument == nil && $0.deckBank == nil
+            }
+    }
+
+    /**
+     * Accepts a manual two-deck core only when every wire and action is unique.
+     */
+    private var hasManualUnbankedTwoDeckCore: Bool {
+        guard !autoSelect, role == nil, (7...33).contains(inputs.count),
+            outputs.isEmpty, startup.isEmpty, shutdown.isEmpty, startupAbort == nil,
+            startupDelaysMilliseconds == nil, audioOutput == nil, inputProtocol == nil,
+            inputModes == nil, bankChanges == nil, portAliases == nil, unbankedGlobalInputs == nil,
+            inputs.allSatisfy({ $0.anyChannel == true && $0.channel == 0 }),
+            Set(inputs.map(\.number)).count == inputs.count,
+            Set(inputs.map(\.action)).count == inputs.count
+        else { return false }
+        let buttons: Set<ControllerAction> = [
+            .playA, .playB, .cuePreviewA, .cuePreviewB, .syncA, .syncB, .keylockA, .keylockB,
+            .loadA, .loadB, .cueA, .cueB, .pitchBendDownA, .pitchBendDownB, .pitchBendUpA, .pitchBendUpB,
+            .loopUpA, .loopUpB, .loopDownA, .loopDownB,
+            .cueStopA, .cueStopB, .reloopA, .reloopB,
+        ]
+        let controls: Set<ControllerAction> = [
+            .gainA, .gainB, .highA, .highB, .midA, .midB, .lowA, .lowB, .levelA, .levelB,
+            .crossfader, .cueMix, .monitor,
+        ]
+        let required: Set<ControllerAction> = [
+            .playA, .playB, .cuePreviewA, .cuePreviewB, .levelA, .levelB,
+        ]
+        return required.isSubset(of: Set(inputs.map(\.action))) && inputs.allSatisfy {
+            let matchesKind = ($0.kind == .note && buttons.contains($0.action))
+                || ($0.kind == .control && controls.contains($0.action))
+            let isGlobal = [.crossfader, .cueMix, .monitor].contains($0.action)
+            let matchesDeck = isGlobal ? $0.targetDeck == nil : $0.targetDeck == $0.action.deck
+            return matchesKind && matchesDeck && $0.encoding == .absolute
+                && (!$0.inverted || $0.action == .crossfader) && $0.shifted == nil
+                && $0.requiredMode == nil && $0.shiftChannel == nil && $0.shiftInput == nil && $0.holdInput == nil
+                && $0.releaseOnly == nil && $0.lowNumber == nil && $0.pulse == nil && $0.requiresTouch == nil
+                && $0.directionStep == nil && $0.argument == nil && $0.deckBank == nil
+        }
     }
 
     /**
@@ -338,7 +433,7 @@ struct ControllerProfileData: Decodable, Sendable {
 
     private var validStartupAbort: Bool {
         guard let startupAbort else { return true }
-        return autoSelect && (inputProtocol == nil || (inputProtocol == .launchControlDAW && role == "accessory"))
+        return autoSelect && (inputProtocol == nil || ((inputProtocol == .launchControlDAW || inputProtocol == .apc64) && role == "accessory"))
             && !startup.isEmpty && !shutdown.isEmpty
             && !startupAbort.isEmpty && startupAbort.count <= 4
     }
@@ -386,7 +481,7 @@ struct ControllerProfileCatalogue: Decodable, Sendable {
     let profiles: [ControllerProfileData]
 
     private static let loaded: Result<Self, Error> = Result {
-        guard let url = Bundle.module.url(forResource: "factory-controller-profiles", withExtension: "json")
+        guard let url = Bundle.module.url(forResource: "factory-controller-profiles.compact", withExtension: "json")
         else { throw TransportError.invalid }
         return try decode(Data(contentsOf: url))
     }

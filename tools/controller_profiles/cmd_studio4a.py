@@ -10,13 +10,13 @@ STUDIO4A_SOURCES = [
 STUDIO4A_REFERENCES = {"Behringer CMD STUDIO 4a": {
     "url": UPSTREAM + STUDIO4A_SOURCES[0][0].replace(" ", "%20"), "sha256": STUDIO4A_SOURCES[0][1],
     "relatedSources": [{"url": UPSTREAM + name.replace(" ", "%20"), "sha256": digest} for name, digest in STUDIO4A_SOURCES[1:]] + [{"url": STUDIO4A_MANUAL}],
-    "review": "Pinned XML and script document four deck channels, centre64 jogs, physical touch and600-count scratch. Native fixed touch scratch replaces the software scratch toggle. Right manual loop In/Out retain the XML's reversed37/38 order. Full pitch messages apply native source-rate inversion and pickup. Native held bend replaces source permanent rate steps and optional key-shift mode. DEL is a source-local physical-side hold guard across A/C and B/D channels: unsupported alternate presses stay inactive, while old Cue/contact/bend releases remain valid. Source latched DEL mode, reverse/slip/autoloops, cue deletion, held Hot Cue previews, scratch toggle and bank-contact qualification remain open. Mixer and quick-filter controls retain source software assignments. Native six transport/PFL/loop states per deck use source on1/off0 values. Eight mode indicators initialise fixed Scratch on and DEL off; shutdown clears those and24 native outputs. Pad LEDs, live meters, EQ kill, FX, full browser/mode cleanup, calibration and physical acceptance stay open. The mapping author's manual specifies master1/2 and headphones3/4. No JS, timers or beatgrid mutation run in the app.",
+    "review": "Pinned XML and script document four deck channels, centre64 jogs, physical touch and600-count scratch. Native fixed touch scratch replaces the software scratch toggle. Right manual loop In/Out retain the XML's reversed37/38 order. Full pitch messages apply native source-rate inversion and pickup. Native held bend replaces source permanent rate steps and optional key-shift mode. DEL is a source-local physical-side hold guard across A/C and B/D channels: unsupported alternate presses stay inactive, while old Cue/contact/bend releases remain valid. R485 adds32 positive-only native clears while the existing physical-side DEL guard is held. The own hotcue function explicitly calls hotcue_clear when delPushed. Native retains its existing source-local A/C and B/D hold scope rather than copying the source global flag. Source latched DEL mode, reverse/slip/autoloops, held Hot Cue previews, scratch toggle and bank-contact qualification remain open. Mixer and quick-filter controls retain source software assignments. Native six transport/PFL/loop states per deck use source on1/off0 values. Eight mode indicators initialise fixed Scratch on and DEL off; shutdown clears those and24 native outputs. Pad LEDs, live meters, EQ kill, FX, full browser/mode cleanup, calibration and physical acceptance stay open. The mapping author's manual specifies master1/2 and headphones3/4. No JS, timers or beatgrid mutation run in the app.",
 }}
 
 
 def studio4a_profiles():
     result = profile("Behringer CMD STUDIO 4a", STUDIO4A_REFERENCES["Behringer CMD STUDIO 4a"]["url"])
-    result.update(audioOutput="masterAndHeadphones", scope="Automatic four-channel native core with600-count fixed touch scratch, held Cue/bend, pitch pickup, eight cues, manual loops, mixer/filter, Load and native transport feedback. C/D require app opt-in. Source latched modes, full feedback, bank-contact qualification and physical acceptance remain open.")
+    result.update(audioOutput="masterAndHeadphones", scope="Automatic four-channel native core with600-count fixed touch scratch, held Cue/bend, pitch pickup, eight cues with held-DEL clearing, manual loops, mixer/filter, Load and native transport feedback. C/D require app opt-in. Source latched modes, full feedback, bank-contact qualification and physical acceptance remain open.")
     for channel, deck in enumerate("abcd"):
         side = channel % 2
         base = 32 * side
@@ -53,4 +53,9 @@ def studio4a_profiles():
     for action, number in [("openGroup", 1), ("browsePreviousGroup", 2), ("browseNextGroup", 3)]:
         add(result, action, 0, number)
     result["shutdown"] += [[0x90 + r["channel"], r["number"], 0] for r in result["outputs"]]
+    for channel, deck in enumerate("abcd"):
+        side = channel % 2
+        for slot in range(8):
+            add(result, f"clearHotcue{slot + 1}", channel, 34 + 32 * side + slot, deck=deck)
+            result["inputs"][-1].update(shifted=True, shiftChannel=side)
     return [result]

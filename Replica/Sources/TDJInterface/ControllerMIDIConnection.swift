@@ -15,7 +15,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     case filterA, filterB, fxA, fxB, fxToggleA, fxToggleB, crossfader, cueMix
     case filterToggleA, filterToggleB, master, monitor, tempoA, tempoB
     case loopA, loopB, loopUpA, loopUpB, loopDownA, loopDownB, jumpBackA, jumpBackB, jumpForwardA, jumpForwardB
-    case cueReturnA, cueReturnB, cuePreviewA, cuePreviewB, freezeA, freezeB
+    case cueReturnA, cueReturnB, cueStopA, cueStopB, cuePreviewA, cuePreviewB, freezeA, freezeB
     case jogA, jogB, jogTouchA, jogTouchB, wheelJogA, wheelJogB
     case browse, browseGroups, openGroup, loadA, loadB
     case browsePrevious, browseNext, browsePreviousGroup, browseNextGroup
@@ -33,6 +33,8 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     case loopOutOrExitA, loopOutOrExitB
     case hotcue1A, hotcue2A, hotcue3A, hotcue4A, hotcue5A, hotcue6A, hotcue7A, hotcue8A
     case hotcue1B, hotcue2B, hotcue3B, hotcue4B, hotcue5B, hotcue6B, hotcue7B, hotcue8B
+    case clearHotcue1A, clearHotcue2A, clearHotcue3A, clearHotcue4A, clearHotcue5A, clearHotcue6A, clearHotcue7A, clearHotcue8A
+    case clearHotcue1B, clearHotcue2B, clearHotcue3B, clearHotcue4B, clearHotcue5B, clearHotcue6B, clearHotcue7B, clearHotcue8B
     var id: String { rawValue }
     var deck: DeckID { rawValue.hasSuffix("B") ? .b : .a }
     var title: String {
@@ -52,6 +54,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
         if self == .filterKnobA || self == .filterKnobB {
             return "\(deck.rawValue.uppercased()) · Filter knob (automatic on/off)"
         }
+        if let clearHotcueSlot { return "\(deck.rawValue.uppercased()) · Clear Hotcue \(clearHotcueSlot + 1)" }
         if let hotcueSlot { return "\(deck.rawValue.uppercased()) · Hotcue \(hotcueSlot + 1)" }
         let labels = [
             "play": "Play / Pause", "sync": "Sync", "keylock": "Key lock", "cue": "Headphone cue", "level": "Volume",
@@ -61,7 +64,7 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
             "gain": "Gain", "low": "Low EQ", "mid": "Mid EQ", "high": "High EQ", "filter": "Filter",
             "filterToggle": "Filter on / off", "fx": "Effect amount", "fxToggle": "Effect on / off",
             "tempo": "Tempo ±8%", "loop": "Loop on / off", "loopUp": "Larger loop", "loopDown": "Smaller loop",
-            "jumpBack": "Beat jump back", "jumpForward": "Beat jump forward", "cueReturn": "Cue return / set", "cuePreview": "Cue preview (hold)",
+            "jumpBack": "Beat jump back", "jumpForward": "Beat jump forward", "cueReturn": "Cue return / set", "cueStop": "Go to Cue and stop", "cuePreview": "Cue preview (hold)",
             "freeze": "Freeze", "jog": "Platter jog", "jogTouch": "Platter touch", "wheelJog": "Wheel-side jog",
             "toggleFixedLoop": "Loop pad", "fixedLoop": "Fixed beat loop", "fixedJump": "Fixed beat jump", "loopIn": "Loop in", "loopOut": "Loop out",
             "seek": "Waveform position", "tempoReset": "Tempo reset",
@@ -109,6 +112,10 @@ enum ControllerAction: String, CaseIterable, Codable, Identifiable, Sendable {
     }
     var hotcueSlot: Int? {
         guard rawValue.hasPrefix("hotcue"), let value = Int(rawValue.dropFirst(6).dropLast()) else { return nil }
+        return value - 1
+    }
+    var clearHotcueSlot: Int? {
+        guard rawValue.hasPrefix("clearHotcue"), let value = Int(rawValue.dropFirst(11).dropLast()) else { return nil }
         return value - 1
     }
     var supportsFeedback: Bool {
@@ -399,6 +406,10 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     @ObservationIgnored private var spectraDecoders: [Int32: ControllerSpectraDecoder] = [:]
     @ObservationIgnored private var p1NanoDecoders: [Int32: ControllerP1NanoDecoder] = [:]
     @ObservationIgnored private var legacyUSBPlayerDecoders: [Int32: ControllerLegacyUSBPlayerDecoder] = [:]
+    @ObservationIgnored private var legacySinglePlayerDecoders: [Int32: ControllerLegacySinglePlayerDecoder] = [:]
+    @ObservationIgnored private var orbitDecoders: [Int32: ControllerOrbitDecoder] = [:]
+    @ObservationIgnored private var mpd218Decoders: [Int32: ControllerMPD218Decoder] = [:]
+    @ObservationIgnored private var mpd2BitwigDecoders: [Int32: ControllerMPD2BitwigDecoder] = [:]
     @ObservationIgnored private var mc1000Decoders: [Int32: ControllerMC1000Decoder] = [:]
     @ObservationIgnored private var keyLabDecoders: [Int32: ControllerKeyLabDecoder] = [:]
     @ObservationIgnored private var manualFactoryProfiles: [Int32: ControllerFactoryProfile] = [:]
@@ -503,6 +514,9 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         if let data = preferences.data(forKey: Self.manualProfilesStorageKey), data.count <= 16_384,
             let saved = try? JSONDecoder().decode([Int32: ControllerFactoryProfile].self, from: data), saved.count <= 64 {
             manualFactoryProfiles = saved.filter { source, _ in bindings.contains { $0.source == source } }
+            for (source, profile) in manualFactoryProfiles {
+                factoryPadModes[source] = profile.definition?.inputModes.map { .init(modes: $0) }
+            }
         }
         if let data = preferences.data(forKey: Self.inputProtocolsStorageKey), data.count <= 4096,
             let saved = try? JSONDecoder().decode([Int32: ControllerProfileData.InputProtocol].self, from: data),
@@ -632,6 +646,10 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         keyLabDecoders.removeAll()
         p1NanoDecoders.removeAll()
         legacyUSBPlayerDecoders.removeAll()
+        legacySinglePlayerDecoders.removeAll()
+        orbitDecoders.removeAll()
+        mpd218Decoders.removeAll()
+        mpd2BitwigDecoders.removeAll()
         mc1000Decoders.removeAll()
         setupInputDecoders.removeAll()
         sc5000MDecoders.removeAll()
@@ -785,7 +803,9 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         shiftLayers[source] = nil
         channelShiftLayers[source] = nil
         resetInputValueStates(inputBindings(source: source))
-        if inputProtocol(for: source) == .launchControlTemplate || inputProtocol(for: source) == .launchControlXLTemplate {
+        if inputProtocol(for: source) == .apc64 {
+            status = ready ? "Controller ready." : "Select Session mode on APC64 to continue."
+        } else if inputProtocol(for: source) == .launchControlTemplate || inputProtocol(for: source) == .launchControlXLTemplate {
             status = ready ? "Controller template ready." : "Reading the controller template. Select a User template if setup does not finish."
         } else if inputProtocol(for: source) == .nanoKontrolScene {
             status = ready ? "Controller scene ready." : "Reading the controller scene. Reconnect if setup does not finish."
@@ -803,6 +823,14 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
 
     func reconcileFactoryProfiles(reassigning: Set<Int32> = []) {
         factorySetupFailure = nil
+        let presentSources = Set(sources.map(\.id))
+        for (source, profile) in manualFactoryProfiles {
+            guard presentSources.contains(source), let modes = profile.definition?.inputModes else {
+                factoryPadModes[source] = nil
+                continue
+            }
+            if factoryPadModes[source] == nil { factoryPadModes[source] = .init(modes: modes) }
+        }
         timedFactoryInputs = Set(sources.compactMap { source in
             guard let identity = source.identity,
                 let profile = ControllerFactoryProfile.matching(identity.names, automaticOnly: true),
@@ -863,7 +891,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             advanceFactorySetups()
             return
         }
-        var padModes: [Int32: ControllerPadModeState] = [:]
+        var padModes = factoryPadModes.filter { manualFactoryProfiles[$0.key] != nil && presentSources.contains($0.key) }
         for session in sessions {
             guard let modes = session.profile.definition?.inputModes else { continue }
             padModes[session.source] = factorySessions.contains(session)
@@ -970,7 +998,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         guard let messages, !messages.isEmpty else { return true }
         for message in messages {
             guard sendFactoryMessage(message, session: session, starting: starting) else {
-                if starting { abortFactoryStartup(session) }
+                if starting || session.profile.definition?.inputProtocol == .apc64 { abortFactoryStartup(session) }
                 return false
             }
         }
@@ -978,7 +1006,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
     }
 
     /**
-     * Attempts the reviewed exit sequence after partial setup failure without enabling input.
+     * Attempts the reviewed exit after partial setup or APC64 shutdown failure.
      */
     private func abortFactoryStartup(_ session: ControllerFactorySession) {
         for message in session.profile.definition?.startupAbort ?? [] {
@@ -1156,6 +1184,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         }
         releaseMomentaryActions(source: selected)
         manualFactoryProfiles[selected] = profile
+        factoryPadModes[selected] = profile.definition?.inputModes.map { .init(modes: $0) }
         setManualInputProtocol(profile.definition?.inputProtocol, source: selected)
         bindings.removeAll { $0.source == selected }
         bindings.append(contentsOf: replacement)
@@ -1297,6 +1326,10 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         keyLabDecoders[source] = nil
         p1NanoDecoders[source] = nil
         legacyUSBPlayerDecoders[source] = nil
+        legacySinglePlayerDecoders[source] = nil
+        orbitDecoders[source] = nil
+        mpd218Decoders[source] = nil
+        mpd2BitwigDecoders[source] = nil
         mc1000Decoders[source] = nil
         setupInputDecoders[source] = nil
         sc5000MDecoders[source] = nil
@@ -1336,6 +1369,10 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         keyLabDecoders[id] = nil
         p1NanoDecoders[id] = nil
         legacyUSBPlayerDecoders[id] = nil
+        legacySinglePlayerDecoders[id] = nil
+        orbitDecoders[id] = nil
+        mpd218Decoders[id] = nil
+        mpd2BitwigDecoders[id] = nil
         mc1000Decoders[id] = nil
         setupInputDecoders[id] = nil
         sc5000MDecoders[id] = nil
@@ -1367,6 +1404,10 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
         keyLabDecoders[id] = nil
         p1NanoDecoders[id] = nil
         legacyUSBPlayerDecoders[id] = nil
+        legacySinglePlayerDecoders[id] = nil
+        orbitDecoders[id] = nil
+        mpd218Decoders[id] = nil
+        mpd2BitwigDecoders[id] = nil
         mc1000Decoders[id] = nil
         setupInputDecoders[id] = nil
         sc5000MDecoders[id] = nil
@@ -1580,7 +1621,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 ]
             ),
             (
-                UInt8(8),
+                UInt8(9),
                 [
                     ControllerAction.hotcue1B, .hotcue2B, .hotcue3B, .hotcue4B, .hotcue5B, .hotcue6B, .hotcue7B,
                     .hotcue8B,
@@ -1976,7 +2017,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                 deck == "A"
                 ? [.hotcue1A, .hotcue2A, .hotcue3A, .hotcue4A, .hotcue5A, .hotcue6A, .hotcue7A, .hotcue8A]
                 : [.hotcue1B, .hotcue2B, .hotcue3B, .hotcue4B, .hotcue5B, .hotcue6B, .hotcue7B, .hotcue8B]
-            let padChannel: UInt8 = deck == "A" ? 7 : 8
+            let padChannel: UInt8 = deck == "A" ? 7 : 9
             profile += hotcues.enumerated().map {
                 binding($0.element, kind: .note, channel: padChannel, number: UInt8($0.offset))
             }
@@ -1998,6 +2039,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             binding(.monitor, kind: .control, channel: 6, number: 13, encoding: .paired14Bit),
             binding(.shift, kind: .note, channel: 6, number: 63),
         ]
+        profile += pioneerPairedHotcueClearBindings(source: source)
         return profile
     }
     static func ddjREV1Bindings(source: Int32) -> [ControllerBinding] {
@@ -2057,6 +2099,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             binding(.monitor, kind: .control, channel: 6, number: 13, encoding: .paired14Bit),
             binding(.shift, kind: .note, channel: 6, number: 63),
         ]
+        profile += pioneerPairedHotcueClearBindings(source: source)
         return profile
     }
     func bindingName(_ action: ControllerAction) -> String {
@@ -2195,6 +2238,91 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
                     resetInputValueStates(inputBindings(source: source).filter {
                         $0.targetDeck.map { decks.contains($0) } == true
                     })
+                }
+            }
+            return events.count
+        }
+        if inputProtocol(for: source) == .mpd2Bitwig {
+            var decoder = mpd2BitwigDecoders[source, default: .init()]
+            let events = decoder.append(bytes)
+            mpd2BitwigDecoders[source] = decoder
+            guard events.count <= limit else {
+                stop()
+                status = "Controller input overload. Reconnect to continue."
+                return nil
+            }
+            for event in events {
+                switch event {
+                case .message(let message): receive(message, source: source)
+                case .padBankChanged:
+                    flushPendingActions()
+                    releaseMomentaryActions(source: source)
+                    resetInputValueStates(inputBindings(source: source).filter { $0.kind == .note })
+                case .controlBankChanged(let channel):
+                    flushPendingActions()
+                    resetInputValueStates(inputBindings(source: source).filter {
+                        $0.kind == .control && ($0.action.isButton || $0.channel == channel)
+                    })
+                }
+            }
+            return events.count
+        }
+        if inputProtocol(for: source) == .mpd218Chroma {
+            var decoder = mpd218Decoders[source, default: .init()]
+            let events = decoder.append(bytes)
+            mpd218Decoders[source] = decoder
+            guard events.count <= limit else {
+                stop()
+                status = "Controller input overload. Reconnect to continue."
+                return nil
+            }
+            for event in events {
+                switch event {
+                case .message(let message): receive(message, source: source)
+                case .bankChanged:
+                    flushPendingActions()
+                    releaseMomentaryActions(source: source)
+                    resetInputValueStates(inputBindings(source: source).filter { $0.kind == .note })
+                }
+            }
+            return events.count
+        }
+        if inputProtocol(for: source) == .orbit {
+            var decoder = orbitDecoders[source, default: .init()]
+            let events = decoder.append(bytes)
+            orbitDecoders[source] = decoder
+            guard events.count <= limit else {
+                stop()
+                status = "Controller input overload. Reconnect to continue."
+                return nil
+            }
+            for event in events {
+                switch event {
+                case .message(let message): receive(message, source: source)
+                case .bankChanged:
+                    flushPendingActions()
+                    releaseMomentaryActions(source: source)
+                    resetInputValueStates(inputBindings(source: source))
+                }
+            }
+            return events.count
+        }
+        if inputProtocol(for: source) == .legacySinglePlayer {
+            var decoder = legacySinglePlayerDecoders[source, default: .init()]
+            let events = decoder.append(bytes)
+            legacySinglePlayerDecoders[source] = decoder
+            guard events.count <= limit else {
+                stop()
+                status = "Controller input overload. Reconnect to continue."
+                return nil
+            }
+            for event in events {
+                switch event {
+                case .message(let message): receive(message, source: source)
+                case .controlsChanged:
+                    flushPendingActions()
+                    releaseMomentaryActions(source: source, decks: [.a, .b])
+                    resetInputValueStates(inputBindings(source: source))
                 }
             }
             return events.count
@@ -2769,7 +2897,8 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             let session = factorySessions.first(where: { $0.source == source }),
             let id = session.destination, let destination = destinations.first(where: { $0.id == id }) else { return }
         for number in mode.numbers {
-            let packet = [0x90 | mode.channel, number, number == message.number ? onValue : offValue]
+            let active = factoryPadModes[source]?.isSelected(number, channel: mode.channel) == true
+            let packet = [0x90 | mode.channel, number, active ? onValue : offValue]
             let sent = factoryPacketSender?(packet, id)
                 ?? (outputPort != 0 && sendMIDIMessage(packet, destination: destination.reference))
             if !sent {
@@ -2787,7 +2916,7 @@ private func controllerMessages(from eventList: UnsafePointer<MIDIEventList>) ->
             let profile = manualFactoryProfiles[source] ?? factorySessions.first(where: { $0.source == source })?.profile,
             let change = profile.definition?.bankChanges?.first(where: {
                 ($0.kind ?? .note) == message.kind && ($0.anyChannel == true || $0.channel == message.channel)
-                    && $0.number == message.number
+                    && ($0.number == message.number || (message.isNoteOff && $0.releaseNumber == message.number))
                     && (message.isNoteOff ? ($0.releaseShiftChannels != nil || $0.deckBank != nil)
                         : $0.anyPositive == true ? message.value > 0
                         : $0.onValue.map { Int($0) == message.value } ?? true)

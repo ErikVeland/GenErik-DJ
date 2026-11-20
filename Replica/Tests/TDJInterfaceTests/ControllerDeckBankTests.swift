@@ -58,6 +58,10 @@ private func deckBankFixture(
     }
     let valid = try decode(fixture)
     #expect(valid.profiles.first?.requiresPairedSetup == true)
+    var invalidAlias = fixture
+    var aliasChanges = try #require(fixture["bankChanges"] as? [[String: Any]])
+    aliasChanges[0]["releaseNumber"] = 64; invalidAlias["bankChanges"] = aliasChanges
+    #expect(throws: (any Error).self) { try decode(invalidAlias) }
     for field in ["startup", "shutdown"] {
         var invalid = fixture
         invalid[field] = []
@@ -227,5 +231,63 @@ private func deckBankFixture(
         }
         vms5Packet([0x90, 12, 127, 12, 0, 46, 127, 46, 0], input)
         #expect(events == [.a, .b])
+    }
+}
+
+private func deckBankReleaseFixture(number: Int = 64, update: ([String: Any]) -> [String: Any] = { $0 }) throws -> Data
+{
+    let base = try #require(try JSONSerialization.jsonObject(with: deckBankFixture()) as? [String: Any])
+    var profile = try #require((base["profiles"] as? [[String: Any]])?.first)
+    var changes = try #require(profile["bankChanges"] as? [[String: Any]])
+    changes[0]["releaseNumber"] = number; profile["bankChanges"] = changes
+    return try JSONSerialization.data(withJSONObject: ["schemaVersion": 1, "profiles": [update(profile)]])
+}
+
+@Test func controllerDeckBankShiftedReleaseRearmsWithoutSwitchingOnAlternatePositives() throws {
+    let data = try ControllerProfileCatalogue.decode(deckBankReleaseFixture())
+    let selector = try #require(data.profiles.first?.bankChanges?.first)
+    for velocity in [0, 127] {
+        var state = ControllerDeckBankState()
+        let first = state.receive(.init(kind: .note, channel: 0, number: 14, value: 127), selector: selector);
+        #expect(first)
+        #expect(state.deck(for: 0) == .c)
+        let alternate = state.receive(.init(kind: .note, channel: 0, number: 64, value: 127), selector: selector);
+        #expect(!alternate)
+        let release = state.receive(
+            .init(kind: .note, channel: 0, number: 64, value: velocity, isNoteOff: true), selector: selector);
+        #expect(!release)
+        let next = state.receive(.init(kind: .note, channel: 0, number: 14, value: 127), selector: selector);
+        #expect(next)
+        #expect(state.deck(for: 0) == .a)
+    }
+}
+
+@Test func controllerDeckBankReleaseAliasRejectsRangeCollisionsAndUnbankedSelectors() throws {
+    _ = try ControllerProfileCatalogue.decode(deckBankReleaseFixture())
+    for number in [-1, 128, 14, 13] {
+        #expect(throws: (any Error).self) {
+            try ControllerProfileCatalogue.decode(deckBankReleaseFixture(number: number))
+        }
+    }
+    let unbanked = try deckBankReleaseFixture { profile in
+        var p = profile; var changes = p["bankChanges"] as! [[String: Any]]; changes[0].removeValue(forKey: "deckBank");
+        p["bankChanges"] = changes
+        var inputs = p["inputs"] as! [[String: Any]]; inputs[0].removeValue(forKey: "deckBank"); p["inputs"] = inputs;
+        return p
+    }
+    #expect(throws: (any Error).self) { try ControllerProfileCatalogue.decode(unbanked) }
+    for number in [14, 64] {
+        let collision = try deckBankReleaseFixture { profile in
+            var p = profile; var changes = p["bankChanges"] as! [[String: Any]]
+            changes.append(["channel": 0, "number": number, "onValue": 127, "decks": ["b", "d"], "deckBank": 1])
+            p["bankChanges"] = changes
+            var inputs = p["inputs"] as! [[String: Any]]
+            inputs.append([
+                "action": "playB", "kind": "note", "channel": 0, "number": 15, "encoding": "absolute",
+                "inverted": false, "targetDeck": "b", "deckBank": 1,
+            ])
+            p["inputs"] = inputs; return p
+        }
+        #expect(throws: (any Error).self) { try ControllerProfileCatalogue.decode(collision) }
     }
 }

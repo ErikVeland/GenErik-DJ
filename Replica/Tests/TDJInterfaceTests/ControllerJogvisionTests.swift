@@ -41,7 +41,7 @@ import Testing
         #expect(packets == [[0xB0, 126, 127], [0x90, 70, 127], [0xB0, 127, 127]])
         let profile = try #require(ControllerFactoryProfile.matching(["DJControl Jogvision"], automaticOnly: true))
         let definition = try #require(profile.definition)
-        #expect(definition.inputs.count == 61 && definition.outputs.count == 26)
+        #expect(definition.inputs.count == 109 && definition.outputs.count == 26)
         #expect(definition.shutdown == [[0xB0, 126, 0], [0x90, 70, 0]])
         #expect(ControllerFactoryProfile.matching(["DJControl Jogvision MK2"], automaticOnly: true) == nil)
         #expect(!definition.inputs.contains { $0.channel == 0 && $0.kind == .control && $0.number == 79 })
@@ -80,7 +80,7 @@ import Testing
     }
 }
 
-@Test @MainActor func controllerCatalogueJogvisionKeepsSampleAndDeletePagesSeparateFromHotCues() {
+@Test @MainActor func controllerCatalogueJogvisionKeepsClearRolesAndSamplePagesSeparateFromHotCues() {
     withJogvision { input, _ in
         var events: [ControllerActionTarget] = []
         input.onTargetAction = { target, _ in events.append(target) }
@@ -89,7 +89,7 @@ import Testing
                 0x90, 16, 127, 23, 127, 24, 127, 31, 127, 32, 127, 39, 127,
                 0x91, 0, 127, 1, 127, 2, 127, 0xB1, 68, 1,
             ], to: input)
-        #expect(events.map(\.action) == [.hotcue1A, .hotcue8A, .loopDownB, .loopB, .loopUpB, .loopSizeB])
+        #expect(events.map(\.action) == [.hotcue1A, .hotcue8A, .clearHotcue1A, .clearHotcue8A, .loopDownB, .loopB, .loopUpB, .loopSizeB])
         #expect(events.suffix(4).allSatisfy { $0.deck == .b })
     }
 }

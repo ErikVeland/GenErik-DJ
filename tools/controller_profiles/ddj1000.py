@@ -1,5 +1,6 @@
 """Original DDJ-1000 facts from its own factory tables."""
 from curated import BASE, add, profile
+from pioneer_pad_clears import add_pioneer_pad_clears
 
 DDJ1000_TABLE = BASE + "dj-controllers/DDJ-1000/DDJ-1000_MIDI_Message_List_E1.pdf"
 DDJ1000_DIAGRAM = BASE + "dj-controllers/DDJ-1000/DDJ-1000_HardwareDiagram_rekordboxdj_E1.pdf"
@@ -50,4 +51,4 @@ def ddj1000_profiles():
     for action, number in [("crossfader", 31), ("master", 8), ("cueMix", 12), ("monitor", 13)]:
         add(result, action, 6, number, "control", "paired14Bit")
     add(result, "browse", 6, 64, "control", "twosComplement")
-    return [result]
+    return [add_pioneer_pad_clears(result)]

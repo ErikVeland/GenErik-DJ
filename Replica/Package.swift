@@ -34,6 +34,7 @@ let package = Package(
         .target(name: "TDJCore", dependencies: ["CTDJTransport"], resources: [.copy("BeatThisAssets"), .copy("KeyModelAssets")]),
         .target(
             name: "TDJInterface", dependencies: ["TDJCore", "CTDJAudioSource", "whisper"],
+            exclude: ["Resources/factory-controller-profiles.json"],
             resources: [.process("Resources"), .copy("StemModelAssets"), .copy("VocalModelAssets"), .copy("LiveStemModelAssets")]),
         .executableTarget(name: "TDJPreview", dependencies: ["TDJInterface", "TDJCore"]),
         .executableTarget(name: "TDJTool", dependencies: ["TDJCore"]),

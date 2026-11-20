@@ -9,7 +9,8 @@ struct ControllerDeckBankState {
 
     mutating func receive(_ message: ControllerMIDIMessage, selector: ControllerProfileData.BankChange) -> Bool {
         guard let bank = selector.deckBank, message.group == 0, message.maximum == 127,
-            message.kind == .note, message.channel == selector.channel, message.number == selector.number
+            message.kind == .note, message.channel == selector.channel,
+            message.number == selector.number || (message.isNoteOff && message.number == selector.releaseNumber)
         else { return false }
         if message.isNoteOff {
             pressed.remove(bank)

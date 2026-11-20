@@ -38,9 +38,9 @@ import Testing
 @Test @MainActor func controllerCatalogueHerculesMixUsesItsOwnExactIdentityAndSetup() throws {
     let profile = try #require(ControllerFactoryProfile.matching(["DJControl MIX"], automaticOnly: true))
     #expect(profile.rawValue == "Hercules DJControl MIX")
-    #expect(profile.definition?.inputs.count == 37)
+    #expect(profile.definition?.inputs.count == 76)
     #expect(profile.feedback(destination: 20).count == 22)
-    #expect(ControllerFactoryProfile.matching(["DJControl MIX ULTRA"], automaticOnly: true) == nil)
+    #expect(ControllerFactoryProfile.matching(["DJControl MIX ULTRA"], automaticOnly: true) != profile)
     #expect(ControllerFactoryProfile.matching(["Hercules MIX"], automaticOnly: true) == nil)
     withHerculesMix { input, packets in
         #expect(input.isInputActive(10))
@@ -57,7 +57,7 @@ import Testing
     }
 }
 
-@Test @MainActor func controllerCatalogueHerculesMixRoutesShiftedRightJogUsingTheScript() {
+@Test @MainActor func controllerCatalogueHerculesMixBlocksShiftSearchAndRestoresNormalJogs() {
     withHerculesMix { input, _ in
         var edges: [ControllerAction] = []
         var jogs: [(ControllerActionTarget, Double)] = []
@@ -65,17 +65,19 @@ import Testing
         input.onJogAction = { target, motion in
             if case .relative(let value) = motion { jogs.append((target, value)); edges.append(target.action) }
         }
+        herculesMixPacket([0x90, 3, 127], to: input)
         herculesMixPacket([0x95, 8, 127, 0xB5, 10, 127, 0x85, 8, 0], to: input)
-        input.flushPendingActions()
-        #expect(edges == [.jogTouchB, .jogB, .jogTouchB])
-        #expect(jogs.first?.0 == .init(.jogB, deck: .b, argument: 62))
-        #expect(jogs.first?.1 == -1)
-        edges.removeAll()
         herculesMixPacket([0x94, 8, 127, 0xB4, 10, 1, 0x84, 8, 0], to: input)
         input.flushPendingActions()
-        #expect(edges == [.jogTouchA, .jogA, .jogTouchA])
-        #expect(jogs.last?.0 == .init(.jogA, deck: .a, argument: 62))
-        #expect(jogs.last?.1 == 1)
+        #expect(edges.isEmpty)
+        #expect(jogs.isEmpty)
+        herculesMixPacket([0x80, 3, 0, 0xB2, 10, 127, 0xB1, 10, 1], to: input)
+        input.flushPendingActions()
+        #expect(edges.count == 2 && Set(edges) == Set([.jogB, .jogA]))
+        #expect(jogs.first { $0.0.action == .jogB }?.0 == .init(.jogB, deck: .b, argument: 248))
+        #expect(jogs.first { $0.0.action == .jogB }?.1 == -1)
+        #expect(jogs.first { $0.0.action == .jogA }?.0 == .init(.jogA, deck: .a, argument: 248))
+        #expect(jogs.first { $0.0.action == .jogA }?.1 == 1)
     }
 }
 
