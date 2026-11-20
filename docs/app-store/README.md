@@ -1,5 +1,7 @@
 # R426 App Store metadata
 
+The current compliance readiness review is in [compliance-readiness.md](compliance-readiness.md). It records existing declarations, required checks, and pending human sign-off.
+
 `en-AU.json` holds the prepared English (Australia) metadata for app `6832211854`.
 The text reflects the current interface, local music requirements, private preparation sharing and R175 purchase design.
 It includes seven purchase localisations. Prices are not inferred or changed.
