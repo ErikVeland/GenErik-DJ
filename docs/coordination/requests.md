@@ -6,6 +6,7 @@ Every request ID is retained. “Implemented” describes source availability, n
 
 | ID | Priority | Request | Current state and remaining work |
 | --- | --- | --- | --- |
+| R509 | Website copy updated; 1.0.1 export implementation open | Highlight timed tracklists and specify recording exports | Describe the text tracklist saved beside each recording. Require AIFF, ALAC, MP3 and M4A exports with all metadata, the timed tracklist in the custom lyrics tag, and a separate shared tracklist. Site checks pass; publication remains open. [Scope and verification](recording-export-r509.md). |
 | R508 | Website images corrected; publication open | Show the full browser and beat-alignment interface | Replace both cropped strips with full R427 iPad captures. Preserve image proportions on phones and larger screens. Link each image to its full-size capture. Site build and internal-link checks pass. Publication remains open. |
 | R507 | Website copy corrected; publication open | Present four decks as an implemented core feature | Use “Add C and D when you need them”. Lead with “Simple when you want it. Complex when you need it.” Remove feature-preview and four-deck-trial claims from public copy. Site build and link checks pass. Publication remains open. |
 | R01 | First | Continuous, clean audio during real performance | Primary acceptance requirement, reinforced by R49. Any gap or dropout blocks acceptance. Current-source A10X listening and sustained stress remain open. |
