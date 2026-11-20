@@ -50,7 +50,7 @@ Pricing, availability and review assets are pending for all products.
 
 Both platform drafts are in Prepare for Submission.
 
-On 20 November 2026, App Store Connect showed the Free Apps Agreement and Paid Apps Agreement as Active. The Data Not Collected privacy declaration was published, but it needs review against the live privacy policy's persistent private CloudKit sync disclosure. The App Compliance page showed active China mainland Security Assessment and AI Generated or Synthetic Content entries, and a DSA trader declaration. The public licence-notice file includes development cache notices that need comparison with the release binaries. New age-rating answers and the local-library Content Rights rationale still need Account Holder review. See the [compliance readiness record](compliance-readiness.md).
+On 20 November 2026, App Store Connect showed both agreements as Active and Data Not Collected as published. Erik confirmed that the developer and vendors cannot access private music or CloudKit records outside users' apps and Apple accounts. China mainland remains enabled, with the ICP Filing Number section at Set Up. The corrected licence-notice asset is ready for publication. The age-rating answers and proposed Content Rights answer are staged but not saved. See the [compliance readiness record](compliance-readiness.md) and [China ICP filing guide](china-icp-filing.md).
 
 ## References
 
