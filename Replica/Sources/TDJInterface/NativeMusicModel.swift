@@ -2,6 +2,7 @@ import Foundation
 import TDJCore
 
 @MainActor final class NativeMusicSessionState {
+    var startupCloudRetry: Task<Void, Never>?
     var checkedStartupCloud = false
     var wanted = false
     var deferredDeepTracks = Set<String>()
@@ -186,10 +187,26 @@ extension ReplicaModel {
         #if os(iOS) && !targetEnvironment(simulator)
             if state.wanted, !state.closed, !state.checkedStartupCloud {
                 guard !musicLibraryRefreshing, musicLibraryCatalog != nil || musicLibraryError != nil else { return }
+                if storeAccess.hasActivePerformance {
+                    analysisProgress?.title = "Analysis paused during performance. Use End Performance in the mixer to resume."
+                    return
+                }
                 if !cloudBusy, Date() >= automaticCloudRetryAt, !state.backgrounded {
                     startCloudSync(automatic: true)
                 }
-                let title = cloudBusy ? cloudStatus : "Waiting to check iCloud analysis while idle"
+                if !cloudBusy, state.startupCloudRetry == nil {
+                    state.startupCloudRetry = Task { [weak self] in
+                        try? await Task.sleep(for: .seconds(3))
+                        state.startupCloudRetry = nil
+                        guard let self, !state.closed, !self.cloudBusy, !state.checkedStartupCloud else { return }
+                        if !self.storeAccess.hasActivePerformance {
+                            state.checkedStartupCloud = true
+                            self.analysisProgress?.title = "Waiting for local analysis"
+                        }
+                        self.startNativeMusicAnalysis()
+                    }
+                }
+                let title = cloudBusy ? cloudStatus : "Checking whether iCloud sync can start…"
                 if analysisProgress?.isLibraryAnalysis == true, analysisProgress?.title != title {
                     analysisProgress?.title = title
                 }

@@ -6,7 +6,7 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 170.1,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": ["R512: Erik reports the iPad stays on Waiting to check iCloud analysis while idle."],
   "log": "TestBuilds/ipad/build-236.log",
   "build": 236,
   "app": "TestBuilds/ipad/236/GenErikDJ.app",
