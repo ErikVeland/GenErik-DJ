@@ -1,0 +1,50 @@
+{
+  "notes": "R506/R510: protect extended performances, bound waveform memory, rotate long recordings, save session health, and export tagged recordings. Full developer access. 83 focused host tests pass.",
+  "sourceCommit": "266cbad8ba5d73ea58ba81806198f35729988d05",
+  "sourceSHA256": "83fedc5d88c757f649f4b0f026493873932a075896925aa8890eb42dcf95a374",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 160.52,
+  "checks": "83 focused host tests passed. Runtime framework paths and signing passed. Physical A10X acceptance remains open.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-233.log",
+  "build": 233,
+  "app": "TestBuilds/ipad/233/GenErikDJ.app",
+  "appSHA256": "2126796a81e94ab3da9ee67d5c20dd0cfda02395cff8cd47938f60ba7cbf385b",
+  "state": "ready",
+  "createdUTC": "2026-11-20T08:31:06.279403+00:00",
+  "verification": {
+    "interfaceTests": 34,
+    "coreTests": 49,
+    "log": "TestBuilds/r506/focused-verified.log",
+    "sourceEvidence": "TestBuilds/r506/focused-final-source.json",
+    "incompleteScope": "Broader analysis-dependent host cases waited in Apple neural-model compilation. Logs and samples retained."
+  },
+  "installationAttempts": [
+    {
+      "result": "failed",
+      "toolchain": "Xcode-beta",
+      "log": "TestBuilds/r506/ipad-run.log",
+      "recordedUTC": "2026-11-20T08:31:38.757195+00:00",
+      "error": "CoreDevice failed to allocate RSD device (0xE8000003).",
+      "installTimeoutSeconds": 60
+    },
+    {
+      "result": "failed",
+      "toolchain": "Xcode-beta",
+      "log": "TestBuilds/r506/ipad-deploy-retry.log",
+      "recordedUTC": "2026-11-20T08:32:19.493150+00:00",
+      "error": "CoreDevice failed to allocate RSD device (0xE8000003).",
+      "installTimeoutSeconds": 60
+    },
+    {
+      "result": "failed",
+      "toolchain": "Xcode",
+      "log": "TestBuilds/r506/ipad-deploy-stable.log",
+      "recordedUTC": "2026-11-20T08:33:25.127927+00:00",
+      "error": "CoreDevice failed to allocate RSD device (0xE8000003).",
+      "installTimeoutSeconds": 60
+    }
+  ],
+  "installationBlockedBy": "Apple device connection. The iPad is listed as connected. Erik was asked to unlock it and reconnect USB."
+}

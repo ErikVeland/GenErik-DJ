@@ -1,5 +1,7 @@
 # Current work
 
+**Build 233 (R506/R510)** is signed and ready from committed main. All 83 focused host tests pass. The build protects extended performances, bounds waveform cache retention, rotates long recordings, saves health reports and exports tagged audio with timed tracklists. Three installation attempts failed in Apple’s device connection service. Unlock and reconnect the A10X before retrying the saved build. Build 232 remains the last confirmed installation. [Performance scope](extended-performance-r506.md) · [Export scope](recording-export-r509.md) · [Build record](../testing/builds/233.json).
+
 **Build 232 (R505)** installed on the A10X iPad, and iPadOS accepted launch. Local developer builds now unlock all features without purchases or access time limits. Three focused access checks and five distribution checks passed. The first installation timed out. The retry used the same signed app. Physical acceptance and sustained audio and touch qualification remain open. [Scope](developer-access-r505.md) · [Build record](../testing/builds/232.json).
 
 **R500 App Store compliance:** Both agreements are active. The published Data Not Collected answer needs reconciliation with the privacy policy's persistent CloudKit sync disclosure. New age-rating answers, the local-library Content Rights rationale, regional applicability, and final-build checks need Account Holder review. [Readiness record](../app-store/compliance-readiness.md).

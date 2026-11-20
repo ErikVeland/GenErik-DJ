@@ -30,7 +30,7 @@ The serial recorder rotates before the AIFF size limit, with 16 MiB reserved for
 
 Preparing a recording from the Recordings browser waits until End Performance. This action analyses the full file and could otherwise compete with playback for hours of audio. Prepared recordings remain loadable through the normal library.
 
-Settings → Help & About provides the performance report. It retains the first sample, lifetime peaks and up to 720 recent samples at 30-second intervals. The report includes build identity, audio timing counters, streaming counters, recording drops, memory footprint, thermal state and connected controllers. Report writes run off the main thread. Monitor gaps are scheduling observations, not display-frame or touch measurements.
+Settings → Help & About provides the performance report. It retains the first sample, lifetime peaks and up to 720 recent samples at 30-second intervals. The report includes build identity, audio timing counters, streaming counters, recording drops, memory footprint, thermal state and connected controllers. Report writes run off the main thread. Monitor gaps are scheduling observations, not display-frame or touch measurements. The report spans the app session. Treat idle gaps between ended performances separately when reading this field.
 
 ## Combined handover
 
@@ -48,7 +48,7 @@ The broader final run stopped while Apple's Mac neural-model compiler awaited a 
 
 The final affected-scope rerun passed all 83 tests: 34 interface checks and 49 core checks. Parameterised export and controller cases are included. The scope covers session protection, bounded diagnostics and waveform memory, controller routing/recovery, recording continuity/failures, and exports. Neural-model compilation and musical accuracy are outside this rerun.
 
-Evidence: `TestBuilds/r506/focused-verified.log` and `focused-final-source.json`. Application source SHA-256: `83fedc5d88c757f649f4b0f026493873932a075896925aa8890eb42dcf95a374`. The source record also retains the test hash. Authored-source whitespace checks pass. Upstream LAME licence text retains its original whitespace. The signed iPad build remains pending.
+Evidence: `TestBuilds/r506/focused-verified.log` and `focused-final-source.json`. Application source SHA-256: `83fedc5d88c757f649f4b0f026493873932a075896925aa8890eb42dcf95a374`. The source record also retains the test hash. Authored-source whitespace checks pass. Upstream LAME licence text retains its original whitespace. Build 233 passed compilation, signing and runtime-framework checks from main commit `266cbad8b`. Its source hash matches the focused test record. Three installation attempts failed with CoreDevice error `0xE8000003`, including one attempt with released Xcode tools. Erik was asked to unlock the iPad and reconnect USB. The saved app remains ready. See [build 233](../testing/builds/233.json).
 
 ## Remaining physical checks
 
