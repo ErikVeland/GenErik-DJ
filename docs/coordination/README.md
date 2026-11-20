@@ -8,7 +8,7 @@
 
 **R503 China filing:** Prepared an MIIT filing guide with GenErik DJ's app details. Erik must confirm eligibility with a filing provider and complete real-name identity checks. The filing number is still required before China mainland distribution. [Guide](../app-store/china-icp-filing.md).
 
-**R504 website layout:** The long controller directory now uses the full document width. Site build, browser checks and publication remain open. [Request](requests.md#r504).
+**R504 website layout:** The long controller directory now uses the full document width. The build and 351-target site check passed. Publication stopped before transfer because this machine has no SSH configuration for `glasscode`. Browser checks and publication remain open. [Request](requests.md#r504).
 
 **Build 228 (R428)** installed over Wi-Fi. The build 227 watchdog report identifies a stall in browser-opening observation notifications. Build 228 bypasses the observed request ID setter. Compilation and signing passed. Four focused host tests passed, including 128 requests with 10,000 pending observers and exact offline-audio agreement. Erik reports initial operation, but sustained audio and touch acceptance remains open. Earlier remote launch timeouts remain recorded. [Evidence and scope](ipad-freeze-r428.md) · [Build record](../testing/builds/228.json).
 
