@@ -55,16 +55,19 @@ struct LibraryAnalysisFooter: View {
                                 .font(.system(size: 11, weight: .semibold)).foregroundStyle(PerformancePalette.cyan)
                                 .frame(minHeight: 44).contentShape(Rectangle())
                         }.buttonStyle(.plain)
-                            .disabled(model.backgroundAnalysisStatus != .idle || model.arrangementPlaybackActive
-                                || model.isRecording || model.recordingFinishing)
+                            .disabled(
+                                model.backgroundAnalysisStatus != .idle || model.arrangementPlaybackActive
+                                    || model.isRecording || model.recordingFinishing
+                            )
                             .alert("Background analysis could not start", isPresented: $backgroundRequestFailed) {
                                 Button("OK", role: .cancel) {}
                             } message: {
-                                Text("Keep GenErik DJ open to continue analysis, or try again later.")
+                                Text("Keep GenErik DJ open to continue analysis, or try again later.").lineLimit(nil)
                             }
                     }
                 #endif
-            }.padding(.horizontal, 22).frame(height: showsBackgroundButton ? 44 : 36).background(PerformancePalette.panel)
+            }.padding(.horizontal, 22).frame(height: showsBackgroundButton ? 44 : 36).background(
+                PerformancePalette.panel)
         }
     }
 }

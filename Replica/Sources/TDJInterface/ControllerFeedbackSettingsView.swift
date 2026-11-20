@@ -18,7 +18,7 @@ struct ControllerFeedbackSettingsView: View {
             Text("Generic MIDI feedback").font(.headline)
             Text(
                 "Choose the output messages for this device. The app does not assume a controller model or LED layout."
-            ).font(.caption).foregroundStyle(.secondary)
+            ).lineLimit(nil).font(.caption).foregroundStyle(.secondary)
             Picker("Action", selection: $action) { ForEach(actions) { item in Text(item.title).tag(item) } }.onChange(
                 of: action
             ) { _, _ in loadBinding() }
@@ -29,8 +29,9 @@ struct ControllerFeedbackSettingsView: View {
                 Stepper("Off value: \(offValue)", value: $offValue, in: 0...127)
                 Stepper("On value: \(onValue)", value: $onValue, in: 0...127)
             } else {
-                Text("Continuous actions send 0–127 as Control Change values.").font(.caption).foregroundStyle(
-                    .secondary)
+                Text("Continuous actions send 0–127 as Control Change values.").lineLimit(nil).font(.caption)
+                    .foregroundStyle(
+                        .secondary)
             }
             Stepper("Output channel: \(channel)", value: $channel, in: 1...16)
             Stepper("Message number: \(number)", value: $number, in: 0...127)

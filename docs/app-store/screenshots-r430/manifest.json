@@ -1,0 +1,98 @@
+{
+  "captured": "2026-11-19",
+  "build": "1.0 (228)",
+  "sourceCommit": "b8827365e6a542edd440d4402937a5a2efb0476e",
+  "simulatorExecutableSHA256": "b94bf9d7369053097a4987b65db9319ac9a9b19da55682df126b3159f941ce80",
+  "locale": "en-AU",
+  "files": [
+    {
+      "file": "01-iphone-workspace-menu.png",
+      "sha256": "52ad0e3ead89b59b119809ce3eb32e6ff783cee8be305e62af2ce9f187384b5a",
+      "image": "9e000019-73b4-878e-8005-7bb5cdc6b906",
+      "placement": "a9c00019-73b4-878e-8f30-5c14ac564115",
+      "platform": "IOS",
+      "group": "IPHONE_DYNAMIC_ISLAND_MEDIUM_PROFILE",
+      "width": 1206,
+      "height": 2622,
+      "localSHA256": "52ad0e3ead89b59b119809ce3eb32e6ff783cee8be305e62af2ce9f187384b5a",
+      "localCopy": "uploaded original"
+    },
+    {
+      "file": "02-duo-inner-library.png",
+      "sha256": "c91d548879f16e5fa3b3ef8aae4fe2fd5faeee530d96e214489f205c7392c3f7",
+      "image": "39c00019-73b4-878e-8002-7521f39c9bd9",
+      "placement": "67000019-73b4-878e-8f31-4fd8b100468d",
+      "platform": "IOS",
+      "group": "IPHONE_DUO_PROFILE",
+      "width": 2853,
+      "height": 2007,
+      "localSHA256": "c91d548879f16e5fa3b3ef8aae4fe2fd5faeee530d96e214489f205c7392c3f7",
+      "localCopy": "uploaded original"
+    },
+    {
+      "file": "04-ipad-library.png",
+      "sha256": "d64afd01810037ac25e749b64e3288dcb923d53650cee26f339492fa57e35b3f",
+      "image": "04000019-73b4-878e-8001-feca607983b8",
+      "placement": "f0000019-73b4-878e-8f25-0a26dca7d2d9",
+      "platform": "IOS",
+      "group": "IPAD_13_PROFILE",
+      "width": 2752,
+      "height": 2064,
+      "localSHA256": "d64afd01810037ac25e749b64e3288dcb923d53650cee26f339492fa57e35b3f",
+      "localCopy": "uploaded original"
+    },
+    {
+      "file": "05-mac-two-decks.png",
+      "sha256": null,
+      "image": "ff000019-73b4-878e-8001-cf4104c505d9",
+      "placement": "d1000019-73b4-878e-8f06-47d44c53808c",
+      "platform": "MAC_OS",
+      "group": "MAC_PROFILE",
+      "width": 1440,
+      "height": 900,
+      "localSHA256": "1f0a97450b060c7c5ed946f1fd15d1f927b4bfa5d4175ab4abcbf5100e4b6820",
+      "localCopy": "Apple-processed PNG"
+    }
+  ],
+  "drafts": {
+    "IOS": {
+      "version": "d2281ea3-fd9b-4b67-bf7f-df37effd118d",
+      "state": "PREPARE_FOR_SUBMISSION",
+      "locale": "09b6ab52-f7e9-4791-a825-01b216492f84",
+      "screenshotCounts": {
+        "IPHONE_DUO_PROFILE": 4,
+        "IPAD_105_PROFILE": 4,
+        "IPAD_13_PROFILE": 5,
+        "IPHONE_DYNAMIC_ISLAND_MEDIUM_PROFILE": 1
+      },
+      "placementIds": [
+        "ec400019-73b4-878e-8f05-caa52233795e",
+        "91000019-73b4-878e-8f29-ce154f752d3e",
+        "bdc00019-73b4-878e-8f17-b74c72add4d0",
+        "8b400019-73b4-878e-8f3d-22d367cf9b5f",
+        "98000019-73b4-878e-8f31-e9f3f3268475",
+        "e4c00019-73b4-878e-8f3e-2205d819d31d",
+        "81000019-73b4-878e-8f36-ee88248923f4",
+        "5fc00019-73b4-878e-8f39-9defa86f080d",
+        "87400019-73b4-878e-8f15-80d078d72752",
+        "9ec00019-73b4-878e-8f09-142c5f8e11c3",
+        "2f400019-73b4-878e-8f1b-37983b4765b8",
+        "43400019-73b4-878e-8f34-183e066da951",
+        "67000019-73b4-878e-8f31-4fd8b100468d",
+        "f0000019-73b4-878e-8f25-0a26dca7d2d9",
+        "a9c00019-73b4-878e-8f30-5c14ac564115"
+      ]
+    },
+    "MAC_OS": {
+      "version": "3a1c752d-fdb4-46ff-a8c3-57fc0110752f",
+      "state": "PREPARE_FOR_SUBMISSION",
+      "locale": "6c5885fc-2957-4d0d-bbc8-ac752fa47929",
+      "screenshotCounts": {
+        "MAC_PROFILE": 1
+      },
+      "placementIds": [
+        "d1000019-73b4-878e-8f06-47d44c53808c"
+      ]
+    }
+  }
+}

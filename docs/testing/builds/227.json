@@ -1,0 +1,46 @@
+{
+  "notes": "R425: Keep control labels on one line in all layouts. Give grid editing the full header width and scroll the bar only when needed. Preserve full help, error and purchase text. Check both iPad orientations, narrow panes, audio and touch.",
+  "sourceCommit": "82f66c1ec1b2ee1e0368eef1790c4005c1ae51c9",
+  "sourceSHA256": "a498497e86128af4fa0d99a5416d2381bd8ad2c13a6034aa01f9274da7baef60",
+  "uncommittedAppChanges": "",
+  "buildSeconds": 332.6,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [
+    {
+      "date": "2026-11-19",
+      "request": "R428",
+      "severity": "blocking",
+      "report": "Erik reported a complete iPad app freeze that had lasted eight minutes and continued. Trigger: tapping Deck B album art to find a matching track for Da Hool Love Parade. Audio state remains unconfirmed.",
+      "investigation": "Installed build 227 confirmed through device app inventory. Process 850 present. Time Profiler attached, but trace finalisation stalled. App-file and later process requests timed out. No cause or fix confirmed. Evidence: TestBuilds/r428/.",
+      "status": "open"
+    },
+    {
+      "date": "2026-11-19",
+      "request": "R428",
+      "report": "Home button returned to Home. USB connected. Crash report retrieved for process 850, build 227.",
+      "evidence": "GenErikDJ-2026-11-19-214253.ips: scene-update watchdog termination at 21:42:52 Brisbane. Main thread in ObservationRegistrar.State.cancel through browserPresentationID.setter and showSuggestions. Audio continuity remains unconfirmed.",
+      "status": "blocking; candidate under verification"
+    }
+  ],
+  "log": "TestBuilds/ipad/build-227.log",
+  "build": 227,
+  "app": "TestBuilds/ipad/227/GenErikDJ.app",
+  "appSHA256": "5269043d6eb0beedf406c95cccdc034ec2008388bc17ee64e9b0b5a3acc04a2e",
+  "state": "testing",
+  "createdUTC": "2026-11-19T08:16:33.074316+00:00",
+  "installAttempts": [
+    {
+      "date": "2026-11-19",
+      "result": "connection_timeout",
+      "detail": "The iPad connection timed out. The saved signed app remains ready. No successful installation or launch was reported."
+    },
+    {
+      "date": "2026-11-19",
+      "result": "installed_and_launch_accepted",
+      "detail": "Retried the saved build after devicectl reported the A10X iPad connected. iPadOS accepted launch. No further device actions."
+    }
+  ],
+  "installedUTC": "2026-11-19T08:23:55.615474+00:00",
+  "launchedUTC": "2026-11-19T08:23:56.181806+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}

@@ -121,7 +121,8 @@ struct PerformanceControls: View {
 struct PerformanceToolButtonStyle: ButtonStyle {
     var fillsHeight = false
     func makeBody(configuration: Configuration) -> some View {
-        configuration.label.frame(maxWidth: .infinity).frame(minHeight: 48, maxHeight: fillsHeight ? .infinity : nil)
+        configuration.label.lineLimit(1).minimumScaleFactor(0.8)
+            .frame(maxWidth: .infinity).frame(minHeight: 48, maxHeight: fillsHeight ? .infinity : nil)
             .contentShape(Rectangle()).bevelPanel(cornerRadius: 4, sunken: configuration.isPressed)
     }
 }

@@ -4,11 +4,11 @@ struct CloudPreparationSettings: View {
     @Bindable var model: ReplicaModel
     var body: some View {
         SettingsGroup("Sharing & backup") {
-            Text(model.cloudStatus).accessibilityIdentifier("cloudPreparationStatus")
+            Text(model.cloudStatus).lineLimit(nil).accessibilityIdentifier("cloudPreparationStatus")
             Text(
                 "Analysis and sections share through private iCloud storage while the app is open and the decks are idle. Audio files are not included."
-            )
-            .font(.caption).foregroundStyle(.secondary)
+            ).lineLimit(nil)
+                .font(.caption).foregroundStyle(.secondary)
             HStack {
                 Button("Sync now") { model.startCloudSync() }.disabled(!model.canSyncCloud)
                 if model.cloudBusy {
@@ -17,12 +17,13 @@ struct CloudPreparationSettings: View {
                 }
             }.frame(minHeight: 44)
             if !model.canSyncCloud && !model.cloudBusy {
-                Text("Stop playback before starting a manual sync.").font(.caption).foregroundStyle(.secondary)
+                Text("Stop playback before starting a manual sync.").lineLimit(nil).font(.caption).foregroundStyle(
+                    .secondary)
             }
             Text(
                 "Sync now also saves preparation for recovery. Manual preparation stays unchanged during automatic sharing."
-            )
-            .font(.caption).foregroundStyle(.secondary)
+            ).lineLimit(nil)
+                .font(.caption).foregroundStyle(.secondary)
         }
         SettingsGroup("Recovery") {
             SettingsPageLink("Saved versions", detail: "Restore a track’s grids, cues and analysis at the next launch")
@@ -49,10 +50,10 @@ struct PreparationVersionsView: View {
         VStack(alignment: .leading, spacing: 16) {
             Text(
                 "Restore preparation between sets. The selected version takes effect after you close and reopen the app."
-            )
-            .font(.subheadline)
+            ).lineLimit(nil)
+                .font(.subheadline)
             if !model.canSyncCloud {
-                Text("Stop playback and wait for sync to finish before restoring a version.")
+                Text("Stop playback and wait for sync to finish before restoring a version.").lineLimit(nil)
                     .font(.caption).foregroundStyle(.secondary)
             }
             TextField("Find a track or artist", text: $search).textFieldStyle(.roundedBorder)
@@ -64,8 +65,8 @@ struct PreparationVersionsView: View {
                     search.isEmpty
                         ? "No saved versions. Use Sync now to save preparation for recovery."
                         : "No matching saved versions."
-                )
-                .foregroundStyle(.secondary)
+                ).lineLimit(nil)
+                    .foregroundStyle(.secondary)
             }
             ForEach(choices.prefix(visibleCount)) { choice in
                 Button {
@@ -101,7 +102,7 @@ struct PreparationVersionsView: View {
         } message: {
             Text(
                 "The selected version will replace this track’s analysis, grids and cues. Your current preparation will remain as another saved version."
-            )
+            ).lineLimit(nil)
         }
     }
 }

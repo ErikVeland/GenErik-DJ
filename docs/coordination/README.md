@@ -1,5 +1,13 @@
 # Current work
 
+**Build 228 (R428)** installed over Wi-Fi. The build 227 watchdog report identifies a stall in browser-opening observation notifications. Build 228 bypasses the observed request ID setter. Compilation and signing passed. Four focused host tests passed, including 128 requests with 10,000 pending observers and exact offline-audio agreement. Erik reports initial operation, but sustained audio and touch acceptance remains open. Earlier remote launch timeouts remain recorded. [Evidence and scope](ipad-freeze-r428.md) · [Build record](../testing/builds/228.json).
+
+**R427 screenshots:** Apple accepted four native 10.5-inch iPad captures and three Duo captures in the English (Australia) iOS 1.0 draft. R429 added four accepted 2752 × 2064 copies to the required 13-inch iPad slot. The required standard iPhone set remains open. [Files and upload evidence](../app-store/screenshots-r427/README.md).
+
+**Build 227 (R425)** installed on the A10X iPad after an initial connection timeout. iPadOS accepted launch. Control labels stay on one line, and grid editing uses the full header width. Long help and error text remains readable. Erik checks both orientations, narrow panes, audio and touch. [Scope](ui-text-r425.md) · [Build record](../testing/builds/227.json).
+
+**R426 App Store:** Saved English (Australia) metadata in both 1.0 drafts. Both show the approved build 226 icon. The subtitle, Music category, 4+ rating and seven purchase draft localisations are saved. Erik confirmed publication of the Data Not Collected declaration in App Store Connect. Apple saved the Content Rights declaration. Current screenshots, pricing and release qualification remain open. [App Store record](../app-store/README.md).
+
 **R292–R295 websites:** All seven catalogue sites link back to GlassCode Academy About. PACtrack retains GlassCode Academy attribution and The Epstein Files link. R296 removes the unrelated DJ promotion. Project previews are live, and PiDay styles are repaired. [Publication evidence](website-links-r295.md).
 
 **R291 website:** The product, manual, support and legal pages are live at https://dj.generik.au on Glasscode. HTTPS and public-route checks pass. The site describes the development app. Fresh captures, final privacy reconciliation and full browser/device checks remain open. No app build ran. [Source and verification](website-r291.md).

@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 import Observation
 import TDJCore
@@ -115,7 +116,8 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     public internal(set) var gridDownbeatDraft: [DeckID: Int] = [:]
     public var editing: Set<DeckID> = []
     public var browserVisible = false
-    public private(set) var browserPresentationID = UUID()
+    @ObservationIgnored public private(set) var browserPresentationID = UUID()
+    @ObservationIgnored let browserPresentationRequests = PassthroughSubject<UUID, Never>()
     public private(set) var browserPresentationExpands = false
     public var helpVisible = false
     public var suggestionDestination: DeckID?
@@ -1545,13 +1547,13 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     public func flushTransportRequests() async {}
     public func showLibrary(fullyExpanded: Bool = false) {
         browserPresentationExpands = fullyExpanded
-        browserPresentationID = UUID()
         suggestionWork?.cancel()
         suggestionRequest = UUID()
         suggestionDestination = nil
         suggestions = []
         suggestionMessage = nil
         browserVisible = true
+        publishBrowserPresentation()
     }
     public func showSuggestions(destination: DeckID) {
         let referenceDeck: DeckID = destination == .a ? .b : .a
@@ -1560,11 +1562,16 @@ enum PlaybackInputSource: Equatable { case touch, controller }
             return
         }
         browserPresentationExpands = true
-        browserPresentationID = UUID()
         suggestionDestination = destination
         browserVisible = true
         selectedTrackID = nil
+        publishBrowserPresentation()
         refreshSuggestions()
+    }
+    private func publishBrowserPresentation() {
+        // Deliver requests without cancelling shared-model observation registrations.
+        browserPresentationID = UUID()
+        browserPresentationRequests.send(browserPresentationID)
     }
     public func refreshSuggestions() {
         suggestionWork?.cancel()

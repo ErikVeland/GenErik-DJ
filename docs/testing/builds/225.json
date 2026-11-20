@@ -5,7 +5,14 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 92.27,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-19",
+      "request": "R425",
+      "report": "Words split across UI lines, for example RESET as RESE and T. Check every layout.",
+      "buildAttribution": "Assumed from the last recorded installed iPad build. Erik did not give a build number."
+    }
+  ],
   "log": "TestBuilds/ipad/build-225.log",
   "build": 225,
   "app": "TestBuilds/ipad/225/GenErikDJ.app",

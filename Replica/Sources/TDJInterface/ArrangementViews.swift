@@ -334,8 +334,9 @@ struct ArrangementColourRegion {
                                 ).focused($focusedField, equals: .boundary(index))
                             }
                         }
-                        Text("Edits lock this section against reanalysis.").font(.caption).foregroundStyle(
-                            .secondary)
+                        Text("Edits lock this section against reanalysis.").lineLimit(nil).font(.caption)
+                            .foregroundStyle(
+                                .secondary)
                     }.foregroundStyle(Color(arrangementHex: value.sections[index].colourHex))
                 }
                 if !usesColumns { Button("Split section at preview position", action: splitSection) }
@@ -397,7 +398,7 @@ struct ArrangementColourRegion {
                                 }
                             }
                         }
-                        Text(value.landmarks[index].reason).font(.caption).foregroundStyle(.secondary)
+                        Text(value.landmarks[index].reason).lineLimit(nil).font(.caption).foregroundStyle(.secondary)
                     }
                 }
                 if !usesColumns { Button("Add landmark at preview position", action: addLandmark) }
@@ -416,7 +417,7 @@ struct ArrangementColourRegion {
     }
 
     private var statusText: some View {
-        Text(model.status).font(.caption).foregroundStyle(.secondary)
+        Text(model.status).lineLimit(nil).font(.caption).foregroundStyle(.secondary)
     }
     private var sampleRate: Double { model.track(deck)?.analysis.sampleRate ?? 44100 }
     private var fileEnd: Double { Double(model.track(deck)?.analysis.frameCount ?? 0) }
@@ -494,7 +495,6 @@ struct ArrangementColourRegion {
     }
 }
 
-
 @MainActor private struct ArrangementEditorWaveform: View {
     @Bindable var model: ReplicaModel
     let deck: DeckID
@@ -545,7 +545,9 @@ struct ArrangementColourRegion {
                     select(boundedFrame(left + fraction * span))
                 }
             ).accessibilityLabel(overview ? "Track overview" : "Waveform detail")
-                .accessibilityValue(Text("\(cursor / track.analysis.sampleRate, format: .number.precision(.fractionLength(2))) s"))
+                .accessibilityValue(
+                    Text("\(cursor / track.analysis.sampleRate, format: .number.precision(.fractionLength(2))) s")
+                )
                 .accessibilityAdjustableAction { direction in
                     let step = span / (overview ? 20 : 32)
                     switch direction {

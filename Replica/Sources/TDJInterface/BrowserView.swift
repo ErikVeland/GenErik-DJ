@@ -181,9 +181,10 @@ struct BrowserView: View {
                 model.status = error.localizedDescription
                 playlistError = error.localizedDescription
             }
-        }.onChange(of: playlists) { _, _ in collectionVersion = UUID() }.onChange(of: model.browserHintsVersion) { _, _ in
+        }.onChange(of: playlists) { _, _ in collectionVersion = UUID() }.onChange(of: model.browserHintsVersion) {
+            _, _ in
             collectionVersion = UUID()
-        }.onChange(of: model.browserPresentationID) { _, _ in
+        }.onReceive(model.browserPresentationRequests) { _ in
             open(.songs)
             if model.suggestionDestination != nil {
                 detailTab = .match
@@ -232,10 +233,11 @@ struct BrowserView: View {
     }
     #if os(iOS)
         private func publishFactoryBrowser() {
-            guard model.s4MK3Bridge?.isReceiving == true
-                || model.receivingFactoryControllers.contains(where: { [.d2, .s5, .s8].contains($0) })
+            guard
+                model.s4MK3Bridge?.isReceiving == true
+                    || model.receivingFactoryControllers.contains(where: { [.d2, .s5, .s8].contains($0) })
             else { return }
-            guard (snapshotProjection != nil || displayedRequest == request), entryCount > 0 else {
+            guard snapshotProjection != nil || displayedRequest == request, entryCount > 0 else {
                 model.factoryBrowserRows = []
                 return
             }
@@ -246,7 +248,8 @@ struct BrowserView: View {
             {
                 index = row
             } else {
-                index = snapshotProjection?.tracks.firstIndex { $0.id == selected }
+                index =
+                    snapshotProjection?.tracks.firstIndex { $0.id == selected }
                     ?? projection?.entries.firstIndex { $0.id == selected } ?? 0
             }
             let start = max(0, min(index - 1, entryCount - 4))
@@ -657,8 +660,8 @@ extension BrowserView {
                 switch libraryPresentation {
                 case .loading: ProgressView("Loading library…")
                 case .failed(let error): Text("Music library unavailable: \(error)")
-                case .noMatches: Text("No matching songs.")
-                case .empty: Text("No songs available.")
+                case .noMatches: Text("No matching songs.").lineLimit(nil)
+                case .empty: Text("No songs available.").lineLimit(nil)
                 case .content: EmptyView()
                 }
                 Spacer()
@@ -685,11 +688,11 @@ extension BrowserView {
                         }
                     }
                 }.onChange(of: projectionToken) { _, _ in reader.scrollTo("librarySongsTop", anchor: .top) }
-                #if os(iOS)
-                    .onChange(of: s2ScrollID) { _, id in
-                        if let id { reader.scrollTo(id) }
-                    }
-                #endif
+                    #if os(iOS)
+                        .onChange(of: s2ScrollID) { _, id in
+                            if let id { reader.scrollTo(id) }
+                        }
+                    #endif
             }
         }
     }
@@ -707,7 +710,7 @@ extension BrowserView {
                 ).overlay { TrackHeadphoneIndicator(model: model, trackID: entry?.track?.id) }
                 VStack(alignment: .leading, spacing: 5) {
                     HStack(spacing: 6) {
-                        Text(entry?.title ?? "Choose a song").font(.system(size: 18, weight: .bold)).lineLimit(2)
+                        Text(entry?.title ?? "Choose a song").font(.system(size: 18, weight: .bold)).lineLimit(1)
                             .minimumScaleFactor(0.8)
                         if entry?.isMix == true { MixBadge(size: 14) }
                     }.foregroundStyle(PerformancePalette.text)
@@ -881,7 +884,6 @@ extension BrowserView {
         }
         return projection?.entries.first { $0.id == id }
     }
-
 
 }
 

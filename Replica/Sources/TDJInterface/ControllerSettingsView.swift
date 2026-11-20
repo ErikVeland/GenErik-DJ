@@ -46,7 +46,7 @@ struct ControllerSettingsView: View {
                 controllerLights(name)
             }
             if !hasOriginalZ1 && connectedLights.isEmpty && input.sources.isEmpty {
-                Text("Connect a controller to see its settings.").foregroundStyle(.secondary)
+                Text("Connect a controller to see its settings.").lineLimit(nil).foregroundStyle(.secondary)
             }
             ForEach(input.sources) { source in
                 HStack {
@@ -76,6 +76,7 @@ struct ControllerSettingsView: View {
                         SettingsPageLink("Pattern kits", detail: "Import sounds and patterns for your controller") {
                             SettingsDetailPage("Pattern kits") {
                                 Text("Import kits before a set. Select and play patterns from the controller.")
+                                    .lineLimit(nil)
                                 Button("Import Pattern Kits…") { importingPatternKits = true }
                             }
                         }
@@ -100,18 +101,21 @@ struct ControllerSettingsView: View {
             }
         }
         #if os(iOS)
-            .sheet(isPresented: $connectingWirelessController, onDismiss: {
-                if input.enabled { input.refreshSources() }
-            }) {
+            .sheet(
+                isPresented: $connectingWirelessController,
+                onDismiss: {
+                    if input.enabled { input.refreshSources() }
+                }
+            ) {
                 NavigationStack {
                     ControllerBluetoothMIDIView()
-                        .navigationTitle("Wireless controllers")
-                        .navigationBarTitleDisplayMode(.inline)
-                        .toolbar {
-                            ToolbarItem(placement: .confirmationAction) {
-                                Button("Done") { connectingWirelessController = false }
-                            }
+                    .navigationTitle("Wireless controllers")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button("Done") { connectingWirelessController = false }
                         }
+                    }
                 }
             }
             .fileImporter(isPresented: $importingPatternKits, allowedContentTypes: [.json]) { result in
@@ -129,7 +133,7 @@ struct ControllerSettingsView: View {
             ) {
                 Button("OK") { patternKitMessage = nil }
             } message: {
-                Text(patternKitMessage ?? "")
+                Text(patternKitMessage ?? "").lineLimit(nil)
             }
             .onReceive(NotificationCenter.default.publisher(for: .EAAccessoryDidConnect).receive(on: RunLoop.main)) {
                 _ in refreshOriginalZ1()
@@ -170,7 +174,7 @@ struct ControllerSettingsView: View {
                 }
             #endif
             if input.enabled && input.sources.isEmpty {
-                Text("No MIDI inputs connected.").font(.caption).foregroundStyle(.secondary)
+                Text("No MIDI inputs connected.").lineLimit(nil).font(.caption).foregroundStyle(.secondary)
             }
             if input.enabled, !input.sources.isEmpty {
                 Picker("Input", selection: Binding(get: { input.selected }, set: input.select)) {
@@ -269,7 +273,7 @@ struct ControllerSettingsView: View {
                     "Shift layer", isOn: Binding(get: { input.learningShifted }, set: { input.learningShifted = $0 }))
             }
             if let action = input.learning {
-                Text("Move the control for \(action.title).").font(.caption)
+                Text("Move the control for \(action.title).").lineLimit(nil).font(.caption)
                 Button("Cancel learning") { input.learning = nil }
             }
             TextField("Find a control", text: $learnSearch).textFieldStyle(.roundedBorder)

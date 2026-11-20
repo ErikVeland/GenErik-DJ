@@ -54,7 +54,9 @@ import SwiftUI
                     ) { model.musicLibraryNotices.markLoadedAnalysisNoticeRead(notice.id) }
                 }
                 if let error = model.musicLibraryError {
-                    LibraryNoticeRow(title: "Music library access", message: error, isRead: model.musicLibraryAccessNotice.isRead) {
+                    LibraryNoticeRow(
+                        title: "Music library access", message: error, isRead: model.musicLibraryAccessNotice.isRead
+                    ) {
                         model.musicLibraryAccessNotice.markRead()
                     }
                 }
@@ -110,7 +112,7 @@ private struct LibraryNoticeRow: View {
                         .accessibilityHidden(true)
                 }.contentShape(Rectangle())
             }.buttonStyle(.plain).accessibilityValue(isRead ? "Read" : "Unread")
-            if expanded { Text(message).font(.callout).foregroundStyle(.secondary) }
+            if expanded { Text(message).lineLimit(nil).font(.callout).foregroundStyle(.secondary) }
         }.onChange(of: message) { _, _ in expanded = false }
     }
 }

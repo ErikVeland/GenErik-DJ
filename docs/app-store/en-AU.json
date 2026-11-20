@@ -1,0 +1,85 @@
+{
+  "appID": "6832211854",
+  "locale": "en-AU",
+  "status": "Saved in the iOS and macOS 1.0 drafts on 19 November 2026.",
+  "appInformation": {
+    "name": "GenErik DJ",
+    "subtitle": "Mix music. Shape your setup.",
+    "primaryCategory": "MUSIC",
+    "ageRating": "4+",
+    "contentRightsStatus": "Saved as No in App Store Connect. The app plays music from the user’s own library."
+  },
+  "versionInformation": {
+    "promotionalText": "Choose your controls. Move through your music with waveforms, loops, cues and effects in a workspace that adapts to your setup.",
+    "description": "GenErik DJ puts your music and the controls you use in one adaptable workspace. Mix on iPad, iPhone or Mac. Show the controls you need and leave more room for the waveforms.\n\nYOUR SETUP\nShow or hide Beat Jump, the tempo fader, Cue and headphone cue independently. Move the browser and deck dividers to make space for the task in front of you. Your choices stay saved between sessions.\n\nDIRECT CONTROL\nLoad tracks, set loops and move through the music from the waveform. On a touch screen, use two fingers to move and resize a loop. Open EQ, filters and effects beside each deck, then close them to restore waveform space.\n\nPREPARE YOUR MUSIC\nBrowse local songs and playlists. Inspect BPM, key, beat grids and track sections. Adjust beat one, save cues and review the next track before you load it. Tempo and key suggestions help you find compatible tracks.\n\nMIX AND RECORD\nUse Sync, loops, cues, EQ and effects across two decks. Record a mix, review its track history and share the saved recording. Connect a supported controller for hardware control. Available controls vary by model. See the controller catalogue at https://dj.generik.au/controllers.\n\nPRIVATE PREPARATION\nAudio analysis runs on your device. When iCloud is available, analysis and sections can share through your private iCloud storage while the app is open and the decks are idle. This preparation sync does not upload your audio files.\n\nACCESS AND PURCHASES\nThe app includes a 14-day all-access preview. No paid subscription starts automatically. Controller Support, Recording and Open Format have separate monthly and lifetime purchase options. A lifetime All-in-One purchase includes all three. Lifetime purchases also let you use your own DJ name and logo inside the app.\n\nAfter the preview, free access has performance limits: 20 minutes for controller use, 20 minutes for recording and 70 minutes per set. Reaching a limit does not cut off audio that is already playing. Monthly plans renew until cancelled. Prices appear in the app before purchase.\n\nUse local, unprotected audio files. Protected subscription tracks are not supported.\n\nSupport: https://dj.generik.au/support\nPrivacy: https://dj.generik.au/privacy\nTerms of Use: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/",
+    "keywords": "mixing,decks,waveform,beatgrid,cue,loop,effects,tempo,equalizer,playlist,recording,MIDI",
+    "marketingURL": "https://dj.generik.au",
+    "supportURL": "https://dj.generik.au/support",
+    "copyright": "2026 Erik Veland"
+  },
+  "privacy": {
+    "privacyPolicyURL": "https://dj.generik.au/privacy",
+    "privacyChoicesURL": "https://dj.generik.au/privacy/choices",
+    "questionnaireStatus": "Data Not Collected published in App Store Connect on 19 November 2026, as confirmed by Erik."
+  },
+  "accessibility": {
+    "accessibilityURL": "https://dj.generik.au/accessibility",
+    "claimsStatus": "Do not assert unverified platform accessibility features."
+  },
+  "review": {
+    "contactEmail": "erik@veland.au",
+    "signInRequired": false,
+    "notes": "GenErik DJ uses local, unprotected audio. Import audio from Settings > Library, or permit access to local Music-library tracks. No GenErik DJ account is required. Apple services use the system Apple Account.\n\nA compatible controller is optional for on-screen mixing. The controller catalogue lists model-specific coverage.\n\nAudio analysis runs locally. Private iCloud preparation sharing transfers analysis and sections, not audio files. Website: https://dj.generik.au.",
+    "contactPhone": "Use the phone number saved in App Store Connect. It is omitted here."
+  },
+  "artwork": {
+    "iconSource": "Replica/iPad/AppIcon.icon",
+    "header": "Replica/Branding/AppStore/header-current-3840x1646.png",
+    "status": "Both 1.0 drafts show the approved icon from build 226. The iOS draft also has the approved header.",
+    "iconConfigurationSHA256": "e75c3a68e33a447c5efc3d42abc69d8bffbe1db5b673e43805e6743c4b859e23",
+    "iconLayerSHA256": "82335dab98a5b86e1bf32f63fe931ad91d91abbaa2fe862ce7af6cadb88bae00",
+    "headerSHA256": "23d09136ae9890613a308f12cedbdaf0bb0200c710d615e4f3151cc933ddf4f3"
+  },
+  "publication": {
+    "submitForReview": false,
+    "releasePublicly": false,
+    "notes": "App Store versions and purchase records are in Prepare for Submission. Purchase pricing, availability, review assets and release qualification remain open."
+  },
+  "inAppPurchaseLocalizations": [
+    {
+      "productID": "org.generikdj.replica.controller.monthly",
+      "name": "Controller Support Monthly",
+      "description": "Monthly access to controller support."
+    },
+    {
+      "productID": "org.generikdj.replica.controller.lifetime",
+      "name": "Controller Support Lifetime",
+      "description": "Unlock controllers and DJ branding for life."
+    },
+    {
+      "productID": "org.generikdj.replica.recording.monthly",
+      "name": "Recording Monthly",
+      "description": "Unlock mix recording with a monthly plan."
+    },
+    {
+      "productID": "org.generikdj.replica.recording.lifetime",
+      "name": "Recording Lifetime",
+      "description": "Unlock recording and DJ branding for life."
+    },
+    {
+      "productID": "org.generikdj.replica.open_format.monthly",
+      "name": "Open Format Monthly",
+      "description": "Remove the free set limit each month."
+    },
+    {
+      "productID": "org.generikdj.replica.open_format.lifetime",
+      "name": "Open Format Lifetime",
+      "description": "Remove set limits. Includes DJ branding."
+    },
+    {
+      "productID": "org.generikdj.replica.all_in_one.lifetime",
+      "name": "All-in-One Lifetime",
+      "description": "All three unlocks and your own DJ branding."
+    }
+  ]
+}

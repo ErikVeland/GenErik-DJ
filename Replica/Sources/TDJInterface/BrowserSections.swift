@@ -54,7 +54,7 @@ struct RecordingsBrowser: View {
                             PerformancePalette.secondaryText
                         ).frame(width: 120, height: 120).bevelPanel(cornerRadius: 3, sunken: true)
                         VStack(alignment: .leading, spacing: 8) {
-                            Text(Self.title(url)).font(.system(size: 18, weight: .bold)).lineLimit(2)
+                            Text(Self.title(url)).font(.system(size: 18, weight: .bold)).lineLimit(1)
                             Text(length.map { String(format: "%d:%02d", Int($0) / 60, Int($0) % 60) } ?? "—")
                                 .foregroundStyle(PerformancePalette.secondaryText).monospacedDigit()
                             ShareLink(item: url) {
@@ -71,7 +71,9 @@ struct RecordingsBrowser: View {
                     ScrollView {
                         LazyVStack(alignment: .leading, spacing: 0) {
                             if lines.isEmpty {
-                                Text("No tracklist was saved with this recording.").foregroundStyle(.secondary).padding(
+                                Text("No tracklist was saved with this recording.").lineLimit(nil).foregroundStyle(
+                                    .secondary
+                                ).padding(
                                     14)
                             }
                             ForEach(Array(lines.enumerated()), id: \.offset) { _, line in
@@ -126,7 +128,8 @@ struct HistoryBrowser: View {
             ScrollView {
                 LazyVStack(spacing: 0) {
                     if layout.latest == nil {
-                        Text("Sessions appear here after you load tracks.").foregroundStyle(.secondary).padding(24)
+                        Text("Sessions appear here after you load tracks.").lineLimit(nil).foregroundStyle(.secondary)
+                            .padding(24)
                     }
                     if let latest = layout.latest {
                         Button {
@@ -286,7 +289,8 @@ struct SettingsBrowser: View {
                             Image(systemName: item.symbol).frame(width: 24)
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(item.rawValue).font(.system(size: 16, weight: .semibold))
-                                Text(item.summary).font(.caption).foregroundStyle(PerformancePalette.secondaryText)
+                                Text(item.summary).lineLimit(nil).font(.caption).foregroundStyle(
+                                    PerformancePalette.secondaryText)
                             }
                             Spacer(minLength: 0)
                         }.padding(14).frame(maxWidth: .infinity, minHeight: 64, alignment: .leading)
@@ -302,7 +306,7 @@ struct SettingsBrowser: View {
         switch page {
         case .sound:
             SettingsGroup("Output & headphone cue") { OutputSettingsView(model: model) }
-            Text("Use the speaker button during a set for master level, headphone mix and recording.")
+            Text("Use the speaker button during a set for master level, headphone mix and recording.").lineLimit(nil)
                 .font(.caption).foregroundStyle(.secondary)
         case .playback:
             PlaybackSettings(model: model)
@@ -312,9 +316,9 @@ struct SettingsBrowser: View {
             SettingsGroup("During a set") {
                 Text(
                     "Set cues, loops and replay markers in the deck utility drawer. Edit grids and sections beside the waveform."
-                )
-                .font(.subheadline)
-                Text(model.cloudStatus).font(.caption).foregroundStyle(.secondary)
+                ).lineLimit(nil)
+                    .font(.subheadline)
+                Text(model.cloudStatus).lineLimit(nil).font(.caption).foregroundStyle(.secondary)
                     .accessibilityIdentifier("cloudPreparationStatus")
             }
             SettingsGroup("Prepare your library") {
@@ -328,8 +332,10 @@ struct SettingsBrowser: View {
                             }.disabled(model.musicLibraryRefreshing || model.importing)
                             Button(action: importAudio) { Label("Import audio files", systemImage: "folder") }
                             Button(action: linkCollection) { Label("Link DJ collection", systemImage: "link") }
-                            Text("A linked collection is read at launch and imported again when it changes.")
-                                .font(.caption).foregroundStyle(.secondary)
+                            Text("A linked collection is read at launch and imported again when it changes.").lineLimit(
+                                nil
+                            )
+                            .font(.caption).foregroundStyle(.secondary)
                         }
                     }
                 }
@@ -348,20 +354,26 @@ struct SettingsBrowser: View {
             }
             SettingsGroup("Learn the controls") {
                 Button("Open gesture guide") { model.helpVisible = true }
-                Text("Share saved sets from Recordings using the share button.").font(.caption).foregroundStyle(
-                    .secondary)
+                Text("Share saved sets from Recordings using the share button.").lineLimit(nil).font(.caption)
+                    .foregroundStyle(
+                        .secondary)
             }
             if FourDeckTrial.isAvailable || LiveStemTrial.isAvailable {
                 SettingsGroup("Test features") {
                     if FourDeckTrial.isAvailable {
                         Toggle("Four decks", isOn: $fourDecks)
-                            .disabled(fourDecks && [.c, .d].contains { model.playbackSnapshot?[$0].phase.active == true })
-                        Text("Wide windows show all four decks. Smaller windows show two decks with bank selectors. Stop decks C and D before turning this off.")
+                            .disabled(
+                                fourDecks && [.c, .d].contains { model.playbackSnapshot?[$0].phase.active == true })
+                        Text(
+                            "Wide windows show all four decks. Smaller windows show two decks with bank selectors. Stop decks C and D before turning this off."
+                        ).lineLimit(nil)
                             .font(.caption).foregroundStyle(.secondary)
                     }
                     if LiveStemTrial.isAvailable {
                         Toggle("Live stem separation", isOn: $liveStems)
-                        Text("A10X trial. One track per launch. Mix stops preparation. Prepared audio stays available until relaunch.")
+                        Text(
+                            "A10X trial. One track per launch. Mix stops preparation. Prepared audio stays available until relaunch."
+                        ).lineLimit(nil)
                             .font(.caption).foregroundStyle(.secondary)
                     }
                 }
@@ -373,7 +385,7 @@ struct SettingsBrowser: View {
                 Text(
                     "Version \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "—") (\(Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "—"))"
                 )
-                Text("An independent performance app. Third-party notices ship with the app.")
+                Text("An independent performance app. Third-party notices ship with the app.").lineLimit(nil)
                     .font(.caption).foregroundStyle(.secondary)
             }
         }

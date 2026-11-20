@@ -52,9 +52,10 @@ extension View {
 struct BevelButtonStyle: ButtonStyle {
     var active = false
     func makeBody(configuration: Configuration) -> some View {
-        configuration.label.frame(maxWidth: .infinity, maxHeight: .infinity).foregroundStyle(
-            active ? PerformancePalette.cyan : PerformancePalette.text.opacity(0.85)
-        ).bevelPanel(cornerRadius: 3, sunken: configuration.isPressed).contentShape(Rectangle())
+        configuration.label.lineLimit(1).minimumScaleFactor(0.8)
+            .frame(maxWidth: .infinity, maxHeight: .infinity).foregroundStyle(
+                active ? PerformancePalette.cyan : PerformancePalette.text.opacity(0.85)
+            ).bevelPanel(cornerRadius: 3, sunken: configuration.isPressed).contentShape(Rectangle())
     }
 }
 

@@ -16,9 +16,10 @@ struct BassAssistanceReadout: View {
                     )
                 }
             } else {
-                Text("Waiting for overlapping bass on two decks.")
+                Text("Waiting for overlapping bass on two decks.").lineLimit(nil)
             }
-            Text("Uses A on the left crossfader side and B on the right. Available for two-deck playback.")
+            Text("Uses A on the left crossfader side and B on the right. Available for two-deck playback.").lineLimit(
+                nil)
         }
         .font(.caption).foregroundStyle(.secondary)
         .accessibilityElement(children: .combine)
