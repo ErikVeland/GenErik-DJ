@@ -222,11 +222,11 @@ struct SettingsBrowser: View {
         var summary: String {
             switch self {
             case .sound: "Output, routing and cue mix"
-            case .playback: "Loading, loops and track endings"
+            case .playback: "Deck count, loading and playback"
             case .layout: "Visible controls, waveforms and touch"
             case .library: "Music sources, keys and iCloud"
             case .controllers: "Connected devices, lights and MIDI"
-            case .about: "Gestures, test features and version"
+            case .about: "Gesture guide and app version"
             }
         }
     }
@@ -306,6 +306,14 @@ struct SettingsBrowser: View {
             Text("Use the speaker button during a set for master level, headphone mix and recording.").lineLimit(nil)
                 .font(.caption).foregroundStyle(.secondary)
         case .playback:
+            if FourDeckTrial.isAvailable {
+                SettingsGroup("Deck count") {
+                    Toggle("Four decks", isOn: $fourDecks)
+                        .disabled(fourDecks && [.c, .d].contains { model.playbackSnapshot?[$0].phase.active == true })
+                    Text("Wide windows show all four decks. Smaller windows show two decks with bank selectors. Stop decks C and D before turning this off.")
+                        .font(.caption).foregroundStyle(.secondary)
+                }
+            }
             PlaybackSettings(model: model)
         case .layout:
             LayoutSettings()
@@ -317,6 +325,13 @@ struct SettingsBrowser: View {
                     .font(.subheadline)
                 Text(model.cloudStatus).lineLimit(nil).font(.caption).foregroundStyle(.secondary)
                     .accessibilityIdentifier("cloudPreparationStatus")
+            }
+            if LiveStemTrial.isAvailable {
+                SettingsGroup("Stems") {
+                    Toggle("Live stem separation", isOn: $liveStems)
+                    Text("Prepare stems for one track per app launch. Starting a mix stops preparation. Prepared stems stay available until you reopen the app.")
+                        .font(.caption).foregroundStyle(.secondary)
+                }
             }
             SettingsGroup("Prepare your library") {
                 SettingsPageLink("Music sources", detail: "Refresh, import audio or link a collection") {
@@ -365,26 +380,6 @@ struct SettingsBrowser: View {
                 Text("Share saved sets from Recordings using the share button.").lineLimit(nil).font(.caption)
                     .foregroundStyle(
                         .secondary)
-            }
-            if FourDeckTrial.isAvailable || LiveStemTrial.isAvailable {
-                SettingsGroup("Test features") {
-                    if FourDeckTrial.isAvailable {
-                        Toggle("Four decks", isOn: $fourDecks)
-                            .disabled(
-                                fourDecks && [.c, .d].contains { model.playbackSnapshot?[$0].phase.active == true })
-                        Text(
-                            "Wide windows show all four decks. Smaller windows show two decks with bank selectors. Stop decks C and D before turning this off."
-                        ).lineLimit(nil)
-                            .font(.caption).foregroundStyle(.secondary)
-                    }
-                    if LiveStemTrial.isAvailable {
-                        Toggle("Live stem separation", isOn: $liveStems)
-                        Text(
-                            "A10X trial. One track per launch. Mix stops preparation. Prepared audio stays available until relaunch."
-                        ).lineLimit(nil)
-                            .font(.caption).foregroundStyle(.secondary)
-                    }
-                }
             }
             SettingsGroup(
                 model.storeAccess.personalisationIsUnlocked && !customDJName.isEmpty ? customDJName : "GenErik DJ"

@@ -1204,6 +1204,9 @@ extension ReplicaView {
     @Binding var audioSettingsPresented: Bool
     @Binding var importPresented: Bool
     @Binding var traktorImportPresented: Bool
+    @State private var settingsPresented = false
+    @State private var pendingImport: SettingsImport?
+    private enum SettingsImport { case audio, collection }
     var showsOutputButton: Bool
 
     private var horizontalInset: CGFloat {
@@ -1230,6 +1233,31 @@ extension ReplicaView {
         }.background(
             LinearGradient(
                 colors: [PerformancePalette.raised, PerformancePalette.frame], startPoint: .top, endPoint: .bottom))
+        .sheet(isPresented: $settingsPresented, onDismiss: {
+            switch pendingImport {
+            case .audio: importPresented = true
+            case .collection: traktorImportPresented = true
+            case nil: break
+            }
+            pendingImport = nil
+        }) {
+            VStack(spacing: 0) {
+                HStack {
+                    Spacer()
+                    Button("Done") { settingsPresented = false }.padding()
+                }
+                SettingsBrowser(model: model, importAudio: {
+                    pendingImport = .audio
+                    settingsPresented = false
+                }, linkCollection: {
+                    pendingImport = .collection
+                    settingsPresented = false
+                })
+            }
+            #if os(macOS)
+                .frame(minWidth: 720, minHeight: 480)
+            #endif
+        }
     }
     private func toolbarRow(showClock: Bool, showsWordmark: Bool) -> some View {
         HStack(spacing: 8) {
@@ -1257,6 +1285,12 @@ extension ReplicaView {
                 horizontal: true, vertical: false
             ).frame(height: 44).bevelPanel(cornerRadius: 6, sunken: true)
             Spacer(minLength: 8)
+            Button {
+                settingsPresented = true
+            } label: {
+                Image(systemName: "gearshape.fill").font(.system(size: 18)).frame(width: 44, height: 44)
+                    .bevelPanel(cornerRadius: 5)
+            }.accessibilityLabel("Settings")
             if notifications { NotificationCenterButton(model: model) }
             HStack(spacing: 0) {
                 Button {
