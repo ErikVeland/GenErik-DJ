@@ -1,7 +1,8 @@
 # App Store compliance readiness
 
-**Review date:** 20 November 2026  
-**App:** GenErik DJ, Apple ID `6832211854`  
+**Review date:** 20 November 2026
+
+**App:** GenErik DJ, Apple ID `6832211854`
 **Status:** Prepared for account-holder review. Not legally signed off.
 
 This record maps the current project evidence to App Store Connect compliance work. It does not replace Apple's current questions, legal advice, or the Account Holder's review. The App Store Connect account was not available in this session. Agreement and declaration states marked unverified need a direct check in that account.
@@ -42,4 +43,3 @@ Record the Account Holder's agreement status and date. Do not store credentials,
 - [Sign and update agreements](https://developer.apple.com/help/app-store-connect/manage-agreements/sign-and-update-agreements/)
 - [View agreements status](https://developer.apple.com/help/app-store-connect/manage-agreements/view-agreements-status/)
 - [Apple App Review Guidelines](https://developer.apple.com/app-store/review/guidelines/)
-
