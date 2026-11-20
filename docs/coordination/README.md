@@ -2,6 +2,8 @@
 
 **R500 App Store compliance:** Both agreements are active. The published Data Not Collected answer needs reconciliation with the privacy policy's persistent CloudKit sync disclosure. New age-rating answers, the local-library Content Rights rationale, regional applicability, and final-build checks need Account Holder review. [Readiness record](../app-store/compliance-readiness.md).
 
+**R501 App Store legal pages:** The public terms and credits pages load. The linked licence notices include development cache content that needs comparison with the final binaries. [Readiness record](../app-store/compliance-readiness.md).
+
 **Build 228 (R428)** installed over Wi-Fi. The build 227 watchdog report identifies a stall in browser-opening observation notifications. Build 228 bypasses the observed request ID setter. Compilation and signing passed. Four focused host tests passed, including 128 requests with 10,000 pending observers and exact offline-audio agreement. Erik reports initial operation, but sustained audio and touch acceptance remains open. Earlier remote launch timeouts remain recorded. [Evidence and scope](ipad-freeze-r428.md) · [Build record](../testing/builds/228.json).
 
 **R427 screenshots:** Apple accepted four native 10.5-inch iPad captures and three Duo captures in the English (Australia) iOS 1.0 draft. R429 added four accepted 2752 × 2064 copies to the required 13-inch iPad slot. The required standard iPhone set remains open. [Files and upload evidence](../app-store/screenshots-r427/README.md).
