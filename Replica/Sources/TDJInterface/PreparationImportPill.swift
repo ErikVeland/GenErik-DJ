@@ -1,4 +1,5 @@
 import SwiftUI
+import TDJCore
 
 /// Unobtrusive background-import status. Never takes input and fades when finished.
 struct PreparationImportPill: View {
@@ -71,3 +72,51 @@ struct LibraryAnalysisFooter: View {
         }
     }
 }
+
+#if os(iOS)
+@MainActor struct IPadLibraryAnalysisSummary: View {
+    let model: ReplicaModel
+    @State private var counts: Counts?
+
+    struct Counts: Equatable {
+        var analysed = 0
+        var missing = 0
+        var deep = 0
+
+        nonisolated init(_ tracks: [Track]) {
+            for track in tracks where track.musicLibrarySources?.contains(where: { $0.platform == .iosMusic }) == true {
+                if CloudPreparationArchive.hasAudioIdentity(track) {
+                    analysed += 1
+                    if track.analysis.deepBeatAnalysis != nil { deep += 1 }
+                } else {
+                    missing += 1
+                }
+            }
+        }
+    }
+
+    var body: some View {
+        HStack(spacing: 12) {
+            if let counts {
+                Text("\(counts.analysed) analysed")
+                Text("\(counts.missing) need first analysis")
+                Text("\(counts.deep) with deep analysis").foregroundStyle(.secondary)
+            } else {
+                Text("Reading saved analysis…")
+            }
+            if let pause = model.nativeMusic.conditions.pauseMessage {
+                Text(pause).foregroundStyle(.secondary)
+            }
+        }
+        .font(.caption.monospacedDigit())
+        .accessibilityElement(children: .combine)
+        .task(id: model.library.revision) {
+            let source = model.libraryReadSource()
+            let updated = await model.nativeMusic.projection.run {
+                source.withValue { Counts($0.tracks) }
+            }
+            if !Task.isCancelled { counts = updated }
+        }
+    }
+}
+#endif

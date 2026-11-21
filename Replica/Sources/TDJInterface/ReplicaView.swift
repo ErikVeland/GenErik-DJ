@@ -1223,10 +1223,23 @@ extension ReplicaView {
                 toolbarRow(showClock: false, showsWordmark: true)
                 toolbarRow(showClock: false, showsWordmark: false)
             }.frame(height: 60)
-            if model.preparationImport != nil || model.analysisProgress != nil {
+            #if os(iOS)
+            let ipadLibraryScan = UIDevice.current.userInterfaceIdiom == .pad && model.analysisProgress?.isLibraryAnalysis == true
+            #else
+            let ipadLibraryScan = false
+            #endif
+            if model.preparationImport != nil || (model.analysisProgress != nil && !(ipadLibraryScan && model.storeAccess.hasActivePerformance)) {
                 HStack(spacing: 12) {
                     if let progress = model.preparationImport { PreparationImportPill(progress: progress) }
-                    if let progress = model.analysisProgress { PreparationImportPill(progress: progress) }
+                    if let progress = model.analysisProgress {
+                        if ipadLibraryScan {
+                            #if os(iOS)
+                            if !model.storeAccess.hasActivePerformance { IPadLibraryAnalysisSummary(model: model) }
+                            #endif
+                        } else {
+                            PreparationImportPill(progress: progress)
+                        }
+                    }
                     Spacer(minLength: 0)
                 }.padding(.horizontal, horizontalInset).frame(height: 24).clipped()
             }
