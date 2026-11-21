@@ -1,6 +1,19 @@
 import Foundation
 import TDJCore
 
+enum GridInspectionViewport {
+    static func start(current: Double?, playhead: Double?, timing: BeatTiming?, frameCount: Int64)
+        -> (previous: Double, center: Double)
+    {
+        let previous = current.flatMap { $0.isFinite ? $0 : nil }
+            ?? playhead.flatMap { $0.isFinite ? $0 : nil } ?? 0
+        guard let timing, frameCount > 0,
+            let beatOne = timing.nearestDownbeatFrame(to: previous, within: 0..<Double(frameCount))
+        else { return (previous, previous) }
+        return (previous, beatOne)
+    }
+}
+
 extension ReplicaModel {
     public func synchronizeGridCue(trackID: String, grid: BeatGrid) {
         guard let track = library.tracks.first(where: { $0.id == trackID }), grid.anchorFrame >= 0,
@@ -122,14 +135,12 @@ extension ReplicaModel {
             }
         } else {
             gridDownbeatDraft[deck] = nil
-            gridViewportBeforeInspection[deck] = nil
+            let inspection = GridInspectionViewport.start(
+                current: viewport[deck], playhead: waveformPlayback(deck)?.sourceFrame, timing: timing(deck),
+                frameCount: track(deck)?.analysis.frameCount ?? 0)
+            gridViewportBeforeInspection[deck] = inspection.previous
             editing.insert(deck)
-            if let timing = timing(deck), let track = track(deck), track.analysis.frameCount > 0 {
-                let position = viewport[deck] ?? waveformPlayback(deck)?.sourceFrame ?? 0
-                if let frame = timing.nearestDownbeatFrame(to: position, within: 0..<Double(track.analysis.frameCount)) {
-                    centerGridInspection(on: frame, deck: deck)
-                }
-            }
+            viewport[deck] = inspection.center
         }
     }
 

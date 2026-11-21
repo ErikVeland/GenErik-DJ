@@ -1987,11 +1987,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
             }
             for deck in snapshot.deckIDs {
                 guard let state = waveformPlayback(deck), state.phase != .empty, !playback.hasPendingTouchRelease(deck) else { continue }
-                if editing.contains(deck) {
-                    guard gridViewportBeforeInspection[deck] == nil,
-                        state.phase == .playing, gridWaveformContacts[deck] == nil
-                    else { continue }
-                } else if previewing.contains(deck) || frozen.contains(deck) { continue }
+                guard !editing.contains(deck), !previewing.contains(deck), !frozen.contains(deck) else { continue }
                 if viewport[deck] != state.sourceFrame { viewport[deck] = state.sourceFrame }
             }
         }

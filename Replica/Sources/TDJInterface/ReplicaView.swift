@@ -518,12 +518,15 @@ private struct DeckPanelHorizontalBounds: Shape {
             panels.setTrackAvailable(track != nil)
             sectionPanel.validate(trackID: track?.id, loadID: model.loadIdentity(deck))
         }.onChange(of: model.frozen.contains(deck)) { _, enabled in
+            guard !editing else { return }
             if enabled, let loadID = model.loadIdentity(deck), let track, let state = playback, state.loopEnabled {
                 frozenSpan = (loadID, (state.loopEnd - state.loopStart) / track.analysis.sampleRate)
                 model.viewport[deck] = (state.loopStart + state.loopEnd) / 2
             } else if !enabled {
                 frozenSpan = nil
             }
+        }.onChange(of: editing) { _, isEditing in
+            if !isEditing && !model.frozen.contains(deck) { frozenSpan = nil }
         }
     }
     private var previewStripHeight: Double {
