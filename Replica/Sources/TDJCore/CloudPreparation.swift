@@ -35,12 +35,14 @@ public struct CloudPreparationArchive: Codable, Equatable, Sendable {
         !track.analysis.configurationID.hasPrefix("native-") && track.nativeSourceNeedsAnalysis != true
     }
 
-    public func encoded() throws -> Data {
+    public func encoded() throws -> Data { try encoded(maximumBytes: Self.maximumBytes) }
+
+    fileprivate func encoded(maximumBytes: Int) throws -> Data {
         try validate()
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.sortedKeys]
         let data = try encoder.encode(self)
-        guard data.count <= Self.maximumBytes else {
+        guard data.count <= maximumBytes else {
             throw Self.invalid("This preparation exceeds the cloud record size limit.")
         }
         return data
@@ -69,7 +71,9 @@ public struct CloudPreparationArchive: Codable, Equatable, Sendable {
     }
 
     public static let maximumBytes = 32 * 1024 * 1024
-    public static func decode(_ data: Data) throws -> Self {
+    public static func decode(_ data: Data) throws -> Self { try decode(data, maximumBytes: maximumBytes) }
+
+    fileprivate static func decode(_ data: Data, maximumBytes: Int) throws -> Self {
         guard data.count <= maximumBytes else { throw invalid("The cloud preparation is too large.") }
         let value = try JSONDecoder().decode(Self.self, from: data)
         try value.validate()
@@ -173,6 +177,9 @@ public struct CloudPreparationVault: Sendable {
         self.root = root
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
     }
+    private var payloadLimit: Int {
+        root.lastPathComponent == "RecoveryVersions" ? .max : CloudPreparationArchive.maximumBytes
+    }
     public func payloadURL(_ id: String) -> URL { root.appendingPathComponent(id + ".payload") }
     public func read(_ id: String) throws -> CloudPreparationArchive {
         guard KeyImportManifest.isDigest(id) else {
@@ -180,18 +187,18 @@ public struct CloudPreparationVault: Sendable {
         }
         let url = payloadURL(id)
         let size = try url.resourceValues(forKeys: [.fileSizeKey]).fileSize ?? 0
-        guard size <= CloudPreparationArchive.maximumBytes else {
+        guard size <= payloadLimit else {
             throw CloudPreparationArchive.invalid("The cloud preparation is too large.")
         }
         let data = try Data(contentsOf: url)
         guard Self.digest(data) == id else {
             throw CloudPreparationArchive.invalid("The saved cloud revision failed its integrity check.")
         }
-        return try CloudPreparationArchive.decode(data)
+        return try CloudPreparationArchive.decode(data, maximumBytes: payloadLimit)
     }
     @discardableResult public func retain(_ archive: CloudPreparationArchive, savedAt: Date = Date()) throws -> Revision
     {
-        try retain(data: archive.encoded(), savedAt: savedAt)
+        try store(archive, data: archive.encoded(maximumBytes: payloadLimit), savedAt: savedAt)
     }
     @discardableResult public func retain(data: Data, expectedID: String? = nil, savedAt: Date = Date()) throws
         -> Revision
@@ -201,6 +208,10 @@ public struct CloudPreparationVault: Sendable {
         guard expectedID == nil || expectedID == id else {
             throw CloudPreparationArchive.invalid("The downloaded cloud revision failed its integrity check.")
         }
+        return try store(archive, data: data, savedAt: savedAt, id: id)
+    }
+    private func store(_ archive: CloudPreparationArchive, data: Data, savedAt: Date, id knownID: String? = nil) throws -> Revision {
+        let id = knownID ?? Self.digest(data)
         let meta = root.appendingPathComponent(id + ".json")
         if FileManager.default.fileExists(atPath: meta.path) {
             _ = try read(id)
