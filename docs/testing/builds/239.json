@@ -1,0 +1,19 @@
+{
+  "notes": "R515: Resume idle analysis after a fresh launch with saved performance timing.",
+  "sourceCommit": "092555f7597b954cf2f22e095f8b1eec52b37c70",
+  "sourceSHA256": "e9041c70d58590403be994070ad7ea890583c5e554c80bb563048a08e54447ed",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 113.53,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-239.log",
+  "build": 239,
+  "app": "TestBuilds/ipad/239/GenErikDJ.app",
+  "appSHA256": "10430e09e76ab147811d58a9073ddd93bd9cfd7942c27ed069e12846d21087d7",
+  "state": "testing",
+  "createdUTC": "2026-11-21T03:30:19.113908+00:00",
+  "installedUTC": "2026-11-21T03:30:33.368643+00:00",
+  "launchedUTC": "2026-11-21T03:30:33.714752+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}

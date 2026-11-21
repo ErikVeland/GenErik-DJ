@@ -903,4 +903,4 @@ Every request ID is retained. “Implemented” describes source availability, n
 
 | R514 | Mac 1.0.1 (238) waiting for review | Update the Mac App Store submission | Built from 3c027ca00. Verified the signed Mac archive has no external accessory protocols. Apple validated the package and accepted the replacement submission. Physical controller testing remains open. |
 
-| R515 | Implemented. Device verification pending. | Allow preparation after an idle relaunch | Preserve access timers. Protect playback from the first performance in the current launch through End Performance. Verify source transfer on the iPad. |
+| R515 | Build 239 installed. Fresh source recovery verified. | Allow preparation after an idle relaunch | Preserve access timers. Protect playback from the first performance in the current launch through End Performance. The idle relaunch regression test passed. The iPad exported Gimme the Light (Banx & Ranx Remix). The Mac saved its analysis for sharing and requested the next track. |
