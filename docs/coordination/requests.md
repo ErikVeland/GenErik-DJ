@@ -913,4 +913,4 @@ Every request ID is retained. “Implemented” describes source availability, n
 
 | R519 | Build 245 installed. Visual acceptance pending | Show saved iPad analysis coverage in the toolbar | Count first-pass and deep analysis from saved Music tracks. Hide the library scan row during performance. |
 
-| R520 | Device verification pending | Finish opening-only Music tracks and keep idle counts visible | Verify source identity before reusing saved grid and key. Read the exact Music entry for each mix. Show saved counts between scans and hide them during performance. |
+| R520 | Build 246 installed. Both first-pass results verified on the iPad. Visual acceptance open. | Finish opening-only Music tracks and keep idle counts visible | Verify source identity before reusing saved grid and key. Read the exact Music entry for each mix. Show saved counts between scans and hide them during performance. |

@@ -1,0 +1,19 @@
+{
+  "notes": "R520: Finish first analysis for opening-only Music entries. Keep saved counts visible between scans.",
+  "sourceCommit": "e35f0416d84fc1bf081e4c256e935f5166ef98db",
+  "sourceSHA256": "1a0e9ff5069a5f6b07f72d49d0d597dab6049eb2ced89f9f1be9ed27e274d61b",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 78.68,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-246.log",
+  "build": 246,
+  "app": "TestBuilds/ipad/246/GenErikDJ.app",
+  "appSHA256": "65eb308d377f8e2e50e379aad32c6c07579ee5d45653e5cfa5281d148d7de363",
+  "state": "testing",
+  "createdUTC": "2026-11-21T05:11:27.038727+00:00",
+  "installedUTC": "2026-11-21T05:11:41.329161+00:00",
+  "launchedUTC": "2026-11-21T05:11:41.733182+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}
