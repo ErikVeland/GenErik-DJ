@@ -972,3 +972,4 @@ Every request ID is retained. “Implemented” describes source availability, n
 <a id="r543"></a>
 
 | R543 | Source candidate. Device check open. | Move a Beat Fix grid to the left of its first beat. | Keep the inspection view inside the file. Continue to shift the draft phase at the start of the file. Show the Flex draft without changing live playback. Keep explicit beat taps inside the file. |
+| R544 | Source candidate. Device check open. | Warn when a track is dragged towards a deck that is playing. | Show a red warning icon and accessible playing status for the armed deck in both browsers, regardless of load protection. Preserve existing load rules. Check paused and playing decks, four-deck selection, and drag cancellation on device. |

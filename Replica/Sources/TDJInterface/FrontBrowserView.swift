@@ -761,7 +761,9 @@ extension FrontBrowserView {
                         }.disabled(entry == nil).accessibilityLabel("Add to prep list")
                     }
                     Spacer(minLength: 0)
-                    LoadSlider(tall: true) { deck in if let entry { model.loadLibraryEntry(entry, deck: deck) } }.id(
+                    LoadSlider(tall: true, phase: { model.controlDisplay[$0].phase }) { deck in
+                        if let entry { model.loadLibraryEntry(entry, deck: deck) }
+                    }.id(
                         entry?.id
                     ).disabled(entry?.canLoad != true).padding(.leading, 14).protectsFrontDeckSwipe()
                 }.padding(14).frame(height: TallLoadSliderMetrics.height + 8 + 28)
