@@ -32,7 +32,10 @@ extension ReplicaModel {
         let tracks = library.tracks
         let byHash = await cloudFiles.run { Dictionary(grouping: tracks, by: { $0.analysis.contentSHA256 }) }
         var chunk: [CloudPreparationVault.Revision] = []
-        for revision in result.revisions where revision.automaticAnalysis == true
+        let missingDeep = Set(tracks.lazy.filter { $0.analysis.deepBeatAnalysis == nil }.map { $0.analysis.contentSHA256 })
+        let ordered = result.revisions.filter { missingDeep.contains($0.audioSHA256) }
+            + result.revisions.filter { !missingDeep.contains($0.audioSHA256) }
+        for revision in ordered where revision.automaticAnalysis == true
             && !automaticCloudRead.contains(revision.id) && byHash[revision.audioSHA256] != nil {
             chunk.append(revision)
             if chunk.count == 8 {

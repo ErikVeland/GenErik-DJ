@@ -103,7 +103,9 @@ actor CloudPreparationSync: CKSyncEngineDelegate {
         }.get()
         #if os(iOS)
         if automatic {
+            await progress("Checking downloaded analysis…")
             let saved = try await files.run { Swift.Result { try storage.list() } }.get()
+            await progress("Applying downloaded analysis…")
             try await retainedResults(Result(root: root, revisions: saved, message: "Applying saved cloud analysis…"))
             try check()
             await beforeNetwork()
