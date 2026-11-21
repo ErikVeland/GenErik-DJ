@@ -924,3 +924,6 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R524 | Blocking. Device acceptance open. | Start promptly from touch or Z1 Mode + A/B. Retain precise manual placement on a stopped deck. | Check both decks, a Play press during loading, mixer controls and audible starts from an off-beat drag. Keep Sync for live moves. |
 
 | R525 | Device acceptance open. | Follow playback in Beat Fix and align the controls to the right | Check both iPad orientations, grid dragging and stopped editing. |
+
+<a id="r526"></a>
+| R526 | Device acceptance open. | Make waveform snapping optional. Keep the exact drop position after a full stop and on restart. | Check the main waveform and Beat Fix with snapping off and on, including a synced second deck. |

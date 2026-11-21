@@ -1966,7 +1966,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
                 controllerInput.queueZ1Feedback(z1Feedback(snapshot))
             }
             for deck in snapshot.deckIDs {
-                guard let state = waveformPlayback(deck), state.phase != .empty else { continue }
+                guard let state = waveformPlayback(deck), state.phase != .empty, !playback.hasPendingTouchRelease(deck) else { continue }
                 if editing.contains(deck) {
                     guard state.phase == .playing, gridWaveformContacts[deck] == nil else { continue }
                 } else if previewing.contains(deck) || frozen.contains(deck) { continue }

@@ -22,6 +22,11 @@ public enum SourceControl: Sendable {
                      end: 0, enabled: false, quantum: 0)
     }
 
+    public static func dropWaveform(at frame: Double, snap: Bool, deck: DeckID, generation: UInt64) -> Self {
+        .performance(.touch, deck, generation, value: Double(TDJ_TOUCH_WAVEFORM_DROP),
+                     end: frame, enabled: false, quantum: snap ? 1 : 0)
+    }
+
     public static func finishCueContact(
         deck: DeckID, generation: UInt64, cue: Double, continuePlaying: Bool
     ) -> Self {

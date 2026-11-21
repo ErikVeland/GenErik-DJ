@@ -225,9 +225,8 @@ import Testing
     let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
     defer { try? FileManager.default.removeItem(at: root) }
     let model = try ReplicaModel(root: root, playback: PlaybackController(offline: true), musicLibraryProvider: provider)
-    await model.openNativeMusicLibrary()
-    await model.flushNativeMusicAnalysis()
-    model.nativeMusic.wanted = false
+    model.adoptLibrary(try await model.service.analyzeNativeMusic(
+        url: provider.original, musicLibrary: .init(item: provider.primary), quickLoad: true))
     provider.current = fixtures.appendingPathComponent("clock-b-128.wav")
     model.receiveZ1(try performanceZ1Report(buttons: 0))
     model.loadNativeMusic(provider.primary, deck: .b)

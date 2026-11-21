@@ -11,18 +11,17 @@ When that state ends, playback returns to the master beat phase.
 
 - Loading retains the saved Sync choice, including when a grid is not yet available.
 - A missing grid shows unresolved alignment. It must not silently turn Sync off or claim reliable alignment.
-- A normal stop pauses immediately, clears temporary touch rate and pending jumps, and parks on the nearest beat.
-- Restart and cue entry use the grid. Existing queued-start deadlines remain unchanged.
+- A normal stop pauses immediately, clears temporary touch rate and pending jumps, and retains the current frame.
+- Restart and cue entry use the selected source frame. A synced second deck schedules entry to match that frame.
 - A stopped seek keeps the exact position, including between beats. A synced playing seek matches the master phase at execution.
-- Lift on a stopped deck to park at the finger position. Lift on a synced playing deck to restore grid alignment.
-- Cancellation releases the contact. A synced playing deck restores alignment.
+- Lift to retain the finger position. The optional waveform snap applies only when the deck is playing.
+- Cancellation releases the contact. The waveform snap preference also applies to this release.
 - Vinyl stop retains Sync. Resume restores alignment or uses the normal queued start after the stop completes.
 - Loop entry retains the selected loop boundaries and aligns the playback position inside them.
 - Leaving a loop restores beat phase. Sub-beat loops retain their deliberate effect while active.
-- An explicit Sync-off choice retains free transport and allows waveform coasting on a playing deck.
+- A manual waveform drop ends finger motion at the lift position.
 
-R524 updates the stopped-deck rule from build 151. A solo start uses the manually placed position or the file start.
-A second synced deck aligns to the running deck at entry.
+R524 and R526 update the stopped-deck rule from build 151. Waveform snapping defaults to off for new and existing installations.
 
 ## Implementation
 

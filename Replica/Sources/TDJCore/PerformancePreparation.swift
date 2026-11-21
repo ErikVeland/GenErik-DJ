@@ -29,6 +29,11 @@ public struct PerformancePreparation: Codable, Sendable {
     public var quantize: Double = 0.5
     public var slicerQuantize = true
     public var freezeOnLoad = false
+    private var snapPlayingWaveformValue: Bool?
+    public var snapPlayingWaveform: Bool {
+        get { snapPlayingWaveformValue ?? false }
+        set { snapPlayingWaveformValue = newValue }
+    }
     private var waveformScratchAudioValue: Bool?
     public var waveformScratchAudio: Bool {
         get { waveformScratchAudioValue ?? true }

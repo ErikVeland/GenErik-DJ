@@ -952,9 +952,6 @@ static int start_deck(tdj_engine *e, deck *d, int index, uint64_t ticket, uint64
         return TDJ_KEYLOCK_RANGE;
     deck starting = *d;
     starting.state = reference >= 0 ? TDJ_QUEUED : TDJ_PLAYING;
-    if ((starting.state == TDJ_QUEUED || e->running) &&
-        !align_synced_position(&starting, starting.state == TDJ_QUEUED ? 0 : beat_now(e)))
-        return TDJ_ALIGNMENT_UNAVAILABLE;
     int stream_status = stream_validate(e, index, &starting, proposed_bpm, ticket, generation);
     if (stream_status != TDJ_OK)
         return stream_status;
@@ -966,14 +963,16 @@ static int start_deck(tdj_engine *e, deck *d, int index, uint64_t ticket, uint64
         d->queued_origin = d->position;
         d->position = starting.position;
         double beat = beat_now(e);
+        double source_beat = deck_beat(&starting, starting.position) - starting.downbeat;
+        double fraction = source_beat - round(source_beat);
         double phase = starting.map.count && !starting.touch_active && !starting.braking &&
                                starting.performance_rate == 1 && !starting.loop_enabled
-                           ? groove_bar_phase(&starting, starting.position) : 0;
+                           ? groove_bar_phase(&starting, starting.position) : fraction;
         double bar = (floor((beat - phase) / 4) + 1) * 4 + phase;
         /**
          * Retains the prepared bar phase. Short references use the existing next-beat fallback.
          */
-        d->target = bar - beat <= reference + 1e-9 ? bar : floor(beat) + 1;
+        d->target = bar - beat <= reference + 1e-9 ? bar : floor(beat - phase) + 1 + phase;
         d->state = TDJ_QUEUED;
     } else {
         if (!e->running) {
@@ -1411,7 +1410,7 @@ static bool nearest_sync_position(deck *d, double beat, double *position) {
 
 // Manual effects retain Sync intent. Their release returns to the render clock.
 static bool align_synced_position(deck *d, double beat) {
-    if (!d->synced || d->bpm <= 0 || d->touch_active || d->braking || d->performance_rate != 1)
+    if (d->state != TDJ_PLAYING || !d->synced || d->bpm <= 0 || d->touch_active || d->braking || d->performance_rate != 1)
         return true;
     if (nearest_sync_position(d, beat, &d->position))
         return true;
@@ -1938,8 +1937,8 @@ static int apply(tdj_engine *e, tdj_command c) {
         }
         return TDJ_INVALID;
     }
-    // Waveform input cannot take the cursor away from an active brake.
-    if (d->braking && (c.kind == TDJ_TOUCH || c.kind == TDJ_RATE || c.kind == TDJ_JUMP || c.kind == TDJ_LOOP ||
+    bool waveform_drop = c.kind == TDJ_TOUCH && c.flag == 0 && c.value == TDJ_TOUCH_WAVEFORM_DROP;
+    if (d->braking && !waveform_drop && (c.kind == TDJ_TOUCH || c.kind == TDJ_RATE || c.kind == TDJ_JUMP || c.kind == TDJ_LOOP ||
                        c.kind == TDJ_FLUX || c.kind == TDJ_FREE_RATE || c.kind == TDJ_KEYLOCK || c.kind == TDJ_GRID))
         return TDJ_ACTIVE_PERFORMANCE;
     if (c.kind == TDJ_CUE_RECALL) {
@@ -1995,12 +1994,7 @@ static int apply(tdj_engine *e, tdj_command c) {
             d->jump_pending = false;
             d->pending_touch_rate_valid = false;
             set_performance_rate(e, c.deck, 1);
-            double stopped_position = d->position;
-            align_synced_position(d, 0);
-            if (d->position != stopped_position) {
-                reset_deck_keylock(e, c.deck);
-                transition_request(e, c.deck, 0);
-            }
+            d->continuing = d->position;
             if (!any_deck_active(e)) {
                 advance_clock_epoch(e);
                 e->running = false;
@@ -2024,7 +2018,8 @@ static int apply(tdj_engine *e, tdj_command c) {
         }
         return start_deck(e, d, c.deck, c.preparation_ticket, c.generation);
     }
-    if (c.kind == TDJ_TOUCH && c.flag == 0 && (c.value == TDJ_TOUCH_CUE_PARK || c.value == TDJ_TOUCH_CUE_CONTINUE)) {
+    if (waveform_drop || (c.kind == TDJ_TOUCH && c.flag == 0 &&
+                          (c.value == TDJ_TOUCH_CUE_PARK || c.value == TDJ_TOUCH_CUE_CONTINUE))) {
         if (!isfinite(c.value2) || c.value2 < 0 || c.value2 >= d->asset->frames)
             return TDJ_INVALID;
         deck proposed = *d;
@@ -2033,11 +2028,21 @@ static int apply(tdj_engine *e, tdj_command c) {
         proposed.pending_touch_rate_valid = false;
         proposed.jump_pending = false;
         proposed.performance_rate = 1;
-        if (c.value == TDJ_TOUCH_CUE_PARK) {
+        if (waveform_drop) {
+            bool live = d->state == TDJ_PLAYING && !d->braking && (!d->touch_active || d->touch_was_playing);
+            proposed.state = live ? TDJ_PLAYING : TDJ_PAUSED;
+            proposed.position = c.value2;
+            if (live && c.value3 == 1)
+                nearest_sync_position(&proposed, d->synced ? beat_now(e) : 0, &proposed.position);
+            proposed.continuing = proposed.position;
+            if (live) {
+                int status = stream_validate(e, c.deck, &proposed, e->bpm, c.preparation_ticket, c.generation);
+                if (status != TDJ_OK)
+                    return status;
+            }
+        } else if (c.value == TDJ_TOUCH_CUE_PARK) {
             proposed.state = TDJ_PAUSED;
             proposed.position = c.value2;
-            if (d->state == TDJ_PLAYING && (!d->touch_active || d->touch_was_playing))
-                align_synced_position(&proposed, 0);
             proposed.continuing = proposed.position;
         } else if (d->touch_active && d->state == TDJ_PLAYING) {
             if (!align_synced_position(&proposed, beat_now(e)))
@@ -2052,6 +2057,8 @@ static int apply(tdj_engine *e, tdj_command c) {
                 return status;
         }
         *d = proposed;
+        if (waveform_drop)
+            brake_clear(e, c.deck);
         if (!any_deck_active(e) && e->running) {
             advance_clock_epoch(e);
             e->running = false;

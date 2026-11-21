@@ -27,27 +27,4 @@ struct WaveformDragMotion {
         lastTime = time
         lastMovement = time
     }
-    func coast(at time: TimeInterval) -> WaveformCoast? {
-        guard time - lastMovement < 0.08, abs(velocity) / span > 0.02 else { return nil }
-        return WaveformCoast(frame: frame, velocity: velocity, time: time, span: span, limit: limit)
-    }
-}
-
-struct WaveformCoast {
-    let frame: Double
-    let velocity: Double
-    let time: TimeInterval
-    let span: Double
-    let limit: Double
-
-    func sample(at now: TimeInterval) -> (frame: Double, velocity: Double, finished: Bool) {
-        let elapsed = max(0, now - time)
-        // This is equivalent to a scroll deceleration factor of 0.998 per millisecond.
-        let friction = -log(0.998) * 1000
-        let decay = exp(-friction * elapsed)
-        let proposed = frame + velocity * (1 - decay) / friction
-        let bounded = min(limit, max(0, proposed))
-        let finished = bounded != proposed || abs(velocity * decay) / span < 0.002
-        return (bounded, finished ? 0 : velocity * decay, finished)
-    }
 }

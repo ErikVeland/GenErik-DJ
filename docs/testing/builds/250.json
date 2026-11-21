@@ -1,0 +1,17 @@
+{
+  "notes": "R524 and R525. Preserve exact stopped playhead placement, prioritise Z1 playback and follow playing audio in Beat Fix.",
+  "sourceCommit": "c62e63e7cb5f5ff6ad8fd25984394c952220e8fc",
+  "sourceSHA256": "e3cc7184acd9155ed4608e11e2fc1f24e803f8aa31ce4ef001134c8a209b2b79",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 155.49,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-250.log",
+  "build": 250,
+  "app": "TestBuilds/ipad/250/GenErikDJ.app",
+  "appSHA256": "ed2bd74b3a5a3412115bbdd61b32527891a09774431c5517951428793fd28e89",
+  "state": "ready",
+  "createdUTC": "2026-11-21T07:32:51.195724+00:00",
+  "disposition": "Saved before Erik requested opt-in snapping for playing decks. Superseded before installation."
+}

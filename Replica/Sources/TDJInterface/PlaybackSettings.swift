@@ -80,6 +80,12 @@ struct PlaybackSettings: View {
 struct QuantizeSettings: View {
     @Bindable var model: ReplicaModel
     var body: some View {
+        Toggle("Snap waveform during playback", isOn: Binding(
+            get: { model.performance.snapPlayingWaveform },
+            set: {
+                model.performance.snapPlayingWaveform = $0
+                model.savePerformance()
+            }))
         Picker(
             "Quantise to",
             selection: Binding(

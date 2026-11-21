@@ -196,8 +196,9 @@ Required playback reads take priority over optional analysis, artwork, library w
 
 The beat grid is the transport timing authority.
 Keep Sync enabled until Erik explicitly disables it.
-A stopped deck retains the exact frame selected by hand. A solo start uses that frame.
-A synced start against a playing deck, a live seek and a live gesture release use the grid.
+Manual waveform placement retains the exact frame. Every start uses that frame.
+Waveform snapping is off by default and applies only during playback when enabled.
+A synced start against a playing deck matches the entry time to the selected frame.
 Temporary manual control must preserve the saved Sync choice.
 Show missing or unaccepted timing as unresolved. Loading shows the file start at the playhead.
 

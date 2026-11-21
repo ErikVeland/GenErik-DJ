@@ -38,10 +38,6 @@ extension SourceControl {
         var preservePending = state.jumpPending
         var alignmentBeat: Double?
         var alignmentTiming = state.timing
-        let hasReference = snapshot.deckIDs.contains {
-            $0 != deck && snapshot[$0].synced && snapshot[$0].sourceBPM > 0 && snapshot[$0].phase == .playing
-        }
-        let entryBeat: Double? = hasReference ? 0 : snapshot.clockRunning ? snapshot.masterBeat : nil
         switch self {
         case .tempo(let bpm, _, _): if state.synced, state.sourceBPM > 0 { target.speed = bpm / state.sourceBPM }
         case .freeRate(let rate, _, _): if !state.synced { target.speed = rate }
@@ -75,7 +71,6 @@ extension SourceControl {
             target.position = bounded(position)
         case .cueRecall(_, _, let position, let loopEnd, _):
             target.position = bounded(position)
-            alignmentBeat = entryBeat
             preservePending = false
             if state.phase == .ended { target.continuingPosition = target.position }
             if let loopEnd {
@@ -110,8 +105,9 @@ extension SourceControl {
                     if !state.loopEnabled && !state.touchActive { target.continuingPosition = state.sourceFrame }
                     target.reserveContinuing = state.fluxEnabled || action == .loopRoll
                     if !state.touchActive, !state.braking, state.performanceRate == 1 {
-                        alignmentBeat = state.phase == .playing
-                            ? quantum > 0 ? (floor(snapshot.masterBeat / quantum) + 1) * quantum : snapshot.masterBeat : 0
+                        if state.phase == .playing {
+                            alignmentBeat = quantum > 0 ? (floor(snapshot.masterBeat / quantum) + 1) * quantum : snapshot.masterBeat
+                        }
                     }
                 } else {
                     if state.loopEnabled && (state.fluxEnabled || state.loopRolling) && !state.touchActive {
@@ -123,7 +119,7 @@ extension SourceControl {
                     }
                     target.reserveContinuing = state.fluxEnabled && state.touchActive
                     if !state.touchActive, !state.braking, state.performanceRate == 1 {
-                        alignmentBeat = state.phase == .playing ? snapshot.masterBeat : 0
+                        if state.phase == .playing { alignmentBeat = snapshot.masterBeat }
                     }
                 }
             case .touch:
@@ -145,18 +141,29 @@ extension SourceControl {
                     }
                     target.reserveContinuing = state.fluxEnabled && state.loopEnabled
                     if state.touchWasPlaying { alignmentBeat = snapshot.masterBeat }
-                    if value == Double(TDJ_TOUCH_CUE_PARK) {
+                    if value == Double(TDJ_TOUCH_WAVEFORM_DROP) {
+                        target.position = bounded(end)
+                        alignmentBeat = nil
+                        if quantum == 1, state.phase == .playing, !state.braking,
+                            !state.touchActive || state.touchWasPlaying, let timing = state.timing {
+                            let range = state.loopEnabled ? state.loopStart..<state.loopEnd : 0..<Double(frames)
+                            target.position = timing.nearestPhaseAlignedFrame(
+                                to: target.position, masterBeat: state.synced ? snapshot.masterBeat : 0,
+                                within: range) ?? target.position
+                        }
+                        target.continuingPosition = target.position
+                    } else if value == Double(TDJ_TOUCH_CUE_PARK) {
                         target.position = bounded(end)
                         alignmentBeat = nil
                     } else if value == Double(TDJ_TOUCH_CUE_CONTINUE) {
                         target.position = state.touchActive ? state.sourceFrame : bounded(end)
-                        alignmentBeat = state.touchActive ? snapshot.masterBeat : entryBeat
+                        alignmentBeat = state.touchActive ? snapshot.masterBeat : nil
                     }
                 }
             case .rate:
                 target.performanceRate = value
                 if value == 1, !state.touchActive, !state.braking {
-                    alignmentBeat = state.phase == .playing ? snapshot.masterBeat : 0
+                    if state.phase == .playing { alignmentBeat = snapshot.masterBeat }
                 }
             case .flux:
                 target.reserveContinuing = enabled && (state.touchActive || state.loopEnabled)
@@ -164,7 +171,7 @@ extension SourceControl {
             }
         case .brake(let action, _, _, _):
             if action == .resume {
-                alignmentBeat = state.braking ? snapshot.masterBeat : entryBeat
+                alignmentBeat = state.braking ? snapshot.masterBeat : nil
                 if state.synced, state.sourceBPM > 0 { target.speed = snapshot.masterBPM / state.sourceBPM }
             }
         case .play:
@@ -173,7 +180,6 @@ extension SourceControl {
                 target.continuingPosition = 0
                 preservePending = false
             }
-            if !state.phase.active, !state.touchActive { alignmentBeat = entryBeat }
         }
         let proposedSynced: Bool
         switch self {
