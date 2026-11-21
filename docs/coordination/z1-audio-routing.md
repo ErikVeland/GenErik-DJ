@@ -46,3 +46,9 @@ Erik reported silent output, failed starts from UI Play and Mode + A/B, and slow
 The split-output code requested four channels by count alone. Apple's standard-format initializer accepts one or two channels in this form. It returned nil for four in the reproduction. The app then threw an error before submitting Play. Waveform audition called the same output setup. R97 made that path automatic when the Z1 connected. The earlier build 144 live report records working Z1 controls, and R97 records that the previous default was stereo master.
 
 R527 supplies an ordered four-channel layout for both the source and the hardware connection. Host audio checks rendered four independent signals in the expected order at 44.1 and 48 kHz, including conversion from 48 to 44.1 kHz. Master uses channels 1–2 and headphone cue uses 3–4. Listening and touch checks on the physical Z1 remain open. [Build 252](../testing/builds/252.json).
+
+## Build 252 played in headphones with silent rear RCA
+
+Erik confirmed audio in the original Z1 headphones. The rear MAIN OUT RCA pair feeding the AUX input was silent. The iPad audio log reported Left, Right, Discrete 2 and Discrete 3 on the Z1. Build 252 set all four labels to discrete. In a host conversion to the reported hardware layout, this silenced the first two channels and passed headphone cue.
+
+R528 uses the Z1 labels for the source and output connections. Distinct signals passed on all four channels at 44.1 and 48 kHz, including conversion between those rates. The physical check is rear RCA sound with independent headphone cue. [Build 253](../testing/builds/253.json).

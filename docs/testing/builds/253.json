@@ -1,0 +1,28 @@
+{
+  "notes": "R528. Restore sound on the original Z1 rear RCA master output and preserve headphone cue.",
+  "sourceCommit": "057eaa902311e1f6fe2c4a394ab3ad13d6585458",
+  "sourceSHA256": "528cfb88c370c855a6fbcac80cf243858d145d2704b1f833d5e9bdf1c5579b04",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 96.84,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-253.log",
+  "build": 253,
+  "app": "TestBuilds/ipad/253/GenErikDJ.app",
+  "appSHA256": "2e399dabd6c218054087c956e397774b120e81ef7c5e456e1a9b099d1ff81050",
+  "state": "testing",
+  "createdUTC": "2026-11-21T08:11:27.270338+00:00",
+  "installedUTC": "2026-11-21T08:14:30.642537+00:00",
+  "launchedUTC": "2026-11-21T08:14:31.423992+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R528"
+  ],
+  "verification": "The build 252 iPad log identified the Z1 layout as L, R, Discrete-2 and Discrete-3. Apple audio conversion reproduced silent RCA with audible cue. Matching the labels passed all four signals. The corrected graph passed at 44.1 and 48 kHz, including rate conversion. Physical rear RCA listening remains open.",
+  "localEvidence": [
+    "TestBuilds/r528/map.log",
+    "TestBuilds/r528/graph.log",
+    "TestBuilds/r528/install-retry.log"
+  ]
+}

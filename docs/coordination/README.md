@@ -1,5 +1,7 @@
 # Current work
 
+**Build 253 (R528)** installed and launched on the A10X iPad. The original Z1 uses its reported Left and Right labels for rear RCA master. Erik confirmed headphone audio on build 252. Physical master and cue verification on build 253 remains open. [Build record](../testing/builds/253.json).
+
 **Build 252 (R527)** installed and launched on the A10X iPad. The Z1 audio path now supplies a four-channel layout for master and cue. The offline channel check passed. Physical listening and touch acceptance remain open. [Z1 routing](z1-audio-routing.md) · [Build record](../testing/builds/252.json).
 
 **Build 251 (R524–R526)** installed over USB on the A10X iPad. iPadOS accepted launch. Waveform snapping defaults to off. A stopped deck retains the exact drop position. The build also includes the Beat Fix and Z1 changes. Erik requested immediate installation. Audio, physical Z1 operation and waveform behaviour await his feedback. [Build record](../testing/builds/251.json).
