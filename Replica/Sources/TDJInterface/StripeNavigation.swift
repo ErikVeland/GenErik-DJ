@@ -85,6 +85,7 @@ import TDJCore
                 onZoom(max(min(1, track.analysis.duration), min(track.analysis.duration, seconds)))
             }
         } else if pinch == nil, let drag, let point = event.points.first(where: { $0.id == drag.contact }) {
+            model.loadedWaveformPresentations[deck] = nil
             model.viewport[deck] = model.boundedFrame((point.x - drag.offset) * frames, deck: deck)
         }
         // A remaining pinch contact must not become a navigation drag.

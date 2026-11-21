@@ -948,3 +948,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R533 | Source candidate. Tests pending. | Keep Flex Grid in time while another deck plays. | Follow the playing deck and master tempo with bounded rate changes. Preserve source beat spacing and playhead position. Relax when the deck plays alone. The reported track was not tested. |
 
 | R534 | Draft. Physical acceptance open. | Hold the waveform still in Beat Fix even when there is no valid beat one. Keep audio and deliberate waveform gestures active. | Check no-grid and short-track entry, a playing deck, manual drag, and Done. |
+
+| R535 | Draft. Physical acceptance open. | Centre the first bar on a newly loaded track. Keep the actual playback position unchanged. | Check fixed and Flex grids, file-start playback, deliberate scrubs, Play, and a clone at a saved cursor. |

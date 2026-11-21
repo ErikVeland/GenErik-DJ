@@ -25,18 +25,24 @@ import Testing
 }
 
 @Test(arguments: DeckID.allCases) @MainActor
-func trackLoadShowsFileStartBeforeAndAfterAudioReadiness(deck: DeckID) async throws {
+func trackLoadCentresFirstBarButAudioStaysAtFileStart(deck: DeckID) async throws {
     let (model, root, track) = try await loadPlayheadFixture()
     defer { try? FileManager.default.removeItem(at: root) }
     model.load(trackID: track.id, deck: deck)
     #expect(model.viewport[deck] == 0)
     await model.playbackLoads?.value
     #expect(model.playbackSnapshot?[deck].phase == .ready)
+    let firstBar = 8 * track.analysis.sampleRate
     #expect(model.playbackSnapshot?[deck].sourceFrame == 0)
-    #expect(model.viewport[deck] == 0)
-    #expect(model.grid(deck)?.anchorFrame == 8 * track.analysis.sampleRate)
+    #expect(model.viewport[deck] == firstBar)
+    #expect(model.grid(deck)?.anchorFrame == firstBar)
     model.refreshPlayback()
-    #expect(model.viewport[deck] == 0)
+    #expect(model.viewport[deck] == firstBar)
+    model.pressPlay(deck: deck, vinylStop: false)
+    await model.flushTransportRequests()
+    _ = model.playback.core.renderOffline(frames: 512)
+    model.refreshPlayback()
+    #expect(model.viewport[deck] == model.playbackSnapshot?[deck].sourceFrame)
     await model.finishForShutdown()
 }
 
@@ -74,7 +80,8 @@ func trackLoadShowsFileStartBeforeAndAfterAudioReadiness(deck: DeckID) async thr
     barrier.continuation.finish()
     await model.playbackLoads?.value
     #expect(model.playbackSnapshot?.a.phase == .ready)
-    #expect(model.viewport[.a] == 0)
+    #expect(model.playbackSnapshot?.a.sourceFrame == 0)
+    #expect(model.viewport[.a] == 8 * track.analysis.sampleRate)
     await model.finishForShutdown()
 }
 
@@ -94,4 +101,42 @@ func readyDeckRetainsDeliberateWaveformView(mode: String) async throws {
     #expect(model.viewport[.a] == track.analysis.sampleRate * 5)
     #expect(model.playbackSnapshot?.a.sourceFrame == 0)
     await model.finishForShutdown()
+}
+
+@Test @MainActor func clonedTrackRetainsItsDeliberateCursor() async throws {
+    let (model, root, track) = try await loadPlayheadFixture()
+    defer { try? FileManager.default.removeItem(at: root) }
+    model.load(trackID: track.id, deck: .a)
+    await model.playbackLoads?.value
+    let cursor = 3 * track.analysis.sampleRate
+    model.jump(cursor, deck: .a, quantized: false)
+    await model.playback.flushSourcePreparations()
+    model.refreshPlayback()
+    model.cloneTrackDeck(from: .a, to: .b)
+    await model.playbackLoads?.value
+    #expect(model.playbackSnapshot?.b.sourceFrame == cursor)
+    #expect(model.viewport[.b] == cursor)
+    #expect(model.loadedWaveformPresentations[.b] == nil)
+    await model.finishForShutdown()
+}
+
+@Test func firstBarLoadPresentationUsesRealGridAndExpiresOnTransportChange() throws {
+    let grid = try BeatGrid(bpm: 120, anchorFrame: 48_000, sampleRate: 48_000, downbeatOffset: 1)
+    let timing = BeatTiming(fixed: grid)
+    let pin = try #require(LoadedWaveformPresentation(
+        generation: 8, phase: .ready, sourceFrame: 0, timing: timing, frameCount: 160_000))
+    #expect(pin.center == 72_000)
+    #expect(pin.holds(generation: 8, phase: .ready, sourceFrame: 0))
+    #expect(!pin.holds(generation: 8, phase: .playing, sourceFrame: 0))
+    #expect(!pin.holds(generation: 9, phase: .ready, sourceFrame: 0))
+    #expect(!pin.holds(generation: 8, phase: .paused, sourceFrame: 100))
+    #expect(LoadedWaveformPresentation(
+        generation: 8, phase: .ready, sourceFrame: 0, timing: nil, frameCount: 160_000) == nil)
+    let map = BeatGridMap(
+        anchors: [.init(beat: 0, frame: 1_500), .init(beat: 4, frame: 111_000)], sampleRate: 48_000,
+        downbeatOffset: 2)
+    let flex = try #require(LoadedWaveformPresentation(
+        generation: 9, phase: .paused, sourceFrame: 0,
+        timing: BeatTiming(fixed: grid, adaptive: map), frameCount: 150_000))
+    #expect(flex.center == 56_250)
 }

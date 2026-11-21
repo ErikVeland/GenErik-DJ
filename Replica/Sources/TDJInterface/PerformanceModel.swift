@@ -1,6 +1,32 @@
 import Foundation
 import TDJCore
 
+struct LoadedWaveformPresentation {
+    let generation: UInt64
+    let center: Double
+
+    init?(generation: UInt64, phase: PlaybackPhase, sourceFrame: Double, timing: BeatTiming?, frameCount: Int64) {
+        guard Self.shouldHold(phase: phase, sourceFrame: sourceFrame), let timing, frameCount > 0 else { return nil }
+        let origin = timing.frame(atBeat: 0)
+        guard origin.isFinite else { return nil }
+        let start = max(0, origin)
+        guard start < Double(frameCount),
+            let firstBeatOne = timing.nearestDownbeatFrame(to: start, within: start..<Double(frameCount)),
+            firstBeatOne != sourceFrame
+        else { return nil }
+        self.generation = generation
+        center = firstBeatOne
+    }
+
+    func holds(generation: UInt64, phase: PlaybackPhase, sourceFrame: Double) -> Bool {
+        self.generation == generation && Self.shouldHold(phase: phase, sourceFrame: sourceFrame)
+    }
+
+    private static func shouldHold(phase: PlaybackPhase, sourceFrame: Double) -> Bool {
+        (phase == .ready || phase == .paused) && sourceFrame == 0
+    }
+}
+
 enum GridInspectionViewport {
     static func start(current: Double?, playhead: Double?, timing: BeatTiming?, frameCount: Int64)
         -> (previous: Double, center: Double)
@@ -47,6 +73,7 @@ extension ReplicaModel {
             try playback.perform(
                 action, deck: deck, value: value, end: end, enabled: enabled, quantum: quantum, touchRate: touchRate,
                 followsPosition: followsPosition)
+            if action == .jump { loadedWaveformPresentations[deck] = nil }
             controllerPausedJogs[deck] = nil
             if action == .touch || (action == .rate && controllerPitchBendCommandDeck != deck) {
                 controllerPitchBendButtons[deck] = nil
@@ -72,6 +99,7 @@ extension ReplicaModel {
     }
     public func returnToPlayhead(deck: DeckID) {
         guard !frozen.contains(deck), !editing.contains(deck) else { return }
+        loadedWaveformPresentations[deck] = nil
         refreshPlayback()
         guard let state = playbackSnapshot?[deck] else { return }
         previewing.remove(deck)
@@ -139,6 +167,7 @@ extension ReplicaModel {
                 current: viewport[deck], playhead: waveformPlayback(deck)?.sourceFrame, timing: timing(deck),
                 frameCount: track(deck)?.analysis.frameCount ?? 0)
             gridViewportBeforeInspection[deck] = inspection.previous
+            loadedWaveformPresentations[deck] = nil
             editing.insert(deck)
             viewport[deck] = inspection.center
         }
@@ -163,6 +192,7 @@ extension ReplicaModel {
             if state.phase != .playing && state.phase != .queued {
                 do {
                     try playback.recallCue(cue, deck: deck, quantum: quantized ? performance.quantize : 0)
+                    loadedWaveformPresentations[deck] = nil
                     if cue.loopEnd == nil && !frozen.contains(deck) { previewing.remove(deck) }
                     refreshPlayback()
                 } catch { status = error.localizedDescription }

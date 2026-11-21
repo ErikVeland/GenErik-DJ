@@ -112,6 +112,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     /// CUE button points, per deck, in source frames.
     public internal(set) var cuePoints: [DeckID: Double] = [:]
     public var viewport: [DeckID: Double] = [:]
+    @ObservationIgnored var loadedWaveformPresentations: [DeckID: LoadedWaveformPresentation] = [:]
     public private(set) var applyingGrids: Set<DeckID> = []
     var adaptiveUndo: [String: [Preparation]] = [:]
     public var gridDraft: [DeckID: BeatGrid] = [:]
@@ -1235,6 +1236,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
         storedPreparationKeys[trackID] = .init(value: storedKey)
         loadPreparations[deck] = .init(token: token, track: track)
         loaded[deck] = trackID
+        loadedWaveformPresentations[deck] = nil
         viewport[deck] = sourceFrame
         gridDraft[deck] = pendingPreparations[trackID]?.value.grid
         gridDownbeatDraft[deck] = nil
@@ -1338,6 +1340,16 @@ enum PlaybackInputSource: Equatable { case touch, controller }
                 if performance.freezeOnLoad {
                     frozen.insert(deck)
                     previewing.insert(deck)
+                } else if cloneSource == nil, sourceFrame == 0, pendingLoadPlay[deck] == nil,
+                    let state = playback.core.snapshot()?[deck], state.generation == committed.generation,
+                    let grid = currentGrid,
+                    let presentation = LoadedWaveformPresentation(
+                        generation: state.generation, phase: state.phase, sourceFrame: state.sourceFrame,
+                        timing: BeatTiming(fixed: grid, adaptive: state.adaptiveMap),
+                        frameCount: current.track.analysis.frameCount)
+                {
+                    loadedWaveformPresentations[deck] = presentation
+                    viewport[deck] = presentation.center
                 }
                 preparingPlayback.remove(deck)
                 if pendingLoadPlay[deck] == (nativeLoadOwner ?? token) {
@@ -1820,6 +1832,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
                     loaded[deck] = nil
                     if lastLoadedDeck == deck { lastLoadedDeck = DeckID.allCases.first { loaded[$0] != nil } }
                     loadedTrackCache[deck] = nil
+                    loadedWaveformPresentations[deck] = nil
                     viewport[deck] = 0
                     gridDraft[deck] = nil
                     gridDownbeatDraft[deck] = nil
@@ -1987,6 +2000,12 @@ enum PlaybackInputSource: Equatable { case touch, controller }
             }
             for deck in snapshot.deckIDs {
                 guard let state = waveformPlayback(deck), state.phase != .empty, !playback.hasPendingTouchRelease(deck) else { continue }
+                if let presentation = loadedWaveformPresentations[deck] {
+                    if presentation.holds(generation: state.generation, phase: state.phase, sourceFrame: state.sourceFrame) {
+                        continue
+                    }
+                    loadedWaveformPresentations[deck] = nil
+                }
                 guard !editing.contains(deck), !previewing.contains(deck), !frozen.contains(deck) else { continue }
                 if viewport[deck] != state.sourceFrame { viewport[deck] = state.sourceFrame }
             }
