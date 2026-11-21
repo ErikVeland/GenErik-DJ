@@ -104,6 +104,40 @@ actor CloudPreparationSync: CKSyncEngineDelegate {
         }.get()
         #if os(iOS)
         if automatic {
+            let inbox = root.appendingPathComponent("MatchedAnalysis")
+            let index = inbox.appendingPathComponent("revisions.json")
+            let pendingAudio = Set(tracks.lazy.filter {
+                $0.analysis.deepBeatAnalysis == nil && CloudPreparationArchive.hasAudioIdentity($0)
+            }.map { $0.analysis.contentSHA256 })
+            let priority = try await files.run { Swift.Result { () -> [CloudPreparationVault.Revision] in
+                guard FileManager.default.fileExists(atPath: index.path) else { return [] }
+                return try JSONDecoder().decode([CloudPreparationVault.Revision].self,
+                    from: Data(contentsOf: index)).filter {
+                        $0.automaticAnalysis == true && pendingAudio.contains($0.audioSHA256)
+                            && $0.id.count == 64 && $0.id.allSatisfy(\.isHexDigit)
+                    }
+            } }.get()
+            if !priority.isEmpty { await progress("Applying matching Mac analysis…") }
+            for offset in stride(from: 0, to: priority.count, by: 8) {
+                try check()
+                let page = Array(priority[offset..<min(offset + 8, priority.count)])
+                let verified = try await files.run { Swift.Result {
+                    try page.compactMap { revision -> CloudPreparationVault.Revision? in
+                        let staged = inbox.appendingPathComponent(revision.id + ".payload")
+                        if FileManager.default.fileExists(atPath: staged.path) {
+                            let size = try staged.resourceValues(forKeys: [.fileSizeKey]).fileSize ?? 0
+                            guard size <= CloudPreparationArchive.maximumBytes else { return nil }
+                            return try storage.retain(data: Data(contentsOf: staged), expectedID: revision.id,
+                                savedAt: revision.savedAt)
+                        }
+                        guard FileManager.default.fileExists(atPath: storage.payloadURL(revision.id).path)
+                        else { return nil }
+                        return revision
+                    }
+                } }.get()
+                try check()
+                try await retainedResults(Result(root: root, revisions: verified, message: "Applying matching Mac analysis…"))
+            }
             await progress("Checking downloaded analysis…")
             let cursor = savedScanCursor?.root == root ? savedScanCursor?.name : nil
             let names = try await files.run { Swift.Result {
