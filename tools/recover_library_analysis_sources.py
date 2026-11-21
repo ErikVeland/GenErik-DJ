@@ -166,6 +166,15 @@ def run(config, once=False):
                 if not acknowledgement['complete']:
                     raise RuntimeError(acknowledgement['error'])
                 publish(output, root / 'ipad', item['id'])
+                revision = json.loads(result_path.read_text())['revisionID']
+                hint = work / 'requested-revision'
+                hint.write_text(revision)
+                try:
+                    command(['device', 'copy', 'to', *domain(device), '--source', str(hint),
+                             '--destination', 'Documents/GenErikDJ-Development/CloudPreparation/'
+                             + config['account'] + '/requested-revision'], work / 'device.log')
+                except (RuntimeError, subprocess.TimeoutExpired):
+                    pass  # The normal iCloud zone download also carries this revision.
                 if review_path.exists():
                     shutil.copy2(review_path, work / 'recovered-review.json')
                     review_path.unlink()

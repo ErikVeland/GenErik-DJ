@@ -116,11 +116,32 @@ actor CloudPreparationSync: CKSyncEngineDelegate {
         defer { engine = nil }
         syncEngine.state.add(pendingDatabaseChanges: [.saveZone(CKRecordZone(zoneID: zoneID))])
 
-        // Adopt durable downloads before a network request can delay them.
-        try await retainedResults(Result(
-            root: root, revisions: try await files.run { Swift.Result { try storage.list() } }.get(),
-            message: "Applying saved cloud analysis…"))
         try check()
+        #if os(iOS)
+        if automatic {
+            // A paired Mac can identify a finished revision before the zone backlog reaches it.
+            let requested = root.appendingPathComponent("requested-revision")
+            if let id = await files.run({ try? String(contentsOf: requested, encoding: .utf8) }),
+                id.count == 64, id.allSatisfy(\.isHexDigit) {
+                do {
+                    let record = try await fetchConflictRecord(.init(recordName: id, zoneID: zoneID))
+                    try await retain(record, vault: storage)
+                    let revision = try await files.run { Swift.Result {
+                        try JSONDecoder().decode(CloudPreparationVault.Revision.self,
+                            from: Data(contentsOf: root.appendingPathComponent(id + ".json")))
+                    } }.get()
+                    try await retainedResults(.init(root: root, revisions: [revision], message: "Applying Mac analysis…"))
+                    await files.run {
+                        if (try? String(contentsOf: requested, encoding: .utf8)) == id {
+                            try? FileManager.default.removeItem(at: requested)
+                        }
+                    }
+                } catch let error as CKError where error.code == .unknownItem {
+                    // The Mac upload can still be pending.
+                }
+            }
+        }
+        #endif
         let group = CKOperationGroup()
         group.defaultConfiguration.qualityOfService = .background
         group.defaultConfiguration.timeoutIntervalForRequest = 20
@@ -130,6 +151,12 @@ actor CloudPreparationSync: CKSyncEngineDelegate {
             try await syncEngine.fetchChanges(.init(scope: .zoneIDs([zoneID]), operationGroup: group))
         } catch let error as CKError where error.code == .zoneNotFound {
             // The first upload creates the zone for a new account.
+         } catch {
+            try check()
+            try await retainedResults(Result(root: root,
+                revisions: try await files.run { Swift.Result { try storage.list() } }.get(),
+                message: "Applying saved cloud analysis…"))
+            throw error
         }
         try check()
         try await retainedResults(Result(

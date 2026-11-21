@@ -25,29 +25,37 @@ extension ReplicaModel {
     }
 
     func adoptAutomaticCloudResults(_ result: CloudPreparationSync.Result) async throws {
-        let started = Date()
-        var applied = 0
-        defer {
-            logAnalysis("Cloud adoption: \(applied) results applied in \(Date().timeIntervalSince(started)) seconds; \(automaticCloudRead.count) revisions checked.")
-        }
         if automaticCloudAccount != result.root {
             automaticCloudAccount = result.root
             automaticCloudRead.removeAll()
         }
         let tracks = library.tracks
         let byHash = await cloudFiles.run { Dictionary(grouping: tracks, by: { $0.analysis.contentSHA256 }) }
+        var chunk: [CloudPreparationVault.Revision] = []
+        for revision in result.revisions where revision.automaticAnalysis == true
+            && !automaticCloudRead.contains(revision.id) && byHash[revision.audioSHA256] != nil {
+            chunk.append(revision)
+            if chunk.count == 8 {
+                try await adoptCloudBatch(chunk, root: result.root, byHash: byHash)
+                chunk.removeAll(keepingCapacity: true)
+            }
+        }
+        if !chunk.isEmpty { try await adoptCloudBatch(chunk, root: result.root, byHash: byHash) }
+    }
+
+    private func adoptCloudBatch(_ revisions: [CloudPreparationVault.Revision], root: URL,
+        byHash: [String: [Track]]) async throws {
         var pending: [String: DeepBeatAnalysis] = [:]
         var pendingTracks: [String: Track] = [:]
         var batch: [(id: String, archive: CloudPreparationArchive, tracks: [String], deferred: Bool)] = []
-        for revision in result.revisions
-        where revision.automaticAnalysis == true && !automaticCloudRead.contains(revision.id) {
+        for revision in revisions {
             try Task.checkCancellation()
             guard cloudPlaybackIsIdle, !nativeMusic.backgrounded, !nativeMusic.closed else { throw CancellationError() }
             let matches = byHash[revision.audioSHA256] ?? []
             guard !matches.isEmpty else { continue }
 
             let read = await cloudFiles.run {
-                Result { try CloudPreparationVault(root: result.root).read(revision.id) }
+                Result { try CloudPreparationVault(root: root).read(revision.id) }
             }
             guard case .success(var archive) = read else {
                 automaticCloudRead.insert(revision.id)
@@ -105,7 +113,7 @@ extension ReplicaModel {
         if let active = nativeMusic.activeTrackID { protected.insert(active) }
         if !pending.isEmpty {
             adoptLibrary(try await service.adoptDeepAnalyses(pending, protectedTracks: protected))
-            applied = pending.keys.filter { !protected.contains($0) }.count
+            logAnalysis("Cloud adoption saved a batch of deep analysis results.")
         }
         for entry in batch {
             var deferred = entry.deferred
