@@ -39,14 +39,14 @@ extension ReplicaModel {
         if !automatic { cancelNativeMusicAnalysis() }
         cloudTask = Task {
             var startupWait: Task<Void, Never>?
-            func watchdog(_ seconds: Int) -> Task<Void, Never> {
-                Task { [weak self, cloudSync] in
-                do {
-                    try await Task.sleep(for: .seconds(seconds))
-                    try Task.checkCancellation()
-                    self?.cloudTask?.cancel()
-                    await cloudSync.stop()
-                } catch {}
+            @MainActor func watchdog(_ seconds: Int) -> Task<Void, Never> {
+                Task { @MainActor [weak self, cloudSync] in
+                    do {
+                        try await Task.sleep(for: .seconds(seconds))
+                        try Task.checkCancellation()
+                        self?.cloudTask?.cancel()
+                        await cloudSync.stop()
+                    } catch {}
                 }
             }
             #if os(iOS)
