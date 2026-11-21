@@ -919,4 +919,4 @@ Every request ID is retained. “Implemented” describes source availability, n
 
 | R522 | Build 248 installed. Four focused checks passed. Device acceptance open | Sort the library by Date Added and show new Music purchases while the app is open | Check newest-first order for the two purchases, automatic updates after download, and audio and touch on A10X. |
 
-| R523 | Device verification pending | Keep matching Mac results at the front of the iPad queue | Include newer deep results and refresh the queue as the Mac finishes tracks. |
+| R523 | Build 249 installed. The iPad cleared 95 pending results and reached 4,031 verified quick-analysis replacements. | Keep matching Mac results at the front of the iPad queue | Include newer deep results and refresh the queue as the Mac finishes tracks. |

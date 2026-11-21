@@ -1,0 +1,19 @@
+{
+  "notes": "R523: Prioritise new Mac results and updates to saved deep analysis.",
+  "sourceCommit": "8d0f0bce688bae94746e68294c9450dd8377ce0c",
+  "sourceSHA256": "c0e11309d3574b80e7fd4c4cf84c023a930c94046ea5f55078267695b2e4e124",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 87.97,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-249.log",
+  "build": 249,
+  "app": "TestBuilds/ipad/249/GenErikDJ.app",
+  "appSHA256": "7abe6da1267f6b8bf92306aff5d4596b7adbed63311ada1375ae75f0566c01d3",
+  "state": "testing",
+  "createdUTC": "2026-11-21T06:02:51.606764+00:00",
+  "installedUTC": "2026-11-21T06:05:57.353223+00:00",
+  "launchedUTC": "2026-11-21T06:06:02.275241+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}
