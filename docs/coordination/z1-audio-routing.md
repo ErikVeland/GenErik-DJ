@@ -38,3 +38,11 @@ Hardware listening, actual iPad port identification and A10X touch acceptance re
 
 Signed [build 160](../testing/builds/160.json) includes this change from `eedd347ed`.
 The A10X accepted installation and launch. No device actions followed.
+
+## Build 251 lost audio when the original Z1 connected
+
+Erik reported silent output, failed starts from UI Play and Mode + A/B, and slow waveform scrubbing. The crossfader and preview strip responded. The build 251 iPad report shows Z1 input and Z1 output together. Its system log shows repeated audio output setup and teardown while the Z1 was connected.
+
+The split-output code requested four channels by count alone. Apple's standard-format initializer accepts one or two channels in this form. It returned nil for four in the reproduction. The app then threw an error before submitting Play. Waveform audition called the same output setup. R97 made that path automatic when the Z1 connected. The earlier build 144 live report records working Z1 controls, and R97 records that the previous default was stereo master.
+
+R527 supplies an ordered four-channel layout for both the source and the hardware connection. Host audio checks rendered four independent signals in the expected order at 44.1 and 48 kHz, including conversion from 48 to 44.1 kHz. Master uses channels 1–2 and headphone cue uses 3–4. Listening and touch checks on the physical Z1 remain open. [Build 252](../testing/builds/252.json).

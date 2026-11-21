@@ -1,0 +1,29 @@
+{
+  "notes": "R527. Open the Z1 output with four discrete channels for master and headphone cue.",
+  "sourceCommit": "d5d908d18b5f8eeb6a1a865e92735174114158e6",
+  "sourceSHA256": "76b6c57e8a5ecae6b9503ef164d6257f6f69f0a2fd05daf56827e3080e7cd25c",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 116.45,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-252.log",
+  "build": 252,
+  "app": "TestBuilds/ipad/252/GenErikDJ.app",
+  "appSHA256": "a6ebe60c2bad74e6c5c16fb548f8e2863e3ff41c8ee6c52f2bb61f1f92e4ba31",
+  "state": "testing",
+  "createdUTC": "2026-11-21T07:58:41.681338+00:00",
+  "installedUTC": "2026-11-21T08:02:07.443891+00:00",
+  "launchedUTC": "2026-11-21T08:02:13.399305+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R527"
+  ],
+  "verification": "The count-only four-channel format returned nil on the host. An offline AVAudioEngine using the corrected format rendered independent signals on channels 1–4 at 44.1 and 48 kHz, including a 48 to 44.1 kHz conversion. Physical listening and touch acceptance remain open.",
+  "localEvidence": [
+    "TestBuilds/r527/format.log",
+    "TestBuilds/r527/rate-check.log",
+    "TestBuilds/r527/health.json",
+    "TestBuilds/r527/ipad-retry.log"
+  ]
+}

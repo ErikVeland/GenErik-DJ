@@ -927,4 +927,4 @@ Every request ID is retained. “Implemented” describes source availability, n
 
 | R526 | Build 251 installed. Device acceptance open. | Make waveform snapping optional. Keep the exact drop position after a full stop and on restart. | Check the main waveform and Beat Fix with snapping off and on, including a synced second deck. |
 
-| R527 | Build 251 blocks Z1 playback. | Supply an explicit four-channel layout when opening the split output. | Verify master 1–2, cue 3–4, UI and Mode + A/B starts and waveform response on the A10X. |
+| R527 | Build 252 installed. Physical Z1 acceptance open. | Supply an explicit four-channel layout when opening the split output. | Verify master 1–2, cue 3–4, UI and Mode + A/B starts and waveform response on the A10X. |
