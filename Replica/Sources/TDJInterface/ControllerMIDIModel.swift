@@ -14,7 +14,10 @@ extension ReplicaModel {
         controllerInput.currentValue = { [weak self] action in self?.controllerValue(action) }
         controllerInput.onZ1Report = { [weak self] report in self?.receiveZ1(report) }
         controllerInput.onZ1Calibration = { [weak self] calibration in self?.configureZ1Bridge(calibration) }
-        controllerInput.onBridgeReset = { [weak self] in self?.configureZ1Bridge(nil) }
+        controllerInput.onBridgeReset = { [weak self] in
+            guard let self, !self.z1Enabled else { return }
+            self.configureZ1Bridge(nil)
+        }
     }
 
     func applyControllerJog(_ target: ControllerActionTarget, motion: ControllerMIDIValue) {

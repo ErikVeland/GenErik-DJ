@@ -21,7 +21,7 @@ This confirms initial physical operation, not sustained live-performance accepta
 The grid is the timing authority. Erik must be able to rely on it throughout a set.
 
 - Preserve the user's Sync choice across loads and transport operations.
-- With Sync enabled, starts, restarts, seeks, cues and gesture releases must preserve or restore beat alignment.
+- R524 clarifies manual placement. A stopped deck retains the exact finger position. Synced live moves and starts against a playing deck retain beat alignment.
 - Temporary scratching or braking must not silently disable Sync or change the saved choice.
 - Show the file start at the playhead during loading. A timing anchor inside the file is not a load position.
 - Keep preview navigation and deliberate grid editing distinct from the current audio position.

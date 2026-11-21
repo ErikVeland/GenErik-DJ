@@ -2036,7 +2036,8 @@ static int apply(tdj_engine *e, tdj_command c) {
         if (c.value == TDJ_TOUCH_CUE_PARK) {
             proposed.state = TDJ_PAUSED;
             proposed.position = c.value2;
-            align_synced_position(&proposed, 0);
+            if (d->state == TDJ_PLAYING && (!d->touch_active || d->touch_was_playing))
+                align_synced_position(&proposed, 0);
             proposed.continuing = proposed.position;
         } else if (d->touch_active && d->state == TDJ_PLAYING) {
             if (!align_synced_position(&proposed, beat_now(e)))
@@ -2073,7 +2074,7 @@ static int apply(tdj_engine *e, tdj_command c) {
         double execution_beat = d->state == TDJ_PLAYING ? beat_now(e) : 0;
         if (c.value2 > 0 && d->state == TDJ_PLAYING && d->synced)
             execution_beat = (floor(beat_now(e) / c.value2) + 1) * c.value2;
-        if (!align_synced_position(&proposed, execution_beat))
+        if (d->state == TDJ_PLAYING && !align_synced_position(&proposed, execution_beat))
             return TDJ_ALIGNMENT_UNAVAILABLE;
         double destination = proposed.position;
         if (c.value2 > 0 && d->state == TDJ_PLAYING && d->synced) {
@@ -2082,9 +2083,12 @@ static int apply(tdj_engine *e, tdj_command c) {
             proposed.jump_beat = (floor(beat_now(e) / c.value2) + 1) * c.value2;
             proposed.jump_pending = true;
         }
-        int status = stream_validate(e, c.deck, &proposed, e->bpm, c.preparation_ticket, c.generation);
-        if (status != TDJ_OK)
-            return status;
+        // A stopped cursor needs no samples. Play admits the source at this position.
+        if (d->state == TDJ_PLAYING) {
+            int status = stream_validate(e, c.deck, &proposed, e->bpm, c.preparation_ticket, c.generation);
+            if (status != TDJ_OK)
+                return status;
+        }
         d->jump_loop = false;
         if (c.value2 > 0 && d->state == TDJ_PLAYING && d->synced) {
             d->jump_frame = destination;
@@ -2359,11 +2363,11 @@ static int apply(tdj_engine *e, tdj_command c) {
             proposed.touch_end = 0;
             proposed.jump_pending = false;
             proposed.pending_touch_rate_valid = false;
-            if (d->flux_enabled && !d->loop_enabled)
+            if (d->touch_was_playing && d->flux_enabled && !d->loop_enabled)
                 proposed.position = fmin(d->asset->frames - 1, d->continuing);
             if (!d->touch_was_playing || c.value == TDJ_TOUCH_PARK_RELEASE)
                 proposed.state = TDJ_PAUSED;
-            if (!align_synced_position(&proposed, proposed.state == TDJ_PLAYING ? beat_now(e) : 0)) {
+            if (d->touch_was_playing && !align_synced_position(&proposed, proposed.state == TDJ_PLAYING ? beat_now(e) : 0)) {
                 if (proposed.state == TDJ_PLAYING && align_synced_position(&proposed, 0)) {
                     proposed.state = TDJ_QUEUED;
                     proposed.queued_origin = proposed.position;
@@ -2378,6 +2382,10 @@ static int apply(tdj_engine *e, tdj_command c) {
                     return status;
             }
             *d = proposed;
+            if (!any_deck_active(e) && e->running) {
+                advance_clock_epoch(e);
+                e->running = false;
+            }
             transition_request(e, c.deck, 0);
         }
         if (!with_rate || !d->jump_pending)
@@ -2530,8 +2538,6 @@ static int apply(tdj_engine *e, tdj_command c) {
             return TDJ_INVALID;
         deck proposed = *d;
         proposed.position = c.value;
-        if (!align_synced_position(&proposed, 0))
-            return TDJ_ALIGNMENT_UNAVAILABLE;
         int status = stream_validate(e, c.deck, &proposed, e->bpm, c.preparation_ticket, c.generation);
         if (status != TDJ_OK)
             return status;

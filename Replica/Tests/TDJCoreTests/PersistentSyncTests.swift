@@ -168,13 +168,13 @@ func persistentSyncStopsOnBeatWithAndWithoutAnotherPlayingDeck(solo: Bool, expli
 }
 
 @Test(arguments: [false, true])
-func persistentSyncSnapsStoppedSeeksAndCueStarts(explicitlyOff: Bool) throws {
+func persistentSyncKeepsStoppedSeeksExactAndAlignsLiveCueStarts(explicitlyOff: Bool) throws {
     let (core, _, b) = try persistentSyncRig()
     try core.submit(.play(.b, b))
     if explicitlyOff { try core.setSync(false, deck: .b, generation: b) }
     try core.seek(frame: 23777, deck: .b, generation: b)
     core.processControlsWhileIdle()
-    #expect(core.snapshot()?.b.sourceFrame == (explicitlyOff ? 23777 : 23000))
+    #expect(core.snapshot()?.b.sourceFrame == 23777)
     try core.submit(.cueRecall(.b, b, frame: 23777, loopEnd: nil, quantum: 0))
     _ = core.renderOffline(frames: 17000)
     let state = try #require(core.snapshot())

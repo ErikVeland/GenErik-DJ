@@ -178,3 +178,23 @@ import Testing
     #expect(model.waveformZoomSeconds(deck: .b) == 6)
     await model.finishForShutdown()
 }
+
+@Test @MainActor func beatFixFollowsPlayingAudioAndRetainsStoppedView() async throws {
+    let (model, root, track) = try await loadPlayheadFixture()
+    defer { try? FileManager.default.removeItem(at: root) }
+    model.load(trackID: track.id, deck: .a)
+    await model.playbackLoads?.value
+    model.toggleGridEditing(deck: .a)
+    model.pressPlay(deck: .a, vinylStop: false)
+    await model.flushTransportRequests()
+    for _ in 0..<3 {
+        _ = model.playback.core.renderOffline(frames: 512)
+        model.refreshPlayback()
+        #expect(model.viewport[.a] == model.playbackSnapshot?.a.sourceFrame)
+    }
+    model.pressPlay(deck: .a, vinylStop: false)
+    model.viewport[.a] = 9876
+    model.refreshPlayback()
+    #expect(model.viewport[.a] == 9876)
+    await model.finishForShutdown()
+}

@@ -13,16 +13,16 @@ When that state ends, playback returns to the master beat phase.
 - A missing grid shows unresolved alignment. It must not silently turn Sync off or claim reliable alignment.
 - A normal stop pauses immediately, clears temporary touch rate and pending jumps, and parks on the nearest beat.
 - Restart and cue entry use the grid. Existing queued-start deadlines remain unchanged.
-- A stopped seek uses the nearest in-bounds beat. A playing seek matches the master phase at execution.
-- Lifting a finger with Sync enabled ends waveform coasting and restores grid alignment immediately.
-- Cancellation also releases the contact and restores alignment.
+- A stopped seek keeps the exact position, including between beats. A synced playing seek matches the master phase at execution.
+- Lift on a stopped deck to park at the finger position. Lift on a synced playing deck to restore grid alignment.
+- Cancellation releases the contact. A synced playing deck restores alignment.
 - Vinyl stop retains Sync. Resume restores alignment or uses the normal queued start after the stop completes.
 - Loop entry retains the selected loop boundaries and aligns the playback position inside them.
 - Leaving a loop restores beat phase. Sub-beat loops retain their deliberate effect while active.
-- An explicit Sync-off choice retains free transport and waveform coasting across reloads.
+- An explicit Sync-off choice retains free transport and allows waveform coasting on a playing deck.
 
-The first solo start can begin at file position zero. Its grid establishes the master phase.
-A stopped deck rests on its grid. Restart aligns it to the running clock.
+R524 updates the stopped-deck rule from build 151. A solo start uses the manually placed position or the file start.
+A second synced deck aligns to the running deck at entry.
 
 ## Implementation
 

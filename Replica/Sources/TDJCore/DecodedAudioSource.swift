@@ -211,6 +211,10 @@ public struct NativePlaybackOpening: Sendable {
     private let decoder: DecodedAudioSource
     public let analysis: AudioAnalysis
     public let audioFingerprint: String
+    public func matchesRegisteredSource(of track: Track) -> Bool {
+        track.nativeLibraryOnly == true && track.analysis.sampleRate == analysis.sampleRate
+            && track.nativePlaybackIdentity == analysis.contentSHA256 && track.nativeAudioFingerprint == audioFingerprint
+    }
     public static func open(url: URL, sourceIdentity: String, cleanup: @escaping @Sendable () -> Void = {}) async throws
         -> Self
     {
