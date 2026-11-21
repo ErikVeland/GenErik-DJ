@@ -6,7 +6,17 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 87.97,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-21",
+      "buildAttribution": "Last installed build. The device report also identifies build 249.",
+      "summary": "Erik reported silence after loading, Z1 controls unresponsive except for the fader, and the main waveform returning to the first beat after a drag. A stopped deck must retain the precise position on release. Beat Fix should scroll during playback and align its controls to the right.",
+      "requestIDs": [
+        "R524",
+        "R525"
+      ]
+    }
+  ],
   "log": "TestBuilds/ipad/build-249.log",
   "build": 249,
   "app": "TestBuilds/ipad/249/GenErikDJ.app",

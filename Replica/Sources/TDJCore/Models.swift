@@ -343,6 +343,11 @@ public struct LibrarySnapshot: Codable, Equatable, Sendable {
         return prepared
     }
 
+    public func track(for source: MusicLibrarySource) -> Track? {
+        if let trackLookup { return trackLookup.index(for: source).map { tracks[$0] } }
+        return tracks.first { $0.musicLibrarySources?.contains(source) == true }
+    }
+
     public static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.schemaVersion == rhs.schemaVersion && lhs.revision == rhs.revision && lhs.tracks == rhs.tracks
             && lhs.events == rhs.events && lhs.adaptiveMemory == rhs.adaptiveMemory

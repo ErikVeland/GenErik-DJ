@@ -4,7 +4,7 @@ import Testing
 
 @testable import TDJInterface
 
-@Test @MainActor func previewBeatTapIgnoresFingerJitterAndCommitsOnGrid() async throws {
+@Test @MainActor func stoppedWaveformTapIgnoresFingerJitterAndCommitsAtRelease() async throws {
     let (model, root, track) = try await loadPlayheadFixture()
     defer { try? FileManager.default.removeItem(at: root) }
     model.load(trackID: track.id, deck: .a)
@@ -24,7 +24,7 @@ import Testing
     session.handle(.init(phase: .ended, points: [jitter], ending: [1]), model: model, deck: .a, span: span)
     await model.playback.flushSourcePreparations()
     model.refreshPlayback()
-    #expect(model.playbackSnapshot?.a.sourceFrame == track.analysis.sampleRate * 6)
+    #expect(abs(try #require(model.playbackSnapshot?.a.sourceFrame) - (track.analysis.sampleRate * 6 + 0.001 * span)) < 0.0001)
     #expect(model.playbackSnapshot?.a.synced == true)
     #expect(!model.previewing.contains(.a))
     await model.finishForShutdown()

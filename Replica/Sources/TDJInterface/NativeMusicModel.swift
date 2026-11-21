@@ -711,13 +711,18 @@ extension ReplicaModel {
                         preview.musicLibrarySources = [item.source]
                         pendingNativeWaveforms[deck] = preview
                     }
-                    adoptLibrary(
-                        try await service.registerNativePlayback(
+                    let track: Track
+                    if let known = preparedTrack(for: item), opening.matchesRegisteredSource(of: known) {
+                        track = known
+                    } else {
+                        adoptLibrary(try await service.registerNativePlayback(
                             analysis: opening.analysis, metadata: source.metadata,
                             audioFingerprint: opening.audioFingerprint, saveWithLoadHistory: true))
-                    try Task.checkCancellation()
-                    guard state.loadOwners[deck] == token else { throw CancellationError() }
-                    guard let track = await preparedNativeTrack(item) else { throw TransportError.stale }
+                        try Task.checkCancellation()
+                        guard state.loadOwners[deck] == token else { throw CancellationError() }
+                        guard let registered = preparedTrack(for: item) else { throw TransportError.stale }
+                        track = registered
+                    }
                     try await loadOwnedNativeTrack(
                         track, deck: deck, sourceURL: source.url, metadata: source.metadata, token: token,
                         opening: opening)

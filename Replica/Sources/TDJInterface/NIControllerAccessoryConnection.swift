@@ -79,6 +79,8 @@
         private var inputStartup: NIControllerReportStartup?
         private var startupSent = false
         private var timeout: Task<Void, Never>?
+        private var reconnectTask: Task<Void, Never>?
+        private var reconnectAttempts = 0
         private var commands: [[UInt8]] = []
         private var writing: [UInt8] = []
         private var writeOffset = 0
@@ -92,7 +94,14 @@
             if Self.notificationUsers == 0 { EAAccessoryManager.shared().registerForLocalNotifications() }
             Self.notificationUsers += 1
             NotificationCenter.default.publisher(for: .EAAccessoryDidConnect)
-                .receive(on: RunLoop.main).sink { [weak self] _ in self?.connect() }.store(in: &subscriptions)
+                .receive(on: RunLoop.main).sink { [weak self] notice in
+                    guard let self else { return }
+                    if let accessory = notice.userInfo?[EAAccessoryKey] as? EAAccessory,
+                        accessory.protocolStrings.contains(self.model.identifier) {
+                        self.reconnectAttempts = 0
+                    }
+                    self.connect()
+                }.store(in: &subscriptions)
             NotificationCenter.default.publisher(for: .EAAccessoryDidDisconnect)
                 .receive(on: RunLoop.main).sink { [weak self] _ in
                     guard let self, let session = self.session, session.accessory?.isConnected != true else { return }
@@ -124,9 +133,11 @@
             guard let opened = EASession(accessory: accessory, forProtocol: model.identifier),
                 let input = opened.inputStream, let output = opened.outputStream
             else {
-                onState?("Cannot open \(name). Close Traktor DJ. Then reconnect the controller.", nil)
+                fail("Cannot open \(name). Close Traktor DJ. Then reconnect the controller.")
                 return
             }
+            reconnectTask?.cancel()
+            reconnectTask = nil
             session = opened
             decoder = .init(
                 framing: model == .z1 ? .init(firmwareRevision: accessory.firmwareRevision) : .lengthPrefixed)
@@ -141,6 +152,8 @@
 
         private func closeSession() {
             let wasConnected = session != nil
+            reconnectTask?.cancel()
+            reconnectTask = nil
             timeout?.cancel()
             timeout = nil
             if let session {
@@ -168,6 +181,18 @@
         private func fail(_ message: String) {
             closeSession()
             onState?(message, nil)
+            guard enabled, model == .z1, reconnectAttempts < 3,
+                EAAccessoryManager.shared().connectedAccessories.contains(where: {
+                    $0.isConnected && $0.protocolStrings.contains(model.identifier)
+                })
+            else { return }
+            let delay = 250 << reconnectAttempts
+            reconnectAttempts += 1
+            reconnectTask = Task { [weak self] in
+                do { try await Task.sleep(for: .milliseconds(delay)) } catch { return }
+                self?.reconnectTask = nil
+                self?.connect()
+            }
         }
 
         private func armTimeout() {

@@ -104,6 +104,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     public var hotcueDeleting: Set<DeckID> = []
     /// Grid edit lock and tap mode, per deck.
     public var gridLocked: Set<DeckID> = []
+    @ObservationIgnored var gridWaveformContacts: [DeckID: ObjectIdentifier] = [:]
     public var gridTapMode: Set<DeckID> = []
     public private(set) var detectingGrids: Set<DeckID> = []
     @ObservationIgnored var gridDetectionTasks: [DeckID: Task<Void, Never>] = [:]
@@ -573,10 +574,12 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     }
     public func receiveZ1(_ report: Z1InputReport) {
         guard acceptControllerInput() else { return }
-        z1Mode = report.mode
+        if z1Mode != report.mode { z1Mode = report.mode }
+        var mixerChanged = false
         for action in z1Mapper.consume(report) {
             switch action {
-            case .mixer(let parameter, let value, let deck): setMixer(parameter, value: value, deck: deck)
+            case .mixer(let parameter, let value, let deck):
+                if submitMixer(parameter, value: value, deck: deck) { mixerChanged = true }
             case .play(let deck): pressPlay(deck: deck, source: .controller)
             case .cue(let deck): setMixer(.cue, value: playbackSnapshot?[deck].mixer.cue == true ? 0 : 1, deck: deck)
             case .filter(let deck):
@@ -588,6 +591,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
             case .effectToggle(let deck): toggleHardwareEffect(deck: deck)
             }
         }
+        if mixerChanged { refreshPlayback() }
     }
     func configureZ1Bridge(_ calibration: Z1CrossfaderCalibration?) {
         z1Mapper = Z1ControlMapper(calibration: calibration)
@@ -1045,7 +1049,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
         await work.value
     }
     public func preparedTrack(for item: MusicLibraryItem) -> Track? {
-        library.tracks.first { $0.musicLibrarySources?.contains(item.source) == true }
+        library.track(for: item.source)
     }
     public func importMusicLibraryItems(_ ids: Set<String>) async {
         guard !importing, !musicLibraryRefreshing, let catalog = musicLibraryCatalog else { return }
@@ -1335,7 +1339,8 @@ enum PlaybackInputSource: Equatable { case touch, controller }
             } catch {
                 onFailure?(error)
                 if loadTokens[deck] == token {
-                    if pendingLoadPlay[deck] == (nativeLoadOwner ?? token) {
+                    let willRetrySource = nativeLoadOwner != nil && (error as? TransportError) == .nativeSourceChanged
+                    if !willRetrySource, pendingLoadPlay[deck] == (nativeLoadOwner ?? token) {
                         pendingLoadPlay[deck] = nil
                         pendingControllerPlay.remove(deck)
                     }
@@ -1960,11 +1965,12 @@ enum PlaybackInputSource: Equatable { case touch, controller }
             if controllerInput.originalZ1Bridge {
                 controllerInput.queueZ1Feedback(z1Feedback(snapshot))
             }
-            for deck in DeckID.allCases
-            where !editing.contains(deck) && !previewing.contains(deck) && !frozen.contains(deck) {
-                if let state = waveformPlayback(deck), state.phase != .empty {
-                    if viewport[deck] != state.sourceFrame { viewport[deck] = state.sourceFrame }
-                }
+            for deck in snapshot.deckIDs {
+                guard let state = waveformPlayback(deck), state.phase != .empty else { continue }
+                if editing.contains(deck) {
+                    guard state.phase == .playing, gridWaveformContacts[deck] == nil else { continue }
+                } else if previewing.contains(deck) || frozen.contains(deck) { continue }
+                if viewport[deck] != state.sourceFrame { viewport[deck] = state.sourceFrame }
             }
         }
         if let error = messages.compactMap(\.error).last { status = error.localizedDescription }
@@ -2016,7 +2022,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
             }
             let vinylStop = vinylStop ?? UserDefaults.standard.bool(forKey: DeckToolSettings.vinylStop)
             let state = playback.core.snapshot()?[deck]
-            let wasActive = state?.phase.active == true
+            let wasActive = state?.phase.active == true && !playback.isParkingStoppedTouch(deck, state: state)
             if !wasActive {
                 guard mayStartPlayback(source: source) else { return }
             } else if source == .controller {
@@ -2024,7 +2030,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
             }
             if vinylStop && state?.braking == true {
                 try playback.brake(.resume, deck: deck)
-            } else if vinylStop && state?.phase == .playing {
+            } else if vinylStop && wasActive && state?.phase == .playing {
                 try playback.brake(.begin, value: VinylBrakeSettings.duration(), deck: deck)
             } else {
                 try playback.play(deck)

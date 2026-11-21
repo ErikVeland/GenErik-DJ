@@ -47,7 +47,7 @@ import Testing
     await model.finishForShutdown()
 }
 
-@Test @MainActor func waveformThrowCanBeCaughtAndCancelled() async throws {
+@Test @MainActor func playingWaveformThrowCanBeCaughtAndCancelled() async throws {
     var base = URL(fileURLWithPath: #filePath)
     for _ in 0..<4 { base.deleteLastPathComponent() }
     let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
@@ -57,6 +57,8 @@ import Testing
     model.load(trackID: try #require(model.library.tracks.first).id, deck: .a)
     await model.flushWrites()
     model.toggleSync(deck: .a)
+    model.pressPlay(deck: .a, vinylStop: false)
+    await model.flushTransportRequests()
     model.performance.waveformScratchAudio = true
     model.viewport[.a] = 96000
     let session = WaveformGestureSession()
@@ -86,5 +88,33 @@ import Testing
     try await Task.sleep(for: .milliseconds(50))
     #expect(model.viewport[.a] == cancelled)
     #expect(!model.previewing.contains(.a))
+    await model.finishForShutdown()
+}
+
+@Test(arguments: [true, false]) @MainActor
+func stoppedWaveformDragParksAtLiftAndZ1StartsThere(synced: Bool) async throws {
+    let (model, root, track) = try await loadPlayheadFixture(streaming: true)
+    defer { try? FileManager.default.removeItem(at: root) }
+    model.load(trackID: track.id, deck: .a)
+    await model.playbackLoads?.value
+    if !synced { model.toggleSync(deck: .a) }
+    let span = track.analysis.sampleRate * 16
+    let session = WaveformGestureSession()
+    func send(_ phase: SurfaceEvent.Phase, _ x: Double) {
+        session.handle(.init(phase: phase, points: [.init(id: 1, x: x, y: 0.5)], ending: phase == .ended ? [1] : []),
+                       model: model, deck: .a, span: span)
+    }
+    send(.began, 0.9)
+    send(.moved, 0.2)
+    send(.ended, 0.19)
+    let target = (0.9 - 0.19) * span
+    for buttons: UInt8 in [0, 2, 0x12, 0x12] {
+        model.receiveZ1(try performanceZ1Report(buttons: buttons))
+    }
+    await model.playback.flushSourcePreparations()
+    let state = try #require(model.playback.core.snapshot()?.a)
+    #expect(state.phase == .playing && !state.touchActive && state.synced == synced)
+    #expect(abs(state.sourceFrame - target) < 0.0001)
+    #expect(model.playback.core.renderOffline(frames: 4096).left.contains { abs($0) > 0.00001 })
     await model.finishForShutdown()
 }

@@ -73,7 +73,6 @@ extension SourceControl {
         case .adaptiveMap: break
         case .seek(let position, _, _):
             target.position = bounded(position)
-            if !state.touchActive, !state.braking, state.performanceRate == 1 { alignmentBeat = 0 }
         case .cueRecall(_, _, let position, let loopEnd, _):
             target.position = bounded(position)
             alignmentBeat = entryBeat
@@ -94,9 +93,8 @@ extension SourceControl {
             switch action {
             case .jump:
                 target.position = bounded(value)
-                if !state.touchActive, !state.braking, state.performanceRate == 1 {
-                    alignmentBeat = state.phase == .playing
-                        ? end > 0 ? (floor(snapshot.masterBeat / end) + 1) * end : snapshot.masterBeat : 0
+                if state.phase == .playing, !state.touchActive, !state.braking, state.performanceRate == 1 {
+                    alignmentBeat = end > 0 ? (floor(snapshot.masterBeat / end) + 1) * end : snapshot.masterBeat
                 }
                 preservePending = false
             case .loop, .loopRoll:
@@ -142,10 +140,15 @@ extension SourceControl {
                     target.performanceRate = 1
                     target.loopStart = state.loopEnabled ? state.loopStart : 0
                     target.loopEnd = state.loopEnabled ? state.loopEnd : 0
-                    if state.fluxEnabled && !state.loopEnabled { target.position = bounded(state.continuingFrame) }
+                    if state.touchWasPlaying && state.fluxEnabled && !state.loopEnabled {
+                        target.position = bounded(state.continuingFrame)
+                    }
                     target.reserveContinuing = state.fluxEnabled && state.loopEnabled
-                    alignmentBeat = state.touchWasPlaying ? snapshot.masterBeat : 0
-                    if value == Double(TDJ_TOUCH_CUE_CONTINUE) {
+                    if state.touchWasPlaying { alignmentBeat = snapshot.masterBeat }
+                    if value == Double(TDJ_TOUCH_CUE_PARK) {
+                        target.position = bounded(end)
+                        alignmentBeat = nil
+                    } else if value == Double(TDJ_TOUCH_CUE_CONTINUE) {
                         target.position = state.touchActive ? state.sourceFrame : bounded(end)
                         alignmentBeat = state.touchActive ? snapshot.masterBeat : entryBeat
                     }

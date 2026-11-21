@@ -1918,10 +1918,10 @@ extension ReplicaView {
     let deck: DeckID
     var body: some View {
         ViewThatFits(in: .horizontal) {
-            controls.fixedSize(horizontal: true, vertical: false)
+            controls.fixedSize(horizontal: true, vertical: false).frame(maxWidth: .infinity, alignment: .trailing)
             ScrollView(.horizontal) {
                 controls.fixedSize(horizontal: true, vertical: false)
-            }.scrollIndicators(.visible)
+            }.defaultScrollAnchor(.trailing).scrollIndicators(.visible)
         }.frame(height: 44).lineLimit(1)
     }
     private var controls: some View {

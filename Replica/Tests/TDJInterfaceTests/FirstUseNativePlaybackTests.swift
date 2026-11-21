@@ -299,3 +299,60 @@ import Testing
     model.stopAudio()
     await model.finishForShutdown()
 }
+
+func performanceZ1Report(buttons: UInt8) throws -> Z1InputReport {
+    var controls = [UInt16](repeating: 2048, count: 14)
+    controls[11] = 4095
+    controls[12] = 4095
+    return try Z1InputReport(bytes: [1] + controls.flatMap { [UInt8($0 & 255), UInt8($0 >> 8)] } + [buttons])
+}
+
+@Test(arguments: [DeckID.a, .b]) @MainActor
+func z1ModeAndCueStartsSelectedNativeDeckDuringLoad(deck: DeckID) async throws {
+    let (model, provider, root) = try await directNativeModel()
+    defer { try? FileManager.default.removeItem(at: root) }
+    model.receiveZ1(try performanceZ1Report(buttons: 0))
+    model.loadLibraryEntry(.init(nativeItem: provider.item, track: nil), deck: deck)
+    let chord: UInt8 = deck == .a ? 0x12 : 0x03
+    for buttons in [2, chord, chord, 2, 0] {
+        model.receiveZ1(try performanceZ1Report(buttons: buttons))
+    }
+    #expect(model.playWhenReady.contains(deck))
+    await model.flushNativeMusicLoads()
+    await model.flushTransportRequests()
+    let state = try #require(model.playback.core.snapshot())
+    #expect(state[deck].phase == .playing && state[deck.opposite].phase == .empty)
+    #expect(state[deck].mixer.volume == 1 && !state[deck].mixer.cue)
+    #expect(model.playback.core.renderOffline(frames: 4096).left.contains { abs($0) > 0.00001 })
+    await model.finishForShutdown()
+}
+
+private extension LibraryService {
+    func holdLibraryForPlaybackCheck(started: AsyncStream<Void>.Continuation, release: DispatchSemaphore) -> Bool {
+        started.yield(())
+        return release.wait(timeout: .now() + 10) == .success
+    }
+}
+
+@Test @MainActor func registeredMusicCanStartWhileTheLibraryIsBusy() async throws {
+    let (model, provider, root) = try await directNativeModel()
+    defer { try? FileManager.default.removeItem(at: root) }
+    model.loadNativeMusic(provider.item, deck: .a)
+    model.pressPlay(deck: .a)
+    await model.flushWrites()
+    model.pressPlay(deck: .a, vinylStop: false)
+
+    let started = AsyncStream<Void>.makeStream()
+    let release = DispatchSemaphore(value: 0)
+    let service = model.service
+    let busy = Task { await service.holdLibraryForPlaybackCheck(started: started.continuation, release: release) }
+    for await _ in started.stream { break }
+    model.loadNativeMusic(provider.item, deck: .b)
+    model.pressPlay(deck: .b)
+    await model.flushNativeMusicLoads()
+    await model.playback.flushSourcePreparations()
+    #expect(model.playback.core.snapshot()?.b.phase == .playing)
+    release.signal()
+    #expect(await busy.value)
+    await model.finishForShutdown()
+}

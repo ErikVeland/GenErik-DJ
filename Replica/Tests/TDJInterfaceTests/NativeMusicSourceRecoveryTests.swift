@@ -216,3 +216,26 @@ import Testing
     #expect(model.playback.core.snapshot()?.a.phase == .playing)
     await model.finishForShutdown()
 }
+
+@Test @MainActor func z1StartSurvivesNativeSourceReplacementDuringLoad() async throws {
+    var base = URL(fileURLWithPath: #filePath)
+    for _ in 0..<4 { base.deleteLastPathComponent() }
+    let fixtures = base.appendingPathComponent("Analysis/Traktor-DJ-1x/fixtures")
+    let provider = ReplacedNativeLibrary(url: fixtures.appendingPathComponent("clock-a-120.wav"))
+    let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    defer { try? FileManager.default.removeItem(at: root) }
+    let model = try ReplicaModel(root: root, playback: PlaybackController(offline: true), musicLibraryProvider: provider)
+    await model.openNativeMusicLibrary()
+    await model.flushNativeMusicAnalysis()
+    model.nativeMusic.wanted = false
+    provider.current = fixtures.appendingPathComponent("clock-b-128.wav")
+    model.receiveZ1(try performanceZ1Report(buttons: 0))
+    model.loadNativeMusic(provider.primary, deck: .b)
+    model.receiveZ1(try performanceZ1Report(buttons: 3))
+    await model.flushWrites()
+    await model.playback.flushSourcePreparations()
+    #expect(model.loaded[.b] == (try AudioAnalyzer.sha256(url: provider.current)))
+    #expect(model.playback.core.snapshot()?.b.phase == .playing)
+    #expect(model.playback.core.renderOffline(frames: 4096).left.contains { abs($0) > 0.00001 })
+    await model.finishForShutdown()
+}
