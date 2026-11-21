@@ -1,0 +1,19 @@
+{
+  "notes": "R517: Apply downloaded Mac analysis before starting the automatic network timeout.",
+  "sourceCommit": "b251d7bff80294251ca1111e98b979478a5a965b",
+  "sourceSHA256": "b3d89450122be6a2ba06bc15381e2de52745e0a387a0965c4138f952ef37cc2b",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 78.01,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-241.log",
+  "build": 241,
+  "app": "TestBuilds/ipad/241/GenErikDJ.app",
+  "appSHA256": "179fd92a70ba002b326c2dd7582a71d9ba4d0dc74b7f1b34e3a93bf9b2ded56d",
+  "state": "testing",
+  "createdUTC": "2026-11-21T03:46:09.018933+00:00",
+  "installedUTC": "2026-11-21T03:46:24.054336+00:00",
+  "launchedUTC": "2026-11-21T03:46:24.459631+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}

@@ -1,0 +1,19 @@
+{
+  "notes": "R517: Prioritise quick-only tracks during automatic adoption of downloaded Mac analysis.",
+  "sourceCommit": "54c255c41f2da84a8d4ac19796b3996b0bc03add",
+  "sourceSHA256": "87cabb3333f3c9c76ccecb3cb5dd17146960e8acc5c20585525696e7cf961bfd",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 79.79,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-242.log",
+  "build": 242,
+  "app": "TestBuilds/ipad/242/GenErikDJ.app",
+  "appSHA256": "7608333aa9e61d4bc01f0145d4dba1b20379a7352eb13320c9ce1965be9e47ba",
+  "state": "testing",
+  "createdUTC": "2026-11-21T03:53:03.129438+00:00",
+  "installedUTC": "2026-11-21T03:53:17.872719+00:00",
+  "launchedUTC": "2026-11-21T03:53:18.275397+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}
