@@ -1,0 +1,19 @@
+{
+  "notes": "R518: Preserve oversized local recovery copies before adopting Mac analysis.",
+  "sourceCommit": "55513e3ee25be468b3c9f6b515ce078ddb2ad8c1",
+  "sourceSHA256": "9aaf5804fe6d9ce3c079a03ca66511de8e8a2eb21b94a84ec884581df4f99d8e",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 131.07,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-244.log",
+  "build": 244,
+  "app": "TestBuilds/ipad/244/GenErikDJ.app",
+  "appSHA256": "d26b6724a2787643d6ba39d05f6f3492c8198ef1c25a943539b055799083c239",
+  "state": "testing",
+  "createdUTC": "2026-11-21T04:51:48.922328+00:00",
+  "installedUTC": "2026-11-21T04:52:02.846488+00:00",
+  "launchedUTC": "2026-11-21T04:52:03.247067+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}
