@@ -910,3 +910,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R517 | Build 243 installed. Automatic adoption verified | Apply downloaded analysis before the automatic network deadline | Check the signed-in account and commit saved results before starting the network timer. Builds 241 and 242 showed no count increase during observation. Build 243 read revisions in pages. Four quick-only tracks gained exact Mac deep results without manual revision IDs. The replacement count rose from 3,551 to 3,555. |
 
 | R518 | Build 244 installed. Recovery round-trip test passed. Automatic adoption resumed | Preserve oversized local recovery copies during automatic adoption | Keep cloud payloads bounded. The iPad saved seven further quick-to-deep replacements without a manual revision ID. Library catch-up remains in progress. |
+
+| R519 | Device verification pending | Show saved iPad analysis coverage in the toolbar | Count first-pass and deep analysis from saved Music tracks. Hide the library scan row during performance. |
