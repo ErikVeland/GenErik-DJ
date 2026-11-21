@@ -22,6 +22,9 @@ import TDJCore
     private var wasReleased = false
     private var wasEditing = false
     private var wasFrozen = false
+    private var stopped: (owner: UUID, generation: UInt64)?
+    private var initialPresentation: LoadedWaveformPresentation?
+    private var movedPlayhead = false
 
     func handle(
         _ event: SurfaceEvent, model: ReplicaModel, deck: DeckID, visibleSeconds: Double,
@@ -31,10 +34,10 @@ import TDJCore
             if event.remaining.isEmpty || event.phase == .cancelled { ignoring = false }
             return
         }
-        guard let track = model.track(deck), track.analysis.frameCount > 0 else { return }
         if active, load != model.loadIdentity(deck) || wasEditing != model.editing.contains(deck)
             || wasFrozen != model.frozen.contains(deck)
         {
+            if let stopped { model.clearStoppedStripePlayhead(deck, owner: stopped.owner) }
             reset()
             ignoring = !event.remaining.isEmpty && event.phase != .cancelled
             return
@@ -44,7 +47,14 @@ import TDJCore
             reset()
             return
         }
-        guard event.points.allSatisfy({ $0.x.isFinite }), let first = event.points.first else { return }
+        guard let track = model.track(deck), track.analysis.frameCount > 0,
+            event.points.allSatisfy({ $0.x.isFinite }), let first = event.points.first else {
+            if active, event.phase == .ended && event.remaining.isEmpty {
+                restorePreview(model: model, deck: deck)
+                reset()
+            }
+            return
+        }
         let frames = Double(track.analysis.frameCount)
         if !active {
             guard event.phase == .began else { return }
@@ -55,6 +65,8 @@ import TDJCore
             wasReleased = model.releasedStripePreviews.remove(deck) != nil
             wasEditing = model.editing.contains(deck)
             wasFrozen = model.frozen.contains(deck)
+            if let generation = model.stoppedStripeGeneration(deck) { stopped = (UUID(), generation) }
+            initialPresentation = model.loadedWaveformPresentations[deck]
             let halfWindow = max(10 / max(1, width), visibleSeconds / track.analysis.duration) / 2
             let offset = first.x - center / frames
             drag = Drag(contact: first.id, offset: abs(offset) <= halfWindow ? offset : 0)
@@ -80,8 +92,16 @@ import TDJCore
                 onZoom(max(min(1, track.analysis.duration), min(track.analysis.duration, seconds)))
             }
         } else if pinch == nil, let drag, let point = event.points.first(where: { $0.id == drag.contact }) {
+            let frame = model.boundedFrame((point.x - drag.offset) * frames, deck: deck)
             model.loadedWaveformPresentations[deck] = nil
-            model.viewport[deck] = model.boundedFrame((point.x - drag.offset) * frames, deck: deck)
+            model.viewport[deck] = frame
+            if let stopped {
+                movedPlayhead = movedPlayhead || abs(frame - center) >= 1
+                if movedPlayhead {
+                    model.stoppedStripePlayheads[deck] = .init(
+                        owner: stopped.owner, generation: stopped.generation, frame: frame)
+                }
+            }
         }
         // A remaining pinch contact must not become a navigation drag.
         if pinch != nil, event.remaining.count < 2 {
@@ -89,7 +109,14 @@ import TDJCore
             reset()
             ignoring = !event.remaining.isEmpty
         } else if event.phase == .ended && event.remaining.isEmpty {
-            if !wasEditing, !wasFrozen,
+            if let stopped {
+                if movedPlayhead, let target = model.stoppedStripePlayheads[deck], target.owner == stopped.owner {
+                    model.commitStoppedStripePlayhead(
+                        deck, owner: stopped.owner, generation: stopped.generation, frame: target.frame)
+                } else {
+                    restorePreview(model: model, deck: deck)
+                }
+            } else if !wasEditing, !wasFrozen,
                 StripePreviewRelease.detached(previouslyReleased: wasReleased,
                                               start: center, end: model.viewport[deck] ?? center)
             {
@@ -102,7 +129,13 @@ import TDJCore
     }
 
     private func restorePreview(model: ReplicaModel, deck: DeckID) {
-        if wasPreviewing || wasEditing || wasFrozen {
+        if let stopped {
+            model.clearStoppedStripePlayhead(deck, owner: stopped.owner)
+            if let initialPresentation { model.loadedWaveformPresentations[deck] = initialPresentation }
+            model.viewport[deck] = center
+            if !wasPreviewing { model.previewing.remove(deck) }
+            if wasReleased { model.releasedStripePreviews.insert(deck) }
+        } else if wasPreviewing || wasEditing || wasFrozen {
             model.viewport[deck] = center
             if !wasPreviewing { model.previewing.remove(deck) }
             if wasReleased { model.releasedStripePreviews.insert(deck) }
@@ -115,6 +148,9 @@ import TDJCore
         active = false
         drag = nil
         pinch = nil
+        stopped = nil
+        initialPresentation = nil
+        movedPlayhead = false
     }
 }
 

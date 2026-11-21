@@ -769,17 +769,15 @@ private struct DeckPanelHorizontalBounds: Shape {
     private var track: Track? { selection == nil ? model.track(deck) : nil }
     private var playback: DeckPlaybackSnapshot? { model.playbackSnapshot?[deck] }
     private var elapsedTime: String {
-        let seconds = max(
-            0, Int((selection == nil ? playback?.sourceFrame ?? 0 : 0) / (track?.analysis.sampleRate ?? 1)))
+        let frame = model.displayedStripePlayhead(deck) ?? playback?.sourceFrame ?? 0
+        let seconds = max(0, Int((selection == nil ? frame : 0) / (track?.analysis.sampleRate ?? 1)))
         return String(format: "%d:%02d", seconds / 60, seconds % 60)
     }
     private var remainingTime: String {
+        let frame = model.displayedStripePlayhead(deck) ?? playback?.sourceFrame ?? 0
         let seconds = max(
-            0,
-            Int(
-                ceil(
-                    (selection?.duration ?? track?.analysis.duration ?? 0)
-                        - (selection == nil ? playback?.sourceFrame ?? 0 : 0) / (track?.analysis.sampleRate ?? 1))))
+            0, Int(ceil((selection?.duration ?? track?.analysis.duration ?? 0)
+                - (selection == nil ? frame : 0) / (track?.analysis.sampleRate ?? 1))))
         return String(format: "−%d:%02d", seconds / 60, seconds % 60)
     }
 }
@@ -929,7 +927,8 @@ struct DeckRailButtonStyle: ButtonStyle {
         ZStack(alignment: .leading) {
             RoundedRectangle(cornerRadius: 2).stroke(PerformancePalette.red, lineWidth: 2)
                 .frame(width: window).offset(x: width * fraction - window / 2)
-            if model.previewing.contains(deck), let state = model.playbackSnapshot?[deck] {
+            if model.previewing.contains(deck), model.displayedStripePlayhead(deck) == nil,
+                let state = model.playbackSnapshot?[deck] {
                 Rectangle().fill(Color.white.opacity(0.8)).frame(width: 1)
                     .offset(x: width * state.sourceFrame / frameCount)
             }
@@ -1878,7 +1877,7 @@ enum RecordingOutputIndicator {
         WaveformView(
             track: track, grid: model.grid(deck), centerFrame: model.viewport[deck] ?? 0,
             visibleSeconds: visibleSeconds, adaptiveMap: playback?.adaptiveMap,
-            playheadFrame: playback?.sourceFrame ?? 0,
+            playheadFrame: model.displayedStripePlayhead(deck) ?? playback?.sourceFrame ?? 0,
             leadInFrame: playback?.leadInSourceFrame,
             band: band?.0 == track.id ? band?.1 : snapshotBands[track.id],
             sections: sectionColours ? model.arrangements[track.id]?.sections ?? [] : []

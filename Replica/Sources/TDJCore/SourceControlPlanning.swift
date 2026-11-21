@@ -7,7 +7,7 @@ extension SourceControl {
         case .tempo: nil
         case .brake(_, _, let deck, _), .play(let deck, _), .freeRate(_, let deck, _), .sync(_, let deck, _),
             .restoreSync(let deck, _), .keylock(_, let deck, _), .grid(_, let deck, _), .adaptiveMap(_, let deck, _),
-            .seek(_, let deck, _), .cueRecall(let deck, _, _, _, _), .performance(_, let deck, _, _, _, _, _, _, _):
+            .seek(_, let deck, _, _), .cueRecall(let deck, _, _, _, _), .performance(_, let deck, _, _, _, _, _, _, _):
             deck
         }
     }
@@ -16,7 +16,7 @@ extension SourceControl {
         case .tempo: nil
         case .brake(_, _, _, let generation), .play(_, let generation), .freeRate(_, _, let generation),
             .sync(_, _, let generation), .restoreSync(_, let generation), .keylock(_, _, let generation),
-            .grid(_, _, let generation), .adaptiveMap(_, _, let generation), .seek(_, _, let generation),
+            .grid(_, _, let generation), .adaptiveMap(_, _, let generation), .seek(_, _, let generation, _),
             .cueRecall(_, let generation, _, _, _), .performance(_, _, let generation, _, _, _, _, _, _):
             generation
         }
@@ -67,7 +67,7 @@ extension SourceControl {
                 alignmentBeat = snapshot.masterBeat
             }
         case .adaptiveMap: break
-        case .seek(let position, _, _):
+        case .seek(let position, _, _, _):
             target.position = bounded(position)
         case .cueRecall(_, _, let position, let loopEnd, _):
             target.position = bounded(position)

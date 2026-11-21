@@ -11,7 +11,7 @@ public enum SourceControl: Sendable {
     case keylock(Bool, DeckID, UInt64)
     case grid(BeatGrid, DeckID, UInt64)
     case adaptiveMap(BeatGridMap?, DeckID, UInt64)
-    case seek(Double, DeckID, UInt64)
+    case seek(Double, DeckID, UInt64, stoppedPreview: Bool = false)
     case cueRecall(DeckID, UInt64, frame: Double, loopEnd: Double?, quantum: Double)
     case performance(
         PerformanceAction, DeckID, UInt64, value: Double, end: Double, enabled: Bool, quantum: Double,
@@ -91,10 +91,11 @@ public enum SourceControl: Sendable {
             result.kind = TDJ_ADAPTIVE_GRID
             deck(id, generation)
             if let map { result.beatgrid = map.native }
-        case .seek(let frame, let id, let generation):
+        case .seek(let frame, let id, let generation, let stoppedPreview):
             result.kind = TDJ_SEEK
             deck(id, generation)
             result.value = frame
+            result.flag = stoppedPreview ? 1 : 0
         case .cueRecall(let id, let generation, let frame, let loopEnd, let quantum):
             result.kind = TDJ_CUE_RECALL
             deck(id, generation)
