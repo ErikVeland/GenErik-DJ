@@ -460,7 +460,11 @@ extension BrowserView {
             if hasSearchQuery {
                 Text("All songs").foregroundStyle(PerformancePalette.secondaryText)
             }
-            Spacer()
+            Spacer(minLength: 4)
+            HStack(spacing: 4) {
+                LibraryDeckBadge(model: model, deck: rowLoadTargets.upper, showsPlayback: model.browserVisible)
+                LibraryDeckBadge(model: model, deck: rowLoadTargets.lower, showsPlayback: model.browserVisible)
+            }
             Button(selecting ? "Done" : "Edit") {
                 selecting.toggle()
                 selection = []

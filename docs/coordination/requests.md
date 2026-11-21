@@ -950,3 +950,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R534 | Draft. Physical acceptance open. | Hold the waveform still in Beat Fix even when there is no valid beat one. Keep audio and deliberate waveform gestures active. | Check no-grid and short-track entry, a playing deck, manual drag, and Done. |
 
 | R535 | Draft. Physical acceptance open. | Centre the first bar on a newly loaded track. Keep the actual playback position unchanged. | Check fixed and Flex grids, file-start playback, deliberate scrubs, Play, and a clone at a saved cursor. |
+
+| R536 | Draft. Physical acceptance open. | Pulse playing deck letters on each deck’s own beat in the library. Show a steady mark without a grid or with Reduce Motion. | Check both decks at different tempos, Flex Grid, queued and paused decks, and the front display and full library. |
