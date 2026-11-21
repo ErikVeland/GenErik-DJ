@@ -73,24 +73,76 @@ func beatLockAlignsOnlyTheFirstEntryAndKeepsTheSelectedFrame(deck: DeckID) throw
 }
 
 @Test(arguments: [true, false])
-func beatLockModesKeepAdaptiveSoloTimingWhenAnotherDeckStarts(enabled: Bool) throws {
+func flexGridPairsWithThePlayingDeckAndRelaxesWhenAlone(beatLock: Bool) throws {
     let core = try SampleTransport(sampleRate: 8000)
-    core.setBeatLockEnabled(enabled)
+    core.setBeatLockEnabled(beatLock)
     let asset = try PCMAsset(interleavedStereo: .init(repeating: 0.1, count: 256000), sampleRate: 8000)
     let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 8000)
     let map = BeatGridMap(
-        anchors: [.init(beat: 0, frame: 0), .init(beat: 8, frame: 30800), .init(beat: 24, frame: 96500)],
+        anchors: [
+            .init(beat: 0, frame: 0), .init(beat: 2, frame: 7900),
+            .init(beat: 4, frame: 16100), .init(beat: 8, frame: 31700),
+            .init(beat: 24, frame: 95800)
+        ],
         sampleRate: 8000)
-    let a = try core.load(asset, deck: .a, grid: grid, adaptiveMap: map)
-    let b = try core.load(asset, deck: .b, grid: grid)
-    try core.play(deck: .a, generation: a)
-    _ = core.renderOffline(frames: 3212)
+    let flex = try core.load(asset, deck: .c, grid: grid, adaptiveMap: map)
+    let fixed = try core.load(asset, deck: .b, grid: grid)
+    try core.play(deck: .c, generation: flex)
+    _ = core.renderOffline(frames: 1933)
     let solo = try #require(core.snapshot())
-    #expect(solo.a.grooveSync == .solo)
-    try core.play(deck: .b, generation: b)
-    _ = core.renderOffline(frames: 36000)
+    #expect(solo[.c].grooveSync == .solo)
+    try core.play(deck: .b, generation: fixed)
+    core.processControlsWhileIdle()
+    if beatLock {
+        let queued = try #require(core.snapshot())
+        #expect(queued[.b].phase == .queued)
+        #expect(queued[.c].grooveSync == .solo)
+    }
+    _ = core.renderOffline(frames: 20000)
     let paired = try #require(core.snapshot())
-    #expect(paired.a.grooveSync == .solo)
-    #expect(paired.b.phase == .playing)
-    #expect(abs(paired.a.sourceFrame - solo.a.sourceFrame - 36000) < 0.001)
+    #expect(paired[.b].phase == .playing)
+    #expect(paired[.c].grooveSync != .solo)
+    #expect(paired[.c].adaptiveMap == map)
+    #expect(paired[.c].sourceFrame > solo[.c].sourceFrame)
+    #expect(abs(paired[.c].speed - 1) <= 0.061)
+    try core.play(deck: .b, generation: fixed)
+    core.processControlsWhileIdle()
+    let paused = try #require(core.snapshot())
+    #expect(paused[.c].sourceFrame == paired[.c].sourceFrame)
+    _ = core.renderOffline(frames: 8000)
+    let relaxed = try #require(core.snapshot())
+    #expect(relaxed[.c].grooveSync == .solo)
+    #expect(abs(relaxed[.c].speed - 1) < 0.001)
+    #expect(relaxed[.c].adaptiveMap == map)
+    try core.play(deck: .b, generation: fixed)
+    _ = core.renderOffline(frames: 8000)
+    #expect(core.snapshot()?[.c].grooveSync != .solo)
+}
+
+@Test func flexGridUsesBoundsBesideAnIndependentDeckWithoutChangingItsTempo() throws {
+    let core = try SampleTransport(sampleRate: 8000)
+    core.setBeatLockEnabled(false)
+    let asset = try PCMAsset(interleavedStereo: .init(repeating: 0.1, count: 256000), sampleRate: 8000)
+    let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 8000)
+    let map = BeatGridMap(
+        anchors: [.init(beat: 0, frame: 0), .init(beat: 8, frame: 31600), .init(beat: 24, frame: 96400)],
+        sampleRate: 8000)
+    let flex = try core.load(asset, deck: .d, grid: grid, adaptiveMap: map)
+    let independent = try core.load(
+        asset, deck: .a, grid: BeatGrid(bpm: 90, anchorFrame: 0, sampleRate: 8000), synced: false)
+    try core.play(deck: .d, generation: flex)
+    _ = core.renderOffline(frames: 1900)
+    try core.play(deck: .a, generation: independent)
+    _ = core.renderOffline(frames: 12000)
+    let mixed = try #require(core.snapshot())
+    #expect(mixed.masterBPM == 120)
+    #expect(mixed.a.speed == 1)
+    #expect(mixed.a.sourceFrame == 12000)
+    #expect(mixed[.d].grooveSync != .solo)
+    #expect(abs(mixed[.d].speed - 1) <= 0.061)
+    try core.setSync(false, deck: .d, generation: flex)
+    _ = core.renderOffline(frames: 300)
+    let independentFlex = try #require(core.snapshot())
+    #expect(!independentFlex[.d].synced)
+    #expect(independentFlex[.d].speed == mixed[.d].speed)
 }
