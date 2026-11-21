@@ -545,14 +545,14 @@ extension ReplicaModel {
             var track = known.flatMap { library.track(id: $0.id) }
             if track == nil { track = await preparedNativeTrack(item) }
             lookup?.finish()
-            if let track, !track.needsCurrentLibraryAnalysis {
+            if let track, CloudPreparationArchive.hasAudioIdentity(track), !track.needsCurrentLibraryAnalysis {
                 AnalysisMeasurement.current?.cacheHit("savedMatching")
                 return (track, .init(reusing: track))
             }
-            let sourceChanged = track?.nativeSourceNeedsAnalysis == true
+            let needsFullSource = track.map { !CloudPreparationArchive.hasAudioIdentity($0) } ?? false
             return try await withNativeAudio(item) { prepared in
                 let (snapshot, reusedTraktor) = try await self.service.prepareNativeLibraryMatching(
-                    url: prepared.url, musicLibrary: prepared.metadata, sourceChanged: sourceChanged)
+                    url: prepared.url, musicLibrary: prepared.metadata, sourceChanged: needsFullSource)
                 self.adoptLibrary(snapshot)
                 guard let updated = await self.preparedNativeTrack(item) else { throw MusicLibraryError.missingAudio }
                 return (updated, reusedTraktor ? .init(reusing: updated) : .fresh)
