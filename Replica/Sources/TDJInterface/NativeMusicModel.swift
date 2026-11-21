@@ -630,11 +630,12 @@ extension ReplicaModel {
 
     public func loadNativeMusic(_ item: MusicLibraryItem, deck: DeckID) {
         cancelCloudSyncForPlayback()
-        beginNativeMusicLoad(deck: deck, selection: item) { item }
+        beginNativeMusicLoad(deck: deck, selection: item, libraryPresentation: currentLibraryLoadPresentation()) { item }
     }
 
     private func beginNativeMusicLoad(
-        deck: DeckID, selection: MusicLibraryItem? = nil, resolve: @escaping @MainActor () async -> MusicLibraryItem?
+        deck: DeckID, selection: MusicLibraryItem? = nil, libraryPresentation: LibraryLoadPresentation? = nil,
+        resolve: @escaping @MainActor () async -> MusicLibraryItem?
     ) {
         let state = nativeMusic
         guard !state.closed else { return }
@@ -660,8 +661,6 @@ extension ReplicaModel {
                 pendingNativeWaveforms[deck] = hydrated
             }
         }
-        browserVisible = false
-        selectedTrackID = nil
         status = "Preparing track…"
         state.loads[token] = Task { [weak self] in
             guard let self else {
@@ -725,7 +724,7 @@ extension ReplicaModel {
                     }
                     try await loadOwnedNativeTrack(
                         track, deck: deck, sourceURL: source.url, metadata: source.metadata, token: token,
-                        opening: opening)
+                        opening: opening, libraryPresentation: libraryPresentation)
                 } else if item.isOnDevice {
                     try await withNativeAudio(item) { prepared in
                         var track = await self.preparedNativeTrack(item)
@@ -740,7 +739,8 @@ extension ReplicaModel {
                         guard state.loadOwners[deck] == token, let track else { throw CancellationError() }
                         do {
                             try await self.loadOwnedNativeTrack(
-                                track, deck: deck, sourceURL: prepared.url, metadata: prepared.metadata, token: token)
+                                track, deck: deck, sourceURL: prepared.url, metadata: prepared.metadata, token: token,
+                                libraryPresentation: libraryPresentation)
                         } catch TransportError.nativeSourceChanged {
                             try Task.checkCancellation()
                             guard state.loadOwners[deck] == token else { throw CancellationError() }
@@ -755,14 +755,15 @@ extension ReplicaModel {
                             }
                             try await self.loadOwnedNativeTrack(
                                 replacement, deck: deck, sourceURL: prepared.url, metadata: prepared.metadata,
-                                token: token)
+                                token: token, libraryPresentation: libraryPresentation)
                         }
                     }
                 } else if let track = await preparedNativeTrack(item), track.nativeLibraryOnly != true {
                     try Task.checkCancellation()
                     guard state.loadOwners[deck] == token else { throw CancellationError() }
                     try await loadOwnedNativeTrack(
-                        track, deck: deck, sourceURL: nil, metadata: .init(item: item), token: token)
+                        track, deck: deck, sourceURL: nil, metadata: .init(item: item), token: token,
+                        libraryPresentation: libraryPresentation)
                 } else {
                     throw MusicLibraryError.missingAudio
                 }
@@ -782,14 +783,15 @@ extension ReplicaModel {
 
     private func loadOwnedNativeTrack(
         _ track: Track, deck: DeckID, sourceURL: URL?, metadata: MusicLibraryImportMetadata, token: UUID,
-        asset: PCMAsset? = nil, opening: NativePlaybackOpening? = nil
+        asset: PCMAsset? = nil, opening: NativePlaybackOpening? = nil,
+        libraryPresentation: LibraryLoadPresentation? = nil
     ) async throws {
         try Task.checkCancellation()
         guard nativeMusic.loadOwners[deck] == token else { throw CancellationError() }
         let attempt = NativeMusicLoadAttempt()
         let root = loadPreparedTrack(
             trackID: track.id, deck: deck, sourceURL: sourceURL, nativeMetadata: metadata, nativeLoadOwner: token,
-            preparedAsset: asset, opening: opening, onFailure: { attempt.failure = $0 })
+            preparedAsset: asset, opening: opening, libraryPresentation: libraryPresentation, onFailure: { attempt.failure = $0 })
         if let failure = attempt.failure { throw failure }
         guard let root else { throw TransportError.stale }
         nativeMusic.rootLoads[token] = root
@@ -804,7 +806,7 @@ extension ReplicaModel {
         refreshPlayback()
     }
 
-    func loadNativeTrack(_ track: Track, deck: DeckID) {
+    func loadNativeTrack(_ track: Track, deck: DeckID, libraryPresentation: LibraryLoadPresentation? = nil) {
         let catalog = musicLibraryCatalog
         let sources = track.musicLibrarySources ?? []
         let projection = nativeMusic.projection
@@ -813,7 +815,7 @@ extension ReplicaModel {
                 source: $0, title: track.title, artist: track.artist, album: track.album ?? "",
                 duration: track.analysis.duration, assetURL: nil, availability: .unavailable)
         }
-        beginNativeMusicLoad(deck: deck, selection: selection) {
+        beginNativeMusicLoad(deck: deck, selection: selection, libraryPresentation: libraryPresentation) {
             await projection.run { catalog?.items.first { sources.contains($0.source) && $0.isOnDevice } }
         }
     }

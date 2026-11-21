@@ -37,7 +37,7 @@ private let surface = PerformancePalette.panel
     @State private var sectionEdit: (deck: DeckID, identity: SectionEditIdentity)?
     @AppStorage(DeckToolSettings.largePanelHandles) private var largePanelHandles = false
     @Environment(\.accessibilityVoiceOverEnabled) private var voiceOver
-    private var handleExtent: Double { PanelHandleMetrics(expanded: largePanelHandles || voiceOver).extent }
+    private var handleExtent: Double { max(22, PanelHandleMetrics(expanded: largePanelHandles || voiceOver).extent) }
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     private let snapshotEffectsDeck: DeckID?
     private let snapshotMixerDecks: Set<DeckID>

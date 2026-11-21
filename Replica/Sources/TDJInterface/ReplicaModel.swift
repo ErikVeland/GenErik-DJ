@@ -116,7 +116,22 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     public var gridDraft: [DeckID: BeatGrid] = [:]
     public internal(set) var gridDownbeatDraft: [DeckID: Int] = [:]
     public var editing: Set<DeckID> = []
-    public var browserVisible = false
+    public var browserVisible = false {
+        didSet { if oldValue != browserVisible { browserVisibilityID = UUID() } }
+    }
+    @ObservationIgnored private var browserVisibilityID = UUID()
+    struct LibraryLoadPresentation: Equatable {
+        let visibilityID: UUID
+        let presentationID: UUID
+    }
+    func currentLibraryLoadPresentation() -> LibraryLoadPresentation? {
+        browserVisible ? .init(visibilityID: browserVisibilityID, presentationID: browserPresentationID) : nil
+    }
+    private func closeLibraryAfterLoad(_ presentation: LibraryLoadPresentation?) {
+        guard let presentation, presentation == currentLibraryLoadPresentation() else { return }
+        browserVisible = false
+        selectedTrackID = nil
+    }
     @ObservationIgnored public private(set) var browserPresentationID = UUID()
     @ObservationIgnored let browserPresentationRequests = PassthroughSubject<UUID, Never>()
     public private(set) var browserPresentationExpands = false
@@ -1130,7 +1145,8 @@ enum PlaybackInputSource: Equatable { case touch, controller }
         trackID: String, deck: DeckID, sourceURL: URL? = nil, nativeMetadata: MusicLibraryImportMetadata? = nil
     ) {
         _ = loadPreparedTrack(
-            trackID: trackID, deck: deck, sourceURL: sourceURL, nativeMetadata: nativeMetadata, nativeLoadOwner: nil)
+            trackID: trackID, deck: deck, sourceURL: sourceURL, nativeMetadata: nativeMetadata, nativeLoadOwner: nil,
+            libraryPresentation: currentLibraryLoadPresentation())
     }
 
     func cloneTrackDeck(to deck: DeckID) {
@@ -1153,7 +1169,8 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     @discardableResult func loadPreparedTrack(
         trackID: String, deck: DeckID, sourceURL: URL?, nativeMetadata: MusicLibraryImportMetadata?,
         nativeLoadOwner: UUID?, preparedAsset: PCMAsset? = nil, opening: NativePlaybackOpening? = nil,
-        cloneSource: PCMAsset? = nil, sourceFrame: Double = 0, onFailure: (@MainActor (Error) -> Void)? = nil
+        cloneSource: PCMAsset? = nil, sourceFrame: Double = 0,
+        libraryPresentation: LibraryLoadPresentation? = nil, onFailure: (@MainActor (Error) -> Void)? = nil
     ) -> Task<Void, Never>? {
         cancelCloudSyncForPlayback()
         refreshPlayback()
@@ -1167,7 +1184,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
                     && !FileManager.default.isReadableFile(
                         atPath: store.mediaDirectory.appendingPathComponent(track.mediaFilename).path))
         {
-            loadNativeTrack(track, deck: deck)
+            loadNativeTrack(track, deck: deck, libraryPresentation: libraryPresentation)
             return nil
         }
         if let nativeMetadata {
@@ -1223,8 +1240,6 @@ enum PlaybackInputSource: Equatable { case touch, controller }
         frozen.remove(deck)
         previewing.remove(deck)
         preparingPlayback.insert(deck)
-        browserVisible = false
-        selectedTrackID = nil
         let event = PerformanceEvent(
             sessionID: sessionID, kind: .load, timestamp: Date(), fromTrackID: loaded[deck.opposite],
             toTrackID: trackID)
@@ -1313,6 +1328,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
                     preparingWaveforms.remove(id)
                 }
                 committedTrackIDs[deck] = trackID
+                closeLibraryAfterLoad(libraryPresentation)
                 if track.traktorPreparation == nil, let grid = currentGrid ?? track.grid {
                     synchronizeGridCue(trackID: trackID, grid: grid)
                 }

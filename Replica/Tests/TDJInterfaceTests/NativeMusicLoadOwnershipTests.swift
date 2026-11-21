@@ -68,14 +68,14 @@ import Testing
     await model.finishForShutdown()
 }
 
-@Test @MainActor func nativeLoadHandsOffToTheDeckBeforePreparationFinishes() async throws {
+@Test @MainActor func nativeLoadReturnsToDeckAfterPreparationFinishes() async throws {
     let (model, provider, root, _) = try await nativeOwnershipFixture()
     defer { try? FileManager.default.removeItem(at: root) }
     model.browserVisible = true
     model.selectedTrackID = "selected"
     model.loadNativeMusic(provider.item, deck: .a)
-    #expect(!model.browserVisible)
-    #expect(model.selectedTrackID == nil)
+    #expect(model.browserVisible)
+    #expect(model.selectedTrackID == "selected")
     #expect(model.preparingTrack.contains(.a))
     var started = provider.started.stream.makeAsyncIterator()
     _ = await started.next()
@@ -84,6 +84,8 @@ import Testing
     provider.release = nil
     await model.flushWrites()
     #expect(!model.preparingTrack.contains(.a))
+    #expect(!model.browserVisible)
+    #expect(model.selectedTrackID == nil)
     #expect(model.playback.core.snapshot()?.a.phase == .ready)
     await model.finishForShutdown()
 }
@@ -93,11 +95,15 @@ import Testing
     defer { try? FileManager.default.removeItem(at: root) }
     provider.held = false
     provider.fails = true
+    model.browserVisible = true
+    model.selectedTrackID = "selected"
     model.loadNativeMusic(provider.item, deck: .a)
     #expect(model.preparingTrack.contains(.a))
     await model.flushWrites()
     #expect(model.preparingTrack.isEmpty)
     #expect(model.loaded[.a] == nil)
+    #expect(model.browserVisible)
+    #expect(model.selectedTrackID == "selected")
     #expect(!model.status.isEmpty)
     await model.finishForShutdown()
 }

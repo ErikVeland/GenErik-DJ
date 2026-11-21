@@ -934,3 +934,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 <a id="r529"></a>
 
 | R529 | Source candidate. Tests pending. | Keep Sync on or off without moving either playhead. | Restore the source tempo when Sync turns off on a stopped deck. Keep the current rate on a playing deck. Check both deck directions, outer decks, and explicit grid alignment on the test iPad. |
+
+| R530 | Draft. Physical acceptance open. | Reverse the active song sort on a second selection. Load playlist tracks to a chosen deck. Close the library only after an accepted load. | Check device gestures, list scrolling, keyboard dismissal, deck choice and failed loads. |
