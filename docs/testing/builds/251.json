@@ -6,7 +6,13 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 174.45,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R527",
+      "date": "2026-11-21",
+      "report": "Connecting the original Z1 prevented track starts from touch and Mode + A/B. Audio was silent and the main waveform became sluggish. The crossfader and preview strip responded."
+    }
+  ],
   "log": "TestBuilds/ipad/build-251.log",
   "build": 251,
   "app": "TestBuilds/ipad/251/GenErikDJ.app",

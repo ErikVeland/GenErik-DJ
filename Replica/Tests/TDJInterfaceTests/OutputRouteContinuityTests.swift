@@ -1,8 +1,18 @@
+import AVFAudio
 import Foundation
 import TDJCore
 import Testing
 
 @testable import TDJInterface
+
+@Test(arguments: [44100.0, 48000.0])
+func splitOutputBuildsFourDiscreteChannels(sampleRate: Double) throws {
+    let format = try AudioOutputRoute.masterAndHeadphones.format(sampleRate: sampleRate)
+    #expect(format.channelCount == 4)
+    #expect(format.channelLayout?.layoutTag == (kAudioChannelLayoutTag_DiscreteInOrder | 4))
+    #expect(!format.isInterleaved && format.sampleRate == sampleRate)
+    #expect(try AudioOutputRoute.stereoMaster.format(sampleRate: sampleRate).channelCount == 2)
+}
 
 @Test @MainActor func changingOutputRouteCannotStopPlayingAudio() throws {
     let controller = try PlaybackController(offline: true)
