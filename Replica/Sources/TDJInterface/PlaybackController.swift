@@ -6,7 +6,24 @@ import TDJCore
     import UIKit
 #endif
 
-public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster, masterAndHeadphones }
+public enum AudioOutputRoute: String, CaseIterable, Sendable {
+    case stereoMaster, masterAndHeadphones
+
+    func format(sampleRate: Double) throws -> AVAudioFormat {
+        switch self {
+        case .stereoMaster:
+            guard let format = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: 2) else {
+                throw TransportError.invalid
+            }
+            return format
+        case .masterAndHeadphones:
+            guard let layout = AVAudioChannelLayout(layoutTag: kAudioChannelLayoutTag_DiscreteInOrder | 4) else {
+                throw TransportError.invalid
+            }
+            return AVAudioFormat(standardFormatWithSampleRate: sampleRate, channelLayout: layout)
+        }
+    }
+}
 
 @MainActor public final class PlaybackController {
     public let core: SampleTransport
@@ -1254,9 +1271,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
                     "Separate headphone monitoring requires a four-channel output device. Master uses 1–2; headphones use 3–4."
                 )
             }
-            guard let format = AVAudioFormat(standardFormatWithSampleRate: core.sampleRate, channels: channels) else {
-                throw TransportError.invalid
-            }
+            let format = try outputRoute.format(sampleRate: core.sampleRate)
             let ownership = core.nativeAudioRenderOwnership(metrics: callbackMetrics)
             guard
                 let native = TDJNativeAudioSource(
@@ -1268,8 +1283,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
             engine.attach(source)
             engine.connect(source, to: engine.mainMixerNode, format: format)
             if channels == 4 {
-                guard let outputFormat = AVAudioFormat(standardFormatWithSampleRate: hardware.sampleRate, channels: 4)
-                else { throw TransportError.invalid }
+                let outputFormat = try outputRoute.format(sampleRate: hardware.sampleRate)
                 engine.connect(engine.mainMixerNode, to: engine.outputNode, format: outputFormat)
             }
             #if os(iOS)
