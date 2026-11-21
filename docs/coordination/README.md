@@ -1,5 +1,7 @@
 # Current work
 
+**Build 251 (R524–R526)** installed over USB on the A10X iPad. iPadOS accepted launch. Waveform snapping defaults to off. A stopped deck retains the exact drop position. The build also includes the Beat Fix and Z1 changes. Erik requested immediate installation. Audio, physical Z1 operation and waveform behaviour await his feedback. [Build record](../testing/builds/251.json).
+
 **Build 233 (R506/R510)** installed on the A10X iPad, and iPadOS accepted launch. All 83 focused host tests pass. The build protects extended performances, bounds waveform cache retention, rotates long recordings, saves health reports and exports tagged audio with timed tracklists. Full developer access remains enabled. Four installation attempts failed before a Mac device-service restart restored the connection. The same signed app then installed successfully. No further device actions followed. Sustained audio, touch, thermal and physical controller acceptance remain open. [Performance scope](extended-performance-r506.md) · [Export scope](recording-export-r509.md) · [Build record](../testing/builds/233.json).
 
 **Build 232 (R505)** installed on the A10X iPad, and iPadOS accepted launch. Local developer builds now unlock all features without purchases or access time limits. Three focused access checks and five distribution checks passed. The first installation timed out. The retry used the same signed app. Physical acceptance and sustained audio and touch qualification remain open. [Scope](developer-access-r505.md) · [Build record](../testing/builds/232.json).

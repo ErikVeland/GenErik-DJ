@@ -1,0 +1,36 @@
+{
+  "notes": "R524, R525 and R526. Keep the exact waveform drop and restart position. Add optional snapping for playing decks, follow playback in Beat Fix and prioritise Z1 Mode + A/B.",
+  "sourceCommit": "e6f21a0787d8c541ec3baab3e0d1872dc1201de4",
+  "sourceSHA256": "ce9246a3393d3994f3610a5874a1d8d1be6da6b07b88b1f41b97aa47cbf89e40",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 174.45,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-251.log",
+  "build": 251,
+  "app": "TestBuilds/ipad/251/GenErikDJ.app",
+  "appSHA256": "e9e8dce57257fa0d433922ba79a7b85644f1d00dca2ce1416722eeed727f35c7",
+  "state": "testing",
+  "createdUTC": "2026-11-21T07:40:46.764546+00:00",
+  "installedUTC": "2026-11-21T07:43:39.724467+00:00",
+  "launchedUTC": "2026-11-21T07:43:42.343767+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R524",
+    "R525",
+    "R526"
+  ],
+  "verification": "Compilation, framework and signing checks passed. Erik requested immediate installation and waived behavioural testing of this build. Physical Z1 input, audio continuity and both waveform modes await his feedback.",
+  "installAttempts": [
+    {
+      "result": "The first installation command timed out after 120 seconds.",
+      "log": "TestBuilds/r524/ipad-251.log"
+    },
+    {
+      "result": "The same saved app installed over USB. iPadOS accepted launch.",
+      "log": "TestBuilds/r524/ipad-251-retry.log"
+    }
+  ],
+  "priorEvidence": "Build 249 host reproductions and the incomplete intermediate run are retained in TestBuilds/r524/before.log and TestBuilds/r524/after.log. Build 250 was archived before installation."
+}
