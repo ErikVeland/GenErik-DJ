@@ -6,7 +6,13 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 116.45,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-21",
+      "request": "R528",
+      "report": "Erik confirmed playback in the Z1 headphones. The rear MAIN OUT RCA pair connected to a speaker or mixer AUX input remained silent."
+    }
+  ],
   "log": "TestBuilds/ipad/build-252.log",
   "build": 252,
   "app": "TestBuilds/ipad/252/GenErikDJ.app",
