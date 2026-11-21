@@ -5,6 +5,15 @@ import Testing
 
 @testable import TDJInterface
 
+@Test func z1OutputMatchesTheRearAndHeadphoneChannelLabels() throws {
+    let format = try AudioOutputRoute.masterAndHeadphones.format(sampleRate: 48000, device: "Z1")
+    let layout = try #require(format.channelLayout)
+    #expect(layout.layoutTag == kAudioChannelLayoutTag_UseChannelDescriptions)
+    let labels = UnsafeAudioChannelLayoutPointer(layout.layout).map(\.mChannelLabel)
+    #expect(labels == [kAudioChannelLabel_Left, kAudioChannelLabel_Right,
+                       kAudioChannelLabel_Discrete_2, kAudioChannelLabel_Discrete_3])
+}
+
 @Test(arguments: [44100.0, 48000.0])
 func splitOutputBuildsFourDiscreteChannels(sampleRate: Double) throws {
     let format = try AudioOutputRoute.masterAndHeadphones.format(sampleRate: sampleRate)

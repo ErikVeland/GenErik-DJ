@@ -9,7 +9,7 @@ import TDJCore
 public enum AudioOutputRoute: String, CaseIterable, Sendable {
     case stereoMaster, masterAndHeadphones
 
-    func format(sampleRate: Double) throws -> AVAudioFormat {
+    func format(sampleRate: Double, device: String? = nil) throws -> AVAudioFormat {
         switch self {
         case .stereoMaster:
             guard let format = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: 2) else {
@@ -17,6 +17,19 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable {
             }
             return format
         case .masterAndHeadphones:
+            if device == "Z1" {
+                let labels = [kAudioChannelLabel_Left, kAudioChannelLabel_Right,
+                              kAudioChannelLabel_Discrete_2, kAudioChannelLabel_Discrete_3]
+                let channels = AudioChannelLayout.allocate(maximumDescriptions: labels.count)
+                defer { free(channels.unsafeMutablePointer) }
+                channels.unsafeMutablePointer.pointee.mChannelLayoutTag = kAudioChannelLayoutTag_UseChannelDescriptions
+                channels.unsafeMutablePointer.pointee.mNumberChannelDescriptions = UInt32(labels.count)
+                for (index, label) in labels.enumerated() {
+                    channels[index] = AudioChannelDescription(mChannelLabel: label, mChannelFlags: [], mCoordinates: (0, 0, 0))
+                }
+                return AVAudioFormat(standardFormatWithSampleRate: sampleRate,
+                                     channelLayout: AVAudioChannelLayout(layout: channels.unsafePointer))
+            }
             guard let layout = AVAudioChannelLayout(layoutTag: kAudioChannelLayoutTag_DiscreteInOrder | 4) else {
                 throw TransportError.invalid
             }
@@ -1271,7 +1284,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable {
                     "Separate headphone monitoring requires a four-channel output device. Master uses 1–2; headphones use 3–4."
                 )
             }
-            let format = try outputRoute.format(sampleRate: core.sampleRate)
+            let format = try outputRoute.format(sampleRate: core.sampleRate, device: automaticOutputDevice)
             let ownership = core.nativeAudioRenderOwnership(metrics: callbackMetrics)
             guard
                 let native = TDJNativeAudioSource(
@@ -1283,7 +1296,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable {
             engine.attach(source)
             engine.connect(source, to: engine.mainMixerNode, format: format)
             if channels == 4 {
-                let outputFormat = try outputRoute.format(sampleRate: hardware.sampleRate)
+                let outputFormat = try outputRoute.format(sampleRate: hardware.sampleRate, device: automaticOutputDevice)
                 engine.connect(engine.mainMixerNode, to: engine.outputNode, format: outputFormat)
             }
             #if os(iOS)
