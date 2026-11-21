@@ -1,0 +1,19 @@
+{
+  "notes": "R521: Apply verified matching Mac results before scanning cloud history.",
+  "sourceCommit": "9d36915d859b6ad7aef2e3caf65298b72c6e71bc",
+  "sourceSHA256": "0130eaf371345ab934e3b500276850a62ac5e26c79d72715918dfb457d582522",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 81.89,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-247.log",
+  "build": 247,
+  "app": "TestBuilds/ipad/247/GenErikDJ.app",
+  "appSHA256": "5fbb7e570b216353fd90c09193338e358c7eecd8bd9bbbb4fe2e3716f8ec5ca4",
+  "state": "testing",
+  "createdUTC": "2026-11-21T05:24:33.189762+00:00",
+  "installedUTC": "2026-11-21T05:24:47.689380+00:00",
+  "launchedUTC": "2026-11-21T05:24:48.204237+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}
