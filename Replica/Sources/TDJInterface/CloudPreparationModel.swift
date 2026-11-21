@@ -39,17 +39,28 @@ extension ReplicaModel {
         if !automatic { cancelNativeMusicAnalysis() }
         cloudTask = Task {
             var startupWait: Task<Void, Never>?
-            let timeout = Task { [weak self, cloudSync] in
+            func watchdog(_ seconds: Int) -> Task<Void, Never> {
+                Task { [weak self, cloudSync] in
                 do {
-                    try await Task.sleep(for: .seconds(automatic ? 45 : 120))
+                    try await Task.sleep(for: .seconds(seconds))
                     try Task.checkCancellation()
                     self?.cloudTask?.cancel()
                     await cloudSync.stop()
                 } catch {}
+                }
             }
+            #if os(iOS)
+            var timeout = automatic ? nil : watchdog(120)
+            #else
+            let timeout = watchdog(automatic ? 45 : 120)
+            #endif
             defer {
                 startupWait?.cancel()
+                #if os(iOS)
+                timeout?.cancel()
+                #else
                 timeout.cancel()
+                #endif
                 cloudBusy = false
                 cloudSyncIsAutomatic = false
                 cloudTask = nil
@@ -71,6 +82,11 @@ extension ReplicaModel {
                 var result = try await cloudSync.synchronize(
                     store: store, tracks: library.tracks,
                     performance: performance, automatic: automatic,
+                    beforeNetwork: {
+                        #if os(iOS)
+                        if automatic { timeout = watchdog(45) }
+                        #endif
+                    },
                     retainedResults: { [self] in try await adoptAutomaticCloudResults($0) }
                 ) { [self] message in
                     if !self.nativeMusic.checkedStartupCloud, self.analysisProgress?.isLibraryAnalysis == true {

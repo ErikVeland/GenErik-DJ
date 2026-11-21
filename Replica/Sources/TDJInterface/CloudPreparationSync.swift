@@ -62,6 +62,7 @@ actor CloudPreparationSync: CKSyncEngineDelegate {
     func synchronize(
         store: WorkspaceStore, tracks: [Track], performance: PerformancePreparation, automatic: Bool = false,
         incomingDirectories: [URL] = [], expectedAccount: String? = nil, offlineLibrary: Bool = false,
+        beforeNetwork: @MainActor @Sendable () async -> Void = {},
         retainedResults: @escaping @MainActor @Sendable (Result) async throws -> Void,
         progress: @escaping @MainActor @Sendable (String) -> Void
     ) async throws -> Result {
@@ -100,6 +101,14 @@ actor CloudPreparationSync: CKSyncEngineDelegate {
                         .filter { $0.hasSuffix(".confirmed") }.map { String($0.dropLast(".confirmed".count)) })
             }
         }.get()
+        #if os(iOS)
+        if automatic {
+            let saved = try await files.run { Swift.Result { try storage.list() } }.get()
+            try await retainedResults(Result(root: root, revisions: saved, message: "Applying saved cloud analysis…"))
+            try check()
+            await beforeNetwork()
+        }
+        #endif
         let stateURL = root.appendingPathComponent(engineStateFilename)
         let state = try await files.run { () -> Swift.Result<CKSyncEngine.State.Serialization?, Error> in
             Swift.Result {

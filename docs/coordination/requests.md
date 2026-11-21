@@ -906,3 +906,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R515 | Build 239 installed. Fresh source recovery verified. | Allow preparation after an idle relaunch | Preserve access timers. Protect playback from the first performance in the current launch through End Performance. The idle relaunch regression test passed. The iPad exported Gimme the Light (Banx & Ranx Remix). The Mac saved its analysis for sharing and requested the next track. |
 
 | R516 | Build 240 installed. iCloud download and adoption verified | Download Mac analysis before scanning retained revisions | Commit matching results in small batches. The Mac can send a revision identifier so the iPad can fetch the corresponding payload from private iCloud. Gimme the Light had no deep result before. The iPad downloaded the matching payload and saved all six Mac analysis windows. |
+
+| R517 | Verification pending | Apply downloaded analysis before the automatic network deadline | Check the signed-in account and commit saved results before starting the network timer. Verify additional quick-to-deep replacements on the physical iPad without revision hints. |
