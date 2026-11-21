@@ -43,6 +43,7 @@ actor CloudPreparationSync: CKSyncEngineDelegate {
     private var confirmed: Set<String> = []
     private var uploadsRemaining: Int?
     private var uploadBatchSize = 1
+    private var savedScanCursor: (root: URL, name: String)?
     private var engineStateFilename = "engine-state"
     private var verifiedConflicts: Set<CKRecord.ID> = []
     private var conflictFetch: CKFetchRecordsOperation?
@@ -104,9 +105,25 @@ actor CloudPreparationSync: CKSyncEngineDelegate {
         #if os(iOS)
         if automatic {
             await progress("Checking downloaded analysis…")
-            let saved = try await files.run { Swift.Result { try storage.list() } }.get()
-            await progress("Applying downloaded analysis…")
-            try await retainedResults(Result(root: root, revisions: saved, message: "Applying saved cloud analysis…"))
+            let cursor = savedScanCursor?.root == root ? savedScanCursor?.name : nil
+            let names = try await files.run { Swift.Result {
+                try FileManager.default.contentsOfDirectory(atPath: root.path)
+                    .filter { $0.count == 69 && $0.hasSuffix(".json") && (cursor == nil || $0 > cursor!) }
+                    .sorted().prefix(256)
+            } }.get()
+            for offset in stride(from: 0, to: names.count, by: 32) {
+                try check()
+                let page = Array(names[offset..<min(offset + 32, names.count)])
+                let saved = try await files.run { Swift.Result {
+                    try page.map { name in
+                        try JSONDecoder().decode(CloudPreparationVault.Revision.self,
+                            from: Data(contentsOf: root.appendingPathComponent(name)))
+                    }
+                } }.get()
+                try await retainedResults(Result(root: root, revisions: saved, message: "Applying saved cloud analysis…"))
+                if let last = page.last { savedScanCursor = (root, last) }
+            }
+            if names.count < 256 { savedScanCursor = nil }
             try check()
             await beforeNetwork()
         }
