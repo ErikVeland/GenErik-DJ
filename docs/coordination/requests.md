@@ -940,3 +940,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 <a id="r531"></a>
 
 | R531 | Source candidate. Tests pending. | Add Beat Lock to Sync options. | Align the first entry of a synced track without moving the playhead. Default to on. Keep BPM matching when Beat Lock is off. Check the setting, deck directions, and adaptive grids on the test iPad. |
+
+| R532 | Draft. Physical acceptance open. | Centre the nearest beat one when opening Beat Fix. Centre a newly marked beat one without changing the existing tap action. | Check fixed and adaptive grids, running audio, start and end padding, waveform drag and returning to live view. |

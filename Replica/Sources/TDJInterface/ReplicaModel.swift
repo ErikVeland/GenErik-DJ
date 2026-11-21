@@ -105,6 +105,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     /// Grid edit lock and tap mode, per deck.
     public var gridLocked: Set<DeckID> = []
     @ObservationIgnored var gridWaveformContacts: [DeckID: ObjectIdentifier] = [:]
+    @ObservationIgnored var gridViewportBeforeInspection: [DeckID: Double] = [:]
     public var gridTapMode: Set<DeckID> = []
     public private(set) var detectingGrids: Set<DeckID> = []
     @ObservationIgnored var gridDetectionTasks: [DeckID: Task<Void, Never>] = [:]
@@ -1237,6 +1238,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
         viewport[deck] = sourceFrame
         gridDraft[deck] = pendingPreparations[trackID]?.value.grid
         gridDownbeatDraft[deck] = nil
+        gridViewportBeforeInspection[deck] = nil
         editing.remove(deck)
         frozen.remove(deck)
         previewing.remove(deck)
@@ -1821,6 +1823,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
                     viewport[deck] = 0
                     gridDraft[deck] = nil
                     gridDownbeatDraft[deck] = nil
+                    gridViewportBeforeInspection[deck] = nil
                     editing.remove(deck)
                     frozen.remove(deck)
                     previewing.remove(deck)
@@ -1985,7 +1988,9 @@ enum PlaybackInputSource: Equatable { case touch, controller }
             for deck in snapshot.deckIDs {
                 guard let state = waveformPlayback(deck), state.phase != .empty, !playback.hasPendingTouchRelease(deck) else { continue }
                 if editing.contains(deck) {
-                    guard state.phase == .playing, gridWaveformContacts[deck] == nil else { continue }
+                    guard gridViewportBeforeInspection[deck] == nil,
+                        state.phase == .playing, gridWaveformContacts[deck] == nil
+                    else { continue }
                 } else if previewing.contains(deck) || frozen.contains(deck) { continue }
                 if viewport[deck] != state.sourceFrame { viewport[deck] = state.sourceFrame }
             }

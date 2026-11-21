@@ -68,7 +68,7 @@ import Testing
     if beatFix { model.toggleGridEditing(deck: .a) }
     let target = 1234.5
     let span = track.analysis.sampleRate * 2
-    let lift = 0.2 + (atStop - target) / span
+    let lift = 0.2 + ((model.viewport[.a] ?? atStop) - target) / span
     let gesture = WaveformGestureSession()
     func send(_ phase: SurfaceEvent.Phase, x: Double) {
         gesture.handle(.init(phase: phase, points: [.init(id: 1, x: x, y: 0.6)], ending: phase == .ended ? [1] : []),

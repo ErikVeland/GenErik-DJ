@@ -85,6 +85,25 @@ public struct BeatTiming: Sendable {
         self.frame(atBeat: beat(atFrame: frame) + beats) - frame
     }
     public func isDownbeat(_ beat: Int) -> Bool { ((beat - downbeatOffset) % 4 + 4) % 4 == 0 }
+
+    /// Find a real beat one on either side of the edit position. Compare in source frames because
+    /// adaptive tempo can make the two adjoining bars different lengths.
+    public func nearestDownbeatFrame(to position: Double, within frames: Range<Double>) -> Double? {
+        guard position.isFinite, !frames.isEmpty, frames.lowerBound.isFinite, frames.upperBound.isFinite else {
+            return nil
+        }
+        let offset = Double(downbeatOffset)
+        func bar(atFrame frame: Double) -> Double { (beat(atFrame: frame) - offset) / 4 }
+        let first = ceil(bar(atFrame: frames.lowerBound))
+        let last = ceil(bar(atFrame: frames.upperBound)) - 1
+        let target = bar(atFrame: position)
+        guard first.isFinite, last.isFinite, target.isFinite, first <= last else { return nil }
+        let lower = frame(atBeat: 4 * min(last, max(first, floor(target))) + offset)
+        let upper = frame(atBeat: 4 * min(last, max(first, ceil(target))) + offset)
+        if !frames.contains(lower) { return frames.contains(upper) ? upper : nil }
+        if !frames.contains(upper) { return lower }
+        return abs(position - lower) <= abs(position - upper) ? lower : upper
+    }
 }
 
 extension BeatTiming {

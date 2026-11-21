@@ -114,11 +114,33 @@ extension ReplicaModel {
                 selectDownbeat(deck: deck, beat: downbeat)
             }
             editing.remove(deck)
+            let previous = gridViewportBeforeInspection.removeValue(forKey: deck)
+            if let previous, frozen.contains(deck) || previewing.contains(deck) {
+                viewport[deck] = previous
+            } else if let state = waveformPlayback(deck), state.phase != .empty {
+                viewport[deck] = state.sourceFrame
+            }
         } else {
             gridDownbeatDraft[deck] = nil
+            gridViewportBeforeInspection[deck] = nil
             editing.insert(deck)
+            if let timing = timing(deck), let track = track(deck), track.analysis.frameCount > 0 {
+                let position = viewport[deck] ?? waveformPlayback(deck)?.sourceFrame ?? 0
+                if let frame = timing.nearestDownbeatFrame(to: position, within: 0..<Double(track.analysis.frameCount)) {
+                    centerGridInspection(on: frame, deck: deck)
+                }
+            }
         }
     }
+
+    func centerGridInspection(on frame: Double, deck: DeckID) {
+        guard editing.contains(deck), frame.isFinite else { return }
+        if gridViewportBeforeInspection[deck] == nil {
+            gridViewportBeforeInspection[deck] = viewport[deck] ?? 0
+        }
+        viewport[deck] = frame
+    }
+
     public func cue(slot: Int, deck: DeckID, delete: Bool = false, quantized: Bool = true) {
         guard (0..<8).contains(slot), let track = track(deck), let state = playbackSnapshot?[deck] else { return }
         if delete {

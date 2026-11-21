@@ -179,22 +179,34 @@ import Testing
     await model.finishForShutdown()
 }
 
-@Test @MainActor func beatFixFollowsPlayingAudioAndRetainsStoppedView() async throws {
+@Test @MainActor func beatFixCentersDownbeatWithoutSeekingAndRetainsInspection() async throws {
     let (model, root, track) = try await loadPlayheadFixture()
     defer { try? FileManager.default.removeItem(at: root) }
     model.load(trackID: track.id, deck: .a)
     await model.playbackLoads?.value
+    model.jump(12_000, deck: .a, quantized: false)
+    let before = try #require(model.playbackSnapshot?.a.sourceFrame)
+    let timing = try #require(model.timing(.a))
+    let target = try #require(timing.nearestDownbeatFrame(
+        to: before, within: 0..<Double(track.analysis.frameCount)))
     model.toggleGridEditing(deck: .a)
+    #expect(model.viewport[.a] == target)
+    #expect(model.playbackSnapshot?.a.sourceFrame == before)
     model.pressPlay(deck: .a, vinylStop: false)
     await model.flushTransportRequests()
     for _ in 0..<3 {
         _ = model.playback.core.renderOffline(frames: 512)
         model.refreshPlayback()
-        #expect(model.viewport[.a] == model.playbackSnapshot?.a.sourceFrame)
+        #expect(model.viewport[.a] == target)
     }
+    #expect(model.playbackSnapshot?.a.sourceFrame != before)
     model.pressPlay(deck: .a, vinylStop: false)
     model.viewport[.a] = 9876
     model.refreshPlayback()
     #expect(model.viewport[.a] == 9876)
+    let stopped = try #require(model.playbackSnapshot?.a.sourceFrame)
+    model.toggleGridEditing(deck: .a)
+    #expect(model.playbackSnapshot?.a.sourceFrame == stopped)
+    #expect(model.viewport[.a] == stopped)
     await model.finishForShutdown()
 }

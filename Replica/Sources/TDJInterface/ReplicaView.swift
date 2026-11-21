@@ -2007,12 +2007,14 @@ extension ReplicaView {
             let left = center - span / 2
             let perPoint = span / max(1, geometry.size.width)
             let timing = model.timing(deck) ?? BeatTiming(fixed: grid)
+            let endFrame = Double(model.track(deck)?.analysis.frameCount ?? 0)
             let first = Int(exactly: ceil(timing.beat(atFrame: left))) ?? 0
             let last = Int(exactly: ceil(timing.beat(atFrame: left + span))) ?? first
             ForEach(0..<max(0, min(64, last - first + 1)), id: \.self) { offset in
                 let beat = first + offset
-                let x = (timing.frame(atBeat: Double(beat)) - left) / perPoint
-                if x >= 0 && x <= geometry.size.width {
+                let frame = timing.frame(atBeat: Double(beat))
+                let x = (frame - left) / perPoint
+                if frame >= 0, frame < endFrame, x >= 0, x <= geometry.size.width {
                     let downbeatOffset = model.gridDownbeatDraft[deck] ?? timing.downbeatOffset
                     let beatNumber = ((beat - downbeatOffset) % 4 + 4) % 4 + 1
                     Button {
@@ -2022,7 +2024,7 @@ extension ReplicaView {
                             .foregroundStyle(beatNumber == 1 ? .orange : PerformancePalette.text)
                             .frame(width: 44, height: 44).bevelPanel(
                                 cornerRadius: 3)
-                    }.position(x: x + 22, y: 22).accessibilityLabel(
+                    }.position(x: x, y: 22).accessibilityLabel(
                         "Move the playhead to beat \(beatNumber). Done saves it as the downbeat.")
                 }
             }

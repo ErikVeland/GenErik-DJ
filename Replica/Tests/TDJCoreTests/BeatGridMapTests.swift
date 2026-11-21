@@ -58,3 +58,17 @@ import Testing
         #expect(try JSONDecoder().decode(Preparation.self, from: JSONEncoder().encode(decoded)) == decoded)
     }
 }
+
+@Test func gridInspectionFindsNearestInRangeDownbeatForFixedAndAdaptiveTiming() throws {
+    let fixed = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48_000, downbeatOffset: 1)
+    let straight = BeatTiming(fixed: fixed)
+    #expect(straight.nearestDownbeatFrame(to: 0, within: 0..<120_000) == 24_000)
+    #expect(straight.nearestDownbeatFrame(to: 120_000, within: 0..<120_000) == 24_000)
+    #expect(straight.nearestDownbeatFrame(to: 10_000, within: 0..<20_000) == nil)
+    let map = BeatGridMap(
+        anchors: [.init(beat: 0, frame: 0), .init(beat: 2, frame: 30_000), .init(beat: 4, frame: 100_000)],
+        sampleRate: 48_000)
+    let adaptive = BeatTiming(fixed: fixed, adaptive: map)
+    #expect(adaptive.nearestDownbeatFrame(to: 40_000, within: 0..<130_000) == 0)
+    #expect(adaptive.nearestDownbeatFrame(to: 60_000, within: 0..<130_000) == 100_000)
+}
