@@ -304,7 +304,8 @@ import Testing
     provider.holdCatalog = false
     provider.catalogGate?.resume()
     await first.value
-    for _ in 0..<1000 where provider.reads < 2 { await Task.yield() }
-    await model.refreshMusicLibrary()
+    let deadline = ContinuousClock.now + .seconds(5)
+    while model.musicLibraryCatalogVersion < 2, ContinuousClock.now < deadline { await Task.yield() }
+    #expect(model.musicLibraryCatalogVersion == 2)
     #expect(provider.reads == 2)
 }

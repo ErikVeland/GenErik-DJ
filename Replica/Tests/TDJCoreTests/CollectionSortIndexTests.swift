@@ -21,6 +21,10 @@ private enum LegacyCollectionBrowser {
                     sort == .title ? b.element.title : sort == .artist ? b.element.artist : (b.element.album ?? "")
                 let order = left.localizedStandardCompare(right)
                 if order != .orderedSame { return order == .orderedAscending }
+            case .dateAdded:
+                let left = a.element.dateAdded ?? .distantPast
+                let right = b.element.dateAdded ?? .distantPast
+                if left != right { return left > right }
             case .key:
                 let left = a.element.key?.name
                 let right = b.element.key?.name
