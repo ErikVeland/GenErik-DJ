@@ -50,3 +50,17 @@ import Testing
     #expect(FileManager.default.fileExists(atPath: recording.path))
     await model.finishForShutdown()
 }
+
+@Test @MainActor func idleRelaunchAllowsPreparationWithSavedPerformanceTiming() throws {
+    let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+    defer { try? FileManager.default.removeItem(at: root) }
+    StoreAccess(root: root).beginPerformance()
+    let model = try ReplicaModel(root: root, playback: PlaybackController(offline: true))
+    #expect(model.storeAccess.hasPerformanceTiming)
+    #expect(!model.storeAccess.hasActivePerformance)
+    #expect(model.canSyncCloud)
+    model.storeAccess.beginPerformance()
+    model.refreshPlayback()
+    #expect(!model.canSyncCloud)
+}

@@ -2043,7 +2043,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
         refreshPlayback()
     }
     public var canEndPerformance: Bool {
-        storeAccess.hasActivePerformance
+        storeAccess.hasPerformanceTiming
             && pendingLoadPlay.isEmpty && playback.core.playingPads == 0 && !playback.core.loopRecorderState.isActive
             && playback.core.snapshot().map { snapshot in DeckID.allCases.allSatisfy({ !snapshot[$0].phase.active && !snapshot[$0].touchActive }) } == true
             && !playback.isRecording && !playback.recordingFinishing
