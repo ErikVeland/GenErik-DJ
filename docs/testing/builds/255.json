@@ -1,0 +1,16 @@
+{
+  "notes": "R541\u2013R544: coalesce recording writes, scrub stopped Preview to the playhead, move Beat Fix at the start of a file and warn before loading into a playing deck. Build only.",
+  "sourceCommit": "1e8faa879f947e989d0ebb5250b0a07945b65558",
+  "sourceSHA256": "a2968a22a7c357b038fd3226822d88cfa80c8861deff71525fb8a97bbc2aeb71",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 130.48,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-255.log",
+  "build": 255,
+  "app": "TestBuilds/ipad/255/GenErikDJ.app",
+  "appSHA256": "e2ecdfef82fd6a61d0870635a64c0ed0d70c6bdfc7ddaa635b07ac10c848cc48",
+  "state": "ready",
+  "createdUTC": "2026-11-21T10:00:40.342545+00:00"
+}
