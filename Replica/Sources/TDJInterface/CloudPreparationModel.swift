@@ -62,16 +62,6 @@ extension ReplicaModel {
                 try Task.checkCancellation()
                 guard cloudPlaybackIsIdle else { throw CancellationError() }
                 if automatic, !nativeMusic.checkedStartupCloud {
-                    let directory = store.root.appendingPathComponent("CloudPreparation")
-                    let cached = await cloudFiles.run { () -> CloudPreparationSync.Result? in
-                        guard let account = try? String(contentsOf: directory.appendingPathComponent("last-account"), encoding: .utf8),
-                            account.count == 64, account.allSatisfy(\.isHexDigit)
-                        else { return nil }
-                        let root = directory.appendingPathComponent(account)
-                        guard let revisions = try? CloudPreparationVault(root: root).list() else { return nil }
-                        return .init(root: root, revisions: revisions, message: "Checking saved iCloud analysis…")
-                    }
-                    if let cached { try await adoptAutomaticCloudResults(cached) }
                     startupWait = Task {
                         do { try await Task.sleep(for: .seconds(3)) } catch { return }
                         nativeMusic.checkedStartupCloud = true
