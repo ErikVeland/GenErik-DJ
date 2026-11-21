@@ -5,6 +5,7 @@ import UniformTypeIdentifiers
 #if os(macOS)
     import AppKit
 #else
+    import MediaPlayer
     import UIKit
 #endif
 
@@ -370,6 +371,13 @@ private let surface = PerformancePalette.panel
             }
 
         }.background(PerformancePalette.frame).foregroundStyle(PerformancePalette.text).buttonStyle(.plain)
+            #if os(iOS)
+            .onReceive(NotificationCenter.default.publisher(for: .MPMediaLibraryDidChange)) { _ in
+                model.musicLibraryDidChange()
+            }
+            .onAppear { MPMediaLibrary.default().beginGeneratingLibraryChangeNotifications() }
+            .onDisappear { MPMediaLibrary.default().endGeneratingLibraryChangeNotifications() }
+            #endif
             .preferredColorScheme(.dark).task {
                 ReplicaLifecycle.register(model)
                 guard scenePhase != .background else { return }

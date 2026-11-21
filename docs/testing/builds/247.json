@@ -6,7 +6,14 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 81.89,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-21",
+      "request": "R522",
+      "report": "Two iTunes Store purchases did not appear automatically. Erik requested live updates and Date Added sorting.",
+      "status": "Device acceptance open. Build inferred from the last installation."
+    }
+  ],
   "log": "TestBuilds/ipad/build-247.log",
   "build": 247,
   "app": "TestBuilds/ipad/247/GenErikDJ.app",

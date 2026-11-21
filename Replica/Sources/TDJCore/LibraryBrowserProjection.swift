@@ -89,7 +89,7 @@ public struct LibraryBrowserProjection: Sendable {
         var itemsBySource: [MusicLibrarySource: MusicLibraryItem] = [:]
         for item in catalog?.items ?? [] {
             try tick()
-            guard item.isOnDevice else { continue }
+            guard item.isOnDevice || (item.source.platform == .iosMusic && item.availability == .notDownloaded) else { continue }
             guard byNative[item.id] == nil else { continue }
             let track = bySourceID[item.source.id]
             let entry = LibraryBrowserEntry(nativeItem: item, track: track, hint: hints[item.id])
@@ -211,6 +211,10 @@ public struct LibraryBrowserProjection: Sendable {
                     let rhs = sort == .title ? right.title : sort == .artist ? right.artist : right.album
                     let order = lhs.localizedStandardCompare(rhs)
                     if order != .orderedSame { return order == .orderedAscending }
+                case .dateAdded:
+                    let lhs = left.nativeItem?.dateAdded ?? left.track?.dateAdded ?? .distantPast
+                    let rhs = right.nativeItem?.dateAdded ?? right.track?.dateAdded ?? .distantPast
+                    if lhs != rhs { return lhs > rhs }
                 case .key:
                     let lhs = left.key?.name
                     let rhs = right.key?.name

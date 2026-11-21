@@ -128,7 +128,12 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     private var suggestionRequest = UUID()
     public func flushSuggestions() async { await suggestionWork?.value }
     public var status = ""
-    public var importing = false { didSet { if importing { cancelCloudSyncForPlayback() } } }
+    public var importing = false {
+        didSet {
+            if importing { cancelCloudSyncForPlayback() }
+            else { schedulePendingMusicLibraryRefresh() }
+        }
+    }
     public internal(set) var cloudBusy = false
     @ObservationIgnored var cloudSyncIsAutomatic = false
     public var cloudStatus = "Accepted analysis is shared through iCloud while the decks are idle."
@@ -968,12 +973,28 @@ enum PlaybackInputSource: Equatable { case touch, controller }
         status = count == 0 ? "No new key results were added." : "Applied \(count) key results."
     }
 
+    @ObservationIgnored private var musicLibraryChangePending = false
+
+    func musicLibraryDidChange() {
+        musicLibraryChangePending = true
+        schedulePendingMusicLibraryRefresh()
+    }
+
+    private func schedulePendingMusicLibraryRefresh() {
+        guard musicLibraryChangePending, !importing, musicLibraryRefreshTask == nil, !waveformShutdown else { return }
+        Task { [weak self] in
+            guard let self, musicLibraryChangePending, !importing, musicLibraryRefreshTask == nil else { return }
+            await openNativeMusicLibrary()
+        }
+    }
+
     public func refreshMusicLibrary() async {
         if let pending = musicLibraryRefreshTask {
             await pending.value
             return
         }
         guard !importing, !waveformShutdown else { return }
+        musicLibraryChangePending = false
         musicLibraryRefreshing = true
         musicLibraryError = nil
         let provider = musicLibraryProvider
@@ -993,6 +1014,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
             defer {
                 self?.musicLibraryRefreshing = false
                 self?.musicLibraryRefreshTask = nil
+                self?.schedulePendingMusicLibraryRefresh()
             }
             do {
                 let catalog = try await AnalysisWorkProgress.$observer.withValue(catalogProgress) {

@@ -196,6 +196,7 @@ public struct Track: Codable, Equatable, Sendable, Identifiable {
     public var traktorPreparation: ImportedTraktorPreparation? = nil
     public var keyGovernance: KeyGovernanceState? = nil
     public var musicLibrarySources: [MusicLibrarySource]?
+    public var dateAdded: Date?
     public var nativeLibraryOnly: Bool? = nil
     public var nativePlaybackIdentity: String? = nil
     var nativeAudioFingerprint: String? = nil

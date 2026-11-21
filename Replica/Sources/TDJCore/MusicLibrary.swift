@@ -17,7 +17,7 @@ public struct MusicLibraryItem: Codable, Sendable, Identifiable, Equatable {
         public var message: String {
             switch self {
             case .available: return "Available on this device"
-            case .notDownloaded: return "Download or sync this song in Music, then refresh."
+            case .notDownloaded: return "Download this song in Music to load it on a deck."
             case .protected: return "Protected audio cannot be used for mixing."
             case .unavailable: return "Local audio is unavailable. Refresh after syncing in Music."
             }
@@ -29,6 +29,7 @@ public struct MusicLibraryItem: Codable, Sendable, Identifiable, Equatable {
     public let artist: String
     public let album: String
     public let genre: String?
+    public let dateAdded: Date?
     public let duration: Double
     public let assetURL: URL?
     public let availability: Availability
@@ -41,7 +42,7 @@ public struct MusicLibraryItem: Codable, Sendable, Identifiable, Equatable {
     }
     public init(
         source: MusicLibrarySource, title: String, artist: String, album: String = "", genre: String? = nil,
-        duration: Double = 0, assetURL: URL?, availability: Availability
+        duration: Double = 0, dateAdded: Date? = nil, assetURL: URL?, availability: Availability
     ) {
         self.source = source
         self.title = title
@@ -49,6 +50,7 @@ public struct MusicLibraryItem: Codable, Sendable, Identifiable, Equatable {
         self.album = album
         self.genre = genre
         self.duration = duration
+        self.dateAdded = dateAdded
         self.assetURL = assetURL
         self.availability = availability
     }
@@ -118,6 +120,7 @@ public struct MusicLibraryImportMetadata: Sendable {
     public let artist: String
     public let album: String
     public let genre: String?
+    public let dateAdded: Date?
     public let artwork: Data?
     public init(item: MusicLibraryItem, artwork: Data? = nil) {
         source = item.source
@@ -125,6 +128,7 @@ public struct MusicLibraryImportMetadata: Sendable {
         artist = item.artist
         album = item.album
         genre = item.genre
+        dateAdded = item.dateAdded
         self.artwork = artwork
     }
 }

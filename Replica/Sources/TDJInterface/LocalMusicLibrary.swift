@@ -174,7 +174,7 @@ extension LocalMusicLibraryProviding {
                 return MusicLibraryItem(
                     source: source, title: item.title, artist: item.artist?.name ?? "", album: item.album.title ?? "",
                     genre: item.genre.isEmpty ? nil : item.genre, duration: Double(item.totalTime) / 1000,
-                    assetURL: url, availability: availability)
+                    dateAdded: item.addedDate, assetURL: url, availability: availability)
             }.sorted { $0.title.localizedStandardCompare($1.title) == .orderedAscending }
             stage("Reading native playlists")
             let known = Set(items.filter(\.isOnDevice).map(\.id))
@@ -221,7 +221,8 @@ extension LocalMusicLibraryProviding {
                 return MusicLibraryItem(
                     source: .init(platform: .iosMusic, persistentID: String(item.persistentID)),
                     title: item.title ?? "Untitled", artist: item.artist ?? "", album: item.albumTitle ?? "",
-                    genre: item.genre, duration: item.playbackDuration, assetURL: url, availability: availability)
+                    genre: item.genre, duration: item.playbackDuration, dateAdded: item.dateAdded,
+                    assetURL: url, availability: availability)
             }.sorted { $0.title.localizedStandardCompare($1.title) == .orderedAscending }
             let known = Set(items.filter(\.isOnDevice).map(\.id))
             let collections = MPMediaQuery.playlists().collections as? [MPMediaPlaylist] ?? []

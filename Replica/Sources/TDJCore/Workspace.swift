@@ -302,6 +302,7 @@ public actor LibraryService {
         var track = try Track(
             title: metadata.title, artist: metadata.artist, genre: metadata.genre,
             mediaFilename: analysis.contentSHA256 + ".native", analysis: analysis)
+        track.dateAdded = metadata.dateAdded
         track.album = metadata.album
         track.nativeLibraryOnly = true
         track.nativePlaybackIdentity = track.id
@@ -312,6 +313,7 @@ public actor LibraryService {
             changed.tracks[index].musicLibrarySources?.removeAll { $0 == metadata.source }
         }
         if let index = changed.tracks.firstIndex(where: { $0.id == track.id }) {
+            track.dateAdded = changed.tracks[index].dateAdded ?? metadata.dateAdded
             track.preparation = changed.tracks[index].preparation
             changed.tracks[index] = track
         } else {
@@ -458,6 +460,7 @@ public actor LibraryService {
                 ?? url.deletingPathExtension().lastPathComponent,
             artist: musicLibrary.flatMap { $0.artist.isEmpty ? nil : $0.artist } ?? metadata.artist ?? "",
             genre: musicLibrary?.genre ?? metadata.genre, mediaFilename: filename, analysis: analysis)
+        track.dateAdded = musicLibrary?.dateAdded ?? Date()
         track.nativeLibraryOnly = copyMedia ? nil : true
         track.album = musicLibrary.flatMap { $0.album.isEmpty ? nil : $0.album } ?? metadata.album
         if let artwork = musicLibrary?.artwork ?? metadata.artwork {

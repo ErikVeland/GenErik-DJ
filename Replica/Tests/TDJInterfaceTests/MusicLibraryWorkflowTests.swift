@@ -292,3 +292,19 @@ import Testing
     #expect(model.playback.core.renderOffline(frames: 48000).left.contains { $0 != 0 })
     await model.finishForShutdown()
 }
+
+@Test @MainActor func musicChangesDuringCatalogReadTriggerOneFreshRead() async throws {
+    let (model, provider, root) = try musicWorkflow()
+    defer { try? FileManager.default.removeItem(at: root) }
+    provider.holdCatalog = true
+    let first = Task { await model.refreshMusicLibrary() }
+    while provider.catalogGate == nil { await Task.yield() }
+    model.musicLibraryDidChange()
+    model.musicLibraryDidChange()
+    provider.holdCatalog = false
+    provider.catalogGate?.resume()
+    await first.value
+    for _ in 0..<1000 where provider.reads < 2 { await Task.yield() }
+    await model.refreshMusicLibrary()
+    #expect(provider.reads == 2)
+}

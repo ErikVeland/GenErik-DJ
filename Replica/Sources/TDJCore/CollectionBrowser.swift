@@ -6,6 +6,7 @@ public enum CollectionSort: String, CaseIterable, Sendable {
     case album = "Album"
     case key = "Key"
     case bpm = "BPM"
+    case dateAdded = "Date Added"
 }
 public enum CollectionBrowser {
     public static func tracks(_ tracks: [Track], search: String, sort: CollectionSort?) -> [Track] {
@@ -25,6 +26,10 @@ public enum CollectionBrowser {
                 let right = sort == .title ? second.title : sort == .artist ? second.artist : (second.album ?? "")
                 let order = left.localizedStandardCompare(right)
                 if order != .orderedSame { return order == .orderedAscending }
+            case .dateAdded:
+                let left = first.dateAdded ?? .distantPast
+                let right = second.dateAdded ?? .distantPast
+                if left != right { return left > right }
             case .key:
                 let left = first.key?.name
                 let right = second.key?.name

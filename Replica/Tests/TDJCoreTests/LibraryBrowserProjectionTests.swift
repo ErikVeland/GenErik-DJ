@@ -17,12 +17,12 @@ private func unifiedTrack(_ index: Int, sources: [MusicLibrarySource] = [], nati
     track.nativeLibraryOnly = nativeOnly ? true : nil
     return track
 }
-private func unifiedItem(_ id: String, title: String? = nil, availability: MusicLibraryItem.Availability = .available)
+private func unifiedItem(_ id: String, title: String? = nil, dateAdded: Date? = nil, availability: MusicLibraryItem.Availability = .available)
     -> MusicLibraryItem
 {
     .init(
         source: .init(platform: .iosMusic, persistentID: id), title: title ?? id, artist: "Music artist",
-        album: "Music album", genre: "Techno", assetURL: URL(string: "ipod-library://item/\(id)"),
+        album: "Music album", genre: "Techno", dateAdded: dateAdded, assetURL: URL(string: "ipod-library://item/\(id)"),
         availability: availability)
 }
 private func unifiedProjection(
@@ -290,4 +290,16 @@ private func unifiedProjection(
     #expect(members == [track.id, a.id])
     let all = try await unifiedProjection(tracks: [track], catalog: catalog)
     #expect(all.entries.map(\.id) == [a.id, track.id])
+}
+
+@Test func dateAddedOrdersNewPurchasesBeforeFilesAndUndatedSongs() async throws {
+    let newest = unifiedItem("purchase", dateAdded: Date(timeIntervalSince1970: 20), availability: .notDownloaded)
+    let older = unifiedItem("older", dateAdded: Date(timeIntervalSince1970: 10))
+    var file = try unifiedTrack(1)
+    file.dateAdded = Date(timeIntervalSince1970: 15)
+    let unknown = unifiedItem("unknown")
+    let result = try await unifiedProjection(
+        tracks: [file], catalog: .init(items: [unknown, older, newest], playlists: []), sort: .dateAdded)
+    #expect(result.entries.map(\.id) == [newest.id, file.id, older.id, unknown.id])
+    #expect(result.entries.first?.canLoad == false)
 }
