@@ -389,6 +389,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     public func flushPreferenceWrites() async {
         await mixerPersistence.flush()
         await collectionPersistence.flush()
+        await recommendationHistoryWriter.flush()
         await queuePersistence.flush()
         await flushPerformanceWrites()
         for writer in Array(arrangementWriters.values) { await writer.flush() }
@@ -635,6 +636,62 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     @ObservationIgnored private var pendingPreparations: [String: (token: UUID, value: Preparation)] = [:]
     var historyWrites: Task<Void, Never>?
     private var recordedGenerationPairs = Set<String>()
+    @ObservationIgnored private var recommendationHistory = PerformanceRecommendationHistory()
+    @ObservationIgnored private var recommendationGenerations: [DeckID: UInt64] = [:]
+    @ObservationIgnored private let recommendationHistoryWriter = CoalescingFileWriter<PerformanceRecommendationHistory>()
+    private(set) var recommendationPlaybackRevision: UInt64 = 0
+    var performedRecommendationIDs: Set<String> {
+        _ = recommendationPlaybackRevision
+        return recommendationHistory.identities
+    }
+
+    private func persistRecommendationHistory() {
+        let url = store.root.appendingPathComponent(PerformanceRecommendationHistory.filename)
+        recommendationHistoryWriter.enqueue(
+            recommendationHistory,
+            write: { try JSONEncoder().encode($0).write(to: url, options: .atomic) },
+            reportError: { _ in })
+    }
+
+    private func resetRecommendationHistory(startedAt: Date?) {
+        recommendationGenerations.removeAll()
+        let hadTracks = !recommendationHistory.identities.isEmpty
+        recommendationHistory = .init(startedAt: startedAt)
+        if hadTracks {
+            recommendationPlaybackRevision &+= 1
+            refreshSuggestions()
+            persistRecommendationHistory()
+        }
+    }
+
+    private func retainPerformanceRecommendations(_ snapshot: PlaybackSnapshot) {
+        guard snapshot.anyDeckActive, let startedAt = storeAccess.performanceSessionStart,
+            snapshot.masterGain > 0
+        else { return }
+        if recommendationHistory.startedAt != startedAt { resetRecommendationHistory(startedAt: startedAt) }
+        var changed = false
+        for deck in DeckID.allCases {
+            let state = snapshot[deck]
+            guard state.phase == .playing, controllerCueContacts[deck] == nil,
+                recommendationGenerations[deck] != state.generation,
+                let committed = committedPreparations[deck], committed.generation == state.generation,
+                PerformanceRecommendationHistory.isOnMaster(
+                    phase: state.phase, touching: state.touchActive,
+                    forwardRender: snapshot.outputFrame > state.lastStartOutputFrame,
+                    peak: state.mixer.peak, volume: state.mixer.volume, assignment: state.mixer.crossfaderAssignment,
+                    crossfader: snapshot.crossfader, master: snapshot.masterGain)
+            else { continue }
+            recommendationGenerations[deck] = state.generation
+            if recommendationHistory.identities.insert(committed.track.id).inserted { changed = true }
+            for source in committed.track.musicLibrarySources ?? [] {
+                if recommendationHistory.identities.insert(source.id).inserted { changed = true }
+            }
+        }
+        guard changed else { return }
+        recommendationPlaybackRevision &+= 1
+        persistRecommendationHistory()
+        refreshSuggestions()
+    }
     public func flushHistoryWrites() async { await historyWrites?.value }
     private func retainPerformedPair(_ snapshot: PlaybackSnapshot) {
         guard snapshot.pairedFrames > 0, let a = committedTrackIDs[.a], let b = committedTrackIDs[.b], a != b,
@@ -743,6 +800,10 @@ enum PlaybackInputSource: Equatable { case touch, controller }
             store: store, initial: initialLibrary, discoverSyncedTraktor: discoverSyncedTraktor,
             automaticTraktorSources: automaticTraktorSources)
         self.playback = try playback ?? PlaybackController()
+        if let startedAt = storeAccess.performanceSessionStart {
+            let url = root.appendingPathComponent(PerformanceRecommendationHistory.filename)
+            recommendationHistory = PerformanceRecommendationHistory.restore(try? Data(contentsOf: url), for: startedAt)
+        }
         self.playback.core.performanceWorkGate.setProtected(storeAccess.hasActivePerformance)
         mixerPreferences = try MixerPreferences.load(from: root.appendingPathComponent("mixer-preferences.json"))
         self.playback.core.setBassAssistance(mixerPreferences.bassAssistance ?? .off)
@@ -1666,7 +1727,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
         let context = SuggestionContext(
             referenceTrackID: reference, destination: destination, performanceBPM: playbackSnapshot?.masterBPM,
             usePerformanceBPM: playbackSnapshot?[other].phase.active == true && playbackSnapshot?[other].synced == true,
-            loadedTrackIDs: Set(loaded.values), libraryRevision: storedLibrary.revision,
+            loadedTrackIDs: Set(loaded.values).union(performedRecommendationIDs), libraryRevision: storedLibrary.revision,
             historyRevision: storedLibrary.adaptiveMemory.revision)
         let librarySource = libraryReadSource()
         let referenceTrack = track(other)
@@ -1678,7 +1739,8 @@ enum PlaybackInputSource: Equatable { case touch, controller }
                 let ranked = try await PerformerSuggestions.rankAsync(
                     librarySource: librarySource, context: context, referenceOverride: referenceTrack)
                 guard !Task.isCancelled, suggestionRequest == request, loaded[other] == reference,
-                    Set(loaded.values) == context.loadedTrackIDs, loadPreparations[other]?.token == referenceToken,
+                    Set(loaded.values).union(performedRecommendationIDs) == context.loadedTrackIDs,
+                    loadPreparations[other]?.token == referenceToken,
                     track(other)?.preparation == referenceTrack?.preparation
                 else { return }
                 if storedLibrary.revision != context.libraryRevision {
@@ -1991,6 +2053,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
         if preparingSourceActions != sourceActions { preparingSourceActions = sourceActions }
         if let snapshot {
             playbackSnapshot = snapshot
+            retainPerformanceRecommendations(snapshot)
             retainPerformedPair(snapshot)
             maintainRecovery(snapshot)
             #if os(macOS) || os(iOS)
@@ -2101,6 +2164,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
         }
         savePerformanceHealth(force: true)
         storeAccess.endPerformance()
+        resetRecommendationHistory(startedAt: nil)
         playback.core.performanceWorkGate.setProtected(false)
         updateDeckAnalysisScheduling(wasPlaying: true)
         updateArrangementScheduling(wasPlaying: true)

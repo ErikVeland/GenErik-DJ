@@ -38,6 +38,10 @@ struct BrowserView: View {
     private var group: String? { panes.group }
     @State private var selectedEntry: LibraryBrowserEntry?
     @State private var recommendations: [BrowserRecommendations.Match] = []
+    private var visibleRecommendations: [BrowserRecommendations.Match] {
+        let played = model.performedRecommendationIDs
+        return recommendations.filter { !BrowserRecommendations.excludes($0.entry, identities: played) }
+    }
     @State private var recommendationSeed: LibraryBrowserEntry?
     @State private var layout = StandardBrowserLayoutState(categoriesHidden: true)
     @State private var section = BrowserSection.songs
@@ -802,13 +806,13 @@ extension BrowserView {
             ScrollView {
                 LazyVStack(spacing: 0) {
                     if displayedDetailTab == .match {
-                        if recommendations.isEmpty {
+                        if visibleRecommendations.isEmpty {
                             Text(
                                 recommendationSeed == nil
                                     ? "Load or play a track to see recommendations." : "No matching tracks yet."
                             ).font(.system(size: 13)).foregroundStyle(.secondary).padding(14)
                         }
-                        ForEach(recommendations) { match in
+                        ForEach(visibleRecommendations) { match in
                             recommendationRow(match.entry, keyOK: match.keyCompatible, tempoOK: match.tempoCompatible)
                         }
                     } else {
@@ -893,7 +897,7 @@ extension BrowserView {
         let decks = DeckID.allCases.map { "\(model.loaded[$0] ?? "-"):\(model.controlDisplay[$0].phase.active)" }
             .joined(separator: ",")
         return
-            "\(decks)|\(model.suggestionDestination?.rawValue ?? "-")|\(model.selectedTrackID ?? "")|\(projectionToken)|\(collectionVersion)|\(model.browserHintsVersion)"
+            "\(decks)|\(model.suggestionDestination?.rawValue ?? "-")|\(model.selectedTrackID ?? "")|\(projectionToken)|\(collectionVersion)|\(model.browserHintsVersion)|\(model.recommendationPlaybackRevision)"
     }
     fileprivate func refreshRecommendations() async {
         let seedDeck = model.recommendationSeedDeck(destination: model.suggestionDestination)
@@ -905,11 +909,12 @@ extension BrowserView {
             recommendations = []
             return
         }
-        let excluded = Set(model.loaded.values)
+        let playbackRevision = model.recommendationPlaybackRevision
+        let excluded = Set(model.loaded.values).union(model.performedRecommendationIDs)
         let matches = await Task.detached(priority: .utility) {
             BrowserRecommendations.matches(for: seed, in: entries, excluding: excluded)
         }.value
-        guard !Task.isCancelled else { return }
+        guard !Task.isCancelled, playbackRevision == model.recommendationPlaybackRevision else { return }
         recommendations = matches
     }
 

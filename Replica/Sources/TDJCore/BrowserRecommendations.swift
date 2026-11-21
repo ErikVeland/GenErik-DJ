@@ -27,6 +27,17 @@ public enum BrowserRecommendations {
         guard a > 0, b > 0, a.isFinite, b.isFinite else { return false }
         return [b, b * 2, b / 2].contains { abs($0 - a) / a <= tolerance }
     }
+    public static func excludes(_ entry: LibraryBrowserEntry, identities: Set<String>) -> Bool {
+        if identities.isEmpty { return false }
+        if identities.contains(entry.id) || identities.contains(entry.membershipID) { return true }
+        if let native = entry.nativeItem, identities.contains(native.id) { return true }
+        if let track = entry.track {
+            if identities.contains(track.id) { return true }
+            if track.musicLibrarySources?.contains(where: { identities.contains($0.id) }) == true { return true }
+        }
+        return false
+    }
+
     /// Tempo within ±6 % (half and double time allowed), ranked compatible key first. A seed without
     /// a tempo falls back to key matches. Loaded tracks and the seed itself are excluded.
     public static func matches(
@@ -36,7 +47,7 @@ public enum BrowserRecommendations {
         var results: [(Match, Double)] = []
         let skip = excluded.union([selected.id]).union(selected.track.map { [$0.id] } ?? []).union(
             selected.nativeItem.map { [$0.id] } ?? [])
-        for entry in entries where !skip.contains(entry.id) && !(entry.track.map { skip.contains($0.id) } ?? false) {
+        for entry in entries where !excludes(entry, identities: skip) {
             let keyOK = selected.key.flatMap { a in entry.key.map { keysCompatible(a, $0) } } ?? false
             if let bpm = selected.bpm {
                 guard let other = entry.bpm, temposCompatible(bpm, other) else { continue }

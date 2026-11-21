@@ -43,6 +43,10 @@ struct FrontBrowserView: View {
     private var group: String? { panes.group }
     @State private var selectedEntry: LibraryBrowserEntry?
     @State private var recommendations: [BrowserRecommendations.Match] = []
+    private var visibleRecommendations: [BrowserRecommendations.Match] {
+        let played = model.performedRecommendationIDs
+        return recommendations.filter { !BrowserRecommendations.excludes($0.entry, identities: played) }
+    }
     @State private var recommendationRefresh = UUID()
     @State private var recommendationSeed: LibraryBrowserEntry?
     @State private var recommendationDeck: DeckID?
@@ -787,21 +791,21 @@ extension FrontBrowserView {
             }.padding(.horizontal, 12).padding(.vertical, 6).background(PerformancePalette.panel)
             ScrollView {
                 LazyVStack(spacing: 0) {
-                    if recommendations.isEmpty && (catalogueLoading || searching || displayedRequest != request) {
+                    if visibleRecommendations.isEmpty && (catalogueLoading || searching || displayedRequest != request) {
                         ProgressView("Loading library…").padding(24)
-                    } else if recommendations.isEmpty {
+                    } else if visibleRecommendations.isEmpty {
                         Text(
                             recommendationSeed == nil
                                 ? "Load or select a reference song, then update suggestions."
                                 : "No matching tracks yet."
                         ).font(.subheadline).foregroundStyle(.secondary).padding(24)
-                    } else if !recommendations.contains(where: { matchesSearch($0.entry, query: suggestionQuery) }) {
+                    } else if !visibleRecommendations.contains(where: { matchesSearch($0.entry, query: suggestionQuery) }) {
                         Text("No suggestions match this search.").lineLimit(nil).font(.subheadline).foregroundStyle(
                             .secondary
                         )
                         .padding(24)
                     } else {
-                        ForEach(recommendations.filter { matchesSearch($0.entry, query: suggestionQuery) }) { match in
+                        ForEach(visibleRecommendations.filter { matchesSearch($0.entry, query: suggestionQuery) }) { match in
                             songRow(match.entry, keyOK: match.keyCompatible, tempoOK: match.tempoCompatible)
                         }
                     }
@@ -925,18 +929,19 @@ extension FrontBrowserView {
     fileprivate var recommendationKey: String {
         let decks = DeckID.primary.map { model.loaded[$0] ?? "-" }.joined(separator: ",")
         return
-            "\(recommendationSeed?.id ?? "-")|\(recommendationRefresh)|\(decks)|\(projectionToken)|\(collectionVersion)|\(model.browserHintsVersion)"
+            "\(recommendationSeed?.id ?? "-")|\(recommendationRefresh)|\(decks)|\(projectionToken)|\(collectionVersion)|\(model.browserHintsVersion)|\(model.recommendationPlaybackRevision)"
     }
     fileprivate func refreshRecommendations() async {
         guard let seed = recommendationSeed, let entries = projection?.allEntries else {
             recommendations = []
             return
         }
-        let excluded = Set(model.loaded.values)
+        let playbackRevision = model.recommendationPlaybackRevision
+        let excluded = Set(model.loaded.values).union(model.performedRecommendationIDs)
         let matches = await Task.detached(priority: .utility) {
             BrowserRecommendations.matches(for: seed, in: entries, excluding: excluded)
         }.value
-        guard !Task.isCancelled else { return }
+        guard !Task.isCancelled, playbackRevision == model.recommendationPlaybackRevision else { return }
         recommendations = matches
     }
 

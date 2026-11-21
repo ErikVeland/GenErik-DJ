@@ -81,8 +81,10 @@ public enum PerformerSuggestions {
         var candidates: [Candidate] = []
         for (index, storedTrack) in library.tracks.enumerated() {
             try checkCancellation()
+            guard storedTrack.id != reference.id, !context.loadedTrackIDs.contains(storedTrack.id),
+                storedTrack.musicLibrarySources?.contains(where: { context.loadedTrackIDs.contains($0.id) }) != true
+            else { continue }
             let track = storedTrack.resolvingTraktorPreparation()
-            guard track.id != reference.id, !context.loadedTrackIDs.contains(track.id) else { continue }
             let key = keyTier(reference: reference.key, candidate: track.key)
             var tempoTier = 0
             var tempoMatch: Bool?

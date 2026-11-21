@@ -124,3 +124,45 @@ private func entry(_ id: String, bpm: Double?, key: MusicalKey?) -> LibraryBrows
     #expect(byBPM.entries.map(\.title) == ["slow", "mid", "fast"])
     #expect(CollectionSort.allCases.map(\.rawValue) == ["Title", "Artist", "Album", "Key", "BPM"])
 }
+
+@Test func playedRecommendationAliasesDisappearBeforeTheTopLimit() {
+    let seed = entry("reference", bpm: 120, key: nil)
+    let played = entry("performed-native", bpm: 120, key: nil)
+    let repeatInPlaylist = played.withOccurrenceID("playlist-repeat")
+    let candidates = (1...15).map { entry("fresh-\($0)", bpm: 121, key: nil) }
+    let rows = [played, repeatInPlaylist] + candidates
+    let ranked = BrowserRecommendations.matches(for: seed, in: rows, excluding: [played.membershipID], limit: 12)
+    #expect(ranked.count == 12)
+    #expect(ranked.allSatisfy { $0.entry.membershipID != played.membershipID })
+    #expect(rows[1].membershipID == played.membershipID)
+}
+
+@Test @MainActor func recommendationHistoryFollowsTheRealPerformanceBoundary() async throws {
+    let (model, root, track) = try await loadedClockModel()
+    defer { try? FileManager.default.removeItem(at: root) }
+    #expect(model.performedRecommendationIDs.isEmpty)
+    model.enqueue(track.id)
+    model.setMixer(.crossfader, value: 1, deck: .a)
+    model.pressPlay(deck: .a, vinylStop: false)
+    for _ in 0..<8 {
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+    }
+    #expect(model.performedRecommendationIDs.isEmpty)
+
+    model.setMixer(.crossfader, value: 0, deck: .a)
+    for _ in 0..<8 {
+        _ = model.playback.core.renderOffline(frames: 4096)
+        model.refreshPlayback()
+    }
+    #expect(model.performedRecommendationIDs.contains(track.id))
+    #expect(model.queuedIDs.contains(track.id))
+    await model.finishForShutdown()
+
+    let reopened = try ReplicaModel(root: root, playback: PlaybackController(offline: true))
+    #expect(reopened.performedRecommendationIDs.contains(track.id))
+    reopened.endPerformance()
+    #expect(reopened.performedRecommendationIDs.isEmpty)
+    #expect(reopened.queuedIDs.contains(track.id))
+    await reopened.finishForShutdown()
+}
