@@ -194,7 +194,14 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     @ObservationIgnored private var recordingListWork: Task<Void, Never>?
     @ObservationIgnored private var recordingListPending = false
     public let recordingsDirectory: URL
-    public var recordingLocation = ""
+    public private(set) var recordingStarting = false
+    private(set) var recordingStartError: String?
+    public private(set) var recordingLocation = ""
+    private(set) var recordingLocationOwner: UUID?
+    func setRecordingLocation(_ location: String, owner: UUID) {
+        guard owner == recordingLocationOwner, playback.setRecordingLocation(location) else { return }
+        recordingLocation = location
+    }
     public func loadRecording(_ url: URL, deck: DeckID) async {
         guard !importing, recordings.contains(url), playbackSnapshot?[deck].phase.active != true else { return }
         guard !storeAccess.hasActivePerformance, !playback.core.performanceWorkGate.isProtected,
@@ -235,6 +242,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     public func flushRecordingList() async { await recordingListWork?.value }
     public func recordingTracklist(for recording: URL) -> URL? { recordingTracklists[recording] }
     public func toggleRecording() async {
+        guard !recordingStarting, !playback.recordingFinishing else { return }
         cancelCloudSyncForPlayback()
         if playback.isRecording {
             recordingLimitTask?.cancel()
@@ -242,6 +250,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
             refreshPlayback()
             await playback.finishRecording()
         } else {
+            recordingStartError = nil
             guard storeAccess.isUnlocked(.recording) else {
                 status = "Recording is available during the 14-day preview or with a Recording purchase."
                 return
@@ -250,10 +259,17 @@ enum PlaybackInputSource: Equatable { case touch, controller }
                 status = "The free recording limit has been reached for this performance. End the performance or choose a Recording purchase."
                 return
             }
+            recordingStarting = true
+            recordingLocation = ""
             beginProtectedPerformance()
-            do { try await playback.startRecording(directory: recordingsDirectory, location: recordingLocation) } catch
-            { status = error.localizedDescription }
+            do { try await playback.startRecording(directory: recordingsDirectory) } catch
+            {
+                recordingStartError = error.localizedDescription
+                status = error.localizedDescription
+            }
+            recordingStarting = false
             if playback.isRecording {
+                recordingLocationOwner = UUID()
                 storeAccess.beginRecording()
                 recordingLimitTask?.cancel()
                 let recordingRemaining = storeAccess.recordingRemaining
@@ -2030,6 +2046,10 @@ enum PlaybackInputSource: Equatable { case touch, controller }
         let wasRecording = isRecording || recordingFinishing
         if isRecording != playback.isRecording { isRecording = playback.isRecording }
         if recordingFinishing != playback.recordingFinishing { recordingFinishing = playback.recordingFinishing }
+        if !isRecording, recordingLocationOwner != nil {
+            recordingLocationOwner = nil
+            recordingLocation = ""
+        }
         if wasRecording && !isRecording && !recordingFinishing {
             recordingLimitTask?.cancel()
             recordingLimitTask = nil

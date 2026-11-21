@@ -958,3 +958,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R537 | Source candidate. A10X acceptance open. | Add a gentle main output compressor with an off switch. | Default to on. Keep cue, recordings and meters unchanged. Check clean playback, output level and callback cost on the A10X. |
 
 | R538 | Draft. Physical acceptance open. | Leave played songs out of Recommendations for the current performance. Keep the library and prep list unchanged. | Check solo and paired playback, cue and crossfader isolation, reload, app restart and End Performance. |
+
+| R539 | Draft. Physical acceptance open. | Start recording before asking for an optional location. | Check fast repeated taps, start failure, Save/Skip/dismiss, clearing location, Stop while typing, saved segments/tracklists and relaunch. |

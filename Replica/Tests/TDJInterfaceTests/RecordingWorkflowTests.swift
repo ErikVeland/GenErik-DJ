@@ -169,10 +169,14 @@ import Testing
     let recordings = root.appendingPathComponent("Documents/Recordings")
     let model = try ReplicaModel(
         root: workspace, playback: PlaybackController(offline: true), recordingsDirectory: recordings)
-    model.recordingLocation = "Brisbane"
     await model.toggleRecording()
+    #expect(model.isRecording)
+    let owner = try #require(model.recordingLocationOwner)
     _ = model.playback.core.renderOffline(frames: 1024)
+    model.setRecordingLocation("Brisbane", owner: owner)
+    #expect(model.isRecording)
     await model.toggleRecording()
+    #expect(model.recordingLocationOwner == nil)
     let file = try #require(model.recordings.first)
     #expect(
         file.deletingLastPathComponent().resolvingSymlinksInPath().path == recordings.resolvingSymlinksInPath().path)
@@ -214,4 +218,73 @@ import Testing
     #expect(model.recordings.map(\.lastPathComponent) == ["Legacy.aiff"])
     #expect(model.recordingTracklist(for: listed) == nil)
     await model.finishForShutdown()
+}
+
+@Test @MainActor func recordingLocationOwnershipAndClearing() async throws {
+    let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    defer { try? FileManager.default.removeItem(at: root) }
+    let model = try ReplicaModel(root: root, playback: PlaybackController(offline: true))
+    await model.toggleRecording()
+    let first = try #require(model.recordingLocationOwner)
+    model.setRecordingLocation("First set", owner: first)
+    _ = model.playback.core.renderOffline(frames: 1024)
+    await model.toggleRecording()
+    await model.toggleRecording()
+    let second = try #require(model.recordingLocationOwner)
+    #expect(second != first)
+    model.setRecordingLocation("Second set", owner: second)
+    model.setRecordingLocation("", owner: second)
+    model.setRecordingLocation("Stale edit", owner: first)
+    _ = model.playback.core.renderOffline(frames: 1024)
+    await model.toggleRecording()
+    let reopened = try ReplicaModel(root: root, playback: PlaybackController(offline: true))
+    reopened.refreshRecordings()
+    await reopened.flushRecordingList()
+    #expect(reopened.recordings.count == 2)
+    #expect(reopened.recordings.contains { $0.lastPathComponent.hasPrefix("First set - ") })
+    #expect(reopened.recordings.contains { $0.lastPathComponent.hasPrefix("Unknown Location - ") })
+}
+
+@Test @MainActor func repeatedRecordWhileStartingDoesNotStopOrRestartCapture() async throws {
+    let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    defer { try? FileManager.default.removeItem(at: root) }
+    let playback = try PlaybackController(offline: true)
+    let model = try ReplicaModel(root: root, playback: playback)
+    var preparing = false
+    var releaseStart: CheckedContinuation<Void, Never>?
+    playback.recordingPreparedCheckpoint = {
+        await withCheckedContinuation { continuation in
+            preparing = true
+            releaseStart = continuation
+        }
+    }
+    let start = Task { await model.toggleRecording() }
+    while !preparing && model.recordingStartError == nil { await Task.yield() }
+    defer { releaseStart?.resume() }
+    #expect(model.recordingStarting)
+    #expect(!model.isRecording)
+    #expect(model.recordingLocationOwner == nil)
+    await model.toggleRecording()
+    releaseStart?.resume()
+    releaseStart = nil
+    await start.value
+    #expect(model.isRecording)
+    _ = playback.core.renderOffline(frames: 1024)
+    await model.toggleRecording()
+    #expect(model.recordings.count == 1)
+}
+
+@Test @MainActor func recordingStartFailureDoesNotOpenLocationEditor() async throws {
+    let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    defer { try? FileManager.default.removeItem(at: root) }
+    try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+    let blocked = root.appendingPathComponent("Not a directory")
+    try Data().write(to: blocked)
+    let model = try ReplicaModel(root: root.appendingPathComponent("Workspace"),
+                                 playback: PlaybackController(offline: true), recordingsDirectory: blocked)
+    await model.toggleRecording()
+    #expect(!model.recordingStarting)
+    #expect(!model.isRecording)
+    #expect(model.recordingLocationOwner == nil)
+    #expect(model.recordingStartError != nil)
 }

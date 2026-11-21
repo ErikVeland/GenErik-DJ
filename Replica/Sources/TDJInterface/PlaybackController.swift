@@ -192,6 +192,11 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable {
         }
         try await task.value
     }
+    func setRecordingLocation(_ location: String) -> Bool {
+        guard let recorder, recordingStartTask == nil, !recordingFinishing else { return false }
+        recorder.setLocation(location)
+        return true
+    }
     public func registerRecordingTrack(deck: DeckID, generation: UInt64, artist: String, title: String) {
         let metadata = RecordingTrackMetadata(deck: deck, generation: generation, artist: artist, title: title)
         latestRecordingTracks[deck] = metadata

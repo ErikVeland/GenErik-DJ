@@ -1351,16 +1351,47 @@ extension ReplicaView {
 @MainActor struct AudioQuickPanel: View {
     @Bindable var model: ReplicaModel
     @State private var details = false
-    @State private var locationPrompt = false
+    @State private var locationEditor: UUID?
+    @State private var locationDraft = ""
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             row("RECORD") {
                 Button {
-                    if model.isRecording { Task { await model.toggleRecording() } } else { locationPrompt = true }
+                    let wasRecording = model.isRecording
+                    if wasRecording, let owner = locationEditor {
+                        model.setRecordingLocation(locationDraft, owner: owner)
+                    }
+                    Task {
+                        guard model.isRecording == wasRecording else { return }
+                        await model.toggleRecording()
+                    }
                 } label: {
                     Image(systemName: model.isRecording ? "stop.circle.fill" : "record.circle").font(.system(size: 26))
                         .foregroundStyle(model.isRecording ? PerformancePalette.red : PerformancePalette.text)
-                }.disabled(model.recordingFinishing).accessibilityLabel(model.isRecording ? "Stop recording" : "Record")
+                }
+                .disabled(model.recordingStarting || model.recordingFinishing)
+                .accessibilityLabel(model.isRecording ? "Stop recording" : "Record")
+                .accessibilityIdentifier("startStopRecording")
+                if model.recordingStarting { Text("Starting…").font(.caption) }
+            }
+            if let error = model.recordingStartError {
+                Text("Couldn’t start recording: " + error)
+                    .font(.caption).padding(.horizontal, 14).padding(.bottom, 10)
+            }
+            if let owner = model.recordingLocationOwner, model.isRecording {
+                if locationEditor == owner {
+                    HStack {
+                        TextField("Venue or location (optional)", text: $locationDraft)
+                            .textFieldStyle(.roundedBorder)
+                            .onSubmit { saveLocation(owner: owner) }
+                        Button("Save") { saveLocation(owner: owner) }
+                        Button("Skip") { locationEditor = nil }
+                    }.padding(.horizontal, 14).padding(.bottom, 10)
+                } else {
+                    Button(model.recordingLocation.isEmpty ? "Add location" : "Edit location") {
+                        showLocationEditor(owner: owner)
+                    }.padding(.horizontal, 14).padding(.bottom, 10)
+                }
             }
             Divider()
             row("MASTER") {
@@ -1380,15 +1411,18 @@ extension ReplicaView {
                     Text(outputSummary).foregroundStyle(PerformancePalette.secondaryText).lineLimit(1)
                 }.frame(minHeight: 54, alignment: .leading)
             }.padding(.horizontal, 14).font(.system(size: 13))
-        }.frame(width: 360).foregroundStyle(PerformancePalette.text).background(PerformancePalette.panel).alert(
-            "Recording location", isPresented: $locationPrompt
-        ) {
-            TextField("Venue or location", text: $model.recordingLocation)
-            Button("Record") { Task { await model.toggleRecording() } }
-            Button("Cancel", role: .cancel) {}
-        } message: {
-            Text("Add a venue or location for the recording filename.").lineLimit(nil)
-        }
+        }.frame(width: 360).foregroundStyle(PerformancePalette.text).background(PerformancePalette.panel)
+            .onChange(of: model.recordingLocationOwner) { _, owner in
+                if let owner { showLocationEditor(owner: owner) } else { locationEditor = nil }
+            }
+    }
+    private func showLocationEditor(owner: UUID) {
+        locationDraft = model.recordingLocation
+        locationEditor = owner
+    }
+    private func saveLocation(owner: UUID) {
+        model.setRecordingLocation(locationDraft, owner: owner)
+        locationEditor = nil
     }
     private var outputSummary: String {
         if let device = model.automaticOutputDevice { return "\(device) · Auto" }
