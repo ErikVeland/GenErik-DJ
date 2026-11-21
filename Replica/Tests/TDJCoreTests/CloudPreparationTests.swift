@@ -149,7 +149,7 @@ import Testing
 @Test func oversizedPreparationRoundTripsThroughLocalRecovery() throws {
     let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
     defer { try? FileManager.default.removeItem(at: root) }
-    var track = try syntheticTrack("oversized", bpm: 120)
+    var track = try syntheticTrack("a", bpm: 120)
     track.title = String(repeating: "a", count: CloudPreparationArchive.maximumBytes)
     let archive = CloudPreparationArchive(track: track, performance: .init(), arrangement: nil)
     let local = try CloudPreparationVault(root: root.appendingPathComponent("RecoveryVersions"))
