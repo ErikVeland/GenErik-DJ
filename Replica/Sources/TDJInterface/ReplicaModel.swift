@@ -361,7 +361,16 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     public internal(set) var trackLoadFailures: [DeckID: String] = [:]
     var preparingNativeMusic: Set<DeckID> = []
     public var preparingTrack: Set<DeckID> { preparingPlayback.union(preparingNativeMusic) }
-    public var previewing: Set<DeckID> = []
+    public var previewing: Set<DeckID> = [] {
+        didSet {
+            if !releasedStripePreviews.isSubset(of: previewing) { releasedStripePreviews.formIntersection(previewing) }
+        }
+    }
+    var releasedStripePreviews: Set<DeckID> = []
+    func canReturnFromStripePreview(_ deck: DeckID) -> Bool {
+        releasedStripePreviews.contains(deck) && previewing.contains(deck) && !editing.contains(deck)
+            && !frozen.contains(deck) && !preparingTrack.contains(deck) && pendingNativeSelection[deck] == nil
+    }
     let controlDisplay = PlaybackControlDisplay()
     @ObservationIgnored let mixerFaderInputs = MixerFaderInputValues()
     public var playbackSnapshot: PlaybackSnapshot? {

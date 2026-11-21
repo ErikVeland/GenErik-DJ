@@ -570,6 +570,24 @@ private struct DeckPanelHorizontalBounds: Shape {
                 DeckHeader(
                     model: model, deck: deck, dense: true, showsArtwork: false, isFocused: isFocused, focus: focus
                 ).buttonStyle(.plain)
+                if model.canReturnFromStripePreview(deck) {
+                    Button {
+                        model.returnToPlayhead(deck: deck)
+                    } label: {
+                        HStack(spacing: 4) {
+                            Image(systemName: "arrow.uturn.backward").font(.system(size: 16, weight: .semibold))
+                            if size.width >= 480 {
+                                Text("Return to Playhead").font(.system(size: 11, weight: .semibold)).lineLimit(1)
+                            }
+                        }.padding(.horizontal, 6)
+                            .frame(minWidth: 44, minHeight: min(44, layout.headerHeight))
+                            .contentShape(Rectangle())
+                    }.buttonStyle(.plain).foregroundStyle(PerformancePalette.cyan).protectsFrontDeckSwipe()
+                        .accessibilityLabel("Return to Playhead on deck \(deck.rawValue.uppercased())")
+                        .accessibilityHint("Follow playback without moving the track")
+                        .accessibilityIdentifier("returnToPlayhead-\(deck.rawValue)")
+                        .help("Return to Playhead")
+                }
                 deckSelector
             }.frame(height: layout.headerHeight, alignment: .top).background(
                 DeckSectionHeader(model: model, deck: deck, visibleSeconds: zoom.wrappedValue, waveform: waveformAxis)
@@ -1341,9 +1359,43 @@ extension ReplicaView {
         Button {
             isPresented.toggle()
         } label: {
-            Image(systemName: "speaker.wave.2.fill").font(.system(size: 18)).frame(width: 44, height: 44)
-        }.accessibilityLabel("Output").popover(isPresented: $isPresented) {
-            AudioQuickPanel(model: model)
+            Group {
+                if state == .recording {
+                    HStack(spacing: 3) {
+                        Circle().frame(width: 6, height: 6)
+                        Text("REC").font(.system(size: 9, weight: .heavy, design: .monospaced))
+                    }.foregroundStyle(PerformancePalette.red)
+                } else {
+                    Image(systemName: "speaker.wave.2.fill").font(.system(size: 18))
+                }
+            }.frame(width: 44, height: 44).contentShape(Rectangle())
+        }.accessibilityLabel("Output").accessibilityValue(state.accessibilityValue)
+            .popover(isPresented: $isPresented) {
+                AudioQuickPanel(model: model)
+            }
+    }
+
+    private var state: RecordingOutputIndicator {
+        .init(active: model.isRecording, starting: model.recordingStarting, finishing: model.recordingFinishing)
+    }
+}
+
+enum RecordingOutputIndicator {
+    case idle, starting, recording, finishing
+
+    init(active: Bool, starting: Bool, finishing: Bool) {
+        if finishing { self = .finishing }
+        else if starting { self = .starting }
+        else if active { self = .recording }
+        else { self = .idle }
+    }
+
+    var accessibilityValue: String {
+        switch self {
+        case .idle: ""
+        case .starting: "Starting recording"
+        case .recording: "Recording"
+        case .finishing: "Finishing recording"
         }
     }
 }

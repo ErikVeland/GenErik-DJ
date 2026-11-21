@@ -960,3 +960,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R538 | Draft. Physical acceptance open. | Leave played songs out of Recommendations for the current performance. Keep the library and prep list unchanged. | Check solo and paired playback, cue and crossfader isolation, reload, app restart and End Performance. |
 
 | R539 | Draft. Physical acceptance open. | Start recording before asking for an optional location. | Check fast repeated taps, start failure, Save/Skip/dismiss, clearing location, Stop while typing, saved segments/tracklists and relaunch. |
+
+| R540 | Draft. Physical acceptance open. | Show REC in the Sound button during capture. Show Return to Playhead after releasing an overview scrub. | Check Sound still opens the same panel, paused and playing preview return without a seek, and no return during Beat Fix, Freeze or after a replacement. |

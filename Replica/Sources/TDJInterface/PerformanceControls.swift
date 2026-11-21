@@ -18,7 +18,6 @@ struct PerformanceControls: View {
                     loopControls.frame(width: 144)
                     if let openSections { sectionsButton(openSections).frame(width: 44) }
                     settingsButton.frame(width: 44)
-                    if canReturn { returnButton.frame(width: 44) }
                 }
             } else {
                 VStack(spacing: 8) {
@@ -31,16 +30,12 @@ struct PerformanceControls: View {
                         cuesButton
                     }
                     loopControls
-                    if canReturn { returnButton }
                 }
             }
         }.font(.system(size: 16, weight: .semibold)).buttonStyle(PerformanceToolButtonStyle(fillsHeight: !compact))
             .disabled(model.preparingTrack.contains(deck) || model.controlDisplay[deck].phase == .queued).onChange(
                 of: presented
             ) { _, visible in if !visible { settings = false } }
-    }
-    private var canReturn: Bool {
-        model.previewing.contains(deck) && !model.frozen.contains(deck) && !model.editing.contains(deck)
     }
     private var fluxButton: some View {
         Button {
@@ -106,13 +101,6 @@ struct PerformanceControls: View {
                 RoundedRectangle(cornerRadius: 4).strokeBorder(PerformancePalette.secondaryText.opacity(0.5))
                     .allowsHitTesting(false)
             }
-    }
-    private var returnButton: some View {
-        Button {
-            model.returnToPlayhead(deck: deck)
-        } label: {
-            Image(systemName: "arrow.uturn.backward")
-        }.accessibilityLabel("Return to playhead on deck \(deck.rawValue.uppercased())")
     }
     private func setLoopSize(direction: Int) { model.stepLoopSize(direction: direction, deck: deck) }
     private func setLoopSize(_ beats: Double) { model.setLoopSize(beats, deck: deck) }

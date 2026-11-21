@@ -48,9 +48,11 @@ import Testing
     send(.began, 0.58)
     #expect(model.viewport[.a] == frames * 0.5)
     send(.moved, 0.68)
+    #expect(!model.canReturnFromStripePreview(.a))
     #expect(abs(try #require(model.viewport[.a]) - frames * 0.6) < 0.001)
     send(.ended, 0.68, ending: true)
     model.refreshPlayback()
+    #expect(model.canReturnFromStripePreview(.a))
     #expect(model.previewing.contains(.a))
     #expect(model.playback.core.snapshot() == before)
     send(.began, 1.5)
@@ -59,6 +61,7 @@ import Testing
     #expect(model.playback.core.snapshot() == before)
     model.returnToPlayhead(deck: .a)
     #expect(model.viewport[.a] == 0 && !model.previewing.contains(.a))
+    #expect(!model.canReturnFromStripePreview(.a))
     await model.finishForShutdown()
 }
 
@@ -89,6 +92,7 @@ import Testing
     #expect(try #require(model.viewport[.a]) > 0)
     send(.cancelled, [point(3, 0.6)], [3])
     #expect(model.viewport[.a] == 0 && !model.previewing.contains(.a))
+    #expect(!model.canReturnFromStripePreview(.a))
     #expect(model.playbackSnapshot?.a.sourceFrame == 0)
     await model.finishForShutdown()
 }
@@ -107,5 +111,46 @@ import Testing
     session.handle(.init(phase: .ended, points: [point], ending: [1]), model: model, deck: .a,
                    visibleSeconds: 2, width: 400) { _ in }
     #expect(model.viewport[.a] == 0 && !model.previewing.contains(.a))
+    #expect(!model.canReturnFromStripePreview(.a))
     await model.finishForShutdown()
+}
+
+@Test @MainActor func stripeReturnWhilePlayingChangesOnlyDisplayedFrame() async throws {
+    let (model, root, track) = try await loadPlayheadFixture()
+    defer { try? FileManager.default.removeItem(at: root) }
+    model.load(trackID: track.id, deck: .a)
+    await model.playbackLoads?.value
+    try model.playback.play(.a)
+    _ = model.playback.core.renderOffline(frames: 512)
+    model.refreshPlayback()
+    let session = StripeGestureSession()
+    let point = SurfacePoint(id: 1, x: 0.9, y: 0.5)
+    session.handle(.init(phase: .began, points: [point], ending: []), model: model, deck: .a,
+                   visibleSeconds: 2, width: 400) { _ in }
+    #expect(!model.canReturnFromStripePreview(.a))
+    session.handle(.init(phase: .ended, points: [point], ending: [1]), model: model, deck: .a,
+                   visibleSeconds: 2, width: 400) { _ in }
+    #expect(model.canReturnFromStripePreview(.a))
+    let preview = model.viewport[.a]
+    _ = model.playback.core.renderOffline(frames: 512)
+    model.refreshPlayback()
+    #expect(model.viewport[.a] == preview)
+    let before = try #require(model.playback.core.snapshot())
+    #expect(before.a.phase == .playing)
+    model.returnToPlayhead(deck: .a)
+    #expect(!model.canReturnFromStripePreview(.a))
+    #expect(model.viewport[.a] == before.a.sourceFrame)
+    #expect(model.playback.core.snapshot() == before)
+    _ = model.playback.core.renderOffline(frames: 512)
+    model.refreshPlayback()
+    #expect(model.viewport[.a] == model.playbackSnapshot?.a.sourceFrame)
+    #expect(model.viewport[.a] != before.a.sourceFrame)
+    await model.finishForShutdown()
+}
+
+@Test func soundButtonUsesRECOnlyWhileCapturing() {
+    #expect(RecordingOutputIndicator(active: false, starting: false, finishing: false) == .idle)
+    #expect(RecordingOutputIndicator(active: false, starting: true, finishing: false) == .starting)
+    #expect(RecordingOutputIndicator(active: true, starting: false, finishing: false) == .recording)
+    #expect(RecordingOutputIndicator(active: true, starting: false, finishing: true) == .finishing)
 }
