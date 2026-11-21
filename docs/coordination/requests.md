@@ -918,3 +918,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R521 | Build 247 installed. Automatic adoption verified on the iPad. | Prioritise available Mac results for tracks with first-pass analysis only | Read matched revisions for the signed-in account before scanning the cloud backlog. Verify and apply in cancellable batches with local recovery copies. |
 
 | R522 | Build 248 installed. Four focused checks passed. Device acceptance open | Sort the library by Date Added and show new Music purchases while the app is open | Check newest-first order for the two purchases, automatic updates after download, and audio and touch on A10X. |
+
+| R523 | Device verification pending | Keep matching Mac results at the front of the iPad queue | Include newer deep results and refresh the queue as the Mac finishes tracks. |

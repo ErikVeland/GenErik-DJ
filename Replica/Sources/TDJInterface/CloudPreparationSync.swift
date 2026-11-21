@@ -105,15 +105,18 @@ actor CloudPreparationSync: CKSyncEngineDelegate {
         #if os(iOS)
         if automatic {
             let inbox = root.appendingPathComponent("MatchedAnalysis")
-            let index = inbox.appendingPathComponent("revisions.json")
+            let liveIndex = inbox.appendingPathComponent("pending.json")
+            let previousIndex = inbox.appendingPathComponent("revisions.json")
             let pendingAudio = Set(tracks.lazy.filter {
                 $0.analysis.deepBeatAnalysis == nil && CloudPreparationArchive.hasAudioIdentity($0)
             }.map { $0.analysis.contentSHA256 })
             let priority = try await files.run { Swift.Result { () -> [CloudPreparationVault.Revision] in
+                let live = FileManager.default.fileExists(atPath: liveIndex.path)
+                let index = live ? liveIndex : previousIndex
                 guard FileManager.default.fileExists(atPath: index.path) else { return [] }
                 return try JSONDecoder().decode([CloudPreparationVault.Revision].self,
                     from: Data(contentsOf: index)).filter {
-                        $0.automaticAnalysis == true && pendingAudio.contains($0.audioSHA256)
+                        $0.automaticAnalysis == true && (live || pendingAudio.contains($0.audioSHA256))
                             && $0.id.count == 64 && $0.id.allSatisfy(\.isHexDigit)
                     }
             } }.get()
