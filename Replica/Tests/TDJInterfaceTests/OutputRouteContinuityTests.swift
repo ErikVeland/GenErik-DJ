@@ -9,7 +9,9 @@ import Testing
     let format = try AudioOutputRoute.masterAndHeadphones.format(sampleRate: 48000, device: "Z1")
     let layout = try #require(format.channelLayout)
     #expect(layout.layoutTag == kAudioChannelLayoutTag_UseChannelDescriptions)
-    let labels = UnsafeAudioChannelLayoutPointer(layout.layout).map(\.mChannelLabel)
+    let offset = try #require(MemoryLayout<AudioChannelLayout>.offset(of: \.mChannelDescriptions))
+    let channels = UnsafeRawPointer(layout.layout).advanced(by: offset).assumingMemoryBound(to: AudioChannelDescription.self)
+    let labels = (0..<Int(layout.channelCount)).map { channels[$0].mChannelLabel }
     #expect(labels == [kAudioChannelLabel_Left, kAudioChannelLabel_Right,
                        kAudioChannelLabel_Discrete_2, kAudioChannelLabel_Discrete_3])
 }
