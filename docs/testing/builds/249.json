@@ -15,6 +15,13 @@
         "R524",
         "R525"
       ]
+    },
+    {
+      "date": "2026-11-21",
+      "summary": "Erik clarified the deck was fully stopped after Play and Stop. A drag towards the file start must retain the exact drop position. Waveform snapping must be optional.",
+      "requestIDs": [
+        "R526"
+      ]
     }
   ],
   "log": "TestBuilds/ipad/build-249.log",

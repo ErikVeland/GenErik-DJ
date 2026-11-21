@@ -139,7 +139,7 @@ func persistentSyncSurvivesVinylStopAndResume(complete: Bool) throws {
     #expect(core.snapshot()?.b.synced == true)
     #expect(core.snapshot()?.b.touchActive == false)
     #expect(core.snapshot()?.b.performanceRate == 1)
-    #expect(core.snapshot()?.b.sourceFrame == 23000)
+    #expect(core.snapshot()?.b.sourceFrame == 23777)
     try core.submit(.play(.b, b))
     _ = core.renderOffline(frames: 17000)
     let state = try #require(core.snapshot())
@@ -148,7 +148,7 @@ func persistentSyncSurvivesVinylStopAndResume(complete: Bool) throws {
 }
 
 @Test(arguments: [false, true], [false, true])
-func persistentSyncStopsOnBeatWithAndWithoutAnotherPlayingDeck(solo: Bool, explicitlyOff: Bool) throws {
+func persistentSyncStopsExactlyWithAndWithoutAnotherPlayingDeck(solo: Bool, explicitlyOff: Bool) throws {
     let (core, a, b) = try persistentSyncRig()
     _ = core.renderOffline(frames: 913)
     if explicitlyOff { try core.setSync(false, deck: .b, generation: b) }
@@ -159,9 +159,12 @@ func persistentSyncStopsOnBeatWithAndWithoutAnotherPlayingDeck(solo: Bool, expli
     core.processControlsWhileIdle()
     let stopped = try #require(core.snapshot()?.b)
     #expect(stopped.phase == .paused && stopped.synced == !explicitlyOff)
-    let expected = explicitlyOff ? before : 500 + ((before - 500) / 3750).rounded() * 3750
-    #expect(abs(stopped.sourceFrame - expected) < 0.000001)
+    #expect(stopped.sourceFrame == before)
+    try core.seek(frame: 731, deck: .b, generation: b)
+    core.processControlsWhileIdle()
     try core.submit(.play(.b, b))
+    core.processControlsWhileIdle()
+    #expect(core.snapshot()?.b.sourceFrame == 731)
     _ = core.renderOffline(frames: 17000)
     #expect(core.snapshot()?.b.phase == .playing)
     if !explicitlyOff { #expect(abs(try #require(core.snapshot()?.syncPhaseError(.b))) < 0.001) }

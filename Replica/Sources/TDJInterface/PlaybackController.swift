@@ -434,9 +434,16 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
     func finishCueContact(deck: DeckID, generation: UInt64, cue: Double, continuePlaying: Bool) throws {
         guard generations[deck] == generation else { return }
         if continuePlaying, !offline { try startOutput(userInitiated: true) }
+        try finishContact(.finishCueContact(deck: deck, generation: generation, cue: cue, continuePlaying: continuePlaying), deck: deck)
+    }
+    func dropWaveform(at frame: Double, snap: Bool, deck: DeckID) throws {
+        guard let generation = generations[deck] else { throw TransportError.stale }
+        try finishContact(.dropWaveform(at: frame, snap: snap, deck: deck, generation: generation), deck: deck)
+    }
+    private func finishContact(_ control: SourceControl, deck: DeckID) throws {
         invalidateSource(.play(deck))
         cancelPerformancePreparations(deck: deck)
-        try submitSource(.finishCueContact(deck: deck, generation: generation, cue: cue, continuePlaying: continuePlaying))
+        try submitSource(control)
         if !outputActive { core.processControlsWhileIdle() }
     }
 
@@ -455,7 +462,10 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable { case stereoMaster
         latestSources[.performance(deck, PerformanceAction.touch.rawValue)] != nil
     }
     func isParkingStoppedTouch(_ deck: DeckID, state: DeckPlaybackSnapshot?) -> Bool {
-        state?.touchActive == true && state?.touchWasPlaying == false && latestSources[.touchRelease(deck)] != nil
+        state?.touchActive == true && state?.touchWasPlaying == false && hasPendingTouchRelease(deck)
+    }
+    func hasPendingTouchRelease(_ deck: DeckID) -> Bool {
+        latestSources[.touchRelease(deck)] != nil
     }
     public func perform(
         _ action: PerformanceAction, deck: DeckID, value: Double = 0, end: Double = 0, enabled: Bool = true,

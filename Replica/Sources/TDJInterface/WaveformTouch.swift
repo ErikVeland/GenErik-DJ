@@ -90,25 +90,32 @@ enum WaveformZoom {
     private var beganStopped = false
     weak var inputGate: TouchSurfaceInputGate?
 
-    func stopMotion(model: ReplicaModel, deck: DeckID, parkAt frame: Double? = nil) {
+    func stopMotion(model: ReplicaModel, deck: DeckID) {
         if model.gridWaveformContacts[deck] == ObjectIdentifier(self) { model.gridWaveformContacts[deck] = nil }
         motionTask?.cancel()
         motionTask = nil
+        let frame = motion?.frame
         motion = nil
         guard directActive else { return }
         directActive = false
         audition = false
         if activeTrack == model.loaded[deck], activeLoad == model.loadIdentity(deck) {
             model.previewing.remove(deck)
-            if let frame, let generation = model.playback.generations[deck] {
-                do {
-                    try model.playback.finishCueContact(deck: deck, generation: generation, cue: frame, continuePlaying: false)
-                    model.refreshPlayback()
-                } catch { model.status = error.localizedDescription }
+            if let frame {
+                drop(at: frame, model: model, deck: deck)
             } else {
                 model.perform(.touch, deck: deck, enabled: false)
             }
         }
+    }
+    private func drop(at frame: Double, model: ReplicaModel, deck: DeckID) {
+        let target = model.boundedFrame(frame, deck: deck)
+        do {
+            try model.playback.dropWaveform(at: target, snap: !beganStopped && model.performance.snapPlayingWaveform, deck: deck)
+            model.previewing.remove(deck)
+            model.viewport[deck] = target
+            model.refreshPlayback()
+        } catch { model.status = error.localizedDescription }
     }
     private func applyMotion(frame: Double, velocity: Double, model: ReplicaModel, deck: DeckID) {
         guard let track = model.track(deck) else { return }
@@ -149,40 +156,6 @@ enum WaveformZoom {
                     }
                 } else {
                     stopped = false
-                }
-            }
-        }
-    }
-    private func releaseMotion(model: ReplicaModel, deck: DeckID) {
-        if beganStopped, let frame = motion?.frame {
-            stopMotion(model: model, deck: deck, parkAt: frame)
-            return
-        }
-        if model.playbackSnapshot?[deck].synced == true {
-            stopMotion(model: model, deck: deck)
-            return
-        }
-        motionTask?.cancel()
-        motionTask = nil
-        guard let coast = motion?.coast(at: ProcessInfo.processInfo.systemUptime) else {
-            stopMotion(model: model, deck: deck)
-            return
-        }
-        motion = nil
-        motionTask = Task { @MainActor [weak self, weak model] in
-            while !Task.isCancelled {
-                do { try await Task.sleep(for: .milliseconds(16)) } catch { return }
-                guard !Task.isCancelled else { return }
-                guard let self, let model else { return }
-                guard self.validMotion(model: model, deck: deck) else {
-                    self.stopMotion(model: model, deck: deck)
-                    return
-                }
-                let sample = coast.sample(at: ProcessInfo.processInfo.systemUptime)
-                self.applyMotion(frame: sample.frame, velocity: sample.velocity, model: model, deck: deck)
-                if sample.finished {
-                    self.stopMotion(model: model, deck: deck)
-                    return
                 }
             }
         }
@@ -267,8 +240,9 @@ enum WaveformZoom {
             lastScratchX = first.x
             lastScratchTime = ProcessInfo.processInfo.systemUptime
             scratchContact = nil
-            let state = model.playbackSnapshot?[deck]
-            beganStopped = state?.phase.active == false
+            let state = model.playback.core.snapshot()?[deck]
+            beganStopped = state?.phase != .playing || state?.braking == true
+                || (state?.touchActive == true && state?.touchWasPlaying == false)
             wasLoop = state?.loopEnabled == true
             oldLoop = wasLoop ? (state!.loopStart, state!.loopEnd) : nil
             if !editingAtStart && !frozenAtStart, let track = model.track(deck) {
@@ -392,11 +366,11 @@ enum WaveformZoom {
             let dy = first.y - initial[0].y
             if abs(dx) > 0.006 || abs(dy) > 0.025 { moved = true }
             if model.editing.contains(deck) {
-                if event.phase == .moved, let grid = initialGrid, abs(dx) > 0.002 {
-                    let drag = GridDrag(grid: grid, viewportFrame: center, framesPerPoint: span)
-                    if let result = try? drag.preview(translationPoints: dx) {
-                        model.gridDraft[deck] = result.grid
-                        model.viewport[deck] = result.viewportFrame
+                if (event.phase == .moved || event.phase == .ended), moved {
+                    let target = model.boundedFrame(center - dx * span, deck: deck)
+                    model.viewport[deck] = target
+                    if var grid = initialGrid, !model.gridLocked.contains(deck), model.gridPreparation(deck)?.gridLocked != true {
+                        if (try? grid.shiftWaveform(bySourceFrames: center - target)) != nil { model.gridDraft[deck] = grid }
                     }
                 }
             } else if model.frozen.contains(deck) {
@@ -463,19 +437,15 @@ enum WaveformZoom {
         }
         if event.phase == .ended && event.remaining.isEmpty {
             if model.editing.contains(deck) {
-                if !moved, let timing = model.timing(deck) {
-                    let frame = model.boundedFrame(center + (first.x - 0.5) * span, deck: deck)
-                    let beat = Int(timing.beat(atFrame: frame).rounded())
-                    model.moveGridPlayhead(toBeat: beat, deck: deck)
-                }
+                drop(at: moved ? center - (first.x - initial[0].x) * span : frame(first.x), model: model, deck: deck)
             } else if multi && dismissLoop {
                 model.perform(.loop, deck: deck, enabled: false)
             } else if directActive {
-                releaseMotion(model: model, deck: deck)
+                stopMotion(model: model, deck: deck)
             } else if audition {
                 model.perform(.touch, deck: deck, enabled: false)
             } else if !model.frozen.contains(deck) && !multi && !moved {
-                model.jump(frame(first.x), deck: deck)
+                drop(at: frame(first.x), model: model, deck: deck)
             } else if !multi && first.y - initial[0].y < -0.35 {
                 model.showLibrary()
             }

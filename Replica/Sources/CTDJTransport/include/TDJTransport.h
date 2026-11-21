@@ -68,6 +68,7 @@ bool tdj_timecode_speed(const float *left, const float *right, unsigned count, d
 #define TDJ_TOUCH_PARK_RELEASE -1
 #define TDJ_TOUCH_CUE_PARK -2
 #define TDJ_TOUCH_CUE_CONTINUE -3
+#define TDJ_TOUCH_WAVEFORM_DROP -4
 #define TDJ_TOUCH_WITH_RATE 3
 #define TDJ_TOUCH_FOLLOWS_POSITION 4
 #define TDJ_RATE 14
