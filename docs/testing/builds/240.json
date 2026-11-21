@@ -1,0 +1,19 @@
+{
+  "notes": "R516: Download Mac analysis before scanning saved results and adopt matches in small batches.",
+  "sourceCommit": "6701b81f9334cf90190ed132eabf59a87ae906f4",
+  "sourceSHA256": "b9f67eeb27dff4aa8c0090a5a4c9386141b29346d2649f44dcdc51583638bc3d",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 80.75,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-240.log",
+  "build": 240,
+  "app": "TestBuilds/ipad/240/GenErikDJ.app",
+  "appSHA256": "da6f80c50e9986eeeb506e825908116f871ddc730611e89f995428c9a4128bbb",
+  "state": "testing",
+  "createdUTC": "2026-11-21T03:38:24.864180+00:00",
+  "installedUTC": "2026-11-21T03:38:39.128510+00:00",
+  "launchedUTC": "2026-11-21T03:38:39.473461+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}
