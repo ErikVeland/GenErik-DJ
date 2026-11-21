@@ -962,3 +962,7 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R539 | Draft. Physical acceptance open. | Start recording before asking for an optional location. | Check fast repeated taps, start failure, Save/Skip/dismiss, clearing location, Stop while typing, saved segments/tracklists and relaunch. |
 
 | R540 | Draft. Physical acceptance open. | Show REC in the Sound button during capture. Show Return to Playhead after releasing an overview scrub. | Check Sound still opens the same panel, paused and playing preview return without a seek, and no return during Beat Fix, Freeze or after a replacement. |
+
+<a id="r541"></a>
+
+| R541 | Source candidate. Device energy check open. | Reduce recording writer wakeups on the A10X iPad. | Group AIFF writes on a coalescible 100 ms timer. Keep the original capture ring, 24-bit format, track times, and full final drain. Compare performance and battery with recording off and on. |

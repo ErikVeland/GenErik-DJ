@@ -105,7 +105,7 @@ public final class SetRecorder: @unchecked Sendable {
         self.buffer = buffer
         file = try AIFFWriter(url: partialURL, format: format)
         let timer = DispatchSource.makeTimerSource(queue: writerQueue)
-        timer.schedule(deadline: .now(), repeating: .milliseconds(20))
+        timer.schedule(deadline: .now() + .milliseconds(100), repeating: .milliseconds(100), leeway: .milliseconds(20))
         timer.setEventHandler { [weak self] in self?.drain() }
         self.timer = timer
         ring.start()
