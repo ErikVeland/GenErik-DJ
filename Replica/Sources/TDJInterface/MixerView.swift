@@ -269,6 +269,8 @@ private struct RetainedFilterGrid: View, Equatable {
                 }
                 Divider()
             }
+            Toggle("Main Compressor", isOn: $model.mainCompressorEnabled)
+            detail("Softens loud peaks on the main output. Headphones and recordings are unchanged.")
             level("Headphone Level", .monitor, model.playbackSnapshot?.monitorGain ?? 0.5)
             VStack(alignment: .leading, spacing: 2) {
                 Text("Headphones Mix").fontWeight(.semibold)

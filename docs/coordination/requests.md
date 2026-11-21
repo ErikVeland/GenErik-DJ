@@ -952,3 +952,7 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R535 | Draft. Physical acceptance open. | Centre the first bar on a newly loaded track. Keep the actual playback position unchanged. | Check fixed and Flex grids, file-start playback, deliberate scrubs, Play, and a clone at a saved cursor. |
 
 | R536 | Draft. Physical acceptance open. | Pulse playing deck letters on each deck’s own beat in the library. Show a steady mark without a grid or with Reduce Motion. | Check both decks at different tempos, Flex Grid, queued and paused decks, and the front display and full library. |
+
+<a id="r537"></a>
+
+| R537 | Source candidate. A10X acceptance open. | Add a gentle main output compressor with an off switch. | Default to on. Keep cue, recordings and meters unchanged. Check clean playback, output level and callback cost on the A10X. |

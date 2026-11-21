@@ -8,6 +8,7 @@ public struct MixerPreferences: Codable, Equatable, Sendable {
     public var syncC: Bool?
     public var syncD: Bool?
     public var beatLock: Bool?
+    public var mainCompressor: Bool?
     public var primaryKeylock: Bool?
     public var bassAssistance: BassAssistanceMode?
     public init() {}

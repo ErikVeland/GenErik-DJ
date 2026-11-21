@@ -2,6 +2,7 @@
 #if !__has_feature(objc_arc)
 #error "TDJNativeAudioSource requires Objective-C ARC"
 #endif
+#include "TDJMainCompressor.h"
 #include <atomic>
 #include <new>
 #include <cstring>
@@ -19,6 +20,8 @@ struct NativeSourceContext {
     tdj_callback_metrics *metrics;
     uint32_t channels;
     bool traceCPU, validationSilence;
+    std::atomic<uint32_t> mainCompressorEnabled{0};
+    tdj_main_compressor mainCompressor{1.0f, 0, 0, 0, 0};
     NativeSourceContext(tdj_engine *e, tdj_recording *r, tdj_callback_metrics *m, uint32_t c, bool trace, bool silence)
         : core(e), recording(r), metrics(m), channels(c), traceCPU(trace), validationSilence(silence) {}
 };
@@ -90,6 +93,11 @@ extern "C" __attribute__((noinline)) OSStatus tdj_native_source_render(NativeSou
             tdj_callback_metrics_failure(metrics);
         if (context->validationSilence)
             clear_output(output);
+        else if (rendered)
+            tdj_main_compressor_process(
+                &context->mainCompressor, (float *)output->mBuffers[0].mData,
+                (float *)output->mBuffers[1].mData, count,
+                context->mainCompressorEnabled.load(std::memory_order_relaxed) != 0);
         *silence = context->validationSilence ? YES : NO;
     }
     if (metrics) {
@@ -182,9 +190,14 @@ static void reap_source(NativeSourceRetirement *retirement, uint32_t delay_ms) {
 - (nullable AVAudioSourceNode *)node {
     return _node;
 }
+- (void)setMainCompressorEnabled:(BOOL)enabled {
+    _context->mainCompressorEnabled.store(enabled != NO, std::memory_order_relaxed);
+}
 - (nullable AVAudioSourceNode *)makeNodeWithFormat:(AVAudioFormat *)format {
-    if (_node)
+    if (_node || format.sampleRate <= 0)
         return nil;
+    tdj_main_compressor_init(&_context->mainCompressor, format.sampleRate,
+                             _context->mainCompressorEnabled.load(std::memory_order_relaxed) != 0);
     _node = [[AVAudioSourceNode alloc] initWithFormat:format renderBlock:_renderBlock];
     return _node;
 }

@@ -747,6 +747,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
         mixerPreferences = try MixerPreferences.load(from: root.appendingPathComponent("mixer-preferences.json"))
         self.playback.core.setBassAssistance(mixerPreferences.bassAssistance ?? .off)
         self.playback.core.setBeatLockEnabled(mixerPreferences.beatLock ?? true)
+        self.playback.setMainCompressorEnabled(mixerPreferences.mainCompressor ?? true)
         self.playback.setPrimaryKeylockDefault(mixerPreferences.primaryKeylock ?? true)
         try self.playback.setMixer(.filterY, value: mixerPreferences.filterResonanceA, deck: .a)
         try self.playback.setMixer(.filterY, value: mixerPreferences.filterResonanceB, deck: .b)
@@ -2186,6 +2187,15 @@ enum PlaybackInputSource: Equatable { case touch, controller }
             persistMixerPreferences()
             refreshPlayback()
         } catch { status = error.localizedDescription }
+    }
+    var mainCompressorEnabled: Bool {
+        get { mixerPreferences.mainCompressor ?? true }
+        set {
+            guard newValue != mainCompressorEnabled else { return }
+            mixerPreferences.mainCompressor = newValue
+            playback.setMainCompressorEnabled(newValue)
+            persistMixerPreferences()
+        }
     }
     var beatLockEnabled: Bool {
         get { mixerPreferences.beatLock ?? true }
