@@ -23,6 +23,7 @@ API_AVAILABLE(macos(14.0), ios(17.0))
                                 keepAlive:(id)keepAlive
     NS_SWIFT_NAME(init(channels:core:recording:metrics:traceThreadCPU:validationSilence:keepAlive:));
 - (instancetype)init NS_UNAVAILABLE;
+- (void)setMainCompressorEnabled:(BOOL)enabled NS_SWIFT_NAME(setMainCompressorEnabled(_:));
 - (nullable AVAudioSourceNode *)makeNodeWithFormat:(AVAudioFormat *)format NS_SWIFT_NAME(makeNode(format:));
 - (nullable AVAudioSinkNode *)makeMicrophoneSinkWithFormat:(AVAudioFormat *)format stereo:(BOOL)stereo NS_SWIFT_NAME(makeMicrophoneSink(format:stereo:));
 - (nullable AVAudioSinkNode *)makeS4InputSinkWithFormat:(AVAudioFormat *)format

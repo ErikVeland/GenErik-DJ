@@ -2,7 +2,8 @@
 #define TDJ_GROOVE_H
 
 typedef struct {
-    int mode;
+    int mode, reference_deck;
+    uint64_t reference_generation;
     bool target_valid, position_valid, aligned;
     double rate, master_bpm, solo_ratio, expected_position, last_beat;
     double target_beat, target_source_beat, target_frame;

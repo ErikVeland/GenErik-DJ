@@ -22,6 +22,7 @@ import Testing
     _ = core.renderOffline(frames: 20000)
     try core.play(deck: .b, generation: b)
     _ = core.renderOffline(frames: 20000)
+    recorder.setLocation("Updated Venue")
     recorder.stopCapture()
     queue.resume()
     suspended = false
@@ -29,6 +30,9 @@ import Testing
     let other = SetRecorder.savedRecordings(in: root).map { $0.resolvingSymlinksInPath() }
         .filter { $0 != first }.sorted { $0.lastPathComponent < $1.lastPathComponent }
     #expect(other.count == 2)
+    let originalSuffix = recorder.url.lastPathComponent.dropFirst("Tracks".count)
+    #expect(first.lastPathComponent == "Updated Venue" + originalSuffix)
+    #expect(other.allSatisfy { $0.lastPathComponent.hasPrefix("Updated Venue - ") })
     #expect(try String(contentsOf: first.deletingPathExtension().appendingPathExtension("txt"), encoding: .utf8)
             == "00:00:00 - First - A\n")
     for part in other {

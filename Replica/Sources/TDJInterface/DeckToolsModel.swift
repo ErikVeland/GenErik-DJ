@@ -125,8 +125,11 @@ extension ReplicaModel {
         guard editing.contains(deck), !gridLocked.contains(deck), gridPreparation(deck)?.gridLocked != true,
             let timing = timing(deck)
         else { return }
-        jump(timing.frame(atBeat: Double(beat)), deck: deck, quantized: false)
+        let frame = timing.frame(atBeat: Double(beat))
+        guard let track = track(deck), (0..<Double(track.analysis.frameCount)).contains(frame) else { return }
+        jump(frame, deck: deck, quantized: false)
         gridDownbeatDraft[deck] = ((beat % 4) + 4) % 4
+        centerGridInspection(on: frame, deck: deck)
     }
     public func toggleHotcuePads(deck: DeckID) {
         if hotcuePadsVisible.remove(deck) == nil { hotcuePadsVisible.insert(deck) } else { hotcueDeleting.remove(deck) }

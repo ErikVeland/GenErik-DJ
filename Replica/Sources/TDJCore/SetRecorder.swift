@@ -67,6 +67,8 @@ public final class SetRecorder: @unchecked Sendable {
     private var failure: Error?
     private var frames: Int64 = 0
     private let sampleRate: Double
+    private var pendingLocation: String?
+    private let namingSuffix: String
     private var trackMetadata: [String: (String, String)] = [:]
 
     public convenience init(directory: URL, sampleRate: Double, buffer ring: RecordingBuffer, location: String = "")
@@ -86,29 +88,12 @@ public final class SetRecorder: @unchecked Sendable {
         self.maximumPartFrames = maximumPartFrames
         self.writerQueue = writerQueue
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
-        let allowed = CharacterSet.controlCharacters.union(CharacterSet(charactersIn: "/:"))
-        let cleaned = location.components(separatedBy: allowed).joined(separator: " ").trimmingCharacters(
-            in: .whitespacesAndNewlines)
-        var bounded = String.UnicodeScalarView()
-        var locationBytes = 0
-        var nonstarters = 0
-        for scalar in cleaned.decomposedStringWithCanonicalMapping.prefix(100).unicodeScalars {
-            if scalar.properties.canonicalCombiningClass.rawValue == 0 {
-                nonstarters = 0
-            } else {
-                guard nonstarters < 30 else { continue }
-                nonstarters += 1
-            }
-            let count = scalar.utf8.count
-            guard locationBytes + count <= 180 else { break }
-            bounded.append(scalar)
-            locationBytes += count
-        }
-        let place = bounded.isEmpty ? "Unknown Location" : String(bounded).precomposedStringWithCanonicalMapping
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.dateFormat = "yyyy-MM-dd HH-mm-ss"
-        let name = "\(place) - \(formatter.string(from: Date())) - \(UUID().uuidString.prefix(8))"
+        let suffix = " - \(formatter.string(from: Date())) - \(UUID().uuidString.prefix(8))"
+        namingSuffix = suffix
+        let name = Self.filenameLocation(location) + suffix
         url = directory.appendingPathComponent(name + ".aiff")
         partURL = url
         partialURL = directory.appendingPathComponent(name + ".incomplete.aiff")
@@ -129,6 +114,43 @@ public final class SetRecorder: @unchecked Sendable {
     deinit {
         timer?.cancel()
         if !finished { ring.stop() }
+    }
+
+    static func filenameLocation(_ location: String) -> String {
+        let allowed = CharacterSet.controlCharacters.union(CharacterSet(charactersIn: "/:"))
+        let cleaned = location.components(separatedBy: allowed).joined(separator: " ").trimmingCharacters(
+            in: .whitespacesAndNewlines)
+        var bounded = String.UnicodeScalarView()
+        var locationBytes = 0
+        var nonstarters = 0
+        for scalar in cleaned.decomposedStringWithCanonicalMapping.prefix(100).unicodeScalars {
+            if scalar.properties.canonicalCombiningClass.rawValue == 0 {
+                nonstarters = 0
+            } else {
+                guard nonstarters < 30 else { continue }
+                nonstarters += 1
+            }
+            let count = scalar.utf8.count
+            guard locationBytes + count <= 180 else { break }
+            bounded.append(scalar)
+            locationBytes += count
+        }
+        return bounded.isEmpty ? "Unknown Location" : String(bounded).precomposedStringWithCanonicalMapping
+    }
+
+    /// Order a metadata edit before finalization without touching the capture ring or open part.
+    public func setLocation(_ location: String) {
+        writerQueue.async { [self] in
+            guard !finished else { return }
+            pendingLocation = Self.filenameLocation(location)
+        }
+    }
+
+    func publishedURL(for part: URL, location: String) -> URL {
+        let suffix = part.deletingPathExtension().lastPathComponent
+            .dropFirst(url.deletingPathExtension().lastPathComponent.count)
+        return url.deletingLastPathComponent()
+            .appendingPathComponent(location + namingSuffix + suffix + ".aiff")
     }
 
     private func drain(finishing: Bool = false) {
@@ -219,7 +241,12 @@ public final class SetRecorder: @unchecked Sendable {
                         events.append((event.frame, event.deck, metadata.0, metadata.1))
                     }
                     events.sort { $0.frame == $1.frame ? $0.deck < $1.deck : $0.frame < $1.frame }
-                    for part in parts {
+                    let location = pendingLocation
+                    let publishedBase = location.map { publishedURL(for: url, location: $0) } ?? url
+                    let publishParts = parts.map { part in
+                        (part, location.map { publishedURL(for: part.url, location: $0) } ?? part.url)
+                    }
+                    for (part, destination) in publishParts {
                         let start = UInt64(part.start)
                         let end = UInt64(part.start + part.frames)
                         let current = events.filter { $0.frame >= start && $0.frame < end }
@@ -231,21 +258,21 @@ public final class SetRecorder: @unchecked Sendable {
                         }
                         lines += current.map { trackLine(frame: $0.frame - start, artist: $0.artist, title: $0.title) }
                         let text = lines.isEmpty ? "" : lines.joined(separator: "\n") + "\n"
-                        try text.write(to: part.url.deletingPathExtension().appendingPathExtension("txt"), atomically: true, encoding: .utf8)
+                        try text.write(to: destination.deletingPathExtension().appendingPathExtension("txt"), atomically: true, encoding: .utf8)
                     }
                     if parts.count > 1 {
                         let lines = events.map { trackLine(frame: $0.frame, artist: $0.artist, title: $0.title) }
                         let text = lines.isEmpty ? "" : lines.joined(separator: "\n") + "\n"
-                        let timeline = url.deletingPathExtension().appendingPathExtension("session.txt")
+                        let timeline = publishedBase.deletingPathExtension().appendingPathExtension("session.txt")
                         try text.write(to: timeline, atomically: true, encoding: .utf8)
                     }
-                    for part in parts {
-                        do { try FileManager.default.moveItem(at: part.partial, to: part.url) } catch {
-                            try? FileManager.default.removeItem(at: part.url.deletingPathExtension().appendingPathExtension("txt"))
+                    for (part, destination) in publishParts {
+                        do { try FileManager.default.moveItem(at: part.partial, to: destination) } catch {
+                            try? FileManager.default.removeItem(at: destination.deletingPathExtension().appendingPathExtension("txt"))
                             throw error
                         }
                     }
-                    continuation.resume(returning: url)
+                    continuation.resume(returning: publishedBase)
                 } catch { continuation.resume(throwing: error) }
             }
             onWriterEnqueued()

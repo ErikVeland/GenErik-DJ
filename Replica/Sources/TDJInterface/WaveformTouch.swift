@@ -112,6 +112,7 @@ enum WaveformZoom {
         let target = model.boundedFrame(frame, deck: deck)
         do {
             try model.playback.dropWaveform(at: target, snap: !beganStopped && model.performance.snapPlayingWaveform, deck: deck)
+            model.loadedWaveformPresentations[deck] = nil
             model.previewing.remove(deck)
             model.viewport[deck] = target
             model.refreshPlayback()
@@ -119,6 +120,7 @@ enum WaveformZoom {
     }
     private func applyMotion(frame: Double, velocity: Double, model: ReplicaModel, deck: DeckID) {
         guard let track = model.track(deck) else { return }
+        model.loadedWaveformPresentations[deck] = nil
         model.previewing.insert(deck)
         let speed = model.playbackSnapshot?[deck].speed ?? 1
         let rate =

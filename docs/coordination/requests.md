@@ -930,3 +930,35 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R527 | Build 252 installed. Physical Z1 acceptance open. | Supply an explicit four-channel layout when opening the split output. | Verify master 1–2, cue 3–4, UI and Mode + A/B starts and waveform response on the A10X. |
 
 | R528 | Build 253 installed. Rear RCA listening open. Build 252 headphone audio confirmed. | Match the original Z1 master and cue channel labels. | Listen to rear RCA master and headphone cue on the same deck. |
+
+<a id="r529"></a>
+
+| R529 | Source candidate. Tests pending. | Keep Sync on or off without moving either playhead. | Restore the source tempo when Sync turns off on a stopped deck. Keep the current rate on a playing deck. Check both deck directions, outer decks, and explicit grid alignment on the test iPad. |
+
+| R530 | Draft. Physical acceptance open. | Reverse the active song sort on a second selection. Load playlist tracks to a chosen deck. Close the library only after an accepted load. | Check device gestures, list scrolling, keyboard dismissal, deck choice and failed loads. |
+
+<a id="r531"></a>
+
+| R531 | Source candidate. Tests pending. | Add Beat Lock to Sync options. | Align the first entry of a synced track without moving the playhead. Default to on. Keep BPM matching when Beat Lock is off. Check the setting, deck directions, and adaptive grids on the test iPad. |
+
+| R532 | Draft. Physical acceptance open. | Centre the nearest beat one when opening Beat Fix. Centre a newly marked beat one without changing the existing tap action. | Check fixed and adaptive grids, running audio, start and end padding, waveform drag and returning to live view. |
+
+<a id="r533"></a>
+
+| R533 | Source candidate. Tests pending. | Keep Flex Grid in time while another deck plays. | Follow the playing deck and master tempo with bounded rate changes. Preserve source beat spacing and playhead position. Relax when the deck plays alone. The reported track was not tested. |
+
+| R534 | Draft. Physical acceptance open. | Hold the waveform still in Beat Fix even when there is no valid beat one. Keep audio and deliberate waveform gestures active. | Check no-grid and short-track entry, a playing deck, manual drag, and Done. |
+
+| R535 | Draft. Physical acceptance open. | Centre the first bar on a newly loaded track. Keep the actual playback position unchanged. | Check fixed and Flex grids, file-start playback, deliberate scrubs, Play, and a clone at a saved cursor. |
+
+| R536 | Draft. Physical acceptance open. | Pulse playing deck letters on each deck’s own beat in the library. Show a steady mark without a grid or with Reduce Motion. | Check both decks at different tempos, Flex Grid, queued and paused decks, and the front display and full library. |
+
+<a id="r537"></a>
+
+| R537 | Source candidate. A10X acceptance open. | Add a gentle main output compressor with an off switch. | Default to on. Keep cue, recordings and meters unchanged. Check clean playback, output level and callback cost on the A10X. |
+
+| R538 | Draft. Physical acceptance open. | Leave played songs out of Recommendations for the current performance. Keep the library and prep list unchanged. | Check solo and paired playback, cue and crossfader isolation, reload, app restart and End Performance. |
+
+| R539 | Draft. Physical acceptance open. | Start recording before asking for an optional location. | Check fast repeated taps, start failure, Save/Skip/dismiss, clearing location, Stop while typing, saved segments/tracklists and relaunch. |
+
+| R540 | Draft. Physical acceptance open. | Show REC in the Sound button during capture. Show Return to Playhead after releasing an overview scrub. | Check Sound still opens the same panel, paused and playing preview return without a seek, and no return during Beat Fix, Freeze or after a replacement. |

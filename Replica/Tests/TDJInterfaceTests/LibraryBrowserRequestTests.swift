@@ -39,3 +39,10 @@ private func browserRequest(
     let ranked = browserRequest(version: version, suggestionIDs: ["a", "b"])
     #expect(ranked.resetsScroll(comparedTo: changes.last))
 }
+
+@Test func libraryHeaderSwipeKeepsListAndKeyboardIndependent() {
+    #expect(LibraryHeaderSwipeAction.resolve(horizontal: 60, vertical: 40, searchFocused: false) == .none)
+    #expect(LibraryHeaderSwipeAction.resolve(horizontal: 0, vertical: -60, searchFocused: false) == .none)
+    #expect(LibraryHeaderSwipeAction.resolve(horizontal: 0, vertical: 60, searchFocused: true) == .dismissKeyboard)
+    #expect(LibraryHeaderSwipeAction.resolve(horizontal: 0, vertical: 60, searchFocused: false) == .closeLibrary)
+}

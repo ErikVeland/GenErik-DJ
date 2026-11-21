@@ -37,7 +37,7 @@ private let surface = PerformancePalette.panel
     @State private var sectionEdit: (deck: DeckID, identity: SectionEditIdentity)?
     @AppStorage(DeckToolSettings.largePanelHandles) private var largePanelHandles = false
     @Environment(\.accessibilityVoiceOverEnabled) private var voiceOver
-    private var handleExtent: Double { PanelHandleMetrics(expanded: largePanelHandles || voiceOver).extent }
+    private var handleExtent: Double { max(22, PanelHandleMetrics(expanded: largePanelHandles || voiceOver).extent) }
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     private let snapshotEffectsDeck: DeckID?
     private let snapshotMixerDecks: Set<DeckID>
@@ -518,12 +518,15 @@ private struct DeckPanelHorizontalBounds: Shape {
             panels.setTrackAvailable(track != nil)
             sectionPanel.validate(trackID: track?.id, loadID: model.loadIdentity(deck))
         }.onChange(of: model.frozen.contains(deck)) { _, enabled in
+            guard !editing else { return }
             if enabled, let loadID = model.loadIdentity(deck), let track, let state = playback, state.loopEnabled {
                 frozenSpan = (loadID, (state.loopEnd - state.loopStart) / track.analysis.sampleRate)
                 model.viewport[deck] = (state.loopStart + state.loopEnd) / 2
             } else if !enabled {
                 frozenSpan = nil
             }
+        }.onChange(of: editing) { _, isEditing in
+            if !isEditing && !model.frozen.contains(deck) { frozenSpan = nil }
         }
     }
     private var previewStripHeight: Double {
@@ -567,6 +570,24 @@ private struct DeckPanelHorizontalBounds: Shape {
                 DeckHeader(
                     model: model, deck: deck, dense: true, showsArtwork: false, isFocused: isFocused, focus: focus
                 ).buttonStyle(.plain)
+                if model.canReturnFromStripePreview(deck) {
+                    Button {
+                        model.returnToPlayhead(deck: deck)
+                    } label: {
+                        HStack(spacing: 4) {
+                            Image(systemName: "arrow.uturn.backward").font(.system(size: 16, weight: .semibold))
+                            if size.width >= 480 {
+                                Text("Return to Playhead").font(.system(size: 11, weight: .semibold)).lineLimit(1)
+                            }
+                        }.padding(.horizontal, 6)
+                            .frame(minWidth: 44, minHeight: min(44, layout.headerHeight))
+                            .contentShape(Rectangle())
+                    }.buttonStyle(.plain).foregroundStyle(PerformancePalette.cyan).protectsFrontDeckSwipe()
+                        .accessibilityLabel("Return to Playhead on deck \(deck.rawValue.uppercased())")
+                        .accessibilityHint("Follow playback without moving the track")
+                        .accessibilityIdentifier("returnToPlayhead-\(deck.rawValue)")
+                        .help("Return to Playhead")
+                }
                 deckSelector
             }.frame(height: layout.headerHeight, alignment: .top).background(
                 DeckSectionHeader(model: model, deck: deck, visibleSeconds: zoom.wrappedValue, waveform: waveformAxis)
@@ -1338,9 +1359,43 @@ extension ReplicaView {
         Button {
             isPresented.toggle()
         } label: {
-            Image(systemName: "speaker.wave.2.fill").font(.system(size: 18)).frame(width: 44, height: 44)
-        }.accessibilityLabel("Output").popover(isPresented: $isPresented) {
-            AudioQuickPanel(model: model)
+            Group {
+                if state == .recording {
+                    HStack(spacing: 3) {
+                        Circle().frame(width: 6, height: 6)
+                        Text("REC").font(.system(size: 9, weight: .heavy, design: .monospaced))
+                    }.foregroundStyle(PerformancePalette.red)
+                } else {
+                    Image(systemName: "speaker.wave.2.fill").font(.system(size: 18))
+                }
+            }.frame(width: 44, height: 44).contentShape(Rectangle())
+        }.accessibilityLabel("Output").accessibilityValue(state.accessibilityValue)
+            .popover(isPresented: $isPresented) {
+                AudioQuickPanel(model: model)
+            }
+    }
+
+    private var state: RecordingOutputIndicator {
+        .init(active: model.isRecording, starting: model.recordingStarting, finishing: model.recordingFinishing)
+    }
+}
+
+enum RecordingOutputIndicator {
+    case idle, starting, recording, finishing
+
+    init(active: Bool, starting: Bool, finishing: Bool) {
+        if finishing { self = .finishing }
+        else if starting { self = .starting }
+        else if active { self = .recording }
+        else { self = .idle }
+    }
+
+    var accessibilityValue: String {
+        switch self {
+        case .idle: ""
+        case .starting: "Starting recording"
+        case .recording: "Recording"
+        case .finishing: "Finishing recording"
         }
     }
 }
@@ -1348,16 +1403,47 @@ extension ReplicaView {
 @MainActor struct AudioQuickPanel: View {
     @Bindable var model: ReplicaModel
     @State private var details = false
-    @State private var locationPrompt = false
+    @State private var locationEditor: UUID?
+    @State private var locationDraft = ""
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             row("RECORD") {
                 Button {
-                    if model.isRecording { Task { await model.toggleRecording() } } else { locationPrompt = true }
+                    let wasRecording = model.isRecording
+                    if wasRecording, let owner = locationEditor {
+                        model.setRecordingLocation(locationDraft, owner: owner)
+                    }
+                    Task {
+                        guard model.isRecording == wasRecording else { return }
+                        await model.toggleRecording()
+                    }
                 } label: {
                     Image(systemName: model.isRecording ? "stop.circle.fill" : "record.circle").font(.system(size: 26))
                         .foregroundStyle(model.isRecording ? PerformancePalette.red : PerformancePalette.text)
-                }.disabled(model.recordingFinishing).accessibilityLabel(model.isRecording ? "Stop recording" : "Record")
+                }
+                .disabled(model.recordingStarting || model.recordingFinishing)
+                .accessibilityLabel(model.isRecording ? "Stop recording" : "Record")
+                .accessibilityIdentifier("startStopRecording")
+                if model.recordingStarting { Text("Starting…").font(.caption) }
+            }
+            if let error = model.recordingStartError {
+                Text("Couldn’t start recording: " + error)
+                    .font(.caption).padding(.horizontal, 14).padding(.bottom, 10)
+            }
+            if let owner = model.recordingLocationOwner, model.isRecording {
+                if locationEditor == owner {
+                    HStack {
+                        TextField("Venue or location (optional)", text: $locationDraft)
+                            .textFieldStyle(.roundedBorder)
+                            .onSubmit { saveLocation(owner: owner) }
+                        Button("Save") { saveLocation(owner: owner) }
+                        Button("Skip") { locationEditor = nil }
+                    }.padding(.horizontal, 14).padding(.bottom, 10)
+                } else {
+                    Button(model.recordingLocation.isEmpty ? "Add location" : "Edit location") {
+                        showLocationEditor(owner: owner)
+                    }.padding(.horizontal, 14).padding(.bottom, 10)
+                }
             }
             Divider()
             row("MASTER") {
@@ -1377,15 +1463,18 @@ extension ReplicaView {
                     Text(outputSummary).foregroundStyle(PerformancePalette.secondaryText).lineLimit(1)
                 }.frame(minHeight: 54, alignment: .leading)
             }.padding(.horizontal, 14).font(.system(size: 13))
-        }.frame(width: 360).foregroundStyle(PerformancePalette.text).background(PerformancePalette.panel).alert(
-            "Recording location", isPresented: $locationPrompt
-        ) {
-            TextField("Venue or location", text: $model.recordingLocation)
-            Button("Record") { Task { await model.toggleRecording() } }
-            Button("Cancel", role: .cancel) {}
-        } message: {
-            Text("Add a venue or location for the recording filename.").lineLimit(nil)
-        }
+        }.frame(width: 360).foregroundStyle(PerformancePalette.text).background(PerformancePalette.panel)
+            .onChange(of: model.recordingLocationOwner) { _, owner in
+                if let owner { showLocationEditor(owner: owner) } else { locationEditor = nil }
+            }
+    }
+    private func showLocationEditor(owner: UUID) {
+        locationDraft = model.recordingLocation
+        locationEditor = owner
+    }
+    private func saveLocation(owner: UUID) {
+        model.setRecordingLocation(locationDraft, owner: owner)
+        locationEditor = nil
     }
     private var outputSummary: String {
         if let device = model.automaticOutputDevice { return "\(device) · Auto" }
@@ -2007,12 +2096,14 @@ extension ReplicaView {
             let left = center - span / 2
             let perPoint = span / max(1, geometry.size.width)
             let timing = model.timing(deck) ?? BeatTiming(fixed: grid)
+            let endFrame = Double(model.track(deck)?.analysis.frameCount ?? 0)
             let first = Int(exactly: ceil(timing.beat(atFrame: left))) ?? 0
             let last = Int(exactly: ceil(timing.beat(atFrame: left + span))) ?? first
             ForEach(0..<max(0, min(64, last - first + 1)), id: \.self) { offset in
                 let beat = first + offset
-                let x = (timing.frame(atBeat: Double(beat)) - left) / perPoint
-                if x >= 0 && x <= geometry.size.width {
+                let frame = timing.frame(atBeat: Double(beat))
+                let x = (frame - left) / perPoint
+                if frame >= 0, frame < endFrame, x >= 0, x <= geometry.size.width {
                     let downbeatOffset = model.gridDownbeatDraft[deck] ?? timing.downbeatOffset
                     let beatNumber = ((beat - downbeatOffset) % 4 + 4) % 4 + 1
                     Button {
@@ -2022,7 +2113,7 @@ extension ReplicaView {
                             .foregroundStyle(beatNumber == 1 ? .orange : PerformancePalette.text)
                             .frame(width: 44, height: 44).bevelPanel(
                                 cornerRadius: 3)
-                    }.position(x: x + 22, y: 22).accessibilityLabel(
+                    }.position(x: x, y: 22).accessibilityLabel(
                         "Move the playhead to beat \(beatNumber). Done saves it as the downbeat.")
                 }
             }

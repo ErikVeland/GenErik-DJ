@@ -179,22 +179,55 @@ import Testing
     await model.finishForShutdown()
 }
 
-@Test @MainActor func beatFixFollowsPlayingAudioAndRetainsStoppedView() async throws {
+@Test @MainActor func beatFixCentersDownbeatWithoutSeekingAndRetainsInspection() async throws {
     let (model, root, track) = try await loadPlayheadFixture()
     defer { try? FileManager.default.removeItem(at: root) }
     model.load(trackID: track.id, deck: .a)
     await model.playbackLoads?.value
-    model.toggleGridEditing(deck: .a)
+    model.jump(12_000, deck: .a, quantized: false)
+    let before = try #require(model.playbackSnapshot?.a.sourceFrame)
+    let timing = try #require(model.timing(.a))
     model.pressPlay(deck: .a, vinylStop: false)
     await model.flushTransportRequests()
+    _ = model.playback.core.renderOffline(frames: 512)
+    model.refreshPlayback()
+    let playing = try #require(model.playbackSnapshot?.a)
+    #expect(playing.phase == .playing)
+    let target = try #require(timing.nearestDownbeatFrame(
+        to: playing.sourceFrame, within: 0..<Double(track.analysis.frameCount)))
+    model.toggleGridEditing(deck: .a)
+    #expect(model.viewport[.a] == target)
+    #expect(model.playbackSnapshot?.a.sourceFrame == playing.sourceFrame)
     for _ in 0..<3 {
         _ = model.playback.core.renderOffline(frames: 512)
         model.refreshPlayback()
-        #expect(model.viewport[.a] == model.playbackSnapshot?.a.sourceFrame)
+        #expect(model.viewport[.a] == target)
     }
-    model.pressPlay(deck: .a, vinylStop: false)
+    #expect(model.playbackSnapshot?.a.sourceFrame != before)
     model.viewport[.a] = 9876
+    _ = model.playback.core.renderOffline(frames: 512)
     model.refreshPlayback()
     #expect(model.viewport[.a] == 9876)
+    let beforeDone = try #require(model.playbackSnapshot?.a)
+    #expect(beforeDone.phase == .playing)
+    model.toggleGridEditing(deck: .a)
+    #expect(model.playbackSnapshot?.a.phase == .playing)
+    #expect(model.playbackSnapshot?.a.sourceFrame == beforeDone.sourceFrame)
+    #expect(model.viewport[.a] == beforeDone.sourceFrame)
+    _ = model.playback.core.renderOffline(frames: 512)
+    model.refreshPlayback()
+    #expect(model.playbackSnapshot?.a.phase == .playing)
+    #expect(model.viewport[.a] == model.playbackSnapshot?.a.sourceFrame)
     await model.finishForShutdown()
+}
+
+@Test func gridInspectionPinsCurrentViewportWhenNoBeatOneCanBeFound() throws {
+    let noGrid = GridInspectionViewport.start(current: 5000, playhead: 6000, timing: nil, frameCount: 99_000)
+    #expect(noGrid.previous == 5000 && noGrid.center == 5000)
+    let fixed = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 48_000, downbeatOffset: 1)
+    let short = GridInspectionViewport.start(
+        current: .nan, playhead: 4000, timing: BeatTiming(fixed: fixed), frameCount: 20_000)
+    #expect(short.previous == 4000 && short.center == 4000)
+    let missing = GridInspectionViewport.start(current: nil, playhead: .infinity, timing: nil, frameCount: 0)
+    #expect(missing.previous == 0 && missing.center == 0)
 }

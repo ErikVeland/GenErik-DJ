@@ -12,12 +12,36 @@ struct BrowserView: View {
     @State private var query = ""
     private var hasSearchQuery: Bool { query.contains { !$0.isWhitespace } }
     @State private var sort: CollectionSort? = .title
+    @State private var reverseSort = false
+    @FocusState private var searchFocused: Bool
+    @Environment(\.loadDeckTargets) private var rowLoadTargets
+
+    private var libraryHeaderSwipe: some Gesture {
+        DragGesture(minimumDistance: 24, coordinateSpace: .global).onEnded { value in
+            switch LibraryHeaderSwipeAction.resolve(
+                horizontal: value.translation.width, vertical: value.translation.height, searchFocused: searchFocused
+            ) {
+            case .none: break
+            case .dismissKeyboard: searchFocused = false
+            case .closeLibrary: model.browserVisible = false
+            }
+        }
+    }
+
+    private func selectSort(_ value: CollectionSort?) {
+        reverseSort = value != nil && displayedSort == value ? !reverseSort : false
+        sort = value
+    }
     private var displayedSort: CollectionSort? { hasSearchQuery ? sort ?? .title : sort }
     @State private var panes = BrowserPaneStack()
     private var category: CollectionCategory { panes.category }
     private var group: String? { panes.group }
     @State private var selectedEntry: LibraryBrowserEntry?
     @State private var recommendations: [BrowserRecommendations.Match] = []
+    private var visibleRecommendations: [BrowserRecommendations.Match] {
+        let played = model.performedRecommendationIDs
+        return recommendations.filter { !BrowserRecommendations.excludes($0.entry, identities: played) }
+    }
     @State private var recommendationSeed: LibraryBrowserEntry?
     @State private var layout = StandardBrowserLayoutState(categoriesHidden: true)
     @State private var section = BrowserSection.songs
@@ -62,7 +86,7 @@ struct BrowserView: View {
     private var request: LibraryBrowserRequest {
         .init(
             revision: model.library.revision, version: collectionVersion,
-            catalogueVersion: model.musicLibraryCatalogVersion, query: query, sort: displayedSort,
+            catalogueVersion: model.musicLibraryCatalogVersion, query: query, sort: displayedSort, reversed: reverseSort,
             category: category, group: group, suggestionIDs: nil)
     }
     #if os(iOS)
@@ -199,7 +223,7 @@ struct BrowserView: View {
                 let hints = model.browserHints
                 let result = try await LibraryBrowserProjection.build(
                     librarySource: librarySource, catalogSource: catalogSource, suggestionIDs: current.suggestionIDs,
-                    search: current.query, sort: current.sort, category: current.category, group: current.group,
+                    search: current.query, sort: current.sort, reversed: current.reversed, category: current.category, group: current.group,
                     playlists: playlists, previous: projection, hints: hints)
                 guard !Task.isCancelled, current == request else { return }
                 if current.resetsScroll(comparedTo: displayedRequest) { projectionToken = UUID() }
@@ -369,6 +393,18 @@ struct BrowserView: View {
                     }
                 }.contentShape(Rectangle())
             }
+            if displayedSection == .playlists && entry.canLoad && !selecting {
+                Menu {
+                    Button("Load to deck \(rowLoadTargets.upper.rawValue.uppercased())") {
+                        model.loadLibraryEntry(entry, deck: rowLoadTargets.upper)
+                    }
+                    Button("Load to deck \(rowLoadTargets.lower.rawValue.uppercased())") {
+                        model.loadLibraryEntry(entry, deck: rowLoadTargets.lower)
+                    }
+                } label: {
+                    Image(systemName: "arrow.down.to.line").frame(width: 44, height: 44)
+                }.accessibilityLabel("Load \(entry.title)")
+            }
         }.padding(.horizontal, 12).frame(height: 57).background(
             model.selectedTrackID == entry.id ? selectedTeal.opacity(0.45) : Color.white.opacity(0.02)
         ).overlay(alignment: .bottom) { Rectangle().fill(Color.black.opacity(0.6)).frame(height: 1) }
@@ -420,7 +456,7 @@ extension BrowserView {
                 TextField(
                     "", text: $query,
                     prompt: Text("Search full library").foregroundStyle(PerformancePalette.secondaryText)
-                ).textFieldStyle(.plain).foregroundStyle(PerformancePalette.text).accessibilityLabel(
+                ).textFieldStyle(.plain).focused($searchFocused).foregroundStyle(PerformancePalette.text).accessibilityLabel(
                     "Search full library by song, artist, album or genre")
             }.padding(.horizontal, 14).frame(maxWidth: 380).frame(height: 44).background(
                 Capsule().fill(PerformancePalette.sunken)
@@ -428,7 +464,11 @@ extension BrowserView {
             if hasSearchQuery {
                 Text("All songs").foregroundStyle(PerformancePalette.secondaryText)
             }
-            Spacer()
+            Spacer(minLength: 4)
+            HStack(spacing: 4) {
+                LibraryDeckBadge(model: model, deck: rowLoadTargets.upper, showsPlayback: model.browserVisible)
+                LibraryDeckBadge(model: model, deck: rowLoadTargets.lower, showsPlayback: model.browserVisible)
+            }
             Button(selecting ? "Done" : "Edit") {
                 selecting.toggle()
                 selection = []
@@ -443,7 +483,8 @@ extension BrowserView {
             .frame(height: 56).background(
                 LinearGradient(
                     colors: [PerformancePalette.frame, PerformancePalette.panel], startPoint: .top, endPoint: .bottom)
-            ).accessibilityAction(named: "Close songs") { model.browserVisible = false }
+            ).simultaneousGesture(libraryHeaderSwipe)
+            .onChange(of: model.browserVisible) { _, visible in if !visible { searchFocused = false } }.accessibilityAction(named: "Close songs") { model.browserVisible = false }
     }
 
     fileprivate var iconRail: some View {
@@ -478,7 +519,7 @@ extension BrowserView {
             ) { chosen in
                 guard let chosen else { return }
                 panes.open(group: chosen.id)
-                sort = nil
+                selectSort(nil)
             }.padding(.horizontal, 10).padding(.top, 8)
         }.background(PerformancePalette.frame.opacity(0.6)).alert("New playlist", isPresented: $newPlaylistPresented) {
             TextField("Name", text: $playlistName)
@@ -541,7 +582,7 @@ extension BrowserView {
                 }
                 if !hasSearchQuery && category == .playlists {
                     Button {
-                        sort = nil
+                        selectSort(nil)
                     } label: {
                         Image(systemName: "music.note.list").font(.system(size: 20, weight: .semibold)).foregroundStyle(
                             sort == nil ? Color.black : PerformancePalette.secondaryText
@@ -557,7 +598,7 @@ extension BrowserView {
                 Menu {
                     ForEach(CollectionSort.allCases, id: \.self) { item in
                         Button {
-                            sort = item
+                            selectSort(item)
                         } label: {
                             if displayedSort == item {
                                 Label(item.rawValue, systemImage: "checkmark")
@@ -572,6 +613,7 @@ extension BrowserView {
                             PerformancePalette.secondaryText)
                         HStack(spacing: 4) {
                             Text(displayedSort?.rawValue ?? "Playlist order")
+                            if displayedSort != nil { Image(systemName: reverseSort ? "arrow.up" : "arrow.down") }
                             Image(systemName: "chevron.down")
                         }.font(.system(size: 15, weight: .medium)).foregroundStyle(PerformancePalette.text)
                     }
@@ -613,7 +655,7 @@ extension BrowserView {
     }
     private func sortTab(_ symbol: String, _ label: String, _ value: CollectionSort) -> some View {
         Button {
-            sort = value
+            selectSort(value)
         } label: {
             Image(systemName: symbol).font(.system(size: 20, weight: .semibold)).foregroundStyle(
                 displayedSort == value ? Color.black : PerformancePalette.secondaryText
@@ -640,7 +682,7 @@ extension BrowserView {
             ) { chosen in
                 guard let chosen else { return }
                 withAnimation(.smooth(duration: 0.25)) { panes.open(group: chosen.id) }
-                if category == .playlists { sort = nil }
+                if category == .playlists { selectSort(nil) }
             }.padding(.horizontal, 10).padding(.top, 8)
         }
     }
@@ -686,7 +728,8 @@ extension BrowserView {
                             }
                         }
                     }
-                }.onChange(of: projectionToken) { _, _ in reader.scrollTo("librarySongsTop", anchor: .top) }
+                }.scrollDismissesKeyboard(.interactively)
+                    .onChange(of: projectionToken) { _, _ in reader.scrollTo("librarySongsTop", anchor: .top) }
                     #if os(iOS)
                         .onChange(of: s2ScrollID) { _, id in
                             if let id { reader.scrollTo(id) }
@@ -763,13 +806,13 @@ extension BrowserView {
             ScrollView {
                 LazyVStack(spacing: 0) {
                     if displayedDetailTab == .match {
-                        if recommendations.isEmpty {
+                        if visibleRecommendations.isEmpty {
                             Text(
                                 recommendationSeed == nil
                                     ? "Load or play a track to see recommendations." : "No matching tracks yet."
                             ).font(.system(size: 13)).foregroundStyle(.secondary).padding(14)
                         }
-                        ForEach(recommendations) { match in
+                        ForEach(visibleRecommendations) { match in
                             recommendationRow(match.entry, keyOK: match.keyCompatible, tempoOK: match.tempoCompatible)
                         }
                     } else {
@@ -854,7 +897,7 @@ extension BrowserView {
         let decks = DeckID.allCases.map { "\(model.loaded[$0] ?? "-"):\(model.controlDisplay[$0].phase.active)" }
             .joined(separator: ",")
         return
-            "\(decks)|\(model.suggestionDestination?.rawValue ?? "-")|\(model.selectedTrackID ?? "")|\(projectionToken)|\(collectionVersion)|\(model.browserHintsVersion)"
+            "\(decks)|\(model.suggestionDestination?.rawValue ?? "-")|\(model.selectedTrackID ?? "")|\(projectionToken)|\(collectionVersion)|\(model.browserHintsVersion)|\(model.recommendationPlaybackRevision)"
     }
     fileprivate func refreshRecommendations() async {
         let seedDeck = model.recommendationSeedDeck(destination: model.suggestionDestination)
@@ -866,11 +909,12 @@ extension BrowserView {
             recommendations = []
             return
         }
-        let excluded = Set(model.loaded.values)
+        let playbackRevision = model.recommendationPlaybackRevision
+        let excluded = Set(model.loaded.values).union(model.performedRecommendationIDs)
         let matches = await Task.detached(priority: .utility) {
             BrowserRecommendations.matches(for: seed, in: entries, excluding: excluded)
         }.value
-        guard !Task.isCancelled else { return }
+        guard !Task.isCancelled, playbackRevision == model.recommendationPlaybackRevision else { return }
         recommendations = matches
     }
 

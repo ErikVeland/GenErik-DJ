@@ -17,12 +17,36 @@ struct FrontBrowserView: View {
     @State private var prepQuery = ""
     private var hasSearchQuery: Bool { query.contains { !$0.isWhitespace } }
     @State private var sort: CollectionSort? = .title
+    @State private var reverseSort = false
+    @FocusState private var searchFocused: Bool
+    @Environment(\.loadDeckTargets) private var rowLoadTargets
+
+    private var libraryHeaderSwipe: some Gesture {
+        DragGesture(minimumDistance: 24, coordinateSpace: .global).onEnded { value in
+            switch LibraryHeaderSwipeAction.resolve(
+                horizontal: value.translation.width, vertical: value.translation.height, searchFocused: searchFocused
+            ) {
+            case .none: break
+            case .dismissKeyboard: searchFocused = false
+            case .closeLibrary: model.browserVisible = false
+            }
+        }
+    }
+
+    private func selectSort(_ value: CollectionSort?) {
+        reverseSort = value != nil && displayedSort == value ? !reverseSort : false
+        sort = value
+    }
     private var displayedSort: CollectionSort? { hasSearchQuery ? sort ?? .title : sort }
     @State private var panes = BrowserPaneStack()
     private var category: CollectionCategory { panes.category }
     private var group: String? { panes.group }
     @State private var selectedEntry: LibraryBrowserEntry?
     @State private var recommendations: [BrowserRecommendations.Match] = []
+    private var visibleRecommendations: [BrowserRecommendations.Match] {
+        let played = model.performedRecommendationIDs
+        return recommendations.filter { !BrowserRecommendations.excludes($0.entry, identities: played) }
+    }
     @State private var recommendationRefresh = UUID()
     @State private var recommendationSeed: LibraryBrowserEntry?
     @State private var recommendationDeck: DeckID?
@@ -84,7 +108,7 @@ struct FrontBrowserView: View {
     private var request: LibraryBrowserRequest {
         .init(
             revision: model.library.revision, version: collectionVersion,
-            catalogueVersion: model.musicLibraryCatalogVersion, query: query, sort: displayedSort,
+            catalogueVersion: model.musicLibraryCatalogVersion, query: query, sort: displayedSort, reversed: reverseSort,
             category: category, group: group, suggestionIDs: nil)
     }
     var body: some View { content }
@@ -192,7 +216,7 @@ struct FrontBrowserView: View {
                     let hints = model.browserHints
                     let result = try await LibraryBrowserProjection.build(
                         librarySource: librarySource, catalogSource: catalogSource,
-                        suggestionIDs: current.suggestionIDs, search: current.query, sort: current.sort,
+                        suggestionIDs: current.suggestionIDs, search: current.query, sort: current.sort, reversed: current.reversed,
                         category: current.category, group: current.group, playlists: playlists, previous: projection,
                         hints: hints)
                     guard !Task.isCancelled, current == request else { return }
@@ -303,6 +327,18 @@ struct FrontBrowserView: View {
                     }
                 }.contentShape(Rectangle())
             }
+            if displayedSection == .playlists && entry.canLoad && !selecting {
+                Menu {
+                    Button("Load to deck \(rowLoadTargets.upper.rawValue.uppercased())") {
+                        model.loadLibraryEntry(entry, deck: rowLoadTargets.upper)
+                    }
+                    Button("Load to deck \(rowLoadTargets.lower.rawValue.uppercased())") {
+                        model.loadLibraryEntry(entry, deck: rowLoadTargets.lower)
+                    }
+                } label: {
+                    Image(systemName: "arrow.down.to.line").frame(width: 44, height: 44)
+                }.accessibilityLabel("Load \(entry.title)")
+            }
         }.padding(.horizontal, 12).padding(.vertical, 6).frame(minHeight: 64).background(
             model.selectedTrackID == entry.id ? selectedTeal.opacity(0.45) : Color.white.opacity(0.02)
         ).overlay(alignment: .bottom) { Rectangle().fill(Color.black.opacity(0.6)).frame(height: 1) }
@@ -397,7 +433,7 @@ extension FrontBrowserView {
                     "", text: activeQuery,
                     prompt: Text(
                         layout.tab == .songs ? "Search full library" : "Search \(layout.tab.rawValue.lowercased())")
-                ).textFieldStyle(.plain).foregroundStyle(PerformancePalette.text).accessibilityLabel(
+                ).textFieldStyle(.plain).focused($searchFocused).foregroundStyle(PerformancePalette.text).accessibilityLabel(
                     layout.tab == .songs
                         ? "Search full library by song, artist, album or genre"
                         : "Search \(layout.tab.rawValue.lowercased())")
@@ -421,7 +457,8 @@ extension FrontBrowserView {
                 Image(systemName: "chevron.down").frame(width: 44, height: 44)
             }.accessibilityLabel("Return to decks")
         }.font(.subheadline.weight(.semibold)).foregroundStyle(PerformancePalette.text).padding(.horizontal, 12)
-            .padding(.vertical, 4).background(PerformancePalette.panel)
+            .padding(.vertical, 4).background(PerformancePalette.panel).simultaneousGesture(libraryHeaderSwipe)
+            .onChange(of: model.browserVisible) { _, visible in if !visible { searchFocused = false } }
     }
 
     fileprivate var listTabs: some View {
@@ -559,10 +596,10 @@ extension FrontBrowserView {
                 }
                 Spacer(minLength: 0)
                 Menu {
-                    if category == .playlists && !hasSearchQuery { Button("Playlist order") { sort = nil } }
+                    if category == .playlists && !hasSearchQuery { Button("Playlist order") { selectSort(nil) } }
                     ForEach(CollectionSort.allCases, id: \.self) { item in
                         Button {
-                            sort = item
+                            selectSort(item)
                         } label: {
                             if displayedSort == item {
                                 Label(item.rawValue, systemImage: "checkmark")
@@ -572,9 +609,10 @@ extension FrontBrowserView {
                         }
                     }
                 } label: {
-                    Label(displayedSort?.rawValue ?? "Playlist order", systemImage: "arrow.up.arrow.down").font(
-                        .subheadline
-                    ).frame(minHeight: 44)
+                    Label(
+                        displayedSort?.rawValue ?? "Playlist order",
+                        systemImage: displayedSort == nil ? "arrow.up.arrow.down" : (reverseSort ? "arrow.up" : "arrow.down")
+                    ).font(.subheadline).frame(minHeight: 44)
                 }.accessibilityLabel("Sort songs, \(displayedSort?.rawValue ?? "playlist order")")
                 if selecting {
                     Button("Add to Playlist") { adding = true }.disabled(selection.isEmpty).frame(minHeight: 44)
@@ -622,7 +660,7 @@ extension FrontBrowserView {
             ) { chosen in
                 guard let chosen else { return }
                 withAnimation(reduceMotion ? nil : .smooth(duration: 0.25)) { panes.open(group: chosen.id) }
-                if category == .playlists { sort = nil }
+                if category == .playlists { selectSort(nil) }
             }.padding(.horizontal, 10).padding(.top, 8)
         }
     }
@@ -668,7 +706,8 @@ extension FrontBrowserView {
                             }
                         }
                     }
-                }.onChange(of: projectionToken) { _, _ in reader.scrollTo("librarySongsTop", anchor: .top) }
+                }.scrollDismissesKeyboard(.interactively)
+                    .onChange(of: projectionToken) { _, _ in reader.scrollTo("librarySongsTop", anchor: .top) }
             }
         }
     }
@@ -752,21 +791,21 @@ extension FrontBrowserView {
             }.padding(.horizontal, 12).padding(.vertical, 6).background(PerformancePalette.panel)
             ScrollView {
                 LazyVStack(spacing: 0) {
-                    if recommendations.isEmpty && (catalogueLoading || searching || displayedRequest != request) {
+                    if visibleRecommendations.isEmpty && (catalogueLoading || searching || displayedRequest != request) {
                         ProgressView("Loading library…").padding(24)
-                    } else if recommendations.isEmpty {
+                    } else if visibleRecommendations.isEmpty {
                         Text(
                             recommendationSeed == nil
                                 ? "Load or select a reference song, then update suggestions."
                                 : "No matching tracks yet."
                         ).font(.subheadline).foregroundStyle(.secondary).padding(24)
-                    } else if !recommendations.contains(where: { matchesSearch($0.entry, query: suggestionQuery) }) {
+                    } else if !visibleRecommendations.contains(where: { matchesSearch($0.entry, query: suggestionQuery) }) {
                         Text("No suggestions match this search.").lineLimit(nil).font(.subheadline).foregroundStyle(
                             .secondary
                         )
                         .padding(24)
                     } else {
-                        ForEach(recommendations.filter { matchesSearch($0.entry, query: suggestionQuery) }) { match in
+                        ForEach(visibleRecommendations.filter { matchesSearch($0.entry, query: suggestionQuery) }) { match in
                             songRow(match.entry, keyOK: match.keyCompatible, tempoOK: match.tempoCompatible)
                         }
                     }
@@ -890,18 +929,19 @@ extension FrontBrowserView {
     fileprivate var recommendationKey: String {
         let decks = DeckID.primary.map { model.loaded[$0] ?? "-" }.joined(separator: ",")
         return
-            "\(recommendationSeed?.id ?? "-")|\(recommendationRefresh)|\(decks)|\(projectionToken)|\(collectionVersion)|\(model.browserHintsVersion)"
+            "\(recommendationSeed?.id ?? "-")|\(recommendationRefresh)|\(decks)|\(projectionToken)|\(collectionVersion)|\(model.browserHintsVersion)|\(model.recommendationPlaybackRevision)"
     }
     fileprivate func refreshRecommendations() async {
         guard let seed = recommendationSeed, let entries = projection?.allEntries else {
             recommendations = []
             return
         }
-        let excluded = Set(model.loaded.values)
+        let playbackRevision = model.recommendationPlaybackRevision
+        let excluded = Set(model.loaded.values).union(model.performedRecommendationIDs)
         let matches = await Task.detached(priority: .utility) {
             BrowserRecommendations.matches(for: seed, in: entries, excluding: excluded)
         }.value
-        guard !Task.isCancelled else { return }
+        guard !Task.isCancelled, playbackRevision == model.recommendationPlaybackRevision else { return }
         recommendations = matches
     }
 

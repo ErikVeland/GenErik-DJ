@@ -303,3 +303,15 @@ private func unifiedProjection(
     #expect(result.entries.map(\.id) == [newest.id, file.id, older.id, unknown.id])
     #expect(result.entries.first?.canLoad == false)
 }
+
+@Test func reverseLibrarySortKeepsEqualTitlesInSourceOrder() async throws {
+    let a = unifiedItem("a", title: "Alpha")
+    let b = unifiedItem("b", title: "Beta")
+    let c = unifiedItem("c", title: "Alpha")
+    let catalogue = MusicLibraryCatalog(items: [a, b, c], playlists: [])
+    let result = try await LibraryBrowserProjection.build(
+        tracks: [], suggestionIDs: nil, search: "", sort: .title, reversed: true, category: .songs, group: nil,
+        playlists: .init(), catalog: catalogue
+    )
+    #expect(result.entries.map(\.id) == [b.id, a.id, c.id])
+}

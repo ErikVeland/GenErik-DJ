@@ -265,15 +265,19 @@ import TDJCore
             Button {
                 model.toggleSync(deck: activeDeck)
             } label: {
-                Text("Sync")
+                Text("Sync").foregroundStyle(
+                    model.playbackSnapshot?[activeDeck].synced == true
+                        ? PerformancePalette.syncGreen : PerformancePalette.text
+                )
             }.accessibilityLabel("Sync deck \(activeDeck.rawValue.uppercased())")
+                .accessibilityAddTraits(model.playbackSnapshot?[activeDeck].synced == true ? .isSelected : [])
             DeckPlaybackButton(model: model, deck: activeDeck)
         }.disabled(model.track(activeDeck) == nil)
     }
 
     private var crossfader: some View {
         HStack(spacing: 8) {
-            Text("A").font(.caption.bold()).accessibilityHidden(true)
+            LibraryDeckBadge(model: model, deck: .a, showsPlayback: browser.acceptsContentInput)
             TouchFader(
                 value: model.controlDisplay.crossfader, range: 0...1, reset: 0.5, horizontalHeight: 44,
                 readValue: { model.controlDisplay.crossfader }, change: { model.setMixer(.crossfader, value: $0) }
@@ -284,7 +288,7 @@ import TDJCore
                     .crossfader,
                     value: min(1, max(0, model.controlDisplay.crossfader + (direction == .increment ? 0.05 : -0.05))))
             }
-            Text("B").font(.caption.bold()).accessibilityHidden(true)
+            LibraryDeckBadge(model: model, deck: .b, showsPlayback: browser.acceptsContentInput)
         }.padding(.horizontal, 12).background(PerformancePalette.panel)
     }
 }

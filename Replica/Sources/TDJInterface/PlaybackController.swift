@@ -192,6 +192,11 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable {
         }
         try await task.value
     }
+    func setRecordingLocation(_ location: String) -> Bool {
+        guard let recorder, recordingStartTask == nil, !recordingFinishing else { return false }
+        recorder.setLocation(location)
+        return true
+    }
     public func registerRecordingTrack(deck: DeckID, generation: UInt64, artist: String, title: String) {
         let metadata = RecordingTrackMetadata(deck: deck, generation: generation, artist: artist, title: title)
         latestRecordingTracks[deck] = metadata
@@ -235,6 +240,12 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable {
     private var engine: AVAudioEngine?
     private var source: AVAudioSourceNode?
     private var nativeSource: TDJNativeAudioSource?
+    private var mainCompressorEnabled = true
+
+    func setMainCompressorEnabled(_ enabled: Bool) {
+        mainCompressorEnabled = enabled
+        nativeSource?.setMainCompressorEnabled(enabled)
+    }
     private var engineObserver: NSObjectProtocol?
     private var sessionObservers: [NSObjectProtocol] = []
     private var outputGraphIdentity: UInt64 = 0
@@ -1292,6 +1303,7 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable {
                     metrics: ownership.metricsHandle, traceThreadCPU: ownership.tracesThreadCPU,
                     validationSilence: validationMode, keepAlive: ownership)
             else { throw TransportError.allocation }
+            native.setMainCompressorEnabled(mainCompressorEnabled)
             guard let source = native.makeNode(format: format) else { throw TransportError.allocation }
             engine.attach(source)
             engine.connect(source, to: engine.mainMixerNode, format: format)

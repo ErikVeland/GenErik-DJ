@@ -105,18 +105,35 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     /// Grid edit lock and tap mode, per deck.
     public var gridLocked: Set<DeckID> = []
     @ObservationIgnored var gridWaveformContacts: [DeckID: ObjectIdentifier] = [:]
+    @ObservationIgnored var gridViewportBeforeInspection: [DeckID: Double] = [:]
     public var gridTapMode: Set<DeckID> = []
     public private(set) var detectingGrids: Set<DeckID> = []
     @ObservationIgnored var gridDetectionTasks: [DeckID: Task<Void, Never>] = [:]
     /// CUE button points, per deck, in source frames.
     public internal(set) var cuePoints: [DeckID: Double] = [:]
     public var viewport: [DeckID: Double] = [:]
+    @ObservationIgnored var loadedWaveformPresentations: [DeckID: LoadedWaveformPresentation] = [:]
     public private(set) var applyingGrids: Set<DeckID> = []
     var adaptiveUndo: [String: [Preparation]] = [:]
     public var gridDraft: [DeckID: BeatGrid] = [:]
     public internal(set) var gridDownbeatDraft: [DeckID: Int] = [:]
     public var editing: Set<DeckID> = []
-    public var browserVisible = false
+    public var browserVisible = false {
+        didSet { if oldValue != browserVisible { browserVisibilityID = UUID() } }
+    }
+    @ObservationIgnored private var browserVisibilityID = UUID()
+    struct LibraryLoadPresentation: Equatable {
+        let visibilityID: UUID
+        let presentationID: UUID
+    }
+    func currentLibraryLoadPresentation() -> LibraryLoadPresentation? {
+        browserVisible ? .init(visibilityID: browserVisibilityID, presentationID: browserPresentationID) : nil
+    }
+    private func closeLibraryAfterLoad(_ presentation: LibraryLoadPresentation?) {
+        guard let presentation, presentation == currentLibraryLoadPresentation() else { return }
+        browserVisible = false
+        selectedTrackID = nil
+    }
     @ObservationIgnored public private(set) var browserPresentationID = UUID()
     @ObservationIgnored let browserPresentationRequests = PassthroughSubject<UUID, Never>()
     public private(set) var browserPresentationExpands = false
@@ -177,7 +194,14 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     @ObservationIgnored private var recordingListWork: Task<Void, Never>?
     @ObservationIgnored private var recordingListPending = false
     public let recordingsDirectory: URL
-    public var recordingLocation = ""
+    public private(set) var recordingStarting = false
+    private(set) var recordingStartError: String?
+    public private(set) var recordingLocation = ""
+    private(set) var recordingLocationOwner: UUID?
+    func setRecordingLocation(_ location: String, owner: UUID) {
+        guard owner == recordingLocationOwner, playback.setRecordingLocation(location) else { return }
+        recordingLocation = location
+    }
     public func loadRecording(_ url: URL, deck: DeckID) async {
         guard !importing, recordings.contains(url), playbackSnapshot?[deck].phase.active != true else { return }
         guard !storeAccess.hasActivePerformance, !playback.core.performanceWorkGate.isProtected,
@@ -218,6 +242,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     public func flushRecordingList() async { await recordingListWork?.value }
     public func recordingTracklist(for recording: URL) -> URL? { recordingTracklists[recording] }
     public func toggleRecording() async {
+        guard !recordingStarting, !playback.recordingFinishing else { return }
         cancelCloudSyncForPlayback()
         if playback.isRecording {
             recordingLimitTask?.cancel()
@@ -225,6 +250,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
             refreshPlayback()
             await playback.finishRecording()
         } else {
+            recordingStartError = nil
             guard storeAccess.isUnlocked(.recording) else {
                 status = "Recording is available during the 14-day preview or with a Recording purchase."
                 return
@@ -233,10 +259,17 @@ enum PlaybackInputSource: Equatable { case touch, controller }
                 status = "The free recording limit has been reached for this performance. End the performance or choose a Recording purchase."
                 return
             }
+            recordingStarting = true
+            recordingLocation = ""
             beginProtectedPerformance()
-            do { try await playback.startRecording(directory: recordingsDirectory, location: recordingLocation) } catch
-            { status = error.localizedDescription }
+            do { try await playback.startRecording(directory: recordingsDirectory) } catch
+            {
+                recordingStartError = error.localizedDescription
+                status = error.localizedDescription
+            }
+            recordingStarting = false
             if playback.isRecording {
+                recordingLocationOwner = UUID()
                 storeAccess.beginRecording()
                 recordingLimitTask?.cancel()
                 let recordingRemaining = storeAccess.recordingRemaining
@@ -328,7 +361,16 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     public internal(set) var trackLoadFailures: [DeckID: String] = [:]
     var preparingNativeMusic: Set<DeckID> = []
     public var preparingTrack: Set<DeckID> { preparingPlayback.union(preparingNativeMusic) }
-    public var previewing: Set<DeckID> = []
+    public var previewing: Set<DeckID> = [] {
+        didSet {
+            if !releasedStripePreviews.isSubset(of: previewing) { releasedStripePreviews.formIntersection(previewing) }
+        }
+    }
+    var releasedStripePreviews: Set<DeckID> = []
+    func canReturnFromStripePreview(_ deck: DeckID) -> Bool {
+        releasedStripePreviews.contains(deck) && previewing.contains(deck) && !editing.contains(deck)
+            && !frozen.contains(deck) && !preparingTrack.contains(deck) && pendingNativeSelection[deck] == nil
+    }
     let controlDisplay = PlaybackControlDisplay()
     @ObservationIgnored let mixerFaderInputs = MixerFaderInputValues()
     public var playbackSnapshot: PlaybackSnapshot? {
@@ -372,6 +414,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     public func flushPreferenceWrites() async {
         await mixerPersistence.flush()
         await collectionPersistence.flush()
+        await recommendationHistoryWriter.flush()
         await queuePersistence.flush()
         await flushPerformanceWrites()
         for writer in Array(arrangementWriters.values) { await writer.flush() }
@@ -618,6 +661,62 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     @ObservationIgnored private var pendingPreparations: [String: (token: UUID, value: Preparation)] = [:]
     var historyWrites: Task<Void, Never>?
     private var recordedGenerationPairs = Set<String>()
+    @ObservationIgnored private var recommendationHistory = PerformanceRecommendationHistory()
+    @ObservationIgnored private var recommendationGenerations: [DeckID: UInt64] = [:]
+    @ObservationIgnored private let recommendationHistoryWriter = CoalescingFileWriter<PerformanceRecommendationHistory>()
+    private(set) var recommendationPlaybackRevision: UInt64 = 0
+    var performedRecommendationIDs: Set<String> {
+        _ = recommendationPlaybackRevision
+        return recommendationHistory.identities
+    }
+
+    private func persistRecommendationHistory() {
+        let url = store.root.appendingPathComponent(PerformanceRecommendationHistory.filename)
+        recommendationHistoryWriter.enqueue(
+            recommendationHistory,
+            write: { try JSONEncoder().encode($0).write(to: url, options: .atomic) },
+            reportError: { _ in })
+    }
+
+    private func resetRecommendationHistory(startedAt: Date?) {
+        recommendationGenerations.removeAll()
+        let hadTracks = !recommendationHistory.identities.isEmpty
+        recommendationHistory = .init(startedAt: startedAt)
+        if hadTracks {
+            recommendationPlaybackRevision &+= 1
+            refreshSuggestions()
+            persistRecommendationHistory()
+        }
+    }
+
+    private func retainPerformanceRecommendations(_ snapshot: PlaybackSnapshot) {
+        guard snapshot.anyDeckActive, let startedAt = storeAccess.performanceSessionStart,
+            snapshot.masterGain > 0
+        else { return }
+        if recommendationHistory.startedAt != startedAt { resetRecommendationHistory(startedAt: startedAt) }
+        var changed = false
+        for deck in DeckID.allCases {
+            let state = snapshot[deck]
+            guard state.phase == .playing, controllerCueContacts[deck] == nil,
+                recommendationGenerations[deck] != state.generation,
+                let committed = committedPreparations[deck], committed.generation == state.generation,
+                PerformanceRecommendationHistory.isOnMaster(
+                    phase: state.phase, touching: state.touchActive,
+                    forwardRender: snapshot.outputFrame > state.lastStartOutputFrame,
+                    peak: state.mixer.peak, volume: state.mixer.volume, assignment: state.mixer.crossfaderAssignment,
+                    crossfader: snapshot.crossfader, master: snapshot.masterGain)
+            else { continue }
+            recommendationGenerations[deck] = state.generation
+            if recommendationHistory.identities.insert(committed.track.id).inserted { changed = true }
+            for source in committed.track.musicLibrarySources ?? [] {
+                if recommendationHistory.identities.insert(source.id).inserted { changed = true }
+            }
+        }
+        guard changed else { return }
+        recommendationPlaybackRevision &+= 1
+        persistRecommendationHistory()
+        refreshSuggestions()
+    }
     public func flushHistoryWrites() async { await historyWrites?.value }
     private func retainPerformedPair(_ snapshot: PlaybackSnapshot) {
         guard snapshot.pairedFrames > 0, let a = committedTrackIDs[.a], let b = committedTrackIDs[.b], a != b,
@@ -726,9 +825,15 @@ enum PlaybackInputSource: Equatable { case touch, controller }
             store: store, initial: initialLibrary, discoverSyncedTraktor: discoverSyncedTraktor,
             automaticTraktorSources: automaticTraktorSources)
         self.playback = try playback ?? PlaybackController()
+        if let startedAt = storeAccess.performanceSessionStart {
+            let url = root.appendingPathComponent(PerformanceRecommendationHistory.filename)
+            recommendationHistory = PerformanceRecommendationHistory.restore(try? Data(contentsOf: url), for: startedAt)
+        }
         self.playback.core.performanceWorkGate.setProtected(storeAccess.hasActivePerformance)
         mixerPreferences = try MixerPreferences.load(from: root.appendingPathComponent("mixer-preferences.json"))
         self.playback.core.setBassAssistance(mixerPreferences.bassAssistance ?? .off)
+        self.playback.core.setBeatLockEnabled(mixerPreferences.beatLock ?? true)
+        self.playback.setMainCompressorEnabled(mixerPreferences.mainCompressor ?? true)
         self.playback.setPrimaryKeylockDefault(mixerPreferences.primaryKeylock ?? true)
         try self.playback.setMixer(.filterY, value: mixerPreferences.filterResonanceA, deck: .a)
         try self.playback.setMixer(.filterY, value: mixerPreferences.filterResonanceB, deck: .b)
@@ -1130,7 +1235,8 @@ enum PlaybackInputSource: Equatable { case touch, controller }
         trackID: String, deck: DeckID, sourceURL: URL? = nil, nativeMetadata: MusicLibraryImportMetadata? = nil
     ) {
         _ = loadPreparedTrack(
-            trackID: trackID, deck: deck, sourceURL: sourceURL, nativeMetadata: nativeMetadata, nativeLoadOwner: nil)
+            trackID: trackID, deck: deck, sourceURL: sourceURL, nativeMetadata: nativeMetadata, nativeLoadOwner: nil,
+            libraryPresentation: currentLibraryLoadPresentation())
     }
 
     func cloneTrackDeck(to deck: DeckID) {
@@ -1153,7 +1259,8 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     @discardableResult func loadPreparedTrack(
         trackID: String, deck: DeckID, sourceURL: URL?, nativeMetadata: MusicLibraryImportMetadata?,
         nativeLoadOwner: UUID?, preparedAsset: PCMAsset? = nil, opening: NativePlaybackOpening? = nil,
-        cloneSource: PCMAsset? = nil, sourceFrame: Double = 0, onFailure: (@MainActor (Error) -> Void)? = nil
+        cloneSource: PCMAsset? = nil, sourceFrame: Double = 0,
+        libraryPresentation: LibraryLoadPresentation? = nil, onFailure: (@MainActor (Error) -> Void)? = nil
     ) -> Task<Void, Never>? {
         cancelCloudSyncForPlayback()
         refreshPlayback()
@@ -1167,7 +1274,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
                     && !FileManager.default.isReadableFile(
                         atPath: store.mediaDirectory.appendingPathComponent(track.mediaFilename).path))
         {
-            loadNativeTrack(track, deck: deck)
+            loadNativeTrack(track, deck: deck, libraryPresentation: libraryPresentation)
             return nil
         }
         if let nativeMetadata {
@@ -1216,15 +1323,15 @@ enum PlaybackInputSource: Equatable { case touch, controller }
         storedPreparationKeys[trackID] = .init(value: storedKey)
         loadPreparations[deck] = .init(token: token, track: track)
         loaded[deck] = trackID
+        loadedWaveformPresentations[deck] = nil
         viewport[deck] = sourceFrame
         gridDraft[deck] = pendingPreparations[trackID]?.value.grid
         gridDownbeatDraft[deck] = nil
+        gridViewportBeforeInspection[deck] = nil
         editing.remove(deck)
         frozen.remove(deck)
         previewing.remove(deck)
         preparingPlayback.insert(deck)
-        browserVisible = false
-        selectedTrackID = nil
         let event = PerformanceEvent(
             sessionID: sessionID, kind: .load, timestamp: Date(), fromTrackID: loaded[deck.opposite],
             toTrackID: trackID)
@@ -1313,12 +1420,23 @@ enum PlaybackInputSource: Equatable { case touch, controller }
                     preparingWaveforms.remove(id)
                 }
                 committedTrackIDs[deck] = trackID
+                closeLibraryAfterLoad(libraryPresentation)
                 if track.traktorPreparation == nil, let grid = currentGrid ?? track.grid {
                     synchronizeGridCue(trackID: trackID, grid: grid)
                 }
                 if performance.freezeOnLoad {
                     frozen.insert(deck)
                     previewing.insert(deck)
+                } else if cloneSource == nil, sourceFrame == 0, pendingLoadPlay[deck] == nil,
+                    let state = playback.core.snapshot()?[deck], state.generation == committed.generation,
+                    let grid = currentGrid,
+                    let presentation = LoadedWaveformPresentation(
+                        generation: state.generation, phase: state.phase, sourceFrame: state.sourceFrame,
+                        timing: BeatTiming(fixed: grid, adaptive: state.adaptiveMap),
+                        frameCount: current.track.analysis.frameCount)
+                {
+                    loadedWaveformPresentations[deck] = presentation
+                    viewport[deck] = presentation.center
                 }
                 preparingPlayback.remove(deck)
                 if pendingLoadPlay[deck] == (nativeLoadOwner ?? token) {
@@ -1634,7 +1752,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
         let context = SuggestionContext(
             referenceTrackID: reference, destination: destination, performanceBPM: playbackSnapshot?.masterBPM,
             usePerformanceBPM: playbackSnapshot?[other].phase.active == true && playbackSnapshot?[other].synced == true,
-            loadedTrackIDs: Set(loaded.values), libraryRevision: storedLibrary.revision,
+            loadedTrackIDs: Set(loaded.values).union(performedRecommendationIDs), libraryRevision: storedLibrary.revision,
             historyRevision: storedLibrary.adaptiveMemory.revision)
         let librarySource = libraryReadSource()
         let referenceTrack = track(other)
@@ -1646,7 +1764,8 @@ enum PlaybackInputSource: Equatable { case touch, controller }
                 let ranked = try await PerformerSuggestions.rankAsync(
                     librarySource: librarySource, context: context, referenceOverride: referenceTrack)
                 guard !Task.isCancelled, suggestionRequest == request, loaded[other] == reference,
-                    Set(loaded.values) == context.loadedTrackIDs, loadPreparations[other]?.token == referenceToken,
+                    Set(loaded.values).union(performedRecommendationIDs) == context.loadedTrackIDs,
+                    loadPreparations[other]?.token == referenceToken,
                     track(other)?.preparation == referenceTrack?.preparation
                 else { return }
                 if storedLibrary.revision != context.libraryRevision {
@@ -1801,9 +1920,11 @@ enum PlaybackInputSource: Equatable { case touch, controller }
                     loaded[deck] = nil
                     if lastLoadedDeck == deck { lastLoadedDeck = DeckID.allCases.first { loaded[$0] != nil } }
                     loadedTrackCache[deck] = nil
+                    loadedWaveformPresentations[deck] = nil
                     viewport[deck] = 0
                     gridDraft[deck] = nil
                     gridDownbeatDraft[deck] = nil
+                    gridViewportBeforeInspection[deck] = nil
                     editing.remove(deck)
                     frozen.remove(deck)
                     previewing.remove(deck)
@@ -1934,6 +2055,10 @@ enum PlaybackInputSource: Equatable { case touch, controller }
         let wasRecording = isRecording || recordingFinishing
         if isRecording != playback.isRecording { isRecording = playback.isRecording }
         if recordingFinishing != playback.recordingFinishing { recordingFinishing = playback.recordingFinishing }
+        if !isRecording, recordingLocationOwner != nil {
+            recordingLocationOwner = nil
+            recordingLocation = ""
+        }
         if wasRecording && !isRecording && !recordingFinishing {
             recordingLimitTask?.cancel()
             recordingLimitTask = nil
@@ -1957,6 +2082,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
         if preparingSourceActions != sourceActions { preparingSourceActions = sourceActions }
         if let snapshot {
             playbackSnapshot = snapshot
+            retainPerformanceRecommendations(snapshot)
             retainPerformedPair(snapshot)
             maintainRecovery(snapshot)
             #if os(macOS) || os(iOS)
@@ -1967,9 +2093,13 @@ enum PlaybackInputSource: Equatable { case touch, controller }
             }
             for deck in snapshot.deckIDs {
                 guard let state = waveformPlayback(deck), state.phase != .empty, !playback.hasPendingTouchRelease(deck) else { continue }
-                if editing.contains(deck) {
-                    guard state.phase == .playing, gridWaveformContacts[deck] == nil else { continue }
-                } else if previewing.contains(deck) || frozen.contains(deck) { continue }
+                if let presentation = loadedWaveformPresentations[deck] {
+                    if presentation.holds(generation: state.generation, phase: state.phase, sourceFrame: state.sourceFrame) {
+                        continue
+                    }
+                    loadedWaveformPresentations[deck] = nil
+                }
+                guard !editing.contains(deck), !previewing.contains(deck), !frozen.contains(deck) else { continue }
                 if viewport[deck] != state.sourceFrame { viewport[deck] = state.sourceFrame }
             }
         }
@@ -2063,6 +2193,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
         }
         savePerformanceHealth(force: true)
         storeAccess.endPerformance()
+        resetRecommendationHistory(startedAt: nil)
         playback.core.performanceWorkGate.setProtected(false)
         updateDeckAnalysisScheduling(wasPlaying: true)
         updateArrangementScheduling(wasPlaying: true)
@@ -2149,6 +2280,24 @@ enum PlaybackInputSource: Equatable { case touch, controller }
             persistMixerPreferences()
             refreshPlayback()
         } catch { status = error.localizedDescription }
+    }
+    var mainCompressorEnabled: Bool {
+        get { mixerPreferences.mainCompressor ?? true }
+        set {
+            guard newValue != mainCompressorEnabled else { return }
+            mixerPreferences.mainCompressor = newValue
+            playback.setMainCompressorEnabled(newValue)
+            persistMixerPreferences()
+        }
+    }
+    var beatLockEnabled: Bool {
+        get { mixerPreferences.beatLock ?? true }
+        set {
+            guard newValue != beatLockEnabled else { return }
+            mixerPreferences.beatLock = newValue
+            playback.core.setBeatLockEnabled(newValue)
+            persistMixerPreferences()
+        }
     }
     var primaryKeylockEnabled: Bool {
         get { mixerPreferences.primaryKeylock ?? true }

@@ -40,31 +40,34 @@ public struct LibraryBrowserProjection: Sendable {
     private static let worker = AnalysisWorker()
 
     public static func build(
-        tracks: [Track], suggestionIDs: [String]?, search: String, sort: CollectionSort?, category: CollectionCategory,
+        tracks: [Track], suggestionIDs: [String]?, search: String, sort: CollectionSort?, reversed: Bool = false,
+        category: CollectionCategory,
         group: String?, playlists: CollectionPlaylists, catalog: MusicLibraryCatalog?, previous: Self? = nil,
         hints: [String: BrowserPreparationHint] = [:]
     ) async throws -> Self {
         try await worker.run { check in
             try buildOnWorker(
-                tracks: tracks, suggestionIDs: suggestionIDs, search: search, sort: sort, category: category,
-                group: group, playlists: playlists, catalog: catalog, previous: previous, hints: hints, check: check)
+                tracks: tracks, suggestionIDs: suggestionIDs, search: search, sort: sort, reversed: reversed,
+                category: category, group: group, playlists: playlists, catalog: catalog, previous: previous, hints: hints, check: check)
         }
     }
     package static func build(
         librarySource: BackgroundOwnedValue<LibrarySnapshot>, catalogSource: BackgroundOwnedValue<MusicLibraryCatalog>?,
-        suggestionIDs: [String]?, search: String, sort: CollectionSort?, category: CollectionCategory, group: String?,
+        suggestionIDs: [String]?, search: String, sort: CollectionSort?, reversed: Bool = false,
+        category: CollectionCategory, group: String?,
         playlists: CollectionPlaylists, previous: Self? = nil, hints: [String: BrowserPreparationHint] = [:]
     ) async throws -> Self {
         try await worker.run { check in
             let tracks = librarySource.withValue { $0.tracks }
             let catalog = catalogSource?.withValue { $0 }
             return try buildOnWorker(
-                tracks: tracks, suggestionIDs: suggestionIDs, search: search, sort: sort, category: category,
-                group: group, playlists: playlists, catalog: catalog, previous: previous, hints: hints, check: check)
+                tracks: tracks, suggestionIDs: suggestionIDs, search: search, sort: sort, reversed: reversed,
+                category: category, group: group, playlists: playlists, catalog: catalog, previous: previous, hints: hints, check: check)
         }
     }
     private static func buildOnWorker(
-        tracks: [Track], suggestionIDs: [String]?, search: String, sort: CollectionSort?, category: CollectionCategory,
+        tracks: [Track], suggestionIDs: [String]?, search: String, sort: CollectionSort?, reversed: Bool = false,
+        category: CollectionCategory,
         group: String?, playlists: CollectionPlaylists, catalog: MusicLibraryCatalog?, previous: Self?,
         hints: [String: BrowserPreparationHint] = [:], check: @Sendable () throws -> Void
     ) throws -> Self {
@@ -210,23 +213,32 @@ public struct LibraryBrowserProjection: Sendable {
                     let lhs = sort == .title ? left.title : sort == .artist ? left.artist : left.album
                     let rhs = sort == .title ? right.title : sort == .artist ? right.artist : right.album
                     let order = lhs.localizedStandardCompare(rhs)
-                    if order != .orderedSame { return order == .orderedAscending }
+                    if order != .orderedSame { return reversed ? order == .orderedDescending : order == .orderedAscending }
                 case .dateAdded:
-                    let lhs = left.nativeItem?.dateAdded ?? left.track?.dateAdded ?? .distantPast
-                    let rhs = right.nativeItem?.dateAdded ?? right.track?.dateAdded ?? .distantPast
-                    if lhs != rhs { return lhs > rhs }
+                    let lhs = left.nativeItem?.dateAdded ?? left.track?.dateAdded
+                    let rhs = right.nativeItem?.dateAdded ?? right.track?.dateAdded
+                    if lhs != rhs {
+                        guard let lhs else { return false }
+                        guard let rhs else { return true }
+                        return reversed ? lhs < rhs : lhs > rhs
+                    }
                 case .key:
                     let lhs = left.key?.name
                     let rhs = right.key?.name
                     if lhs != rhs {
                         guard let lhs else { return false }
                         guard let rhs else { return true }
-                        return lhs.localizedStandardCompare(rhs) == .orderedAscending
+                        let order = lhs.localizedStandardCompare(rhs)
+                        return reversed ? order == .orderedDescending : order == .orderedAscending
                     }
                 case .bpm:
-                    let lhs = left.bpm ?? .infinity
-                    let rhs = right.bpm ?? .infinity
-                    if lhs != rhs { return lhs < rhs }
+                    let lhs = left.bpm
+                    let rhs = right.bpm
+                    if lhs != rhs {
+                        guard let lhs else { return false }
+                        guard let rhs else { return true }
+                        return reversed ? lhs > rhs : lhs < rhs
+                    }
                 }
                 return a < b
             }

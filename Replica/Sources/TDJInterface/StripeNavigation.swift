@@ -19,6 +19,7 @@ import TDJCore
     private var load: UUID?
     private var center = 0.0
     private var wasPreviewing = false
+    private var wasReleased = false
     private var wasEditing = false
     private var wasFrozen = false
 
@@ -39,14 +40,7 @@ import TDJCore
             return
         }
         if event.phase == .cancelled {
-            if active {
-                if wasPreviewing || wasEditing || wasFrozen {
-                    model.viewport[deck] = center
-                    if !wasPreviewing { model.previewing.remove(deck) }
-                } else {
-                    model.returnToPlayhead(deck: deck)
-                }
-            }
+            if active { restorePreview(model: model, deck: deck) }
             reset()
             return
         }
@@ -58,6 +52,7 @@ import TDJCore
             load = model.loadIdentity(deck)
             center = model.viewport[deck] ?? 0
             wasPreviewing = model.previewing.contains(deck)
+            wasReleased = model.releasedStripePreviews.remove(deck) != nil
             wasEditing = model.editing.contains(deck)
             wasFrozen = model.frozen.contains(deck)
             let halfWindow = max(10 / max(1, width), visibleSeconds / track.analysis.duration) / 2
@@ -65,8 +60,8 @@ import TDJCore
             drag = Drag(contact: first.id, offset: abs(offset) <= halfWindow ? offset : 0)
             model.previewing.insert(deck)
         }
-        defer { if event.phase == .ended && event.remaining.isEmpty { reset() } }
         if event.points.count > 2 {
+            restorePreview(model: model, deck: deck)
             reset()
             ignoring = !event.remaining.isEmpty
             return
@@ -85,17 +80,46 @@ import TDJCore
                 onZoom(max(min(1, track.analysis.duration), min(track.analysis.duration, seconds)))
             }
         } else if pinch == nil, let drag, let point = event.points.first(where: { $0.id == drag.contact }) {
+            model.loadedWaveformPresentations[deck] = nil
             model.viewport[deck] = model.boundedFrame((point.x - drag.offset) * frames, deck: deck)
         }
         // A remaining pinch contact must not become a navigation drag.
         if pinch != nil, event.remaining.count < 2 {
+            restorePreview(model: model, deck: deck)
             reset()
             ignoring = !event.remaining.isEmpty
+        } else if event.phase == .ended && event.remaining.isEmpty {
+            if !wasEditing, !wasFrozen,
+                StripePreviewRelease.detached(previouslyReleased: wasReleased,
+                                              start: center, end: model.viewport[deck] ?? center)
+            {
+                model.releasedStripePreviews.insert(deck)
+            } else if !wasEditing, !wasFrozen {
+                restorePreview(model: model, deck: deck)
+            }
+            reset()
         }
     }
+
+    private func restorePreview(model: ReplicaModel, deck: DeckID) {
+        if wasPreviewing || wasEditing || wasFrozen {
+            model.viewport[deck] = center
+            if !wasPreviewing { model.previewing.remove(deck) }
+            if wasReleased { model.releasedStripePreviews.insert(deck) }
+        } else {
+            model.returnToPlayhead(deck: deck)
+        }
+    }
+
     private func reset() {
         active = false
         drag = nil
         pinch = nil
+    }
+}
+
+enum StripePreviewRelease {
+    static func detached(previouslyReleased: Bool, start: Double, end: Double) -> Bool {
+        previouslyReleased || abs(end - start) >= 1
     }
 }

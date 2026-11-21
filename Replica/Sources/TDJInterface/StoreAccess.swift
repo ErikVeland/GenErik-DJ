@@ -140,6 +140,7 @@ private enum StoreAccessProductID: String, CaseIterable {
     }
     public private(set) var hasActivePerformance = false
     var hasPerformanceTiming: Bool { performanceStartedAt != nil }
+    var performanceSessionStart: Date? { performanceStartedAt }
 
     public func start() {
         guard !hasStarted else { return }
