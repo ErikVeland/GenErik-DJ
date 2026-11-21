@@ -968,3 +968,7 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R541 | Source candidate. Device energy check open. | Reduce recording writer wakeups on the A10X iPad. | Group AIFF writes on a coalescible 100 ms timer. Keep the original capture ring, 24-bit format, track times, and full final drain. Compare performance and battery with recording off and on. |
 
 | R542 | Draft. Physical acceptance open. | Move the actual playhead when releasing a stopped preview scrub. Leave playing preview detached. | Compare Ready/Paused, streamed Play before seek completion, cancellation, reload, Freeze and Beat Fix. Separately check Beat Lock just before, at and after the same beat, A→B and B→A, with no source rewind or duplicate start. |
+
+<a id="r543"></a>
+
+| R543 | Source candidate. Device check open. | Move a Beat Fix grid to the left of its first beat. | Keep the inspection view inside the file. Continue to shift the draft phase at the start of the file. Show the Flex draft without changing live playback. Keep explicit beat taps inside the file. |

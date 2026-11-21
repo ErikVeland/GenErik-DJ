@@ -123,7 +123,7 @@ extension ReplicaModel {
     /// Moves the live playhead to a visible grid beat and stages that beat as the downbeat.
     public func moveGridPlayhead(toBeat beat: Int, deck: DeckID) {
         guard editing.contains(deck), !gridLocked.contains(deck), gridPreparation(deck)?.gridLocked != true,
-            let timing = timing(deck)
+            let timing = gridInspectionTiming(deck)
         else { return }
         let frame = timing.frame(atBeat: Double(beat))
         guard let track = track(deck), (0..<Double(track.analysis.frameCount)).contains(frame) else { return }

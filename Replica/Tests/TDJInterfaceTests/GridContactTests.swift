@@ -231,3 +231,28 @@ import Testing
     let missing = GridInspectionViewport.start(current: nil, playhead: .infinity, timing: nil, frameCount: 0)
     #expect(missing.previous == 0 && missing.center == 0)
 }
+
+@Test func gridDragKeepsPhaseMovementAfterReachingFileStart() throws {
+    let grid = try BeatGrid(bpm: 120, anchorFrame: 1200, sampleRate: 8000)
+    let drag = GridDrag(grid: grid, viewportFrame: 1200, framesPerPoint: 8000)
+    let atStart = try drag.inspectionPreview(translationPoints: 0.15, lastFrame: 32_000)
+    let earlier = try drag.inspectionPreview(translationPoints: 0.30, lastFrame: 32_000)
+    #expect(atStart.viewportFrame == 0 && earlier.viewportFrame == 0)
+    #expect(atStart.grid.anchorFrame == 0)
+    #expect(earlier.grid.anchorFrame == -1200)
+    #expect(earlier.grid.frame(atBeat: 1) == 2800)
+}
+
+@Test func shiftedFlexDraftDerivesInFileEndpointsAndRetainsUnevenSpacing() throws {
+    let map = BeatGridMap(
+        anchors: [
+            .init(beat: 0, frame: 1100), .init(beat: 2, frame: 8700),
+            .init(beat: 4, frame: 17200), .init(beat: 8, frame: 33100)
+        ], sampleRate: 8000)
+    let shifted = try map.transforming(tempoFactor: 1, frameOffset: -2000, frameCount: 34_000)
+    #expect(shifted.anchors.first?.frame == 0)
+    #expect(shifted.frame(atBeat: 2) == map.frame(atBeat: 2) - 2000)
+    #expect(shifted.frame(atBeat: 4) - shifted.frame(atBeat: 2)
+        == map.frame(atBeat: 4) - map.frame(atBeat: 2))
+    #expect(map.anchors.first?.frame == 1100)
+}

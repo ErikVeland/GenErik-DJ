@@ -115,6 +115,9 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     @ObservationIgnored var loadedWaveformPresentations: [DeckID: LoadedWaveformPresentation] = [:]
     public private(set) var applyingGrids: Set<DeckID> = []
     var adaptiveUndo: [String: [Preparation]] = [:]
+    @ObservationIgnored private var gridInspectionMaps: [DeckID: (
+        draft: BeatGrid, basis: BeatGrid, active: BeatGridMap, frames: Int64, shifted: BeatGridMap?
+    )] = [:]
     public var gridDraft: [DeckID: BeatGrid] = [:]
     public internal(set) var gridDownbeatDraft: [DeckID: Int] = [:]
     public var editing: Set<DeckID> = []
@@ -2426,6 +2429,27 @@ enum PlaybackInputSource: Equatable { case touch, controller }
 extension ReplicaModel {
     public func timing(_ deck: DeckID) -> BeatTiming? {
         grid(deck).map { BeatTiming(fixed: $0, adaptive: playbackSnapshot?[deck].adaptiveMap) }
+    }
+    func gridInspectionTiming(_ deck: DeckID) -> BeatTiming? {
+        guard let fixed = grid(deck) else { return nil }
+        let active = waveformPlayback(deck)?.adaptiveMap
+        guard editing.contains(deck), let draft = gridDraft[deck], let active,
+            let track = track(deck), let basis = gridPreparation(deck)?.grid
+        else {
+            gridInspectionMaps[deck] = nil
+            return BeatTiming(fixed: fixed, adaptive: active)
+        }
+        let frames = track.analysis.frameCount
+        if let cached = gridInspectionMaps[deck], cached.draft == draft,
+            cached.basis == basis, cached.active == active, cached.frames == frames
+        {
+            return BeatTiming(fixed: fixed, adaptive: cached.shifted ?? active)
+        }
+        let shifted = try? active.transforming(
+            tempoFactor: draft.bpm / basis.bpm, frameOffset: draft.anchorFrame - basis.anchorFrame,
+            frameCount: frames)
+        gridInspectionMaps[deck] = (draft, basis, active, frames, shifted)
+        return BeatTiming(fixed: fixed, adaptive: shifted ?? active)
     }
     public func candidateConfidence(_ deck: DeckID) -> Double? {
         guard let id = loaded[deck] else { return nil }

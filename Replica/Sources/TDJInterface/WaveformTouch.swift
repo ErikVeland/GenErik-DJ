@@ -369,10 +369,15 @@ enum WaveformZoom {
             if abs(dx) > 0.006 || abs(dy) > 0.025 { moved = true }
             if model.editing.contains(deck) {
                 if (event.phase == .moved || event.phase == .ended), moved {
-                    let target = model.boundedFrame(center - dx * span, deck: deck)
-                    model.viewport[deck] = target
-                    if var grid = initialGrid, !model.gridLocked.contains(deck), model.gridPreparation(deck)?.gridLocked != true {
-                        if (try? grid.shiftWaveform(bySourceFrames: center - target)) != nil { model.gridDraft[deck] = grid }
+                    let translation = max(-1, min(1, dx))
+                    model.viewport[deck] = model.boundedFrame(center - translation * span, deck: deck)
+                    if let grid = initialGrid, !model.gridLocked.contains(deck),
+                        model.gridPreparation(deck)?.gridLocked != true, let track = model.track(deck),
+                        let result = try? GridDrag(grid: grid, viewportFrame: center, framesPerPoint: span)
+                            .inspectionPreview(translationPoints: translation, lastFrame: Double(track.analysis.frameCount - 1))
+                    {
+                        model.viewport[deck] = result.viewportFrame
+                        model.gridDraft[deck] = result.grid
                     }
                 }
             } else if model.frozen.contains(deck) {

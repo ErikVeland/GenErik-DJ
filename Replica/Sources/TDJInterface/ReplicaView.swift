@@ -1874,9 +1874,10 @@ enum RecordingOutputIndicator {
     @Environment(\.snapshotBandWaveforms) private var snapshotBands
     var body: some View {
         let playback = model.waveformPlayback(deck)
+        let map = model.editing.contains(deck) ? model.gridInspectionTiming(deck)?.adaptive : playback?.adaptiveMap
         WaveformView(
             track: track, grid: model.grid(deck), centerFrame: model.viewport[deck] ?? 0,
-            visibleSeconds: visibleSeconds, adaptiveMap: playback?.adaptiveMap,
+            visibleSeconds: visibleSeconds, adaptiveMap: map,
             playheadFrame: model.displayedStripePlayhead(deck) ?? playback?.sourceFrame ?? 0,
             leadInFrame: playback?.leadInSourceFrame,
             band: band?.0 == track.id ? band?.1 : snapshotBands[track.id],
@@ -2094,7 +2095,7 @@ enum RecordingOutputIndicator {
         GeometryReader { geometry in
             let left = center - span / 2
             let perPoint = span / max(1, geometry.size.width)
-            let timing = model.timing(deck) ?? BeatTiming(fixed: grid)
+            let timing = model.gridInspectionTiming(deck) ?? BeatTiming(fixed: grid)
             let endFrame = Double(model.track(deck)?.analysis.frameCount ?? 0)
             let first = Int(exactly: ceil(timing.beat(atFrame: left))) ?? 0
             let last = Int(exactly: ceil(timing.beat(atFrame: left + span))) ?? first
