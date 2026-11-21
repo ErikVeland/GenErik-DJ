@@ -42,12 +42,12 @@ extension SourceControl {
         case .tempo(let bpm, _, _): if state.synced, state.sourceBPM > 0 { target.speed = bpm / state.sourceBPM }
         case .freeRate(let rate, _, _): if !state.synced { target.speed = rate }
         case .sync(let enabled, _, _):
-            target.speed =
-                enabled && state.sourceBPM > 0
-                ? snapshot.masterBPM / state.sourceBPM
-                : state.phase == .playing || state.phase == .paused ? state.speed : state.freeRate
-            if enabled, state.phase == .playing, !state.touchActive, !state.braking, state.performanceRate == 1 {
-                alignmentBeat = snapshot.masterBeat
+            if enabled != state.synced {
+                if enabled, state.sourceBPM > 0 {
+                    target.speed = snapshot.masterBPM / state.sourceBPM
+                } else if !enabled, state.phase != .playing {
+                    target.speed = 1
+                }
             }
         case .restoreSync:
             guard let grid = state.timing else { return [] }

@@ -2471,25 +2471,19 @@ static int apply(tdj_engine *e, tdj_command c) {
             return TDJ_INVALID;
         if (c.flag && d->bpm > 0 && d->keylock && !supported_keylock_rate(e->bpm / deck_bpm(d)))
             return TDJ_KEYLOCK_RANGE;
+        if (d->synced == (c.flag != 0))
+            return TDJ_OK;
         deck proposed = *d;
-        if (!c.flag && (d->state == TDJ_PLAYING || d->state == TDJ_PAUSED))
-            proposed.free_rate = source_rate(e, d);
+        if (!c.flag)
+            proposed.free_rate = d->state == TDJ_PLAYING ? source_rate(e, d) : 1;
         proposed.synced = c.flag != 0;
-        if (c.flag && d->state == TDJ_PLAYING && !align_synced_position(&proposed, beat_now(e)))
-            return TDJ_ALIGNMENT_UNAVAILABLE;
         if (proposed.keylock && !supported_deck_keylock(&proposed, e->bpm))
             return TDJ_KEYLOCK_RANGE;
         int status = stream_validate(e, c.deck, &proposed, e->bpm, c.preparation_ticket, c.generation);
         if (status != TDJ_OK)
             return status;
-        if (!c.flag && (d->state == TDJ_PLAYING || d->state == TDJ_PAUSED))
-            d->free_rate = source_rate(e, d);
-        if (d->position != proposed.position) {
-            d->position = proposed.position;
-            reset_deck_keylock(e, c.deck);
-            transition_request(e, c.deck, 0);
-        }
-        d->synced = c.flag != 0;
+        d->free_rate = proposed.free_rate;
+        d->synced = proposed.synced;
         return TDJ_OK;
     }
     if (c.kind == TDJ_ADAPTIVE_GRID) {

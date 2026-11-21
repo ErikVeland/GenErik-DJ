@@ -265,8 +265,12 @@ import TDJCore
             Button {
                 model.toggleSync(deck: activeDeck)
             } label: {
-                Text("Sync")
+                Text("Sync").foregroundStyle(
+                    model.playbackSnapshot?[activeDeck].synced == true
+                        ? PerformancePalette.syncGreen : PerformancePalette.text
+                )
             }.accessibilityLabel("Sync deck \(activeDeck.rawValue.uppercased())")
+                .accessibilityAddTraits(model.playbackSnapshot?[activeDeck].synced == true ? .isSelected : [])
             DeckPlaybackButton(model: model, deck: activeDeck)
         }.disabled(model.track(activeDeck) == nil)
     }
