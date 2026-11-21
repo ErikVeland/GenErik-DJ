@@ -42,7 +42,7 @@ typedef struct {
     bool stem_split;
     uint64_t generation, last_start;
     int32_t state;
-    bool synced, keylock;
+    bool synced, keylock, has_started;
     groove_sync groove;
     tdj_beatgrid_map map;
     bool map_dirty;
@@ -106,7 +106,10 @@ typedef struct {
     bool pending, playing;
 } dry_transition;
 
+enum { SYNC_LEGACY = 0, SYNC_TEMPO_ONLY, SYNC_FIRST_BEAT };
+
 struct tdj_engine {
+    _Atomic int sync_entry_policy;
     double rate, gain, bpm, epoch_ticks;
     mixer mix;
     bass_assist bass;
@@ -440,8 +443,9 @@ static void groove_update(tdj_engine *e, deck *d, bool advance, bool auxiliary_c
             *g = (groove_sync){0};
         return;
     }
-    bool paired = auxiliary_clock;
-    for (int i = 0; i < e->deck_count && !paired; ++i) {
+    bool track_phase = atomic_load_explicit(&e->sync_entry_policy, memory_order_relaxed) == SYNC_LEGACY;
+    bool paired = track_phase && auxiliary_clock;
+    for (int i = 0; track_phase && i < e->deck_count && !paired; ++i) {
         deck *other = &e->decks[i];
         paired = other != d && other->synced && other->bpm > 0 && deck_active(other);
     }
@@ -934,15 +938,21 @@ static double reference_beats(deck *d, tdj_engine *e) {
     return (d->asset->frames - d->position) * e->bpm / (60 * d->asset->rate * source_rate(e, d));
 }
 static int start_deck(tdj_engine *e, deck *d, int index, uint64_t ticket, uint64_t generation) {
+    int policy = atomic_load_explicit(&e->sync_entry_policy, memory_order_relaxed);
     double reference = -1;
     deck *solo = NULL;
     unsigned references = 0;
-    if (d->synced && d->bpm > 0)
+    if (d->synced && d->bpm > 0 && (policy == SYNC_LEGACY || (policy == SYNC_FIRST_BEAT && !d->has_started)))
         for (int i = 0; i < e->deck_count; ++i) {
             deck *candidate = &e->decks[i];
             if (i != index && candidate->state == TDJ_PLAYING && candidate->synced && candidate->bpm > 0) {
-                reference = fmax(reference, reference_beats(candidate, e));
-                solo = candidate;
+                if (policy == SYNC_FIRST_BEAT && (candidate->touch_active || candidate->braking ||
+                    candidate->stream_starved || candidate->performance_rate != 1))
+                    continue;
+                double remaining = reference_beats(candidate, e);
+                if (policy == SYNC_LEGACY || remaining > reference)
+                    solo = candidate;
+                reference = fmax(reference, remaining);
                 references++;
             } else if (i != index && candidate->state == TDJ_QUEUED)
                 references++;
@@ -950,13 +960,28 @@ static int start_deck(tdj_engine *e, deck *d, int index, uint64_t ticket, uint64
     double proposed_bpm = (!e->running && !e->master_chosen && d->bpm > 0) ? d->bpm : e->bpm;
     if (d->keylock && !supported_deck_keylock(d, proposed_bpm))
         return TDJ_KEYLOCK_RANGE;
+    double first_beat = 0;
+    if (policy == SYNC_FIRST_BEAT && solo) {
+        double phase = deck_beat(d, d->position) - d->downbeat;
+        phase -= floor(phase);
+        double reference_beat = deck_beat(solo, solo->position) - solo->downbeat;
+        double next = floor(reference_beat - phase) + 1 + phase + solo->downbeat;
+        double next_frame = deck_frame(solo, next);
+        double limit = solo->loop_enabled ? solo->loop_end : solo->asset->frames;
+        double beat_delay = (next_frame - solo->position) * e->bpm /
+            (source_rate(e, solo) * solo->asset->rate * 60);
+        if (isfinite(beat_delay) && beat_delay > 0 && next_frame < limit)
+            first_beat = beat_now(e) + beat_delay;
+        else
+            solo = NULL;
+    }
     deck starting = *d;
-    starting.state = reference >= 0 ? TDJ_QUEUED : TDJ_PLAYING;
+    starting.state = solo ? TDJ_QUEUED : TDJ_PLAYING;
     int stream_status = stream_validate(e, index, &starting, proposed_bpm, ticket, generation);
     if (stream_status != TDJ_OK)
         return stream_status;
     if (starting.state == TDJ_QUEUED) {
-        if (references == 1 && solo->groove.mode == TDJ_GROOVE_SOLO && !groove_clock_in_use(e)) {
+        if (policy == SYNC_LEGACY && references == 1 && solo->groove.mode == TDJ_GROOVE_SOLO && !groove_clock_in_use(e)) {
             double phase = groove_bar_phase(solo, solo->position);
             anchor_clock(e, phase + 4 * round((beat_now(e) - phase) / 4));
         }
@@ -972,7 +997,8 @@ static int start_deck(tdj_engine *e, deck *d, int index, uint64_t ticket, uint64
         /**
          * Retains the prepared bar phase. Short references use the existing next-beat fallback.
          */
-        d->target = bar - beat <= reference + 1e-9 ? bar : floor(beat - phase) + 1 + phase;
+        d->target = policy == SYNC_FIRST_BEAT ? first_beat :
+            (bar - beat <= reference + 1e-9 ? bar : floor(beat - phase) + 1 + phase);
         d->state = TDJ_QUEUED;
     } else {
         if (!e->running) {
@@ -987,6 +1013,7 @@ static int start_deck(tdj_engine *e, deck *d, int index, uint64_t ticket, uint64
         }
         d->position = starting.position;
         d->state = TDJ_PLAYING;
+        d->has_started = true;
         d->last_start = e->frame;
     }
     return TDJ_OK;
@@ -1096,6 +1123,7 @@ tdj_engine *tdj_engine_create(double rate, double gain) {
         return NULL;
     e->rate = rate;
     e->deck_count = 2;
+    atomic_init(&e->sync_entry_policy, SYNC_LEGACY);
     atomic_init(&e->extra_prepared, false);
     atomic_init(&e->loop_recorder_buffer, NULL);
     atomic_init(&e->loop_recorder_enabled, false);
@@ -2611,6 +2639,10 @@ static void controls(tdj_engine *e) {
     }
 }
 
+void tdj_sync_set_beat_lock(tdj_engine *e, bool enabled) {
+    atomic_store_explicit(&e->sync_entry_policy, enabled ? SYNC_FIRST_BEAT : SYNC_TEMPO_ONLY, memory_order_relaxed);
+}
+
 void tdj_bass_assist_set_mode(tdj_engine *e, int32_t mode) {
     if (mode >= TDJ_BASS_OFF && mode <= TDJ_BASS_HANDOVER)
         atomic_store_explicit(&e->bass_mode, mode, memory_order_relaxed);
@@ -3095,6 +3127,8 @@ static bool render_buses_internal(tdj_engine *e, tdj_recording *recording, uint3
                 brake_clear(e, i);
             groove_update(e, d, true, groove_auxiliary_clock);
             bool playing = d->state == TDJ_PLAYING;
+            if (playing)
+                d->has_started = true;
             if (playing != transition->playing)
                 transition_request(e, i, 0);
             transition->playing = playing;

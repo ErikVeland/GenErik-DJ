@@ -208,6 +208,7 @@ tdj_asset *tdj_asset_map(const char *path, uint64_t frames, double sample_rate);
 void tdj_asset_destroy(tdj_asset *asset);
 
 tdj_engine *tdj_engine_create(double sample_rate, double output_gain);
+void tdj_sync_set_beat_lock(tdj_engine *engine, bool enabled);
 // The metrics owner must outlive the returned engine. No clocks are added to the ordinary factory.
 tdj_engine *tdj_engine_create_keylock_traced(double sample_rate, double output_gain, tdj_callback_metrics *metrics);
 void tdj_engine_destroy(tdj_engine *engine);

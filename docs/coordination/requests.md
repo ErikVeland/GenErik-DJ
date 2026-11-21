@@ -936,3 +936,7 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R529 | Source candidate. Tests pending. | Keep Sync on or off without moving either playhead. | Restore the source tempo when Sync turns off on a stopped deck. Keep the current rate on a playing deck. Check both deck directions, outer decks, and explicit grid alignment on the test iPad. |
 
 | R530 | Draft. Physical acceptance open. | Reverse the active song sort on a second selection. Load playlist tracks to a chosen deck. Close the library only after an accepted load. | Check device gestures, list scrolling, keyboard dismissal, deck choice and failed loads. |
+
+<a id="r531"></a>
+
+| R531 | Source candidate. Tests pending. | Add Beat Lock to Sync options. | Align the first entry of a synced track without moving the playhead. Default to on. Keep BPM matching when Beat Lock is off. Check the setting, deck directions, and adaptive grids on the test iPad. |

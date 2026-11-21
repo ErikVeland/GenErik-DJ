@@ -38,6 +38,11 @@ struct PlaybackSettings: View {
                 .font(.caption).foregroundStyle(.secondary)
                 Toggle("Freeze on load", isOn: preference(\.freezeOnLoad))
             }
+            SettingsGroup("Sync · all decks") {
+                Toggle("Beat Lock", isOn: $model.beatLockEnabled)
+                Text("Aligns the first beat of a new track. Sync still matches BPM when Beat Lock is off.")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
             SettingsGroup("Loop defaults") {
                 Picker("Fallback loop length", selection: preference(\.defaultLoopBeats)) {
                     ForEach(PerformancePreparation.loopSizes, id: \.self) { beats in

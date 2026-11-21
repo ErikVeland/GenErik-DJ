@@ -914,6 +914,10 @@ public final class SampleTransport: @unchecked Sendable {
     /**
      * Selects bass assistance independently of queued transport controls.
      */
+    public func setBeatLockEnabled(_ enabled: Bool) {
+        tdj_sync_set_beat_lock(pointer, enabled)
+    }
+
     public func setBassAssistance(_ mode: BassAssistanceMode) {
         tdj_bass_assist_set_mode(pointer, mode.rawValue)
     }
