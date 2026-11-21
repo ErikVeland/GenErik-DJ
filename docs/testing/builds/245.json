@@ -1,0 +1,19 @@
+{
+  "notes": "R519: Show saved analysis coverage and first-pass work remaining on iPad. Hide library scan status during a performance.",
+  "sourceCommit": "7368931305088da882c017925320b795fc5f23df",
+  "sourceSHA256": "07fd481851771469fbc761e90b35dd1f42eb73f99df46fad52a86e1598e44aba",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 81.6,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-245.log",
+  "build": 245,
+  "app": "TestBuilds/ipad/245/GenErikDJ.app",
+  "appSHA256": "5dbe12559dcdfab5322e44077653a1e0104c2174183debfa3f7b1a1e1f4ed408",
+  "state": "testing",
+  "createdUTC": "2026-11-21T05:04:33.237160+00:00",
+  "installedUTC": "2026-11-21T05:04:46.791512+00:00",
+  "launchedUTC": "2026-11-21T05:04:47.134508+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+}
