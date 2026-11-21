@@ -1,0 +1,16 @@
+{
+  "notes": "R529\u2013R540: Sync, library and waveform controls, Recommendations, main compressor, recording and previews. Build only.",
+  "sourceCommit": "10d28ae5bf1e375b19590454d6b7aa141880ab18",
+  "sourceSHA256": "05cb3c30592c6022ab6709ac29d92095fb2f73861dd602737f9c4fdc71ab2e87",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 129.59,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-254.log",
+  "build": 254,
+  "app": "TestBuilds/ipad/254/GenErikDJ.app",
+  "appSHA256": "5c7d88604d189da1155f07f9e44b15b90747ec6de3235cd2b3d119d2d65d8545",
+  "state": "ready",
+  "createdUTC": "2026-11-21T09:39:56.993263+00:00"
+}
