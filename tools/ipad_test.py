@@ -92,7 +92,7 @@ def build(config, notes):
                  "-jobs", "2", f"PRODUCT_BUNDLE_IDENTIFIER={BUNDLE}",
                  f"CURRENT_PROJECT_VERSION={number}", f"DEVELOPMENT_TEAM={config['team']}",
                  "CODE_SIGN_STYLE=Automatic", "INFOPLIST_KEY_CFBundleDisplayName=GenErik DJ",
-                 "GENERIK_DEVELOPER_ACCESS=YES", "INFOPLIST_FILE=Info.plist",
+                 "GENERIK_DEVELOPER_ACCESS=YES", "GENERIK_APP_INFO_PLIST=Info.plist",
                  f"GENERIK_FOUR_DECK_TRIAL={'YES' if config.get('four_deck_trial') else 'NO'}",
                  "TARGETED_DEVICE_FAMILY=1,2", "build"], stdout=output, stderr=subprocess.STDOUT)
         except subprocess.CalledProcessError:
