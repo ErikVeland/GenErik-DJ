@@ -76,6 +76,14 @@ public struct GridDrag: Sendable {
         try grid.shiftWaveform(bySourceFrames: delta)
         return (grid, originalViewportFrame - delta)
     }
+
+    /// Keep the inspection point in the file without limiting the grid phase.
+    public func inspectionPreview(translationPoints: Double, lastFrame: Double) throws
+        -> (grid: BeatGrid, viewportFrame: Double)
+    {
+        let result = try preview(translationPoints: translationPoints)
+        return (result.grid, max(0, min(lastFrame, result.viewportFrame)))
+    }
 }
 
 public enum BarStartAnalysis { public static let version = 2 }

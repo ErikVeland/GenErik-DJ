@@ -447,8 +447,32 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable {
         try submitSource(.brake(action, value, deck, generation))
         if !outputActive { core.processControlsWhileIdle() }
     }
+    private struct StoppedPreviewSeek {
+        let generation: UInt64
+        let settled: () -> Void
+        var playAfterSeek = false
+    }
+    private var stoppedPreviewSeeks: [DeckID: StoppedPreviewSeek] = [:]
+    var playAfterStoppedPreview: Set<DeckID> {
+        Set(stoppedPreviewSeeks.compactMap { $0.value.playAfterSeek ? $0.key : nil })
+    }
+
+    func seekStoppedPreview(to frame: Double, deck: DeckID, generation: UInt64, settled: @escaping () -> Void) throws {
+        guard generations[deck] == generation, let state = core.snapshot()?[deck],
+              state.generation == generation, state.phase == .ready || state.phase == .paused,
+              !state.touchActive, latestSources[.play(deck)] == nil
+        else { throw TransportError.stale }
+        try submitSource(.seek(frame, deck, generation, stoppedPreview: true))
+        stoppedPreviewSeeks[deck] = .init(generation: generation, settled: settled)
+        if !outputActive { core.processControlsWhileIdle() }
+    }
+
     public func play(_ deck: DeckID) throws {
         guard let generation = generations[deck] else { throw TransportError.stale }
+        if stoppedPreviewSeeks[deck]?.generation == generation {
+            stoppedPreviewSeeks[deck]?.playAfterSeek.toggle()
+            return
+        }
         if try resumeOutputIfNeeded(deck: deck) { return }
         let lane = SourceLane.play(deck)
         if pendingTransport[lane] != nil {
@@ -1441,7 +1465,7 @@ extension PlaybackController {
             case .sync(_, let deck, _), .restoreSync(let deck, _): self = .sync(deck)
             case .keylock(_, let deck, _): self = .keylock(deck)
             case .grid(_, let deck, _), .adaptiveMap(_, let deck, _): self = .grid(deck)
-            case .seek(_, let deck, _): self = .seek(deck)
+            case .seek(_, let deck, _, _): self = .seek(deck)
             case .cueRecall(let deck, _, _, _, _): self = .recall(deck)
             case .performance(let action, let deck, _, _, _, let enabled, _, _, _):
                 switch (action, enabled) {
@@ -1492,6 +1516,7 @@ extension PlaybackController {
     }
     private func invalidateSource(_ lane: SourceLane) {
         pendingTransport[lane] = nil
+        if case .seek(let deck) = lane { stoppedPreviewSeeks.removeValue(forKey: deck)?.settled() }
         if case .touchRelease(let deck) = lane {
             touchAfterRelease[deck] = nil
         }
@@ -1586,6 +1611,15 @@ extension PlaybackController {
             return true
         }
         latestSources[tracked.lane] = nil
+        if case .seek(let deck) = tracked.lane, let seek = stoppedPreviewSeeks.removeValue(forKey: deck) {
+            seek.settled()
+            if message.error == nil, seek.playAfterSeek, generations[deck] == seek.generation {
+                do { try play(deck) } catch {
+                    appendMessage(.init(commandID: 0, generation: seek.generation,
+                                        error: (error as? TransportError) ?? .invalid))
+                }
+            }
+        }
         if message.error == .syncUnavailable, case .rollRelease(let deck) = tracked.lane,
             let generation = tracked.control.generation
         {

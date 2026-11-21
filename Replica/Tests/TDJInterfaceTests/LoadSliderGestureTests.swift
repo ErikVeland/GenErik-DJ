@@ -73,3 +73,12 @@ import Testing
         session.handle(.init(phase: .ended, points: [point], ending: [1]), height: height, maximumTravel: travel)
             == (direction < 0 ? .a : .b))
 }
+
+@Test func loadSliderWarningOnlyUsesArmedPlayingTarget() {
+    let targets = LoadDeckTargets(upper: .c, lower: .d)
+    #expect(targets.playingLoadTarget(armedDirection: nil) { _ in .playing } == nil)
+    #expect(targets.playingLoadTarget(armedDirection: .a) { $0 == .c ? .playing : .paused } == .c)
+    #expect(targets.playingLoadTarget(armedDirection: .b) { $0 == .c ? .playing : .paused } == nil)
+    #expect(targets.playingLoadTarget(armedDirection: .b) { $0 == .d ? .playing : .empty } == .d)
+    #expect(targets.playingLoadTarget(armedDirection: .a) { $0 == .a ? .playing : .empty } == nil)
+}

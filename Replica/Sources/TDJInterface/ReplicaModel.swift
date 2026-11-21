@@ -115,6 +115,9 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     @ObservationIgnored var loadedWaveformPresentations: [DeckID: LoadedWaveformPresentation] = [:]
     public private(set) var applyingGrids: Set<DeckID> = []
     var adaptiveUndo: [String: [Preparation]] = [:]
+    @ObservationIgnored private var gridInspectionMaps: [DeckID: (
+        draft: BeatGrid, basis: BeatGrid, active: BeatGridMap, frames: Int64, shifted: BeatGridMap?
+    )] = [:]
     public var gridDraft: [DeckID: BeatGrid] = [:]
     public internal(set) var gridDownbeatDraft: [DeckID: Int] = [:]
     public var editing: Set<DeckID> = []
@@ -367,6 +370,49 @@ enum PlaybackInputSource: Equatable { case touch, controller }
         }
     }
     var releasedStripePreviews: Set<DeckID> = []
+    struct StoppedStripePlayhead {
+        let owner: UUID
+        let generation: UInt64
+        let frame: Double
+    }
+    var stoppedStripePlayheads: [DeckID: StoppedStripePlayhead] = [:]
+
+    func stoppedStripeGeneration(_ deck: DeckID) -> UInt64? {
+        guard !editing.contains(deck), !frozen.contains(deck), !preparingTrack.contains(deck),
+              pendingNativeSelection[deck] == nil, let generation = waveformPlayback(deck)?.generation,
+              let state = playback.core.snapshot()?[deck], state.generation == generation,
+              state.phase == .ready || state.phase == .paused, !state.touchActive else { return nil }
+        return generation
+    }
+
+    func displayedStripePlayhead(_ deck: DeckID) -> Double? {
+        guard !editing.contains(deck), !frozen.contains(deck), let position = stoppedStripePlayheads[deck],
+              let state = waveformPlayback(deck), state.generation == position.generation,
+              state.phase == .ready || state.phase == .paused else { return nil }
+        return position.frame
+    }
+
+    func clearStoppedStripePlayhead(_ deck: DeckID, owner: UUID) {
+        if stoppedStripePlayheads[deck]?.owner == owner { stoppedStripePlayheads[deck] = nil }
+    }
+
+    func commitStoppedStripePlayhead(_ deck: DeckID, owner: UUID, generation: UInt64, frame: Double) {
+        guard stoppedStripeGeneration(deck) == generation else {
+            clearStoppedStripePlayhead(deck, owner: owner)
+            returnToPlayhead(deck: deck)
+            return
+        }
+        do {
+            try playback.seekStoppedPreview(to: frame, deck: deck, generation: generation) { [weak self] in
+                self?.clearStoppedStripePlayhead(deck, owner: owner)
+            }
+        } catch {
+            clearStoppedStripePlayhead(deck, owner: owner)
+            status = error.localizedDescription
+        }
+        previewing.remove(deck)
+        refreshPlayback()
+    }
     func canReturnFromStripePreview(_ deck: DeckID) -> Bool {
         releasedStripePreviews.contains(deck) && previewing.contains(deck) && !editing.contains(deck)
             && !frozen.contains(deck) && !preparingTrack.contains(deck) && pendingNativeSelection[deck] == nil
@@ -799,7 +845,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     private var playbackMonitor: Task<Void, Never>?
     private var pendingLoadPlay: [DeckID: UUID] = [:]
     private var pendingControllerPlay: Set<DeckID> = []
-    public var playWhenReady: Set<DeckID> { Set(pendingLoadPlay.keys) }
+    public var playWhenReady: Set<DeckID> { Set(pendingLoadPlay.keys).union(playback.playAfterStoppedPreview) }
     private var nativeWaveformTasks: [DeckID: Task<Void, Never>] = [:]
     private var nativeWaveformTokens: [DeckID: UUID] = [:]
     private var deckAnalysisTasks: [DeckID: Task<Void, Never>] = [:]
@@ -1324,6 +1370,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
         loadPreparations[deck] = .init(token: token, track: track)
         loaded[deck] = trackID
         loadedWaveformPresentations[deck] = nil
+        stoppedStripePlayheads[deck] = nil
         viewport[deck] = sourceFrame
         gridDraft[deck] = pendingPreparations[trackID]?.value.grid
         gridDownbeatDraft[deck] = nil
@@ -1921,6 +1968,7 @@ enum PlaybackInputSource: Equatable { case touch, controller }
                     if lastLoadedDeck == deck { lastLoadedDeck = DeckID.allCases.first { loaded[$0] != nil } }
                     loadedTrackCache[deck] = nil
                     loadedWaveformPresentations[deck] = nil
+                    stoppedStripePlayheads[deck] = nil
                     viewport[deck] = 0
                     gridDraft[deck] = nil
                     gridDownbeatDraft[deck] = nil
@@ -2099,7 +2147,8 @@ enum PlaybackInputSource: Equatable { case touch, controller }
                     }
                     loadedWaveformPresentations[deck] = nil
                 }
-                guard !editing.contains(deck), !previewing.contains(deck), !frozen.contains(deck) else { continue }
+                guard !editing.contains(deck), !previewing.contains(deck), !frozen.contains(deck),
+                    displayedStripePlayhead(deck) == nil else { continue }
                 if viewport[deck] != state.sourceFrame { viewport[deck] = state.sourceFrame }
             }
         }
@@ -2380,6 +2429,27 @@ enum PlaybackInputSource: Equatable { case touch, controller }
 extension ReplicaModel {
     public func timing(_ deck: DeckID) -> BeatTiming? {
         grid(deck).map { BeatTiming(fixed: $0, adaptive: playbackSnapshot?[deck].adaptiveMap) }
+    }
+    func gridInspectionTiming(_ deck: DeckID) -> BeatTiming? {
+        guard let fixed = grid(deck) else { return nil }
+        let active = waveformPlayback(deck)?.adaptiveMap
+        guard editing.contains(deck), let draft = gridDraft[deck], let active,
+            let track = track(deck), let basis = gridPreparation(deck)?.grid
+        else {
+            gridInspectionMaps[deck] = nil
+            return BeatTiming(fixed: fixed, adaptive: active)
+        }
+        let frames = track.analysis.frameCount
+        if let cached = gridInspectionMaps[deck], cached.draft == draft,
+            cached.basis == basis, cached.active == active, cached.frames == frames
+        {
+            return BeatTiming(fixed: fixed, adaptive: cached.shifted ?? active)
+        }
+        let shifted = try? active.transforming(
+            tempoFactor: draft.bpm / basis.bpm, frameOffset: draft.anchorFrame - basis.anchorFrame,
+            frameCount: frames)
+        gridInspectionMaps[deck] = (draft, basis, active, frames, shifted)
+        return BeatTiming(fixed: fixed, adaptive: shifted ?? active)
     }
     public func candidateConfidence(_ deck: DeckID) -> Double? {
         guard let id = loaded[deck] else { return nil }

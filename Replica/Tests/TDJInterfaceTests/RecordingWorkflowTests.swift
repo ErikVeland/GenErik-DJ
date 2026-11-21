@@ -1,5 +1,5 @@
 import Foundation
-import TDJInterface
+@testable import TDJInterface
 import Testing
 
 @testable import TDJCore

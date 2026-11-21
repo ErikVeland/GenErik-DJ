@@ -35,6 +35,8 @@ import Testing
     defer { try? FileManager.default.removeItem(at: root) }
     model.load(trackID: track.id, deck: .a)
     await model.playbackLoads?.value
+    try model.playback.play(.a)
+    model.refreshPlayback()
     let frames = Double(track.analysis.frameCount)
     model.viewport[.a] = frames * 0.5
     model.previewing.insert(.a)
@@ -70,6 +72,7 @@ import Testing
     defer { try? FileManager.default.removeItem(at: root) }
     model.load(trackID: track.id, deck: .a)
     await model.playbackLoads?.value
+    let initial = model.viewport[.a]
     let session = StripeGestureSession()
     var seconds = 4.0
     func point(_ id: Int, _ x: Double) -> SurfacePoint { .init(id: id, x: x, y: 0.5) }
@@ -85,13 +88,12 @@ import Testing
     send(.ended, [point(1, 0.25), point(2, 0.75)], [2])
     send(.moved, [point(1, 0.9)])
     send(.ended, [point(1, 0.9)], [1])
-    #expect(model.viewport[.a] == 0)
-    model.returnToPlayhead(deck: .a)
+    #expect(model.viewport[.a] == initial)
     send(.began, [point(3, 0.5)])
     send(.moved, [point(3, 0.6)])
     #expect(try #require(model.viewport[.a]) > 0)
     send(.cancelled, [point(3, 0.6)], [3])
-    #expect(model.viewport[.a] == 0 && !model.previewing.contains(.a))
+    #expect(model.viewport[.a] == initial && !model.previewing.contains(.a))
     #expect(!model.canReturnFromStripePreview(.a))
     #expect(model.playbackSnapshot?.a.sourceFrame == 0)
     await model.finishForShutdown()
@@ -108,10 +110,12 @@ import Testing
                    visibleSeconds: 2, width: 400) { _ in }
     model.load(trackID: track.id, deck: .a)
     await model.playbackLoads?.value
+    let reloadedCenter = model.viewport[.a]
     session.handle(.init(phase: .ended, points: [point], ending: [1]), model: model, deck: .a,
                    visibleSeconds: 2, width: 400) { _ in }
-    #expect(model.viewport[.a] == 0 && !model.previewing.contains(.a))
+    #expect(model.viewport[.a] == reloadedCenter && !model.previewing.contains(.a))
     #expect(!model.canReturnFromStripePreview(.a))
+    #expect(model.playbackSnapshot?.a.sourceFrame == 0)
     await model.finishForShutdown()
 }
 
@@ -153,4 +157,62 @@ import Testing
     #expect(RecordingOutputIndicator(active: false, starting: true, finishing: false) == .starting)
     #expect(RecordingOutputIndicator(active: true, starting: false, finishing: false) == .recording)
     #expect(RecordingOutputIndicator(active: true, starting: false, finishing: true) == .finishing)
+}
+
+@Test(arguments: [false, true]) @MainActor
+func stoppedStripeCommitsCursorOnceWithoutStartingOrChangingPhase(streaming: Bool) async throws {
+    let (model, root, track) = try await loadPlayheadFixture(streaming: streaming)
+    defer { try? FileManager.default.removeItem(at: root) }
+    model.load(trackID: track.id, deck: .a)
+    await model.playbackLoads?.value
+    let original = try #require(model.playbackSnapshot?.a)
+    let gesture = StripeGestureSession()
+    let target = Double(track.analysis.frameCount) * 0.95
+    let point = SurfacePoint(id: 1, x: 0.95, y: 0.5)
+    gesture.handle(.init(phase: .began, points: [point], ending: []), model: model, deck: .a,
+                   visibleSeconds: 1, width: 400) { _ in }
+    #expect(model.displayedStripePlayhead(.a) == target)
+    #expect(model.playback.core.snapshot()?.a.sourceFrame == original.sourceFrame)
+    gesture.handle(.init(phase: .ended, points: [point], ending: [1]), model: model, deck: .a,
+                   visibleSeconds: 1, width: 400) { _ in }
+    await model.playback.flushSourcePreparations()
+    model.refreshPlayback()
+    let parked = try #require(model.playbackSnapshot?.a)
+    #expect(abs(parked.sourceFrame - target) < 0.01)
+    #expect(parked.phase == original.phase)
+    #expect(!model.canReturnFromStripePreview(.a))
+    #expect(model.displayedStripePlayhead(.a) == nil)
+    model.pressPlay(deck: .a)
+    await model.playback.flushSourcePreparations()
+    model.refreshPlayback()
+    let started = try #require(model.playbackSnapshot?.a)
+    #expect(started.phase == .playing)
+    #expect(started.sourceFrame == parked.sourceFrame)
+    _ = model.playback.core.renderOffline(frames: 128)
+    model.refreshPlayback()
+    #expect(model.playbackSnapshot?.a.lastStartOutputFrame == started.lastStartOutputFrame)
+    await model.finishForShutdown()
+}
+
+@Test @MainActor func playDuringColdStoppedSeekStartsAtRequestedFrame() async throws {
+    let (model, root, track) = try await loadPlayheadFixture(streaming: true)
+    defer { try? FileManager.default.removeItem(at: root) }
+    model.load(trackID: track.id, deck: .b)
+    await model.playbackLoads?.value
+    let original = try #require(model.playbackSnapshot?[.b])
+    let target = Double(track.analysis.frameCount) * 0.96
+    var settled = false
+    try model.playback.seekStoppedPreview(to: target, deck: .b, generation: original.generation) {
+        settled = true
+    }
+    try model.playback.play(.b)
+    #expect(model.playback.playAfterStoppedPreview.contains(.b))
+    await model.playback.flushSourcePreparations()
+    model.refreshPlayback()
+    let started = try #require(model.playbackSnapshot?[.b])
+    #expect(settled)
+    #expect(started.phase == .playing)
+    #expect(abs(started.sourceFrame - target) < 0.01)
+    #expect(!model.playback.playAfterStoppedPreview.contains(.b))
+    await model.finishForShutdown()
 }

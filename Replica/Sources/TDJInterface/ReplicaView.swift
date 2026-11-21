@@ -769,17 +769,15 @@ private struct DeckPanelHorizontalBounds: Shape {
     private var track: Track? { selection == nil ? model.track(deck) : nil }
     private var playback: DeckPlaybackSnapshot? { model.playbackSnapshot?[deck] }
     private var elapsedTime: String {
-        let seconds = max(
-            0, Int((selection == nil ? playback?.sourceFrame ?? 0 : 0) / (track?.analysis.sampleRate ?? 1)))
+        let frame = model.displayedStripePlayhead(deck) ?? playback?.sourceFrame ?? 0
+        let seconds = max(0, Int((selection == nil ? frame : 0) / (track?.analysis.sampleRate ?? 1)))
         return String(format: "%d:%02d", seconds / 60, seconds % 60)
     }
     private var remainingTime: String {
+        let frame = model.displayedStripePlayhead(deck) ?? playback?.sourceFrame ?? 0
         let seconds = max(
-            0,
-            Int(
-                ceil(
-                    (selection?.duration ?? track?.analysis.duration ?? 0)
-                        - (selection == nil ? playback?.sourceFrame ?? 0 : 0) / (track?.analysis.sampleRate ?? 1))))
+            0, Int(ceil((selection?.duration ?? track?.analysis.duration ?? 0)
+                - (selection == nil ? frame : 0) / (track?.analysis.sampleRate ?? 1))))
         return String(format: "−%d:%02d", seconds / 60, seconds % 60)
     }
 }
@@ -929,7 +927,8 @@ struct DeckRailButtonStyle: ButtonStyle {
         ZStack(alignment: .leading) {
             RoundedRectangle(cornerRadius: 2).stroke(PerformancePalette.red, lineWidth: 2)
                 .frame(width: window).offset(x: width * fraction - window / 2)
-            if model.previewing.contains(deck), let state = model.playbackSnapshot?[deck] {
+            if model.previewing.contains(deck), model.displayedStripePlayhead(deck) == nil,
+                let state = model.playbackSnapshot?[deck] {
                 Rectangle().fill(Color.white.opacity(0.8)).frame(width: 1)
                     .offset(x: width * state.sourceFrame / frameCount)
             }
@@ -1088,6 +1087,12 @@ struct LoadDeckTargets {
     var lower = DeckID.b
 
     func deck(for direction: DeckID) -> DeckID { direction == .a ? upper : lower }
+
+    func playingLoadTarget(armedDirection: DeckID?, phase: (DeckID) -> PlaybackPhase) -> DeckID? {
+        guard let armedDirection else { return nil }
+        let target = deck(for: armedDirection)
+        return phase(target) == .playing ? target : nil
+    }
 }
 
 private struct LoadDeckTargetsKey: EnvironmentKey { static let defaultValue = LoadDeckTargets() }
@@ -1101,6 +1106,7 @@ extension EnvironmentValues {
 
 @MainActor struct LoadSlider: View {
     var tall = false
+    var phase: (DeckID) -> PlaybackPhase = { _ in .empty }
     let load: (DeckID) -> Void
     @State private var gesture = LoadSliderGestureSession()
     @State private var contactTargets: LoadDeckTargets?
@@ -1115,11 +1121,9 @@ extension EnvironmentValues {
     @Environment(\.touchSurfaceInterruption) private var touchInterruption
     private var maximumTravel: Double { tall ? TallLoadSliderMetrics.maximumTravel : 18 }
     var body: some View {
+        let warning = displayedTargets.playingLoadTarget(armedDirection: dragging ? gesture.armedDeck : nil, phase: phase)
         VStack(spacing: 0) {
-            Text(displayedTargets.upper.rawValue.uppercased()).font(.system(size: tall ? 28 : 9, weight: .heavy))
-                .foregroundStyle(
-                    gesture.armedDeck == .a ? PerformancePalette.cyan : Color(white: tall ? 0.45 : 0.88)
-                ).frame(height: tall ? TallLoadSliderMetrics.labelHeight : nil)
+            targetLabel(displayedTargets.upper, direction: .a, warning: warning)
             ZStack {
                 if tall { RoundedRectangle(cornerRadius: 4).fill(Color.black.opacity(0.3)) }
                 VStack(spacing: 2) {
@@ -1130,10 +1134,7 @@ extension EnvironmentValues {
                     height: tall ? TallLoadSliderMetrics.handleHeight : nil
                 ).bevelPanel(cornerRadius: 4).offset(y: gesture.offset)
             }.frame(height: tall ? TallLoadSliderMetrics.railHeight : nil)
-            Text(displayedTargets.lower.rawValue.uppercased()).font(.system(size: tall ? 28 : 9, weight: .heavy))
-                .foregroundStyle(
-                    gesture.armedDeck == .b ? PerformancePalette.cyan : Color(white: tall ? 0.45 : 0.88)
-                ).frame(height: tall ? TallLoadSliderMetrics.labelHeight : nil)
+            targetLabel(displayedTargets.lower, direction: .b, warning: warning)
         }.frame(width: tall ? 96 : 64, height: tall ? TallLoadSliderMetrics.height : 56).padding(tall ? 4 : 0)
             .background(RoundedRectangle(cornerRadius: 6).fill(PerformancePalette.sunken)).contentShape(Rectangle())
             .overlay {
@@ -1167,12 +1168,31 @@ extension EnvironmentValues {
                 cancelContact()
             }.accessibilityLabel(
                 "Load track. Drag up for deck \(targets.upper.rawValue.uppercased()) or down for deck \(targets.lower.rawValue.uppercased())."
+            ).accessibilityValue(
+                warning.map { Text("Deck \($0.rawValue.uppercased()) is playing") } ?? Text("")
             ).accessibilityAction(named: "Load deck \(targets.upper.rawValue.uppercased())") {
                 if panelPresented && acceptsNewContacts { load(targets.upper) }
             }.accessibilityAction(named: "Load deck \(targets.lower.rawValue.uppercased())") {
                 if panelPresented && acceptsNewContacts { load(targets.lower) }
             }.onDisappear { cancelContact() }
     }
+    private func targetLabel(_ deck: DeckID, direction: DeckID, warning: DeckID?) -> some View {
+        let warns = gesture.armedDeck == direction && warning == deck
+        return Text(deck.rawValue.uppercased()).font(.system(size: tall ? 28 : 9, weight: .heavy))
+            .foregroundStyle(gesture.armedDeck == direction ? PerformancePalette.cyan : Color(white: tall ? 0.45 : 0.88))
+            .frame(height: tall ? TallLoadSliderMetrics.labelHeight : nil)
+            .overlay(alignment: .trailing) {
+                if warns {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                        .font(.system(size: tall ? 12 : 8, weight: .semibold))
+                        .foregroundStyle(PerformancePalette.red)
+                        .offset(x: tall ? 18 : 12)
+                        .accessibilityHidden(true)
+                        .allowsHitTesting(false)
+                }
+            }
+    }
+
     private func cancelContact(untilRelease: Bool = true) {
         contactTargets = nil
         contactGeometry.cancel()
@@ -1875,10 +1895,11 @@ enum RecordingOutputIndicator {
     @Environment(\.snapshotBandWaveforms) private var snapshotBands
     var body: some View {
         let playback = model.waveformPlayback(deck)
+        let map = model.editing.contains(deck) ? model.gridInspectionTiming(deck)?.adaptive : playback?.adaptiveMap
         WaveformView(
             track: track, grid: model.grid(deck), centerFrame: model.viewport[deck] ?? 0,
-            visibleSeconds: visibleSeconds, adaptiveMap: playback?.adaptiveMap,
-            playheadFrame: playback?.sourceFrame ?? 0,
+            visibleSeconds: visibleSeconds, adaptiveMap: map,
+            playheadFrame: model.displayedStripePlayhead(deck) ?? playback?.sourceFrame ?? 0,
             leadInFrame: playback?.leadInSourceFrame,
             band: band?.0 == track.id ? band?.1 : snapshotBands[track.id],
             sections: sectionColours ? model.arrangements[track.id]?.sections ?? [] : []
@@ -2095,7 +2116,7 @@ enum RecordingOutputIndicator {
         GeometryReader { geometry in
             let left = center - span / 2
             let perPoint = span / max(1, geometry.size.width)
-            let timing = model.timing(deck) ?? BeatTiming(fixed: grid)
+            let timing = model.gridInspectionTiming(deck) ?? BeatTiming(fixed: grid)
             let endFrame = Double(model.track(deck)?.analysis.frameCount ?? 0)
             let first = Int(exactly: ceil(timing.beat(atFrame: left))) ?? 0
             let last = Int(exactly: ceil(timing.beat(atFrame: left + span))) ?? first

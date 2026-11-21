@@ -782,7 +782,9 @@ extension BrowserView {
                     }.disabled(entry == nil).accessibilityLabel("Add to prep list")
                 }
                 Spacer(minLength: 0)
-                LoadSlider(tall: true) { deck in if let entry { model.loadLibraryEntry(entry, deck: deck) } }.disabled(
+                LoadSlider(tall: true, phase: { model.controlDisplay[$0].phase }) { deck in
+                    if let entry { model.loadLibraryEntry(entry, deck: deck) }
+                }.disabled(
                     entry?.canLoad != true)
             }.padding(14).frame(height: TallLoadSliderMetrics.height + 8 + 28)
             Rectangle().fill(Color.white.opacity(0.08)).frame(height: 1).padding(.horizontal, 14)

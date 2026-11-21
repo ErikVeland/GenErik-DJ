@@ -2650,6 +2650,8 @@ static int apply(tdj_engine *e, tdj_command c) {
         return TDJ_OK;
     }
     if (c.kind == TDJ_SEEK) {
+        if (c.flag && ((d->state != TDJ_READY && d->state != TDJ_PAUSED) || d->touch_active))
+            return TDJ_UNRESOLVED;
         if (d->state == TDJ_PLAYING)
             return TDJ_UNRESOLVED;
         if (!isfinite(c.value) || c.value < 0 || c.value >= d->asset->frames)
@@ -2660,7 +2662,8 @@ static int apply(tdj_engine *e, tdj_command c) {
         if (status != TDJ_OK)
             return status;
         d->position = proposed.position;
-        d->state = TDJ_PAUSED;
+        if (c.flag) d->continuing = proposed.position;
+        else d->state = TDJ_PAUSED;
         reset_deck_keylock(e, c.deck);
         mixer_clear_track(&e->mix.decks[c.deck]);
         transition_request(e, c.deck, 0);
