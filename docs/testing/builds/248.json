@@ -1,0 +1,25 @@
+{
+  "notes": "R522: Sort songs by Date Added. Show purchases and download changes while the app is open.",
+  "sourceCommit": "eabd8f6e1c5603c8a4f6d98d6f8cfda54f82565d",
+  "sourceSHA256": "cf7009af9b037eba1422644383813ca604af7f245bed44b9fdbd05184ce2c5ee",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 298.73,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-248.log",
+  "build": 248,
+  "app": "TestBuilds/ipad/248/GenErikDJ.app",
+  "appSHA256": "23e3f18c462bf5f09b5b3f3041f3b49e55e9e68ff7d1ad8ffd286ae1e1ec233e",
+  "state": "testing",
+  "createdUTC": "2026-11-21T05:39:16.085229+00:00",
+  "installedUTC": "2026-11-21T05:47:39.539218+00:00",
+  "launchedUTC": "2026-11-21T05:47:40.639068+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "installAttempts": [
+    "20-second timeout",
+    "90-second timeout",
+    "Installed during the third attempt after Erik connected USB."
+  ],
+  "focusedVerification": "Four host checks passed at b6f4a26e1. The initial test compile found a missing Date Added case in the compatibility check. Only test code changed after signing."
+}
