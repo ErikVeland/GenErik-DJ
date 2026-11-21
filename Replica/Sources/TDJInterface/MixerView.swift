@@ -257,7 +257,7 @@ private struct RetainedFilterGrid: View, Equatable {
             }
 
             Divider()
-            if model.storeAccess.hasActivePerformance {
+            if model.storeAccess.hasPerformanceTiming {
                 VStack(alignment: .leading, spacing: 6) {
                     Text(model.storeAccess.isUnlocked(.openFormat)
                         ? "Open Format · Unlocked"

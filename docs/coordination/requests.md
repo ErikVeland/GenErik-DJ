@@ -902,3 +902,5 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R513 | iOS 1.0.1 (238) waiting for review | Separate iOS store and personal accessory support | Release archives omit the five NI protocols. Personal iPad builds keep them. The exported package contains no external accessory protocols. Apple validated build 238 and accepted the replacement submission. |
 
 | R514 | Mac 1.0.1 (238) waiting for review | Update the Mac App Store submission | Built from 3c027ca00. Verified the signed Mac archive has no external accessory protocols. Apple validated the package and accepted the replacement submission. Physical controller testing remains open. |
+
+| R515 | Implemented. Device verification pending. | Allow preparation after an idle relaunch | Preserve access timers. Protect playback from the first performance in the current launch through End Performance. Verify source transfer on the iPad. |

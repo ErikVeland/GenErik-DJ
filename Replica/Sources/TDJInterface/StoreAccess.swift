@@ -138,7 +138,8 @@ private enum StoreAccessProductID: String, CaseIterable {
     public var recordingLimitReached: Bool {
         !isUnlocked(.recording) && recordingStartedAt != nil && recordingElapsed >= Self.recordingLimit
     }
-    public var hasActivePerformance: Bool { performanceStartedAt != nil }
+    public private(set) var hasActivePerformance = false
+    var hasPerformanceTiming: Bool { performanceStartedAt != nil }
 
     public func start() {
         guard !hasStarted else { return }
@@ -160,6 +161,7 @@ private enum StoreAccessProductID: String, CaseIterable {
 
     public func beginPerformance(controllerInput: Bool = false, now: Date = Date()) {
         clockNow = now
+        if !hasActivePerformance { hasActivePerformance = true }
         let changed = performanceStartedAt == nil || (controllerInput && controllerStartedAt == nil)
         if performanceStartedAt == nil { performanceStartedAt = now }
         if controllerInput && controllerStartedAt == nil { controllerStartedAt = now }
@@ -175,6 +177,7 @@ private enum StoreAccessProductID: String, CaseIterable {
     }
 
     public func beginRecording(now: Date = Date()) {
+        hasActivePerformance = true
         guard recordingStartedAt == nil else { return }
         clockNow = now
         if performanceStartedAt == nil { performanceStartedAt = now }
@@ -184,6 +187,7 @@ private enum StoreAccessProductID: String, CaseIterable {
     }
 
     public func endPerformance() {
+        hasActivePerformance = false
         performanceStartedAt = nil
         controllerStartedAt = nil
         recordingStartedAt = nil
