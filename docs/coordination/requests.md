@@ -974,4 +974,4 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R543 | Source candidate. Device check open. | Move a Beat Fix grid to the left of its first beat. | Keep the inspection view inside the file. Continue to shift the draft phase at the start of the file. Show the Flex draft without changing live playback. Keep explicit beat taps inside the file. |
 | R544 | Source candidate. Device check open. | Warn when a track is dragged towards a deck that is playing. | Show a red warning icon and accessible playing status for the armed deck in both browsers, regardless of load protection. Preserve existing load rules. Check paused and playing decks, four-deck selection, and drag cancellation on device. |
 
-| R545 | Build 255 installed on the A10X iPad. | Install all updates from consolidated main. | The signed app matches main. Physical audio and touch acceptance remain open. |
+| R545 | Build 255 installed and launched on the A10X iPad. | Install all updates from consolidated main. | The signed app matches main. Physical audio and touch acceptance remain open. |
