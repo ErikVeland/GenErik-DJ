@@ -975,3 +975,4 @@ Every request ID is retained. “Implemented” describes source availability, n
 | R544 | Source candidate. Device check open. | Warn when a track is dragged towards a deck that is playing. | Show a red warning icon and accessible playing status for the armed deck in both browsers, regardless of load protection. Preserve existing load rules. Check paused and playing decks, four-deck selection, and drag cancellation on device. |
 
 | R545 | Build 255 installed and launched on the A10X iPad. | Install all updates from consolidated main. | The signed app matches main. Physical audio and touch acceptance remain open. |
+| R546 | Open on build 255. | Discover the Reloop Beatpad as an audio source. | The iPad log captured after installation shows the built-in speaker. It contains no named Beatpad audio route. Identify the model, connection and intended audio path during a connected session. |

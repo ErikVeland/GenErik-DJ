@@ -6,7 +6,13 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 130.48,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-22",
+      "request": "R546",
+      "report": "Erik reported that the iPad did not discover the Reloop Beatpad as an audio source."
+    }
+  ],
   "log": "TestBuilds/ipad/build-255.log",
   "build": 255,
   "app": "TestBuilds/ipad/255/GenErikDJ.app",
