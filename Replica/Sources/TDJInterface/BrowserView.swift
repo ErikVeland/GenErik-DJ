@@ -16,16 +16,40 @@ struct BrowserView: View {
     @FocusState private var searchFocused: Bool
     @Environment(\.loadDeckTargets) private var rowLoadTargets
 
+    var beginHeaderPull: (() -> Bool)?
+    var updateHeaderPull: (Double) -> Void = { _ in }
+    var finishHeaderPull: (Bool) -> Void = { _ in }
+    @GestureState private var headerTouched = false
+    @State private var ownsHeaderPull: Bool?
+
     private var libraryHeaderSwipe: some Gesture {
-        DragGesture(minimumDistance: 24, coordinateSpace: .global).onEnded { value in
-            switch LibraryHeaderSwipeAction.resolve(
-                horizontal: value.translation.width, vertical: value.translation.height, searchFocused: searchFocused
-            ) {
-            case .none: break
-            case .dismissKeyboard: searchFocused = false
-            case .closeLibrary: model.browserVisible = false
+        DragGesture(minimumDistance: 4, coordinateSpace: .global)
+            .updating($headerTouched) { _, touched, _ in touched = true }
+            .onChanged { value in
+                guard let beginHeaderPull else { return }
+                if ownsHeaderPull == nil {
+                    ownsHeaderPull = value.translation.height > abs(value.translation.width)
+                        && !searchFocused && beginHeaderPull()
+                }
+                if ownsHeaderPull == true { updateHeaderPull(max(0, value.translation.height)) }
             }
-        }
+            .onEnded { value in
+                let action = LibraryHeaderSwipeAction.resolve(
+                    horizontal: value.translation.width, vertical: value.translation.height, searchFocused: searchFocused)
+                if ownsHeaderPull == true {
+                    finishHeaderPull(action == .closeLibrary)
+                } else if action == .dismissKeyboard {
+                    searchFocused = false
+                } else if beginHeaderPull == nil && action == .closeLibrary {
+                    model.browserVisible = false
+                }
+                ownsHeaderPull = nil
+            }
+    }
+
+    private func cancelHeaderPull() {
+        if ownsHeaderPull == true { finishHeaderPull(false) }
+        ownsHeaderPull = nil
     }
 
     private func selectSort(_ value: CollectionSort?) {
@@ -483,7 +507,9 @@ extension BrowserView {
             .frame(height: 56).background(
                 LinearGradient(
                     colors: [PerformancePalette.frame, PerformancePalette.panel], startPoint: .top, endPoint: .bottom)
-            ).simultaneousGesture(libraryHeaderSwipe)
+            ).contentShape(Rectangle()).simultaneousGesture(libraryHeaderSwipe)
+            .onChange(of: headerTouched) { _, touched in if !touched { cancelHeaderPull() } }
+            .onDisappear(perform: cancelHeaderPull)
             .onChange(of: model.browserVisible) { _, visible in if !visible { searchFocused = false } }.accessibilityAction(named: "Close songs") { model.browserVisible = false }
     }
 

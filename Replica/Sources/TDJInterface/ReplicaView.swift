@@ -308,12 +308,28 @@ private let surface = PerformancePalette.panel
                                 .background(largePanelHandles ? PerformancePalette.frame : Color.clear)
                             BrowserView(
                                 model: model, importAudio: { importPresented = true },
-                                linkCollection: { traktorImportPresented = true }
-                            ).environment(\.loadDeckTargets, .init(upper: upper, lower: lower)).frame(
+                                linkCollection: { traktorImportPresented = true },
+                                beginHeaderPull: isPhone ? nil : {
+                                    guard !libraryPanel.isDragging else { return false }
+                                    libraryPanel.beginDrag()
+                                    return true
+                                },
+                                updateHeaderPull: { libraryPanel.updateDrag(translation: -$0) },
+                                finishHeaderPull: { close in
+                                    guard libraryPanel.isDragging else { return }
+                                    libraryPanel.cancelDrag()
+                                    if close {
+                                        libraryPanel.setPresented(false)
+                                        model.browserVisible = false
+                                    }
+                                }
+                            ).environment(\.loadDeckTargets, .init(upper: upper, lower: lower))
+                            .frame(height: libraryPanel.contentHeight, alignment: .top)
+                            .frame(
                                 width: workspace.libraryArea.width, height: workspace.libraryArea.height,
                                 alignment: .top
-                            ).clipped().allowsHitTesting(libraryPanel.acceptsContentInput).disabled(
-                                !libraryPanel.acceptsContentInput
+                            ).clipped().allowsHitTesting(libraryPanel.acceptsContentInput || libraryPanel.isDragging).disabled(
+                                !libraryPanel.acceptsContentInput && !libraryPanel.isDragging
                             ).accessibilityHidden(!libraryPanel.acceptsContentInput)
                         }.frame(width: space.size.width, height: space.size.height, alignment: .topLeading)
                             .clipped().animation(

@@ -11,6 +11,11 @@
       "date": "2026-11-22",
       "request": "R546",
       "report": "Erik reported that the iPad did not discover the Reloop Beatpad as an audio source."
+    },
+    {
+      "date": "2026-11-22",
+      "request": "R547",
+      "report": "Erik reported laggy pane swipes, especially when pulling down the full-screen library. Build 255 is the assumed feedback source."
     }
   ],
   "log": "TestBuilds/ipad/build-255.log",
