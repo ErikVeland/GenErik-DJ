@@ -11,6 +11,13 @@
   "build": 255,
   "app": "TestBuilds/ipad/255/GenErikDJ.app",
   "appSHA256": "e2ecdfef82fd6a61d0870635a64c0ed0d70c6bdfc7ddaa635b07ac10c848cc48",
-  "state": "ready",
-  "createdUTC": "2026-11-21T10:00:40.342545+00:00"
+  "state": "installed",
+  "createdUTC": "2026-11-21T10:00:40.342545+00:00",
+  "installedUTC": "2026-11-22T03:51:48.951358+00:00",
+  "installationRequest": "R545",
+  "installationSourceCheck": "The app source digest on current main (4b7209c8e) matched the archived signed build.",
+  "launchAttempts": [
+    "The first launch request timed out after 10 seconds.",
+    "iPadOS denied the second launch request because the iPad was locked."
+  ]
 }
