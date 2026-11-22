@@ -1,0 +1,25 @@
+{
+  "notes": "R547 Track downward swipes from the iPad library header and keep the song list height steady during the pull.",
+  "sourceCommit": "78ddfc00b45cd88770f24bfcbd8d2ad7641ad921",
+  "sourceSHA256": "b90ddd88c89bd16360547f6547175e2b10a50fac82894055d5b19d4c24f2a8a3",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 87.7,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-256.log",
+  "build": 256,
+  "app": "TestBuilds/ipad/256/GenErikDJ.app",
+  "appSHA256": "d57b140803914da2b2a2c9c1c05808a70cab941b1aba76c4f0a139c3ff0fd812",
+  "state": "testing",
+  "createdUTC": "2026-11-22T04:32:22.459855+00:00",
+  "installedUTC": "2026-11-22T04:34:10.360910+00:00",
+  "launchedUTC": "2026-11-22T04:34:13.805390+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "buildAttempts": [
+    "Stopped the first compile when the shared checkout changed. The retry built from merged app source."
+  ],
+  "installAttempts": [
+    "The first installation timed out after 60 seconds. The retry installed and launched the same signed app."
+  ]
+}

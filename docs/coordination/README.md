@@ -1,5 +1,7 @@
 # Current work
 
+**Build 256 (R547)** installed and launched on the A10X iPad. The library follows a downward pull from its search header. Erik checks swipe response and audio during playback. [Build record](../testing/builds/256.json).
+
 **Build 255 (R545)** installed and launched on the A10X iPad with the updates from R529–R544. The signed app matches the latest app source on main. Physical acceptance remains open. [Build record](../testing/builds/255.json).
 
 **Build 253 (R528)** installed and launched on the A10X iPad. The original Z1 uses its reported Left and Right labels for rear RCA master. Erik confirmed headphone audio on build 252. Physical master and cue verification on build 253 remains open. [Build record](../testing/builds/253.json).
