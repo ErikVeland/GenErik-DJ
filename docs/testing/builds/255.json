@@ -10,7 +10,7 @@
     {
       "date": "2026-11-22",
       "request": "R546",
-      "report": "Erik reported that the iPad did not discover the Reloop Beatpad as an audio source."
+      "report": "Erik connected the original Reloop Beatpad through its square USB port and a Lightning USB adapter. He expected the Beatpad master and headphone outputs. The app did not discover them."
     },
     {
       "date": "2026-11-22",
