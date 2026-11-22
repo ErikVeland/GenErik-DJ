@@ -6,7 +6,13 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 87.7,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-22",
+      "request": "R548",
+      "report": "Erik reported approximately 10 fps and lag when moving panes, especially the deck divider. Build 256 is the assumed feedback source."
+    }
+  ],
   "log": "TestBuilds/ipad/build-256.log",
   "build": 256,
   "app": "TestBuilds/ipad/256/GenErikDJ.app",

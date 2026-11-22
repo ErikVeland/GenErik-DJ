@@ -13,7 +13,8 @@ struct DeckSplitHandle: View {
     @Environment(\.accessibilityVoiceOverEnabled) private var voiceOver
     private var metrics: PanelHandleMetrics { .init(expanded: largeHandles || voiceOver) }
     @GestureState private var active = false
-    @State private var ownsDrag: Bool?
+    @State private var ownsDrag = false
+    @State private var frames = PanelDragFrames()
     @State private var ignoreUntilRelease = false
 
     var body: some View {
@@ -30,37 +31,40 @@ struct DeckSplitHandle: View {
             } else {
                 Capsule().fill(PerformancePalette.secondaryText.opacity(active ? 0.65 : 0.12)).frame(
                     width: 28, height: 1
-                ).frame(maxWidth: .infinity).frame(height: metrics.extent)
+                ).frame(maxWidth: .infinity).frame(maxHeight: .infinity)
             }
         }.contentShape(Rectangle()).gesture(
             DragGesture(minimumDistance: 4, coordinateSpace: .global).updating($active) { _, active, _ in active = true
             }.onChanged { value in
                 guard !ignoreUntilRelease else { return }
-                if ownsDrag == nil {
+                if !ownsDrag {
                     ownsDrag = abs(value.translation.height) >= abs(value.translation.width)
-                    if ownsDrag == true { begin() }
+                    if ownsDrag { begin() }
                 }
-                if ownsDrag == true { update(value.translation.height) }
+                if ownsDrag { frames.move(to: value.translation.height, apply: update) }
             }.onEnded { value in
-                if ownsDrag == true, !ignoreUntilRelease {
+                frames.stop()
+                if ownsDrag, !ignoreUntilRelease {
                     update(value.translation.height)
                     end()
                 }
-                ownsDrag = nil
+                ownsDrag = false
                 ignoreUntilRelease = false
             }
         ).onTapGesture(count: 2, perform: balance).onChange(of: active) { _, active in
             if !active {
+                frames.stop()
                 cancel()
-                ownsDrag = nil
+                ownsDrag = false
                 ignoreUntilRelease = false
             }
         }.onChange(of: interruption) { _, _ in
             if active {
+                frames.stop()
                 cancel()
                 ignoreUntilRelease = true
             }
-        }.onDisappear(perform: cancel).accessibilityElement(children: .ignore).accessibilityLabel(
+        }.onDisappear { frames.stop(); cancel() }.accessibilityElement(children: .ignore).accessibilityLabel(
             "Deck A/B resize handle"
         ).accessibilityValue("A \(Int(aShare * 100)) percent, B \(Int((1 - aShare) * 100)) percent").accessibilityHint(
             "Drag to resize. Double-tap to give both decks equal space."

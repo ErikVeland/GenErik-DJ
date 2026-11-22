@@ -1,5 +1,49 @@
 import SwiftUI
 
+#if os(iOS)
+    import UIKit
+#endif
+
+@MainActor final class PanelDragFrames: NSObject {
+    #if os(iOS)
+        private var link: CADisplayLink?
+        private var pending: Double?
+        private var apply: ((Double) -> Void)?
+
+        @objc private func drawFrame() {
+            guard let position = pending else { return }
+            pending = nil
+            apply?(position)
+        }
+    #endif
+
+    func move(to position: Double, apply: @escaping (Double) -> Void) {
+        #if os(iOS)
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                self.apply = apply
+                if link != nil {
+                    pending = position
+                    return
+                }
+                let link = CADisplayLink(target: self, selector: #selector(drawFrame))
+                link.preferredFrameRateRange = CAFrameRateRange(minimum: 30, maximum: 120, preferred: 120)
+                self.link = link
+                link.add(to: .main, forMode: .common)
+            }
+        #endif
+        apply(position)
+    }
+
+    func stop() {
+        #if os(iOS)
+            link?.invalidate()
+            link = nil
+            pending = nil
+            apply = nil
+        #endif
+    }
+}
+
 struct TouchPanelHandle: View {
     let presented: Bool
     let maximumExtent: Double
@@ -18,7 +62,8 @@ struct TouchPanelHandle: View {
     @Environment(\.accessibilityVoiceOverEnabled) private var voiceOver
     private var metrics: PanelHandleMetrics { .init(expanded: largeHandles || voiceOver) }
     @GestureState private var active = false
-    @State private var ownsDrag: Bool?
+    @State private var ownsDrag = false
+    @State private var frames = PanelDragFrames()
     @State private var ignoreUntilRelease = false
 
     var body: some View {
@@ -51,32 +96,34 @@ struct TouchPanelHandle: View {
             DragGesture(minimumDistance: 4, coordinateSpace: .global).updating($active) { _, active, _ in active = true
             }.onChanged { value in
                 guard !ignoreUntilRelease else { return }
-                if ownsDrag == nil {
+                if !ownsDrag {
                     ownsDrag =
                         edge.horizontal
                         ? abs(value.translation.width) > abs(value.translation.height)
                         : abs(value.translation.height) >= abs(value.translation.width)
-                    if ownsDrag == true { begin() }
+                    if ownsDrag { begin() }
                 }
-                if ownsDrag == true {
-                    update(edge.translation(horizontal: value.translation.width, vertical: value.translation.height))
+                if ownsDrag {
+                    frames.move(to: edge.translation(horizontal: value.translation.width, vertical: value.translation.height), apply: update)
                 }
             }.onEnded { value in
-                if ownsDrag == true, !ignoreUntilRelease {
+                frames.stop()
+                if ownsDrag, !ignoreUntilRelease {
                     update(edge.translation(horizontal: value.translation.width, vertical: value.translation.height))
                     end(edge.translation(horizontal: value.velocity.width, vertical: value.velocity.height))
                 }
-                ownsDrag = nil
+                ownsDrag = false
                 ignoreUntilRelease = false
             }
         ).onTapGesture(count: 2) { if !metrics.expanded && canToggle { toggle() } }.onChange(of: active) { _, active in
             if !active {
+                frames.stop()
                 cancel()
-                ownsDrag = nil
+                ownsDrag = false
                 ignoreUntilRelease = false
             }
         }.onChange(of: maximumExtent) { _, _ in if !edge.horizontal { invalidateDrag() } }.onChange(of: presentationID)
-        { _, _ in invalidateDrag() }.onDisappear { cancel() }.accessibilityLabel("\(accessibilityName) resize handle")
+        { _, _ in invalidateDrag() }.onDisappear { frames.stop(); cancel() }.accessibilityLabel("\(accessibilityName) resize handle")
             .accessibilityAdjustableAction { direction in adjust(direction == .increment ? 44 : -44) }
             .accessibilityAction(named: Text(presented ? "Hide" : "Show")) { if canToggle { toggle() } }
     }
@@ -95,6 +142,7 @@ struct TouchPanelHandle: View {
 
     private func invalidateDrag() {
         if active {
+            frames.stop()
             cancel()
             ignoreUntilRelease = true
         }
