@@ -976,3 +976,4 @@ Every request ID is retained. “Implemented” describes source availability, n
 
 | R545 | Build 255 installed and launched on the A10X iPad. | Install all updates from consolidated main. | The signed app matches main. Physical audio and touch acceptance remain open. |
 | R546 | Open on build 255. | Discover the Reloop Beatpad as an audio source. | The iPad log captured after installation shows the built-in speaker. It contains no named Beatpad audio route. Identify the model, connection and intended audio path during a connected session. |
+| R547 | Device check pending. | Make the iPad library follow a downward header swipe. | Check a slow pull, a short cancelled pull, keyboard dismissal and scrolling while both decks play on A10X. |

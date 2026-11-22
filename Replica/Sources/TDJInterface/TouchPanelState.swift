@@ -16,7 +16,7 @@ struct TouchPanelState {
     let minimumExtent: Double
     private(set) var extent: Double
     private(set) var rememberedExtent: Double
-    private var dragOrigin: Double?
+    private(set) var dragOrigin: Double?
     private var memoryAtDragStart = 0.0
     private var translation = 0.0
     var isDragging: Bool { dragOrigin != nil }
@@ -112,6 +112,7 @@ struct LibraryPanelState {
         set { if orientation == .portrait { portrait = newValue } else { landscape = newValue } }
     }
     var extent: Double { panel.extent }
+    var contentHeight: Double { max(extent, panel.dragOrigin ?? extent) }
     var isDragging: Bool { panel.isDragging }
     var acceptsContentInput: Bool { extent > 0 && extent >= min(panel.minimumExtent, maximumExtent) }
     private var initialExtent: Double {
