@@ -19,6 +19,7 @@ struct BrowserView: View {
     var beginHeaderPull: (() -> Bool)?
     var updateHeaderPull: (Double) -> Void = { _ in }
     var finishHeaderPull: (Bool) -> Void = { _ in }
+    @State private var headerFrames = PanelDragFrames()
     @GestureState private var headerTouched = false
     @State private var ownsHeaderPull: Bool?
 
@@ -31,9 +32,10 @@ struct BrowserView: View {
                     ownsHeaderPull = value.translation.height > abs(value.translation.width)
                         && !searchFocused && beginHeaderPull()
                 }
-                if ownsHeaderPull == true { updateHeaderPull(max(0, value.translation.height)) }
+                if ownsHeaderPull == true { headerFrames.move(to: max(0, value.translation.height), apply: updateHeaderPull) }
             }
             .onEnded { value in
+                headerFrames.stop()
                 let action = LibraryHeaderSwipeAction.resolve(
                     horizontal: value.translation.width, vertical: value.translation.height, searchFocused: searchFocused)
                 if ownsHeaderPull == true {
@@ -48,6 +50,7 @@ struct BrowserView: View {
     }
 
     private func cancelHeaderPull() {
+        headerFrames.stop()
         if ownsHeaderPull == true { finishHeaderPull(false) }
         ownsHeaderPull = nil
     }

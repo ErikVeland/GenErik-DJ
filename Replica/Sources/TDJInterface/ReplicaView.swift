@@ -967,9 +967,15 @@ struct WaveformView: View, Equatable {
     static func mirrored(_ heights: [Double], scale: Double, middle: Double) -> Path {
         var path = Path()
         guard !heights.isEmpty else { return path }
-        path.move(to: CGPoint(x: 0, y: middle - heights[0]))
-        for (x, h) in heights.enumerated() { path.addLine(to: CGPoint(x: Double(x) / scale, y: middle - h)) }
-        for (x, h) in heights.enumerated().reversed() { path.addLine(to: CGPoint(x: Double(x) / scale, y: middle + h)) }
+        var points: [CGPoint] = []
+        points.reserveCapacity(2 * heights.count)
+        for x in heights.indices {
+            points.append(CGPoint(x: Double(x) / scale, y: middle - heights[x]))
+        }
+        for x in heights.indices.reversed() {
+            points.append(CGPoint(x: Double(x) / scale, y: middle + heights[x]))
+        }
+        path.addLines(points)
         path.closeSubpath()
         return path
     }
