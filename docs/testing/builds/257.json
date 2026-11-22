@@ -1,0 +1,21 @@
+{
+  "notes": "R548 Pace pane drags with the iPad display and draw each waveform outline in one path call.",
+  "sourceCommit": "66f2f60fb1ec3643beaf925cc7ecc4d7768b8056",
+  "sourceSHA256": "dabd1558aa7c1409c7d74da4795298bc2d4c853f55aa343289ff12ce0fb554c6",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 91.08,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-257.log",
+  "build": 257,
+  "app": "TestBuilds/ipad/257/GenErikDJ.app",
+  "appSHA256": "a1cafb718c6d0a724d1d883129f98a6e1ee17e697d7c844cf5d9130047dcae0b",
+  "state": "installed",
+  "createdUTC": "2026-11-22T06:42:59.379679+00:00",
+  "installedUTC": "2026-11-22T06:44:17.029437+00:00",
+  "launchAttempts": [
+    "First request timed out after 10 seconds. The next request was denied because the iPad was locked."
+  ],
+  "verification": "A host check compared all waveform outline vertices at five widths from 0 to 2048. The outlines matched after removing a duplicate starting vertex. Instruments could not attach to build 256 by name or PID. Presented frame times, touch and audio on A10X remain open."
+}

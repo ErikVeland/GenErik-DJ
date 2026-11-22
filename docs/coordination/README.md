@@ -1,5 +1,7 @@
 # Current work
 
+**Build 257 (R548)** installed on the A10X iPad. iPadOS requires an unlock to launch it. Erik checks divider and side pane motion during two-deck playback. Presented frame times and audio continuity remain open. [Build record](../testing/builds/257.json).
+
 **Build 256 (R547)** installed and launched on the A10X iPad. The library follows a downward pull from its search header. Erik checks swipe response and audio during playback. [Build record](../testing/builds/256.json).
 
 **Build 255 (R545)** installed and launched on the A10X iPad with the updates from R529–R544. The signed app matches the latest app source on main. Physical acceptance remains open. [Build record](../testing/builds/255.json).
