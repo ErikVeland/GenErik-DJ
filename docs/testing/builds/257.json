@@ -6,7 +6,13 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 91.08,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-23",
+      "request": "R549",
+      "report": "Erik requested 120 fps waveform scrolling and a physical two-deck frame-rate measurement. Build 257 is the latest installed build."
+    }
+  ],
   "log": "TestBuilds/ipad/build-257.log",
   "build": 257,
   "app": "TestBuilds/ipad/257/GenErikDJ.app",

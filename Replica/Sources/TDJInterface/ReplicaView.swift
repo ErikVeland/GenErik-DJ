@@ -1869,8 +1869,6 @@ enum RecordingOutputIndicator {
                             Text("Reading waveform…").font(.caption).foregroundStyle(.secondary).allowsHitTesting(false)
                         }
                     }.contentShape(Rectangle()).overlay {
-                        PerformanceOverlay(model: model, deck: deck, span: visibleSeconds * track.analysis.sampleRate)
-                    }.overlay {
                         WaveformTouch(model: model, deck: deck, span: visibleSeconds * track.analysis.sampleRate) {
                             frameSpan in
                             visibleSeconds = WaveformZoom.seconds(
@@ -1915,20 +1913,36 @@ enum RecordingOutputIndicator {
     @AppStorage(DeckToolSettings.sectionWaveformColours) private var sectionColours = true
     @State private var band: (String, BandWaveform)?
     @Environment(\.snapshotBandWaveforms) private var snapshotBands
+    @Environment(\.scenePhase) private var scenePhase
     var body: some View {
         let playback = model.waveformPlayback(deck)
         let map = model.editing.contains(deck) ? model.gridInspectionTiming(deck)?.adaptive : playback?.adaptiveMap
-        WaveformView(
-            track: track, grid: model.grid(deck), centerFrame: model.viewport[deck] ?? 0,
-            visibleSeconds: visibleSeconds, adaptiveMap: map,
-            playheadFrame: model.displayedStripePlayhead(deck) ?? playback?.sourceFrame ?? 0,
-            leadInFrame: playback?.leadInSourceFrame,
-            band: band?.0 == track.id ? band?.1 : snapshotBands[track.id],
-            sections: sectionColours ? model.arrangements[track.id]?.sections ?? [] : []
-        ).overlay {
-            ArrangementWaveformOverlay(
-                model: model, deck: deck, track: track, center: model.viewport[deck] ?? 0,
-                span: visibleSeconds * track.analysis.sampleRate)
+        let bands = band?.0 == track.id ? band?.1 : snapshotBands[track.id]
+        let sections = sectionColours ? model.arrangements[track.id]?.sections ?? [] : []
+        let span = visibleSeconds * track.analysis.sampleRate
+        let center = model.viewport[deck] ?? 0
+        Group {
+            #if os(iOS)
+            if UIDevice.current.userInterfaceIdiom == .pad, scenePhase == .active,
+                let playback, playback.phase == .playing, !playback.touchActive,
+                !model.previewing.contains(deck), !model.editing.contains(deck), !model.frozen.contains(deck),
+                !model.playback.hasPendingTouch(deck), !model.playback.hasPendingTouchRelease(deck)
+            {
+                GeometryReader { geometry in
+                    if geometry.size.height > 0, geometry.size.width > 0 {
+                        ScrollingDeckWaveform(
+                            model: model, deck: deck, track: track, visibleSeconds: visibleSeconds,
+                            grid: model.grid(deck), map: map, band: bands, sections: sections,
+                            generation: playback.generation, initialFrame: playback.sourceFrame, size: geometry.size
+                        ).id(playback.generation)
+                    }
+                }
+            } else {
+                stationary(playback, map, bands, sections, center, span)
+            }
+            #else
+            stationary(playback, map, bands, sections, center, span)
+            #endif
         }.task(id: track.id) {
             let id = track.id
             guard
@@ -1938,6 +1952,16 @@ enum RecordingOutputIndicator {
             band = (id, loaded)
         }
     }
+
+    private func stationary(_ playback: DeckPlaybackSnapshot?, _ map: BeatGridMap?, _ bands: BandWaveform?,
+                            _ sections: [ArrangementSection], _ center: Double, _ span: Double) -> some View {
+        WaveformView(track: track, grid: model.grid(deck), centerFrame: center, visibleSeconds: visibleSeconds,
+                     adaptiveMap: map, playheadFrame: model.displayedStripePlayhead(deck) ?? playback?.sourceFrame ?? 0,
+                     leadInFrame: playback?.leadInSourceFrame, band: bands, sections: sections)
+            .overlay { ArrangementWaveformOverlay(model: model, deck: deck, track: track, center: center, span: span) }
+            .overlay { PerformanceOverlay(model: model, deck: deck, span: span, center: center) }
+    }
+
 }
 
 @MainActor private struct DeckOverview: View {

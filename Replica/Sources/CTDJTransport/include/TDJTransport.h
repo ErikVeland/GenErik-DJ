@@ -226,6 +226,7 @@ void tdj_microphone_set_enabled(tdj_engine *engine, bool enabled);
 void tdj_microphone_push(tdj_engine *engine, const float *samples, uint32_t count, uint32_t stride, double rate);
 bool tdj_read_message(tdj_engine *engine, tdj_message *message);
 uint64_t tdj_rendered_output_frame(const tdj_engine *engine);
+bool tdj_read_waveform_position(tdj_engine *engine, int deck, uint64_t generation, double *position, double *frames_per_second);
 bool tdj_read_snapshot(tdj_engine *engine, tdj_snapshot *snapshot);
 // No allocation, file API calls, logging or explicit waiting occurs here.
 // Clean mapped pages remain subject to host-managed reclamation and paging.

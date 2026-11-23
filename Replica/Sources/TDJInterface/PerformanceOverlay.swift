@@ -5,10 +5,11 @@ struct PerformanceOverlay: View {
     @Bindable var model: ReplicaModel
     let deck: DeckID
     let span: Double
+    var center: Double? = nil
     var body: some View {
         let showsHotcues = model.hotcuePadsVisible.contains(deck)
         Canvas { context, size in
-            let left = (model.viewport[deck] ?? 0) - span / 2
+            let left = (center ?? model.viewport[deck] ?? 0) - span / 2
             if let state = model.playbackSnapshot?[deck], state.loopEnabled {
                 let start = (state.loopStart - left) / max(1, span) * size.width
                 let end = (state.loopEnd - left) / max(1, span) * size.width
