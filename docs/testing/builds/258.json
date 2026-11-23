@@ -1,0 +1,21 @@
+{
+  "notes": "R549 Scroll visible playing iPad waveforms on the display clock using published audio positions.",
+  "sourceCommit": "3f1544090f0927e3ba868dec9d9f99467a6896f0",
+  "sourceSHA256": "6d45803dd86a4f1dad3ba29749be70a5f6915e5c430aa6bc640f9770599b6743",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 121.54,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-258.log",
+  "build": 258,
+  "app": "TestBuilds/ipad/258/GenErikDJ.app",
+  "appSHA256": "86b1ff5f23d6a25887d2996d850849ca7475de1c251374ae608068ae47770611",
+  "state": "ready",
+  "createdUTC": "2026-11-23T01:25:02.911502+00:00",
+  "positionCheck": "400 playing positions across decks A and B matched the full transport snapshot. The reader rejected paused and stale-generation reads.",
+  "installAttempts": [
+    "CoreDevice error 4016. The A10X iPad was unavailable. Instruments listed it offline."
+  ],
+  "deviceMeasurement": "Pending installation and a frame presentation trace with both decks playing."
+}

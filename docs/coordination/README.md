@@ -1,5 +1,7 @@
 # Current work
 
+**Build 258 (R549)** is signed. Live iPad waveforms use the display clock and published audio positions. The A10X was offline during installation. Two-deck frame timing and physical acceptance remain open. [Build record](../testing/builds/258.json).
+
 **Build 257 (R548)** installed on the A10X iPad. iPadOS requires an unlock to launch it. Erik checks divider and side pane motion during two-deck playback. Presented frame times and audio continuity remain open. [Build record](../testing/builds/257.json).
 
 **Build 256 (R547)** installed and launched on the A10X iPad. The library follows a downward pull from its search header. Erik checks swipe response and audio during playback. [Build record](../testing/builds/256.json).
