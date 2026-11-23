@@ -3660,6 +3660,29 @@ uint64_t tdj_rendered_output_frame(const tdj_engine *e) {
     return atomic_load_explicit(&e->published_frame, memory_order_relaxed);
 }
 
+bool tdj_read_waveform_position(tdj_engine *e, int deck, uint64_t generation, double *position, double *frames_per_second) {
+    if (!e || deck < 0 || deck >= TDJ_DECK_COUNT || !position || !frames_per_second)
+        return false;
+    atomic_deck *p = &e->published[deck];
+    for (int attempt = 0; attempt < 3; ++attempt) {
+        uint64_t before = atomic_load(&e->snapshot_sequence);
+        if (before & 1)
+            continue;
+        bool follows = atomic_load(&p->generation) == generation && atomic_load(&p->state) == TDJ_PLAYING &&
+                       !atomic_load(&p->touch_active);
+        double frame = atomic_load(&p->position);
+        double rate = atomic_load(&p->source_sample_rate) * atomic_load(&p->rate) * atomic_load(&p->performance_rate);
+        if (atomic_load(&p->braking))
+            rate *= atomic_load(&p->brake_rate);
+        if (before == atomic_load(&e->snapshot_sequence)) {
+            *position = frame;
+            *frames_per_second = rate;
+            return follows;
+        }
+    }
+    return false;
+}
+
 bool tdj_read_snapshot(tdj_engine *e, tdj_snapshot *out) {
     for (int attempt = 0; attempt < 8; ++attempt) {
         uint64_t before = atomic_load(&e->snapshot_sequence);

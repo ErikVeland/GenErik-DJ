@@ -949,6 +949,13 @@ public final class SampleTransport: @unchecked Sendable {
 
     public var renderedOutputFrame: UInt64 { tdj_rendered_output_frame(pointer) }
 
+    public func waveformPosition(deck: DeckID, generation: UInt64) -> (frame: Double, framesPerSecond: Double)? {
+        var frame = 0.0
+        var rate = 0.0
+        guard tdj_read_waveform_position(pointer, index(deck), generation, &frame, &rate) else { return nil }
+        return (frame, rate)
+    }
+
     public func snapshot() -> PlaybackSnapshot? {
         var value = tdj_snapshot()
         return tdj_read_snapshot(pointer, &value) ? .init(value) : nil
