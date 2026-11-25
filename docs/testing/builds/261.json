@@ -1,0 +1,20 @@
+{
+  "notes": "R553 Start first synced Play immediately at the matching bar phase.",
+  "sourceCommit": "553b16ca08503c14a6ec8fdda10376c60d392ecf",
+  "sourceSHA256": "c6046e780f33e04bfa7f992524fef5f519f2c59b6d4f1759d4716715ece68e18",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 109.75,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-261.log",
+  "build": 261,
+  "app": "TestBuilds/ipad/261/GenErikDJ.app",
+  "appSHA256": "215a26b117ba35aaeb29640f69efb0d2749fcd7ce6dcd46996af551ab7f6a502",
+  "state": "testing",
+  "createdUTC": "2026-11-25T11:34:12.285151+00:00",
+  "installedUTC": "2026-11-25T11:34:32.198224+00:00",
+  "launchedUTC": "2026-11-25T11:34:32.766556+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "verification": "Eight offline transport scenarios passed. First Play started on the command frame in both deck directions with Beat Lock on and off. The reference position stayed fixed and a restart retained the parked position. Device listening remains open."
+}
