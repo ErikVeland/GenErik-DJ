@@ -62,11 +62,11 @@ import TDJCore
     func update(_ state: PlaybackSnapshot?) {
         if masterBPM != (state?.masterBPM ?? 120) { masterBPM = state?.masterBPM ?? 120 }
         if crossfader != (state?.crossfader ?? 0.5) { crossfader = state?.crossfader ?? 0.5 }
-        a.update(state?.a, needsAlignment: state?.syncNeedsAlignment(.a) == true)
-        b.update(state?.b, needsAlignment: state?.syncNeedsAlignment(.b) == true)
+        a.update(state?.a, needsAlignment: state?.syncButtonNeedsAlignment(.a) == true)
+        b.update(state?.b, needsAlignment: state?.syncButtonNeedsAlignment(.b) == true)
         if state?.c != nil {
-            c.update(state?.c, needsAlignment: state?.syncNeedsAlignment(.c) == true)
-            d.update(state?.d, needsAlignment: state?.syncNeedsAlignment(.d) == true)
+            c.update(state?.c, needsAlignment: state?.syncButtonNeedsAlignment(.c) == true)
+            d.update(state?.d, needsAlignment: state?.syncButtonNeedsAlignment(.d) == true)
         }
     }
 }

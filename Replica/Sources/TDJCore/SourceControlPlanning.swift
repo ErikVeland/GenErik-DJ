@@ -6,7 +6,7 @@ extension SourceControl {
         switch self {
         case .tempo: nil
         case .brake(_, _, let deck, _), .play(let deck, _), .freeRate(_, let deck, _), .sync(_, let deck, _),
-            .restoreSync(let deck, _), .keylock(_, let deck, _), .grid(_, let deck, _), .adaptiveMap(_, let deck, _),
+            .restoreSync(let deck, _, _), .keylock(_, let deck, _), .grid(_, let deck, _), .adaptiveMap(_, let deck, _),
             .seek(_, let deck, _, _), .cueRecall(let deck, _, _, _, _), .performance(_, let deck, _, _, _, _, _, _, _):
             deck
         }
@@ -15,7 +15,7 @@ extension SourceControl {
         switch self {
         case .tempo: nil
         case .brake(_, _, _, let generation), .play(_, let generation), .freeRate(_, _, let generation),
-            .sync(_, _, let generation), .restoreSync(_, let generation), .keylock(_, _, let generation),
+            .sync(_, _, let generation), .restoreSync(_, let generation, _), .keylock(_, _, let generation),
             .grid(_, _, let generation), .adaptiveMap(_, _, let generation), .seek(_, _, let generation, _),
             .cueRecall(_, let generation, _, _, _), .performance(_, _, let generation, _, _, _, _, _, _):
             generation
@@ -49,13 +49,14 @@ extension SourceControl {
                     target.speed = 1
                 }
             }
-        case .restoreSync:
+        case .restoreSync(_, _, let bar):
             guard let grid = state.timing else { return [] }
             let lower = state.loopEnabled ? max(0, state.loopStart) : 0
             let upper = state.loopEnabled ? min(Double(frames), state.loopEnd) : Double(frames)
             guard lower < upper,
                 let position = grid.nearestPhaseAlignedFrame(
-                    to: state.sourceFrame, masterBeat: snapshot.masterBeat, within: lower..<upper)
+                    to: state.sourceFrame, masterBeat: bar ? snapshot.barSyncReference(deck) : snapshot.masterBeat,
+                    within: lower..<upper, period: bar ? 4 : 1)
             else { return [] }
             target.position = position
             target.speed = snapshot.masterBPM / state.sourceBPM

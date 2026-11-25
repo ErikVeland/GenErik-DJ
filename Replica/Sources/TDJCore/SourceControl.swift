@@ -7,7 +7,7 @@ public enum SourceControl: Sendable {
     case tempo(Double, reference: DeckID? = nil, generation: UInt64 = 0)
     case freeRate(Double, DeckID, UInt64)
     case sync(Bool, DeckID, UInt64)
-    case restoreSync(DeckID, UInt64)
+    case restoreSync(DeckID, UInt64, bar: Bool = false)
     case keylock(Bool, DeckID, UInt64)
     case grid(BeatGrid, DeckID, UInt64)
     case adaptiveMap(BeatGridMap?, DeckID, UInt64)
@@ -74,7 +74,8 @@ public enum SourceControl: Sendable {
             result.kind = TDJ_SYNC
             deck(id, generation)
             result.flag = enabled ? 1 : 0
-        case .restoreSync(let id, let generation):
+        case .restoreSync(let id, let generation, let bar):
+            result.flag = bar ? 1 : 0
             result.kind = TDJ_SYNC_RESTORE
             deck(id, generation)
         case .keylock(let enabled, let id, let generation):

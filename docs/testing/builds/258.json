@@ -6,7 +6,13 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 121.54,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-25",
+      "request": "R550",
+      "report": "Erik reported a red Sync button and requested immediate bar alignment on press."
+    }
+  ],
   "log": "TestBuilds/ipad/build-258.log",
   "build": 258,
   "app": "TestBuilds/ipad/258/GenErikDJ.app",

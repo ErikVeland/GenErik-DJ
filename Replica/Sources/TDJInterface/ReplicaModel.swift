@@ -2313,22 +2313,34 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     }
     public func toggleSync(deck: DeckID) {
         guard let snapshot = playbackSnapshot else { return }
-        setSync(!snapshot[deck].synced, deck: deck)
+        let state = snapshot[deck]
+        if state.phase == .playing, state.timing != nil, !state.synced || snapshot.syncButtonNeedsAlignment(deck) {
+            do {
+                try playback.restoreSync(deck: deck, bar: true)
+                rememberSync(true, deck: deck)
+                refreshPlayback()
+            } catch { status = error.localizedDescription }
+        } else {
+            setSync(!state.synced, deck: deck)
+        }
     }
     public func setSync(_ enabled: Bool, deck: DeckID) {
         guard playbackSnapshot != nil else { return }
         do {
             try playback.setSync(enabled, deck: deck)
-            controllerPausedJogs[deck] = nil
-            switch deck {
-            case .a: mixerPreferences.syncA = enabled
-            case .b: mixerPreferences.syncB = enabled
-            case .c: mixerPreferences.syncC = enabled
-            case .d: mixerPreferences.syncD = enabled
-            }
-            persistMixerPreferences()
+            rememberSync(enabled, deck: deck)
             refreshPlayback()
         } catch { status = error.localizedDescription }
+    }
+    private func rememberSync(_ enabled: Bool, deck: DeckID) {
+        controllerPausedJogs[deck] = nil
+        switch deck {
+        case .a: mixerPreferences.syncA = enabled
+        case .b: mixerPreferences.syncB = enabled
+        case .c: mixerPreferences.syncC = enabled
+        case .d: mixerPreferences.syncD = enabled
+        }
+        persistMixerPreferences()
     }
     var mainCompressorEnabled: Bool {
         get { mixerPreferences.mainCompressor ?? true }
