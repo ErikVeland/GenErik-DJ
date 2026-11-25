@@ -6,7 +6,13 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 76.25,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-25",
+      "request": "R553",
+      "report": "Erik confirmed that pressing Play in TDJ1 starts the track immediately. Waiting for the next matching bar is incorrect."
+    }
+  ],
   "log": "TestBuilds/ipad/build-260.log",
   "build": 260,
   "app": "TestBuilds/ipad/260/GenErikDJ.app",

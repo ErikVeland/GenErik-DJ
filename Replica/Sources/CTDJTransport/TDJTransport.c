@@ -1025,56 +1025,49 @@ static double reference_beats(deck *d, tdj_engine *e) {
         return deck_beat(d, d->asset->frames) - deck_beat(d, d->position);
     return (d->asset->frames - d->position) * e->bpm / (60 * d->asset->rate * source_rate(e, d));
 }
+static bool nearest_bar_position(deck *d, double reference, double *position) {
+    double phase = active_grid_downbeat(d) + reference - 4 * floor(reference / 4);
+    double low = d->loop_enabled ? fmax(0, d->loop_start) : 0;
+    double high = d->loop_enabled ? fmin(d->asset->frames, d->loop_end) : d->asset->frames;
+    double first = ceil((deck_beat(d, low) - phase) / 4);
+    double last = ceil((deck_beat(d, high) - phase) / 4) - 1;
+    double nearest = floor((deck_beat(d, d->position) - phase) / 4 + 0.5);
+    double aligned = deck_frame(d, phase + 4 * fmax(first, fmin(last, nearest)));
+    if (first > last || !isfinite(aligned) || aligned < low || aligned >= high)
+        return false;
+    *position = aligned;
+    return true;
+}
 static int start_deck(tdj_engine *e, deck *d, int index, uint64_t ticket, uint64_t generation) {
     int policy = atomic_load_explicit(&e->sync_entry_policy, memory_order_relaxed);
     double reference = -1;
     deck *solo = NULL;
     unsigned references = 0;
-    if (d->synced && d->bpm > 0 && (policy == SYNC_LEGACY || (policy == SYNC_FIRST_BAR && !d->has_started)))
+    if (d->synced && d->bpm > 0 && policy == SYNC_LEGACY)
         for (int i = 0; i < e->deck_count; ++i) {
             deck *candidate = &e->decks[i];
             if (i != index && candidate->state == TDJ_PLAYING && candidate->synced && candidate->bpm > 0) {
-                if (policy == SYNC_FIRST_BAR && (candidate->touch_active || candidate->braking ||
-                    candidate->stream_starved || candidate->performance_rate != 1))
-                    continue;
                 double remaining = reference_beats(candidate, e);
-                if (policy == SYNC_LEGACY || remaining > reference)
-                    solo = candidate;
+                solo = candidate;
                 reference = fmax(reference, remaining);
                 references++;
             } else if (i != index && candidate->state == TDJ_QUEUED)
                 references++;
         }
     double proposed_bpm = (!e->running && !e->master_chosen && d->bpm > 0) ? d->bpm : e->bpm;
-    if (d->keylock && !supported_deck_keylock(d, proposed_bpm))
-        return TDJ_KEYLOCK_RANGE;
-    double entry_beat = 0;
-    if (policy == SYNC_FIRST_BAR && solo) {
-        double phase = deck_beat(d, d->position) - active_grid_downbeat(d);
-        double downbeat = active_grid_downbeat(solo);
-        double reference_beat = deck_beat(solo, solo->position) - downbeat;
-        double bars = (reference_beat - phase) / 4;
-        double nearest = deck_frame(solo, downbeat + phase + 4 * round(bars));
-        if (fabs(nearest - solo->position) <= 0.5) {
-            // The selected frame already matches the reference bar.
-            solo = NULL;
-        } else {
-            double next_frame = deck_frame(solo, downbeat + phase + 4 * ceil(bars));
-            double limit = solo->loop_enabled ? solo->loop_end : solo->asset->frames;
-            if (next_frame >= limit) {
-                // A short loop or ending can still supply a matching beat.
-                double next_beat = phase + floor(reference_beat - phase) + 1;
-                next_frame = deck_frame(solo, downbeat + next_beat);
-            }
-            double beat_delay = (next_frame - solo->position) * e->bpm /
-                (source_rate(e, solo) * solo->asset->rate * 60);
-            if (isfinite(beat_delay) && beat_delay > 0 && next_frame < limit)
-                entry_beat = beat_now(e) + beat_delay;
-            else
-                solo = NULL;
+    deck starting = *d;
+    if (policy == SYNC_FIRST_BAR && d->synced && d->bpm > 0 && d->state == TDJ_READY && !d->has_started) {
+        for (int i = 0; i < e->deck_count; ++i) {
+            deck *peer = &e->decks[i];
+            if (i == index || peer->state != TDJ_PLAYING || peer->bpm <= 0)
+                continue;
+            double beat = deck_beat(peer, peer->position) - active_grid_downbeat(peer);
+            nearest_bar_position(d, beat, &starting.position);
+            break;
         }
     }
-    deck starting = *d;
+    if (starting.keylock && !supported_deck_keylock(&starting, proposed_bpm))
+        return TDJ_KEYLOCK_RANGE;
     starting.state = solo ? TDJ_QUEUED : TDJ_PLAYING;
     int stream_status = stream_validate(e, index, &starting, proposed_bpm, ticket, generation);
     if (stream_status != TDJ_OK)
@@ -1096,8 +1089,7 @@ static int start_deck(tdj_engine *e, deck *d, int index, uint64_t ticket, uint64
         /**
          * Retains the prepared bar phase. Short references use the existing next-beat fallback.
          */
-        d->target = policy == SYNC_FIRST_BAR ? entry_beat :
-            (bar - beat <= reference + 1e-9 ? bar : floor(beat - phase) + 1 + phase);
+        d->target = bar - beat <= reference + 1e-9 ? bar : floor(beat - phase) + 1 + phase;
         d->state = TDJ_QUEUED;
     } else {
         if (!e->running) {
@@ -1109,6 +1101,10 @@ static int start_deck(tdj_engine *e, deck *d, int index, uint64_t ticket, uint64
                 : d->bpm > 0 ? deck_beat(d, d->position) - d->downbeat : 0;
             anchor_clock(e, origin);
             e->running = true;
+        }
+        if (starting.position != d->position) {
+            d->continuing = starting.position;
+            reset_deck_keylock(e, index);
         }
         d->position = starting.position;
         d->state = TDJ_PLAYING;
@@ -2586,14 +2582,7 @@ static int apply(tdj_engine *e, tdj_command c) {
                     break;
                 }
             }
-            double phase = active_grid_downbeat(d) + reference - 4 * floor(reference / 4);
-            double low = d->loop_enabled ? fmax(0, d->loop_start) : 0;
-            double high = d->loop_enabled ? fmin(d->asset->frames, d->loop_end) : d->asset->frames;
-            double first = ceil((deck_beat(d, low) - phase) / 4);
-            double last = ceil((deck_beat(d, high) - phase) / 4) - 1;
-            double nearest = floor((deck_beat(d, d->position) - phase) / 4 + 0.5);
-            position = deck_frame(d, phase + 4 * fmax(first, fmin(last, nearest)));
-            if (first > last || !isfinite(position) || position < low || position >= high)
+            if (!nearest_bar_position(d, reference, &position))
                 return TDJ_ALIGNMENT_UNAVAILABLE;
         } else if (!nearest_sync_position(d, beat_now(e), &position))
             return TDJ_ALIGNMENT_UNAVAILABLE;

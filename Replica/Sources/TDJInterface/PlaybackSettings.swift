@@ -40,7 +40,7 @@ struct PlaybackSettings: View {
             }
             SettingsGroup("Sync · all decks") {
                 Toggle("Beat Lock", isOn: $model.beatLockEnabled)
-                Text("Starts a new synced track at the matching point in the playing deck’s bar. Turn Beat Lock off for immediate starts with tempo sync.")
+                Text("Play starts immediately. On the first Play, Beat Lock moves the new track to the same point in the bar as the playing deck.")
                     .font(.caption).foregroundStyle(.secondary)
             }
             SettingsGroup("Loop defaults") {

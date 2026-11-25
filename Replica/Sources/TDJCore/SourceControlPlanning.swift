@@ -219,6 +219,21 @@ extension SourceControl {
             target.loopEnd = state.recoveryEnd
         }
         var targets = [target]
+        if case .play = self, state.phase == .ready, state.synced,
+            snapshot.deckIDs.contains(where: { $0 != deck && snapshot[$0].phase == .playing && snapshot[$0].timing != nil }),
+            let timing = state.timing
+        {
+            let low = state.loopEnabled ? max(0, state.loopStart) : 0
+            let high = state.loopEnabled ? min(Double(frames), state.loopEnd) : Double(frames)
+            if low < high, let frame = timing.nearestPhaseAlignedFrame(
+                to: state.sourceFrame, masterBeat: snapshot.barSyncReference(deck), within: low..<high, period: 4)
+            {
+                var entry = target
+                entry.position = frame
+                entry.continuingPosition = frame
+                targets.append(entry)
+            }
+        }
         if preservePending {
             var pending = target
             pending.position = bounded(state.pendingJumpFrame)
