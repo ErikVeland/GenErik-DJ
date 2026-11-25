@@ -6,7 +6,13 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 128.73,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-25",
+      "request": "R552",
+      "report": "Erik requested playback and Sync behavior matching the R551 Traktor DJ recording."
+    }
+  ],
   "log": "TestBuilds/ipad/build-259.log",
   "build": 259,
   "app": "TestBuilds/ipad/259/GenErikDJ.app",
