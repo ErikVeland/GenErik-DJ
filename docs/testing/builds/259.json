@@ -1,0 +1,20 @@
+{
+  "notes": "R550 Align a playing deck to the nearest matching bar phase on a Sync press.",
+  "sourceCommit": "0c1df1210721332551fb5f71dc4e1c31adcb6483",
+  "sourceSHA256": "ebb8b64f0e2e861a719de2d5f47f0c6b7f0f456d79f3086d6aee2b859bd29321",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 128.73,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-259.log",
+  "build": 259,
+  "app": "TestBuilds/ipad/259/GenErikDJ.app",
+  "appSHA256": "e35b1bb827b5691fa540fa56e3f70770c7436ec327bf3c71e7bd67e75f8aab39",
+  "state": "testing",
+  "createdUTC": "2026-11-25T07:47:41.441241+00:00",
+  "installedUTC": "2026-11-25T07:47:57.048942+00:00",
+  "launchedUTC": "2026-11-25T07:47:57.443909+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "alignmentCheck": "An offline two-deck check corrected a two-beat offset in each direction. The reference position stayed fixed during the command. The initial fixture attempted a protected seek during playback. The corrected fixture used a live jump."
+}
