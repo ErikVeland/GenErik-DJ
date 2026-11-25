@@ -1,6 +1,6 @@
 # Current work
 
-**Build 258 (R549)** installed and launched on the A10X iPad. Live waveforms use the display clock and published audio positions. Two-deck frame timing and physical acceptance remain open. [Build record](../testing/builds/258.json).
+**Build 258 (R549)** installed and launched on the A10X iPad. Live waveforms use the display clock and published audio positions. With both decks playing, 707 display swaps over 12.04 seconds gave 58.6 fps. The longest gap was 37.5 ms. Sustained 120 fps and listening acceptance remain open. [Build record](../testing/builds/258.json).
 
 **Build 257 (R548)** installed on the A10X iPad. iPadOS requires an unlock to launch it. Erik checks divider and side pane motion during two-deck playback. Presented frame times and audio continuity remain open. [Build record](../testing/builds/257.json).
 

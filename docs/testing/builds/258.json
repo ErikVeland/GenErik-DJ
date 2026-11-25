@@ -18,7 +18,21 @@
     "CoreDevice error 4016. The A10X iPad was unavailable. Instruments listed it offline.",
     "2026-11-25: The original signed build installed on the connected A10X. iPadOS accepted launch."
   ],
-  "deviceMeasurement": "Awaiting a verified two-deck playback interval for frame presentation measurement.",
+  "deviceMeasurement": {
+    "date": "2026-11-25",
+    "device": "10.5-inch A10X iPad Pro, iPadOS 17.7.11",
+    "workload": "Both decks playing. Deck A looped near the start of FEISTY. Deck B advanced from 0:29 to 0:32 between screenshots.",
+    "trace": "TestBuilds/r549/258-live.trace",
+    "method": "Distinct built-in display surface swap timestamps, first through last. This measures the composited display.",
+    "swaps": 707,
+    "intervals": 706,
+    "elapsedSeconds": 12.042317875,
+    "meanFPS": 58.63,
+    "medianGapMilliseconds": 8.33,
+    "maximumGapMilliseconds": 37.5,
+    "targetFPS": 120,
+    "listeningAcceptance": "Open"
+  },
   "installedUTC": "2026-11-25T07:06:46.245086+00:00",
   "launchedUTC": "2026-11-25T07:06:48.803986+00:00",
   "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
