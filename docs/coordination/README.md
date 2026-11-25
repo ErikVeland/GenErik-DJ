@@ -1,5 +1,7 @@
 # Current work
 
+**Build 260 (R552)** installed and launched on the A10X iPad. Beat Lock matches the incoming track’s position within the reference bar on its first Play. Eight offline transport scenarios passed. Erik checks the entry by ear against the TDJ1 recording. [Build record](../testing/builds/260.json).
+
 **Build 259 (R550)** installed and launched on the A10X iPad. A Sync press aligns a playing deck to the reference bar when Sync is off or needs alignment. Listening and touch checks remain open. [Build record](../testing/builds/259.json).
 
 **Build 258 (R549)** installed and launched on the A10X iPad. Live waveforms use the display clock and published audio positions. With both decks playing, 707 display swaps over 12.04 seconds gave 58.6 fps. The longest gap was 37.5 ms. Sustained 120 fps and listening acceptance remain open. [Build record](../testing/builds/258.json).

@@ -1,0 +1,20 @@
+{
+  "notes": "R552 Match the reference bar on first synced Play while retaining the selected source frame.",
+  "sourceCommit": "09b940e80e8c7bc5531b0f8e41e65301ddcb3b8d",
+  "sourceSHA256": "d858a70c45ccf7a1ac8c4e999e4cf844ea82545ed778e91bc9350955b66da39d",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 76.25,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-260.log",
+  "build": 260,
+  "app": "TestBuilds/ipad/260/GenErikDJ.app",
+  "appSHA256": "2b30d6d79b9be2b8baa9765392cb23447ab5b64cc2935aa742be12956061ec9f",
+  "state": "testing",
+  "createdUTC": "2026-11-25T08:52:25.203321+00:00",
+  "installedUTC": "2026-11-25T08:52:43.867265+00:00",
+  "launchedUTC": "2026-11-25T08:52:44.638941+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "verification": "Eight offline transport scenarios passed across both deck directions, Beat Lock on and off, an already matched or off-bar pickup, and pause and restart. Comparison by ear on the A10X remains open."
+}
