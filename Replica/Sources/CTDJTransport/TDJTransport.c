@@ -2567,7 +2567,25 @@ static int apply(tdj_engine *e, tdj_command c) {
         if (d->keylock && !supported_keylock_rate(e->bpm / deck_bpm(d)))
             return TDJ_KEYLOCK_RANGE;
         double position;
-        if (!nearest_sync_position(d, beat_now(e), &position))
+        if (c.flag == 1) {
+            double reference = beat_now(e);
+            for (int i = 0; i < e->deck_count; ++i) {
+                deck *peer = &e->decks[i];
+                if (i != c.deck && peer->state == TDJ_PLAYING && peer->bpm > 0) {
+                    reference = deck_beat(peer, peer->position) - active_grid_downbeat(peer);
+                    break;
+                }
+            }
+            double phase = active_grid_downbeat(d) + reference - 4 * floor(reference / 4);
+            double low = d->loop_enabled ? fmax(0, d->loop_start) : 0;
+            double high = d->loop_enabled ? fmin(d->asset->frames, d->loop_end) : d->asset->frames;
+            double first = ceil((deck_beat(d, low) - phase) / 4);
+            double last = ceil((deck_beat(d, high) - phase) / 4) - 1;
+            double nearest = floor((deck_beat(d, d->position) - phase) / 4 + 0.5);
+            position = deck_frame(d, phase + 4 * fmax(first, fmin(last, nearest)));
+            if (first > last || !isfinite(position) || position < low || position >= high)
+                return TDJ_ALIGNMENT_UNAVAILABLE;
+        } else if (!nearest_sync_position(d, beat_now(e), &position))
             return TDJ_ALIGNMENT_UNAVAILABLE;
         deck proposed = *d;
         proposed.synced = true;

@@ -650,9 +650,9 @@ public enum AudioOutputRoute: String, CaseIterable, Sendable {
         try submitSource(.sync(enabled, deck, generation))
         if !outputActive { core.processControlsWhileIdle() }
     }
-    public func restoreSync(deck: DeckID) throws {
+    public func restoreSync(deck: DeckID, bar: Bool = false) throws {
         guard let generation = generations[deck] else { throw TransportError.stale }
-        try submitSource(.restoreSync(deck, generation))
+        try submitSource(.restoreSync(deck, generation, bar: bar))
         if !outputActive { core.processControlsWhileIdle() }
     }
     public func setKeylock(_ enabled: Bool, deck: DeckID) throws {
@@ -1462,7 +1462,7 @@ extension PlaybackController {
             case .play(let deck, _): self = .play(deck)
             case .tempo: self = .tempo
             case .freeRate(_, let deck, _): self = .freeRate(deck)
-            case .sync(_, let deck, _), .restoreSync(let deck, _): self = .sync(deck)
+            case .sync(_, let deck, _), .restoreSync(let deck, _, _): self = .sync(deck)
             case .keylock(_, let deck, _): self = .keylock(deck)
             case .grid(_, let deck, _), .adaptiveMap(_, let deck, _): self = .grid(deck)
             case .seek(_, let deck, _, _): self = .seek(deck)

@@ -38,6 +38,25 @@ extension PlaybackSnapshot {
         if error < -0.5 { error += 1 }
         return error.isFinite ? error : nil
     }
+    func barSyncReference(_ deck: DeckID) -> Double {
+        for peer in deckIDs where peer != deck {
+            let state = self[peer]
+            if state.phase == .playing, let grid = state.timing {
+                return grid.beat(atFrame: state.sourceFrame) - Double(grid.downbeatOffset)
+            }
+        }
+        return masterBeat
+    }
+
+    public func syncButtonNeedsAlignment(_ deck: DeckID) -> Bool {
+        let state = self[deck]
+        guard state.synced, state.phase == .playing, let grid = state.timing else {
+            return syncNeedsAlignment(deck)
+        }
+        let difference = grid.beat(atFrame: state.sourceFrame) - Double(grid.downbeatOffset) - barSyncReference(deck)
+        return abs(difference.remainder(dividingBy: 4)) > Self.syncPhaseToleranceBeats
+    }
+
     public func syncNeedsAlignment(_ deck: DeckID) -> Bool {
         let state = self[deck]
         guard state.synced, state.phase != .empty else { return false }
