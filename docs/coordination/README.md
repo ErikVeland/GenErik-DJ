@@ -1,5 +1,7 @@
 # Current work
 
+**Build 262 (R554)** is ready to install. Eight offline playback scenarios passed. The iPad install timed out. [Build record](../testing/builds/262.json).
+
 **Build 261 (R553)** installed and launched on the A10X iPad. With Beat Lock on, the first Play on a newly loaded synced deck starts immediately at the nearest matching point in the playing deck’s bar. Listening verification remains open. [Build record](../testing/builds/261.json).
 
 **Build 260 (R552)** installed and launched on the A10X iPad. Beat Lock matches the incoming track’s position within the reference bar on its first Play. Eight offline transport scenarios passed. Erik checks the entry by ear against the TDJ1 recording. [Build record](../testing/builds/260.json).

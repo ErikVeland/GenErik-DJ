@@ -1,0 +1,18 @@
+{
+  "notes": "R554 Align every synced Play immediately, including restarts.",
+  "sourceCommit": "23ccce1a76fc9de1dae32b1cd7144ecf5e07b2c3",
+  "sourceSHA256": "64a530a45e510261a0219cc26d645db4546084553823b7b1c164aaf372b03508",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 119.21,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-262.log",
+  "build": 262,
+  "app": "TestBuilds/ipad/262/GenErikDJ.app",
+  "appSHA256": "ebd636db2d592e966f5d99c3ffac1de0014e69fc1ccd6561b69e59eeee3921f0",
+  "state": "ready",
+  "createdUTC": "2026-11-25T12:00:39.537956+00:00",
+  "verification": "Eight offline two-deck playback scenarios passed, including immediate bar-aligned restarts after a pause longer than one bar.",
+  "deployment": "Two 110-second install attempts timed out. CoreDevice reported an interrupted connection on the next attempt. A further 180-second install timed out."
+}
