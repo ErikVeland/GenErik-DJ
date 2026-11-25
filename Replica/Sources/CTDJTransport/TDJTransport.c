@@ -106,7 +106,7 @@ typedef struct {
     bool pending, playing;
 } dry_transition;
 
-enum { SYNC_LEGACY = 0, SYNC_TEMPO_ONLY, SYNC_FIRST_BEAT };
+enum { SYNC_LEGACY = 0, SYNC_TEMPO_ONLY, SYNC_FIRST_BAR };
 
 struct tdj_engine {
     _Atomic int sync_entry_policy;
@@ -1030,11 +1030,11 @@ static int start_deck(tdj_engine *e, deck *d, int index, uint64_t ticket, uint64
     double reference = -1;
     deck *solo = NULL;
     unsigned references = 0;
-    if (d->synced && d->bpm > 0 && (policy == SYNC_LEGACY || (policy == SYNC_FIRST_BEAT && !d->has_started)))
+    if (d->synced && d->bpm > 0 && (policy == SYNC_LEGACY || (policy == SYNC_FIRST_BAR && !d->has_started)))
         for (int i = 0; i < e->deck_count; ++i) {
             deck *candidate = &e->decks[i];
             if (i != index && candidate->state == TDJ_PLAYING && candidate->synced && candidate->bpm > 0) {
-                if (policy == SYNC_FIRST_BEAT && (candidate->touch_active || candidate->braking ||
+                if (policy == SYNC_FIRST_BAR && (candidate->touch_active || candidate->braking ||
                     candidate->stream_starved || candidate->performance_rate != 1))
                     continue;
                 double remaining = reference_beats(candidate, e);
@@ -1048,21 +1048,31 @@ static int start_deck(tdj_engine *e, deck *d, int index, uint64_t ticket, uint64
     double proposed_bpm = (!e->running && !e->master_chosen && d->bpm > 0) ? d->bpm : e->bpm;
     if (d->keylock && !supported_deck_keylock(d, proposed_bpm))
         return TDJ_KEYLOCK_RANGE;
-    double first_beat = 0;
-    if (policy == SYNC_FIRST_BEAT && solo) {
+    double entry_beat = 0;
+    if (policy == SYNC_FIRST_BAR && solo) {
         double phase = deck_beat(d, d->position) - active_grid_downbeat(d);
-        phase -= floor(phase);
         double downbeat = active_grid_downbeat(solo);
         double reference_beat = deck_beat(solo, solo->position) - downbeat;
-        double next = floor(reference_beat - phase) + 1 + phase + downbeat;
-        double next_frame = deck_frame(solo, next);
-        double limit = solo->loop_enabled ? solo->loop_end : solo->asset->frames;
-        double beat_delay = (next_frame - solo->position) * e->bpm /
-            (source_rate(e, solo) * solo->asset->rate * 60);
-        if (isfinite(beat_delay) && beat_delay > 0 && next_frame < limit)
-            first_beat = beat_now(e) + beat_delay;
-        else
+        double bars = (reference_beat - phase) / 4;
+        double nearest = deck_frame(solo, downbeat + phase + 4 * round(bars));
+        if (fabs(nearest - solo->position) <= 0.5) {
+            // The selected frame already matches the reference bar.
             solo = NULL;
+        } else {
+            double next_frame = deck_frame(solo, downbeat + phase + 4 * ceil(bars));
+            double limit = solo->loop_enabled ? solo->loop_end : solo->asset->frames;
+            if (next_frame >= limit) {
+                // A short loop or ending can still supply a matching beat.
+                double next_beat = phase + floor(reference_beat - phase) + 1;
+                next_frame = deck_frame(solo, downbeat + next_beat);
+            }
+            double beat_delay = (next_frame - solo->position) * e->bpm /
+                (source_rate(e, solo) * solo->asset->rate * 60);
+            if (isfinite(beat_delay) && beat_delay > 0 && next_frame < limit)
+                entry_beat = beat_now(e) + beat_delay;
+            else
+                solo = NULL;
+        }
     }
     deck starting = *d;
     starting.state = solo ? TDJ_QUEUED : TDJ_PLAYING;
@@ -1086,7 +1096,7 @@ static int start_deck(tdj_engine *e, deck *d, int index, uint64_t ticket, uint64
         /**
          * Retains the prepared bar phase. Short references use the existing next-beat fallback.
          */
-        d->target = policy == SYNC_FIRST_BEAT ? first_beat :
+        d->target = policy == SYNC_FIRST_BAR ? entry_beat :
             (bar - beat <= reference + 1e-9 ? bar : floor(beat - phase) + 1 + phase);
         d->state = TDJ_QUEUED;
     } else {
@@ -2750,7 +2760,7 @@ static void controls(tdj_engine *e) {
 }
 
 void tdj_sync_set_beat_lock(tdj_engine *e, bool enabled) {
-    atomic_store_explicit(&e->sync_entry_policy, enabled ? SYNC_FIRST_BEAT : SYNC_TEMPO_ONLY, memory_order_relaxed);
+    atomic_store_explicit(&e->sync_entry_policy, enabled ? SYNC_FIRST_BAR : SYNC_TEMPO_ONLY, memory_order_relaxed);
 }
 
 void tdj_bass_assist_set_mode(tdj_engine *e, int32_t mode) {
