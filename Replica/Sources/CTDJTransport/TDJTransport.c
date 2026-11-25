@@ -106,7 +106,7 @@ typedef struct {
     bool pending, playing;
 } dry_transition;
 
-enum { SYNC_LEGACY = 0, SYNC_TEMPO_ONLY, SYNC_FIRST_BAR };
+enum { SYNC_LEGACY = 0, SYNC_TEMPO_ONLY, SYNC_BAR };
 
 struct tdj_engine {
     _Atomic int sync_entry_policy;
@@ -1038,7 +1038,7 @@ static bool nearest_bar_position(deck *d, double reference, double *position) {
     *position = aligned;
     return true;
 }
-static int start_deck(tdj_engine *e, deck *d, int index, uint64_t ticket, uint64_t generation) {
+static int start_deck(tdj_engine *e, deck *d, int index, uint64_t ticket, uint64_t generation, bool play_pressed) {
     int policy = atomic_load_explicit(&e->sync_entry_policy, memory_order_relaxed);
     double reference = -1;
     deck *solo = NULL;
@@ -1056,7 +1056,7 @@ static int start_deck(tdj_engine *e, deck *d, int index, uint64_t ticket, uint64
         }
     double proposed_bpm = (!e->running && !e->master_chosen && d->bpm > 0) ? d->bpm : e->bpm;
     deck starting = *d;
-    if (policy == SYNC_FIRST_BAR && d->synced && d->bpm > 0 && d->state == TDJ_READY && !d->has_started) {
+    if (policy == SYNC_BAR && d->synced && d->bpm > 0 && (play_pressed || (d->state == TDJ_READY && !d->has_started))) {
         for (int i = 0; i < e->deck_count; ++i) {
             deck *peer = &e->decks[i];
             if (i == index || peer->state != TDJ_PLAYING || peer->bpm <= 0)
@@ -2044,7 +2044,7 @@ static int apply(tdj_engine *e, tdj_command c) {
         if (c.flag == 3) {
             if (!d->braking) {
                 if (d->state == TDJ_PAUSED)
-                    return start_deck(e, d, c.deck, c.preparation_ticket, c.generation);
+                    return start_deck(e, d, c.deck, c.preparation_ticket, c.generation, false);
                 return TDJ_OK;
             }
             deck proposed = *d;
@@ -2090,7 +2090,7 @@ static int apply(tdj_engine *e, tdj_command c) {
         } else {
             proposed.position = c.value;
         }
-        int status = start_deck(e, &proposed, c.deck, c.preparation_ticket, c.generation);
+        int status = start_deck(e, &proposed, c.deck, c.preparation_ticket, c.generation, false);
         if (status != TDJ_OK)
             return status;
         *d = proposed;
@@ -2131,7 +2131,7 @@ static int apply(tdj_engine *e, tdj_command c) {
             restarting.continuing = 0;
             restarting.jump_pending = false;
             restarting.jump_loop = false;
-            int status = start_deck(e, &restarting, c.deck, c.preparation_ticket, c.generation);
+            int status = start_deck(e, &restarting, c.deck, c.preparation_ticket, c.generation, true);
             if (status != TDJ_OK)
                 return status;
             *d = restarting;
@@ -2139,7 +2139,7 @@ static int apply(tdj_engine *e, tdj_command c) {
             transition_request(e, c.deck, 0);
             return TDJ_OK;
         }
-        return start_deck(e, d, c.deck, c.preparation_ticket, c.generation);
+        return start_deck(e, d, c.deck, c.preparation_ticket, c.generation, true);
     }
     if (waveform_drop || (c.kind == TDJ_TOUCH && c.flag == 0 &&
                           (c.value == TDJ_TOUCH_CUE_PARK || c.value == TDJ_TOUCH_CUE_CONTINUE))) {
@@ -2175,7 +2175,7 @@ static int apply(tdj_engine *e, tdj_command c) {
                 return status;
         } else if (!deck_active(d)) {
             proposed.position = c.value2;
-            int status = start_deck(e, &proposed, c.deck, c.preparation_ticket, c.generation);
+            int status = start_deck(e, &proposed, c.deck, c.preparation_ticket, c.generation, false);
             if (status != TDJ_OK)
                 return status;
         }
@@ -2749,7 +2749,7 @@ static void controls(tdj_engine *e) {
 }
 
 void tdj_sync_set_beat_lock(tdj_engine *e, bool enabled) {
-    atomic_store_explicit(&e->sync_entry_policy, enabled ? SYNC_FIRST_BAR : SYNC_TEMPO_ONLY, memory_order_relaxed);
+    atomic_store_explicit(&e->sync_entry_policy, enabled ? SYNC_BAR : SYNC_TEMPO_ONLY, memory_order_relaxed);
 }
 
 void tdj_bass_assist_set_mode(tdj_engine *e, int32_t mode) {

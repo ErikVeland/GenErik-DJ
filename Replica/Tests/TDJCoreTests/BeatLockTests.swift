@@ -4,7 +4,7 @@ import Testing
 @testable import TDJCore
 
 @Test(arguments: [DeckID.a, .b, .c, .d])
-func beatLockAlignsOnlyTheFirstEntryAndKeepsTheSelectedFrame(deck: DeckID) throws {
+func beatLockAlignsEveryPlayAtTheCommandFrame(deck: DeckID) throws {
     let core = try SampleTransport(sampleRate: 8000)
     core.setBeatLockEnabled(true)
     let asset = try PCMAsset(interleavedStereo: .init(repeating: 0.1, count: 256000), sampleRate: 8000)
@@ -33,7 +33,9 @@ func beatLockAlignsOnlyTheFirstEntryAndKeepsTheSelectedFrame(deck: DeckID) throw
     core.processControlsWhileIdle()
     let resumed = try #require(core.snapshot())
     #expect(resumed[deck].phase == .playing)
-    #expect(resumed[deck].sourceFrame == paused[deck].sourceFrame)
+    #expect(resumed[deck].lastStartOutputFrame == 5781)
+    #expect(abs(resumed[deck].sourceFrame - 5781 * 1.2) < 0.01)
+    #expect(resumed[deck].sourceFrame != paused[deck].sourceFrame)
     #expect(core.acknowledgements().allSatisfy { $0.error == nil })
 }
 

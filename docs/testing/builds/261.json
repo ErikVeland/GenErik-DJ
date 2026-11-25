@@ -6,7 +6,13 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 109.75,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "date": "2026-11-25",
+      "request": "R554",
+      "report": "Erik wants every synced restart to start immediately with the bars aligned."
+    }
+  ],
   "log": "TestBuilds/ipad/build-261.log",
   "build": 261,
   "app": "TestBuilds/ipad/261/GenErikDJ.app",
