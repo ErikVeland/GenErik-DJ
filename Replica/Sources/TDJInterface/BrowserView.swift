@@ -201,10 +201,12 @@ struct BrowserView: View {
                             }
                         }
                         if !layout.detailHidden || layout.detailOffset < 0 {
-                            detailPane.frame(width: detailWidth).offset(x: detailWidth - detailVisible).frame(
+                            detailPane(width: detailWidth, height: geometry.size.height).frame(
+                                width: detailWidth, height: geometry.size.height, alignment: .topLeading
+                            ).offset(x: detailWidth - detailVisible).frame(
                                 width: detailVisible, alignment: .leading
-                            ).clipped().overlay(alignment: .trailing) {
-                                Color.clear.frame(width: 18).contentShape(Rectangle()).gesture(
+                            ).clipped().contentShape(Rectangle()).overlay(alignment: .trailing) {
+                                Color.clear.frame(width: BrowserDetailHeaderLayout.trailingInset).contentShape(Rectangle()).gesture(
                                     horizontalDrag(
                                         changed: { layout.dragDetail(translation: $0) },
                                         ended: { t, v in
@@ -768,26 +770,36 @@ extension BrowserView {
         }
     }
 
-    fileprivate var detailPane: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(alignment: .top, spacing: 14) {
-                let entry = currentSelection
+    fileprivate func detailPane(width: Double, height: Double) -> some View {
+        let header = BrowserDetailHeaderLayout(width: width, height: height)
+        let entry = currentSelection
+        return VStack(alignment: .leading, spacing: 0) {
+            detailHeader(entry: entry, layout: header)
+            detailRecommendations
+        }.background(PerformancePalette.panel).task(id: recommendationKey) { await refreshRecommendations() }
+    }
+
+    private func detailHeader(entry: LibraryBrowserEntry?, layout: BrowserDetailHeaderLayout) -> some View {
+        HStack(alignment: layout.tallLoader ? .top : .center, spacing: 14) {
+            if layout.showsArtwork {
                 DeckArtwork(
                     source: entry.flatMap {
                         ArtworkSource.track($0.track, item: $0.nativeItem, media: model.store.mediaDirectory)
                     }, placeholderSize: 40
-                ).frame(width: 112, height: 112).background(PerformancePalette.sunken).clipShape(
-                    RoundedRectangle(cornerRadius: 3)
-                ).overlay { TrackHeadphoneIndicator(model: model, trackID: entry?.track?.id) }
-                VStack(alignment: .leading, spacing: 5) {
-                    HStack(spacing: 6) {
-                        Text(entry?.title ?? "Choose a song").font(.system(size: 18, weight: .bold)).lineLimit(1)
-                            .minimumScaleFactor(0.8)
-                        if entry?.isMix == true { MixBadge(size: 14) }
-                    }.foregroundStyle(PerformancePalette.text)
-                    Text(entry?.artist ?? "").font(.system(size: 17)).foregroundStyle(PerformancePalette.secondaryText)
-                        .lineLimit(1)
-                    let comment = [entry?.album, entry?.genre ?? nil].compactMap { $0 }.filter { !$0.isEmpty }.joined(
+                ).frame(width: BrowserDetailHeaderLayout.artworkWidth, height: BrowserDetailHeaderLayout.artworkWidth)
+                    .background(PerformancePalette.sunken).clipShape(RoundedRectangle(cornerRadius: 3))
+                    .overlay { TrackHeadphoneIndicator(model: model, trackID: entry?.track?.id) }
+            }
+            VStack(alignment: .leading, spacing: 5) {
+                HStack(spacing: 6) {
+                    Text(entry?.title ?? "Choose a song").font(.system(size: 18, weight: .bold)).lineLimit(1)
+                        .minimumScaleFactor(0.8)
+                    if entry?.isMix == true { MixBadge(size: 14) }
+                }.foregroundStyle(PerformancePalette.text)
+                Text(entry?.artist ?? "").font(.system(size: 17)).foregroundStyle(PerformancePalette.secondaryText)
+                    .lineLimit(1)
+                if layout.tallLoader {
+                    let comment = [entry?.album, entry?.genre].compactMap { $0 }.filter { !$0.isEmpty }.joined(
                         separator: " · ")
                     if !comment.isEmpty {
                         Text(comment).font(.system(size: 15)).foregroundStyle(
@@ -800,22 +812,32 @@ extension BrowserView {
                         ).foregroundStyle(PerformancePalette.secondaryText)
                     }
                     Spacer(minLength: 4)
-                    Button {
-                        guard let entry else { return }
-                        model.enqueue(entry.id)
-                    } label: {
-                        Image(systemName: "text.badge.plus").font(.system(size: 20)).frame(width: 48, height: 44)
-                            .bevelPanel(cornerRadius: 4).foregroundStyle(
-                                entry.map { model.queuedIDs.contains($0.id) } == true
-                                    ? deckBlue : PerformancePalette.text)
-                    }.disabled(entry == nil).accessibilityLabel("Add to prep list")
+                    detailPrepButton(entry)
                 }
-                Spacer(minLength: 0)
-                LoadSlider(tall: true, phase: { model.controlDisplay[$0].phase }) { deck in
-                    if let entry { model.loadLibraryEntry(entry, deck: deck) }
-                }.disabled(
-                    entry?.canLoad != true)
-            }.padding(14).frame(height: TallLoadSliderMetrics.height + 8 + 28)
+            }.frame(maxWidth: .infinity, alignment: .leading)
+            if !layout.tallLoader { detailPrepButton(entry) }
+            LoadSlider(tall: layout.tallLoader, phase: { model.controlDisplay[$0].phase }) { deck in
+                if let entry { model.loadLibraryEntry(entry, deck: deck) }
+            }.id(entry?.id).disabled(entry?.canLoad != true).layoutPriority(1)
+        }.padding(.leading, BrowserDetailHeaderLayout.leadingInset)
+            .padding(.trailing, BrowserDetailHeaderLayout.trailingInset)
+            .padding(.vertical, layout.tallLoader ? 14 : 0)
+            .frame(height: layout.height)
+    }
+
+    private func detailPrepButton(_ entry: LibraryBrowserEntry?) -> some View {
+        Button {
+            guard let entry else { return }
+            model.enqueue(entry.id)
+        } label: {
+            Image(systemName: "text.badge.plus").font(.system(size: 20)).frame(width: 48, height: 44)
+                .bevelPanel(cornerRadius: 4).foregroundStyle(
+                    entry.map { model.queuedIDs.contains($0.id) } == true ? deckBlue : PerformancePalette.text)
+        }.disabled(entry == nil).accessibilityLabel("Add to prep list")
+    }
+
+    private var detailRecommendations: some View {
+        VStack(alignment: .leading, spacing: 0) {
             Rectangle().fill(Color.white.opacity(0.08)).frame(height: 1).padding(.horizontal, 14)
             HStack(spacing: 8) {
                 detailTabButton(recommendationSeed.map { "Rec for \($0.title)" } ?? "Recommendations", .match)
@@ -866,7 +888,7 @@ extension BrowserView {
                     }
                 }
             }
-        }.background(PerformancePalette.panel).task(id: recommendationKey) { await refreshRecommendations() }
+        }
     }
 
     private func detailTabButton(_ title: String, _ tab: DetailTab) -> some View {

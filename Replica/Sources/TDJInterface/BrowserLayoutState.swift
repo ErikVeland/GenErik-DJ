@@ -84,3 +84,20 @@ struct BrowserContentGeometry {
         drawerWidth = min(400, width)
     }
 }
+
+struct BrowserDetailHeaderLayout {
+    static let leadingInset = 14.0
+    static let trailingInset = 18.0
+    static let artworkWidth = 112.0
+    static let tallHeight = TallLoadSliderMetrics.height + 8 + 28
+
+    let tallLoader: Bool
+    let showsArtwork: Bool
+    let height: Double
+
+    init(width: Double, height: Double) {
+        tallLoader = height >= Self.tallHeight
+        showsArtwork = tallLoader && width >= 360
+        self.height = tallLoader ? Self.tallHeight : min(76, height)
+    }
+}

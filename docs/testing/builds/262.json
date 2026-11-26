@@ -6,7 +6,13 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 119.21,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R556",
+      "device": "Duo",
+      "text": "Erik reported that the A/B track loader did not work on the Duo. Build 262 was the last installed build."
+    }
+  ],
   "log": "TestBuilds/ipad/build-262.log",
   "build": 262,
   "app": "TestBuilds/ipad/262/GenErikDJ.app",

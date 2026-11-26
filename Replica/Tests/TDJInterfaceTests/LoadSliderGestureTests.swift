@@ -39,6 +39,15 @@ import Testing
     #expect(session.offset == 0)
 }
 
+@Test(arguments: [0.12, 0.5, 0.88]) func compactLoaderOnlyLoadsWhenTappedAtADeckEdge(start: Double) {
+    var session = LoadSliderGestureSession()
+    let point = SurfacePoint(id: 1, x: 0.5, y: start)
+    _ = session.handle(.init(phase: .began, points: [point], ending: []), height: 56, edgeTapThreshold: 0.25)
+    let destination = session.handle(
+        .init(phase: .ended, points: [point], ending: [1]), height: 56, edgeTapThreshold: 0.25)
+    #expect(destination == (start < 0.25 ? .a : start > 0.75 ? .b : nil))
+}
+
 @Test(arguments: [-1.0, 1.0]) func tallLoadSliderFollowsTheFingerUntilItsEndpoint(direction: Double) {
     var session = LoadSliderGestureSession()
     func event(_ phase: SurfaceEvent.Phase, distance: Double) -> SurfaceEvent {

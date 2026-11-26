@@ -2,6 +2,23 @@ import Testing
 
 @testable import TDJInterface
 
+@Test func detailHeaderFitsTheLoaderBelowSearchInTheSmallLibrary() {
+    let layout = BrowserDetailHeaderLayout(width: 280, height: 132 - 56)
+    #expect(!layout.tallLoader)
+    #expect(!layout.showsArtwork)
+    #expect(layout.height <= 76)
+    #expect(layout.height >= 56)
+}
+
+@Test func detailHeaderKeepsTheTallLoaderWhenThereIsRoom() {
+    let narrow = BrowserDetailHeaderLayout(width: 280, height: 360)
+    #expect(narrow.tallLoader)
+    #expect(!narrow.showsArtwork)
+    let wide = BrowserDetailHeaderLayout(width: 420, height: 360)
+    #expect(wide.tallLoader)
+    #expect(wide.showsArtwork)
+}
+
 @Test func detailPaneFollowsTheFingerOffAndBackAndWidensTheList() {
     var layout = BrowserLayoutState()
     layout.showDetail()

@@ -1225,7 +1225,7 @@ extension EnvironmentValues {
         guard let contactTargets, let mapped = contactGeometry.point(at: point) else { return }
         let event = SurfaceEvent(phase: phase, points: [mapped], ending: phase == .ended ? [1] : [])
         let deck = gesture.handle(
-            event, height: contactGeometry.height, maximumTravel: maximumTravel, edgeTapThreshold: tall ? 0.22 : nil,
+            event, height: contactGeometry.height, maximumTravel: maximumTravel, edgeTapThreshold: tall ? 0.22 : 0.25,
             edgeTapMovementTolerance: 10)
         if phase == .ended {
             withAnimation(reduceMotion ? nil : .spring(response: 0.25, dampingFraction: 0.8)) {
