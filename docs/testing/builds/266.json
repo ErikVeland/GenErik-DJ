@@ -18,6 +18,8 @@
     "developmentSchemaValidated": true,
     "seedRecordsValidatedLocally": 4,
     "liveCatalogueLookupVerified": false,
-    "physicalAcceptance": "Open"
+    "physicalAcceptance": "Open",
+    "developmentSeedRecordsPublished": 4,
+    "cloudPayloadsVerifiedByteForByte": 1
   }
 }
