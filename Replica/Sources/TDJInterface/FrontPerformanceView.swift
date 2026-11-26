@@ -6,6 +6,7 @@ import TDJCore
     var importAudio: () -> Void
     var linkCollection: () -> Void
     @Binding var outputPresented: Bool
+    var sideInsets = EdgeInsets()
     @State private var selection = FrontDeckSelection(selected: DeckID.a)
     @State private var deckSlide = FrontDeckSlideState()
     @State private var panelsA = DeckPanelPresentation()
@@ -28,7 +29,8 @@ import TDJCore
         GeometryReader { space in
             let layout = FrontWorkspaceGeometry(
                 width: space.size.width, height: space.size.height, browserExtent: browser.extent,
-                selectorHeight: selectorHeight, controlsHeight: controlsHeight)
+                selectorHeight: selectorHeight, controlsHeight: controlsHeight,
+                leadingInset: sideInsets.leading, trailingInset: sideInsets.trailing)
             VStack(spacing: 0) {
                 deckSelector.frame(height: layout.selector.height)
                 ZStack {
@@ -38,7 +40,8 @@ import TDJCore
                         .offset(x: deckSlide.offset(isB: true, width: layout.deck.width))
                 }.environment(\.touchSurfaceInterruption, selection.contactID).frame(height: layout.deck.height)
                     .clipped()
-                browserBar.frame(height: layout.handle.height)
+                browserBar.frame(width: layout.handle.width, height: layout.handle.height)
+                    .padding(.leading, layout.handle.minX).padding(.trailing, space.size.width - layout.handle.maxX)
                 FrontBrowserView(
                     model: model, importAudio: importAudio, linkCollection: linkCollection, requestedTab: requestedTab,
                     navigationID: browserRequest, destinationDeck: activeDeck
@@ -49,8 +52,10 @@ import TDJCore
                 HStack(spacing: 4) {
                     performanceControls.id(activeDeck)
                     AudioQuickButton(model: model, isPresented: $outputPresented).frame(width: 44)
-                }.buttonStyle(FrontControlButtonStyle()).padding(.horizontal, 4).background(PerformancePalette.frame)
-                    .frame(height: layout.controls.height).protectsFrontDeckSwipe()
+                }.buttonStyle(FrontControlButtonStyle(height: layout.controls.height))
+                    .frame(width: layout.controls.width, height: layout.controls.height)
+                    .padding(.leading, layout.controls.minX).padding(.trailing, space.size.width - layout.controls.maxX)
+                    .background(PerformancePalette.frame).protectsFrontDeckSwipe()
             }.frame(width: space.size.width, height: space.size.height, alignment: .top).clipped().background(
                 PerformancePalette.stage
             ).overlayPreferenceValue(FrontDeckSwipeProtectionKey.self) { anchors in
@@ -294,9 +299,10 @@ import TDJCore
 }
 
 private struct FrontControlButtonStyle: ButtonStyle {
+    let height: CGFloat
     func makeBody(configuration: Configuration) -> some View {
         configuration.label.lineLimit(1).minimumScaleFactor(0.8)
-            .font(.subheadline.weight(.bold)).frame(maxWidth: .infinity, minHeight: 44).background(
+            .font(.subheadline.weight(.bold)).frame(maxWidth: .infinity).frame(height: height).background(
                 configuration.isPressed ? PerformancePalette.raised : PerformancePalette.panel,
                 in: RoundedRectangle(cornerRadius: 4))
     }

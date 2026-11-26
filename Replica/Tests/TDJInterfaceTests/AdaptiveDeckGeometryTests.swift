@@ -75,17 +75,38 @@ import Testing
     #expect(open.libraryArea.maxY - bottom.reclaimedHeight == safeBottom)
 }
 
-@Test(arguments: [264.0, 380, 560]) func duoDockWrapsControlsWithoutReducingTouchTargets(height: Double) {
-    let dock = PerformanceDockGeometry(width: 951, height: height, deckBoundary: height / 2, wrapsControls: true)
-    #expect(dock.fits)
+@Test(arguments: [380.0, 448, 560]) func duoDockStacksControlsAlongTheEdge(height: Double) {
+    let dock = PerformanceDockGeometry(
+        width: 951, height: height, deckBoundary: height / 2, verticalInset: 4, edgeAligned: true)
+    #expect(dock.fits == (height >= 448))
     #expect(dock.crossfader.height >= 88)
+    #expect(dock.crossfader.maxX == 947)
     for buttons in [dock.aButtons, dock.bButtons] {
-        #expect(buttons[0].minY == buttons[1].minY)
-        #expect(buttons[2].minY == buttons[3].minY)
-        #expect(buttons[0].maxX == buttons[1].minX)
-        #expect(buttons.allSatisfy { $0.width >= 44 && $0.height >= 44 && $0.maxY <= dock.workArea.height })
+        #expect(buttons.allSatisfy { $0.width == 88 && $0.height >= 44 && $0.minX == dock.crossfader.minX })
+        for index in 1..<buttons.count {
+            #expect(abs(buttons[index].minY - buttons[index - 1].maxY) < 0.000001)
+        }
     }
+    #expect(abs(Double(dock.bButtons.last!.maxY) - (dock.contentHeight - 4)) < 0.000001)
     let standard = PerformanceDockGeometry(width: 951, height: height)
-    #expect(standard.aButtons[0].maxY == standard.aButtons[1].minY)
     #expect(standard.aButtons[0].width == 80)
+}
+
+@Test(arguments: [0.0, 24], [0.0, 52])
+func duoFrontControlRowsStayInsideTheDisplayEdges(leading: Double, trailing: Double) {
+    let width = 460.0
+    let height = 570.0
+    for browserExtent in [0.0, 175, 600] {
+        let layout = FrontWorkspaceGeometry(
+            width: width, height: height, browserExtent: browserExtent, controlsHeight: 48,
+            leadingInset: leading, trailingInset: trailing)
+        #expect(Double(layout.controls.minX) == leading + 12)
+        #expect(Double(layout.controls.maxX) == width - trailing - 12)
+        #expect(Double(layout.controls.maxY) == height - 10)
+        #expect(layout.controls.height == 48)
+        #expect(layout.handle.minX == layout.controls.minX)
+        #expect(layout.handle.maxX == layout.controls.maxX)
+        #expect(Double(layout.deck.width) == width)
+        #expect(layout.library.maxY == layout.controls.minY)
+    }
 }

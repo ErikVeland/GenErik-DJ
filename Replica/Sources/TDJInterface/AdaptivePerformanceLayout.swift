@@ -14,13 +14,10 @@ struct PerformanceDockGeometry {
     var bButtons: [CGRect] { buttons(top: crossfader.maxY, bottom: contentHeight - verticalInset) }
 
     private func buttons(top: Double, bottom: Double) -> [CGRect] {
-        let columns = wrapsControls ? 2 : 1
-        let rowHeight = (bottom - top) / Double(4 / columns)
-        let width = crossfader.width / Double(columns)
+        let rowHeight = (bottom - top) / 4
         return (0..<4).map { index in
-            CGRect(
-                x: crossfader.minX + Double(index % columns) * width,
-                y: top + Double(index / columns) * rowHeight, width: width, height: rowHeight)
+            CGRect(x: crossfader.minX, y: top + Double(index) * rowHeight,
+                   width: crossfader.width, height: rowHeight)
         }
     }
     let crossfader: CGRect
@@ -28,19 +25,16 @@ struct PerformanceDockGeometry {
     let contentHeight: Double
     let fits: Bool
     let verticalInset: Double
-    let wrapsControls: Bool
 
     init(
         width: Double, height: Double, deckBoundary: Double? = nil, verticalInset: Double = 0,
-        wrapsControls: Bool = false
+        edgeAligned: Bool = false
     ) {
         let width = width.isFinite ? max(0, width) : 0
         let height = height.isFinite ? max(0, height) : 0
         let verticalInset = verticalInset.isFinite ? max(0, verticalInset) : 0
         self.verticalInset = verticalInset
-        self.wrapsControls = wrapsControls
-        let minimumButtonStack = wrapsControls ? 2 * 44.0 : 4 * 44.0
-        let minimumHeight = (wrapsControls ? 2 * minimumButtonStack + 88 : Self.minimumHeight) + 2 * verticalInset
+        let minimumHeight = Self.minimumHeight + 2 * verticalInset
         let contentHeight = max(minimumHeight, height)
         self.contentHeight = contentHeight
         fits = width >= Self.dockWidth + 44 && height >= minimumHeight
@@ -48,11 +42,10 @@ struct PerformanceDockGeometry {
         let proposed = deckBoundary.flatMap { $0.isFinite ? $0 : nil } ?? contentHeight / 2
         let minimumSide = minimumHeight / 2
         let center = min(contentHeight - minimumSide, max(minimumSide, proposed))
-        let preferredHalf = (contentHeight - 2 * verticalInset) * 0.1
         let half = min(
-            wrapsControls ? max(44, preferredHalf) : preferredHalf,
-            min(center, contentHeight - center) - verticalInset - minimumButtonStack)
-        let sideInset = wrapsControls ? 4.0 : 8.0
+            (contentHeight - 2 * verticalInset) * 0.1,
+            min(center, contentHeight - center) - verticalInset - 4 * 44)
+        let sideInset = edgeAligned ? 4.0 : 8.0
         crossfader = CGRect(x: workArea.width + sideInset, y: center - half,
                            width: Self.dockWidth - 2 * sideInset, height: 2 * half)
     }

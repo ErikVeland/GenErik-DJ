@@ -61,9 +61,11 @@ private let surface = PerformancePalette.panel
             let phonePortrait = isPhone && width < height
             let innerPhone = isPhone && presentation == .standard
             let horizontalEdges: Edge.Set = phonePortrait ? .horizontal : []
+            let frontInsets = presentation == .frontPhone && phonePortrait
+                ? window.safeAreaInsets : EdgeInsets()
             workspaceRoot(
                 presentation: presentation, innerPortrait: phonePortrait && innerPhone,
-                innerBottomInset: innerPhone ? window.safeAreaInsets.bottom : nil
+                innerBottomInset: innerPhone ? window.safeAreaInsets.bottom : nil, frontInsets: frontInsets
             ).ignoresSafeArea(.container, edges: horizontalEdges.union(innerPhone ? .bottom : []))
         }.lineLimit(1).minimumScaleFactor(0.8)
             .environment(\.touchSurfaceInterruption, touchInterruption).background(
@@ -77,13 +79,14 @@ private let surface = PerformancePalette.panel
     }
 
     private func workspaceRoot(
-        presentation: BrowserPresentation, innerPortrait: Bool, innerBottomInset: Double?
+        presentation: BrowserPresentation, innerPortrait: Bool, innerBottomInset: Double?, frontInsets: EdgeInsets
     ) -> some View {
         GeometryReader { geometry in
             HStack(spacing: 0) {
                 if model.helpVisible { GestureHelp { model.helpVisible = false }.frame(width: 280) }
                 performanceSurface(
-                    presentation: presentation, innerPortrait: innerPortrait, innerBottomInset: innerBottomInset
+                    presentation: presentation, innerPortrait: innerPortrait, innerBottomInset: innerBottomInset,
+                    frontInsets: frontInsets
                 ).frame(maxWidth: .infinity, maxHeight: .infinity)
             }.frame(width: geometry.size.width, height: geometry.size.height, alignment: .topLeading).onChange(
                 of: geometry.size
@@ -178,18 +181,19 @@ private let surface = PerformancePalette.panel
     }
 
     private func performanceSurface(
-        presentation: BrowserPresentation, innerPortrait: Bool, innerBottomInset: Double?
+        presentation: BrowserPresentation, innerPortrait: Bool, innerBottomInset: Double?, frontInsets: EdgeInsets
     ) -> some View {
         VStack(spacing: 0) {
             PerformanceToolbar(
                 model: model, tempoWheelVisible: $tempoWheelVisible, audioSettingsPresented: $audioSettingsPresented,
                 importPresented: $importPresented, traktorImportPresented: $traktorImportPresented,
-                showsOutputButton: presentation != .frontPhone)
+                isFrontScreen: presentation == .frontPhone, frontInsets: frontInsets)
             GeometryReader { space in
                 if presentation == .frontPhone {
                     FrontPerformanceView(
                         model: model, importAudio: { importPresented = true },
-                        linkCollection: { traktorImportPresented = true }, outputPresented: $audioSettingsPresented)
+                        linkCollection: { traktorImportPresented = true }, outputPresented: $audioSettingsPresented,
+                        sideInsets: frontInsets)
                 } else {
                     let deckInset = isPhone ? 0.0 : 6.0
                     let workspaceHandle = handleExtent
@@ -406,8 +410,9 @@ private let surface = PerformancePalette.panel
                                 panelsB: lower == .b ? deckBPanels : deckDPanels, deckA: upper, deckB: lower,
                                 geometry: PerformanceDockGeometry(
                                     width: space.size.width, height: bottom.dockHeight(deckHeight: workspace.deckArea.height),
-                                    deckBoundary: split.handle.midY, verticalInset: innerPortrait ? 8 : 0,
-                                    wrapsControls: innerBottomInset != nil))
+                                    deckBoundary: split.handle.midY,
+                                    verticalInset: innerBottomInset != nil ? AdaptiveDeckGeometry.inset : 0,
+                                    edgeAligned: innerBottomInset != nil))
                         }
                     }.frame(width: space.size.width, height: workspaceSize.height, alignment: .topLeading).environment(
                         \.performancePanelPortrait, space.size.width < workspaceSize.height
@@ -1312,7 +1317,8 @@ extension ReplicaView {
     @State private var settingsPresented = false
     @State private var pendingImport: SettingsImport?
     private enum SettingsImport { case audio, collection }
-    var showsOutputButton: Bool
+    let isFrontScreen: Bool
+    let frontInsets: EdgeInsets
 
     private var horizontalInset: CGFloat {
         #if os(iOS)
@@ -1403,27 +1409,33 @@ extension ReplicaView {
                 horizontal: true, vertical: false
             ).frame(height: 44).bevelPanel(cornerRadius: 6, sunken: true)
             Spacer(minLength: 8)
+            if isFrontScreen { libraryButton.bevelPanel(cornerRadius: 5) }
             Button {
                 settingsPresented = true
             } label: {
                 Image(systemName: "gearshape.fill").font(.system(size: 18)).frame(width: 44, height: 44)
                     .bevelPanel(cornerRadius: 5)
             }.accessibilityLabel("Settings")
-            if notifications { NotificationCenterButton(model: model) }
-            HStack(spacing: 0) {
-                Button {
-                    model.showLibrary(fullyExpanded: true)
-                } label: {
-                    Image(systemName: "music.note").font(.system(size: 18)).foregroundStyle(
-                        model.browserVisible ? PerformancePalette.cyan : PerformancePalette.text
-                    ).frame(width: 44, height: 44)
-                }.accessibilityLabel("Music library")
-                if showsOutputButton {
+            if !isFrontScreen {
+                if notifications { NotificationCenterButton(model: model) }
+                HStack(spacing: 0) {
+                    libraryButton
                     Divider().frame(height: 22)
                     AudioQuickButton(model: model, isPresented: $audioSettingsPresented)
-                }
-            }.frame(height: 44).bevelPanel(cornerRadius: 5)
-        }.padding(.horizontal, horizontalInset)
+                }.frame(height: 44).bevelPanel(cornerRadius: 5)
+            }
+        }.padding(.leading, max(horizontalInset, frontInsets.leading + 12))
+            .padding(.trailing, max(isFrontScreen ? 56 : horizontalInset, frontInsets.trailing + 12))
+    }
+
+    private var libraryButton: some View {
+        Button {
+            model.showLibrary(fullyExpanded: true)
+        } label: {
+            Image(systemName: "music.note").font(.system(size: 18)).foregroundStyle(
+                model.browserVisible ? PerformancePalette.cyan : PerformancePalette.text
+            ).frame(width: 44, height: 44)
+        }.accessibilityLabel("Music library")
     }
 }
 

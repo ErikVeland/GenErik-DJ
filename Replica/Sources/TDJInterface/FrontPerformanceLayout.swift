@@ -26,10 +26,15 @@ struct FrontWorkspaceGeometry {
     let maximumBrowserExtent: Double
     let bodyHeight: Double
 
-    init(width: Double, height: Double, browserExtent: Double, selectorHeight: Double = 44, controlsHeight: Double = 44)
-    {
+    init(
+        width: Double, height: Double, browserExtent: Double, selectorHeight: Double = 44, controlsHeight: Double = 44,
+        leadingInset: Double = 0, trailingInset: Double = 0
+    ) {
         let width = width.isFinite ? max(0, width) : 0
-        let height = height.isFinite ? max(0, height) : 0
+        let height = height.isFinite ? max(0, height - 10) : 0
+        let left = min(width, 12 + max(0, leadingInset))
+        let right = min(width - left, 12 + max(0, trailingInset))
+        let controlWidth = width - left - right
         let selectorHeight = min(selectorHeight.isFinite ? max(44, selectorHeight) : 44, height)
         let controlsHeight = min(
             controlsHeight.isFinite ? max(44, controlsHeight) : 44, max(0, height - selectorHeight))
@@ -40,9 +45,9 @@ struct FrontWorkspaceGeometry {
         let extent = browserExtent.isFinite ? min(maximumBrowserExtent, max(0, browserExtent)) : 0
         selector = CGRect(x: 0, y: 0, width: width, height: selectorHeight)
         deck = CGRect(x: 0, y: selector.maxY, width: width, height: body - extent)
-        handle = CGRect(x: 0, y: deck.maxY, width: width, height: handleHeight)
+        handle = CGRect(x: left, y: deck.maxY, width: controlWidth, height: handleHeight)
         library = CGRect(x: 0, y: handle.maxY, width: width, height: extent)
-        controls = CGRect(x: 0, y: library.maxY, width: width, height: controlsHeight)
+        controls = CGRect(x: left, y: library.maxY, width: controlWidth, height: controlsHeight)
     }
 }
 

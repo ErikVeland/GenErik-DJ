@@ -6,7 +6,13 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 73.91,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R564",
+      "device": "GenErik Duo",
+      "text": "The front transport buttons are cut off and the Library button is behind the camera. Remove front Info. Restore a single column on the inner screen and align the controls along the edge."
+    }
+  ],
   "log": "TestBuilds/ipad/build-268.log",
   "build": 268,
   "app": "TestBuilds/ipad/268/GenErikDJ.app",

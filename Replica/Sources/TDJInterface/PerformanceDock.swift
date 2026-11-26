@@ -9,7 +9,7 @@ import TDJCore
     var deckB = DeckID.b
     let geometry: PerformanceDockGeometry
     @Environment(\.displayScale) private var displayScale
-    private var grouped: Bool { geometry.verticalInset > 0 || geometry.wrapsControls }
+    private var grouped: Bool { geometry.verticalInset > 0 }
 
     var body: some View {
         ScrollView(.vertical) {
@@ -33,8 +33,7 @@ import TDJCore
             Button("FX") { panels.toggleEffects() }.foregroundStyle(
                 panels.effectsVisible ? Color.orange : PerformancePalette.secondaryText
             ).overlay(alignment: .topLeading) {
-                Text(deck.rawValue.uppercased()).font(.system(size: geometry.wrapsControls ? 8 : 11, weight: .bold))
-                    .padding(geometry.wrapsControls ? 2 : 4).allowsHitTesting(
+                Text(deck.rawValue.uppercased()).font(.system(size: 11, weight: .bold)).padding(4).allowsHitTesting(
                     false
                 ).accessibilityHidden(true)
             }.accessibilityLabel("Effects for deck \(deck.rawValue.uppercased())").dockTarget(
@@ -53,8 +52,7 @@ import TDJCore
             ).disabled(model.track(deck) == nil).accessibilityLabel("Loop on deck \(deck.rawValue.uppercased())")
                 .dockTarget(buttons[2], originX: geometry.workArea.width)
             DeckPlaybackButton(model: model, deck: deck).dockTarget(buttons[3], originX: geometry.workArea.width)
-        }.font(.system(size: geometry.wrapsControls ? 17 : 22, weight: .heavy))
-            .buttonStyle(DeckRailButtonStyle(grouped: grouped))
+        }.font(.system(size: 22, weight: .heavy)).buttonStyle(DeckRailButtonStyle(grouped: grouped))
     }
 
     private var panelBorders: some View {
@@ -62,9 +60,8 @@ import TDJCore
         let left = localX(geometry.crossfader) - rowWidth / 2
         let pixel = 1 / displayScale
         let ink = PerformancePalette.secondaryText.opacity(0.45)
-        let seams = Set(geometry.aButtons.dropFirst().map(\.minY)
-            + [geometry.crossfader.minY] + geometry.bButtons.map(\.minY))
-            .subtracting([geometry.verticalInset])
+        let seams = geometry.aButtons.dropFirst().map(\.minY)
+            + [geometry.crossfader.minY] + geometry.bButtons.map(\.minY)
 
         return ZStack(alignment: .topLeading) {
             Rectangle().strokeBorder(ink, lineWidth: pixel).frame(
@@ -73,13 +70,6 @@ import TDJCore
             Path { path in
                 for y in seams {
                     path.addRect(CGRect(x: left, y: floor(y * displayScale) / displayScale, width: rowWidth, height: pixel))
-                }
-                if geometry.wrapsControls {
-                    let x = floor(localX(geometry.crossfader) * displayScale) / displayScale
-                    path.addRect(CGRect(x: x, y: geometry.verticalInset, width: pixel,
-                                        height: geometry.crossfader.minY - geometry.verticalInset))
-                    path.addRect(CGRect(x: x, y: geometry.crossfader.maxY, width: pixel,
-                                        height: geometry.contentHeight - geometry.verticalInset - geometry.crossfader.maxY))
                 }
             }.fill(ink)
         }
