@@ -16,4 +16,4 @@ The public catalogue and private sync use separate record types. The pilot runs 
 
 Apple validated and accepted the read-only Development record type. The schema export confirms that the private preparation record kept its existing permissions. Four Mac results passed exact-key and payload checks. The seed request contains only deep analysis. The CloudKit Console requires Apple sign-in before the Development seed can be published.
 
-Four focused host checks passed. They cover playlist eligibility, exact audio identity, payload limits, and saved preparation. The live lookup and A10X playback checks remain open. Build 265 has a pending installation for R559. Keep the pilot build separate so Erik can test the synced restart change first.
+Four focused host checks passed. They cover playlist eligibility, exact audio identity, payload limits, and saved preparation. Build 266 passed signing and is ready for the iPad. The live lookup and A10X playback checks remain open. Build 265 remains available for the pending R559 test. [Build record](../testing/builds/266.json).

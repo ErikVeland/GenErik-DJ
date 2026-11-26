@@ -1,0 +1,23 @@
+{
+  "notes": "R558 Try read-only shared analysis for downloaded Music playlist tracks.",
+  "sourceCommit": "5ec10a4ea3fc7c02d9bb2fe698235c00d44d25ef",
+  "sourceSHA256": "511446f67547a6cb1ca077f39f0b404ff0a8bd05261f7e5fe2c7bb431ce65750",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 118.15,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-266.log",
+  "build": 266,
+  "app": "TestBuilds/ipad/266/GenErikDJ.app",
+  "appSHA256": "1bf40b3952adaf5374095b73c848795c3701052bc3f2c0216ab37336afd07a38",
+  "state": "ready",
+  "createdUTC": "2026-11-26T08:26:09.349766+00:00",
+  "verification": {
+    "focusedHostChecksPassed": 4,
+    "developmentSchemaValidated": true,
+    "seedRecordsValidatedLocally": 4,
+    "liveCatalogueLookupVerified": false,
+    "physicalAcceptance": "Open"
+  }
+}
