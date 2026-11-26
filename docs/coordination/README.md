@@ -1,8 +1,6 @@
 # Current work
 
-**Build 266 (R560)** installed and launched on the Duo after one timeout. The app includes the synced Play rewind. The A10X iPad is locked. Drop-to-drop listening checks remain open. [Build record](../testing/builds/266.json).
-
-**Build 265 (R559)** passed signing and runtime checks. The A10X iPad must unlock before installation. Synced Play starts at the latest matching frame at or before the playhead. Eleven focused tests passed. Device listening acceptance remains open. [Build record](../testing/builds/265.json).
+**Build 266 (R558, R559, R560)** installed and launched on the A10X iPad and Duo. It includes the shared analysis pilot and synced Play rewind. Live catalogue lookup, audio and touch checks remain open. [Build record](../testing/builds/266.json).
 
 **Build 264 (R557)** installed and launched on the Duo. The library lists songs with on-device audio. The Music change listener still refreshes the library after downloads. Duo A/B touch and live purchase refresh checks remain open. [Build record](../testing/builds/264.json).
 

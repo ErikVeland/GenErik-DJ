@@ -22,15 +22,15 @@
     "developmentSeedRecordsPublished": 4,
     "cloudPayloadsVerifiedByteForByte": 1
   },
-  "installedUTC": "2026-11-26T08:34:27.658267+00:00",
-  "launchedUTC": "2026-11-26T08:34:28.269294+00:00",
-  "launchVerification": "iOS accepted the launch request on GenErik Duo.",
+  "installedUTC": "2026-11-26T08:36:59.201098+00:00",
+  "launchedUTC": "2026-11-26T08:36:59.762329+00:00",
+  "launchVerification": "Both devices accepted the launch request.",
   "requestIDs": [
     "R558",
     "R559",
     "R560"
   ],
-  "device": "GenErik Duo",
+  "device": "A10X iPad and GenErik Duo",
   "deploymentAttempts": [
     {
       "device": "A10X iPad",
@@ -68,7 +68,16 @@
       "state": "testing",
       "launchResult": "iOS accepted the launch request.",
       "log": "TestBuilds/ipad/266/duo-deploy-r558.log"
+    },
+    {
+      "request": "R560",
+      "name": "A10X iPad",
+      "installedUTC": "2026-11-26T08:36:59.201098+00:00",
+      "launchedUTC": "2026-11-26T08:36:59.762329+00:00",
+      "state": "testing",
+      "launchResult": "iPadOS accepted the launch request.",
+      "log": "TestBuilds/ipad/266/ipad-retry-r558.log"
     }
   ],
-  "acceptance": "Check drop-to-drop Play with Sync and Beat Lock on. Listen for both drops on the same bar and for continuous audio."
+  "acceptance": "Check drop-to-drop Sync and continuous audio on both devices. Verify a shared result on a matching downloaded playlist track and check A10X audio and touch during two-deck playback."
 }
