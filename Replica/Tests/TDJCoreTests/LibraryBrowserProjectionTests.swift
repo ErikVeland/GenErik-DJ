@@ -292,16 +292,37 @@ private func unifiedProjection(
     #expect(all.entries.map(\.id) == [a.id, track.id])
 }
 
-@Test func dateAddedOrdersNewPurchasesBeforeFilesAndUndatedSongs() async throws {
-    let newest = unifiedItem("purchase", dateAdded: Date(timeIntervalSince1970: 20), availability: .notDownloaded)
+@Test func dateAddedIncludesNewPurchasesAfterDownload() async throws {
+    let purchaseDate = Date(timeIntervalSince1970: 20)
+    let pending = unifiedItem("purchase", dateAdded: purchaseDate, availability: .notDownloaded)
+    let downloaded = unifiedItem("purchase", dateAdded: purchaseDate)
     let older = unifiedItem("older", dateAdded: Date(timeIntervalSince1970: 10))
     var file = try unifiedTrack(1)
     file.dateAdded = Date(timeIntervalSince1970: 15)
     let unknown = unifiedItem("unknown")
-    let result = try await unifiedProjection(
-        tracks: [file], catalog: .init(items: [unknown, older, newest], playlists: []), sort: .dateAdded)
-    #expect(result.entries.map(\.id) == [newest.id, file.id, older.id, unknown.id])
-    #expect(result.entries.first?.canLoad == false)
+    let beforeDownload = try await unifiedProjection(
+        tracks: [file], catalog: .init(items: [unknown, older, pending], playlists: []), sort: .dateAdded)
+    #expect(beforeDownload.entries.map(\.id) == [file.id, older.id, unknown.id])
+    let afterDownload = try await unifiedProjection(
+        tracks: [file], catalog: .init(items: [unknown, older, downloaded], playlists: []), sort: .dateAdded)
+    #expect(afterDownload.entries.map(\.id) == [downloaded.id, file.id, older.id, unknown.id])
+}
+
+@Test func localAudioProjectionOmitsCloudOnlySongsFromBrowsingAndSearch() async throws {
+    let downloaded = unifiedItem("downloaded")
+    let cloudOnly = unifiedItem("cloud-only", availability: .notDownloaded)
+    let imported = unifiedItem("imported", availability: .notDownloaded)
+    let managedCopy = try unifiedTrack(1, sources: [imported.source])
+    let catalog = MusicLibraryCatalog(items: [downloaded, cloudOnly, imported], playlists: [])
+
+    for query in ["", "Music artist"] {
+        let result = try await LibraryBrowserProjection.build(
+            tracks: [managedCopy], suggestionIDs: nil, search: query, sort: .title, category: .songs, group: nil,
+            playlists: .init(), catalog: catalog)
+        #expect(result.entries.map(\.id) == [downloaded.id, imported.id])
+        #expect(result.allEntries.map(\.id) == [downloaded.id, imported.id])
+        #expect(result.entries.map(\.canLoad) == [true, true])
+    }
 }
 
 @Test func reverseLibrarySortKeepsEqualTitlesInSourceOrder() async throws {

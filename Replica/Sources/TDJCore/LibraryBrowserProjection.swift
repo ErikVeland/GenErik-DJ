@@ -96,6 +96,7 @@ public struct LibraryBrowserProjection: Sendable {
             guard byNative[item.id] == nil else { continue }
             let track = bySourceID[item.source.id]
             let entry = LibraryBrowserEntry(nativeItem: item, track: track, hint: hints[item.id])
+            guard entry.canLoad else { continue }
             native.append(entry)
             byNative[item.id] = entry
             itemsBySource[item.source] = item

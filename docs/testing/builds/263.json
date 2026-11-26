@@ -6,7 +6,13 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 110.84,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R557",
+      "device": "Duo",
+      "text": "Erik reported that A/B loading still failed and confirmed that the library should show only songs with on-device audio. The Duo reported build 263. The selected song on its inner display required a download in Music."
+    }
+  ],
   "log": "TestBuilds/ipad/build-263.log",
   "build": 263,
   "app": "TestBuilds/ipad/263/GenErikDJ.app",
