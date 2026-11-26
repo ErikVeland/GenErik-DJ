@@ -161,6 +161,9 @@ enum PlaybackInputSource: Equatable { case touch, controller }
     var cloudVersions: [CloudRecoveryChoice] = []
     @ObservationIgnored var automaticCloudLoop: Task<Void, Never>?
     @ObservationIgnored var automaticCloudRetryAt = Date.distantPast
+    @ObservationIgnored var sharedAnalysisChecked = Set<String>()
+    @ObservationIgnored var sharedAnalysisRetryAt = Date.distantPast
+    @ObservationIgnored var sharedAnalysisNextRefresh = Date.distantPast
     @ObservationIgnored var automaticCloudAccount: URL?
     @ObservationIgnored var automaticCloudRead = Set<String>()
     @ObservationIgnored var cloudTask: Task<Void, Never>?

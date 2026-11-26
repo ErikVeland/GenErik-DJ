@@ -79,6 +79,16 @@ extension ReplicaModel {
                         startNativeMusicAnalysis()
                     }
                 }
+                #if os(iOS)
+                if automatic {
+                    do {
+                        try await checkSharedAnalysisCatalogue()
+                    } catch {
+                        try Task.checkCancellation()
+                        logAnalysis("Shared catalogue could not save its results. \(Self.cloudErrorSummary(error))")
+                    }
+                }
+                #endif
                 var result = try await cloudSync.synchronize(
                     store: store, tracks: library.tracks,
                     performance: performance, automatic: automatic,

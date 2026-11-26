@@ -13,6 +13,11 @@ DEFINE SCHEMA
         GRANT READ TO "_creator"
     );
 
+    RECORD TYPE SharedAnalysisV1 (
+        analysis BYTES,
+        GRANT READ TO "_world"
+    );
+
     RECORD TYPE Users (
         "___createTime" TIMESTAMP,
         "___createdBy" REFERENCE,

@@ -600,7 +600,7 @@ public actor LibraryService {
     }
 
     public func adoptDeepAnalyses(
-        _ results: [String: DeepBeatAnalysis], protectedTracks: Set<String> = []
+        _ results: [String: DeepBeatAnalysis], protectedTracks: Set<String> = [], onlyMissing: Bool = false
     ) throws -> LibrarySnapshot {
         try Task.checkCancellation()
         var changed = library
@@ -609,6 +609,11 @@ public actor LibraryService {
             try Task.checkCancellation()
             let original = changed.tracks[index]
             guard !protectedTracks.contains(original.id), let result = results[original.id] else { continue }
+            if onlyMissing {
+                guard original.analysis.deepBeatAnalysis == nil, CloudPreparationArchive.hasAudioIdentity(original),
+                    result.audio == AnalysisAudioIdentity(original.analysis)
+                else { continue }
+            }
             let track = try original.adoptingDeepAnalysis(result)
             if track != original {
                 changed.tracks[index] = track

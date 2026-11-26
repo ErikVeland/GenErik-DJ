@@ -47,6 +47,12 @@ import TDJCore
             try keylockProbe(directory: URL(fileURLWithPath: arguments[1], isDirectory: true))
             return
         }
+        if command == "prepare-shared-analysis", arguments.count == 3 {
+            try prepareSharedAnalysisSeed(
+                vault: URL(fileURLWithPath: arguments[1], isDirectory: true),
+                selection: URL(fileURLWithPath: arguments[2]))
+            return
+        }
         if command == "analyze", arguments.count == 2 {
             try emit(AudioAnalyzer.analyze(url: URL(fileURLWithPath: arguments[1])))
             return
@@ -203,6 +209,7 @@ import TDJCore
         tdj-tool benchmark-analysis MANIFEST_JSON REPORT_JSON
         tdj-tool transport-probe OUTPUT_DIRECTORY
         tdj-tool keylock-probe OUTPUT_DIRECTORY
+        tdj-tool prepare-shared-analysis MAC_OUTBOX REVISION_IDS_JSON
         tdj-tool import --workspace DIRECTORY AUDIO...
         tdj-tool reanalyze --workspace DIRECTORY [TRACK_ID...]
         tdj-tool suggest --workspace DIRECTORY REFERENCE_TRACK_ID a|b
