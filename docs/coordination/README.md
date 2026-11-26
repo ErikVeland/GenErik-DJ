@@ -1,5 +1,7 @@
 # Current work
 
+**Build 264 (R557)** installed and launched on the Duo. The library lists songs with on-device audio. The Music change listener still refreshes the library after downloads. Duo A/B touch and live purchase refresh checks remain open. [Build record](../testing/builds/264.json).
+
 **Build 263 (R556)** installed and launched on the Duo. The inner-screen library uses a compact A/B loader when the pane is short. Eight focused layout and gesture checks passed. Physical taps and drags remain open. [Build record](../testing/builds/263.json).
 
 **Build 262 (R555)** installed and launched on the Duo. The signed app matches main. Duo layout, touch and audio checks remain open. [Build record](../testing/builds/262.json).
