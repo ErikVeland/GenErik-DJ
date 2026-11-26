@@ -1,0 +1,38 @@
+{
+  "notes": "R565 Match the Duo display curves and camera regions. Fill the bottom edge and remove the inner Library handle.",
+  "sourceCommit": "4193dc0b7ae825243a656909fd979a82cb79f86f",
+  "sourceSHA256": "74433af74c8796106a045f03e180311147c3380cfe95af06c69420c18ac6f47b",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 148.88,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-270.log",
+  "build": 270,
+  "app": "TestBuilds/ipad/270/GenErikDJ.app",
+  "appSHA256": "aa72c27b29c87a69a7014449a1a93bf2a31edf6545f569e658498b11215c78a7",
+  "state": "ready",
+  "createdUTC": "2026-11-26T09:36:43.020235+00:00",
+  "device": "GenErik Duo",
+  "requestIDs": [
+    "R565"
+  ],
+  "deployment": "The first install stopped because Xcode lost the trusted connection to the Duo.",
+  "deploymentLog": "TestBuilds/r565/duo-retry.log",
+  "buildAttempts": [
+    {
+      "state": "cancelled",
+      "reason": "The user asked the app to use the actual display contour.",
+      "log": "TestBuilds/r565/build-270-fixed-radius-cancelled.log"
+    },
+    {
+      "state": "failed",
+      "reason": "SwiftUI rejected the availability check in the view builder.",
+      "log": "TestBuilds/r565/build-270-availability-error.log"
+    }
+  ],
+  "displayGeometry": "SwiftUI resolves the active display contour. iOS reports the reserved camera regions. The Duo reported iOS 27.3 before the install attempt.",
+  "acceptance": "Check the contour and edge taps on both displays. Check the toolbar near the camera, open and close the inner Library, and listen for continuous audio while changing posture.",
+  "verification": "Six focused host tests passed across 18 cases on the signed source. They cover full-width transport, the inner layout and matched preview strips, stacked controls, camera clearance geometry, and the Library header gesture.",
+  "verificationLog": "TestBuilds/r565/focused-4193dc0b7.log"
+}
