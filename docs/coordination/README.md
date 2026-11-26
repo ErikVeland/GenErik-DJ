@@ -1,5 +1,7 @@
 # Current work
 
+**Build 262 (R555)** installed and launched on the Duo. The signed app matches main. Duo layout, touch and audio checks remain open. [Build record](../testing/builds/262.json).
+
 **Build 262 (R554)** installed and launched on the A10X iPad after USB reconnection. Eight offline playback scenarios passed. Listening verification remains open. [Build record](../testing/builds/262.json).
 
 **Build 261 (R553)** installed and launched on the A10X iPad. With Beat Lock on, the first Play on a newly loaded synced deck starts immediately at the nearest matching point in the playing deck’s bar. Listening verification remains open. [Build record](../testing/builds/261.json).
@@ -138,10 +140,9 @@ Preserve the TDJ1 touch workflow. Phone front-screen changes must not replace th
 
 **Build 153** is signed and ready from committed `main`. R88 adds full-track Beat This final0 analysis, versioned window checkpoints and automatic private iCloud result sharing. All matching groups finish before deep work. Deep analysis waits for external power and idle performance controls. Model upgrades declare their benefit and preserve usable preparation until replacement evidence passes. Forty-one focused host tests passed before the final review-notice change. Five follow-up tests passed on the final source. Three real tracks completed the full path, and interrupted analysis resumed to the same result. The Duo install failed because its trusted device connection was unavailable. The iPad received these changes with build 155. Actual Duo throughput, cross-device transfer and A10X live acceptance remain open. [Build record](../testing/builds/153.json) · [Engine contract and verification](tiered-analysis.md).
 
-
 **Build 151** installed on the A10X iPad Pro, and iPadOS accepted launch. R93 retains Sync until explicitly disabled. Stops park on the grid. Starts, seeks, cues, gesture releases, vinyl resume and loop transitions restore beat alignment. Streamed preparation follows the same positions. Forty-two focused host tests passed across fifty-nine cases. Erik checks two-deck alignment, audio continuity and touch response with the Z1. R89 and R93 await physical acceptance. R90–R92 remain open. [Build record](../testing/builds/151.json) · [Sync contract and checks](persistent-sync.md).
 
-**Build 149** remains the last recorded Duo install. R88 checks the whole library for beats and key before structure analysis. Automatic structure work waits for external power and suitable thermal state, then resumes from saved results. Ten focused tests passed across fifteen cases. Build 153 adds deep ML profiles and automatic sharing, but its Duo installation failed. The iPad is now on build 155. [Build record](../testing/builds/149.json) · [Approved policy and rollout](tiered-analysis.md).
+**Build 149** installed on the Duo. R88 checks the whole library for beats and key before structure analysis. Automatic structure work waits for external power and suitable thermal state, then resumes from saved results. Ten focused tests passed across fifteen cases. Build 153 adds deep ML profiles and automatic sharing, but its Duo installation failed. The iPad moved to build 155. [Build record](../testing/builds/149.json) · [Approved policy and rollout](tiered-analysis.md).
 
 **Build 150** installed on the A10X iPad Pro, and iPadOS accepted launch. R89 starts the waveform at the file beginning, follows ready and playing audio, and rejects stale playhead positions during a reload. Nine focused host tests passed across twelve cases. Erik checks load/reload position and playback. Build 144 live testing confirmed original Z1 operation and custom lights, but found five blocking issues. Crossfader silence, preview-strip feel and long-track flicker remain open as R90–R92. The R93 Sync candidate is in build 151. [Build record](../testing/builds/150.json) · [Live-test feedback and transport contract](live-test-144.md).
 
@@ -185,7 +186,7 @@ Erik handed R87 to the “Choose analysis data sync” chat on 8 November 2026. 
 
 **Build 124** came from `main` at `a7acf07d9`. The A10X iPad Pro launched the new analyser and saved a 71.0058 BPM grid for 3CAG. All 56 reference bars are within 20.5 ms of the fitted grid. The iPad kept the manual grid and key and saved sections and automatic cue candidates. [Build record](../testing/builds/124.json).
 
-Latest installed Duo candidate is **build 149**. Erik checks first-pass ordering, unplug/reconnect behaviour and playback. [Build record](../testing/builds/149.json).
+The Duo test scope for **build 149** covered first-pass ordering, unplug and reconnect behaviour, and playback. [Build record](../testing/builds/149.json).
 
 Duo **build 126** came from `main` at `c4202fbe8`. It saves the beat grid and key before it analyses structure and automatic hot cues. On the Duo, the first check advanced the counter to 1 of 376 after the 13-second “Catchphrases”. The queue resumed after reconnecting and had 88 saved matching results at the last reachable check. [Build record](../testing/builds/126.json).
 

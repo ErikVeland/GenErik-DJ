@@ -17,5 +17,19 @@
   "deployment": "Two 110-second install attempts timed out. CoreDevice reported an interrupted connection on the next attempt. A further 180-second install timed out.",
   "installedUTC": "2026-11-25T12:11:17.951396+00:00",
   "launchedUTC": "2026-11-25T12:11:18.447897+00:00",
-  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation."
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "deviceInstalls": [
+    {
+      "request": "R555",
+      "device": "00008160-000859C436800036",
+      "name": "Duo",
+      "previousBuild": 230,
+      "installedUTC": "2026-11-26T07:03:20.469251+00:00",
+      "launchedUTC": "2026-11-26T07:03:21.037991+00:00",
+      "state": "testing",
+      "deployment": "The first Wi-Fi install timed out after 90 seconds. The retry installed the same signed app.",
+      "launchResult": "iOS accepted the launch request.",
+      "log": "TestBuilds/ipad/262/duo-deploy-r555.log"
+    }
+  ]
 }
