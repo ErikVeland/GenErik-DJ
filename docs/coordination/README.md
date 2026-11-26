@@ -1,5 +1,7 @@
 # Current work
 
+**Build 263 (R556)** installed and launched on the Duo. The inner-screen library uses a compact A/B loader when the pane is short. Eight focused layout and gesture checks passed. Physical taps and drags remain open. [Build record](../testing/builds/263.json).
+
 **Build 262 (R555)** installed and launched on the Duo. The signed app matches main. Duo layout, touch and audio checks remain open. [Build record](../testing/builds/262.json).
 
 **Build 262 (R554)** installed and launched on the A10X iPad after USB reconnection. Eight offline playback scenarios passed. Listening verification remains open. [Build record](../testing/builds/262.json).
