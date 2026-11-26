@@ -1025,15 +1025,22 @@ static double reference_beats(deck *d, tdj_engine *e) {
         return deck_beat(d, d->asset->frames) - deck_beat(d, d->position);
     return (d->asset->frames - d->position) * e->bpm / (60 * d->asset->rate * source_rate(e, d));
 }
-static bool nearest_bar_position(deck *d, double reference, double *position) {
+static bool bar_aligned_position(deck *d, double reference, bool rewind_only, double *position) {
     double phase = active_grid_downbeat(d) + reference - 4 * floor(reference / 4);
     double low = d->loop_enabled ? fmax(0, d->loop_start) : 0;
     double high = d->loop_enabled ? fmin(d->asset->frames, d->loop_end) : d->asset->frames;
     double first = ceil((deck_beat(d, low) - phase) / 4);
     double last = ceil((deck_beat(d, high) - phase) / 4) - 1;
-    double nearest = floor((deck_beat(d, d->position) - phase) / 4 + 0.5);
-    double aligned = deck_frame(d, phase + 4 * fmax(first, fmin(last, nearest)));
-    if (first > last || !isfinite(aligned) || aligned < low || aligned >= high)
+    // Allow roundoff at an already aligned playhead.
+    double bar = floor((deck_beat(d, d->position) - phase) / 4 + (rewind_only ? 1e-9 : 0.5));
+    if (first > last || (rewind_only && bar < first))
+        return false;
+    double aligned = deck_frame(d, phase + 4 * fmax(first, fmin(last, bar)));
+    if (!isfinite(aligned))
+        return false;
+    if (rewind_only)
+        aligned = fmin(aligned, d->position);
+    if (aligned < low || aligned >= high)
         return false;
     *position = aligned;
     return true;
@@ -1062,7 +1069,7 @@ static int start_deck(tdj_engine *e, deck *d, int index, uint64_t ticket, uint64
             if (i == index || peer->state != TDJ_PLAYING || peer->bpm <= 0)
                 continue;
             double beat = deck_beat(peer, peer->position) - active_grid_downbeat(peer);
-            nearest_bar_position(d, beat, &starting.position);
+            bar_aligned_position(d, beat, play_pressed, &starting.position);
             break;
         }
     }
@@ -2582,7 +2589,7 @@ static int apply(tdj_engine *e, tdj_command c) {
                     break;
                 }
             }
-            if (!nearest_bar_position(d, reference, &position))
+            if (!bar_aligned_position(d, reference, false, &position))
                 return TDJ_ALIGNMENT_UNAVAILABLE;
         } else if (!nearest_sync_position(d, beat_now(e), &position))
             return TDJ_ALIGNMENT_UNAVAILABLE;
