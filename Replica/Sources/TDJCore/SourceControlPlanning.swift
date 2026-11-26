@@ -226,7 +226,8 @@ extension SourceControl {
             let low = state.loopEnabled ? max(0, state.loopStart) : 0
             let high = state.loopEnabled ? min(Double(frames), state.loopEnd) : Double(frames)
             if low < high, let frame = timing.nearestPhaseAlignedFrame(
-                to: target.position, masterBeat: snapshot.barSyncReference(deck), within: low..<high, period: 4)
+                to: target.position, masterBeat: snapshot.barSyncReference(deck), within: low..<high, period: 4,
+                rewindOnly: true)
             {
                 var entry = target
                 entry.position = frame

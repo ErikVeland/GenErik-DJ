@@ -4,7 +4,7 @@ import Testing
 @testable import TDJCore
 
 @Test(arguments: [DeckID.a, .b, .c, .d])
-func beatLockAlignsEveryPlayAtTheCommandFrame(deck: DeckID) throws {
+func beatLockRewindsEveryPlayAtTheCommandFrame(deck: DeckID) throws {
     let core = try SampleTransport(sampleRate: 8000)
     core.setBeatLockEnabled(true)
     let asset = try PCMAsset(interleavedStereo: .init(repeating: 0.1, count: 256000), sampleRate: 8000)
@@ -12,7 +12,7 @@ func beatLockAlignsEveryPlayAtTheCommandFrame(deck: DeckID) throws {
     let reference = try core.load(
         asset, deck: referenceDeck, grid: BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 8000))
     let target = try core.load(
-        asset, deck: deck, grid: BeatGrid(bpm: 100, anchorFrame: 0, sampleRate: 8000), sourceFrame: 1200)
+        asset, deck: deck, grid: BeatGrid(bpm: 100, anchorFrame: 0, sampleRate: 8000), sourceFrame: 38_000)
     try core.play(deck: referenceDeck, generation: reference)
     _ = core.renderOffline(frames: 1700)
     let before = try #require(core.snapshot())
@@ -21,7 +21,7 @@ func beatLockAlignsEveryPlayAtTheCommandFrame(deck: DeckID) throws {
     let live = try #require(core.snapshot())
     #expect(live[deck].phase == .playing)
     #expect(live[deck].lastStartOutputFrame == 1700)
-    #expect(abs(live[deck].sourceFrame - 2040) < 0.001)
+    #expect(abs(live[deck].sourceFrame - 21_240) < 0.001)
     #expect(live[referenceDeck].sourceFrame == before[referenceDeck].sourceFrame)
     #expect(live.masterBeat == before.masterBeat)
     _ = core.renderOffline(frames: 3304)
@@ -29,14 +29,44 @@ func beatLockAlignsEveryPlayAtTheCommandFrame(deck: DeckID) throws {
     core.processControlsWhileIdle()
     let paused = try #require(core.snapshot())
     _ = core.renderOffline(frames: 777)
+    let beforeRestart = try #require(core.snapshot())
+    let targets = SourceControl.play(deck, target).preparationTargets(
+        snapshot: beforeRestart, deck: deck, frames: asset.frames)
+    #expect(targets.contains { abs($0.position - 6937.2) < 0.01 })
     try core.play(deck: deck, generation: target)
     core.processControlsWhileIdle()
     let resumed = try #require(core.snapshot())
     #expect(resumed[deck].phase == .playing)
     #expect(resumed[deck].lastStartOutputFrame == 5781)
-    #expect(abs(resumed[deck].sourceFrame - 5781 * 1.2) < 0.01)
-    #expect(resumed[deck].sourceFrame != paused[deck].sourceFrame)
+    #expect(abs(resumed[deck].sourceFrame - 6937.2) < 0.01)
+    #expect(resumed[deck].sourceFrame < paused[deck].sourceFrame)
     #expect(core.acknowledgements().allSatisfy { $0.error == nil })
+}
+
+@Test(arguments: [0.0, 6200, 7900])
+func beatLockPreservesAPickupBeforeTheIncomingBar(selectedFrame: Double) throws {
+    let core = try SampleTransport(sampleRate: 8000)
+    core.setBeatLockEnabled(true)
+    let asset = try PCMAsset(interleavedStereo: .init(repeating: 0.1, count: 256000), sampleRate: 8000)
+    let grid = try BeatGrid(bpm: 120, anchorFrame: 0, sampleRate: 8000)
+    let map = BeatGridMap(
+        anchors: [.init(beat: 0, frame: 0), .init(beat: 2, frame: 8000), .init(beat: 8, frame: 29_600)],
+        sampleRate: 8000, downbeatOffset: 2)
+    let a = try core.load(asset, deck: .a, grid: grid)
+    let b = try core.load(asset, deck: .b, grid: grid, sourceFrame: selectedFrame, adaptiveMap: map)
+    try core.play(deck: .a, generation: a)
+    _ = core.renderOffline(frames: 14_200)
+    let before = try #require(core.snapshot())
+    let targets = SourceControl.play(.b, b).preparationTargets(snapshot: before, deck: .b, frames: asset.frames)
+    let expected = selectedFrame == 0 ? 0 : 6200.0
+    #expect(targets.contains { abs($0.position - expected) < 0.001 })
+    #expect(targets.allSatisfy { $0.position <= selectedFrame })
+    try core.play(deck: .b, generation: b)
+    core.processControlsWhileIdle()
+    let live = try #require(core.snapshot())
+    #expect(live.b.phase == .playing)
+    #expect(live.b.lastStartOutputFrame == 14_200)
+    #expect(abs(live.b.sourceFrame - expected) < 0.001)
 }
 
 @Test func beatLockOffStartsImmediatelyAndKeepsTempoMatch() throws {

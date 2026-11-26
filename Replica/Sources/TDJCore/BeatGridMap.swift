@@ -107,19 +107,22 @@ public struct BeatTiming: Sendable {
 }
 
 extension BeatTiming {
-    public func nearestPhaseAlignedFrame(to frame: Double, masterBeat: Double, within interval: Range<Double>, period: Double = 1)
-        -> Double?
-    {
-        guard adaptive != nil || period != 1 else {
+    public func nearestPhaseAlignedFrame(
+        to frame: Double, masterBeat: Double, within interval: Range<Double>, period: Double = 1,
+        rewindOnly: Bool = false
+    ) -> Double? {
+        guard adaptive != nil || period != 1 || rewindOnly else {
             return fixed.nearestPhaseAlignedFrame(to: frame, masterBeat: masterBeat, within: interval)
         }
         guard period.isFinite, period > 0 else { return nil }
         let phase = Double(downbeatOffset) + masterBeat - period * floor(masterBeat / period)
         let first = ceil((beat(atFrame: interval.lowerBound) - phase) / period)
         let last = ceil((beat(atFrame: interval.upperBound) - phase) / period) - 1
-        guard first <= last else { return nil }
-        let nearest = floor((beat(atFrame: frame) - phase) / period + 0.5)
-        let position = self.frame(atBeat: phase + period * max(first, min(last, nearest)))
+        let index = floor((beat(atFrame: frame) - phase) / period + (rewindOnly ? 1e-9 : 0.5))
+        guard first <= last, !rewindOnly || index >= first else { return nil }
+        let aligned = self.frame(atBeat: phase + period * max(first, min(last, index)))
+        guard aligned.isFinite else { return nil }
+        let position = rewindOnly ? min(aligned, frame) : aligned
         return interval.contains(position) ? position : nil
     }
 }

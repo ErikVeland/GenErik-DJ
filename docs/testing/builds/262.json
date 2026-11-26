@@ -11,6 +11,12 @@
       "request": "R556",
       "device": "Duo",
       "text": "Erik reported that the A/B track loader did not work on the Duo. Build 262 was the last installed build."
+    },
+    {
+      "request": "R559",
+      "device": "A10X iPad",
+      "text": "Erik reported that synced Play still jumps forward. He wants the incoming track to rewind so its bar lines up with the playing deck. Build 262 is the last recorded iPad installation.",
+      "fixBuild": 265
     }
   ],
   "log": "TestBuilds/ipad/build-262.log",
