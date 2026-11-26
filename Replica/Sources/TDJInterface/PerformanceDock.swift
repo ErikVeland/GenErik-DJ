@@ -9,7 +9,7 @@ import TDJCore
     var deckB = DeckID.b
     let geometry: PerformanceDockGeometry
     @Environment(\.displayScale) private var displayScale
-    private var grouped: Bool { geometry.verticalInset > 0 }
+    private var grouped: Bool { geometry.edgeAligned }
 
     var body: some View {
         ScrollView(.vertical) {
@@ -65,8 +65,8 @@ import TDJCore
 
         return ZStack(alignment: .topLeading) {
             Rectangle().strokeBorder(ink, lineWidth: pixel).frame(
-                width: rowWidth, height: geometry.contentHeight - 2 * geometry.verticalInset
-            ).offset(x: left, y: geometry.verticalInset)
+                width: rowWidth, height: geometry.contentHeight
+            ).offset(x: left)
             Path { path in
                 for y in seams {
                     path.addRect(CGRect(x: left, y: floor(y * displayScale) / displayScale, width: rowWidth, height: pixel))

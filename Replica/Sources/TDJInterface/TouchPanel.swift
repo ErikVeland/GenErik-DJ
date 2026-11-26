@@ -52,7 +52,6 @@ struct TouchPanelHandle: View {
     var title = "LIBRARY"
     var accessibilityName = "Music library"
     var canToggle = true
-    var minimumTouchHeight: CGFloat? = nil
     let toggle: () -> Void
     let begin: () -> Void
     let update: (Double) -> Void
@@ -69,12 +68,7 @@ struct TouchPanelHandle: View {
 
     var body: some View {
         Group {
-            if minimumTouchHeight != nil {
-                HStack(spacing: 4) {
-                    toggleButton
-                    Capsule().fill(PerformancePalette.secondaryText).frame(width: 24, height: 3)
-                }.frame(maxWidth: .infinity, alignment: .leading)
-            } else if !metrics.expanded {
+            if !metrics.expanded {
                 Capsule().fill(PerformancePalette.secondaryText.opacity(active ? 0.65 : 0.12)).frame(
                     width: edge.horizontal ? 1 : 28, height: edge.horizontal ? 28 : 1
                 ).frame(
@@ -98,7 +92,7 @@ struct TouchPanelHandle: View {
                     Text(title).font(.system(size: 11, weight: .semibold)).padding(.trailing, 12)
                 }.frame(height: AdaptivePerformanceLayout.libraryHandleHeight)
             }
-        }.frame(minHeight: minimumTouchHeight).background(metrics.expanded ? PerformancePalette.frame : Color.clear)
+        }.background(metrics.expanded ? PerformancePalette.frame : Color.clear)
             .contentShape(Rectangle()).gesture(
             DragGesture(minimumDistance: 4, coordinateSpace: .global).updating($active) { _, active, _ in active = true
             }.onChanged { value in
@@ -123,7 +117,7 @@ struct TouchPanelHandle: View {
                 ignoreUntilRelease = false
             }
         ).onTapGesture(count: 2) {
-            if minimumTouchHeight == nil && !metrics.expanded && canToggle { toggle() }
+            if !metrics.expanded && canToggle { toggle() }
         }.onChange(of: active) { _, active in
             if !active {
                 frames.stop()

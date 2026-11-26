@@ -61,12 +61,15 @@ private let surface = PerformancePalette.panel
             let phonePortrait = isPhone && width < height
             let innerPhone = isPhone && presentation == .standard
             let horizontalEdges: Edge.Set = phonePortrait ? .horizontal : []
-            let frontInsets = presentation == .frontPhone && phonePortrait
-                ? window.safeAreaInsets : EdgeInsets()
+            let frontInsets = EdgeInsets(
+                top: 0,
+                leading: presentation == .frontPhone && phonePortrait ? window.safeAreaInsets.leading : 0,
+                bottom: presentation == .frontPhone ? window.safeAreaInsets.bottom : 0,
+                trailing: presentation == .frontPhone && phonePortrait ? window.safeAreaInsets.trailing : 0)
             workspaceRoot(
                 presentation: presentation, innerPortrait: phonePortrait && innerPhone,
                 innerBottomInset: innerPhone ? window.safeAreaInsets.bottom : nil, frontInsets: frontInsets
-            ).ignoresSafeArea(.container, edges: horizontalEdges.union(innerPhone ? .bottom : []))
+            ).ignoresSafeArea(.container, edges: horizontalEdges.union(isPhone ? .bottom : []))
         }.lineLimit(1).minimumScaleFactor(0.8)
             .environment(\.touchSurfaceInterruption, touchInterruption).background(
                 PerformancePalette.frame.ignoresSafeArea()
@@ -187,19 +190,19 @@ private let surface = PerformancePalette.panel
             PerformanceToolbar(
                 model: model, tempoWheelVisible: $tempoWheelVisible, audioSettingsPresented: $audioSettingsPresented,
                 importPresented: $importPresented, traktorImportPresented: $traktorImportPresented,
-                isFrontScreen: presentation == .frontPhone, frontInsets: frontInsets)
+                isFrontScreen: presentation == .frontPhone, frontInsets: frontInsets,
+                togglesLibrary: innerBottomInset != nil)
             GeometryReader { space in
                 if presentation == .frontPhone {
                     FrontPerformanceView(
                         model: model, importAudio: { importPresented = true },
                         linkCollection: { traktorImportPresented = true }, outputPresented: $audioSettingsPresented,
-                        sideInsets: frontInsets)
+                        bottomInset: frontInsets.bottom)
                 } else {
                     let deckInset = isPhone ? 0.0 : 6.0
-                    let workspaceHandle = handleExtent
-                    let bottom = InnerPhoneBottomLayout(
-                        height: space.size.height, safeInset: innerBottomInset ?? 0, handleExtent: workspaceHandle)
-                    let workspaceSize = CGSize(width: space.size.width, height: bottom.height)
+                    let innerPhone = innerBottomInset != nil
+                    let workspaceHandle = innerPhone ? 0 : handleExtent
+                    let workspaceSize = space.size
                     let workspace = PerformanceWorkspaceGeometry(
                         width: space.size.width, height: workspaceSize.height, libraryExtent: libraryPanel.extent,
                         handleExtent: workspaceHandle)
@@ -209,9 +212,9 @@ private let surface = PerformancePalette.panel
                     let pairedPreviewHeight = innerBottomInset.map { _ in
                         AdaptiveDeckGeometry.pairedPreviewHeight(upper: split.a.height, lower: split.b.height)
                     }
-                    let handleLift = bottom.handleLift(deckHeight: workspace.deckArea.height)
-                    let handleAtEdge = handleLift > 0
-                    let browserBottomInset = min(bottom.reclaimedHeight, workspace.libraryArea.height)
+                    let cornerRadius = innerPhone ? PhoneDisplayGeometry.bottomCornerRadius : 0
+                    let safeBottom = workspaceSize.height - (innerBottomInset ?? 0)
+                    let previewControlInset = max(0, workspace.deckArea.maxY - safeBottom)
                     let showsFour =
                         fourDecks
                         && WideDeckLayout.fits(
@@ -286,7 +289,8 @@ private let surface = PerformancePalette.panel
                                             openFullHeightSections: openFullHeightSections,
                                             deckSelector: fourDecks ? AnyView(deckSelector(upper: false)) : nil,
                                             sharedPreviewStripHeight: pairedPreviewHeight,
-                                            previewControlInset: bottom.previewExtension(deckHeight: workspace.deckArea.height),
+                                            previewControlInset: previewControlInset,
+                                            bottomPadding: innerPhone ? 0 : AdaptiveDeckGeometry.inset,
                                             requestPerformanceSpace: { minimum in
                                                 if model.browserVisible {
                                                     libraryPanel.makeRoom(
@@ -307,11 +311,10 @@ private let surface = PerformancePalette.panel
                                 }
                             }.padding(.horizontal, deckInset).frame(
                                 width: workspace.deckArea.width, height: workspace.deckArea.height)
-                            HStack(spacing: 0) {
+                            if !innerPhone {
                                 TouchPanelHandle(
                                     presented: libraryPanel.extent > 0, maximumExtent: libraryPanel.maximumExtent,
                                     presentationID: browserPresentationID,
-                                    minimumTouchHeight: handleAtEdge ? 44 : nil,
                                     toggle: {
                                         libraryPanel.setPresented(libraryPanel.extent == 0)
                                         model.browserVisible = libraryPanel.extent > 0
@@ -330,12 +333,9 @@ private let surface = PerformancePalette.panel
                                         model.browserVisible = libraryPanel.extent > 0
                                     }
                                 ).frame(maxWidth: .infinity)
-                            }.frame(width: handleAtEdge ? PerformanceDockGeometry.dockWidth - 8 : space.size.width)
-                                .background(largePanelHandles ? PerformancePalette.frame : Color.clear)
-                                .padding(.trailing, handleAtEdge ? 4 : 0)
-                                .frame(maxWidth: .infinity, alignment: .trailing)
-                                .frame(height: handleExtent, alignment: .bottom)
-                                .offset(y: -handleLift).zIndex(handleAtEdge ? 1 : 0)
+                                    .background(largePanelHandles ? PerformancePalette.frame : Color.clear)
+                                    .frame(height: workspaceHandle, alignment: .bottom)
+                            }
                             BrowserView(
                                 model: model, importAudio: { importPresented = true },
                                 linkCollection: { traktorImportPresented = true },
@@ -356,13 +356,11 @@ private let surface = PerformancePalette.panel
                             ).environment(\.loadDeckTargets, .init(upper: upper, lower: lower))
                             .frame(height: libraryPanel.contentHeight, alignment: .top)
                             .frame(
-                                width: workspace.libraryArea.width, height: workspace.libraryArea.height - browserBottomInset,
+                                width: workspace.libraryArea.width, height: workspace.libraryArea.height,
                                 alignment: .top
                             ).clipped().allowsHitTesting(libraryPanel.acceptsContentInput || libraryPanel.isDragging).disabled(
                                 !libraryPanel.acceptsContentInput && !libraryPanel.isDragging
                             ).accessibilityHidden(!libraryPanel.acceptsContentInput)
-                                .padding(.bottom, browserBottomInset)
-                                .background { if browserBottomInset > 0 { PerformancePalette.panel } }
                         }.frame(width: space.size.width, height: workspaceSize.height, alignment: .topLeading)
                             .clipped().animation(
                                 reduceMotion || libraryPanel.isDragging || deckSplit.isDragging
@@ -409,12 +407,12 @@ private let surface = PerformancePalette.panel
                                 model: model, panelsA: upper == .a ? deckAPanels : deckCPanels,
                                 panelsB: lower == .b ? deckBPanels : deckDPanels, deckA: upper, deckB: lower,
                                 geometry: PerformanceDockGeometry(
-                                    width: space.size.width, height: bottom.dockHeight(deckHeight: workspace.deckArea.height),
-                                    deckBoundary: split.handle.midY,
-                                    verticalInset: innerBottomInset != nil ? AdaptiveDeckGeometry.inset : 0,
-                                    edgeAligned: innerBottomInset != nil))
+                                    width: space.size.width, height: workspace.deckArea.height,
+                                    deckBoundary: split.handle.midY, edgeAligned: innerPhone))
                         }
-                    }.frame(width: space.size.width, height: workspaceSize.height, alignment: .topLeading).environment(
+                    }.frame(width: space.size.width, height: workspaceSize.height, alignment: .topLeading).clipShape(
+                        UnevenRoundedRectangle(bottomLeadingRadius: cornerRadius, bottomTrailingRadius: cornerRadius)
+                    ).environment(
                         \.performancePanelPortrait, space.size.width < workspaceSize.height
                     ).environment(\.waveformContactChanged, fourDecks ? updateWaveformContact : nil)
                 }
@@ -521,6 +519,7 @@ private struct DeckPanelHorizontalBounds: Shape {
     var deckSelector: AnyView? = nil
     var sharedPreviewStripHeight: Double? = nil
     var previewControlInset: Double = 0
+    var bottomPadding = AdaptiveDeckGeometry.inset
     var requestPerformanceSpace: (Double) -> Void = { _ in }
     @Environment(\.performancePanelPortrait) private var portrait
     @State private var sectionPanel = SectionEditorPanelState()
@@ -593,8 +592,9 @@ private struct DeckPanelHorizontalBounds: Shape {
         let sideHandleExtent = showsSideHandles ? handleExtent : 0
         let zoom = waveformZoom
         let showsHotcues = track != nil && model.hotcuePadsVisible.contains(deck)
+        let inset = AdaptiveDeckGeometry.inset
         let layout = AdaptiveDeckGeometry(
-            height: max(0, size.height - 2 * AdaptiveDeckGeometry.inset),
+            height: max(0, size.height - inset - bottomPadding),
             hotcues: showsHotcues,
             compactControls: track != nil || selection != nil, editing: editing, previewStripHeight: previewStripHeight)
         let availableWidth = max(0, size.width - (tempoFader && track != nil ? 68 : 0))
@@ -697,7 +697,7 @@ private struct DeckPanelHorizontalBounds: Shape {
                 }.frame(width: sizes.mainWidth)
                 if tempoFader && track != nil { DeckTempoFader(model: model, deck: deck) }
             }.frame(height: layout.waveformHeight + layout.hotcueHeight)
-            let controlInset = min(previewControlInset, layout.footerHeight)
+            let controlInset = min(previewControlInset, max(0, layout.footerHeight - 24))
             Group {
                 if editing {
                     DeckTimeReadout(model: model, deck: deck, editing: true).padding(.bottom, controlInset)
@@ -708,7 +708,8 @@ private struct DeckPanelHorizontalBounds: Shape {
                 }
             }.font(.system(size: 13, weight: .medium).monospacedDigit()).frame(height: layout.footerHeight)
                 .clipped()
-        }.padding(AdaptiveDeckGeometry.inset).background(PerformancePalette.stage).bevelPanel(cornerRadius: 6, sunken: true).animation(
+        }.padding(EdgeInsets(top: inset, leading: inset, bottom: bottomPadding, trailing: inset))
+            .background(PerformancePalette.stage).bevelPanel(cornerRadius: 6, sunken: true).animation(
             reduceMotion || panels.isDragging ? nil : .smooth(duration: 0.22), value: sizes.extraWidth
         ).animation(
             reduceMotion || panels.isDragging ? nil : .smooth(duration: 0.22), value: sizes.effectsContent.width
@@ -1319,6 +1320,7 @@ extension ReplicaView {
     private enum SettingsImport { case audio, collection }
     let isFrontScreen: Bool
     let frontInsets: EdgeInsets
+    let togglesLibrary: Bool
 
     private var horizontalInset: CGFloat {
         #if os(iOS)
@@ -1430,12 +1432,16 @@ extension ReplicaView {
 
     private var libraryButton: some View {
         Button {
-            model.showLibrary(fullyExpanded: true)
+            if togglesLibrary && model.browserVisible {
+                model.browserVisible = false
+            } else {
+                model.showLibrary(fullyExpanded: true)
+            }
         } label: {
             Image(systemName: "music.note").font(.system(size: 18)).foregroundStyle(
                 model.browserVisible ? PerformancePalette.cyan : PerformancePalette.text
             ).frame(width: 44, height: 44)
-        }.accessibilityLabel("Music library")
+        }.accessibilityLabel(togglesLibrary && model.browserVisible ? "Hide music library" : "Music library")
     }
 }
 

@@ -6,12 +6,16 @@ struct PanelHandleMetrics {
     var extent: Double { expanded ? 44 : 12 }
 }
 
+enum PhoneDisplayGeometry {
+    static let bottomCornerRadius = 40.0
+}
+
 struct PerformanceDockGeometry {
     static let dockWidth = 96.0
     // Eight 44-point buttons and an 88-point crossfader.
     static let minimumHeight = 440.0
-    var aButtons: [CGRect] { buttons(top: verticalInset, bottom: crossfader.minY) }
-    var bButtons: [CGRect] { buttons(top: crossfader.maxY, bottom: contentHeight - verticalInset) }
+    var aButtons: [CGRect] { buttons(top: 0, bottom: crossfader.minY) }
+    var bButtons: [CGRect] { buttons(top: crossfader.maxY, bottom: contentHeight) }
 
     private func buttons(top: Double, bottom: Double) -> [CGRect] {
         let rowHeight = (bottom - top) / 4
@@ -24,57 +28,25 @@ struct PerformanceDockGeometry {
     let workArea: CGRect
     let contentHeight: Double
     let fits: Bool
-    let verticalInset: Double
+    let edgeAligned: Bool
 
-    init(
-        width: Double, height: Double, deckBoundary: Double? = nil, verticalInset: Double = 0,
-        edgeAligned: Bool = false
-    ) {
+    init(width: Double, height: Double, deckBoundary: Double? = nil, edgeAligned: Bool = false) {
         let width = width.isFinite ? max(0, width) : 0
         let height = height.isFinite ? max(0, height) : 0
-        let verticalInset = verticalInset.isFinite ? max(0, verticalInset) : 0
-        self.verticalInset = verticalInset
-        let minimumHeight = Self.minimumHeight + 2 * verticalInset
-        let contentHeight = max(minimumHeight, height)
+        self.edgeAligned = edgeAligned
+        let contentHeight = max(Self.minimumHeight, height)
         self.contentHeight = contentHeight
-        fits = width >= Self.dockWidth + 44 && height >= minimumHeight
+        fits = width >= Self.dockWidth + 44 && height >= Self.minimumHeight
         workArea = CGRect(x: 0, y: 0, width: max(0, width - Self.dockWidth), height: height)
         let proposed = deckBoundary.flatMap { $0.isFinite ? $0 : nil } ?? contentHeight / 2
-        let minimumSide = minimumHeight / 2
+        let minimumSide = Self.minimumHeight / 2
         let center = min(contentHeight - minimumSide, max(minimumSide, proposed))
         let half = min(
-            (contentHeight - 2 * verticalInset) * 0.1,
-            min(center, contentHeight - center) - verticalInset - 4 * 44)
-        let sideInset = edgeAligned ? 4.0 : 8.0
+            contentHeight * 0.1,
+            min(center, contentHeight - center) - 4 * 44)
+        let sideInset = edgeAligned ? 0.0 : 8.0
         crossfader = CGRect(x: workArea.width + sideInset, y: center - half,
                            width: Self.dockWidth - 2 * sideInset, height: 2 * half)
-    }
-}
-
-struct InnerPhoneBottomLayout {
-    let height: Double
-    let reclaimedHeight: Double
-    let handleExtent: Double
-
-    init(height: Double, safeInset: Double, handleExtent: Double) {
-        self.handleExtent = handleExtent
-        let safeInset = min(height, max(0, safeInset))
-        reclaimedHeight = min(safeInset, handleExtent + 12)
-        self.height = height - safeInset + reclaimedHeight
-    }
-
-    func handleLift(deckHeight: Double) -> Double {
-        guard reclaimedHeight > 0 else { return 0 }
-        return max(0, deckHeight + handleExtent - (height - reclaimedHeight))
-    }
-
-    func previewExtension(deckHeight: Double) -> Double {
-        max(0, deckHeight - (height - reclaimedHeight))
-    }
-
-    func dockHeight(deckHeight: Double) -> Double {
-        guard handleLift(deckHeight: deckHeight) > 0 else { return deckHeight }
-        return min(deckHeight, max(0, height - reclaimedHeight - max(44, handleExtent)))
     }
 }
 

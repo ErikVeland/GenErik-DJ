@@ -6,7 +6,7 @@ import TDJCore
     var importAudio: () -> Void
     var linkCollection: () -> Void
     @Binding var outputPresented: Bool
-    var sideInsets = EdgeInsets()
+    let bottomInset: CGFloat
     @State private var selection = FrontDeckSelection(selected: DeckID.a)
     @State private var deckSlide = FrontDeckSlideState()
     @State private var panelsA = DeckPanelPresentation()
@@ -17,20 +17,20 @@ import TDJCore
     @State private var previousBrowserVisible = false
     @AppStorage("front.activeDeck") private var savedDeck = "a"
     @ScaledMetric(relativeTo: .body) private var selectorHeight = 44.0
-    @ScaledMetric(relativeTo: .subheadline) private var controlsHeight = 44.0
+    @ScaledMetric(relativeTo: .subheadline) private var baseControlsHeight = 44.0
     @Environment(\.touchSurfaceInterruption) private var interruption
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.scenePhase) private var scenePhase
 
     private var activeDeck: DeckID { selection.selected }
     private var panels: DeckPanelPresentation { activeDeck == .a ? panelsA : panelsB }
+    private var controlsHeight: Double { baseControlsHeight + bottomInset }
 
     var body: some View {
         GeometryReader { space in
             let layout = FrontWorkspaceGeometry(
                 width: space.size.width, height: space.size.height, browserExtent: browser.extent,
-                selectorHeight: selectorHeight, controlsHeight: controlsHeight,
-                leadingInset: sideInsets.leading, trailingInset: sideInsets.trailing)
+                selectorHeight: selectorHeight, controlsHeight: controlsHeight)
             VStack(spacing: 0) {
                 deckSelector.frame(height: layout.selector.height)
                 ZStack {
@@ -41,7 +41,6 @@ import TDJCore
                 }.environment(\.touchSurfaceInterruption, selection.contactID).frame(height: layout.deck.height)
                     .clipped()
                 browserBar.frame(width: layout.handle.width, height: layout.handle.height)
-                    .padding(.leading, layout.handle.minX).padding(.trailing, space.size.width - layout.handle.maxX)
                 FrontBrowserView(
                     model: model, importAudio: importAudio, linkCollection: linkCollection, requestedTab: requestedTab,
                     navigationID: browserRequest, destinationDeck: activeDeck
@@ -50,11 +49,12 @@ import TDJCore
                 ).clipped().allowsHitTesting(browser.acceptsContentInput).disabled(!browser.acceptsContentInput)
                     .accessibilityHidden(!browser.acceptsContentInput)
                 HStack(spacing: 4) {
-                    performanceControls.id(activeDeck)
-                    AudioQuickButton(model: model, isPresented: $outputPresented).frame(width: 44)
+                    performanceControls(height: layout.controls.height).id(activeDeck)
+                    AudioQuickButton(model: model, isPresented: $outputPresented)
+                        .buttonStyle(FrontControlButtonStyle(height: layout.controls.height, corner: .trailing))
+                        .frame(width: 56)
                 }.buttonStyle(FrontControlButtonStyle(height: layout.controls.height))
                     .frame(width: layout.controls.width, height: layout.controls.height)
-                    .padding(.leading, layout.controls.minX).padding(.trailing, space.size.width - layout.controls.maxX)
                     .background(PerformancePalette.frame).protectsFrontDeckSwipe()
             }.frame(width: space.size.width, height: space.size.height, alignment: .top).clipped().background(
                 PerformancePalette.stage
@@ -253,10 +253,11 @@ import TDJCore
         model.browserVisible = browser.extent > 0
     }
 
-    private var performanceControls: some View {
+    private func performanceControls(height: CGFloat) -> some View {
         HStack(spacing: 4) {
             Button("FX") { panels.toggleEffects() }.foregroundStyle(
                 panels.effectsVisible ? Color.orange : PerformancePalette.text)
+                .buttonStyle(FrontControlButtonStyle(height: height, corner: .leading))
             Button("EQ") { panels.toggleMixer() }.foregroundStyle(
                 panels.mixerVisible ? PerformancePalette.cyan : PerformancePalette.text)
             Button {
@@ -300,11 +301,18 @@ import TDJCore
 
 private struct FrontControlButtonStyle: ButtonStyle {
     let height: CGFloat
+    var corner: HorizontalEdge? = nil
+
     func makeBody(configuration: Configuration) -> some View {
-        configuration.label.lineLimit(1).minimumScaleFactor(0.8)
+        let radius = min(height, PhoneDisplayGeometry.bottomCornerRadius)
+        let outline = UnevenRoundedRectangle(
+            topLeadingRadius: 4, bottomLeadingRadius: corner == .leading ? radius : 4,
+            bottomTrailingRadius: corner == .trailing ? radius : 4, topTrailingRadius: 4)
+        return configuration.label.lineLimit(1).minimumScaleFactor(0.8)
             .font(.subheadline.weight(.bold)).frame(maxWidth: .infinity).frame(height: height).background(
                 configuration.isPressed ? PerformancePalette.raised : PerformancePalette.panel,
-                in: RoundedRectangle(cornerRadius: 4))
+                in: outline
+            ).contentShape(outline)
     }
 }
 

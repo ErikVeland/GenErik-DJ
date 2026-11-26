@@ -6,7 +6,13 @@
   "uncommittedAppChanges": "",
   "buildSeconds": 77.29,
   "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
-  "feedback": [],
+  "feedback": [
+    {
+      "request": "R565",
+      "device": "GenErik Duo",
+      "text": "The front layout is worse. Fill the width and height at the bottom and fit the buttons to the corners. Remove the chevron and dash from the inside Library handle. Use the full display and curve the controls to its corners."
+    }
+  ],
   "log": "TestBuilds/ipad/build-269.log",
   "build": 269,
   "app": "TestBuilds/ipad/269/GenErikDJ.app",
