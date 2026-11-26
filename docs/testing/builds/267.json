@@ -1,0 +1,26 @@
+{
+  "notes": "R562 Choose Camelot, Musical key or Open Key in Library & Preparation.",
+  "sourceCommit": "52e47c4087fbfbb7eb1b9ee52efded62e54bb6db",
+  "sourceSHA256": "cc1e2c01373e45fbbba427f6b389ce1151633bb6775b3cf4d54ae6158c518998",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 112.83,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-267.log",
+  "build": 267,
+  "app": "TestBuilds/ipad/267/GenErikDJ.app",
+  "appSHA256": "3e0133d8b5cf8a2a5ae93433359b78a124d33f71bafe0436ebbf92196d60e19a",
+  "state": "testing",
+  "createdUTC": "2026-11-26T08:45:58.568596+00:00",
+  "installedUTC": "2026-11-26T08:46:13.379235+00:00",
+  "launchedUTC": "2026-11-26T08:46:13.829260+00:00",
+  "launchVerification": "iPadOS accepted the launch request. Erik checks continued operation.",
+  "requestIDs": [
+    "R562"
+  ],
+  "device": "A10X iPad",
+  "deploymentLog": "TestBuilds/r562/ipad-run.log",
+  "verification": "All 24 keys round-trip in Camelot, Musical key and Open Key. Six existing section colour render cases passed on the host.",
+  "acceptance": "Change Key notation in Library & Preparation. Check both decks and the library. Relaunch the app and check that the selected notation persists."
+}

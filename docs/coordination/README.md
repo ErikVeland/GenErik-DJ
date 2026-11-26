@@ -1,5 +1,7 @@
 # Current work
 
+**Build 267 (R562)** installed and launched on the A10X iPad. Key notation is in Library & Preparation. The three formats passed the 24-key round-trip check. Display and persistence checks remain open on device. [Build record](../testing/builds/267.json).
+
 **Build 266 (R558, R559, R560)** installed and launched on the A10X iPad and Duo. It includes the shared analysis pilot and synced Play rewind. Live catalogue lookup, audio and touch checks remain open. [Build record](../testing/builds/266.json).
 
 **Build 264 (R557)** installed and launched on the Duo. The library lists songs with on-device audio. The Music change listener still refreshes the library after downloads. Duo A/B touch and live purchase refresh checks remain open. [Build record](../testing/builds/264.json).
