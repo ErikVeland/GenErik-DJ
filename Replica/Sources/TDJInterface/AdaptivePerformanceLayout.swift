@@ -10,20 +10,17 @@ struct PerformanceDockGeometry {
     static let dockWidth = 96.0
     // Eight 44-point buttons and an 88-point crossfader.
     static let minimumHeight = 440.0
-    var aButtons: [CGRect] {
-        let row = (crossfader.minY - verticalInset) / 4
-        return (0..<4).map {
-            let top = verticalInset + Double($0) * row
-            let bottom = verticalInset + Double($0 + 1) * row
-            return CGRect(x: workArea.width + 8, y: top, width: 80, height: bottom - top)
-        }
-    }
-    var bButtons: [CGRect] {
-        let row = (contentHeight - verticalInset - crossfader.maxY) / 4
-        return (0..<4).map {
-            let top = crossfader.maxY + Double($0) * row
-            let bottom = crossfader.maxY + Double($0 + 1) * row
-            return CGRect(x: workArea.width + 8, y: top, width: 80, height: bottom - top)
+    var aButtons: [CGRect] { buttons(top: verticalInset, bottom: crossfader.minY) }
+    var bButtons: [CGRect] { buttons(top: crossfader.maxY, bottom: contentHeight - verticalInset) }
+
+    private func buttons(top: Double, bottom: Double) -> [CGRect] {
+        let columns = wrapsControls ? 2 : 1
+        let rowHeight = (bottom - top) / Double(4 / columns)
+        let width = crossfader.width / Double(columns)
+        return (0..<4).map { index in
+            CGRect(
+                x: crossfader.minX + Double(index % columns) * width,
+                y: top + Double(index / columns) * rowHeight, width: width, height: rowHeight)
         }
     }
     let crossfader: CGRect
@@ -31,13 +28,19 @@ struct PerformanceDockGeometry {
     let contentHeight: Double
     let fits: Bool
     let verticalInset: Double
+    let wrapsControls: Bool
 
-    init(width: Double, height: Double, deckBoundary: Double? = nil, verticalInset: Double = 0) {
+    init(
+        width: Double, height: Double, deckBoundary: Double? = nil, verticalInset: Double = 0,
+        wrapsControls: Bool = false
+    ) {
         let width = width.isFinite ? max(0, width) : 0
         let height = height.isFinite ? max(0, height) : 0
         let verticalInset = verticalInset.isFinite ? max(0, verticalInset) : 0
         self.verticalInset = verticalInset
-        let minimumHeight = Self.minimumHeight + 2 * verticalInset
+        self.wrapsControls = wrapsControls
+        let minimumButtonStack = wrapsControls ? 2 * 44.0 : 4 * 44.0
+        let minimumHeight = (wrapsControls ? 2 * minimumButtonStack + 88 : Self.minimumHeight) + 2 * verticalInset
         let contentHeight = max(minimumHeight, height)
         self.contentHeight = contentHeight
         fits = width >= Self.dockWidth + 44 && height >= minimumHeight
@@ -45,9 +48,36 @@ struct PerformanceDockGeometry {
         let proposed = deckBoundary.flatMap { $0.isFinite ? $0 : nil } ?? contentHeight / 2
         let minimumSide = minimumHeight / 2
         let center = min(contentHeight - minimumSide, max(minimumSide, proposed))
+        let preferredHalf = (contentHeight - 2 * verticalInset) * 0.1
         let half = min(
-            (contentHeight - 2 * verticalInset) * 0.1, min(center, contentHeight - center) - verticalInset - 4 * 44)
-        crossfader = CGRect(x: workArea.width + 8, y: center - half, width: 80, height: 2 * half)
+            wrapsControls ? max(44, preferredHalf) : preferredHalf,
+            min(center, contentHeight - center) - verticalInset - minimumButtonStack)
+        let sideInset = wrapsControls ? 4.0 : 8.0
+        crossfader = CGRect(x: workArea.width + sideInset, y: center - half,
+                           width: Self.dockWidth - 2 * sideInset, height: 2 * half)
+    }
+}
+
+struct InnerPhoneBottomLayout {
+    let height: Double
+    let reclaimedHeight: Double
+    let handleExtent: Double
+
+    init(height: Double, safeInset: Double, handleExtent: Double) {
+        self.handleExtent = handleExtent
+        let safeInset = min(height, max(0, safeInset))
+        reclaimedHeight = min(handleExtent, max(0, safeInset - 12))
+        self.height = height - safeInset + reclaimedHeight
+    }
+
+    func handleLift(deckHeight: Double) -> Double {
+        guard reclaimedHeight > 0 else { return 0 }
+        return max(0, deckHeight + handleExtent - (height - reclaimedHeight))
+    }
+
+    func dockHeight(deckHeight: Double) -> Double {
+        guard handleLift(deckHeight: deckHeight) > 0 else { return deckHeight }
+        return min(deckHeight, max(0, height - reclaimedHeight - max(44, handleExtent)))
     }
 }
 
@@ -107,6 +137,12 @@ struct AdaptivePerformanceLayout {
 }
 
 struct AdaptiveDeckGeometry {
+    static let inset = 4.0
+
+    static func pairedPreviewHeight(upper: Double, lower: Double) -> Double {
+        AdaptiveDeckGeometry(height: min(upper, lower) - 2 * inset).footerHeight
+    }
+
     let expansion: Double
     let headerHeight: Double
     let sectionHeight: Double

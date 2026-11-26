@@ -59,8 +59,12 @@ private let surface = PerformancePalette.panel
             let height = window.size.height + window.safeAreaInsets.top + window.safeAreaInsets.bottom
             let presentation = BrowserPresentation.select(isPhone: isPhone, windowWidth: width, windowHeight: height)
             let phonePortrait = isPhone && width < height
-            workspaceRoot(presentation: presentation, innerPortrait: phonePortrait && presentation == .standard)
-                .ignoresSafeArea(.container, edges: phonePortrait ? .horizontal : [])
+            let innerPhone = isPhone && presentation == .standard
+            let horizontalEdges: Edge.Set = phonePortrait ? .horizontal : []
+            workspaceRoot(
+                presentation: presentation, innerPortrait: phonePortrait && innerPhone,
+                innerBottomInset: innerPhone ? window.safeAreaInsets.bottom : nil
+            ).ignoresSafeArea(.container, edges: horizontalEdges.union(innerPhone ? .bottom : []))
         }.lineLimit(1).minimumScaleFactor(0.8)
             .environment(\.touchSurfaceInterruption, touchInterruption).background(
                 PerformancePalette.frame.ignoresSafeArea()
@@ -72,12 +76,15 @@ private let surface = PerformancePalette.panel
             #endif
     }
 
-    private func workspaceRoot(presentation: BrowserPresentation, innerPortrait: Bool) -> some View {
+    private func workspaceRoot(
+        presentation: BrowserPresentation, innerPortrait: Bool, innerBottomInset: Double?
+    ) -> some View {
         GeometryReader { geometry in
             HStack(spacing: 0) {
                 if model.helpVisible { GestureHelp { model.helpVisible = false }.frame(width: 280) }
-                performanceSurface(presentation: presentation, innerPortrait: innerPortrait).frame(
-                    maxWidth: .infinity, maxHeight: .infinity)
+                performanceSurface(
+                    presentation: presentation, innerPortrait: innerPortrait, innerBottomInset: innerBottomInset
+                ).frame(maxWidth: .infinity, maxHeight: .infinity)
             }.frame(width: geometry.size.width, height: geometry.size.height, alignment: .topLeading).onChange(
                 of: geometry.size
             ) { _, _ in touchInterruption = UUID() }
@@ -170,7 +177,9 @@ private let surface = PerformancePalette.panel
         .clipped()
     }
 
-    private func performanceSurface(presentation: BrowserPresentation, innerPortrait: Bool) -> some View {
+    private func performanceSurface(
+        presentation: BrowserPresentation, innerPortrait: Bool, innerBottomInset: Double?
+    ) -> some View {
         VStack(spacing: 0) {
             PerformanceToolbar(
                 model: model, tempoWheelVisible: $tempoWheelVisible, audioSettingsPresented: $audioSettingsPresented,
@@ -184,12 +193,21 @@ private let surface = PerformancePalette.panel
                 } else {
                     let deckInset = isPhone ? 0.0 : 6.0
                     let workspaceHandle = handleExtent
+                    let bottom = InnerPhoneBottomLayout(
+                        height: space.size.height, safeInset: innerBottomInset ?? 0, handleExtent: workspaceHandle)
+                    let workspaceSize = CGSize(width: space.size.width, height: bottom.height)
                     let workspace = PerformanceWorkspaceGeometry(
-                        width: space.size.width, height: space.size.height, libraryExtent: libraryPanel.extent,
+                        width: space.size.width, height: workspaceSize.height, libraryExtent: libraryPanel.extent,
                         handleExtent: workspaceHandle)
                     let split = deckSplit.geometry(
                         width: workspace.deckArea.width - 2 * deckInset, height: workspace.deckArea.height,
                         handleExtent: handleExtent)
+                    let pairedPreviewHeight = innerBottomInset.map { _ in
+                        AdaptiveDeckGeometry.pairedPreviewHeight(upper: split.a.height, lower: split.b.height)
+                    }
+                    let handleLift = bottom.handleLift(deckHeight: workspace.deckArea.height)
+                    let handleAtEdge = handleLift > 0
+                    let browserBottomInset = min(bottom.reclaimedHeight, workspace.libraryArea.height)
                     let showsFour =
                         fourDecks
                         && WideDeckLayout.fits(
@@ -220,6 +238,7 @@ private let surface = PerformancePalette.panel
                                             focus: innerPortrait ? { deckSplit.focus(upper: true) } : nil,
                                             openFullHeightSections: openFullHeightSections,
                                             deckSelector: fourDecks ? AnyView(deckSelector(upper: true)) : nil,
+                                            sharedPreviewStripHeight: pairedPreviewHeight,
                                             requestPerformanceSpace: { minimum in
                                                 if model.browserVisible {
                                                     libraryPanel.makeRoom(
@@ -229,7 +248,7 @@ private let surface = PerformancePalette.panel
                                                                 - workspace.deckArea.height))
                                                 }
                                                 let available = PerformanceWorkspaceGeometry(
-                                                    width: space.size.width, height: space.size.height,
+                                                    width: space.size.width, height: workspaceSize.height,
                                                     libraryExtent: libraryPanel.extent, handleExtent: workspaceHandle)
                                                 deckSplit.ensureHeight(
                                                     upper: true, minimum: minimum, height: available.deckArea.height,
@@ -262,6 +281,7 @@ private let surface = PerformancePalette.panel
                                             focus: innerPortrait ? { deckSplit.focus(upper: false) } : nil,
                                             openFullHeightSections: openFullHeightSections,
                                             deckSelector: fourDecks ? AnyView(deckSelector(upper: false)) : nil,
+                                            sharedPreviewStripHeight: pairedPreviewHeight,
                                             requestPerformanceSpace: { minimum in
                                                 if model.browserVisible {
                                                     libraryPanel.makeRoom(
@@ -271,7 +291,7 @@ private let surface = PerformancePalette.panel
                                                                 - workspace.deckArea.height))
                                                 }
                                                 let available = PerformanceWorkspaceGeometry(
-                                                    width: space.size.width, height: space.size.height,
+                                                    width: space.size.width, height: workspaceSize.height,
                                                     libraryExtent: libraryPanel.extent, handleExtent: workspaceHandle)
                                                 deckSplit.ensureHeight(
                                                     upper: false, minimum: minimum, height: available.deckArea.height,
@@ -286,6 +306,7 @@ private let surface = PerformancePalette.panel
                                 TouchPanelHandle(
                                     presented: libraryPanel.extent > 0, maximumExtent: libraryPanel.maximumExtent,
                                     presentationID: browserPresentationID,
+                                    minimumTouchHeight: handleAtEdge ? 44 : nil,
                                     toggle: {
                                         libraryPanel.setPresented(libraryPanel.extent == 0)
                                         model.browserVisible = libraryPanel.extent > 0
@@ -304,8 +325,12 @@ private let surface = PerformancePalette.panel
                                         model.browserVisible = libraryPanel.extent > 0
                                     }
                                 ).frame(maxWidth: .infinity)
-                            }.frame(height: handleExtent)
+                            }.frame(width: handleAtEdge ? PerformanceDockGeometry.dockWidth - 8 : space.size.width)
                                 .background(largePanelHandles ? PerformancePalette.frame : Color.clear)
+                                .padding(.trailing, handleAtEdge ? 4 : 0)
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                .frame(height: handleExtent, alignment: .bottom)
+                                .offset(y: -handleLift).zIndex(handleAtEdge ? 1 : 0)
                             BrowserView(
                                 model: model, importAudio: { importPresented = true },
                                 linkCollection: { traktorImportPresented = true },
@@ -326,22 +351,24 @@ private let surface = PerformancePalette.panel
                             ).environment(\.loadDeckTargets, .init(upper: upper, lower: lower))
                             .frame(height: libraryPanel.contentHeight, alignment: .top)
                             .frame(
-                                width: workspace.libraryArea.width, height: workspace.libraryArea.height,
+                                width: workspace.libraryArea.width, height: workspace.libraryArea.height - browserBottomInset,
                                 alignment: .top
                             ).clipped().allowsHitTesting(libraryPanel.acceptsContentInput || libraryPanel.isDragging).disabled(
                                 !libraryPanel.acceptsContentInput && !libraryPanel.isDragging
                             ).accessibilityHidden(!libraryPanel.acceptsContentInput)
-                        }.frame(width: space.size.width, height: space.size.height, alignment: .topLeading)
+                                .padding(.bottom, browserBottomInset)
+                                .background { if browserBottomInset > 0 { PerformancePalette.panel } }
+                        }.frame(width: space.size.width, height: workspaceSize.height, alignment: .topLeading)
                             .clipped().animation(
                                 reduceMotion || libraryPanel.isDragging || deckSplit.isDragging
                                     ? nil : .smooth(duration: 0.25), value: libraryPanel.extent
                             ).onAppear {
                                 libraryPanel.updateViewport(
-                                    width: space.size.width, height: space.size.height, presented: model.browserVisible,
+                                    width: space.size.width, height: workspaceSize.height, presented: model.browserVisible,
                                     handleExtent: workspaceHandle)
                                 deckSplit.updateViewport(
-                                    width: space.size.width, height: space.size.height, innerPortrait: innerPortrait)
-                            }.onChange(of: space.size) { _, size in
+                                    width: space.size.width, height: workspaceSize.height, innerPortrait: innerPortrait)
+                            }.onChange(of: workspaceSize) { _, size in
                                 libraryPanel.updateViewport(
                                     width: size.width, height: size.height, presented: model.browserVisible,
                                     handleExtent: workspaceHandle)
@@ -350,10 +377,10 @@ private let surface = PerformancePalette.panel
                                 model.browserVisible = libraryPanel.extent > 0
                             }.onChange(of: innerPortrait) { _, value in
                                 deckSplit.updateViewport(
-                                    width: space.size.width, height: space.size.height, innerPortrait: value)
+                                    width: space.size.width, height: workspaceSize.height, innerPortrait: value)
                             }.onChange(of: workspaceHandle) { _, value in
                                 libraryPanel.updateViewport(
-                                    width: space.size.width, height: space.size.height, presented: model.browserVisible,
+                                    width: space.size.width, height: workspaceSize.height, presented: model.browserVisible,
                                     handleExtent: value)
                             }.onReceive(model.browserPresentationRequests) { request in
                                 browserPresentationID = request
@@ -377,11 +404,12 @@ private let surface = PerformancePalette.panel
                                 model: model, panelsA: upper == .a ? deckAPanels : deckCPanels,
                                 panelsB: lower == .b ? deckBPanels : deckDPanels, deckA: upper, deckB: lower,
                                 geometry: PerformanceDockGeometry(
-                                    width: space.size.width, height: workspace.deckArea.height,
-                                    deckBoundary: split.handle.midY, verticalInset: innerPortrait ? 8 : 0))
+                                    width: space.size.width, height: bottom.dockHeight(deckHeight: workspace.deckArea.height),
+                                    deckBoundary: split.handle.midY, verticalInset: innerPortrait ? 8 : 0,
+                                    wrapsControls: innerBottomInset != nil))
                         }
-                    }.frame(width: space.size.width, height: space.size.height, alignment: .topLeading).environment(
-                        \.performancePanelPortrait, space.size.width < space.size.height
+                    }.frame(width: space.size.width, height: workspaceSize.height, alignment: .topLeading).environment(
+                        \.performancePanelPortrait, space.size.width < workspaceSize.height
                     ).environment(\.waveformContactChanged, fourDecks ? updateWaveformContact : nil)
                 }
             }
@@ -485,6 +513,7 @@ private struct DeckPanelHorizontalBounds: Shape {
     var focus: (() -> Void)?
     var openFullHeightSections: ((DeckID, SectionEditIdentity) -> Void)?
     var deckSelector: AnyView? = nil
+    var sharedPreviewStripHeight: Double? = nil
     var requestPerformanceSpace: (Double) -> Void = { _ in }
     @Environment(\.performancePanelPortrait) private var portrait
     @State private var sectionPanel = SectionEditorPanelState()
@@ -546,6 +575,7 @@ private struct DeckPanelHorizontalBounds: Shape {
         }
     }
     private var previewStripHeight: Double {
+        if let sharedPreviewStripHeight { return sharedPreviewStripHeight }
         #if os(iOS)
             if UIDevice.current.userInterfaceIdiom == .pad { return 60 }
         #endif
@@ -557,7 +587,7 @@ private struct DeckPanelHorizontalBounds: Shape {
         let zoom = waveformZoom
         let showsHotcues = track != nil && model.hotcuePadsVisible.contains(deck)
         let layout = AdaptiveDeckGeometry(
-            height: max(0, size.height - 8),
+            height: max(0, size.height - 2 * AdaptiveDeckGeometry.inset),
             hotcues: showsHotcues,
             compactControls: track != nil || selection != nil, editing: editing, previewStripHeight: previewStripHeight)
         let availableWidth = max(0, size.width - (tempoFader && track != nil ? 68 : 0))
@@ -670,7 +700,7 @@ private struct DeckPanelHorizontalBounds: Shape {
                 }
             }.font(.system(size: 13, weight: .medium).monospacedDigit()).frame(height: layout.footerHeight)
                 .clipped()
-        }.padding(4).background(PerformancePalette.stage).bevelPanel(cornerRadius: 6, sunken: true).animation(
+        }.padding(AdaptiveDeckGeometry.inset).background(PerformancePalette.stage).bevelPanel(cornerRadius: 6, sunken: true).animation(
             reduceMotion || panels.isDragging ? nil : .smooth(duration: 0.22), value: sizes.extraWidth
         ).animation(
             reduceMotion || panels.isDragging ? nil : .smooth(duration: 0.22), value: sizes.effectsContent.width

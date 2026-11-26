@@ -36,3 +36,48 @@ import Testing
     #expect(!WideDeckLayout.fits(width: .infinity, height: height))
     #expect(!WideDeckLayout.fits(width: width, height: .nan))
 }
+
+@Test(arguments: [50.0, 76, 150, 200]) func duoPreviewStripsShareTheShorterDeckLimit(lower: Double) {
+    let upper = 310.0
+    let cap = AdaptiveDeckGeometry.pairedPreviewHeight(upper: upper, lower: lower)
+    let taller = AdaptiveDeckGeometry(
+        height: upper - 2 * AdaptiveDeckGeometry.inset, hotcues: true, previewStripHeight: cap)
+    let shorter = AdaptiveDeckGeometry(height: lower - 2 * AdaptiveDeckGeometry.inset, previewStripHeight: cap)
+    #expect(taller.footerHeight == shorter.footerHeight)
+    #expect(cap <= 24)
+    #expect(cap <= (lower - 2 * AdaptiveDeckGeometry.inset) * 0.35)
+}
+
+@Test(arguments: [22.0, 44], [21.0, 34]) func duoKeepsLiftedControlsClearOfTheBottomInset(
+    handleExtent: Double, safeInset: Double
+) {
+    let fullHeight = 669.0
+    let safeBottom = fullHeight - safeInset
+    let bottom = InnerPhoneBottomLayout(height: fullHeight, safeInset: safeInset, handleExtent: handleExtent)
+    let closed = PerformanceWorkspaceGeometry(width: 951, height: bottom.height, libraryExtent: 0, handleExtent: handleExtent)
+    let open = PerformanceWorkspaceGeometry(width: 951, height: bottom.height, libraryExtent: 160, handleExtent: handleExtent)
+
+    #expect(bottom.height > safeBottom)
+    #expect(bottom.height <= fullHeight - 12)
+    #expect(closed.deckArea.maxY <= safeBottom)
+    #expect(closed.deckArea.maxY + handleExtent - bottom.handleLift(deckHeight: closed.deckArea.height) == safeBottom)
+    #expect(bottom.dockHeight(deckHeight: closed.deckArea.height) + max(44, handleExtent) == safeBottom)
+    #expect(bottom.handleLift(deckHeight: open.deckArea.height) == 0)
+    #expect(bottom.dockHeight(deckHeight: open.deckArea.height) == Double(open.deckArea.height))
+    #expect(open.libraryArea.maxY - bottom.reclaimedHeight == safeBottom)
+}
+
+@Test(arguments: [264.0, 380, 560]) func duoDockWrapsControlsWithoutReducingTouchTargets(height: Double) {
+    let dock = PerformanceDockGeometry(width: 951, height: height, deckBoundary: height / 2, wrapsControls: true)
+    #expect(dock.fits)
+    #expect(dock.crossfader.height >= 88)
+    for buttons in [dock.aButtons, dock.bButtons] {
+        #expect(buttons[0].minY == buttons[1].minY)
+        #expect(buttons[2].minY == buttons[3].minY)
+        #expect(buttons[0].maxX == buttons[1].minX)
+        #expect(buttons.allSatisfy { $0.width >= 44 && $0.height >= 44 && $0.maxY <= dock.workArea.height })
+    }
+    let standard = PerformanceDockGeometry(width: 951, height: height)
+    #expect(standard.aButtons[0].maxY == standard.aButtons[1].minY)
+    #expect(standard.aButtons[0].width == 80)
+}
