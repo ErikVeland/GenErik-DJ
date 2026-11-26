@@ -1,0 +1,29 @@
+{
+  "notes": "R564 Clear the front camera and corners. Restore stacked inner controls.",
+  "sourceCommit": "a1b164195dd01e7bd081663e71ccb4ef54740415",
+  "sourceSHA256": "d1b5e21a6e7d7c58c0cfcea2412433b0af539db032a01ffca4937fda3e386d5a",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 77.29,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-269.log",
+  "build": 269,
+  "app": "TestBuilds/ipad/269/GenErikDJ.app",
+  "appSHA256": "7bf31590ab0605fd7cce8b088229ca77d6d81c2f86d7569da3ece610e2a06838",
+  "state": "testing",
+  "createdUTC": "2026-11-26T09:18:52.310141+00:00",
+  "installedUTC": "2026-11-26T09:19:07.553750+00:00",
+  "device": "GenErik Duo",
+  "requestIDs": [
+    "R564"
+  ],
+  "deployment": "The first launch timed out. The next attempt required an unlock. The app launched after Erik unlocked the Duo.",
+  "deploymentLog": "TestBuilds/r564/duo-run.log",
+  "launchRetryLog": "TestBuilds/r564/duo-launch-retry.log",
+  "verification": "Fifteen focused host geometry cases passed, including front row clearance, stacked inner controls and matched preview heights.",
+  "acceptance": "Check front camera clearance, bottom button alignment and Library access. Check the inner deck controls and listen for continuous audio while resizing.",
+  "launchedUTC": "2026-11-26T09:21:02.590467+00:00",
+  "launchVerification": "iOS accepted the launch request after the Duo unlocked.",
+  "launchAfterUnlockLog": "TestBuilds/r564/duo-launch-unlocked.log"
+}
