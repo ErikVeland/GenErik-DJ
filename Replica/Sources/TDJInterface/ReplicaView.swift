@@ -60,11 +60,10 @@ private let surface = PerformancePalette.panel
             let presentation = BrowserPresentation.select(isPhone: isPhone, windowWidth: width, windowHeight: height)
             let phonePortrait = isPhone && width < height
             let innerPhone = isPhone && presentation == .standard
-            let usesFullWidth: Bool
-            if #available(iOS 27.1, macOS 27.1, *) {
-                usesFullWidth = isPhone
+            let usesFullWidth = if #available(iOS 27.1, macOS 27.1, *) {
+                isPhone
             } else {
-                usesFullWidth = phonePortrait
+                phonePortrait
             }
             let horizontalEdges: Edge.Set = usesFullWidth ? .horizontal : []
             let frontInsets = EdgeInsets(
