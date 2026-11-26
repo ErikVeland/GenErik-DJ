@@ -282,6 +282,7 @@ private let surface = PerformancePalette.panel
                                             openFullHeightSections: openFullHeightSections,
                                             deckSelector: fourDecks ? AnyView(deckSelector(upper: false)) : nil,
                                             sharedPreviewStripHeight: pairedPreviewHeight,
+                                            previewControlInset: bottom.previewExtension(deckHeight: workspace.deckArea.height),
                                             requestPerformanceSpace: { minimum in
                                                 if model.browserVisible {
                                                     libraryPanel.makeRoom(
@@ -514,6 +515,7 @@ private struct DeckPanelHorizontalBounds: Shape {
     var openFullHeightSections: ((DeckID, SectionEditIdentity) -> Void)?
     var deckSelector: AnyView? = nil
     var sharedPreviewStripHeight: Double? = nil
+    var previewControlInset: Double = 0
     var requestPerformanceSpace: (Double) -> Void = { _ in }
     @Environment(\.performancePanelPortrait) private var portrait
     @State private var sectionPanel = SectionEditorPanelState()
@@ -690,12 +692,13 @@ private struct DeckPanelHorizontalBounds: Shape {
                 }.frame(width: sizes.mainWidth)
                 if tempoFader && track != nil { DeckTempoFader(model: model, deck: deck) }
             }.frame(height: layout.waveformHeight + layout.hotcueHeight)
+            let controlInset = min(previewControlInset, layout.footerHeight)
             Group {
                 if editing {
-                    DeckTimeReadout(model: model, deck: deck, editing: true)
+                    DeckTimeReadout(model: model, deck: deck, editing: true).padding(.bottom, controlInset)
                 } else {
-                    DeckOverview(model: model, deck: deck, visibleSeconds: zoom).overlay {
-                        DeckTimeReadout(model: model, deck: deck)
+                    DeckOverview(model: model, deck: deck, visibleSeconds: zoom, controlInset: controlInset).overlay {
+                        DeckTimeReadout(model: model, deck: deck).padding(.bottom, controlInset)
                     }
                 }
             }.font(.system(size: 13, weight: .medium).monospacedDigit()).frame(height: layout.footerHeight)
@@ -920,6 +923,7 @@ struct DeckRailButtonStyle: ButtonStyle {
     let deck: DeckID
     let track: Track
     @Binding var visibleSeconds: Double
+    var controlInset: Double = 0
     @State private var zoomStart: Double?
     @State private var session = StripeGestureSession()
     var body: some View {
@@ -933,7 +937,7 @@ struct DeckRailButtonStyle: ButtonStyle {
                     span: Double(track.analysis.frameCount), overview: true)
             }.overlay {
                 if model.hotcuePadsVisible.contains(deck) {
-                    OverviewCueFlags(model: model, track: track)
+                    OverviewCueFlags(model: model, track: track).padding(.bottom, controlInset)
                 }
             }.overlay(alignment: .leading) {
                 StripeViewportMarker(
@@ -945,7 +949,7 @@ struct DeckRailButtonStyle: ButtonStyle {
                         event, model: model, deck: deck, visibleSeconds: visibleSeconds,
                         width: geometry.size.width
                     ) { visibleSeconds = $0 }
-                }.id(track.id)
+                }.id(track.id).padding(.bottom, controlInset)
             }
             #if os(macOS)
                 .simultaneousGesture(
@@ -2000,6 +2004,7 @@ enum RecordingOutputIndicator {
     @Bindable var model: ReplicaModel
     let deck: DeckID
     @Binding var visibleSeconds: Double
+    var controlInset: Double = 0
 
     var body: some View {
         if model.pendingNativeSelection[deck] != nil, let preview = model.pendingNativeWaveforms[deck] {
@@ -2007,7 +2012,7 @@ enum RecordingOutputIndicator {
                 track: preview, grid: nil, centerFrame: Double(preview.analysis.frameCount) / 2,
                 visibleSeconds: preview.analysis.duration, sections: model.arrangements[preview.id]?.sections ?? [])
         } else if let track {
-            StripeView(model: model, deck: deck, track: track, visibleSeconds: $visibleSeconds)
+            StripeView(model: model, deck: deck, track: track, visibleSeconds: $visibleSeconds, controlInset: controlInset)
                 .id(model.loadIdentity(deck))
         } else {
             Color.black

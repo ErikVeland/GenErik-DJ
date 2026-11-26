@@ -44,7 +44,7 @@ import Testing
         height: upper - 2 * AdaptiveDeckGeometry.inset, hotcues: true, previewStripHeight: cap)
     let shorter = AdaptiveDeckGeometry(height: lower - 2 * AdaptiveDeckGeometry.inset, previewStripHeight: cap)
     #expect(taller.footerHeight == shorter.footerHeight)
-    #expect(cap <= 24)
+    #expect(cap <= 36)
     #expect(cap <= (lower - 2 * AdaptiveDeckGeometry.inset) * 0.35)
 }
 
@@ -58,8 +58,16 @@ import Testing
     let open = PerformanceWorkspaceGeometry(width: 951, height: bottom.height, libraryExtent: 160, handleExtent: handleExtent)
 
     #expect(bottom.height > safeBottom)
-    #expect(bottom.height <= fullHeight - 12)
-    #expect(closed.deckArea.maxY <= safeBottom)
+    #expect(bottom.height <= fullHeight)
+    #expect(closed.deckArea.maxY <= safeBottom + 12)
+    #expect(bottom.previewExtension(deckHeight: closed.deckArea.height)
+        == max(0, Double(closed.deckArea.maxY) - safeBottom))
+    #expect(bottom.previewExtension(deckHeight: open.deckArea.height) == 0)
+    if safeInset == 34 && handleExtent == 22 {
+        #expect(bottom.previewExtension(deckHeight: closed.deckArea.height) == 12)
+        #expect(AdaptiveDeckGeometry.pairedPreviewHeight(upper: 240, lower: 240)
+            - bottom.previewExtension(deckHeight: closed.deckArea.height) == 24)
+    }
     #expect(closed.deckArea.maxY + handleExtent - bottom.handleLift(deckHeight: closed.deckArea.height) == safeBottom)
     #expect(bottom.dockHeight(deckHeight: closed.deckArea.height) + max(44, handleExtent) == safeBottom)
     #expect(bottom.handleLift(deckHeight: open.deckArea.height) == 0)

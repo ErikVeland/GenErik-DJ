@@ -66,13 +66,17 @@ struct InnerPhoneBottomLayout {
     init(height: Double, safeInset: Double, handleExtent: Double) {
         self.handleExtent = handleExtent
         let safeInset = min(height, max(0, safeInset))
-        reclaimedHeight = min(handleExtent, max(0, safeInset - 12))
+        reclaimedHeight = min(safeInset, handleExtent + 12)
         self.height = height - safeInset + reclaimedHeight
     }
 
     func handleLift(deckHeight: Double) -> Double {
         guard reclaimedHeight > 0 else { return 0 }
         return max(0, deckHeight + handleExtent - (height - reclaimedHeight))
+    }
+
+    func previewExtension(deckHeight: Double) -> Double {
+        max(0, deckHeight - (height - reclaimedHeight))
     }
 
     func dockHeight(deckHeight: Double) -> Double {
@@ -140,7 +144,7 @@ struct AdaptiveDeckGeometry {
     static let inset = 4.0
 
     static func pairedPreviewHeight(upper: Double, lower: Double) -> Double {
-        AdaptiveDeckGeometry(height: min(upper, lower) - 2 * inset).footerHeight
+        AdaptiveDeckGeometry(height: min(upper, lower) - 2 * inset, previewStripHeight: 36).footerHeight
     }
 
     let expansion: Double
