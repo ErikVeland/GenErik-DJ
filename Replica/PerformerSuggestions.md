@@ -15,7 +15,7 @@ The app and `tdj-tool suggest` now use that order directly. A weighted average i
 
 Key uses corrected metadata when available. Exact key comes first, followed by relative major/minor and adjacent fifths, then other keys, then missing keys. The key relationship details are implementation choices, not measured NI rules.
 
-Deck and browser labels use Open Key notation, matching the saved S20 display (`12m`). Musical key identities and recommendation comparisons retain their tonic/mode values. The numeric circle and relative major/minor suffixes follow Native Instruments' [Open Key explanation](https://www.native-instruments.com/blogs/blog/harmonic-mixing-rules-and-how-to-break-them). This display change does not alter the confirmed ranking policy.
+Deck and browser labels use Open Key notation by default, matching the saved S20 display (`12m`). Choose Camelot, Musical key or Open Key in **Settings → Library & Preparation → Key notation**. Musical key identities and recommendation comparisons retain their tonic/mode values. The numeric circle and relative major/minor suffixes follow Native Instruments' [Open Key explanation](https://www.native-instruments.com/blogs/blog/harmonic-mixing-rules-and-how-to-break-them). This display change does not alter the confirmed ranking policy.
 
 For a playing synced reference, the BPM target is the shared master tempo. Otherwise, it is the reference's corrected source BPM. All candidates inside ±8% share the same BPM tier. Outside the range, candidates are ordered in one-percentage-point distance bands. Missing BPM follows known BPM. No half/double interpretation is applied automatically.
 

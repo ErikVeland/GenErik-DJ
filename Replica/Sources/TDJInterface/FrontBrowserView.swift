@@ -6,6 +6,7 @@ private let surface = PerformancePalette.panel
 private let selectedTeal = Color(red: 0.17, green: 0.45, blue: 0.5)
 
 struct FrontBrowserView: View {
+    @AppStorage(BrowserSettings.keyNotationKey) private var keyNotation = KeyNotation.openKey
     @Bindable var model: ReplicaModel
     var importAudio: () -> Void = {}
     var linkCollection: () -> Void = {}
@@ -312,7 +313,7 @@ struct FrontBrowserView: View {
                     if browserWidth >= 520 && layout.listShowsTempoAndKey {
                         HStack(spacing: 3) {
                             Image(systemName: "music.note")
-                            Text(entry.key?.openKeyName ?? "—")
+                            Text(entry.key.map(keyNotation.format) ?? "—")
                         }.foregroundStyle(KeyColour.colour(entry.key)).frame(width: 70, alignment: .leading)
                         HStack(spacing: 3) {
                             Image(systemName: "waveform.path.ecg")
@@ -320,7 +321,7 @@ struct FrontBrowserView: View {
                         }.foregroundStyle(PerformancePalette.text).frame(width: 90, alignment: .leading)
                     } else {
                         VStack(alignment: .trailing, spacing: 2) {
-                            Text(entry.key?.openKeyName ?? "—").foregroundStyle(KeyColour.colour(entry.key))
+                            Text(entry.key.map(keyNotation.format) ?? "—").foregroundStyle(KeyColour.colour(entry.key))
                             Text(entry.bpm.map { String(format: "%.1f", $0) } ?? "—").foregroundStyle(
                                 PerformancePalette.secondaryText)
                         }.font(.system(size: 12).monospacedDigit())

@@ -6,6 +6,18 @@ public enum KeyAuthority: String, Codable, Sendable { case manual, mixedInKey, t
 public enum KeyNotation: String, Codable, Sendable {
     case camelot, openKey, musical
 
+    public func format(_ key: MusicalKey) -> String {
+        switch self {
+        case .camelot:
+            let number = (key.openKeyNumber + 6) % 12 + 1
+            return "\(number)\(key.mode == .minor ? "A" : "B")"
+        case .openKey:
+            return key.openKeyName
+        case .musical:
+            return key.name
+        }
+    }
+
     public func parse(_ raw: String) throws -> MusicalKey {
         let text = raw.trimmingCharacters(in: .whitespacesAndNewlines)
         if self != .musical {

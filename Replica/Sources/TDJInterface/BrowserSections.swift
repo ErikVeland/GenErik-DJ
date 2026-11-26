@@ -116,6 +116,7 @@ struct RecordingsBrowser: View {
 
 /// Play history: the newest session on top, earlier sessions in month folders.
 struct HistoryBrowser: View {
+    @AppStorage(BrowserSettings.keyNotationKey) private var keyNotation = KeyNotation.openKey
     @Bindable var model: ReplicaModel
     @State private var selected: HistorySession?
     @State private var openMonth: String?
@@ -184,7 +185,7 @@ struct HistoryBrowser: View {
                                         ).lineLimit(1)
                                     }
                                     Spacer()
-                                    Text(track.key?.openKeyName ?? "—").foregroundStyle(KeyColour.colour(track.key))
+                                    Text(track.key.map(keyNotation.format) ?? "—").foregroundStyle(KeyColour.colour(track.key))
                                     Text(track.bpm.map { String(format: "%.1f", $0) } ?? "—").foregroundStyle(
                                         PerformancePalette.secondaryText)
                                 }.font(.system(size: 14).monospacedDigit()).padding(.horizontal, 14).frame(height: 56)
@@ -202,6 +203,7 @@ struct HistoryBrowser: View {
 
 /// Settings adapt to the available pane width.
 struct SettingsBrowser: View {
+    @AppStorage(BrowserSettings.keyNotationKey) private var keyNotation = KeyNotation.openKey
     enum Page: String, CaseIterable {
         case sound = "Sound & Headphones"
         case playback = "Decks & Playback"
@@ -318,6 +320,13 @@ struct SettingsBrowser: View {
         case .layout:
             LayoutSettings()
         case .library:
+            SettingsGroup("Key display") {
+                Picker("Key notation", selection: $keyNotation) {
+                    Text("Camelot").tag(KeyNotation.camelot)
+                    Text("Musical key").tag(KeyNotation.musical)
+                    Text("Open Key").tag(KeyNotation.openKey)
+                }.pickerStyle(.menu)
+            }
             SettingsGroup("During a set") {
                 Text(
                     "Set cues, loops and replay markers in the deck utility drawer. Edit grids and sections beside the waveform."

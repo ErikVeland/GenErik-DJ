@@ -39,10 +39,11 @@ public struct MusicalKey: Codable, Equatable, Sendable, Hashable {
     public var name: String {
         ["C", "D♭", "D", "E♭", "E", "F", "G♭", "G", "A♭", "A", "B♭", "B"][tonic] + (mode == .minor ? "m" : "")
     }
-    public var openKeyName: String {
+    var openKeyNumber: Int {
         let relativeMajor = mode == .major ? tonic : (tonic + 3) % 12
-        return "\((relativeMajor * 7) % 12 + 1)\(mode == .major ? "d" : "m")"
+        return (relativeMajor * 7) % 12 + 1
     }
+    public var openKeyName: String { "\(openKeyNumber)\(mode == .major ? "d" : "m")" }
 }
 
 public struct WaveformBin: Codable, Equatable, Sendable {

@@ -4,6 +4,7 @@ import UniformTypeIdentifiers
 
 /// Reviews a governed key manifest before applying it to the local library.
 struct KeyImportReviewView: View {
+    @AppStorage(BrowserSettings.keyNotationKey) private var keyNotation = KeyNotation.openKey
     @Bindable var model: ReplicaModel
     @State private var importing = false
     @State private var importingTaggedAudio = false
@@ -145,9 +146,9 @@ struct KeyImportReviewView: View {
             Text(track?.title ?? "Unknown track").font(.headline)
             Text(track?.artist ?? change.trackID).font(.subheadline).foregroundStyle(.secondary)
             HStack {
-                Text(change.before.key?.openKeyName ?? "No key")
+                Text(change.before.key.map(keyNotation.format) ?? "No key")
                 Image(systemName: "arrow.right")
-                Text(change.after.key?.openKeyName ?? "No key")
+                Text(change.after.key.map(keyNotation.format) ?? "No key")
                 Spacer()
                 Text(change.after.authority?.rawValue ?? "unselected").font(.caption).foregroundStyle(.secondary)
             }

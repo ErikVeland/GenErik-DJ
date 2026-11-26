@@ -1704,6 +1704,7 @@ enum RecordingOutputIndicator {
 }
 
 @MainActor private struct DeckHeader: View {
+    @AppStorage(BrowserSettings.keyNotationKey) private var keyNotation = KeyNotation.openKey
     @Bindable var model: ReplicaModel
     let deck: DeckID
     var dense = false
@@ -1808,8 +1809,9 @@ enum RecordingOutputIndicator {
                     HStack(spacing: 3) {
                         Image(systemName: playback?.keylock == true ? "lock.fill" : "music.note").font(
                             .system(size: 11))
-                        Text(track?.key?.openKeyName ?? "—")
+                        Text(track?.key.map(keyNotation.format) ?? "—")
                     }.accessibilityLabel("Key. Keylock \(playback?.keylock == true ? "on" : "off")")
+                        .accessibilityValue(track?.key.map(keyNotation.format) ?? "No key")
                     HStack(spacing: 3) {
                         Image(systemName: "waveform.path.ecg").font(.system(size: 11))
                         DeckTempoReadout(model: model, deck: deck)

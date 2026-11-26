@@ -138,6 +138,7 @@ extension ReplicaModel {
 
 /// Browser and feature preferences, stored per device.
 public enum BrowserSettings {
+    public static let keyNotationKey = "display.keyNotation"
     public static let onlyLoadToOffAirDecksKey = "browser.onlyLoadToOffAirDecks"
     public static let notificationCenterKey = "notifications.center"
     public static let fluxModeKey = "features.fluxMode"
