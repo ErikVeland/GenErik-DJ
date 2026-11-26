@@ -11,7 +11,7 @@
   "build": 266,
   "app": "TestBuilds/ipad/266/GenErikDJ.app",
   "appSHA256": "1bf40b3952adaf5374095b73c848795c3701052bc3f2c0216ab37336afd07a38",
-  "state": "ready",
+  "state": "installed",
   "createdUTC": "2026-11-26T08:26:09.349766+00:00",
   "verification": {
     "focusedHostChecksPassed": 4,
@@ -21,5 +21,39 @@
     "physicalAcceptance": "Open",
     "developmentSeedRecordsPublished": 4,
     "cloudPayloadsVerifiedByteForByte": 1
-  }
+  },
+  "installedUTC": "2026-11-26T08:34:27.658267+00:00",
+  "launchedUTC": "2026-11-26T08:33:50.651974+00:00",
+  "launchVerification": "iOS accepted the launch request on GenErik Duo.",
+  "requestIDs": [
+    "R558",
+    "R559",
+    "R560"
+  ],
+  "device": "GenErik Duo",
+  "deploymentAttempts": [
+    {
+      "device": "A10X iPad",
+      "result": "CoreDevice rejected installation because the iPad was locked.",
+      "log": "TestBuilds/ipad/266/ipad-deploy-r560.log"
+    },
+    {
+      "device": "GenErik Duo",
+      "result": "The first installation timed out after 90 seconds.",
+      "log": "TestBuilds/ipad/266/duo-deploy-r560.log"
+    }
+  ],
+  "deviceInstalls": [
+    {
+      "request": "R560",
+      "name": "GenErik Duo",
+      "previousBuild": 264,
+      "installedUTC": "2026-11-26T08:33:50.035927+00:00",
+      "launchedUTC": "2026-11-26T08:33:50.651974+00:00",
+      "state": "testing",
+      "launchResult": "iOS accepted the launch request.",
+      "log": "TestBuilds/ipad/266/duo-retry-r560.log"
+    }
+  ],
+  "acceptance": "Check drop-to-drop Play with Sync and Beat Lock on. Listen for both drops on the same bar and for continuous audio."
 }
