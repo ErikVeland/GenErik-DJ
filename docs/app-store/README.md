@@ -9,6 +9,18 @@ It includes seven purchase localisations. Prices are not inferred or changed.
 The name, subtitle, promotional text, description and keywords pass the current Apple field limits.
 Purchase names and descriptions also pass their limits. The STE linter is not installed, so the text received manual review.
 
+## Headline for the shared analysis release
+
+**Shared track analysis. Get your own music ready to mix faster.**
+
+Lead the App Store description and What’s New with this feature when the production catalogue ships. Use the same headline on the release page. Show how reusing beat and key analysis for exact matches in downloaded Music playlists saves preparation time. Keep manual preparation on the device and in private sync.
+
+**Draft release copy**
+
+“Get your downloaded playlists ready to mix faster. GenErik DJ reuses shared track analysis when it finds an exact match for your local audio. Your cue points and manual beat-grid edits stay yours.”
+
+The read-only Development pilot is in build 266. Public release copy awaits a live match from a different Apple Account, local fallback, and A10X audio and touch checks. Add contribution copy when opt-in submissions ship. [Pilot scope](../coordination/shared-analysis-r558.md)
+
 ## App Store Connect status
 
 Saved the English (Australia) product fields in both 1.0 drafts on 19 November 2026.

@@ -1,6 +1,8 @@
 # R558 Shared analysis pilot
 
-The first release step is a read-only pilot on the development iPad. It uses a separate CloudKit record type and a small seed from the Mac run. Each record contains an automatic deep result and uses the exact decoded audio identity as its key.
+The first release step is a read-only pilot on the A10X iPad and Duo. It uses a separate CloudKit record type and a small seed from the Mac run. Each record contains an automatic deep result and uses the exact decoded audio identity as its key.
+
+Shared track analysis leads the release that makes the catalogue available across Apple Accounts. Use the [App Store release brief](../app-store/README.md#headline-for-the-shared-analysis-release) for positioning and release checks.
 
 ## Implementation and checks
 
