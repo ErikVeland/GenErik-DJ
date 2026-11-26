@@ -1,3 +1,4 @@
+import CoreGraphics
 import Testing
 
 @testable import TDJInterface
@@ -49,11 +50,27 @@ import Testing
 }
 
 @Test(arguments: [0.0, 160, 310]) func duoInnerDecksAndLibraryMeetWithoutAHandleRow(libraryExtent: Double) {
-    let height = 669.0
-    let layout = PerformanceWorkspaceGeometry(width: 951, height: height, libraryExtent: libraryExtent, handleExtent: 0)
+    let height = 566.0
+    let layout = PerformanceWorkspaceGeometry(width: 890, height: height, libraryExtent: libraryExtent, handleExtent: 0)
     #expect(layout.deckArea.maxY == layout.libraryArea.minY)
     #expect(Double(layout.libraryArea.maxY) == height)
     #expect(Double(layout.deckArea.height) == height - libraryExtent)
+}
+
+@Test func duoToolbarClearsOnlyOcclusionsThatOverlapItsControls() {
+    let band = CGRect(x: 0, y: 8, width: 466, height: 44)
+    let left = CGRect(x: -9, y: 0, width: 45, height: 38)
+    let right = CGRect(x: 395, y: 3, width: 78, height: 44)
+    let below = CGRect(x: 300, y: 52, width: 150, height: 40)
+    let above = CGRect(x: 334, y: -16, width: 132, height: 22)
+
+    let clearance = HorizontalOcclusionInsets(band: band, frames: [left, right, below, above])
+    #expect(clearance.leading == 36)
+    #expect(clearance.trailing == 71)
+
+    let clear = HorizontalOcclusionInsets(band: band, frames: [below, above])
+    #expect(clear.leading == 0)
+    #expect(clear.trailing == 0)
 }
 
 @Test(arguments: [380.0, 440, 669]) func duoDockStacksControlsAlongTheEdge(height: Double) {

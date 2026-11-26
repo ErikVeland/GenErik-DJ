@@ -10,7 +10,7 @@
     {
       "request": "R565",
       "device": "GenErik Duo",
-      "text": "The front layout is worse. Fill the width and height at the bottom and fit the buttons to the corners. Remove the chevron and dash from the inside Library handle. Use the full display and curve the controls to its corners."
+      "text": "The front layout is worse. Fill the width and height at the bottom and fit the buttons to the corners. Remove the chevron and dash from the inside Library handle. Use the full display and curve the controls to its corners. Match the contour of each display using its actual geometry."
     }
   ],
   "log": "TestBuilds/ipad/build-269.log",

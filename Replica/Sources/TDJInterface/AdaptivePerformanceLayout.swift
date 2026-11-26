@@ -6,8 +6,23 @@ struct PanelHandleMetrics {
     var extent: Double { expanded ? 44 : 12 }
 }
 
-enum PhoneDisplayGeometry {
-    static let bottomCornerRadius = 40.0
+struct HorizontalOcclusionInsets {
+    private(set) var leading = 0.0
+    private(set) var trailing = 0.0
+
+    init(band: CGRect, frames: [CGRect]) {
+        for frame in frames {
+            let overlap = band.intersection(frame)
+            guard !overlap.isEmpty else { continue }
+            let fromLeading = overlap.maxX - band.minX
+            let fromTrailing = band.maxX - overlap.minX
+            if fromLeading < fromTrailing {
+                leading = max(leading, fromLeading)
+            } else {
+                trailing = max(trailing, fromTrailing)
+            }
+        }
+    }
 }
 
 struct PerformanceDockGeometry {

@@ -60,7 +60,13 @@ private let surface = PerformancePalette.panel
             let presentation = BrowserPresentation.select(isPhone: isPhone, windowWidth: width, windowHeight: height)
             let phonePortrait = isPhone && width < height
             let innerPhone = isPhone && presentation == .standard
-            let horizontalEdges: Edge.Set = phonePortrait ? .horizontal : []
+            let usesFullWidth: Bool
+            if #available(iOS 27.1, macOS 27.1, *) {
+                usesFullWidth = isPhone
+            } else {
+                usesFullWidth = phonePortrait
+            }
+            let horizontalEdges: Edge.Set = usesFullWidth ? .horizontal : []
             let frontInsets = EdgeInsets(
                 top: 0,
                 leading: presentation == .frontPhone && phonePortrait ? window.safeAreaInsets.leading : 0,
@@ -69,7 +75,8 @@ private let surface = PerformancePalette.panel
             workspaceRoot(
                 presentation: presentation, innerPortrait: phonePortrait && innerPhone,
                 innerBottomInset: innerPhone ? window.safeAreaInsets.bottom : nil, frontInsets: frontInsets
-            ).ignoresSafeArea(.container, edges: horizontalEdges.union(isPhone ? .bottom : []))
+            ).clippedToDisplay(isPhone)
+                .ignoresSafeArea(.container, edges: horizontalEdges.union(isPhone ? .bottom : []))
         }.lineLimit(1).minimumScaleFactor(0.8)
             .environment(\.touchSurfaceInterruption, touchInterruption).background(
                 PerformancePalette.frame.ignoresSafeArea()
@@ -212,7 +219,6 @@ private let surface = PerformancePalette.panel
                     let pairedPreviewHeight = innerBottomInset.map { _ in
                         AdaptiveDeckGeometry.pairedPreviewHeight(upper: split.a.height, lower: split.b.height)
                     }
-                    let cornerRadius = innerPhone ? PhoneDisplayGeometry.bottomCornerRadius : 0
                     let safeBottom = workspaceSize.height - (innerBottomInset ?? 0)
                     let previewControlInset = max(0, workspace.deckArea.maxY - safeBottom)
                     let showsFour =
@@ -410,9 +416,7 @@ private let surface = PerformancePalette.panel
                                     width: space.size.width, height: workspace.deckArea.height,
                                     deckBoundary: split.handle.midY, edgeAligned: innerPhone))
                         }
-                    }.frame(width: space.size.width, height: workspaceSize.height, alignment: .topLeading).clipShape(
-                        UnevenRoundedRectangle(bottomLeadingRadius: cornerRadius, bottomTrailingRadius: cornerRadius)
-                    ).environment(
+                    }.frame(width: space.size.width, height: workspaceSize.height, alignment: .topLeading).environment(
                         \.performancePanelPortrait, space.size.width < workspaceSize.height
                     ).environment(\.waveformContactChanged, fourDecks ? updateWaveformContact : nil)
                 }
@@ -1331,10 +1335,14 @@ extension ReplicaView {
 
     var body: some View {
         VStack(spacing: 0) {
-            ViewThatFits(in: .horizontal) {
-                toolbarRow(showClock: true, showsWordmark: true)
-                toolbarRow(showClock: false, showsWordmark: true)
-                toolbarRow(showClock: false, showsWordmark: false)
+            GeometryReader { row in
+                let insets = toolbarInsets(in: row)
+                ViewThatFits(in: .horizontal) {
+                    toolbarRow(showClock: true, showsWordmark: true)
+                    toolbarRow(showClock: false, showsWordmark: true)
+                    toolbarRow(showClock: false, showsWordmark: false)
+                }.padding(.leading, insets.leading).padding(.trailing, insets.trailing)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             }.frame(height: 60)
             #if os(iOS)
             let showsSavedCounts = UIDevice.current.userInterfaceIdiom == .pad && !model.storeAccess.hasActivePerformance
@@ -1426,8 +1434,22 @@ extension ReplicaView {
                     AudioQuickButton(model: model, isPresented: $audioSettingsPresented)
                 }.frame(height: 44).bevelPanel(cornerRadius: 5)
             }
-        }.padding(.leading, max(horizontalInset, frontInsets.leading + 12))
-            .padding(.trailing, max(isFrontScreen ? 56 : horizontalInset, frontInsets.trailing + 12))
+        }
+    }
+
+    private func toolbarInsets(in row: GeometryProxy) -> EdgeInsets {
+        let leading = max(horizontalInset, frontInsets.leading + 12)
+        let trailing = max(horizontalInset, frontInsets.trailing + 12)
+        #if os(iOS)
+            if #available(iOS 27.1, *), isFrontScreen || togglesLibrary {
+                let band = CGRect(x: 0, y: (row.size.height - 44) / 2, width: row.size.width, height: 44)
+                let reserved = row.horizontalOcclusionInsets(in: band)
+                return EdgeInsets(
+                    top: 0, leading: max(horizontalInset, reserved.leading), bottom: 0,
+                    trailing: max(horizontalInset, reserved.trailing))
+            }
+        #endif
+        return EdgeInsets(top: 0, leading: leading, bottom: 0, trailing: isFrontScreen ? max(56, trailing) : trailing)
     }
 
     private var libraryButton: some View {
@@ -1442,6 +1464,28 @@ extension ReplicaView {
                 model.browserVisible ? PerformancePalette.cyan : PerformancePalette.text
             ).frame(width: 44, height: 44)
         }.accessibilityLabel(togglesLibrary && model.browserVisible ? "Hide music library" : "Music library")
+    }
+}
+
+extension GeometryProxy {
+    func horizontalOcclusionInsets(in band: CGRect) -> HorizontalOcclusionInsets {
+        #if os(iOS)
+            if #available(iOS 27.1, *) {
+                return HorizontalOcclusionInsets(band: band, frames: reservedRegions(kind: .occlusion).map(\.frame))
+            }
+        #endif
+        return HorizontalOcclusionInsets(band: band, frames: [])
+    }
+}
+
+extension View {
+    @ViewBuilder
+    fileprivate func clippedToDisplay(_ enabled: Bool) -> some View {
+        if #available(iOS 26, macOS 26, *), enabled {
+            clipShape(ConcentricRectangle())
+        } else {
+            self
+        }
     }
 }
 

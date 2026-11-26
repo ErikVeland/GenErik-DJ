@@ -31,6 +31,7 @@ import TDJCore
             let layout = FrontWorkspaceGeometry(
                 width: space.size.width, height: space.size.height, browserExtent: browser.extent,
                 selectorHeight: selectorHeight, controlsHeight: controlsHeight)
+            let bottomOcclusions = space.horizontalOcclusionInsets(in: layout.controls)
             VStack(spacing: 0) {
                 deckSelector.frame(height: layout.selector.height)
                 ZStack {
@@ -54,6 +55,7 @@ import TDJCore
                         .buttonStyle(FrontControlButtonStyle(height: layout.controls.height, corner: .trailing))
                         .frame(width: 56)
                 }.buttonStyle(FrontControlButtonStyle(height: layout.controls.height))
+                    .padding(.leading, bottomOcclusions.leading).padding(.trailing, bottomOcclusions.trailing)
                     .frame(width: layout.controls.width, height: layout.controls.height)
                     .background(PerformancePalette.frame).protectsFrontDeckSwipe()
             }.frame(width: space.size.width, height: space.size.height, alignment: .top).clipped().background(
@@ -303,12 +305,20 @@ private struct FrontControlButtonStyle: ButtonStyle {
     let height: CGFloat
     var corner: HorizontalEdge? = nil
 
+    @ViewBuilder
     func makeBody(configuration: Configuration) -> some View {
-        let radius = min(height, PhoneDisplayGeometry.bottomCornerRadius)
-        let outline = UnevenRoundedRectangle(
-            topLeadingRadius: 4, bottomLeadingRadius: corner == .leading ? radius : 4,
-            bottomTrailingRadius: corner == .trailing ? radius : 4, topTrailingRadius: 4)
-        return configuration.label.lineLimit(1).minimumScaleFactor(0.8)
+        if #available(iOS 26, macOS 26, *), let corner {
+            label(configuration, in: ConcentricRectangle(
+                uniformTopCorners: .fixed(4),
+                bottomLeadingCorner: corner == .leading ? .concentric : .fixed(4),
+                bottomTrailingCorner: corner == .trailing ? .concentric : .fixed(4)))
+        } else {
+            label(configuration, in: RoundedRectangle(cornerRadius: 4))
+        }
+    }
+
+    private func label(_ configuration: Configuration, in outline: some Shape) -> some View {
+        configuration.label.lineLimit(1).minimumScaleFactor(0.8)
             .font(.subheadline.weight(.bold)).frame(maxWidth: .infinity).frame(height: height).background(
                 configuration.isPressed ? PerformancePalette.raised : PerformancePalette.panel,
                 in: outline
