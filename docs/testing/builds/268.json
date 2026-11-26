@@ -1,0 +1,28 @@
+{
+  "notes": "R563 Match preview strips and wrap controls at the Duo inner edge.",
+  "sourceCommit": "2124123a076aff638b7165dd41d5b78ee5372746",
+  "sourceSHA256": "fdc4e16e4a62aa9098636ae757620b914e66d1b20925c46927435ddbd240c027",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 73.91,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-268.log",
+  "build": 268,
+  "app": "TestBuilds/ipad/268/GenErikDJ.app",
+  "appSHA256": "56d5a9962646837b6e333d08b1bbab3e39837d3af23b0bea1871d34aa6c7cc83",
+  "state": "testing",
+  "createdUTC": "2026-11-26T09:05:03.105862+00:00",
+  "installedUTC": "2026-11-26T09:05:16.712141+00:00",
+  "device": "GenErik Duo",
+  "requestIDs": [
+    "R563"
+  ],
+  "launchedUTC": "2026-11-26T09:06:04.964058+00:00",
+  "launchVerification": "iOS accepted the launch request on the Duo.",
+  "deployment": "The first launch request timed out. The retry launched the installed app.",
+  "deploymentLog": "TestBuilds/r563/duo-run.log",
+  "launchRetryLog": "TestBuilds/r563/duo-launch-retry.log",
+  "verification": "Twelve focused host geometry checks passed. They cover matching previews, lower inset clearance, wrapped 44-point controls and continuous geometry.",
+  "acceptance": "Check both inner-screen orientations, preview scrubbing, the edge library handle and wrapped controls. Listen for continuous audio while resizing the decks and library."
+}
