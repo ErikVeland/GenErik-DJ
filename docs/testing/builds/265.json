@@ -1,0 +1,18 @@
+{
+  "notes": "R559 Rewind synced Play to match the playing deck's bar.",
+  "sourceCommit": "3311ac619eeeed6254bebffa1217225b4a304c33",
+  "sourceSHA256": "78e42d74754b849c9da3f95d6678f79cb2e56cda4340da573a01e5a691d3f086",
+  "developerAccess": true,
+  "uncommittedAppChanges": "",
+  "buildSeconds": 106.69,
+  "checks": "Runtime framework paths and signing passed. Erik performs acceptance testing.",
+  "feedback": [],
+  "log": "TestBuilds/ipad/build-265.log",
+  "build": 265,
+  "app": "TestBuilds/ipad/265/GenErikDJ.app",
+  "appSHA256": "b439d1e15bcaca2e04f4933b513257dbcba552647f9a091ab709bd5be1b430bc",
+  "state": "ready",
+  "createdUTC": "2026-11-26T08:19:27.888634+00:00",
+  "verification": "Eleven focused tests passed. The rewind regression failed on the previous transport across all four deck slots. The fix covers first Play, restart, pickup, and file start. Two legacy queued-entry tests fail on both revisions.",
+  "deployment": "CoreDevice rejected the first install because the A10X iPad was locked. The signed app is ready for a retry."
+}

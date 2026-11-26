@@ -15,7 +15,8 @@
     {
       "request": "R559",
       "device": "A10X iPad",
-      "text": "Erik reported that synced Play still jumps forward. He wants the incoming track to rewind so its bar lines up with the playing deck. Build 262 is the last recorded iPad installation."
+      "text": "Erik reported that synced Play still jumps forward. He wants the incoming track to rewind so its bar lines up with the playing deck. Build 262 is the last recorded iPad installation.",
+      "fixBuild": 265
     }
   ],
   "log": "TestBuilds/ipad/build-262.log",
