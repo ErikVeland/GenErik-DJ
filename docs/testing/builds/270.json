@@ -11,13 +11,13 @@
   "build": 270,
   "app": "TestBuilds/ipad/270/GenErikDJ.app",
   "appSHA256": "aa72c27b29c87a69a7014449a1a93bf2a31edf6545f569e658498b11215c78a7",
-  "state": "ready",
+  "state": "testing",
   "createdUTC": "2026-11-26T09:36:43.020235+00:00",
   "device": "GenErik Duo",
   "requestIDs": [
     "R565"
   ],
-  "deployment": "The first install stopped because Xcode lost the trusted connection to the Duo.",
+  "deployment": "Xcode lost the trusted connection on the first attempt. CoreDevice failed to start after reconnection. The saved app passed signature and hash checks, then installed over the existing USB pairing.",
   "deploymentLog": "TestBuilds/r565/duo-retry.log",
   "buildAttempts": [
     {
@@ -34,5 +34,11 @@
   "displayGeometry": "SwiftUI resolves the active display contour. iOS reports the reserved camera regions. The Duo reported iOS 27.3 before the install attempt.",
   "acceptance": "Check the contour and edge taps on both displays. Check the toolbar near the camera, open and close the inner Library, and listen for continuous audio while changing posture.",
   "verification": "Six focused host tests passed across 18 cases on the signed source. They cover full-width transport, the inner layout and matched preview strips, stacked controls, camera clearance geometry, and the Library header gesture.",
-  "verificationLog": "TestBuilds/r565/focused-4193dc0b7.log"
+  "verificationLog": "TestBuilds/r565/focused-4193dc0b7.log",
+  "installedUTC": "2026-11-27T00:34:39+00:00",
+  "launchedUTC": "2026-11-27T00:34:46.517504+00:00",
+  "deploymentRetryLog": "TestBuilds/r565/duo-deploy-270.log",
+  "usbInstallLog": "TestBuilds/r565/duo-usb-install-270.log",
+  "usbLaunchLog": "TestBuilds/r565/duo-usb-launch-270.log",
+  "launchVerification": "iOS returned a process ID for the launched app. Physical acceptance under both display postures remains open."
 }

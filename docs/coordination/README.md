@@ -1,6 +1,6 @@
 # Current work
 
-**Build 270 (R565)** is signed. The Duo lost its connection before installation. The front and inside layouts use the active display contour. The inner Library handle is gone. Eighteen focused host cases passed. Physical layout, touch and playback checks remain open. [Build record](../testing/builds/270.json).
+**Build 270 (R565)** installed and launched on the Duo over USB after CoreDevice failed to start. The front and inside layouts use the active display contour. The inner Library handle is gone. Eighteen focused host cases passed. Physical layout, touch and playback checks remain open. [Build record](../testing/builds/270.json).
 
 **Build 269 (R564)** installed and launched on the Duo. The front Library button moves inward, the bottom controls clear the corners, and Info is hidden. The inner right rail returns to one column. Physical layout, touch and audio checks remain open. [Build record](../testing/builds/269.json).
 
